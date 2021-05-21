@@ -22,6 +22,11 @@ export default {
               TabTwoScreen: 'two',
             },
           },
+          Companies: {
+            screens: {
+              CompaniesScreen: 'companies',
+            },
+          },
         },
       },
       NotFound: '*',
