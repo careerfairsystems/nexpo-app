@@ -12,7 +12,9 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import CompaniesScreen from '../screens/CompaniesScreen';
+import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
+import { BottomTabParamList, TabOneParamList, TabTwoParamList, CompaniesParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -33,6 +35,13 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Companies"
+        component={CompaniesNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
@@ -74,5 +83,24 @@ function TabTwoNavigator() {
         options={{ headerTitle: 'Tab Two Title' }}
       />
     </TabTwoStack.Navigator>
+  );
+}
+
+const CompaniesStack = createStackNavigator<CompaniesParamList>();
+
+function CompaniesNavigator() {
+  return (
+    <CompaniesStack.Navigator>
+      <CompaniesStack.Screen
+        name="CompaniesScreen"
+        component={CompaniesScreen}
+        options={{ headerTitle: 'Companies Title' }}
+      />
+      <CompaniesStack.Screen
+        name="CompanyDetailsScreen"
+        component={CompanyDetailsScreen}
+        options={{ headerTitle: 'Company Details' }}
+      />
+    </CompaniesStack.Navigator>
   );
 }
