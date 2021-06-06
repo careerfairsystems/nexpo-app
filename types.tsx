@@ -12,6 +12,7 @@ export type BottomTabParamList = {
   TabOne: undefined;
   TabTwo: undefined;
   Companies: undefined;
+  Events: undefined
 };
 
 export type TabOneParamList = {
@@ -26,6 +27,10 @@ export type CompaniesParamList = {
   CompaniesScreen: undefined;
   CompanyDetailsScreen: companyData;
 };
+
+export type EventListParamlist = {
+  EventListScreen: undefined;
+}
 
 export type companyData = {
   website: string,
