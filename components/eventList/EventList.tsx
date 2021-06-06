@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {
+    ScrollView,
     StyleSheet,
     Text,
     View
@@ -16,8 +17,7 @@ interface State {
 
 /**
  * TODO:
- *  - Don't display past events
- *  - Sort within the same day
+ *  - Make list scrollable
  */
 
 class EventList extends Component<Props, State> {
@@ -27,8 +27,11 @@ class EventList extends Component<Props, State> {
         super(props);
         let query = this.queryBackend();
         let eventList = this.parseQuery(JSON.stringify(query));
-        this.eventDateMap = this.sortEventDateMap(this.groupByDate(eventList))
+        this.eventDateMap = this.groupByDate(eventList)
+        this.sortEventDateMap(this.eventDateMap)
+        this.eventDateMap = this.removePastEvents(this.eventDateMap)
         this.eventDateMap = this.beautifyDates(this.eventDateMap)
+
     }
 
     /**
@@ -51,11 +54,13 @@ class EventList extends Component<Props, State> {
      */
     getDevArray(){
         let events = new Array<FairEvent>()
+        let testEventPast = new FairEvent("Past speech of doom - Gandhi", new Date(2020, 5,6,21,30), new Date(2020, 6,10,22,30), 200, 5)
         let testEvent1 = new FairEvent("Motivatioasdfasdfadsfasdfasdfnal speech1 - Gandhi", new Date(2021, 5,6,21,30), new Date(2021, 6,10,22,30), 200, 5)
         let testEvent2 = new FairEvent("Motivational speech2 - Gandhi", new Date(2021, 5,7,21,30), new Date(2021, 6,10,22,30), 200, 333)
         let testEvent25 = new FairEvent("Motivational speech25 - Gandhi", new Date(2021, 6,10,21,30), new Date(2021, 6,10,22,30), 200, 123)
         let testEvent3 = new FairEvent("Motivational speech3 - Gandhi", new Date(2021, 6,11,21,30), new Date(2021, 6,11,22,30), 200, 50)
         let testEvent4 = new FairEvent("Motivational speech4 - Gandhi", new Date(2021, 5,6,20,30), new Date(2021, 6,12,22,30), 200, 195)
+        events.push(testEventPast)
         events.push(testEvent1)
         events.push(testEvent2)
         events.push(testEvent25)
@@ -82,15 +87,34 @@ class EventList extends Component<Props, State> {
     }
 
     /**
+     * Returns a new map where past events has been removed
+     * @param eventDateMap The unfiltered map that might contain past events
+     */
+    removePastEvents(eventDateMap:Map<string, FairEvent[]>){
+        let futureEventDateMap = new Map<string, FairEvent[]>()
+        let now = new Date()
+
+        eventDateMap.forEach((events, date) => {
+            let futureEvents = events.filter(event =>{
+                return event.getDateEnd().getTime() >= now.getTime()
+            })
+
+            futureEvents.length > 0? futureEventDateMap.set(date, futureEvents): ""
+        })
+
+        return futureEventDateMap
+    }
+
+    /**
      * Returns a new sorted map
      * @param eventDateMap An unsorted map containing the events to be displayed
      */
-    sortEventDateMap(eventDateMap: Map<string, FairEvent[]>): Map<string, FairEvent[]>{
+    sortEventDateMap(eventDateMap: Map<string, FairEvent[]>){
         eventDateMap.forEach((events) => {
             this.sortTimes(events)
         })
 
-        return this.sortDates(eventDateMap);
+       this.sortDates(eventDateMap);
     }
 
     /**
@@ -104,6 +128,10 @@ class EventList extends Component<Props, State> {
         })
     }
 
+    /**
+     * Returns a new eventDateMap with sorted dates
+     * @param eventDateMap The unsorted eventDateMap
+     */
     sortDates(eventDateMap: Map<string, FairEvent[]>): Map<string, FairEvent[]>{
         return new Map([...eventDateMap.entries()].sort((a, b) => {
             return Date.parse(a[0]).valueOf() - Date.parse(b[0]).valueOf()
@@ -172,9 +200,9 @@ class EventList extends Component<Props, State> {
 
     render(): JSX.Element {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 {this.generateList(this.eventDateMap)}
-            </View>
+            </ScrollView>
         )
     }
 
@@ -203,6 +231,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         flexWrap: "wrap",
+        marginBottom: 15,
     },
 });
 export default EventList;
