@@ -1,16 +1,22 @@
 export default class FairEvent {
-    private name: string;
-    private dateStart: Date;
-    private dateEnd: Date;
-    private capacity: number;
-    private bookings: number;
+    name: string;
+    dateStart: Date;
+    dateEnd: Date;
+    capacity: number;
+    bookingCount: number;
+    speaker: string;
+    description: string;
+    language: string;
 
-    constructor(name: string, dateStart: Date, dateEnd: Date, capacity: number, bookings: number) {
-        this.name = name
-        this.dateStart = dateStart
-        this.dateEnd = dateEnd
-        this.capacity = capacity
-        this.bookings = bookings
+    constructor() {
+        this.name = ""
+        this.dateStart = new Date(0)
+        this.dateEnd = new Date(0)
+        this.capacity = 0
+        this.bookingCount = 0
+        this.description = ""
+        this.speaker = ""
+        this.language = ""
     }
 
     getName(): string{
@@ -30,7 +36,19 @@ export default class FairEvent {
     }
 
     getBookingCount(): number{
-        return this.bookings
+        return this.bookingCount
+    }
+
+    getDescription(): string{
+        return this.description
+    }
+
+    getSpeaker(): string{
+        return this.speaker
+    }
+
+    getLanguage(): string{
+        return this.language
     }
 
 }

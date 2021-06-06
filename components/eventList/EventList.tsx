@@ -8,6 +8,7 @@ import {
 import FairEvent from "./FairEvent";
 import EventPreview from "../eventPreview/EventPreview";
 import Layout from "../../constants/Layout";
+import {FairEventBuilder} from "./FairEventBuilder";
 
 export interface Props {
 }
@@ -54,19 +55,21 @@ class EventList extends Component<Props, State> {
      */
     getDevArray(){
         let events = new Array<FairEvent>()
-        let testEventPast = new FairEvent("Past speech of doom - Gandhi", new Date(2020, 5,6,21,30), new Date(2020, 6,10,22,30), 200, 5)
-        let testEvent1 = new FairEvent("Motivatioasdfasdfadsfasdfasdfnal speech1 - Gandhi", new Date(2021, 5,6,21,30), new Date(2021, 6,10,22,30), 200, 5)
-        let testEvent2 = new FairEvent("Motivational speech2 - Gandhi", new Date(2021, 5,7,21,30), new Date(2021, 6,10,22,30), 200, 333)
-        let testEvent25 = new FairEvent("Motivational speech25 - Gandhi", new Date(2021, 6,10,21,30), new Date(2021, 6,10,22,30), 200, 123)
-        let testEvent3 = new FairEvent("Motivational speech3 - Gandhi", new Date(2021, 6,11,21,30), new Date(2021, 6,11,22,30), 200, 50)
-        let testEvent4 = new FairEvent("Motivational speech4 - Gandhi", new Date(2021, 5,6,20,30), new Date(2021, 6,12,22,30), 200, 195)
-        events.push(testEventPast)
-        events.push(testEvent1)
-        events.push(testEvent2)
-        events.push(testEvent25)
-        events.push(testEvent3)
-        events.push(testEvent4)
 
+        for (let i = 0; i < 25; i++) {
+            let date = new Date().getDate()
+            events.push(new FairEventBuilder()
+                .name("Event: " + i)
+                .dateStart(new Date(2021, 5, date  + i/3, 3+ 2*i, 30))
+                .dateEnd(new Date(2021, 5, date  + i/3, 4+2*i, 50))
+                .capacity(200)
+                .bookingCount(Math.floor(Math.random() * 200))
+                .description("A very interesting event")
+                .speaker("Gandhi")
+                .language("English")
+                .build()
+            )
+        }
         return events;
     }
 
