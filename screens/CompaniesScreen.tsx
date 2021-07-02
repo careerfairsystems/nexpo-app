@@ -14,7 +14,7 @@ type companiesNavigation = {
 
 export default function CompaniesScreen({navigation}: companiesNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [token, setToken] = useState<String | null>(null);
+  const [token, setToken] = useState<String>("");
   const [compData, setCompData] = useState<companyData[] | null>(null);
 
   // Temporary solution to get login creds. In the future we should 
@@ -38,14 +38,17 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
     console.log("JWT KEY: " + responseJson.data.jwt)
   }
 
-  // Retreives a json with all companies, requires a login jwt
+  // Retrieves a json with all companies, requires a login jwt
   const getCompanyData = async() => {
+    if(token == "") {
+      return;
+    }
     const response = await fetch('https://nexpo.marfor.io/api/companies', {
       method: 'GET',
       headers: { 
         'Accept': '*/*',
         'Authorization': 'Bearer ' + token
-       }
+      }
     })
     const responseJson = await response.json();
     setCompData(responseJson.data)
@@ -73,7 +76,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
             keyExtractor={({ id }) => id.toString()}
             renderItem={({ item }) => (
               <TouchableHighlight onPress={() => {
-                navigation.navigate('CompanyDetailsScreen', item) // Works, but solve error to provide type safety
+                navigation.navigate('CompanyDetailsScreen', item)
                 }}>
                 <View style={styles.listItemContainer}>
                 <Text style={styles.listItem}>{item.id}, {item.website}</Text>
