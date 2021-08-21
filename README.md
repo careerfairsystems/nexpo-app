@@ -1,9 +1,9 @@
-## Nexpo-app
-# What is this project?
-# The dependencies which are required to work on the project.
+# Nexpo-app
+## What is this project?
+## The dependencies which are required to work on the project.
 - npm (included in [Node.js](https://nodejs.org/en/download/)).
 
-# How to setup a build environment
+## How to setup a build environment
 Recommended IDE: Visual Studio Code
 
 1. Clone the nexpo-app repository.
