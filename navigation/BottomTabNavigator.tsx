@@ -15,6 +15,7 @@ import TabTwoScreen from '../screens/TabTwoScreen';
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList, CompaniesParamList } from '../types';
+import LoginScreen from '../screens/LoginScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -43,7 +44,7 @@ export default function BottomTabNavigator() {
         name="Companies"
         component={CompaniesNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="briefcase-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -79,7 +80,7 @@ function TabTwoNavigator() {
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="TabTwoScreen"
-        component={TabTwoScreen}
+        component={LoginScreen}
         options={{ headerTitle: 'Tab Two Title' }}
       />
     </TabTwoStack.Navigator>
@@ -94,7 +95,7 @@ function CompaniesNavigator() {
       <CompaniesStack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}
-        options={{ headerTitle: 'Companies Title' }}
+        options={{ headerTitle: 'Companies' }}
       />
       <CompaniesStack.Screen
         name="CompanyDetailsScreen"

@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
-import { CompaniesParamList, companyData } from '../types';
+import { CompaniesParamList } from '../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-type companiesNavigation = {
+import { Company } from '../api/companies'
+
+type CompaniesNavigation = {
   navigation: StackNavigationProp<
     CompaniesParamList,
     'CompanyDetailsScreen'
@@ -13,8 +15,8 @@ type companiesNavigation = {
 };
 
 // Eventually set {route}: ... as correct type for type safety. 'any' works though
-export default function CompanyDetailsScreen({route}: any, {navigation}: companiesNavigation ) {
-  const company = route.params as companyData
+export default function CompanyDetailsScreen({route}: any, {navigation}: CompaniesNavigation ) {
+  const company = route.params as Company
   
     return (
     <View style={styles.container}>
