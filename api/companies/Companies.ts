@@ -1,4 +1,4 @@
-import { getAuth } from '../http/HttpHelpers';
+import { apiUrl, getAuth } from '../http/HttpHelpers';
 
 export interface Company {
   id: number,
@@ -18,4 +18,8 @@ export const getAll = async (): Promise<Company[]> => {
   const json = await response.json();
   const companies = <Company[]>json.data;
   return companies;
+}
+
+export const getLogo = (companyId: number): string => {
+  return apiUrl(`/company/logo/${companyId}`);
 }

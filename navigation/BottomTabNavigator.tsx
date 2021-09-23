@@ -14,8 +14,9 @@ import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList, CompaniesParamList } from '../types';
+import { BottomTabParamList, TabOneParamList, TabTwoParamList, CompaniesParamList, ProfileParamList } from '../types';
 import LoginScreen from '../screens/LoginScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -45,6 +46,13 @@ export default function BottomTabNavigator() {
         component={CompaniesNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="briefcase-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Profile"
+        component={ProfileNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="person" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -80,7 +88,7 @@ function TabTwoNavigator() {
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="TabTwoScreen"
-        component={LoginScreen}
+        component={TabTwoScreen}
         options={{ headerTitle: 'Tab Two Title' }}
       />
     </TabTwoStack.Navigator>
@@ -103,5 +111,19 @@ function CompaniesNavigator() {
         options={{ headerTitle: 'Company Details' }}
       />
     </CompaniesStack.Navigator>
+  );
+}
+
+const ProfileStack = createStackNavigator<ProfileParamList>();
+
+function ProfileNavigator() {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{ headerTitle: 'Profile' }}
+      />
+    </ProfileStack.Navigator>
   );
 }

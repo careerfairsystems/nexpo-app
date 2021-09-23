@@ -6,11 +6,25 @@ import { TextInput } from '../components/TextInput';
 import { PrimaryButton } from '../components/Buttons';
 
 import { API } from '../api'
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types';
 
-export default function TabOneScreen() {
+type LoginScreenProps = {
+  navigation: StackNavigationProp<RootStackParamList, 'Login'>;
+}
+
+export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      if (await API.auth.isAuthenticated()) {
+        navigation.navigate('Root');
+      }
+    })();
+  })
 
   const login = async () => {
     setLoading(true);
@@ -23,7 +37,7 @@ export default function TabOneScreen() {
       alert('Login not successful');
     }
     else {
-      alert('Login successful');
+      navigation.navigate('Root');
     }
   }
 
