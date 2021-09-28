@@ -1,13 +1,13 @@
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
-const darkBlue = '#042657';
-const darkRed = '#7E0000';
-const darkYellow = '#948500';
-const lightBlue = '#00A3FE';
-const lightGreen = '#007E3A';
-const lightRed = '#CB0000';
 
 export default {
+  darkBlue: '#042657',
+  darkRed: '#7E0000',
+  darkYellow: '#948500',
+  lightBlue: '#00A3FE',
+  lightGreen: '#007E3A',
+  lightRed: '#CB0000',
   light: {
     text: '#000',
     background: '#fff',
