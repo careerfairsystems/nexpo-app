@@ -3,8 +3,7 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { Company } from './api/companies';
-import { SingleEvent } from './api/events';
+import { SingleEvent } from "./api/events/events";
 
 export type RootStackParamList = {
   Login: undefined;
