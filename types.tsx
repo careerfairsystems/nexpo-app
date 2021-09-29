@@ -4,6 +4,7 @@
  */
 
 export type RootStackParamList = {
+  Login: undefined;
   Root: undefined;
   NotFound: undefined;
 };
@@ -12,6 +13,7 @@ export type BottomTabParamList = {
   TabOne: undefined;
   TabTwo: undefined;
   Companies: undefined;
+  Profile: undefined;
   Events: undefined
 };
 
@@ -27,6 +29,10 @@ export type CompaniesParamList = {
   CompaniesScreen: undefined;
   CompanyDetailsScreen: companyData;
 };
+
+export type ProfileParamList = {
+  ProfileScreen: undefined;
+}
 
 export type EventListParamlist = {
   EventListScreen: undefined;

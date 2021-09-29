@@ -19,9 +19,11 @@ import {
     TabOneParamList,
     TabTwoParamList,
     CompaniesParamList,
-    EventListParamlist
+    EventListParamlist,
+    ProfileParamList,
 } from '../types';
 import EventListScreen from "../screens/EventListScreen";
+import ProfileScreen from '../screens/ProfileScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -50,7 +52,14 @@ export default function BottomTabNavigator() {
         name="Companies"
         component={CompaniesNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="briefcase-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Profile"
+        component={ProfileNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="person" color={color} />,
         }}
       />
         <BottomTab.Screen
@@ -108,7 +117,7 @@ function CompaniesNavigator() {
       <CompaniesStack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}
-        options={{ headerTitle: 'Companies Title' }}
+        options={{ headerTitle: 'Companies' }}
       />
       <CompaniesStack.Screen
         name="CompanyDetailsScreen"
@@ -119,16 +128,29 @@ function CompaniesNavigator() {
   );
 }
 
+const ProfileStack = createStackNavigator<ProfileParamList>();
+
+function ProfileNavigator() {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{ headerTitle: 'Profile' }}
+      />
+    </ProfileStack.Navigator>
+  );
+}
 const EventListStack = createStackNavigator<EventListParamlist>();
 
 function EventListNavigator() {
-    return (
-        <EventListStack.Navigator>
-            <EventListStack.Screen
-                name="EventListScreen"
-                component={EventListScreen}
-                options={{ headerTitle: 'Events' }}
-            />
-        </EventListStack.Navigator>
-    );
+  return (
+    <EventListStack.Navigator>
+      <EventListStack.Screen
+        name="EventListScreen"
+        component={EventListScreen}
+        options={{ headerTitle: 'Events' }}
+      />
+    </EventListStack.Navigator>
+  );
 }
