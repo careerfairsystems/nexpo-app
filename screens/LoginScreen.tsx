@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { Image, ActivityIndicator, StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { TextInput } from '../components/TextInput';
@@ -43,7 +43,10 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Image 
+        style={styles.logo} 
+        source={require('../assets/images/arkad_logo.png')} 
+      />
       <TextInput
         placeholder="Email" 
         keyboardType="email-address"
@@ -69,6 +72,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logo: {
+    width: 200,
+    height: 200,
   },
   title: {
     fontSize: 20,
