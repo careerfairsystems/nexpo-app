@@ -27,6 +27,11 @@ export default {
               CompaniesScreen: 'companies',
             },
           },
+          Events: {
+            screens: {
+              EventListScreen: 'events'
+            },
+          },
         },
       },
       NotFound: '*',

@@ -14,7 +14,14 @@ import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList, CompaniesParamList } from '../types';
+import {
+    BottomTabParamList,
+    TabOneParamList,
+    TabTwoParamList,
+    CompaniesParamList,
+    EventListParamlist
+} from '../types';
+import EventListScreen from "../screens/EventListScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -46,6 +53,13 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
+        <BottomTab.Screen
+            name="Events"
+            component={EventListNavigator}
+            options={{
+                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            }}
+        />
     </BottomTab.Navigator>
   );
 }
@@ -103,4 +117,18 @@ function CompaniesNavigator() {
       />
     </CompaniesStack.Navigator>
   );
+}
+
+const EventListStack = createStackNavigator<EventListParamlist>();
+
+function EventListNavigator() {
+    return (
+        <EventListStack.Navigator>
+            <EventListStack.Screen
+                name="EventListScreen"
+                component={EventListScreen}
+                options={{ headerTitle: 'Events' }}
+            />
+        </EventListStack.Navigator>
+    );
 }
