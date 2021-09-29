@@ -38,10 +38,10 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
         : <FlatList
             data={companies}
             keyExtractor={({ id }) => id.toString()}
-            renderItem={({ item }) => 
+            renderItem={({ item: company }) => 
               <CompanyListItem
-                company={item} 
-                onPress={() => navigation.navigate('CompanyDetailsScreen', item)} />
+                company={company} 
+                onPress={() => navigation.navigate('CompanyDetailsScreen', { company })} />
               } />
       }
     </View>
