@@ -4,6 +4,7 @@
  */
 
 import { Company } from './api/companies';
+import { SingleEvent } from './api/events';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -38,6 +39,9 @@ export type ProfileParamList = {
   ProfileScreen: undefined;
 }
 
-export type EventListParamlist = {
+export type EventsParamlist = {
   EventListScreen: undefined;
+  EventDetailsScreen: {
+    event: SingleEvent;
+  }
 }

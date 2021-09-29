@@ -1,4 +1,4 @@
-import { apiUrl, getAuth } from '../http/HttpHelpers';
+import { getAuth } from '../http/HttpHelpers';
 
 export interface ListedEvent {
   start: string,
