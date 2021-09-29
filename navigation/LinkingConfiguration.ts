@@ -32,7 +32,12 @@ export default {
             screens: {
               ProfileScreen: 'profile',
             },
-          }
+          },
+          Events: {
+            screens: {
+              EventListScreen: 'events'
+            },
+          },
         },
       },
       NotFound: '*',

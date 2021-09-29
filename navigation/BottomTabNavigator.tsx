@@ -14,8 +14,15 @@ import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList, CompaniesParamList, ProfileParamList } from '../types';
-import LoginScreen from '../screens/LoginScreen';
+import {
+    BottomTabParamList,
+    TabOneParamList,
+    TabTwoParamList,
+    CompaniesParamList,
+    EventListParamlist,
+    ProfileParamList,
+} from '../types';
+import EventListScreen from "../screens/EventListScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -55,6 +62,13 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="person" color={color} />,
         }}
       />
+        <BottomTab.Screen
+            name="Events"
+            component={EventListNavigator}
+            options={{
+                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            }}
+        />
     </BottomTab.Navigator>
   );
 }
@@ -125,5 +139,18 @@ function ProfileNavigator() {
         options={{ headerTitle: 'Profile' }}
       />
     </ProfileStack.Navigator>
+  );
+}
+const EventListStack = createStackNavigator<EventListParamlist>();
+
+function EventListNavigator() {
+  return (
+    <EventListStack.Navigator>
+      <EventListStack.Screen
+        name="EventListScreen"
+        component={EventListScreen}
+        options={{ headerTitle: 'Events' }}
+      />
+    </EventListStack.Navigator>
   );
 }
