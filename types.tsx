@@ -3,6 +3,9 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
+import { SingleEvent } from "./api/events";
+import { Company } from "./api/companies";
+
 export type RootStackParamList = {
   Login: undefined;
   Root: undefined;
@@ -27,26 +30,18 @@ export type TabTwoParamList = {
 
 export type CompaniesParamList = {
   CompaniesScreen: undefined;
-  CompanyDetailsScreen: companyData;
+  CompanyDetailsScreen: {
+    company: Company;
+  };
 };
 
 export type ProfileParamList = {
   ProfileScreen: undefined;
 }
 
-export type EventListParamlist = {
+export type EventsParamlist = {
   EventListScreen: undefined;
-}
-
-export type companyData = {
-  website: string,
-  top_students: string[],
-  student_session_days: string,
-  name: string,
-  logo_url: string,
-  id: number,
-  host_phone_number: string,
-  host_name: string,
-  host_mail: string,
-  description: string
+  EventDetailsScreen: {
+    event: SingleEvent;
+  }
 }

@@ -7,7 +7,7 @@ import { CompaniesParamList } from '../types';
 
 import { API } from '../api';
 import { Company } from '../api/companies';
-import { CompanyListItem } from '../components/ComanyListItem';
+import { CompanyListItem } from '../components/CompanyListItem';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -38,10 +38,10 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
         : <FlatList
             data={companies}
             keyExtractor={({ id }) => id.toString()}
-            renderItem={({ item }) => 
+            renderItem={({ item: company }) => 
               <CompanyListItem
-                company={item} 
-                onPress={() => navigation.navigate('CompanyDetailsScreen', item)} />
+                company={company} 
+                onPress={() => navigation.navigate('CompanyDetailsScreen', { company })} />
               } />
       }
     </View>

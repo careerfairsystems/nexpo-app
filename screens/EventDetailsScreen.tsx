@@ -3,25 +3,29 @@ import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 
-import { Company } from '../api/companies'
+import { SingleEvent } from '../api/events';
 
-type CompanyDetailsScreenParams = {
+type EventDetailsScreenParams = {
   route: {
     params: {
-      company: Company
+      event: SingleEvent;
     };
   };
 }
 
-export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenParams) {
-  const { company } = route.params;
+export default function EventDetailsScreen({ route }: EventDetailsScreenParams) {
+  const { event } = route.params;
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{company.name}</Text>
-      <View style={styles.container}>
-        
-      </View>
+      <Text style={styles.title}>{event.name}</Text>
+      <Text style={styles.title}>{event.location}</Text>
+      <Text style={styles.title}>{event.start}</Text>
+      <Text style={styles.title}>{event.end}</Text>
+      <Text style={styles.title}>{event.event_info.description}</Text>
+      <Text style={styles.title}>{event.event_info.host}</Text>
+      <Text style={styles.title}>{event.event_info.language}</Text>
+      <Text style={styles.title}>{event.event_info.capacity}</Text>
     </View>
   );
 }
