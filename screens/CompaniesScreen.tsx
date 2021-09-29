@@ -7,7 +7,7 @@ import { CompaniesParamList } from '../types';
 
 import { API } from '../api';
 import { Company } from '../api/companies';
-import { CompanyListItem } from '../components/ComanyListItem';
+import { CompanyListItem } from '../components/CompanyListItem';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
