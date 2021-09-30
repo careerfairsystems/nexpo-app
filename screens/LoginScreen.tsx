@@ -6,27 +6,19 @@ import { TextInput } from '../components/TextInput';
 import { PrimaryButton } from '../components/Buttons';
 
 import { API } from '../api'
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types';
+import { AuthContext } from '../navigation';
 
-type LoginScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList, 'Login'>;
-}
-
-export default function LoginScreen({ navigation }: LoginScreenProps) {
+export default function LoginScreen() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      if (await API.auth.isAuthenticated()) {
-        navigation.navigate('Root');
-      }
-    })();
-  })
+  const authContext = React.useContext(AuthContext);
 
   const login = async () => {
+    // We get errors when unmounting for some reason, this might be a solution: 
+    // https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+    // but I am not too sure of the call stack in this async call, it should be fine as the unmount is the last call
+    // It is probably because the state updates don't happen immediately.
     setLoading(true);
     
     const success = await API.auth.login(email, password);
@@ -37,7 +29,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
       alert('Login not successful');
     }
     else {
-      navigation.navigate('Root');
+      authContext.signIn();
     }
   }
 
@@ -76,6 +68,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 200,
+    resizeMode: 'contain',
   },
   title: {
     fontSize: 20,
