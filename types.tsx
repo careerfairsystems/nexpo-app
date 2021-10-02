@@ -3,34 +3,21 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { SingleEvent } from "./api/events";
-import { Company } from "./api/companies";
-
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
 };
 
 export type BottomTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
   Companies: undefined;
   Profile: undefined;
   Events: undefined
 };
 
-export type TabOneParamList = {
-  TabOneScreen: undefined;
-};
-
-export type TabTwoParamList = {
-  TabTwoScreen: undefined;
-};
-
 export type CompaniesParamList = {
   CompaniesScreen: undefined;
   CompanyDetailsScreen: {
-    company: Company;
+    id: number;
   };
 };
 
@@ -41,6 +28,6 @@ export type ProfileParamList = {
 export type EventsParamlist = {
   EventListScreen: undefined;
   EventDetailsScreen: {
-    event: SingleEvent;
+    id: number;
   }
 }

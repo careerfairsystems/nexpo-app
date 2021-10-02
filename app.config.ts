@@ -1,5 +1,5 @@
 export default {
-  name: 'nexpo-app',
+  name: 'Arkad',
   slug: 'nexpo-app',
   version: '1.0.0',
   orientation: 'portrait',
@@ -21,9 +21,10 @@ export default {
     supportsTablet: true
   },
   android: {
+    package: 'se.arkadtlth',
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
-      backgroundColor: '#ffffff'
+      backgroundColor: '#022B5C',
     },
   },
   web: {

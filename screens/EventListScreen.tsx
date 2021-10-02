@@ -21,14 +21,15 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
   
   const getEvents = async () => {
     setLoading(true);
+
     const events = await API.events.getAllEvents();
     setEvents(events);
+
     setLoading(false);
   }
 
-  const openEventDetails = async (id: number) => {
-    const event = await API.events.getSingleEvent(id);
-      navigation.navigate('EventDetailsScreen', { event });
+  const openEventDetails = (id: number) => {
+    navigation.navigate('EventDetailsScreen', { id });
   }
   
   React.useEffect(() => {

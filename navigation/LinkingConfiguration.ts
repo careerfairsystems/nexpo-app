@@ -13,29 +13,21 @@ export default {
       Login: 'login',
       Root: {
         screens: {
-          TabOne: {
-            screens: {
-              TabOneScreen: 'one',
-            },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
           Companies: {
             screens: {
               CompaniesScreen: 'companies',
+              CompanyDetailsScreen: 'companies/:id',
+            },
+          },
+          Events: {
+            screens: {
+              EventListScreen: 'events',
+              EventDetailsScreen: 'events/:id',
             },
           },
           Profile: {
             screens: {
               ProfileScreen: 'profile',
-            },
-          },
-          Events: {
-            screens: {
-              EventListScreen: 'events'
             },
           },
         },
