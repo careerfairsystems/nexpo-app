@@ -16,6 +16,17 @@ export const post = (endpoint: string, body: any ) => {
     },
     body: JSON.stringify(body)
   });
+}
+
+export const put = (endpoint: string, body: any ) => {
+  return fetch(apiUrl(endpoint), {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body)
+  });
 } 
 
 export const get = (endpoint: string) => {
