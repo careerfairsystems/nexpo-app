@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { View } from '../components/Themed';
 import { TextInput } from '../components/TextInput';
 
 import { ArkadButton } from '../components/Buttons';
