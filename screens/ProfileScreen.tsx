@@ -6,7 +6,7 @@ import { Text, View } from '../components/Themed';
 import { API } from '../api'
 import { UserInformation } from '../api/users';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { ArkadButton, PrimaryButton } from '../components/Buttons';
+import { ArkadButton } from '../components/Buttons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileParamList } from '../types';
 import { ButtonText } from '../components/StyledText';
