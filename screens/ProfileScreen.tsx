@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
@@ -7,22 +7,19 @@ import { API } from '../api'
 import { UserInformation } from '../api/users';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { PrimaryButton } from '../components/Buttons';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ProfileParamList } from '../types';
+import { AuthContext } from '../navigation';
 
-type ProfileScreenParams = {
-  navigation: StackNavigationProp<ProfileParamList, 'ProfileScreen'>;
-}
-
-export default function ProfileScreen({ navigation }: ProfileScreenParams) {
+export default function ProfileScreen() {
   const [userInformation, setUserInformation] = useState<UserInformation | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const authContext = useContext(AuthContext);
 
   const getUserInformation = async () => {
     setLoading(true);
+
     const userInformation = await API.users.getMe();
-    console.log(userInformation)
     setUserInformation(userInformation);
+
     setLoading(false);
   }
 
@@ -32,8 +29,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
 
   const logout = async () => {
     await API.auth.logout();
-    
-    navigation.dangerouslyGetParent()?.dangerouslyGetParent()?.navigate('Login');
+    authContext.signOut();
   };
 
   if (loading) {
