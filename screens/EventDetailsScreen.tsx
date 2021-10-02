@@ -1,31 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 
 import { SingleEvent } from '../api/events';
+import { API } from '../api';
+import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 
 type EventDetailsScreenParams = {
   route: {
     params: {
-      event: SingleEvent;
+      id: number;
     };
   };
 }
 
 export default function EventDetailsScreen({ route }: EventDetailsScreenParams) {
-  const { event } = route.params;
+  const { id } = route.params;
+  
+  const [event, setEvent] = useState<SingleEvent | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const getEvent = async () => {
+    setLoading(true);
+
+    const event = await API.events.getSingleEvent(id);
+    setEvent(event);
+
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getEvent();
+  }, [])
+
+  if (loading) return (<ScreenActivityIndicator />);
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{event.name}</Text>
-      <Text style={styles.title}>{event.location}</Text>
-      <Text style={styles.title}>{event.start}</Text>
-      <Text style={styles.title}>{event.end}</Text>
-      <Text style={styles.title}>{event.event_info.description}</Text>
-      <Text style={styles.title}>{event.event_info.host}</Text>
-      <Text style={styles.title}>{event.event_info.language}</Text>
-      <Text style={styles.title}>{event.event_info.capacity}</Text>
+      <Text style={styles.title}>{event?.name}</Text>
+      <Text style={styles.title}>{event?.location}</Text>
+      <Text style={styles.title}>{event?.start}</Text>
+      <Text style={styles.title}>{event?.end}</Text>
+      <Text style={styles.title}>{event?.event_info.description}</Text>
+      <Text style={styles.title}>{event?.event_info.host}</Text>
+      <Text style={styles.title}>{event?.event_info.language}</Text>
+      <Text style={styles.title}>{event?.tickets}/{event?.event_info.capacity}</Text>
     </View>
   );
 }

@@ -30,7 +30,7 @@ export type TabTwoParamList = {
 export type CompaniesParamList = {
   CompaniesScreen: undefined;
   CompanyDetailsScreen: {
-    company: Company;
+    id: number;
   };
 };
 
@@ -41,6 +41,6 @@ export type ProfileParamList = {
 export type EventsParamlist = {
   EventListScreen: undefined;
   EventDetailsScreen: {
-    event: SingleEvent;
+    id: number;
   }
 }

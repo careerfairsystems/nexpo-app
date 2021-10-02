@@ -5,6 +5,7 @@
  */
 
 import * as Linking from 'expo-linking';
+import EventDetailsScreen from '../screens/EventDetailsScreen';
 
 export default {
   prefixes: [Linking.makeUrl('/')],
@@ -26,6 +27,7 @@ export default {
           Companies: {
             screens: {
               CompaniesScreen: 'companies',
+              CompanyDetailsScreen: 'companies/:id',
             },
           },
           Profile: {
@@ -35,7 +37,8 @@ export default {
           },
           Events: {
             screens: {
-              EventListScreen: 'events'
+              EventListScreen: 'events',
+              EventDetailsScreen: 'events/:id',
             },
           },
         },

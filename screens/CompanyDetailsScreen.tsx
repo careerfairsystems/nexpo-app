@@ -1,24 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 
 import { Company } from '../api/companies'
+import { API } from '../api';
+import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 
 type CompanyDetailsScreenParams = {
   route: {
     params: {
-      company: Company
+      id: number;
     };
   };
 }
 
 export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenParams) {
-  const { company } = route.params;
+  const { id } = route.params;
+
+  const [company, setCompany] = useState<Company | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const getCompany = async () => {
+    setLoading(true);
+
+    const company = await API.companies.getCompany(id);
+    setCompany(company);
+
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getCompany();
+  }, []);
   
+  if (loading) {
+    return (<ScreenActivityIndicator />)
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{company.name}</Text>
+      <Text style={styles.title}>{company?.name}</Text>
       <View style={styles.container}>
         
       </View>

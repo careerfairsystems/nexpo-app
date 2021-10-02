@@ -41,7 +41,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
             renderItem={({ item: company }) => 
               <CompanyListItem
                 company={company} 
-                onPress={() => navigation.navigate('CompanyDetailsScreen', { company })} />
+                onPress={() => navigation.navigate('CompanyDetailsScreen', { id: company.id })} />
               } />
       }
     </View>
