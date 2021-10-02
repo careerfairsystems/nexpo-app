@@ -2,7 +2,8 @@
 ## What is this project?
 ## The dependencies which are required to work on the project.
 - npm (included in [Node.js](https://nodejs.org/en/download/)).
-- Expo 
+- Expo CLI
+- Expo Go mobile app (optional)
 
 ## How to setup a build environment
 Recommended IDE: Visual Studio Code
@@ -25,3 +26,6 @@ At line:1 char:1
     + FullyQualifiedErrorId : UnauthorizedAccess
 ```
 **Solution**: Run Powershell as administrator and run the command `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` (Read more [here](https:/go.microsoft.com/fwlink/?LinkID=135170))
+
+## How to run the build
+1. Run the build by writing 
