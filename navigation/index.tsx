@@ -13,22 +13,10 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
+import { AuthContext } from '../components/AuthContext';
 
 import { API } from '../api';
 
-type AuthenticationContext = {
-  signIn: () => void;
-  signOut: () => void;
-}
-const defaultAuthContext = {
-  signIn: () => {
-    console.error('Using AuthContext outside provider, check that a parent provides a real context');
-  },
-  signOut: () => {
-    console.error('Using AuthContext outside provider, check that a parent provides a real context');
-  }
-}
-export const AuthContext = React.createContext<AuthenticationContext>(defaultAuthContext);
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const [signedIn, setSignedIn] = React.useState<boolean>(false);

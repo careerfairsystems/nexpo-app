@@ -8,7 +8,7 @@ import { UserInformation } from '../api/users';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadButton } from '../components/Buttons';
 import { ButtonText } from '../components/StyledText';
-import { AuthContext } from '../navigation';
+import { AuthContext } from '../components/AuthContext';
 
 export default function ProfileScreen() {
   const [userInformation, setUserInformation] = useState<UserInformation | null>(null);

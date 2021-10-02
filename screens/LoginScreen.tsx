@@ -8,7 +8,7 @@ import { ArkadButton } from '../components/Buttons';
 import { ButtonText } from '../components/StyledText';
 
 import { API } from '../api'
-import { AuthContext } from '../navigation';
+import { AuthContext } from '../components/AuthContext';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>('');
