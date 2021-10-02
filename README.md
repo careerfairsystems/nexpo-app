@@ -2,7 +2,8 @@
 ## What is this project?
 ## The dependencies which are required to work on the project.
 - npm (included in [Node.js](https://nodejs.org/en/download/)).
-- Expo 
+- Expo CLI
+- (optional) Expo (Go) mobile app (on [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en&gl=US) or [IOS](https://apps.apple.com/us/app/expo-go/id982107779))
 
 ## How to setup a build environment
 Recommended IDE: Visual Studio Code
@@ -25,3 +26,6 @@ At line:1 char:1
     + FullyQualifiedErrorId : UnauthorizedAccess
 ```
 **Solution**: Run Powershell as administrator and run the command `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` (Read more [here](https:/go.microsoft.com/fwlink/?LinkID=135170))
+
+## How to run the build
+1. Run the build by writing `yarn start` in the terminal. Then you can launch the app on your phone using the Expo app by scanning the QR-code, alternatively you can run it directly in the browser window that opens by selecting "Run in web browser".
