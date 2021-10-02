@@ -6,9 +6,10 @@ import { Text, View } from '../components/Themed';
 import { API } from '../api'
 import { UserInformation } from '../api/users';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { PrimaryButton } from '../components/Buttons';
+import { ArkadButton, PrimaryButton } from '../components/Buttons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileParamList } from '../types';
+import { ButtonText } from '../components/StyledText';
 
 type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileParamList, 'ProfileScreen'>;
@@ -46,7 +47,9 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         <Text>{userInformation?.last_name}</Text>
         <Text>{userInformation?.email}</Text>
 
-        <PrimaryButton title="Logout" onPress={logout} />
+        <ArkadButton onPress={logout}>
+          <ButtonText text='Logout'></ButtonText>
+        </ArkadButton> 
       </View>
     );
   }

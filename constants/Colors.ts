@@ -22,4 +22,6 @@ export default {
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
   },
+  white: '#ffffff',
+  black: '#000000',
 };
