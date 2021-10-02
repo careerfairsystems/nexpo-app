@@ -5,7 +5,7 @@ export default {
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   scheme: 'myapp',
-  userInterfaceStyle: 'automatic',
+  //userInterfaceStyle: 'automatic',
   splash: {
     image: './assets/images/splash.png',
     resizeMode: 'contain',
