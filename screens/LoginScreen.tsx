@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { View } from '../components/Themed';
 import { TextInput } from '../components/TextInput';
-import { PrimaryButton } from '../components/Buttons';
+
+import { ArkadButton } from '../components/Buttons';
+import { ButtonText } from '../components/StyledText';
 
 import { API } from '../api'
-import { AuthContext } from '../navigation';
+import { AuthContext } from '../components/AuthContext';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>('');
@@ -39,22 +41,24 @@ export default function LoginScreen() {
         style={styles.logo} 
         source={require('../assets/images/arkad_logo.png')} 
       />
-      <TextInput
-        placeholder="Email" 
-        keyboardType="email-address"
-        onChangeText={setEmail}
-        style={styles.input} />
-      <TextInput
-        placeholder="Password"
-        secureTextEntry
-        onChangeText={setPassword}
-        style={styles.input} />
-      { loading
-        ? <ActivityIndicator />
-        : <PrimaryButton
-            title="Login"
-            onPress={login} />
-      }
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Email" 
+          keyboardType="email-address"
+          onChangeText={setEmail} />
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          onChangeText={setPassword} />
+        { loading
+          ? <ActivityIndicator/>
+          : <ArkadButton
+            onPress={login}>
+              <ButtonText text='Login'></ButtonText>
+          </ArkadButton>
+        }
+      </View>
+      
     </View>
   );
 }
@@ -70,11 +74,11 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'contain',
   },
+  inputContainer: {
+    width: '80%',
+  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  input: {
-    width: '80%',
   },
 });

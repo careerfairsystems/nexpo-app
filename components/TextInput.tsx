@@ -9,6 +9,7 @@ export function TextInput(props: TextInputProps) {
 
 const styles = StyleSheet.create({
   input: {
+    fontFamily: 'montserrat',
     height: 40,
     margin: 12,
     borderWidth: 1,

@@ -6,8 +6,9 @@ import { Text, View } from '../components/Themed';
 import { API } from '../api'
 import { UserInformation } from '../api/users';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { PrimaryButton } from '../components/Buttons';
-import { AuthContext } from '../navigation';
+import { ArkadButton } from '../components/Buttons';
+import { ButtonText } from '../components/StyledText';
+import { AuthContext } from '../components/AuthContext';
 
 export default function ProfileScreen() {
   const [userInformation, setUserInformation] = useState<UserInformation | null>(null);
@@ -42,7 +43,9 @@ export default function ProfileScreen() {
         <Text>{userInformation?.last_name}</Text>
         <Text>{userInformation?.email}</Text>
 
-        <PrimaryButton title="Logout" onPress={logout} />
+        <ArkadButton onPress={logout}>
+          <ButtonText text='Logout'></ButtonText>
+        </ArkadButton> 
       </View>
     );
   }
