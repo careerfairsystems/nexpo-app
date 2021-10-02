@@ -10,14 +10,10 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
 import {
     BottomTabParamList,
-    TabOneParamList,
-    TabTwoParamList,
     CompaniesParamList,
     EventsParamlist,
     ProfileParamList,
@@ -33,27 +29,20 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Companies"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
-      <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-        }}
-      />
       <BottomTab.Screen
         name="Companies"
         component={CompaniesNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="briefcase-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Events"
+        component={EventsNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -63,13 +52,6 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="person" color={color} />,
         }}
       />
-        <BottomTab.Screen
-            name="Events"
-            component={EventsNavigator}
-            options={{
-                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-            }}
-        />
     </BottomTab.Navigator>
   );
 }
@@ -82,34 +64,6 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
-
-function TabOneNavigator() {
-  return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
-      />
-    </TabOneStack.Navigator>
-  );
-}
-
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
-
-function TabTwoNavigator() {
-  return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
-      />
-    </TabTwoStack.Navigator>
-  );
-}
-
 const CompaniesStack = createStackNavigator<CompaniesParamList>();
 
 function CompaniesNavigator() {
@@ -129,19 +83,6 @@ function CompaniesNavigator() {
   );
 }
 
-const ProfileStack = createStackNavigator<ProfileParamList>();
-
-function ProfileNavigator() {
-  return (
-    <ProfileStack.Navigator>
-      <ProfileStack.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
-        options={{ headerTitle: 'Profile' }}
-      />
-    </ProfileStack.Navigator>
-  );
-}
 const EventsStack = createStackNavigator<EventsParamlist>();
 
 function EventsNavigator() {
@@ -158,5 +99,19 @@ function EventsNavigator() {
         options={{ headerTitle: 'Event' }}
       />
     </EventsStack.Navigator>
+  );
+}
+
+const ProfileStack = createStackNavigator<ProfileParamList>();
+
+function ProfileNavigator() {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{ headerTitle: 'Profile' }}
+      />
+    </ProfileStack.Navigator>
   );
 }
