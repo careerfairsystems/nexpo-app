@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Systrace } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 
-import { SingleEvent } from '../api/events';
+import { SingleEvent, TicketRequest } from '../api/events';
 import { API } from '../api';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { ArkadButton } from '../components/Buttons';
+import { ButtonText } from '../components/StyledText';
 
 type EventDetailsScreenParams = {
   route: {
@@ -30,6 +32,31 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     setLoading(false);
   }
 
+  const createTicket = async () => {
+    setLoading(true);
+    console.log(event)
+
+    if(event?.id == undefined) {
+      return;
+    }
+    
+    const ticketRequest: TicketRequest = {
+      event_id: event.id,
+      photo: true
+    }
+    
+    const ticket = await API.events.createTicket(ticketRequest);
+
+    setLoading(false);
+
+    if (ticket != undefined) {
+      alert('Registered to ' + event?.name + ' ' + event?.date);
+    } 
+    else {
+      alert('Could not register to ' + event?.name + ' ' + event?.date);
+    }
+  }
+
   useEffect(() => {
     getEvent();
   }, [])
@@ -46,6 +73,9 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
       <Text style={styles.title}>{event?.event_info.host}</Text>
       <Text style={styles.title}>{event?.event_info.language}</Text>
       <Text style={styles.title}>{event?.tickets}/{event?.event_info.capacity}</Text>
+      <ArkadButton onPress={createTicket}>
+        <ButtonText text="Register"></ButtonText>
+      </ArkadButton>
     </View>
   );
 }
@@ -56,31 +86,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  listItemContainer: {
-    marginBottom: 2,
-    backgroundColor: '#042657',
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 10,
-  },
   title: {
     paddingBottom: 10,
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 14,
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)',
-  },
-  listItem: {
-    color: '#FFFFFF',
-    padding: 10,
-    fontSize: 18,
-    height: 44,
   },
 });

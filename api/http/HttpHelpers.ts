@@ -15,6 +15,17 @@ export const get = (endpoint: string) => {
   });
 }
 
+export const post = (endpoint: string, body: any) => {
+  return fetch(apiUrl(endpoint), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body)
+  });
+}
+
 export const getAuth = async (endpoint: string) => {
   if (!await isAuthenticated()) {
     // TODO Raise some kind of exception
@@ -39,6 +50,7 @@ export const putAuth = async (endpoint: string, body: any) => {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwt}`,
     },
     body: JSON.stringify(body)

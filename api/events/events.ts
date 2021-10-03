@@ -29,8 +29,8 @@ export interface SingleEvent {
 }
 
 export interface TicketRequest {
-  event_id: string,
-  photo: boolean,
+  "event_id": number,
+  "photo": boolean,
 }
 
 export interface Ticket {
@@ -54,8 +54,9 @@ export const getSingleEvent = async (id: number): Promise<SingleEvent> => {
   return event;
 }
 
-export const createTicket = async (body: TicketRequest): Promise<Ticket> => {
-  const response = await putAuth('/event/ticket', body);
+export const createTicket = async (TicketRequest: TicketRequest): Promise<Ticket> => {
+  const response = await putAuth('/event/ticket', TicketRequest);
+  console.log(response)
   const json = await response.json();
   const ticket = <Ticket>json.data;
   return ticket;
