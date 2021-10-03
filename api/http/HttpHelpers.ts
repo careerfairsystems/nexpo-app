@@ -7,17 +7,6 @@ export const apiUrl = (endpoint: string): string => {
   return `${baseUrl}${endpoint}`
 }
 
-export const post = (endpoint: string, body: any) => {
-  return fetch(apiUrl(endpoint), {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body)
-  });
-}
-
 export const get = (endpoint: string) => {
   return fetch(apiUrl(endpoint), {
     headers: {

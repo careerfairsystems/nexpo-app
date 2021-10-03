@@ -1,4 +1,4 @@
-import { deleteAuth, getAuth, post, put, putAuth } from '../http/HttpHelpers';
+import { deleteAuth, getAuth, putAuth } from '../http/HttpHelpers';
 
 export interface ListedEvent {
   start: string,
