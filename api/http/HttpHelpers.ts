@@ -7,7 +7,7 @@ export const apiUrl = (endpoint: string): string => {
   return `${baseUrl}${endpoint}`
 }
 
-export const post = (endpoint: string, body: any ) => {
+export const post = (endpoint: string, body: any) => {
   return fetch(apiUrl(endpoint), {
     method: 'POST',
     headers: {
@@ -17,17 +17,6 @@ export const post = (endpoint: string, body: any ) => {
     body: JSON.stringify(body)
   });
 }
-
-export const put = (endpoint: string, body: any ) => {
-  return fetch(apiUrl(endpoint), {
-    method: 'PUT',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body)
-  });
-} 
 
 export const get = (endpoint: string) => {
   return fetch(apiUrl(endpoint), {
@@ -48,5 +37,37 @@ export const getAuth = async (endpoint: string) => {
       'Accept': 'application/json',
       'Authorization': `Bearer ${jwt}`,
     }
+  });
+}
+
+export const putAuth = async (endpoint: string, body: any) => {
+  if (!await isAuthenticated()) {
+    // TODO Raise some kind of exception
+    console.error('putAuth: Not authenticated');
+  }
+  const jwt = await getJwt();
+  return fetch(apiUrl(endpoint), {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${jwt}`,
+    },
+    body: JSON.stringify(body)
+  });
+}
+
+export const deleteAuth = async (endpoint: string, body: any) => {
+  if (!await isAuthenticated()) {
+    // TODO Raise some kind of exception
+    console.error('deleteAuth: Not authenticated');
+  }
+  const jwt = await getJwt();
+  return fetch(apiUrl(endpoint), {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${jwt}`,
+    },
+    body: JSON.stringify(body)
   });
 }
