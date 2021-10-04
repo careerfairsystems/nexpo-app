@@ -23,6 +23,9 @@ export type CompaniesParamList = {
 
 export type ProfileParamList = {
   ProfileScreen: undefined;
+  EventDetailsScreen: {
+    id: number;
+  }
 }
 
 export type EventsParamlist = {

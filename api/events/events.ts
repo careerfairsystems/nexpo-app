@@ -45,8 +45,12 @@ export const getSingleEvent = async (id: number): Promise<SingleEvent> => {
 }
 
 export const getRegisteredEvents = async (tickets: Ticket[]): Promise<ListedEvent[]> => {
-  const events = await getAllEvents();
+  const events: ListedEvent[] = await getAllEvents();
   const regEvents: ListedEvent[] = [];
+
+  if(tickets == undefined || events == undefined) {
+    return regEvents;
+  }
 
   for(let i1 = 0; i1 < tickets.length; i1++) {
     for(let i2 = 0; i2 < events.length; i2++) {

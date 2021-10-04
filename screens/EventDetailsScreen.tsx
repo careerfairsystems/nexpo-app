@@ -85,25 +85,25 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
       <View style={styles.headerContainer}>
         <View style={[styles.subHeaderContainer, {flex: 0.7}]}>
           <View style={styles.leftItem}>
-            <Ionicons name="calendar" size={20} color="black"/>
+            <Ionicons name="calendar" size={16} color="black"/>
             <ArkadText text={convertDateFormat(event.date) + "  :  " + event.start + " - " + event.end} style={styles.headerText}/>
           </View>
           <View style={styles.leftItem}>
-            <Ionicons name="map" size={20} color="black"/>
+            <Ionicons name="map" size={16} color="black"/>
             <ArkadText text={event.location} style={styles.headerText}/>
           </View>
           <View style={styles.leftItem}>
-            <MaterialCommunityIcons name="microphone" size={20} color="black"/>
+            <MaterialCommunityIcons name="microphone" size={16} color="black"/>
             <ArkadText text={event.event_info.host} style={styles.headerText}/>
           </View>
         </View>
         <View style={[styles.subHeaderContainer, {flex: 0.3}]}>
           <View style={styles.rightItem}>
-            <Ionicons name="people" size={20} color="black"/>
+            <Ionicons name="people" size={16} color="black"/>
             <ArkadText text={event.tickets + "/" + event.event_info.capacity} style={styles.headerText}/>
           </View>
           <View style={styles.rightItem}>
-            <MaterialIcons name="language" size={20} color="black"/>
+            <MaterialIcons name="language" size={16} color="black"/>
             <ArkadText text={event.event_info.language} style={styles.headerText}/>
           </View>
         </View>
