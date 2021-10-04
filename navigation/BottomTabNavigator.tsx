@@ -100,7 +100,7 @@ function EventsNavigator() {
       <EventsStack.Screen
         name="EventDetailsScreen"
         component={EventDetailsScreen}
-        options={{ headerTitle: 'Event' }}
+        options={{ headerTitle: 'Event Details' }}
       />
     </EventsStack.Navigator>
   );
