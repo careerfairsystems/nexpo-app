@@ -21,7 +21,7 @@ export default {
     supportsTablet: true
   },
   android: {
-    package: 'se.arkadtlth',
+    package: 'se.arkadtlth.nexpo',
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#022B5C',

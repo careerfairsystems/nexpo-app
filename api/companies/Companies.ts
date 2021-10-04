@@ -21,9 +21,9 @@ export const getAll = async (): Promise<Company[]> => {
 }
 
 export const getCompany = async (companyId: number): Promise<Company> => {
-  const response = await getAuth(`/companies/${companyId}`);
-  const json = await response.json();
-  const company = json.data as Company;
+  // No the most beautiful way but this is how the backend works, you can only get all companies
+  const companies = await getAll();
+  const company = companies.find(c => c.id === companyId) as NonNullable<Company>;
   return company;
 }
 
