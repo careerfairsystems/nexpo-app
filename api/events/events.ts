@@ -28,12 +28,6 @@ export interface SingleEvent {
   date: string,
 }
 
-export function fillMissingAttributes(event: SingleEvent) {
-  if(event.date == undefined) {
-    event.date = "asd"
-  }
-  
-}
 
 export const getAllEvents = async (): Promise<ListedEvent[]> => {
   const response = await getAuth('/events');
