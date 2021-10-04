@@ -33,15 +33,15 @@ export default function ProfileScreen() {
     authContext.signOut();
   };
 
-  if (loading) {
+  if (loading || userInformation == undefined) {
     return (<ScreenActivityIndicator />);
   }
   else {
     return (
       <View style={styles.container}>
-        <Text>{userInformation?.first_name}</Text>
-        <Text>{userInformation?.last_name}</Text>
-        <Text>{userInformation?.email}</Text>
+        <Text>{userInformation.first_name}</Text>
+        <Text>{userInformation.last_name}</Text>
+        <Text>{userInformation.email}</Text>
 
         <ArkadButton onPress={logout} style={{}}>
           <ArkadText text='Logout' style={{}}/>
