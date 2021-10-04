@@ -10,7 +10,7 @@ import { SingleEvent, TicketRequest } from '../api/events';
 import { API } from '../api';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadButton } from '../components/Buttons';
-import { ButtonText } from '../components/StyledText';
+import { ArkadText } from '../components/StyledText';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons   } from '@expo/vector-icons';
 
 type EventDetailsScreenParams = {
@@ -79,41 +79,41 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <ButtonText text={event.name} style={styles.title}></ButtonText>
+        <ArkadText text={event.name} style={styles.title}/>
       </View>
       <View style={styles.headerContainer}>
         <View style={[styles.subHeaderContainer, {flex: 0.7}]}>
           <View style={styles.leftItem}>
             <Ionicons name="calendar" size={20} color="black"/>
-            <ButtonText text={convertDateFormat(event.date) + " : " + event.start + " - " + event.end} style={styles.headerText}/>
+            <ArkadText text={convertDateFormat(event.date) + " : " + event.start + " - " + event.end} style={styles.headerText}/>
           </View>
           <View style={styles.leftItem}>
             <Ionicons name="map" size={20} color="black"/>
-            <ButtonText text={event.location} style={styles.headerText}/>
+            <ArkadText text={event.location} style={styles.headerText}/>
           </View>
           <View style={styles.leftItem}>
             <MaterialCommunityIcons name="microphone" size={20} color="black"/>
-            <ButtonText text={event.event_info.host} style={styles.headerText}/>
+            <ArkadText text={event.event_info.host} style={styles.headerText}/>
           </View>
         </View>
         <View style={[styles.subHeaderContainer, {flex: 0.3}]}>
           <View style={styles.rightItem}>
             <Ionicons name="people" size={20} color="black"/>
-            <ButtonText text={event.tickets + "/" + event.event_info.capacity} style={styles.headerText}/>
+            <ArkadText text={event.tickets + "/" + event.event_info.capacity} style={styles.headerText}/>
           </View>
           <View style={styles.rightItem}>
             <MaterialIcons name="language" size={20} color="black"/>
-            <ButtonText text={event.event_info.language} style={styles.headerText}/>
+            <ArkadText text={event.event_info.language} style={styles.headerText}/>
           </View>
         </View>
       </View>
 
       <View style={styles.descriptionContainer}>
-        <ButtonText text={event.event_info.description} style={styles.description}></ButtonText>
+        <ArkadText text={event.event_info.description} style={styles.description}/>
       </View>
       
       <ArkadButton onPress={createTicket} style={styles.button}>
-        <ButtonText text="Register to event" style={styles.title}></ButtonText>
+        <ArkadText text="Register to event" style={styles.title}/>
       </ArkadButton>
     </View>
   );

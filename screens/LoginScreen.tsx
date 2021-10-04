@@ -5,7 +5,7 @@ import { View } from '../components/Themed';
 import { TextInput } from '../components/TextInput';
 
 import { ArkadButton } from '../components/Buttons';
-import { ButtonText } from '../components/StyledText';
+import { ArkadText } from '../components/StyledText';
 
 import { API } from '../api'
 import { AuthContext } from '../components/AuthContext';
@@ -53,7 +53,7 @@ export default function LoginScreen() {
         { loading
           ? <ActivityIndicator/>
           : <ArkadButton onPress={login} style={{}}>
-              <ButtonText text='Login' style={{}}></ButtonText>
+              <ArkadText text='Login' style={{}}/>
           </ArkadButton>
         }
       </View>

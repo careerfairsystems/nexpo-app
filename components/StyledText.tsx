@@ -13,7 +13,7 @@ interface textProps {
   style: TextStyle,
 }
 
-export function ButtonText(props: textProps) {
+export function ArkadText(props: textProps) {
   return <Text style={[styles.text, props.style]}>{props.text}</Text>
 }
 
