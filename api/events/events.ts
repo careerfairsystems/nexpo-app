@@ -1,4 +1,5 @@
 import { deleteAuth, getAuth, putAuth } from '../http/HttpHelpers';
+import { Ticket } from '../tickets';
 
 export interface ListedEvent {
   start: string,
@@ -41,4 +42,18 @@ export const getSingleEvent = async (id: number): Promise<SingleEvent> => {
   const json = await response.json();
   const event = <SingleEvent>json.data;
   return event;
+}
+
+export const getRegisteredEvents = async (tickets: Ticket[]): Promise<ListedEvent[]> => {
+  const events = await getAllEvents();
+  const regEvents: ListedEvent[] = [];
+
+  for(let i1 = 0; i1 < tickets.length; i1++) {
+    for(let i2 = 0; i2 < events.length; i2++) {
+      if(tickets[i1].event_id == events[i2].id) {
+        regEvents.push(events[i2]);
+      }
+    }
+  }
+  return regEvents;
 }
