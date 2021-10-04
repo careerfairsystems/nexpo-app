@@ -6,7 +6,9 @@ import { format } from "date-fns";
 
 import Colors from '../constants/Colors'
 
-import { SingleEvent, TicketRequest } from '../api/events';
+import { SingleEvent } from '../api/events';
+import { TicketRequest } from '../api/tickets';
+
 import { API } from '../api';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadButton } from '../components/Buttons';
@@ -55,7 +57,7 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
       photo: true
     }
     
-    const ticket = await API.events.createTicket(ticketRequest);
+    const ticket = await API.tickets.createTicket(ticketRequest);
 
     setLoading(false);
 
@@ -75,7 +77,6 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     return (<ScreenActivityIndicator />);
   }
   
-  
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -85,7 +86,7 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
         <View style={[styles.subHeaderContainer, {flex: 0.7}]}>
           <View style={styles.leftItem}>
             <Ionicons name="calendar" size={20} color="black"/>
-            <ArkadText text={convertDateFormat(event.date) + " : " + event.start + " - " + event.end} style={styles.headerText}/>
+            <ArkadText text={convertDateFormat(event.date) + "  :  " + event.start + " - " + event.end} style={styles.headerText}/>
           </View>
           <View style={styles.leftItem}>
             <Ionicons name="map" size={20} color="black"/>
@@ -153,12 +154,14 @@ const styles = StyleSheet.create({
   leftItem: {
     marginTop: 16,
     flexDirection: 'row',
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
+    alignItems: 'center',
   },
   rightItem: {
     marginTop: 16,
     flexDirection: 'row-reverse',
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    alignItems: 'center',
   },
   headerText: {
     color: Colors.black,
