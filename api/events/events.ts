@@ -19,9 +19,9 @@ export interface SingleEvent {
   id: number,
   event_info: {
     capacity: number,
-    language: null,
+    language: string,
     id: number,
-    host: null,
+    host: string,
     description: string
   },
   end: string,

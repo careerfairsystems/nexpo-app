@@ -43,8 +43,8 @@ export default function ProfileScreen() {
         <Text>{userInformation?.last_name}</Text>
         <Text>{userInformation?.email}</Text>
 
-        <ArkadButton onPress={logout}>
-          <ButtonText text='Logout'></ButtonText>
+        <ArkadButton onPress={logout} style={{}}>
+          <ButtonText text='Logout' style={{}}></ButtonText>
         </ArkadButton> 
       </View>
     );

@@ -52,9 +52,8 @@ export default function LoginScreen() {
           onChangeText={setPassword} />
         { loading
           ? <ActivityIndicator/>
-          : <ArkadButton
-            onPress={login}>
-              <ButtonText text='Login'></ButtonText>
+          : <ArkadButton onPress={login} style={{}}>
+              <ButtonText text='Login' style={{}}></ButtonText>
           </ArkadButton>
         }
       </View>
