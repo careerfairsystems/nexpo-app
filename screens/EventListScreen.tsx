@@ -5,7 +5,7 @@ import { Text, View } from '../components/Themed';
 import { EventsParamlist } from '../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
-import { ListedEvent, SingleEvent } from '../api/events';
+import { ListedEvent } from '../api/events';
 import { EventListItem } from '../components/eventList/EventListItem';
 
 type EventsNavigation = {

@@ -7,7 +7,7 @@ import { API } from '../api'
 import { UserInformation } from '../api/users';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadButton } from '../components/Buttons';
-import { ButtonText } from '../components/StyledText';
+import { ArkadText } from '../components/StyledText';
 import { AuthContext } from '../components/AuthContext';
 
 export default function ProfileScreen() {
@@ -43,8 +43,8 @@ export default function ProfileScreen() {
         <Text>{userInformation?.last_name}</Text>
         <Text>{userInformation?.email}</Text>
 
-        <ArkadButton onPress={logout}>
-          <ButtonText text='Logout'></ButtonText>
+        <ArkadButton onPress={logout} style={{}}>
+          <ArkadText text='Logout' style={{}}/>
         </ArkadButton> 
       </View>
     );

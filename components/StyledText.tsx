@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Text, TextProps } from './Themed';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 import Colors from '../constants/Colors'
 
 export function MonoText(props: TextProps) {
@@ -10,10 +10,11 @@ export function MonoText(props: TextProps) {
 
 interface textProps {
   text: string,
+  style: TextStyle,
 }
 
-export function ButtonText(props: textProps) {
-  return <Text style={styles.text}>{props.text}</Text>
+export function ArkadText(props: textProps) {
+  return <Text style={[styles.text, props.style]}>{props.text}</Text>
 }
 
 const styles = StyleSheet.create({

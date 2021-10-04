@@ -5,7 +5,7 @@ import { View } from '../components/Themed';
 import { TextInput } from '../components/TextInput';
 
 import { ArkadButton } from '../components/Buttons';
-import { ButtonText } from '../components/StyledText';
+import { ArkadText } from '../components/StyledText';
 
 import { API } from '../api'
 import { AuthContext } from '../components/AuthContext';
@@ -52,9 +52,8 @@ export default function LoginScreen() {
           onChangeText={setPassword} />
         { loading
           ? <ActivityIndicator/>
-          : <ArkadButton
-            onPress={login}>
-              <ButtonText text='Login'></ButtonText>
+          : <ArkadButton onPress={login} style={{}}>
+              <ArkadText text='Login' style={{}}/>
           </ArkadButton>
         }
       </View>
