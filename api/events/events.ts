@@ -1,5 +1,6 @@
 import { deleteAuth, getAuth, putAuth } from '../http/HttpHelpers';
-import { Ticket } from '../tickets';
+import { getAllTickets, Ticket } from '../tickets';
+import { format } from "date-fns";
 
 export interface ListedEvent {
   start: string,
@@ -29,6 +30,32 @@ export interface SingleEvent {
   date: string,
 }
 
+export function formatTime(date: string, start: string, end: string): string {
+  if(date == "") {
+    return ""
+  }
+  var clock: string = start + " - " + end
+  var d: Date = new Date(date)
+  try {
+    const dateString = format(d, "LLL d") + "  :  " + clock;
+    if(clock != "") {
+      dateString + "  :  " + clock;
+    }
+    return dateString;
+  } catch(RangeError) {
+    return ""
+  }
+}
+
+export const bookedEvent = async (event: ListedEvent): Promise<boolean> => {
+  const regEvents = await getAllTickets();
+  for(var i = 0; i < regEvents.length; i++) {
+    if(event.id == regEvents[i].event_id) {
+      return true;
+    }
+  }
+  return false
+}
 
 export const getAllEvents = async (): Promise<ListedEvent[]> => {
   const response = await getAuth('/events');
@@ -44,8 +71,10 @@ export const getSingleEvent = async (id: number): Promise<SingleEvent> => {
   return event;
 }
 
-export const getRegisteredEvents = async (tickets: Ticket[]): Promise<ListedEvent[]> => {
+// Note: getBookedEvents is slow and should not be used repeatedly
+export const getBookedEvents = async (): Promise<ListedEvent[]> => {
   const events: ListedEvent[] = await getAllEvents();
+  const tickets: Ticket[] = await getAllTickets();
   const regEvents: ListedEvent[] = [];
 
   if(tickets == undefined || events == undefined) {

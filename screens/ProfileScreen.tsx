@@ -27,12 +27,12 @@ type profileNavigation = {
 
 const getEmptyEvent = () => {
   const emptyEvent: ListedEvent = {
-    start: " ",
+    start: "",
     name: "No booked events",
-    location: " ",
+    location: "",
     id: 0,
-    end: " ",
-    date: " ",
+    end: "",
+    date: "",
     capacity: 0,
     tickets: 0,
   }
@@ -42,7 +42,7 @@ const getEmptyEvent = () => {
 export default function ProfileScreen({navigation}: profileNavigation) {
   const [userInformation, setUserInformation] = useState<UserInformation | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [regEvents, setRegEvents] = useState<ListedEvent[] | null>(null);
+  const [bookedEvents, setBookedEvents] = useState<ListedEvent[] | null>(null);
   const authContext = useContext(AuthContext);
 
   const getUserInformation = async () => {
@@ -51,9 +51,8 @@ export default function ProfileScreen({navigation}: profileNavigation) {
   }
 
   const getRegisteredEvents = async () => {
-    const tickets = await API.tickets.getAllTickets();
-    const regEvents = await API.events.getRegisteredEvents(tickets);
-    setRegEvents(regEvents);
+    const bookedEvents = await API.events.getBookedEvents();
+    setBookedEvents(bookedEvents);
   }
 
   const logout = async () => {
@@ -95,24 +94,29 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 
         <ArkadText text={"Booked events"} style={styles.header}/>
 
-        {regEvents == undefined 
+        {bookedEvents == undefined 
         ? <Text>Loading events...</Text>
-        : regEvents.length == 0 
-          ? <EventListItem event={getEmptyEvent()} onPress={() => {}} />
+        : bookedEvents.length == 0 
+          ? <View style={styles.eventObject}>
+              <EventListItem 
+                event={getEmptyEvent()} 
+                booked={false}
+                onPress={() => {}} />
+            </View>
           : <FlatList
               horizontal
-              data={regEvents}
+              data={bookedEvents}
               keyExtractor={({ id }) => id.toString()}
               renderItem={({ item: event }) => 
-                <EventListItem
-                  event={event} 
-                  onPress={() => openEventDetails(event.id)} 
-                />
+                <View style={styles.eventObject}>
+                  <EventListItem
+                    event={event} 
+                    booked={bookedEvents != null && bookedEvents.includes(event)}
+                    onPress={() => openEventDetails(event.id)} />
+                </View>
               } 
             />
         }
-
-        
 
         <ArkadButton onPress={logout} style={styles.logout}>
           <ArkadText text='Logout' style={{}}/>
@@ -125,6 +129,8 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   nameContainer: {
     flexDirection: 'row',
@@ -153,6 +159,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.darkBlue,
     textAlign: 'left',
+  },
+  eventObject:{
+    // TODO: Add responsive height instead
+    width: '60%',
+    height: 160,
   },
   logout: {
     marginTop: 80,

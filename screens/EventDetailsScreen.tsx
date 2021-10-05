@@ -23,12 +23,6 @@ type EventDetailsScreenParams = {
   };
 }
 
-function convertDateFormat(date: string) {
-  var d = new Date(date)
-  return format(d, "LLL d");
-}
-
-
 export default function EventDetailsScreen({ route }: EventDetailsScreenParams) {
   const { id } = route.params;
   
@@ -86,7 +80,10 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
         <View style={[styles.subHeaderContainer, {flex: 0.7}]}>
           <View style={styles.leftItem}>
             <Ionicons name="calendar" size={16} color="black"/>
-            <ArkadText text={convertDateFormat(event.date) + "  :  " + event.start + " - " + event.end} style={styles.headerText}/>
+            <ArkadText 
+              text={API.events.formatTime(event.date, event.start, event.end)} 
+              style={styles.headerText} 
+            />
           </View>
           <View style={styles.leftItem}>
             <Ionicons name="map" size={16} color="black"/>
@@ -114,7 +111,7 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
       </View>
       
       <ArkadButton onPress={createTicket} style={styles.button}>
-        <ArkadText text="Register to event" style={styles.title}/>
+        <ArkadText text="Attend event" style={styles.title}/>
       </ArkadButton>
     </View>
   );

@@ -18,12 +18,15 @@ type EventsNavigation = {
 export default function CompaniesScreen({navigation}: EventsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [events, setEvents] = React.useState<ListedEvent[] | null>(null);
+  const [bookedEvents, setBookedEvents] = React.useState<ListedEvent[] | null>(null);
   
   const getEvents = async () => {
     setLoading(true);
 
     const events = await API.events.getAllEvents();
     setEvents(events);
+    const bookedEvents = await API.events.getBookedEvents();
+    setBookedEvents(bookedEvents);
 
     setLoading(false);
   }
@@ -46,6 +49,7 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
           renderItem={({ item: event }) => 
             <EventListItem
               event={event} 
+              booked={bookedEvents != null && bookedEvents.includes(event)}
               onPress={() => openEventDetails(event.id) } />
           } />
       }
@@ -62,10 +66,5 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 20,
         fontWeight: 'bold',
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: '80%',
     },
 });
