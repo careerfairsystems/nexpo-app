@@ -129,12 +129,13 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   nameContainer: {
     flexDirection: 'row',
-    marginTop: 40,
+    marginTop: 24,
     justifyContent: 'center'
   },
   name: {
@@ -154,16 +155,14 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   header: {
-    marginTop: 80,
+    marginTop: 40,
     marginLeft: 16,
     fontSize: 16,
     color: Colors.darkBlue,
     textAlign: 'left',
   },
   eventObject:{
-    // TODO: Add responsive height instead
-    width: '60%',
-    height: 160,
+    width: '70%',
   },
   logout: {
     marginTop: 80,

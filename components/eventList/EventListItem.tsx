@@ -1,8 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { Text } from '../Themed';
 
-import { bookedEvent, ListedEvent } from '../../api/events';
+import { ListedEvent } from '../../api/events';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
 import { API } from '../../api';
@@ -49,9 +48,7 @@ export const EventListItem = ({ event, booked, onPress }: ListedEventItemProps) 
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'flex-start',
-    height: '100%',
     marginTop: 10,
     marginHorizontal: 10,
     backgroundColor: Colors.darkBlue,
