@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { Dimensions, FlatList, StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
@@ -17,6 +17,8 @@ import { EventListItem } from '../components/eventList/EventListItem';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileParamList } from '../types';
+
+const { width, height } = Dimensions.get('window')
 
 type profileNavigation = {
   navigation: StackNavigationProp<
@@ -104,6 +106,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 onPress={() => {}} />
             </View>
           : <FlatList
+              contentContainerStyle={styles.list}
               horizontal
               data={bookedEvents}
               keyExtractor={({ id }) => id.toString()}
@@ -116,6 +119,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 </View>
               } 
             />
+            
         }
 
         <ArkadButton onPress={logout} style={styles.logout}>
@@ -161,8 +165,13 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
     textAlign: 'left',
   },
+  list: {
+    width: '100%',
+    height: 'auto',
+    justifyContent: 'center',
+  },
   eventObject:{
-    width: '70%',
+    width: width * 0.7,
   },
   logout: {
     marginTop: 80,

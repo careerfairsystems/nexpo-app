@@ -47,10 +47,10 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
           data={events}
           keyExtractor={({ id }) => id.toString()}
           renderItem={({ item: event }) => 
-            <EventListItem
-              event={event} 
-              booked={bookedEvents != null && bookedEvents.includes(event)}
-              onPress={() => openEventDetails(event.id) } />
+              <EventListItem
+                event={event} 
+                booked={bookedEvents != null && bookedEvents.includes(event)}
+                onPress={() => openEventDetails(event.id) } />
           } />
       }
     </View>
@@ -58,13 +58,11 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    name: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
+  container: {
+    flex: 1,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 });
