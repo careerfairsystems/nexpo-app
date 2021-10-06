@@ -178,11 +178,8 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 40,
     width: '90%',
-    height: 40,
+    height: '10%',
     padding: 40,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
+    borderRadius: 12,
   },
 });

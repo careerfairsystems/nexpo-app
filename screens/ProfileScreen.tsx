@@ -86,52 +86,56 @@ export default function ProfileScreen({navigation}: profileNavigation) {
   else {
     return (
       <View style={styles.container}>
-        <View style={styles.nameContainer}>
+        <View style={styles.topHeader}>
           <ArkadText 
             text={userInformation.first_name + " " + userInformation.last_name} 
             style={styles.name}
           />
-        </View>
-        <View style={styles.infoItem}>
-          <Ionicons name="mail" size={16} color="black"/>
-          <ArkadText text={userInformation.email} style={styles.itemText}/>
-        </View>
-        <View style={styles.infoItem}>
-          <Ionicons name="call" size={16} color="black"/>
-          <ArkadText text={userInformation.phone_number} style={styles.itemText}/>
-        </View>
 
-        <ArkadText text={"Booked events"} style={styles.header}/>
+          <View style={styles.infoItem}>
+            <Ionicons name="mail" size={16} color="black"/>
+            <ArkadText text={userInformation.email} style={styles.itemText}/>
+          </View>
+          <View style={styles.infoItem}>
+            <Ionicons name="call" size={16} color="black"/>
+            <ArkadText text={userInformation.phone_number} style={styles.itemText}/>
+          </View>
 
-        {bookedEvents == undefined 
-        ? <Text>Loading events...</Text>
-        : bookedEvents.length == 0 
-          ? <View style={styles.eventObject}>
-              <EventListItem 
-                event={getEmptyEvent()} 
-                booked={false}
-                onPress={() => {}} />
-            </View>
-          : <FlatList
-              contentContainerStyle={styles.list}
-              horizontal
-              data={bookedEvents}
-              keyExtractor={({ id }) => id.toString()}
-              renderItem={({ item: event }) => 
-                <View style={styles.eventObject}>
-                  <EventListItem
-                    event={event} 
-                    booked={bookedEvents != null && bookedEvents.includes(event)}
-                    onPress={() => openEventDetails(event.id)} />
-                </View>
-              } 
-            />
-            
-        }
+          <ArkadText text={"Booked events"} style={styles.header}/>
 
+          {bookedEvents == undefined 
+          ? <Text>Loading events...</Text>
+          : bookedEvents.length == 0 
+            ? <View style={styles.eventObject}>
+                <EventListItem 
+                  event={getEmptyEvent()} 
+                  booked={false}
+                  onPress={() => {}} />
+              </View>
+            : <FlatList
+                contentContainerStyle={styles.list}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={bookedEvents}
+                keyExtractor={({ id }) => id.toString()}
+                renderItem={({ item: event }) => 
+                  <View style={styles.eventObject}>
+                    <EventListItem
+                      event={event} 
+                      booked={bookedEvents != null && bookedEvents.includes(event)}
+                      onPress={() => openEventDetails(event.id)} />
+                  </View>
+                } 
+              /> 
+          }
+      </View>
+
+      <View style={styles.footer}>
         <ArkadButton onPress={logout} style={styles.logout}>
           <ArkadText text='Logout' style={{}}/>
         </ArkadButton> 
+      </View>
+        
       </View>
     );
   }
@@ -144,17 +148,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  nameContainer: {
-    flexDirection: 'row',
-    marginTop: 24,
-    justifyContent: 'center'
+  topHeader: {
+    flex: 1,
   },
   name: {
+    paddingTop: '10%',
+    paddingBottom: '3%',
+    justifyContent: 'center',
     fontSize: 24,
     color: Colors.darkBlue,
   },
   infoItem: {
-    marginTop: 16,
+    paddingTop: '4%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -166,7 +171,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   header: {
-    marginTop: 40,
+    paddingTop: '26%',
     marginLeft: 16,
     fontSize: 16,
     color: Colors.darkBlue,
@@ -178,9 +183,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   eventObject:{
+    paddingTop: '5%',
     width: width * 0.7,
+    height: height * 0.22,
+  },
+  footer: {
+    flex: 0,
+    paddingBottom: '6%'
   },
   logout: {
-    marginTop: 80,
+    paddingTop: 20,
+    width: width * 0.8,
   },
 });

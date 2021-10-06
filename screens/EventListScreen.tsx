@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { Dimensions, FlatList, StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { EventsParamlist } from '../types';
@@ -14,6 +14,8 @@ type EventsNavigation = {
     'EventListScreen'
   >
 };
+
+const { width, height } = Dimensions.get('window')
 
 export default function CompaniesScreen({navigation}: EventsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
@@ -44,13 +46,16 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
       {isLoading 
         ? <Text>Loading...</Text>
         : <FlatList
+          showsVerticalScrollIndicator={false}
           data={events}
           keyExtractor={({ id }) => id.toString()}
           renderItem={({ item: event }) => 
+            <View style={styles.eventBox}>
               <EventListItem
                 event={event} 
                 booked={bookedEvents != null && bookedEvents.includes(event)}
                 onPress={() => openEventDetails(event.id) } />
+            </View>
           } />
       }
     </View>
@@ -60,9 +65,17 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center'
   },
   name: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  list: {
+    width: '100%',
+  },
+  eventBox: {
+    width: width * 0.85,
+    height: height * 0.24
   },
 });

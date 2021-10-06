@@ -14,40 +14,47 @@ type ListedEventItemProps = {
 
 export const EventListItem = ({ event, booked, onPress }: ListedEventItemProps) => 
   <Pressable onPress={onPress} style={styles.container}>
-    <ArkadText style={styles.eventName} text={event.name}/>
-    <ArkadText 
-      style={styles.eventTime}
-      text={API.events.formatTime(event.date, event.start, event.end)}
-    />
+    <View style={styles.headerContainer}>
+      <ArkadText style={styles.eventName} text={event.name}/>
+    </View>
 
-    {/* Color of box changes depending on status */}
-    {booked 
-    ? <View 
-        style={[
+    <View style={styles.footerContainer}>
+      <ArkadText 
+        style={styles.eventTime}
+        text={API.events.formatTime(event.date, event.start, event.end)}
+      />
+
+      {/* Color of box changes depending on status */}
+      {booked 
+      ? <View 
+          style={[
+            styles.eventBookedContainer, 
+            {backgroundColor: Colors.lightGreen}
+            ]
+          }>
+          <ArkadText 
+            style={styles.eventBookedText}
+            text="Booked" />
+        </View>
+      : <View style={[
           styles.eventBookedContainer, 
-          {backgroundColor: Colors.lightGreen}
-          ]
-        }>
-        <ArkadText 
-          style={styles.eventBookedText}
-          text="Booked" />
-      </View>
-    : <View style={[
-        styles.eventBookedContainer, 
-        event.capacity == event.tickets 
-          ? {backgroundColor:Colors.darkRed}
-          : {backgroundColor:Colors.darkYellow}
-        ]}
-      >
-        <ArkadText 
-          style={styles.eventBookedText}
-          text={event.tickets + "/" + event.capacity} />
-      </View>
-    }
+          event.capacity == event.tickets 
+            ? {backgroundColor:Colors.darkRed}
+            : {backgroundColor:Colors.darkYellow}
+          ]}
+        >
+          <ArkadText 
+            style={styles.eventBookedText}
+            text={event.tickets + "/" + event.capacity} />
+        </View>
+      }
+    </View>
+    
   </Pressable>
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'flex-start',
     marginTop: 10,
     marginHorizontal: 10,
@@ -55,11 +62,19 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 16,
   },
+  headerContainer: {
+    flex: 1,
+  },
   eventName: {
     height: 50,
     fontSize: 16,
     textAlign: 'left',
     color: Colors.white,
+  },
+  footerContainer: {
+    flex: 0,
+    /* Footer is pushed to bottom since header
+      has flex: 1. */
   },
   eventTime: {
     marginTop: 20,
