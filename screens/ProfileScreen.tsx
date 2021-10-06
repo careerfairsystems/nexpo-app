@@ -74,7 +74,14 @@ export default function ProfileScreen({navigation}: profileNavigation) {
   }
 
   if (loading || userInformation == undefined) {
-    return (<ScreenActivityIndicator />);
+    return (
+      <View style={{flex: 1}}>
+        <ScreenActivityIndicator />
+        <ArkadButton onPress={logout} style={styles.logout}>
+          <ArkadText text='Logout' style={{}}/>
+        </ArkadButton> 
+      </View>
+    );
   }
   else {
     return (
