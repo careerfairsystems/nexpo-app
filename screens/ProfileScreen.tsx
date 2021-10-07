@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, FlatList, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
@@ -13,10 +13,11 @@ import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadButton } from '../components/Buttons';
 import { ArkadText } from '../components/StyledText';
 import { AuthContext } from '../components/AuthContext';
-import { EventListItem } from '../components/eventList/EventListItem';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileParamList } from '../types';
+import { BookedEventList } from '../components/profileScreen/BookedEventList';
+import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 
 const { width, height } = Dimensions.get('window')
 
@@ -25,20 +26,6 @@ type profileNavigation = {
     ProfileParamList,
     'ProfileScreen'
   >
-};
-
-const getEmptyEvent = () => {
-  const emptyEvent: ListedEvent = {
-    start: "",
-    name: "No booked events",
-    location: "",
-    id: 0,
-    end: "",
-    date: "",
-    capacity: 0,
-    tickets: 0,
-  }
-  return emptyEvent;
 };
 
 export default function ProfileScreen({navigation}: profileNavigation) {
@@ -69,10 +56,6 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     setLoading(false);
   }, []);
 
-  const openEventDetails = (id: number) => {
-    navigation.navigate('EventDetailsScreen', { id });
-  }
-
   if (loading || userInformation == undefined) {
     return (
       <View style={{flex: 1}}>
@@ -89,53 +72,34 @@ export default function ProfileScreen({navigation}: profileNavigation) {
         <View style={styles.topHeader}>
           <ArkadText 
             text={userInformation.first_name + " " + userInformation.last_name} 
-            style={styles.name}
-          />
+            style={styles.name} />
 
           <View style={styles.infoItem}>
             <Ionicons name="mail" size={16} color="black"/>
-            <ArkadText text={userInformation.email} style={styles.itemText}/>
+            <ArkadText text={userInformation.email} style={styles.itemText} />
           </View>
           <View style={styles.infoItem}>
             <Ionicons name="call" size={16} color="black"/>
-            <ArkadText text={userInformation.phone_number} style={styles.itemText}/>
+            <ArkadText text={userInformation.phone_number} style={styles.itemText} />
           </View>
 
-          <ArkadText text={"Booked events"} style={styles.header}/>
+          <ArkadText text={"Booked events"} style={styles.header} />
 
           {bookedEvents == undefined 
           ? <Text>Loading events...</Text>
           : bookedEvents.length == 0 
-            ? <View style={styles.eventObject}>
-                <EventListItem 
-                  event={getEmptyEvent()} 
-                  booked={false}
-                  onPress={() => {}} />
-              </View>
-            : <FlatList
-                contentContainerStyle={styles.list}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={bookedEvents}
-                keyExtractor={({ id }) => id.toString()}
-                renderItem={({ item: event }) => 
-                  <View style={styles.eventObject}>
-                    <EventListItem
-                      event={event} 
-                      booked={bookedEvents != null && bookedEvents.includes(event)}
-                      onPress={() => openEventDetails(event.id)} />
-                  </View>
-                } 
-              /> 
+            ? <EmptyEventItem />
+            : <BookedEventList
+                bookedEvents={bookedEvents}
+                navigation={navigation} />
           }
-      </View>
+        </View>
 
-      <View style={styles.footer}>
-        <ArkadButton onPress={logout} style={styles.logout}>
-          <ArkadText text='Logout' style={{}}/>
-        </ArkadButton> 
-      </View>
-        
+        <View style={styles.footer}>
+          <ArkadButton onPress={logout} style={styles.logout}>
+            <ArkadText text='Logout' style={{}} />
+          </ArkadButton> 
+        </View>
       </View>
     );
   }
@@ -172,20 +136,10 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingTop: '26%',
-    marginLeft: 16,
+    paddingLeft: 8,
     fontSize: 16,
     color: Colors.darkBlue,
     textAlign: 'left',
-  },
-  list: {
-    width: '100%',
-    height: 'auto',
-    justifyContent: 'center',
-  },
-  eventObject:{
-    paddingTop: '5%',
-    width: width * 0.7,
-    height: height * 0.22,
   },
   footer: {
     flex: 0,
