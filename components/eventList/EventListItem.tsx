@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
 import { ListedEvent } from '../../api/events';
 import { ArkadText } from '../StyledText';
@@ -9,11 +9,12 @@ import { API } from '../../api';
 type ListedEventItemProps = {
   event: ListedEvent;
   booked: boolean;
+  itemStyle: ViewStyle;
   onPress: () => void;
 }
 
-export const EventListItem = ({ event, booked, onPress }: ListedEventItemProps) => 
-  <Pressable onPress={onPress} style={styles.container}>
+export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEventItemProps) => 
+  <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
     <View style={styles.headerContainer}>
       <ArkadText style={styles.eventName} text={event.name}/>
     </View>
@@ -30,8 +31,8 @@ export const EventListItem = ({ event, booked, onPress }: ListedEventItemProps) 
           style={[
             styles.eventBookedContainer, 
             {backgroundColor: Colors.lightGreen}
-            ]
-          }>
+          ]
+        }>
           <ArkadText 
             style={styles.eventBookedText}
             text="Booked" />
@@ -66,24 +67,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   eventName: {
-    height: 50,
+    flex: 1,
     fontSize: 16,
     textAlign: 'left',
     color: Colors.white,
   },
   footerContainer: {
-    flex: 0,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent:'flex-end',
     /* Footer is pushed to bottom since header
       has flex: 1. */
+    paddingBottom: 4,
   },
   eventTime: {
-    marginTop: 20,
+    paddingBottom: 6,
     fontSize: 14,
     textAlign: 'right',
     color: Colors.white,
   },
   eventBookedContainer: {
-    marginTop: 4,
+    paddingTop: 4,
     alignSelf: 'flex-end',
     borderRadius: 10,
   },

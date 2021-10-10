@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
@@ -18,8 +18,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileParamList } from '../types';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
-
-const { width, height } = Dimensions.get('window')
 
 type profileNavigation = {
   navigation: StackNavigationProp<
@@ -49,6 +47,10 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     authContext.signOut();
   };
 
+  const openEventDetails = (id: number) => {
+    navigation.navigate('EventDetailsScreen', { id });
+  }
+
   useEffect(() => {
     setLoading(true);
     getUserInformation();
@@ -58,10 +60,10 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 
   if (loading || userInformation == undefined) {
     return (
-      <View style={{flex: 1}}>
+      <View style={styles.container}>
         <ScreenActivityIndicator />
-        <ArkadButton onPress={logout} style={styles.logout}>
-          <ArkadText text='Logout' style={{}}/>
+        <ArkadButton onPress={logout} style={styles.logoutContainer}>
+          <ArkadText text='Logout' style={styles.logoutText} />
         </ArkadButton> 
       </View>
     );
@@ -69,12 +71,13 @@ export default function ProfileScreen({navigation}: profileNavigation) {
   else {
     return (
       <View style={styles.container}>
-        <View style={styles.topHeader}>
+        <View style={styles.top}>
           <ArkadText 
             text={userInformation.first_name + " " + userInformation.last_name} 
             style={styles.name} />
 
-          <View style={styles.infoItem}>
+          <View style={styles.infoList}>
+            <View style={styles.infoItem}>
             <Ionicons name="mail" size={16} color="black"/>
             <ArkadText text={userInformation.email} style={styles.itemText} />
           </View>
@@ -82,24 +85,27 @@ export default function ProfileScreen({navigation}: profileNavigation) {
             <Ionicons name="call" size={16} color="black"/>
             <ArkadText text={userInformation.phone_number} style={styles.itemText} />
           </View>
-
+          </View>
+          
           <ArkadText text={"Booked events"} style={styles.header} />
 
-          {bookedEvents == undefined 
-          ? <Text>Loading events...</Text>
-          : bookedEvents.length == 0 
-            ? <EmptyEventItem />
-            : <BookedEventList
-                bookedEvents={bookedEvents}
-                navigation={navigation} />
-          }
+          <View style={styles.eventList}> 
+            {bookedEvents == undefined 
+            ? <Text style={{flex: 1}}>Loading events...</Text>
+            : bookedEvents.length == 0 
+              ? <EmptyEventItem />
+              : <BookedEventList
+                  bookedEvents={bookedEvents}
+                  onPress={openEventDetails}
+                />
+            }
+          </View>
         </View>
+          
 
-        <View style={styles.footer}>
-          <ArkadButton onPress={logout} style={styles.logout}>
-            <ArkadText text='Logout' style={{}} />
-          </ArkadButton> 
-        </View>
+        <ArkadButton onPress={logout} style={styles.logoutContainer}>
+          <ArkadText text='Logout' style={styles.logoutText} />
+        </ArkadButton> 
       </View>
     );
   }
@@ -108,24 +114,26 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+  },
+  top: {
+    height: '80%',
+    width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  topHeader: {
-    flex: 1,
-  },
   name: {
-    paddingTop: '10%',
-    paddingBottom: '3%',
-    justifyContent: 'center',
+    paddingTop: '4%',
     fontSize: 24,
     color: Colors.darkBlue,
   },
+  infoList: {
+    paddingTop: '2%',
+  },
   infoItem: {
-    paddingTop: '4%',
+    paddingTop: '2%',
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   itemText: {
@@ -135,18 +143,26 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   header: {
-    paddingTop: '26%',
-    paddingLeft: 8,
+    paddingTop: '10%',
+    paddingLeft: '4%',
+    width: '100%',
+    textAlign: 'left',
     fontSize: 16,
     color: Colors.darkBlue,
-    textAlign: 'left',
+    paddingBottom: '4%'
   },
-  footer: {
-    flex: 0,
-    paddingBottom: '6%'
+  eventList: {
+    paddingTop: '4%',
+    alignItems: 'center',
+    height: '35%',
+    width: '100%',
   },
-  logout: {
-    paddingTop: 20,
-    width: width * 0.8,
+  logoutContainer: {
+    height: '8%',
+    width: '85%',
+    marginBottom: '6%'
+  },
+  logoutText: {
+    padding: '4%'
   },
 });
