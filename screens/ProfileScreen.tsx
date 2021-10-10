@@ -6,8 +6,8 @@ import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
 import { API } from '../api'
-import { UserInformation } from '../api/users';
-import { ListedEvent } from '../api/events';
+import { User } from '../api/users';
+import { Event } from '../api/events';
 
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadButton } from '../components/Buttons';
@@ -26,28 +26,31 @@ type profileNavigation = {
 };
 
 const getEmptyEvent = () => {
-  const emptyEvent: ListedEvent = {
-    start: "",
-    name: "No booked events",
-    location: "",
-    id: 0,
-    end: "",
-    date: "",
+  const emptyEvent: Event = {
+    id: -1,
+    name: 'No booked events',
+    description: '',
+    location: '',
+    date: '',
+    start: '',
+    end: '',
+    host: '',
+    language: '',
     capacity: 0,
-    tickets: 0,
+    ticketCount: 0,
   }
   return emptyEvent;
 };
 
 export default function ProfileScreen({navigation}: profileNavigation) {
-  const [userInformation, setUserInformation] = useState<UserInformation | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [bookedEvents, setBookedEvents] = useState<ListedEvent[] | null>(null);
+  const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const authContext = useContext(AuthContext);
 
-  const getUserInformation = async () => {
-    const userInformation = await API.users.getMe();
-    setUserInformation(userInformation);
+  const getUser = async () => {
+    const user = await API.users.getMe();
+    setUser(user);
   }
 
   const getRegisteredEvents = async () => {
@@ -62,7 +65,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 
   useEffect(() => {
     setLoading(true);
-    getUserInformation();
+    getUser();
     getRegisteredEvents();
     setLoading(false);
   }, []);
@@ -71,7 +74,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     navigation.navigate('EventDetailsScreen', { id });
   }
 
-  if (loading || userInformation == undefined) {
+  if (loading || user == undefined) {
     return (<ScreenActivityIndicator />);
   }
   else {
@@ -79,18 +82,20 @@ export default function ProfileScreen({navigation}: profileNavigation) {
       <View style={styles.container}>
         <View style={styles.nameContainer}>
           <ArkadText 
-            text={userInformation.first_name + " " + userInformation.last_name} 
+            text={user.firstName + " " + user.lastName} 
             style={styles.name}
           />
         </View>
         <View style={styles.infoItem}>
           <Ionicons name="mail" size={16} color="black"/>
-          <ArkadText text={userInformation.email} style={styles.itemText}/>
+          <ArkadText text={user.email} style={styles.itemText}/>
         </View>
+        { user.phoneNr &&
         <View style={styles.infoItem}>
           <Ionicons name="call" size={16} color="black"/>
-          <ArkadText text={userInformation.phone_number} style={styles.itemText}/>
+          <ArkadText text={user.phoneNr} style={styles.itemText}/>
         </View>
+        }
 
         <ArkadText text={"Booked events"} style={styles.header}/>
 

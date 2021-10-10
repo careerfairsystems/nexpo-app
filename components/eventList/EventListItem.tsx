@@ -2,13 +2,13 @@ import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Text } from '../Themed';
 
-import { bookedEvent, ListedEvent } from '../../api/events';
+import { bookedEvent, Event } from '../../api/events';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
 import { API } from '../../api';
 
 type ListedEventItemProps = {
-  event: ListedEvent;
+  event: Event;
   booked: boolean;
   onPress: () => void;
 }
@@ -35,14 +35,14 @@ export const EventListItem = ({ event, booked, onPress }: ListedEventItemProps) 
       </View>
     : <View style={[
         styles.eventBookedContainer, 
-        event.capacity == event.tickets 
+        event.capacity == event.ticketCount 
           ? {backgroundColor:Colors.darkRed}
           : {backgroundColor:Colors.darkYellow}
         ]}
       >
         <ArkadText 
           style={styles.eventBookedText}
-          text={event.tickets + "/" + event.capacity} />
+          text={event.ticketCount + "/" + event.capacity} />
       </View>
     }
   </Pressable>
