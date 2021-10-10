@@ -149,12 +149,11 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 16,
     color: Colors.darkBlue,
-    paddingBottom: '4%'
   },
   eventList: {
-    paddingTop: '4%',
+    paddingTop: '2%',
     alignItems: 'center',
-    height: '35%',
+    height: '40%',
     width: '100%',
   },
   logoutContainer: {
