@@ -18,6 +18,7 @@ export default {
     '**/*'
   ],
   ios: {
+    bundleIdentifier: "se.arkadtlth.nexpo",
     supportsTablet: true
   },
   android: {
