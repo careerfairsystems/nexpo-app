@@ -28,16 +28,14 @@ export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEvent
       {/* Color of box changes depending on status */}
       {booked 
       ? <View 
-          style={[
-            styles.eventBookedContainer, 
-            {backgroundColor: Colors.lightGreen}
-          ]
-        }>
+        style={[
+          styles.eventBookedContainer, 
+          {backgroundColor: Colors.lightGreen} ]}>
         <ArkadText 
           style={styles.eventBookedText}
           text="Booked" />
       </View>
-    : <View style={[
+      : <View style={[
         styles.eventBookedContainer, 
         event.capacity == event.ticketCount 
           ? {backgroundColor:Colors.darkRed}
@@ -48,7 +46,8 @@ export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEvent
           style={styles.eventBookedText}
           text={event.ticketCount + "/" + event.capacity} />
       </View>
-    }
+      }
+    </View>
   </Pressable>
 
 const styles = StyleSheet.create({

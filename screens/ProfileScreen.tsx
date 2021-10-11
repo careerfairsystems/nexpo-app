@@ -86,23 +86,22 @@ export default function ProfileScreen({navigation}: profileNavigation) {
           </View>
           <View style={styles.infoItem}>
             <Ionicons name="call" size={16} color="black"/>
-            <ArkadText text={user.phoneNr ? user.phoneNr : '-'} style={styles.itemText}/>
+            <ArkadText text={user.phoneNr ? user.phoneNr : '\u2013'} style={styles.itemText}/>
           </View>
         </View>
           
-          <ArkadText text={"Booked events"} style={styles.header} />
+        <ArkadText text={"Booked events"} style={styles.header} />
 
-          <View style={styles.eventList}> 
-            {bookedEvents == undefined 
-            ? <Text style={{flex: 1}}>Loading events...</Text>
-            : bookedEvents.length == 0 
-              ? <EmptyEventItem />
-              : <BookedEventList
-                  bookedEvents={bookedEvents}
-                  onPress={openEventDetails}
-                />
-            }
-          </View>
+        <View style={styles.eventList}> 
+          {bookedEvents == undefined 
+          ? <Text style={{flex: 1}}>Loading events...</Text>
+          : bookedEvents.length == 0 
+            ? <EmptyEventItem />
+            : <BookedEventList
+                bookedEvents={bookedEvents}
+                onPress={openEventDetails}
+              />
+          }
         </View>
 
         <ArkadButton onPress={logout} style={styles.logoutContainer}>
