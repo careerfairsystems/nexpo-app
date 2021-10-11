@@ -1,6 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
-import { Text } from '../Themed';
+import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
 import { bookedEvent, Event } from '../../api/events';
 import { ArkadText } from '../StyledText';
@@ -10,23 +9,28 @@ import { API } from '../../api';
 type ListedEventItemProps = {
   event: Event;
   booked: boolean;
+  itemStyle: ViewStyle;
   onPress: () => void;
 }
 
-export const EventListItem = ({ event, booked, onPress }: ListedEventItemProps) => 
-  <Pressable onPress={onPress} style={styles.container}>
-    <ArkadText style={styles.eventName} text={event.name}/>
-    <ArkadText 
-      style={styles.eventTime}
-      text={API.events.formatTime(event.date, event.start, event.end)}
-    />
+export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEventItemProps) => 
+  <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
+    <View style={styles.headerContainer}>
+      <ArkadText style={styles.eventName} text={event.name}/>
+    </View>
 
-    {/* Color of box changes depending on status */}
-    {booked 
-    ? <View 
-        style={[
-          styles.eventBookedContainer, 
-          {backgroundColor: Colors.lightGreen}
+    <View style={styles.footerContainer}>
+      <ArkadText 
+        style={styles.eventTime}
+        text={API.events.formatTime(event.date, event.start, event.end)}
+      />
+
+      {/* Color of box changes depending on status */}
+      {booked 
+      ? <View 
+          style={[
+            styles.eventBookedContainer, 
+            {backgroundColor: Colors.lightGreen}
           ]
         }>
         <ArkadText 
@@ -51,27 +55,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    height: '100%',
     marginTop: 10,
     marginHorizontal: 10,
     backgroundColor: Colors.darkBlue,
     padding: 16,
     borderRadius: 16,
   },
+  headerContainer: {
+    flex: 1,
+  },
   eventName: {
-    height: 50,
+    flex: 1,
     fontSize: 16,
     textAlign: 'left',
     color: Colors.white,
   },
+  footerContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent:'flex-end',
+    /* Footer is pushed to bottom since header
+      has flex: 1. */
+    paddingBottom: 4,
+  },
   eventTime: {
-    marginTop: 20,
+    paddingBottom: 6,
     fontSize: 14,
     textAlign: 'right',
     color: Colors.white,
   },
   eventBookedContainer: {
-    marginTop: 4,
+    paddingTop: 4,
     alignSelf: 'flex-end',
     borderRadius: 10,
   },

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
@@ -13,10 +13,11 @@ import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadButton } from '../components/Buttons';
 import { ArkadText } from '../components/StyledText';
 import { AuthContext } from '../components/AuthContext';
-import { EventListItem } from '../components/eventList/EventListItem';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileParamList } from '../types';
+import { BookedEventList } from '../components/profileScreen/BookedEventList';
+import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 
 type profileNavigation = {
   navigation: StackNavigationProp<
@@ -25,22 +26,6 @@ type profileNavigation = {
   >
 };
 
-const getEmptyEvent = () => {
-  const emptyEvent: Event = {
-    id: -1,
-    name: 'No booked events',
-    description: '',
-    location: '',
-    date: '',
-    start: '',
-    end: '',
-    host: '',
-    language: '',
-    capacity: 0,
-    ticketCount: 0,
-  }
-  return emptyEvent;
-};
 
 export default function ProfileScreen({navigation}: profileNavigation) {
   const [user, setUser] = useState<User | null>(null);
@@ -63,6 +48,10 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     authContext.signOut();
   };
 
+  const openEventDetails = (id: number) => {
+    navigation.navigate('EventDetailsScreen', { id });
+  }
+
   useEffect(() => {
     setLoading(true);
     getUser();
@@ -70,61 +59,54 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     setLoading(false);
   }, []);
 
-  const openEventDetails = (id: number) => {
-    navigation.navigate('EventDetailsScreen', { id });
-  }
 
-  if (loading || user == undefined) {
-    return (<ScreenActivityIndicator />);
+  if (loading || !user) {
+    return (
+      <View style={styles.container}>
+        <ScreenActivityIndicator />
+        <ArkadButton onPress={logout} style={styles.logoutContainer}>
+          <ArkadText text='Logout' style={styles.logoutText} />
+        </ArkadButton> 
+      </View>
+    );
   }
   else {
     return (
       <View style={styles.container}>
-        <View style={styles.nameContainer}>
+        <View style={styles.top}>
           <ArkadText 
             text={user.firstName + " " + user.lastName} 
             style={styles.name}
           />
         </View>
-        <View style={styles.infoItem}>
-          <Ionicons name="mail" size={16} color="black"/>
-          <ArkadText text={user.email} style={styles.itemText}/>
+        <View style={styles.infoList}>
+          <View style={styles.infoItem}>
+            <Ionicons name="mail" size={16} color="black"/>
+            <ArkadText text={user.email} style={styles.itemText} />
+          </View>
+          <View style={styles.infoItem}>
+            <Ionicons name="call" size={16} color="black"/>
+            <ArkadText text={user.phoneNr ? user.phoneNr : '-'} style={styles.itemText}/>
+          </View>
         </View>
-        { user.phoneNr &&
-        <View style={styles.infoItem}>
-          <Ionicons name="call" size={16} color="black"/>
-          <ArkadText text={user.phoneNr} style={styles.itemText}/>
+          
+          <ArkadText text={"Booked events"} style={styles.header} />
+
+          <View style={styles.eventList}> 
+            {bookedEvents == undefined 
+            ? <Text style={{flex: 1}}>Loading events...</Text>
+            : bookedEvents.length == 0 
+              ? <EmptyEventItem />
+              : <BookedEventList
+                  bookedEvents={bookedEvents}
+                  onPress={openEventDetails}
+                />
+            }
+          </View>
         </View>
-        }
 
-        <ArkadText text={"Booked events"} style={styles.header}/>
-
-        {bookedEvents == undefined 
-        ? <Text>Loading events...</Text>
-        : bookedEvents.length == 0 
-          ? <View style={styles.eventObject}>
-              <EventListItem 
-                event={getEmptyEvent()} 
-                booked={false}
-                onPress={() => {}} />
-            </View>
-          : <FlatList
-              horizontal
-              data={bookedEvents}
-              keyExtractor={({ id }) => id.toString()}
-              renderItem={({ item: event }) => 
-                <View style={styles.eventObject}>
-                  <EventListItem
-                    event={event} 
-                    booked={bookedEvents != null && bookedEvents.includes(event)}
-                    onPress={() => openEventDetails(event.id)} />
-                </View>
-              } 
-            />
-        }
-
-        <ArkadButton onPress={logout} style={styles.logout}>
-          <ArkadText text='Logout' style={{}}/>
+        <ArkadButton onPress={logout} style={styles.logoutContainer}>
+          <ArkadText text='Logout' style={styles.logoutText} />
         </ArkadButton> 
       </View>
     );
@@ -135,21 +117,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  nameContainer: {
-    flexDirection: 'row',
-    marginTop: 40,
-    justifyContent: 'center'
+  top: {
+    height: '80%',
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   name: {
+    paddingTop: '4%',
     fontSize: 24,
     color: Colors.darkBlue,
   },
+  infoList: {
+    paddingTop: '2%',
+  },
   infoItem: {
-    marginTop: 16,
+    paddingTop: '2%',
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   itemText: {
@@ -159,18 +145,25 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   header: {
-    marginTop: 80,
-    marginLeft: 16,
+    paddingTop: '10%',
+    paddingLeft: '4%',
+    width: '100%',
+    textAlign: 'left',
     fontSize: 16,
     color: Colors.darkBlue,
-    textAlign: 'left',
   },
-  eventObject:{
-    // TODO: Add responsive height instead
-    width: '60%',
-    height: 160,
+  eventList: {
+    paddingTop: '2%',
+    alignItems: 'center',
+    height: '40%',
+    width: '100%',
   },
-  logout: {
-    marginTop: 80,
+  logoutContainer: {
+    height: '8%',
+    width: '85%',
+    marginBottom: '6%'
+  },
+  logoutText: {
+    padding: '4%'
   },
 });

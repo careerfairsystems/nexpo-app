@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, StyleSheet, TouchableHighlight } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Text, View } from '../components/Themed';
@@ -7,7 +7,7 @@ import { CompaniesParamList } from '../types';
 
 import { API } from '../api';
 import { Company } from '../api/companies';
-import { CompanyListItem } from '../components/CompanyListItem';
+import { CompanyListItem } from '../components/companies/CompanyListItem';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -27,6 +27,10 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
     setLoading(false);
   }
 
+  const openCompanyDetails = (id: number) => {
+    navigation.navigate('CompanyDetailsScreen', { id });
+  }
+
   useEffect(() => {
     getCompanies();
   }, []);
@@ -35,14 +39,16 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
     <View style={styles.container}>
       {isLoading 
         ? <Text>Loading...</Text>
-        : <FlatList
-            data={companies}
-            keyExtractor={({ id }) => id.toString()}
-            renderItem={({ item: company }) => 
-              <CompanyListItem
-                company={company} 
-                onPress={() => navigation.navigate('CompanyDetailsScreen', { id: company.id })} />
+        : <View style={styles.listContainer}>
+            <FlatList
+              data={companies}
+              keyExtractor={({ id }) => id.toString()}
+              renderItem={({ item: company }) => 
+                <CompanyListItem
+                  company={company} 
+                  onPress={() => openCompanyDetails(company.id)} />
               } />
+          </View>
       }
     </View>
   );
@@ -51,5 +57,11 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  listContainer: {
+    flex: 1,
+    width: '90%',
   },
 });
