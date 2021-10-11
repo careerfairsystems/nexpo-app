@@ -2,11 +2,11 @@ import * as AuthState from './AuthState';
 import { post } from '../http/HttpHelpers';
 
 export const login = async (email: string, password: string): Promise<boolean> => {
-  const result = await post('/login', { email, password });
+  const result = await post('/session/signin', { email, password });
 
   if (!result.ok) return false;
 
-  const jwt = (await result.json()).data.jwt;
+  const jwt = (await result.json()).token;
   await AuthState.setJwt(jwt);
 
   return true;

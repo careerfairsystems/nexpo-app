@@ -6,7 +6,7 @@ import { format } from "date-fns";
 
 import Colors from '../constants/Colors'
 
-import { SingleEvent } from '../api/events';
+import { Event } from '../api/events';
 import { TicketRequest } from '../api/tickets';
 
 import { API } from '../api';
@@ -26,13 +26,13 @@ type EventDetailsScreenParams = {
 export default function EventDetailsScreen({ route }: EventDetailsScreenParams) {
   const { id } = route.params;
   
-  const [event, setEvent] = useState<SingleEvent | null>(null);
+  const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getEvent = async () => {
     setLoading(true);
 
-    const event = await API.events.getSingleEvent(id);
+    const event = await API.events.getEvent(id);
     setEvent(event);
 
     setLoading(false);
@@ -47,8 +47,8 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     }
     
     const ticketRequest: TicketRequest = {
-      event_id: event.id,
-      photo: true
+      eventId: event.id,
+      photoOk: true
     }
     
     const ticket = await API.tickets.createTicket(ticketRequest);
@@ -67,7 +67,7 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     getEvent();
   }, [])
 
-  if (loading || event == undefined) {
+  if (loading || !event) {
     return (<ScreenActivityIndicator />);
   }
   
@@ -91,23 +91,23 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
           </View>
           <View style={styles.leftItem}>
             <MaterialCommunityIcons name="microphone" size={16} color="black"/>
-            <ArkadText text={event.event_info.host} style={styles.headerText}/>
+            <ArkadText text={event.host} style={styles.headerText}/>
           </View>
         </View>
         <View style={[styles.subHeaderContainer, {flex: 0.3}]}>
           <View style={styles.rightItem}>
             <Ionicons name="people" size={16} color="black"/>
-            <ArkadText text={event.tickets + "/" + event.event_info.capacity} style={styles.headerText}/>
+            <ArkadText text={event.ticketCount + "/" + event.capacity} style={styles.headerText}/>
           </View>
           <View style={styles.rightItem}>
             <MaterialIcons name="language" size={16} color="black"/>
-            <ArkadText text={event.event_info.language} style={styles.headerText}/>
+            <ArkadText text={event.language} style={styles.headerText}/>
           </View>
         </View>
       </View>
 
       <View style={styles.descriptionContainer}>
-        <ArkadText text={event.event_info.description} style={styles.description}/>
+        <ArkadText text={event.description} style={styles.description}/>
       </View>
       
       <ArkadButton onPress={createTicket} style={styles.button}>

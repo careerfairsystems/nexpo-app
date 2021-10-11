@@ -1,13 +1,13 @@
 import React from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
-import { ListedEvent } from '../../api/events';
+import { bookedEvent, Event } from '../../api/events';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
 import { API } from '../../api';
 
 type ListedEventItemProps = {
-  event: ListedEvent;
+  event: Event;
   booked: boolean;
   itemStyle: ViewStyle;
   onPress: () => void;
@@ -28,29 +28,26 @@ export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEvent
       {/* Color of box changes depending on status */}
       {booked 
       ? <View 
-          style={[
-            styles.eventBookedContainer, 
-            {backgroundColor: Colors.lightGreen}
-          ]
-        }>
-          <ArkadText 
-            style={styles.eventBookedText}
-            text="Booked" />
-        </View>
-      : <View style={[
+        style={[
           styles.eventBookedContainer, 
-          event.capacity == event.tickets 
-            ? {backgroundColor:Colors.darkRed}
-            : {backgroundColor:Colors.darkYellow}
-          ]}
-        >
-          <ArkadText 
-            style={styles.eventBookedText}
-            text={event.tickets + "/" + event.capacity} />
-        </View>
+          {backgroundColor: Colors.lightGreen} ]}>
+        <ArkadText 
+          style={styles.eventBookedText}
+          text="Booked" />
+      </View>
+      : <View style={[
+        styles.eventBookedContainer, 
+        event.capacity == event.ticketCount 
+          ? {backgroundColor:Colors.darkRed}
+          : {backgroundColor:Colors.darkYellow}
+        ]}
+      >
+        <ArkadText 
+          style={styles.eventBookedText}
+          text={event.ticketCount + "/" + event.capacity} />
+      </View>
       }
     </View>
-    
   </Pressable>
 
 const styles = StyleSheet.create({

@@ -1,17 +1,17 @@
 import { getAuth } from '../http/HttpHelpers';
 
-export type UserInformation = {
+export type User = {
   id: number,
   email: string,
-  first_name: string,
-  last_name: string,
-  phone_number: string,
-  food_preferences: string,
+  firstName: string,
+  lastName: string,
+  phoneNr?: string,
+  foodPreferences?: string,
 }
 
-export const getMe = async (): Promise<UserInformation> => {
-  const response = await getAuth('/me');
+export const getMe = async (): Promise<User> => {
+  const response = await getAuth('/users/me');
   const json = await response.json();
-  const userInformation = <UserInformation>json.data;
-  return userInformation;
+  const user = json as User;
+  return user;
 }

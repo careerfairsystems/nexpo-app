@@ -1,33 +1,19 @@
-import { deleteAuth, getAuth, putAuth } from '../http/HttpHelpers';
+import { get } from '../http/HttpHelpers';
 import { getAllTickets, Ticket } from '../tickets';
 import { format } from "date-fns";
 
-export interface ListedEvent {
-  start: string,
-  name: string,
-  location: string,
+export interface Event {
   id: number,
-  end: string,
+  name: string,
+  description: string,
   date: string,
+  start: string,
+  end: string,
+  location: string,
+  host: string,
+  language: string,
   capacity: number,
-  tickets: number,
-}
-
-export interface SingleEvent {
-  tickets: number,
-  start: string,
-  name: string,
-  location: string,
-  id: number,
-  event_info: {
-    capacity: number,
-    language: string,
-    id: number,
-    host: string,
-    description: string
-  },
-  end: string,
-  date: string,
+  ticketCount: number,
 }
 
 export function formatTime(date: string, start: string, end: string): string {
@@ -47,35 +33,35 @@ export function formatTime(date: string, start: string, end: string): string {
   }
 }
 
-export const bookedEvent = async (event: ListedEvent): Promise<boolean> => {
+export const bookedEvent = async (event: Event): Promise<boolean> => {
   const regEvents = await getAllTickets();
   for(var i = 0; i < regEvents.length; i++) {
-    if(event.id == regEvents[i].event_id) {
+    if(event.id == regEvents[i].eventId) {
       return true;
     }
   }
   return false
 }
 
-export const getAllEvents = async (): Promise<ListedEvent[]> => {
-  const response = await getAuth('/events');
+export const getAllEvents = async (): Promise<Event[]> => {
+  const response = await get('/events');
   const json = await response.json();
-  const events = <ListedEvent[]>json.data;
+  const events = json as Event[];
   return events;
 }
 
-export const getSingleEvent = async (id: number): Promise<SingleEvent> => {
-  const response = await getAuth('/event/' + id);
+export const getEvent = async (id: number): Promise<Event> => {
+  const response = await get(`/events/${id}`);
   const json = await response.json();
-  const event = <SingleEvent>json.data;
+  const event = json as Event;
   return event;
 }
 
 // Note: getBookedEvents is slow and should not be used repeatedly
-export const getBookedEvents = async (): Promise<ListedEvent[]> => {
-  const events: ListedEvent[] = await getAllEvents();
+export const getBookedEvents = async (): Promise<Event[]> => {
+  const events: Event[] = await getAllEvents();
   const tickets: Ticket[] = await getAllTickets();
-  const regEvents: ListedEvent[] = [];
+  const regEvents: Event[] = [];
 
   if(tickets == undefined || events == undefined) {
     return regEvents;
@@ -83,7 +69,7 @@ export const getBookedEvents = async (): Promise<ListedEvent[]> => {
 
   for(let i1 = 0; i1 < tickets.length; i1++) {
     for(let i2 = 0; i2 < events.length; i2++) {
-      if(tickets[i1].event_id == events[i2].id) {
+      if(tickets[i1].eventId == events[i2].id) {
         regEvents.push(events[i2]);
       }
     }

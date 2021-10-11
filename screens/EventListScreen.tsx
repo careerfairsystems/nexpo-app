@@ -5,7 +5,7 @@ import { Text, View } from '../components/Themed';
 import { EventsParamlist } from '../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
-import { ListedEvent } from '../api/events';
+import { Event } from '../api/events';
 import { EventList } from '../components/eventList/EventList';
 
 type EventsNavigation = {
@@ -17,8 +17,8 @@ type EventsNavigation = {
 
 export default function CompaniesScreen({navigation}: EventsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
-  const [events, setEvents] = React.useState<ListedEvent[] | null>(null);
-  const [bookedEvents, setBookedEvents] = React.useState<ListedEvent[] | null>(null);
+  const [events, setEvents] = React.useState<Event[] | null>(null);
+  const [bookedEvents, setBookedEvents] = React.useState<Event[] | null>(null);
   
   const getEvents = async () => {
     setLoading(true);
