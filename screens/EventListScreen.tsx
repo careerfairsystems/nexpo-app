@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { EventsParamlist } from '../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
 import { ListedEvent } from '../api/events';
-import { EventListItem } from '../components/eventList/EventListItem';
+import { EventList } from '../components/eventList/EventList';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<
@@ -43,28 +43,18 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
     <View style={styles.container}>
       {isLoading 
         ? <Text>Loading...</Text>
-        : <FlatList
-          data={events}
-          keyExtractor={({ id }) => id.toString()}
-          renderItem={({ item: event }) => 
-            <EventListItem
-              event={event} 
-              booked={bookedEvents != null && bookedEvents.includes(event)}
-              onPress={() => openEventDetails(event.id) } />
-          } />
+        : <EventList 
+            events={events}
+            bookedEvents={bookedEvents}
+            onPress={openEventDetails} />
       }
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    name: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
+  container: {
+    flex: 1,
+    alignItems: 'center'
+  },
 });
