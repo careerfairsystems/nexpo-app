@@ -31,6 +31,6 @@ export default {
     favicon: './assets/images/favicon.png'
   },
   extra: {
-    backendUrl: process.env.NEXPO_BACKEND_URL || 'https://nexpo.marfor.io/api',
+    backendUrl: process.env.NEXPO_BACKEND_URL || 'https://nexpo-nova.marfor.io/api',
   }
 }
