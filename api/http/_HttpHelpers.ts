@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { isAuthenticated, getJwt } from '../auth/AuthState';
+import { isAuthenticated, getJwt } from '../auth/_AuthState';
 
 const baseUrl: string = Constants.manifest.extra?.backendUrl;
 

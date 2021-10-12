@@ -11,7 +11,6 @@ import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
-import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 import { AuthContext } from '../components/AuthContext';
@@ -56,6 +55,10 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
+export type RootStackParamList = {
+  Root: undefined;
+  NotFound: undefined;
+}
 const RootStack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
@@ -67,19 +70,19 @@ function RootNavigator() {
 }
 
 export type AuthStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
-  FinalizeSignUp: {
+  LoginScreen: undefined;
+  SignUpScreen: undefined;
+  FinalizeSignUpScreen: {
     token: string;
   }
 }
 const AuthStack = createStackNavigator<AuthStackParamList>();
 function AuthNavigator() {
   return (
-    <AuthStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login">
-      <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="SignUp" component={SignUpScreen} />
-      <AuthStack.Screen name="FinalizeSignUp" component={FinalizeSignUpScreen} />
+    <AuthStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginScreen">
+      <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
+      <AuthStack.Screen name="SignUpScreen" component={SignUpScreen} />
+      <AuthStack.Screen name="FinalizeSignUpScreen" component={FinalizeSignUpScreen} />
     </AuthStack.Navigator>
   );
 }

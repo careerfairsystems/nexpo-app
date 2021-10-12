@@ -3,15 +3,15 @@ import { FlatList, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Text, View } from '../components/Themed';
-import { CompaniesParamList } from '../types';
 
 import { API } from '../api';
 import { Company } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
+import { CompanyStackParamList } from '../navigation/BottomTabNavigator';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
-    CompaniesParamList,
+    CompanyStackParamList,
     'CompaniesScreen'
   >
 };

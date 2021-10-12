@@ -1,4 +1,4 @@
-import { getAuth } from '../http/HttpHelpers';
+import { getAuth } from '../http/_HttpHelpers';
 
 export type User = {
   id: number,
