@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from '../types';
@@ -16,6 +17,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import { AuthContext } from '../components/AuthContext';
 
 import { API } from '../api';
+import FinalizeSignUpScreen from '../screens/FinalizeSignUpScreen';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -64,14 +66,20 @@ function RootNavigator() {
   );
 }
 
-type AuthStackParamList = {
+export type AuthStackParamList = {
   Login: undefined;
+  SignUp: undefined;
+  FinalizeSignUp: {
+    token: string;
+  }
 }
 const AuthStack = createStackNavigator<AuthStackParamList>();
 function AuthNavigator() {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login">
       <AuthStack.Screen name="Login" component={LoginScreen} />
+      <AuthStack.Screen name="SignUp" component={SignUpScreen} />
+      <AuthStack.Screen name="FinalizeSignUp" component={FinalizeSignUpScreen} />
     </AuthStack.Navigator>
   );
 }

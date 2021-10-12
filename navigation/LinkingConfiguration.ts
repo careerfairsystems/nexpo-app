@@ -11,6 +11,8 @@ export default {
   config: {
     screens: {
       Login: 'login',
+      SignUp: 'signup',
+      FinalizeSignUp: 'finalize_signup/:token',
       Root: {
         screens: {
           Companies: {
