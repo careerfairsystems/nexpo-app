@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { Image, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
 
-import { View } from '../components/Themed';
+import { Text, View } from '../components/Themed';
 import { TextInput } from '../components/TextInput';
 
 import { ArkadButton } from '../components/Buttons';
@@ -9,8 +9,17 @@ import { ArkadText } from '../components/StyledText';
 
 import { API } from '../api'
 import { AuthContext } from '../components/AuthContext';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthStackParamList } from '../navigation';
 
-export default function LoginScreen() {
+type LoginScreenParams = {
+  navigation: StackNavigationProp<
+    AuthStackParamList,
+    'LoginScreen'
+  >;
+};
+
+export default function LoginScreen({ navigation }: LoginScreenParams) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -56,8 +65,10 @@ export default function LoginScreen() {
               <ArkadText text='Login' style={{}}/>
           </ArkadButton>
         }
+        <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('SignUpScreen') }>
+          <Text style={styles.signUpText}>Don't have an account? Sign up here!</Text>
+        </Pressable>
       </View>
-      
     </View>
   );
 }
@@ -75,9 +86,18 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '80%',
+    maxWidth: 400,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
   },
+  signUpContainer: {
+    marginTop: 20,
+    padding: 16,
+  },
+  signUpText: {
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+  }
 });
