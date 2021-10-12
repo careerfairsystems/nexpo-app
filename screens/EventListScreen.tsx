@@ -2,17 +2,17 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
-import { EventsParamlist } from '../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
 import { Event } from '../api/events';
 import { EventList } from '../components/eventList/EventList';
+import { EventStackParamlist } from '../navigation/BottomTabNavigator';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<
-  EventsParamlist,
+    EventStackParamlist,
     'EventListScreen'
-  >
+  >;
 };
 
 export default function CompaniesScreen({navigation}: EventsNavigation) {

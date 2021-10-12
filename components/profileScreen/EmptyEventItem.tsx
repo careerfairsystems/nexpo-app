@@ -1,21 +1,24 @@
 import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 
-import { ListedEvent } from '../../api/events';
+import { Event } from '../../api/events';
 import { EventListItem } from '../eventList/EventListItem';
 
 const { width, height } = Dimensions.get('window')
 
 const getEmptyEvent = () => {
-  const emptyEvent: ListedEvent = {
+  const emptyEvent: Event = {
     start: "",
     name: "No booked events",
+    description: "",
+    host: "",
+    language: "",
     location: "",
     id: 0,
     end: "",
     date: "",
     capacity: 0,
-    tickets: 0,
+    ticketCount: 0,
   }
   return emptyEvent;
 };
@@ -25,6 +28,7 @@ export const EmptyEventItem = () =>
     <EventListItem 
       event={getEmptyEvent()} 
       booked={false}
+      itemStyle={{}}
       onPress={() => {}} />
   </View>
 

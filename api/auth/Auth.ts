@@ -1,5 +1,5 @@
-import * as AuthState from './AuthState';
-import { post } from '../http/HttpHelpers';
+import * as AuthState from './_AuthState';
+import { post } from '../http/_HttpHelpers';
 
 export const login = async (email: string, password: string): Promise<boolean> => {
   const result = await post('/session/signin', { email, password });

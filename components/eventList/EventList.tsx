@@ -1,12 +1,12 @@
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { ListedEvent } from '../../api/events';
+import { Event } from '../../api/events';
 import { EventListItem } from './EventListItem';
 
 type EventListProps = {
-  events: ListedEvent[] | null;
-  bookedEvents: ListedEvent[] | null;
+  events: Event[] | null;
+  bookedEvents: Event[] | null;
   onPress: (id: number) => void;
 }
 
@@ -21,6 +21,7 @@ export const EventList = ({ events, bookedEvents, onPress }: EventListProps) =>
       <View style={styles.eventBox}>
         <EventListItem
           event={event} 
+          itemStyle={{}}
           booked={bookedEvents != null && bookedEvents.includes(event)}
           onPress={() => onPress(event.id)} />
       </View>

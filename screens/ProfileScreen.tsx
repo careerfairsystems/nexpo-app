@@ -15,13 +15,13 @@ import { ArkadText } from '../components/StyledText';
 import { AuthContext } from '../components/AuthContext';
 
 import { StackNavigationProp } from '@react-navigation/stack';
-import { ProfileParamList } from '../types';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
+import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
 
 type profileNavigation = {
   navigation: StackNavigationProp<
-    ProfileParamList,
+    ProfileStackParamList,
     'ProfileScreen'
   >
 };

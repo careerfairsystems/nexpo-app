@@ -20,7 +20,7 @@ type FinalizeSignUpScreenParams = {
   };
   navigation: StackNavigationProp<
     AuthStackParamList,
-    'FinalizeSignUp'
+    'FinalizeSignUpScreen'
   >;
 }
 
@@ -49,7 +49,7 @@ export default function FinalizeSignUpScreen({ route, navigation }: FinalizeSign
 
     if (success) {
       alert('Account is now created fully. You will now be redirected to the signin page');
-      navigation.navigate('Login');
+      navigation.navigate('LoginScreen');
     } else {
       alert('Something went wrong, maybe the token expired');
     }

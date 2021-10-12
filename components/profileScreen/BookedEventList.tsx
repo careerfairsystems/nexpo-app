@@ -1,11 +1,11 @@
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { ListedEvent } from '../../api/events';
+import { Event } from '../../api/events';
 import { EventListItem } from '../eventList/EventListItem';
 
 type BookedEventListProps = {
-  bookedEvents: ListedEvent[] | null,
+  bookedEvents: Event[] | null,
   onPress: (eventId: number) => void,
 }
 

@@ -12,18 +12,17 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
-import {
-    BottomTabParamList,
-    CompaniesParamList,
-    EventsParamlist,
-    ProfileParamList,
-} from '../types';
 import EventListScreen from "../screens/EventListScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
+export type BottomTabParamList = {
+  Companies: undefined;
+  Profile: undefined;
+  Events: undefined
+};
+const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
@@ -66,48 +65,61 @@ function TabBarMaterialIcon(props: { name: React.ComponentProps<typeof MaterialI
   return <MaterialIcons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const CompaniesStack = createStackNavigator<CompaniesParamList>();
-
+export type CompanyStackParamList = {
+  CompaniesScreen: undefined;
+  CompanyDetailsScreen: {
+    id: number;
+  };
+};
+const CompanyStack = createStackNavigator<CompanyStackParamList>();
 function CompaniesNavigator() {
   return (
-    <CompaniesStack.Navigator>
-      <CompaniesStack.Screen
+    <CompanyStack.Navigator>
+      <CompanyStack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}
         options={{ headerTitle: 'Companies' }}
       />
-      <CompaniesStack.Screen
+      <CompanyStack.Screen
         name="CompanyDetailsScreen"
         component={CompanyDetailsScreen}
         options={{ headerTitle: 'Company Details' }}
       />
-    </CompaniesStack.Navigator>
+    </CompanyStack.Navigator>
   );
 }
 
-const EventsStack = createStackNavigator<EventsParamlist>();
-
+export type EventStackParamlist = {
+  EventListScreen: undefined;
+  EventDetailsScreen: {
+    id: number;
+  }
+}
+const EventStack = createStackNavigator<EventStackParamlist>();
 function EventsNavigator() {
   return (
-    <EventsStack.Navigator>
-      <EventsStack.Screen
+    <EventStack.Navigator>
+      <EventStack.Screen
         name="EventListScreen"
         component={EventListScreen}
         options={{ headerTitle: 'Events' }}
       />
-      <EventsStack.Screen
+      <EventStack.Screen
         name="EventDetailsScreen"
         component={EventDetailsScreen}
         options={{ headerTitle: 'Event Details' }}
       />
-    </EventsStack.Navigator>
+    </EventStack.Navigator>
   );
 }
 
-const ProfileStack = createStackNavigator<ProfileParamList>();
-
+export type ProfileStackParamList = {
+  ProfileScreen: undefined;
+  EventDetailsScreen: {
+    id: number;
+  }
+}
+const ProfileStack = createStackNavigator<ProfileStackParamList>();
 function ProfileNavigator() {
   return (
     <ProfileStack.Navigator>

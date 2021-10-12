@@ -1,4 +1,4 @@
-import { get } from '../http/HttpHelpers';
+import { get } from '../http/_HttpHelpers';
 import { getAllTickets, Ticket } from '../tickets';
 import { format } from "date-fns";
 

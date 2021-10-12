@@ -1,4 +1,4 @@
-import { deleteAuth, getAuth, putAuth } from '../http/HttpHelpers';
+import { deleteAuth, getAuth, putAuth } from '../http/_HttpHelpers';
 
 export interface TicketRequest {
   eventId: number;

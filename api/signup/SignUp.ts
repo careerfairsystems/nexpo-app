@@ -1,4 +1,4 @@
-import { post } from '../http/HttpHelpers';
+import { post } from '../http/_HttpHelpers';
 
 export type SignUpUserDto = {
   email: string;
