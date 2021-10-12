@@ -18,11 +18,11 @@ export default {
     '**/*'
   ],
   ios: {
-    bundleIdentifier: "se.arkadtlth.nexpo",
+    bundleIdentifier: "se.tlth.arkad.nexpo",
     supportsTablet: true
   },
   android: {
-    package: 'se.arkadtlth.nexpo',
+    package: 'se.tlth.arkad.nexpo',
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#022B5C',
