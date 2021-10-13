@@ -7,7 +7,7 @@ import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadText } from '../components/StyledText';
 
 import { Ticket } from '../api/tickets';
-import { TicketList } from '../components/ticketList/ticketList';
+import { TicketList } from '../components/ticketList/TicketList';
 import { API } from '../api';
 import { TicketItem } from '../components/ticketList/TicketItem';
 
