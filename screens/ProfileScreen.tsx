@@ -18,6 +18,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
+import { Ticket } from '../api/tickets';
 
 type profileNavigation = {
   navigation: StackNavigationProp<
@@ -50,6 +51,12 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 
   const openEventDetails = (id: number) => {
     navigation.navigate('EventDetailsScreen', { id });
+  }
+
+  const openTicketDetails = async () => {
+    const tickets = await API.tickets.getAllTickets();
+    navigation.navigate('TicketsScreen', { tickets });
+    // TODO: Eventually load tickets locally
   }
 
   useEffect(() => {
@@ -107,6 +114,10 @@ export default function ProfileScreen({navigation}: profileNavigation) {
         <ArkadButton onPress={logout} style={styles.logoutContainer}>
           <ArkadText text='Logout' style={styles.logoutText} />
         </ArkadButton> 
+
+        <ArkadButton onPress={openTicketDetails} style={styles.logoutContainer}>
+          <ArkadText text='My tickets' style={styles.logoutText} />
+        </ArkadButton> 
       </View>
     );
   }
@@ -124,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   name: {
-    paddingTop: '4%',
+    paddingTop: '2%',
     fontSize: 24,
     color: Colors.darkBlue,
   },
@@ -143,7 +154,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   header: {
-    paddingTop: '10%',
+    paddingTop: '5%',
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
@@ -153,13 +164,14 @@ const styles = StyleSheet.create({
   eventList: {
     paddingTop: '2%',
     alignItems: 'center',
-    height: '40%',
+    height: '30%',
     width: '100%',
   },
   logoutContainer: {
+    marginTop: '4%',
     height: '8%',
     width: '85%',
-    marginBottom: '6%'
+    marginBottom: '4%'
   },
   logoutText: {
     padding: '4%'
