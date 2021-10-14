@@ -80,44 +80,48 @@ export default function ProfileScreen({navigation}: profileNavigation) {
   else {
     return (
       <View style={styles.container}>
-        <View style={styles.top}>
+        <View style={styles.container}>
+          <View style={styles.top}>
           <ArkadText 
             text={user.firstName + " " + user.lastName} 
             style={styles.name}
           />
-        </View>
-        <View style={styles.infoList}>
-          <View style={styles.infoItem}>
-            <Ionicons name="mail" size={16} color="black"/>
-            <ArkadText text={user.email} style={styles.itemText} />
           </View>
-          <View style={styles.infoItem}>
-            <Ionicons name="call" size={16} color="black"/>
-            <ArkadText text={user.phoneNr ? user.phoneNr : '\u2013'} style={styles.itemText}/>
+          <View style={styles.infoList}>
+            <View style={styles.infoItem}>
+              <Ionicons name="mail" size={16} color="black"/>
+              <ArkadText text={user.email} style={styles.itemText} />
+            </View>
+            <View style={styles.infoItem}>
+              <Ionicons name="call" size={16} color="black"/>
+              <ArkadText text={user.phoneNr ? user.phoneNr : '\u2013'} style={styles.itemText}/>
+            </View>
+          </View>
+            
+          <ArkadText text={"Booked events"} style={styles.header} />
+
+          <View style={styles.eventList}> 
+            {bookedEvents == undefined 
+            ? <Text style={{flex: 1}}>Loading events...</Text>
+            : bookedEvents.length == 0 
+              ? <EmptyEventItem />
+              : <BookedEventList
+                  bookedEvents={bookedEvents}
+                  onPress={openEventDetails}
+                />
+            }
           </View>
         </View>
-          
-        <ArkadText text={"Booked events"} style={styles.header} />
 
-        <View style={styles.eventList}> 
-          {bookedEvents == undefined 
-          ? <Text style={{flex: 1}}>Loading events...</Text>
-          : bookedEvents.length == 0 
-            ? <EmptyEventItem />
-            : <BookedEventList
-                bookedEvents={bookedEvents}
-                onPress={openEventDetails}
-              />
-          }
+        <View style={styles.bottom}>
+          <ArkadButton onPress={logout} style={styles.logoutContainer}>
+            <ArkadText text='Logout' style={styles.logoutText} />
+          </ArkadButton> 
+
+          <ArkadButton onPress={openTicketDetails} style={styles.logoutContainer}>
+            <ArkadText text='My tickets' style={styles.logoutText} />
+          </ArkadButton> 
         </View>
-
-        <ArkadButton onPress={logout} style={styles.logoutContainer}>
-          <ArkadText text='Logout' style={styles.logoutText} />
-        </ArkadButton> 
-
-        <ArkadButton onPress={openTicketDetails} style={styles.logoutContainer}>
-          <ArkadText text='My tickets' style={styles.logoutText} />
-        </ArkadButton> 
       </View>
     );
   }
@@ -135,26 +139,25 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   name: {
-    paddingTop: '2%',
+    paddingTop: '1rem',
     fontSize: 24,
     color: Colors.darkBlue,
   },
   infoList: {
-    paddingTop: '2%',
+    paddingTop: '0.2rem',
   },
   infoItem: {
-    paddingTop: '2%',
+    paddingTop: '0.1rem',
     flexDirection: 'row',
     justifyContent: 'center',
   },
   itemText: {
     color: Colors.darkBlue,
     fontSize: 12,
-    paddingHorizontal: 8,
     textAlign: 'center'
   },
   header: {
-    paddingTop: '5%',
+    paddingTop: '0.5rem',
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
@@ -162,16 +165,20 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   eventList: {
-    paddingTop: '2%',
+    paddingTop: '0.2rem',
     alignItems: 'center',
-    height: '30%',
+    height: '10rem',
     width: '100%',
   },
-  logoutContainer: {
-    marginTop: '4%',
+  bottom: {
     height: '8%',
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 49,
+  },
+  logoutContainer: {
+    height: '2rem',
     width: '85%',
-    marginBottom: '4%'
   },
   logoutText: {
     padding: '4%'
