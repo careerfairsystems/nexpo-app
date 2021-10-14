@@ -19,10 +19,12 @@ export default {
   ],
   ios: {
     bundleIdentifier: "se.arkadtlth.nexpo",
-    supportsTablet: true
+    buildNumber: '1.0.0',
+    supportsTablet: true,
   },
   android: {
     package: 'se.arkadtlth.nexpo',
+    versionCode: 1,
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#022B5C',
