@@ -29,6 +29,7 @@ export default {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#022B5C',
     },
+    permissions: [ 'CAMERA' ],
   },
   web: {
     favicon: './assets/images/favicon.png'
