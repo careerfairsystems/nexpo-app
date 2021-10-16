@@ -2,11 +2,11 @@ import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Colors from '../../constants/Colors'
 
-import { Company } from '../../api/companies';
+import { PublicCompanyDto } from '../../api/companies';
 import { ArkadText } from '../StyledText';
 
 type CompanyListItemProps = {
-  company: Company;
+  company: PublicCompanyDto;
   onPress: () => void;
 }
 
