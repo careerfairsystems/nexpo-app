@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { View } from '../components/Themed';
 import Colors from '../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
 
 import { API } from '../api'
-import { User } from '../api/users';
+import { Role, User } from '../api/users';
 import { Event } from '../api/events';
 
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
@@ -15,10 +14,10 @@ import { ArkadText } from '../components/StyledText';
 import { AuthContext } from '../components/AuthContext';
 
 import { StackNavigationProp } from '@react-navigation/stack';
-import { BookedEventList } from '../components/profileScreen/BookedEventList';
-import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
-import { Ticket } from '../api/tickets';
+import { StudentProfile } from '../components/profileScreen/StudentProfile';
+import { HostProfile } from '../components/profileScreen/HostProfile';
+import { Company } from '../api/companies';
 
 type profileNavigation = {
   navigation: StackNavigationProp<
@@ -30,6 +29,7 @@ type profileNavigation = {
 
 export default function ProfileScreen({navigation}: profileNavigation) {
   const [user, setUser] = useState<User | null>(null);
+  const [company, setCompany] = useState<Company | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const authContext = useContext(AuthContext);
@@ -37,6 +37,10 @@ export default function ProfileScreen({navigation}: profileNavigation) {
   const getUser = async () => {
     const user = await API.users.getMe();
     setUser(user);
+    if(user?.role != null && user.role == Role.CompanyRepresentative) {
+      const myCompany = await API.companies.getMe();
+      setCompany(myCompany);
+    }
   }
 
   const getRegisteredEvents = async () => {
@@ -77,53 +81,44 @@ export default function ProfileScreen({navigation}: profileNavigation) {
       </View>
     );
   }
-  else {
-    return (
-      <View style={styles.container}>
+  switch (user.role) {
+    case Role.CompanyRepresentative: 
+      return (
+        user != null && company != null
+        ? <View style={styles.container}>
+            <HostProfile company={company} />
+
+            <View style={styles.bottom}>
+              <ArkadButton onPress={logout} style={styles.logoutContainer}>
+                <ArkadText text='Logout' style={styles.logoutText} />
+              </ArkadButton> 
+            </View>
+        </View>
+        : <View style={styles.container}>
+            <ArkadText 
+              text={'Error loading company host profile'}
+              style={{color: Colors.darkBlue}} />
+          </View>
+      )
+    default: /* (Students and admins) */ 
+      return (
         <View style={styles.container}>
-          <View style={styles.top}>
-          <ArkadText 
-            text={user.firstName + " " + user.lastName} 
-            style={styles.name}
-          />
-          </View>
-          <View style={styles.infoList}>
-            <View style={styles.infoItem}>
-              <Ionicons name="mail" size={16} color="black"/>
-              <ArkadText text={user.email} style={styles.itemText} />
-            </View>
-            <View style={styles.infoItem}>
-              <Ionicons name="call" size={16} color="black"/>
-              <ArkadText text={user.phoneNr ? user.phoneNr : '\u2013'} style={styles.itemText}/>
-            </View>
-          </View>
-            
-          <ArkadText text={"Booked events"} style={styles.header} />
+          <StudentProfile 
+            user={user}
+            bookedEvents={bookedEvents}
+            openEventDetails={openEventDetails} />
 
-          <View style={styles.eventList}> 
-            {bookedEvents == undefined 
-            ? <Text style={{flex: 1}}>Loading events...</Text>
-            : bookedEvents.length == 0 
-              ? <EmptyEventItem />
-              : <BookedEventList
-                  bookedEvents={bookedEvents}
-                  onPress={openEventDetails}
-                />
-            }
+          <View style={styles.bottom}>
+            <ArkadButton onPress={logout} style={styles.logoutContainer}>
+              <ArkadText text='Logout' style={styles.logoutText} />
+            </ArkadButton> 
+
+            <ArkadButton onPress={openTicketDetails} style={styles.logoutContainer}>
+              <ArkadText text='My tickets' style={styles.logoutText} />
+            </ArkadButton> 
           </View>
         </View>
-
-        <View style={styles.bottom}>
-          <ArkadButton onPress={logout} style={styles.logoutContainer}>
-            <ArkadText text='Logout' style={styles.logoutText} />
-          </ArkadButton> 
-
-          <ArkadButton onPress={openTicketDetails} style={styles.logoutContainer}>
-            <ArkadText text='My tickets' style={styles.logoutText} />
-          </ArkadButton> 
-        </View>
-      </View>
-    );
+      )
   }
 }
 
