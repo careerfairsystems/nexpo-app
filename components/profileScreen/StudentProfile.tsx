@@ -12,12 +12,11 @@ import Colors from "../../constants/Colors";
 type StudentProfileParams = {
   user: User;
   bookedEvents: Event[] | null;
-  openEventDetails: (id: number) => void
+  openEventDetails: (eventId: number) => void,
 }
 
-export function StudentProfile 
-    ({ user, bookedEvents, openEventDetails }: StudentProfileParams) {
-  return (
+export const StudentProfile = 
+    ({ user, bookedEvents, openEventDetails }: StudentProfileParams) =>
     <View style={styles.container}>
       <View style={styles.top}>
         <ArkadText 
@@ -48,8 +47,6 @@ export function StudentProfile
           }
       </View>
     </View>
-  );
-}
   
 
 const styles = StyleSheet.create({
