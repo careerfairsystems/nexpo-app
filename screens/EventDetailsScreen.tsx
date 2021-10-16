@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import Colors from '../constants/Colors'
 
 import { Event } from '../api/events';
-import { TicketRequest } from '../api/tickets';
+import { CreateTicketDto } from '../api/tickets';
 
 import { API } from '../api';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
@@ -46,7 +46,7 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
       return;
     }
     
-    const ticketRequest: TicketRequest = {
+    const ticketRequest: CreateTicketDto = {
       eventId: event.id,
       photoOk: true
     }

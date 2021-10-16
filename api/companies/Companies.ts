@@ -1,4 +1,4 @@
-import { apiUrl, getAuth } from '../http/_HttpHelpers';
+import { getAuth } from '../http/_HttpHelpers';
 
 export interface Company {
   id: number,
