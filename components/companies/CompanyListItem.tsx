@@ -14,7 +14,7 @@ export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) =>
   <Pressable onPress={onPress} style={styles.container}>
     <View style={styles.row}>
       <Image 
-        source={{uri:company.logoUrl}}
+        source={ company.logoUrl ? {uri: company.logoUrl} : require('../../assets/images/adaptive-icon.png')}
         style={styles.logo} 
         defaultSource={require('../../assets/images/adaptive-icon.png')} />
         <ArkadText text={company.name} style={styles.companyName}/>
