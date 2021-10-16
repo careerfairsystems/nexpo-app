@@ -1,5 +1,6 @@
 import * as AuthState from './_AuthState';
 import { post } from '../http/_HttpHelpers';
+import { getMe, Role } from '../users';
 
 export const login = async (email: string, password: string): Promise<boolean> => {
   const result = await post('/session/signin', { email, password });
@@ -9,6 +10,9 @@ export const login = async (email: string, password: string): Promise<boolean> =
   const jwt = (await result.json()).token;
   await AuthState.setJwt(jwt);
 
+  const user = await getMe();
+  await AuthState.setUserRole(user.role);
+
   return true;
 }
   
@@ -17,9 +21,14 @@ export const isAuthenticated = (): Promise<boolean> => {
 }
 
 export const getJwt = (): Promise<string> => {
-    return AuthState.getJwt();
-  }
+  return AuthState.getJwt();
+}
 
-export const logout = (): Promise<void> => {
-  return AuthState.deleteJwt();
+export const getUserRole = (): Promise<Role> => {
+  return AuthState.getUserRole();
+}
+
+export const logout = async (): Promise<void> => {
+  await AuthState.deleteJwt();
+  await AuthState.deleteUserRole();
 }
