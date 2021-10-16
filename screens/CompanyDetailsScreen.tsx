@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 
-import { Company } from '../api/companies'
+import { PublicCompanyDto } from '../api/companies'
 import { API } from '../api';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 
@@ -18,7 +18,7 @@ type CompanyDetailsScreenParams = {
 export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenParams) {
   const { id } = route.params;
 
-  const [company, setCompany] = useState<Company | null>(null);
+  const [company, setCompany] = useState<PublicCompanyDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getCompany = async () => {
