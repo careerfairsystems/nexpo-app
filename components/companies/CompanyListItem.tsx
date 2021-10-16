@@ -2,11 +2,11 @@ import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Colors from '../../constants/Colors'
 
-import { Company } from '../../api/companies';
+import { PublicCompanyDto } from '../../api/companies';
 import { ArkadText } from '../StyledText';
 
 type CompanyListItemProps = {
-  company: Company;
+  company: PublicCompanyDto;
   onPress: () => void;
 }
 
@@ -14,7 +14,7 @@ export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) =>
   <Pressable onPress={onPress} style={styles.container}>
     <View style={styles.row}>
       <Image 
-        source={{uri:company.logoUrl}}
+        source={ company.logoUrl ? {uri: company.logoUrl} : require('../../assets/images/adaptive-icon.png')}
         style={styles.logo} 
         defaultSource={require('../../assets/images/adaptive-icon.png')} />
         <ArkadText text={company.name} style={styles.companyName}/>
