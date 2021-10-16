@@ -87,7 +87,7 @@ export const putAuth = async (endpoint: string, body: any) => {
 export const postAuth = async (endpoint: string, body: any) => {
   if (!await isAuthenticated()) {
     // TODO Raise some kind of exception
-    console.error('putAuth: Not authenticated');
+    console.error('postAuth: Not authenticated');
   }
   const jwt = await getJwt();
   return fetch(apiUrl(endpoint), {
@@ -98,6 +98,31 @@ export const postAuth = async (endpoint: string, body: any) => {
       'Authorization': `Bearer ${jwt}`,
     },
     body: JSON.stringify(body)
+  });
+}
+
+/**
+ * 
+ * @param endpoint 
+ * @returns 
+ */
+export const postAuthFile = async (endpoint: string, fileUri: string) => {
+  if (!await isAuthenticated()) {
+    // TODO Raise some kind of exception
+    console.error('postAuthFile: Not authenticated');
+  }
+  const jwt = await getJwt();
+
+  const data = new FormData();
+  data.append('file', fileUri);
+
+  return fetch(apiUrl(endpoint), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${jwt}`,
+    },
+    body: data,
   });
 }
 
