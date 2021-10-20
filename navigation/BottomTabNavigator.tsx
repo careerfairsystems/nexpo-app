@@ -10,11 +10,14 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
+
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
 import EventListScreen from "../screens/EventListScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
+import TicketsScreen from '../screens/TicketsScreen';
+import { Ticket } from '../api/tickets';
 
 
 export type BottomTabParamList = {
@@ -117,6 +120,9 @@ export type ProfileStackParamList = {
   ProfileScreen: undefined;
   EventDetailsScreen: {
     id: number;
+  },
+  TicketsScreen: {
+    tickets: Ticket[];
   }
 }
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
@@ -127,6 +133,11 @@ function ProfileNavigator() {
         name="ProfileScreen"
         component={ProfileScreen}
         options={{ headerTitle: 'Profile' }}
+      />
+      <ProfileStack.Screen 
+        name="TicketsScreen"
+        component={TicketsScreen}
+        options={{ headerTitle: 'Tickets' }}
       />
     </ProfileStack.Navigator>
   );
