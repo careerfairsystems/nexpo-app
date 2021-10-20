@@ -7,31 +7,82 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
+import LoginScreen from '../screens/LoginScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
-import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
+import { AuthContext } from '../components/AuthContext';
+
+import { API } from '../api';
+import FinalizeSignUpScreen from '../screens/FinalizeSignUpScreen';
+
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+  const [signedIn, setSignedIn] = React.useState<boolean>(false);
+
+  const authContext = {
+    signIn: () => {
+      setSignedIn(true);
+    },
+    signOut: () => {
+      setSignedIn(false);
+    }
+  };
+
+  // Set initial state if already signed in
+  React.useEffect(() => {
+    const bootstrap = async () => {
+      const authenticated = await API.auth.isAuthenticated();
+      setSignedIn(authenticated);
+    }
+
+    bootstrap();
+  }, []);
+
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
-    </NavigationContainer>
+    <AuthContext.Provider value={authContext}>
+      <NavigationContainer
+        linking={LinkingConfiguration}
+        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          { signedIn
+            ? <RootNavigator />
+            : <AuthNavigator />
+          }
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
 
-// A root stack navigator is often used for displaying modals on top of all other content
-// Read more here: https://reactnavigation.org/docs/modal
-const Stack = createStackNavigator<RootStackParamList>();
-
+export type RootStackParamList = {
+  Root: undefined;
+  NotFound: undefined;
+}
+const RootStack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-    </Stack.Navigator>
+    <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Root" >
+      <RootStack.Screen name="Root" component={BottomTabNavigator} />
+      <RootStack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    </RootStack.Navigator>
+  );
+}
+
+export type AuthStackParamList = {
+  LoginScreen: undefined;
+  SignUpScreen: undefined;
+  FinalizeSignUpScreen: {
+    token: string;
+  }
+}
+const AuthStack = createStackNavigator<AuthStackParamList>();
+function AuthNavigator() {
+  return (
+    <AuthStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginScreen">
+      <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
+      <AuthStack.Screen name="SignUpScreen" component={SignUpScreen} />
+      <AuthStack.Screen name="FinalizeSignUpScreen" component={FinalizeSignUpScreen} />
+    </AuthStack.Navigator>
   );
 }

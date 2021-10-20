@@ -10,16 +10,27 @@ export default {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
+      LoginScreen: 'login',
+      SignUpScreen: 'signup',
+      FinalizeSignUpScreen: 'finalize_signup/:token',
       Root: {
         screens: {
-          TabOne: {
+          Companies: {
             screens: {
-              TabOneScreen: 'one',
+              CompaniesScreen: 'companies',
+              CompanyDetailsScreen: 'companies/:id',
             },
           },
-          TabTwo: {
+          Events: {
             screens: {
-              TabTwoScreen: 'two',
+              EventListScreen: 'events',
+              EventDetailsScreen: 'events/:id',
+            },
+          },
+          Profile: {
+            screens: {
+              ProfileScreen: 'profile',
+              TicketsScreen: 'event/tickets/',
             },
           },
         },
