@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Text, View } from '../components/Themed';
 
 import { API } from '../api';
-import { Company } from '../api/companies';
+import { PublicCompanyDto } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
 import { CompanyStackParamList } from '../navigation/BottomTabNavigator';
 
@@ -18,7 +18,7 @@ type companiesNavigation = {
 
 export default function CompaniesScreen({navigation}: companiesNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [companies, setCompanies] = useState<Company[] | null>(null);
+  const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
 
   const getCompanies = async () => {
     setLoading(true);

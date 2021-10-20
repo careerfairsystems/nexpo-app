@@ -43,6 +43,9 @@ export const bookedEvent = async (event: Event): Promise<boolean> => {
   return false
 }
 
+/**
+ * Get all events
+ */
 export const getAllEvents = async (): Promise<Event[]> => {
   const response = await get('/events');
   const json = await response.json();
@@ -50,8 +53,11 @@ export const getAllEvents = async (): Promise<Event[]> => {
   return events;
 }
 
-export const getEvent = async (id: number): Promise<Event> => {
-  const response = await get(`/events/${id}`);
+/**
+ * Get a single event
+ */
+export const getEvent = async (eventId: number): Promise<Event> => {
+  const response = await get(`/events/${eventId}`);
   const json = await response.json();
   const event = json as Event;
   return event;

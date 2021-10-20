@@ -1,4 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
+import { Role } from '../users';
 
 /**
  * A storage adapter that implements the same methods as SecureStore. This is
@@ -20,6 +21,7 @@ class LocalStorageAdapter {
 }
 
 const SECURE_STORE_AUTH_JWT = 'SECURE_STORE_AUTH_JWT';
+const SECURE_STORE_USER_ROLE = 'SECURE_STORE_USER_ROLE';
 
 const getStore = async () => {
   if (await SecureStore.isAvailableAsync()) {
@@ -28,6 +30,27 @@ const getStore = async () => {
   else {
     return LocalStorageAdapter;
   }
+}
+
+export const setUserRole = async (role: Role): Promise<void> => {
+  const store = await getStore();
+  return await store.setItemAsync(SECURE_STORE_USER_ROLE, Role[role]);
+}
+
+export const getUserRole = async (): Promise<Role> => {
+  const store = await getStore();
+  const roleName = await store.getItemAsync(SECURE_STORE_USER_ROLE) || '';
+  switch (roleName) {
+    case 'Administrator': return Role.Administrator;
+    case 'Student': return Role.Student;
+    case 'CompanyRepresentative': return Role.CompanyRepresentative;
+    default: throw new Error(`Role of name "${roleName}" could not be parsed`);
+  }
+}
+
+export const deleteUserRole = async (): Promise<void> => {
+  const store = await getStore();
+  return await store.deleteItemAsync(SECURE_STORE_USER_ROLE);
 }
 
 export const isAuthenticated = async (): Promise<boolean> => {
