@@ -18,15 +18,18 @@ export default {
     '**/*'
   ],
   ios: {
-    bundleIdentifier: "se.tlth.arkad.nexpo",
-    supportsTablet: true
+    bundleIdentifier: "se.arkadtlth.nexpo",
+    buildNumber: '1.0.0',
+    supportsTablet: true,
   },
   android: {
-    package: 'se.tlth.arkad.nexpo',
+    package: 'se.arkadtlth.nexpo',
+    versionCode: 1,
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#022B5C',
     },
+    permissions: [ 'CAMERA' ],
   },
   web: {
     favicon: './assets/images/favicon.png'
