@@ -18,11 +18,9 @@ type StudentProfileParams = {
 export const StudentProfile = 
     ({ user, bookedEvents, openEventDetails }: StudentProfileParams) =>
     <View style={styles.container}>
-      <View style={styles.top}>
         <ArkadText 
           text={user.firstName + " " + user.lastName} 
           style={styles.name} />
-      </View>
         <View style={styles.infoList}>
           <View style={styles.infoItem}>
             <Ionicons name="mail" size={16} color="black"/>
@@ -38,7 +36,7 @@ export const StudentProfile =
 
         <View style={styles.eventList}> 
           {bookedEvents == undefined 
-            ? <Text style={{flex: 1}}>Loading events...</Text>
+            ? <Text>Loading events...</Text>
             : bookedEvents.length == 0 
               ? <EmptyEventItem />
               : <BookedEventList
@@ -54,14 +52,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  top: {
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
   name: {
-    paddingTop: '2%',
+    paddingTop: '8%',
     fontSize: 24,
     color: Colors.darkBlue,
   },
@@ -80,7 +72,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   header: {
-    paddingTop: '5%',
+    paddingTop: '20%',
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
@@ -90,7 +82,6 @@ const styles = StyleSheet.create({
   eventList: {
     paddingTop: '2%',
     alignItems: 'center',
-    height: '30%',
     width: '100%',
   },
 });

@@ -12,13 +12,11 @@ type HostProfileParams = {
 
 export const HostProfile = ({ company }: HostProfileParams) =>
     <View style={styles.container}>
-      <View style={styles.top}>
         <Image 
           source={ company.logoUrl ? {uri: company.logoUrl} : require('../../assets/images/adaptive-icon.png')}
           style={styles.logo} 
           defaultSource={require('../../assets/images/adaptive-icon.png')} />
         <ArkadText text={company.name} style={styles.companyName}/>
-      </View>
 
       <View style={styles.infoList}>
         <View style={styles.infoItem}>
@@ -29,14 +27,14 @@ export const HostProfile = ({ company }: HostProfileParams) =>
         </View>
       </View>
 
-      <ArkadText text={"Company details"} style={styles.header} />
+      <ArkadText text={"About us"} style={styles.header} />
       <View style={styles.descriptionContainer}>
         <ArkadText
           text={company.description != null ? company.description : "Company description"}
           style={styles.description} />
       </View>
       
-      <ArkadText text={"Host details"} style={styles.header} />
+      <ArkadText text={"About me"} style={styles.header} />
 
       <ArkadText 
         text={company.hostName != null ? company.hostName : "Host name"} 
@@ -61,15 +59,7 @@ export const HostProfile = ({ company }: HostProfileParams) =>
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: '100%',
     alignItems: 'center',
-  },
-  top: {
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
   },
   logo: {
     // TODO: Make adaptive
@@ -101,7 +91,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   header: {
-    paddingTop: '5%',
+    paddingTop: '10%',
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
@@ -113,16 +103,9 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   description: {
-    flex: 1,
     color: Colors.black,
     width: '100%',
     fontSize: 14,
     textAlign: 'left'
-  },
-  eventList: {
-    paddingTop: '2%',
-    alignItems: 'center',
-    height: '30%',
-    width: '100%',
   },
 });

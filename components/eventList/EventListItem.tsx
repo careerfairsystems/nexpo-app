@@ -22,8 +22,7 @@ export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEvent
     <View style={styles.footerContainer}>
       <ArkadText 
         style={styles.eventTime}
-        text={API.events.formatTime(event.date, event.start, event.end)}
-      />
+        text={API.events.formatTime(event.date, event.start, event.end)} />
 
       {/* Color of box changes depending on status */}
       {booked 
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent:'flex-end',
+    justifyContent: 'flex-end',
     /* Footer is pushed to bottom since header
       has flex: 1. */
     paddingBottom: 4,

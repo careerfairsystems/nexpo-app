@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { View } from '../components/Themed';
 import Colors from '../constants/Colors';
@@ -34,7 +34,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const authContext = useContext(AuthContext);
 
-  const getUser = async () => {
+  async function getUser() {
     const user = await API.users.getMe();
     setUser(user);
     if(user?.role != null && user.role == Role.CompanyRepresentative) {
@@ -43,24 +43,28 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     }
   }
 
-  const getRegisteredEvents = async () => {
+  async function getRegisteredEvents() {
     const bookedEvents = await API.events.getBookedEvents();
     setBookedEvents(bookedEvents);
   }
 
-  const logout = async () => {
+  async function logout() {
     await API.auth.logout();
     authContext.signOut();
   };
 
-  const openEventDetails = (id: number) => {
+  function openEventDetails (id: number) {
     navigation.navigate('EventDetailsScreen', { id });
   }
 
-  const openTicketDetails = async () => {
+  async function openTicketDetails() {
     const tickets = await API.tickets.getAllTickets();
     navigation.navigate('TicketsScreen', { tickets });
     // TODO: Eventually load tickets locally
+  }
+
+  function editProfile() {
+    /* TODO ... */
   }
 
   useEffect(() => {
@@ -86,37 +90,50 @@ export default function ProfileScreen({navigation}: profileNavigation) {
       return (
         user != null && company != null
         ? <View style={styles.container}>
-            <HostProfile company={company} />
+            <ScrollView style={styles.container}>
+              <HostProfile company={company} />
 
-            <View style={styles.bottom}>
+              <View style={styles.buttons}>
+                  <ArkadButton onPress={editProfile} style={styles.logoutContainer}>
+                <ArkadText text='Edit profile' style={styles.logoutText} />
+              </ArkadButton> 
+
               <ArkadButton onPress={logout} style={styles.logoutContainer}>
                 <ArkadText text='Logout' style={styles.logoutText} />
               </ArkadButton> 
-            </View>
-        </View>
+              </View>
+              
+            </ScrollView>
+          </View>
         : <View style={styles.container}>
             <ArkadText 
               text={'Error loading company host profile'}
               style={{color: Colors.darkBlue}} />
           </View>
       )
-    default: /* (Students and admins) */ 
+    default: /* (Students & admins -> 'StudentProfile' component) */ 
       return (
         <View style={styles.container}>
-          <StudentProfile 
-            user={user}
-            bookedEvents={bookedEvents}
-            openEventDetails={openEventDetails} />
+          <ScrollView>
+              <StudentProfile
+              user={user}
+              bookedEvents={bookedEvents}
+              openEventDetails={openEventDetails} />
 
-          <View style={styles.bottom}>
-            <ArkadButton onPress={logout} style={styles.logoutContainer}>
-              <ArkadText text='Logout' style={styles.logoutText} />
-            </ArkadButton> 
+            <View style={styles.buttons}>
+              <ArkadButton onPress={openTicketDetails} style={styles.logoutContainer}>
+                <ArkadText text='My tickets' style={styles.logoutText} />
+              </ArkadButton> 
+              
+              <ArkadButton onPress={editProfile} style={styles.logoutContainer}>
+                <ArkadText text='Edit profile' style={styles.logoutText} />
+              </ArkadButton> 
 
-            <ArkadButton onPress={openTicketDetails} style={styles.logoutContainer}>
-              <ArkadText text='My tickets' style={styles.logoutText} />
-            </ArkadButton> 
-          </View>
+              <ArkadButton onPress={logout} style={styles.logoutContainer}>
+                <ArkadText text='Logout' style={styles.logoutText} />
+              </ArkadButton>
+            </View>
+          </ScrollView>
         </View>
       )
   }
@@ -125,57 +142,21 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
-  top: {
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+  scroll: {
+    flex: 1,
   },
-  name: {
-    paddingTop: '1rem',
-    fontSize: 24,
-    color: Colors.darkBlue,
-  },
-  infoList: {
-    paddingTop: '0.2rem',
-  },
-  infoItem: {
-    paddingTop: '0.1rem',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  itemText: {
-    color: Colors.darkBlue,
-    fontSize: 12,
-    textAlign: 'center'
-  },
-  header: {
-    paddingTop: '0.5rem',
-    paddingLeft: '4%',
-    width: '100%',
-    textAlign: 'left',
-    fontSize: 16,
-    color: Colors.darkBlue,
-  },
-  eventList: {
-    paddingTop: '0.2rem',
-    alignItems: 'center',
-    height: '10rem',
-    width: '100%',
-  },
-  bottom: {
-    height: '8%',
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: 49,
+  buttons: {
+    marginTop: '10%',
   },
   logoutContainer: {
-    height: '2rem',
+    alignSelf: 'center',
+    padding: '4%',
+    marginBottom: '2%',
     width: '85%',
   },
   logoutText: {
-    padding: '4%'
+    padding: '1%',
+    alignItems: 'center',
   },
 });
