@@ -12,26 +12,31 @@ type BookedEventListProps = {
 const windowWidth = Dimensions.get('window').width;
 
 export const BookedEventList = ({ bookedEvents, onPress }: BookedEventListProps) => 
-  <FlatList
-    horizontal={true}
-    showsHorizontalScrollIndicator={false}
-    data={bookedEvents}
-    keyExtractor={({ id }) => id.toString()}
-    renderItem={({ item: event }) => 
-      <View style={styles.item}>
-        <EventListItem
-          event={event} 
-          booked={bookedEvents != null && bookedEvents.includes(event)}
-          itemStyle={{width: windowWidth * 0.6}}
-          onPress={() => onPress(event.id)} />
-      </View>
-      
-    }
-  />
+  <View style={styles.container}>
+    <FlatList
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      data={bookedEvents}
+      keyExtractor={({ id }) => id.toString()}
+      renderItem={({ item: event }) => 
+        <View style={styles.item}>
+          <EventListItem
+            event={event} 
+            booked={bookedEvents != null && bookedEvents.includes(event)}
+            itemStyle={{width: windowWidth * 0.6}}
+            onPress={() => onPress(event.id)} />
+        </View>
+      }
+    />
+  </View>
+  
 
   const styles = StyleSheet.create({
+    container: {
+      height: 200,
+    },
     item: {
-      flex: 1,
+      height: 180,
       alignItems: 'center',
       justifyContent: 'flex-start',
     }
