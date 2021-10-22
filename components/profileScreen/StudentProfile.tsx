@@ -15,6 +15,11 @@ type StudentProfileParams = {
   openEventDetails: (eventId: number) => void,
 }
 
+/* Currently an unused component. In the future it would be nice to
+ * refer to this component from the profile screen it improve 
+ * readability since the profile screen is quite messy.
+ */
+
 export const StudentProfile = 
     ({ user, bookedEvents, openEventDetails }: StudentProfileParams) =>
     <View style={styles.container}>
