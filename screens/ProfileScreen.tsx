@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, TextInput } from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, TextInput } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
@@ -19,6 +19,8 @@ import { EditProfileButton, LogoutButton, TicketsButton } from '../components/pr
 import { Ionicons } from '@expo/vector-icons';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
+
+const { width, height } = Dimensions.get("window");
 
 type profileNavigation = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
@@ -146,11 +148,16 @@ export default function ProfileScreen({navigation}: profileNavigation) {
 
                 <ArkadText text={"About us"} style={styles.header} />
                 <View style={styles.descriptionContainer}>
-                  <TextInput
-                    defaultValue={company.description != null ? company.description : "Company description"}
-                    style={[styles.text, styles.description]}
-                    editable={editingProfile}
-                    onChangeText={text => updateCompany({description: text})} />
+                  <ScrollView showsVerticalScrollIndicator={false} style={{height: height * 0.2}}>
+                    <TextInput
+                      defaultValue={company.description != null ? company.description : "Company description"}
+                      style={[styles.text, styles.description]}
+                      editable={editingProfile}
+                      multiline={true}
+                      numberOfLines={8}
+                      onChangeText={text => updateCompany({description: text})} />
+                  </ScrollView>
+                  
                 </View>
                   
                 <ArkadText text={"About me"} style={styles.header} />
@@ -297,12 +304,17 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     marginTop: 8,
-    width: '90%',
+    width: '92%',
+    borderRadius: 8,
+    borderColor: Colors.black,
+    borderWidth: 1,
+    backgroundColor: Colors.lightGray
   },
   description: {
-    color: Colors.black,
+    color: Colors.darkBlue,
     width: '100%',
     fontSize: 14,
+    padding: 12,
     textAlign: 'left'
   },
   studentContainer: {
