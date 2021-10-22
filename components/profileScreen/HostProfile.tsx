@@ -1,61 +1,87 @@
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useImperativeHandle, forwardRef } from "react";
 import { Image, StyleSheet } from 'react-native';
 import { View } from '../../components/Themed';
-import { ArkadText } from "../StyledText";
+import { ArkadText, ArkadTextInput } from "../StyledText";
 import Colors from "../../constants/Colors";
 import { Company } from '../../api/companies';
 
 type HostProfileParams = {
   company: Company;
+  editingProfile: boolean;
+  ref: React.Ref<unknown> | undefined;
 }
 
-export const HostProfile = ({ company }: HostProfileParams) =>
-    <View style={styles.container}>
-        <Image 
-          source={ company.logoUrl ? {uri: company.logoUrl} : require('../../assets/images/adaptive-icon.png')}
-          style={styles.logo} 
-          defaultSource={require('../../assets/images/adaptive-icon.png')} />
-        <ArkadText text={company.name} style={styles.companyName}/>
+/* Currently an unused component. In the future it would be nice to
+ * refer to this component from the profile screen it improve 
+ * readability since the profile screen is quite messy.
+ */
 
-      <View style={styles.infoList}>
-        <View style={styles.infoItem}>
-          <Ionicons name="link" size={16} color="black"/>
-          <ArkadText 
-            text={company.website != null ? company.website : "www.example.com"}
-            style={styles.itemText} />
-        </View>
+export const HostProfile = ({ company, editingProfile }: HostProfileParams, 
+  ref: React.Ref<unknown> | undefined) => {
+  useImperativeHandle(ref, () => ({
+    // methods connected to `ref`
+    updateUser: () => { updateUser() }
+  }))
+
+  async function updateUser () {
+    console.log("Hello")
+  }
+
+  return (
+    <View style={styles.container}>
+      <Image 
+        source={company.logoUrl 
+          ? {uri: company.logoUrl}
+          : require('../../assets/images/adaptive-icon.png')}
+        style={styles.logo} 
+        defaultSource={require('../../assets/images/adaptive-icon.png')} />
+      <ArkadTextInput
+        text={company.name}
+        style={styles.companyName}
+        editable={false} />
+
+      <View style={styles.infoItem}>
+        <Ionicons name="link" size={16} color="black"/>
+        <ArkadTextInput 
+          text={company.website != null ? company.website : "www.example.com"}
+          style={styles.itemText} 
+          editable={editingProfile} />
       </View>
 
       <ArkadText text={"About us"} style={styles.header} />
       <View style={styles.descriptionContainer}>
-        <ArkadText
+        <ArkadTextInput
           text={company.description != null ? company.description : "Company description"}
-          style={styles.description} />
+          style={styles.description} 
+          editable={editingProfile} />
       </View>
-      
+        
       <ArkadText text={"About me"} style={styles.header} />
 
-      <ArkadText 
+      <ArkadTextInput 
         text={company.hostName != null ? company.hostName : "Host name"} 
-        style={styles.name} />
+        style={styles.name} 
+        editable={false} />
 
-      <View style={styles.infoList}>
-        <View style={styles.infoItem}>
-          <Ionicons name="mail" size={16} color="black"/>
-          <ArkadText 
-            text={company.hostEmail != null ? company.hostEmail : "host@example.com"}
-            style={styles.itemText} />
-        </View>
-        <View style={styles.infoItem}>
-          <Ionicons name="call" size={16} color="black"/>
-          <ArkadText
-            text={company.hostPhone ? company.hostPhone : '\u2013'}
-            style={styles.itemText} />
-        </View>
+      <View style={styles.infoItem}>
+        <Ionicons name="mail" size={16} color="black"/>
+        <ArkadTextInput 
+          text={company.hostEmail != null ? company.hostEmail : "host@example.com"}
+          style={styles.itemText} 
+          editable={false} />
+      </View>
+      <View style={styles.infoItem}>
+        <Ionicons name="call" size={16} color="black" />
+        <ArkadTextInput
+          text={company.hostPhone ? company.hostPhone : '\u2013'}
+          style={styles.itemText}
+          editable={false} />
       </View>
     </View>
+  )
   
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -76,19 +102,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: Colors.darkBlue,
   },
-  infoList: {
-    paddingTop: '2%',
-  },
   infoItem: {
+    width: 200,
     paddingTop: '2%',
     flexDirection: 'row',
     justifyContent: 'center',
   },
   itemText: {
+    flex: 1,
     color: Colors.darkBlue,
     fontSize: 12,
     paddingHorizontal: 8,
-    textAlign: 'center'
   },
   header: {
     paddingTop: '10%',
