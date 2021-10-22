@@ -1,15 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useImperativeHandle, forwardRef } from "react";
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TextInput } from 'react-native';
 import { View } from '../../components/Themed';
-import { ArkadText, ArkadTextInput } from "../StyledText";
+import { ArkadText } from "../StyledText";
 import Colors from "../../constants/Colors";
 import { Company } from '../../api/companies';
 
 type HostProfileParams = {
   company: Company;
   editingProfile: boolean;
-  ref: React.Ref<unknown> | undefined;
 }
 
 /* Currently an unused component. In the future it would be nice to
@@ -17,68 +16,66 @@ type HostProfileParams = {
  * readability since the profile screen is quite messy.
  */
 
-export const HostProfile = ({ company, editingProfile }: HostProfileParams, 
-  ref: React.Ref<unknown> | undefined) => {
-  useImperativeHandle(ref, () => ({
-    // methods connected to `ref`
-    updateUser: () => { updateUser() }
-  }))
-
-  async function updateUser () {
-    console.log("Hello")
+export const HostProfile = ({ company, editingProfile }: HostProfileParams) => {
+  function updateCompany(newComp: Object) {
+    if(company) {
+      // update company
+    }
   }
 
   return (
     <View style={styles.container}>
-      <Image 
-        source={company.logoUrl 
-          ? {uri: company.logoUrl}
-          : require('../../assets/images/adaptive-icon.png')}
-        style={styles.logo} 
-        defaultSource={require('../../assets/images/adaptive-icon.png')} />
-      <ArkadTextInput
-        text={company.name}
-        style={styles.companyName}
-        editable={false} />
+                <Image 
+                  source={company.logoUrl 
+                    ? {uri: company.logoUrl}
+                    : require('../assets/images/adaptive-icon.png')}
+                  style={styles.logo} 
+                  defaultSource={require('../assets/images/adaptive-icon.png')} />
+                <TextInput
+                  defaultValue={company.name}
+                  style={[styles.text, styles.companyName]}
+                  editable={false} />
 
-      <View style={styles.infoItem}>
-        <Ionicons name="link" size={16} color="black"/>
-        <ArkadTextInput 
-          text={company.website != null ? company.website : "www.example.com"}
-          style={styles.itemText} 
-          editable={editingProfile} />
-      </View>
+                <View style={styles.infoItem}>
+                  <Ionicons name="link" size={16} color="black"/>
+                  <TextInput
+                    defaultValue={company.website != null ? company.website : "www.example.com"}
+                    style={[styles.text, styles.itemText]}
+                    editable={editingProfile}
+                    onChangeText={text => updateCompany({website: text})} />
+                </View>
 
-      <ArkadText text={"About us"} style={styles.header} />
-      <View style={styles.descriptionContainer}>
-        <ArkadTextInput
-          text={company.description != null ? company.description : "Company description"}
-          style={styles.description} 
-          editable={editingProfile} />
-      </View>
-        
-      <ArkadText text={"About me"} style={styles.header} />
+                <ArkadText text={"About us"} style={styles.header} />
+                <View style={styles.descriptionContainer}>
+                  <TextInput
+                    defaultValue={company.description != null ? company.description : "Company description"}
+                    style={[styles.text, styles.description]}
+                    editable={editingProfile}
+                    onChangeText={text => updateCompany({description: text})} />
+                </View>
+                  
+                <ArkadText text={"About me"} style={styles.header} />
 
-      <ArkadTextInput 
-        text={company.hostName != null ? company.hostName : "Host name"} 
-        style={styles.name} 
-        editable={false} />
+                <TextInput
+                    defaultValue={company.hostName != null ? company.hostName : "Host name"}
+                    style={[styles.text, styles.name]}
+                    editable={false} />
 
-      <View style={styles.infoItem}>
-        <Ionicons name="mail" size={16} color="black"/>
-        <ArkadTextInput 
-          text={company.hostEmail != null ? company.hostEmail : "host@example.com"}
-          style={styles.itemText} 
-          editable={false} />
-      </View>
-      <View style={styles.infoItem}>
-        <Ionicons name="call" size={16} color="black" />
-        <ArkadTextInput
-          text={company.hostPhone ? company.hostPhone : '\u2013'}
-          style={styles.itemText}
-          editable={false} />
-      </View>
-    </View>
+                <View style={styles.infoItem}>
+                  <Ionicons name="mail" size={16} color="black"/>
+                  <TextInput
+                    defaultValue={company.hostEmail != null ? company.hostEmail : "host@example.com"}
+                    style={[styles.text, styles.itemText]}
+                    editable={false} />
+                </View>
+                <View style={styles.infoItem}>
+                  <Ionicons name="call" size={16} color="black" />
+                  <TextInput
+                    defaultValue={company.hostPhone ? company.hostPhone : '\u2013'}
+                    style={[styles.text, styles.itemText]}
+                    editable={false} />
+                </View>
+              </View>
   )
   
 }
@@ -131,5 +128,11 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 14,
     textAlign: 'left'
+  },
+  text: {
+    justifyContent: "center",
+    textAlign: "center",
+    fontFamily: 'montserrat',
+    color: Colors.white,
   },
 });
