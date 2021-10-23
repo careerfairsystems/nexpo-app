@@ -15,7 +15,7 @@ import { AuthContext } from '../components/AuthContext';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
 import { Company, UpdateCompanySelfDto } from '../api/companies';
-import { EditProfileButton, LogoutButton, TicketsButton } from '../components/profileScreen/Buttons';
+import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../components/profileScreen/Buttons';
 import { Ionicons } from '@expo/vector-icons';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
@@ -73,6 +73,10 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     if(user) {
       setUser(Object.assign(user, newUser));
     }
+  }
+
+  function openQR() {
+    // Open QR-scanner
   }
 
   async function editProfile() {
@@ -184,6 +188,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
               </View>
 
               <View style={styles.buttonList}>
+                <ScanQRButton onPress={openQR} />
                 <EditProfileButton editingProfile={editingProfile} onPress={editProfile} />
                 <LogoutButton onPress={logout} />
               </View>
@@ -215,7 +220,6 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 {/* Email is currently not editable by backend call
 
                 <View style={styles.infoItem}>
-
                   <Ionicons name="mail" size={16} color="black"/>
                   <TextInput
                     defaultValue={user.email}
