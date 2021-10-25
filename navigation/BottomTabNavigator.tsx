@@ -17,6 +17,7 @@ import EventListScreen from "../screens/EventListScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import TicketsScreen from '../screens/TicketsScreen';
+import QRScreen from '../screens/QRScreen';
 import { Ticket } from '../api/tickets';
 
 
@@ -123,7 +124,8 @@ export type ProfileStackParamList = {
   },
   TicketsScreen: {
     tickets: Ticket[];
-  }
+  },
+  QRScreen: undefined,
 }
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
 function ProfileNavigator() {
@@ -135,9 +137,19 @@ function ProfileNavigator() {
         options={{ headerTitle: 'Profile' }}
       />
       <ProfileStack.Screen 
+        name="EventDetailsScreen"
+        component={EventDetailsScreen}
+        options={{ headerTitle: 'Event' }}
+      />
+      <ProfileStack.Screen 
         name="TicketsScreen"
         component={TicketsScreen}
         options={{ headerTitle: 'Tickets' }}
+      />
+      <ProfileStack.Screen
+        name="QRScreen"
+        component={QRScreen}
+        options={{ headerTitle: 'QR' }}
       />
     </ProfileStack.Navigator>
   );

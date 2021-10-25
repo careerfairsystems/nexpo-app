@@ -1,33 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, TextInput } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
+import { Ionicons } from '@expo/vector-icons';
 
 import { API } from '../api'
 import { Role, UpdateUserDto, User } from '../api/users';
 import { Event } from '../api/events';
+import { Company, UpdateCompanySelfDto } from '../api/companies';
+import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
 
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { Text, View } from '../components/Themed';
 import { ArkadText } from '../components/StyledText';
 import { AuthContext } from '../components/AuthContext';
-
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
-import { Company, UpdateCompanySelfDto } from '../api/companies';
 import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../components/profileScreen/Buttons';
-import { Ionicons } from '@expo/vector-icons';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
 
 const { width, height } = Dimensions.get("window");
 
-type profileNavigation = {
+export type profileNavigation = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
 };
 
 
-export default function ProfileScreen({navigation}: profileNavigation) {
+export default function ProfileScreen({ navigation }: profileNavigation) {
   const [user, setUser] = useState<User | null>(null);
   const [company, setCompany] = useState<Company | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -63,6 +62,10 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     navigation.navigate('TicketsScreen', { tickets });
   }
 
+  function openQR() {
+    navigation.navigate('QRScreen');
+  }
+
   function updateCompany(newComp: Object) {
     if(company) {
       setCompany(Object.assign(company, newComp));
@@ -73,10 +76,6 @@ export default function ProfileScreen({navigation}: profileNavigation) {
     if(user) {
       setUser(Object.assign(user, newUser));
     }
-  }
-
-  function openQR() {
-    // Open QR-scanner
   }
 
   async function editProfile() {
@@ -139,6 +138,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 <TextInput
                   defaultValue={company.name}
                   style={[styles.text, styles.companyName]}
+                  multiline={true}
                   editable={false} />
 
                 <View style={styles.infoItem}>
@@ -146,6 +146,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                   <TextInput
                     defaultValue={company.website != null ? company.website : "www.example.com"}
                     style={[styles.text, styles.itemText]}
+                    multiline={true}
                     editable={editingProfile}
                     onChangeText={text => updateCompany({website: text})} />
                 </View>
@@ -169,6 +170,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 <TextInput
                     defaultValue={company.hostName != null ? company.hostName : "Host name"}
                     style={[styles.text, styles.name]}
+                    multiline={true}
                     editable={false} />
 
                 <View style={styles.infoItem}>
@@ -176,6 +178,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                   <TextInput
                     defaultValue={company.hostEmail != null ? company.hostEmail : "host@example.com"}
                     style={[styles.text, styles.itemText]}
+                    multiline={true}
                     editable={false} />
                 </View>
                 <View style={styles.infoItem}>
@@ -183,6 +186,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                   <TextInput
                     defaultValue={company.hostPhone ? company.hostPhone : '\u2013'}
                     style={[styles.text, styles.itemText]}
+                    multiline={true}
                     editable={false} />
                 </View>
               </View>
@@ -209,6 +213,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 defaultValue={user.firstName + " " + user.lastName}
                 style={[styles.text, styles.name]}
                 editable={editingProfile}
+                multiline={true}
                 onChangeText={text => {
                   let name = text.split("")
                   updateUser({
@@ -232,6 +237,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                   <TextInput
                     defaultValue={user.phoneNr ? user.phoneNr : '\u2013'}
                     style={[styles.text, styles.itemText]}
+                    multiline={true}
                     editable={editingProfile}
                     onChangeText={text => updateUser({phoneNr: text})} />
                 </View>
@@ -279,7 +285,8 @@ const styles = StyleSheet.create({
   },
   companyName: {
     paddingTop: '2%',
-    fontSize: 24,
+    fontSize: 28,
+    fontWeight: 'bold',
     color: Colors.darkBlue,
   },
   name: {
@@ -292,6 +299,7 @@ const styles = StyleSheet.create({
     paddingTop: '2%',
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center'
   },
   itemText: {
     color: Colors.darkBlue,
@@ -319,7 +327,8 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 14,
     padding: 12,
-    textAlign: 'left'
+    textAlign: 'left',
+    textAlignVertical: 'top'
   },
   studentContainer: {
     alignItems: 'center',
@@ -337,7 +346,8 @@ const styles = StyleSheet.create({
   },
   text: {
     justifyContent: "center",
-    textAlign: "center",
+    textAlignVertical: 'center',
+    textAlign: 'center',
     fontFamily: 'montserrat',
     color: Colors.white,
   },
