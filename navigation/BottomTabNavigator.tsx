@@ -82,12 +82,12 @@ function CompaniesNavigator() {
       <CompanyStack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}
-        options={{ headerTitle: 'Companies' }}
+        options={{ title: 'Companies', headerTitle: 'Companies' }}
       />
       <CompanyStack.Screen
         name="CompanyDetailsScreen"
         component={CompanyDetailsScreen}
-        options={{ headerTitle: 'Company Details' }}
+        options={{ title: 'Company Details', headerTitle: 'Company Details' }}
       />
     </CompanyStack.Navigator>
   );
@@ -106,12 +106,12 @@ function EventsNavigator() {
       <EventStack.Screen
         name="EventListScreen"
         component={EventListScreen}
-        options={{ headerTitle: 'Events' }}
+        options={{ title: 'Events', headerTitle: 'Events' }}
       />
       <EventStack.Screen
         name="EventDetailsScreen"
         component={EventDetailsScreen}
-        options={{ headerTitle: 'Event Details' }}
+        options={{ title: 'Event Details', headerTitle: 'Event Details' }}
       />
     </EventStack.Navigator>
   );
@@ -134,7 +134,7 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ headerTitle: 'Profile' }}
+        options={{ title: 'Profile', headerTitle: 'Profile' }}
       />
       <ProfileStack.Screen 
         name="EventDetailsScreen"
@@ -144,7 +144,7 @@ function ProfileNavigator() {
       <ProfileStack.Screen 
         name="TicketsScreen"
         component={TicketsScreen}
-        options={{ headerTitle: 'Tickets' }}
+        options={{ title: 'Tickets', headerTitle: 'Tickets' }}
       />
       <ProfileStack.Screen
         name="QRScreen"
