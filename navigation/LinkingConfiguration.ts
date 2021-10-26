@@ -27,6 +27,10 @@ export default {
               EventDetailsScreen: 'events/:id',
             },
           },
+          Map: {
+            screens: {
+            }
+          },
           Profile: {
             screens: {
               ProfileScreen: 'profile',

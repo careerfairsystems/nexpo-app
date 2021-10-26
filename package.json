@@ -35,6 +35,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-qrcode-svg": "^6.1.1",
     "react-native-ratings": "^8.1.0",
     "react-native-reanimated": "~2.1.0",
