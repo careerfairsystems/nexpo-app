@@ -1,33 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, TextInput } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
+import { Ionicons } from '@expo/vector-icons';
 
 import { API } from '../api'
 import { Role, UpdateUserDto, User } from '../api/users';
 import { Event } from '../api/events';
+import { Company, UpdateCompanySelfDto } from '../api/companies';
+import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
 
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { Text, View } from '../components/Themed';
 import { ArkadText } from '../components/StyledText';
 import { AuthContext } from '../components/AuthContext';
-
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
-import { Company, UpdateCompanySelfDto } from '../api/companies';
-import { EditProfileButton, LogoutButton, TicketsButton } from '../components/profileScreen/Buttons';
-import { Ionicons } from '@expo/vector-icons';
+import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../components/profileScreen/Buttons';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
+import QRCode from 'react-native-qrcode-svg';
 
 const { width, height } = Dimensions.get("window");
 
-type profileNavigation = {
+export type profileNavigation = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
 };
 
 
-export default function ProfileScreen({navigation}: profileNavigation) {
+export default function ProfileScreen({ navigation }: profileNavigation) {
   const [user, setUser] = useState<User | null>(null);
   const [company, setCompany] = useState<Company | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -61,6 +61,10 @@ export default function ProfileScreen({navigation}: profileNavigation) {
   async function openTicketDetails() {
     const tickets = await API.tickets.getAllTickets();
     navigation.navigate('TicketsScreen', { tickets });
+  }
+
+  function openQR() {
+    navigation.navigate('QRScreen');
   }
 
   function updateCompany(newComp: Object) {
@@ -135,6 +139,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 <TextInput
                   defaultValue={company.name}
                   style={[styles.text, styles.companyName]}
+                  multiline={true}
                   editable={false} />
 
                 <View style={styles.infoItem}>
@@ -142,6 +147,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                   <TextInput
                     defaultValue={company.website != null ? company.website : "www.example.com"}
                     style={[styles.text, styles.itemText]}
+                    multiline={true}
                     editable={editingProfile}
                     onChangeText={text => updateCompany({website: text})} />
                 </View>
@@ -165,6 +171,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 <TextInput
                     defaultValue={company.hostName != null ? company.hostName : "Host name"}
                     style={[styles.text, styles.name]}
+                    multiline={true}
                     editable={false} />
 
                 <View style={styles.infoItem}>
@@ -172,6 +179,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                   <TextInput
                     defaultValue={company.hostEmail != null ? company.hostEmail : "host@example.com"}
                     style={[styles.text, styles.itemText]}
+                    multiline={true}
                     editable={false} />
                 </View>
                 <View style={styles.infoItem}>
@@ -179,11 +187,13 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                   <TextInput
                     defaultValue={company.hostPhone ? company.hostPhone : '\u2013'}
                     style={[styles.text, styles.itemText]}
+                    multiline={true}
                     editable={false} />
                 </View>
               </View>
 
               <View style={styles.buttonList}>
+                <ScanQRButton onPress={openQR} />
                 <EditProfileButton editingProfile={editingProfile} onPress={editProfile} />
                 <LogoutButton onPress={logout} />
               </View>
@@ -204,6 +214,7 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                 defaultValue={user.firstName + " " + user.lastName}
                 style={[styles.text, styles.name]}
                 editable={editingProfile}
+                multiline={true}
                 onChangeText={text => {
                   let name = text.split("")
                   updateUser({
@@ -211,30 +222,36 @@ export default function ProfileScreen({navigation}: profileNavigation) {
                     lastName: name[1]
                   })
                 }} />
-              <View style={styles.infoList}>
-                {/* Email is currently not editable by backend call
+              {/* Email is currently not editable by backend call
 
-                <View style={styles.infoItem}>
+              <View style={styles.infoItem}>
+                <Ionicons name="mail" size={16} color="black"/>
+                <TextInput
+                  defaultValue={user.email}
+                  style={[styles.text, styles.itemText]}
+                  editable={editingProfile}
+                  onChangeText={text => updateUser({email: text})} />
+              </View> */}
+              <View style={styles.infoItem}>
+                <Ionicons name="call" size={16} color="black"/>
+                <TextInput
+                  defaultValue={user.phoneNr ? user.phoneNr : '\u2013'}
+                  style={[styles.text, styles.itemText]}
+                  multiline={true}
+                  editable={editingProfile}
+                  onChangeText={text => updateUser({phoneNr: text})} />
+              </View>
 
-                  <Ionicons name="mail" size={16} color="black"/>
-                  <TextInput
-                    defaultValue={user.email}
-                    style={[styles.text, styles.itemText]}
-                    editable={editingProfile}
-                    onChangeText={text => updateUser({email: text})} />
-                </View> */}
-                <View style={styles.infoItem}>
-                  <Ionicons name="call" size={16} color="black"/>
-                  <TextInput
-                    defaultValue={user.phoneNr ? user.phoneNr : '\u2013'}
-                    style={[styles.text, styles.itemText]}
-                    editable={editingProfile}
-                    onChangeText={text => updateUser({phoneNr: text})} />
-                </View>
+              <ArkadText text={"Arkad Connect"} style={styles.qrheader} />
+              <View style={styles.qrcontainer}>
+                <QRCode
+                  backgroundColor={Colors.lightGray}
+                  value={user.id.toString()}
+                  color={Colors.darkBlue}
+                  size={160} />
               </View>
                   
               <ArkadText text={"Booked events"} style={styles.header} />
-
               <View style={styles.eventList}> 
                 {bookedEvents == undefined 
                   ? <Text>Loading events...</Text>
@@ -275,12 +292,13 @@ const styles = StyleSheet.create({
   },
   companyName: {
     paddingTop: '2%',
-    fontSize: 24,
+    fontSize: 28,
+    fontWeight: 'bold',
     color: Colors.darkBlue,
   },
   name: {
-    paddingTop: '2%',
-    fontSize: 20,
+    paddingTop: '4%',
+    fontSize: 24,
     color: Colors.darkBlue,
   },
   infoItem: {
@@ -288,10 +306,11 @@ const styles = StyleSheet.create({
     paddingTop: '2%',
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center'
   },
   itemText: {
     color: Colors.darkBlue,
-    fontSize: 12,
+    fontSize: 16,
     paddingHorizontal: 8,
   },
   header: {
@@ -299,7 +318,13 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
-    fontSize: 16,
+    fontSize: 20,
+    color: Colors.darkBlue,
+  },
+  qrheader: {
+    paddingTop: '10%',
+    textAlign: 'center',
+    fontSize: 20,
     color: Colors.darkBlue,
   },
   descriptionContainer: {
@@ -313,9 +338,18 @@ const styles = StyleSheet.create({
   description: {
     color: Colors.darkBlue,
     width: '100%',
-    fontSize: 14,
+    fontSize: 16,
     padding: 12,
-    textAlign: 'left'
+    textAlign: 'left',
+    textAlignVertical: 'top'
+  },
+  qrcontainer: {
+    marginTop: '4%',
+    padding: '4%',
+    borderRadius: 12,
+    borderColor: Colors.darkBlue,
+    backgroundColor: Colors.lightGray,
+    borderWidth: 4,
   },
   studentContainer: {
     alignItems: 'center',
@@ -332,8 +366,9 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
   text: {
-    justifyContent: "center",
-    textAlign: "center",
+    justifyContent: 'center',
+    textAlignVertical: 'center',
+    textAlign: 'center',
     fontFamily: 'montserrat',
     color: Colors.white,
   },
