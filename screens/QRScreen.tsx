@@ -1,4 +1,5 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { AirbnbRating } from 'react-native-ratings';
 import React, { useEffect, useState } from "react";
 import { TextInput, StyleSheet, Text, Button, View, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -20,6 +21,7 @@ export default function QRScreen({ navigation }: profileNavigation) {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
   const [studentID, setStudentID] = useState<number>(-1);
+  const [rating, setRating] = useState<number>(3);
   const [description, setDescription] = useState<string>("");
   
   async function getPermission() {
@@ -34,7 +36,7 @@ export default function QRScreen({ navigation }: profileNavigation) {
   async function createCompanyConnection() {
     const connection: CreateCompanyConnectionDto = {
       studentId: studentID,
-      rating: 5,
+      rating: rating,
       comment: description
     }
     const response: CompanyCompanyConnectionDto = await API.companyconnections.createConnection(connection)
@@ -62,7 +64,14 @@ export default function QRScreen({ navigation }: profileNavigation) {
       <View style={styles.container}>
         <ArkadText text={"Student ID: " + studentID.toString()} style={styles.id} />
 
-        {/* Eventual star rating library */}
+        <AirbnbRating
+          count={5}
+          defaultRating={3}
+          size={32}
+          selectedColor={Colors.lightBlue}
+          reviews={[]}
+          onFinishRating={(rating: number) => setRating(rating)} />
+        
         <ArkadText text={"Comments"} style={styles.header} />
 
         <View style={styles.descriptionContainer}>

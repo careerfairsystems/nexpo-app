@@ -18,6 +18,7 @@ import { AuthContext } from '../components/AuthContext';
 import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../components/profileScreen/Buttons';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
+import QRCode from 'react-native-qrcode-svg';
 
 const { width, height } = Dimensions.get("window");
 
@@ -221,30 +222,36 @@ export default function ProfileScreen({ navigation }: profileNavigation) {
                     lastName: name[1]
                   })
                 }} />
-              <View style={styles.infoList}>
-                {/* Email is currently not editable by backend call
+              {/* Email is currently not editable by backend call
 
-                <View style={styles.infoItem}>
-                  <Ionicons name="mail" size={16} color="black"/>
-                  <TextInput
-                    defaultValue={user.email}
-                    style={[styles.text, styles.itemText]}
-                    editable={editingProfile}
-                    onChangeText={text => updateUser({email: text})} />
-                </View> */}
-                <View style={styles.infoItem}>
-                  <Ionicons name="call" size={16} color="black"/>
-                  <TextInput
-                    defaultValue={user.phoneNr ? user.phoneNr : '\u2013'}
-                    style={[styles.text, styles.itemText]}
-                    multiline={true}
-                    editable={editingProfile}
-                    onChangeText={text => updateUser({phoneNr: text})} />
-                </View>
+              <View style={styles.infoItem}>
+                <Ionicons name="mail" size={16} color="black"/>
+                <TextInput
+                  defaultValue={user.email}
+                  style={[styles.text, styles.itemText]}
+                  editable={editingProfile}
+                  onChangeText={text => updateUser({email: text})} />
+              </View> */}
+              <View style={styles.infoItem}>
+                <Ionicons name="call" size={16} color="black"/>
+                <TextInput
+                  defaultValue={user.phoneNr ? user.phoneNr : '\u2013'}
+                  style={[styles.text, styles.itemText]}
+                  multiline={true}
+                  editable={editingProfile}
+                  onChangeText={text => updateUser({phoneNr: text})} />
+              </View>
+
+              <ArkadText text={"Arkad Connect"} style={styles.qrheader} />
+              <View style={styles.qrcontainer}>
+                <QRCode
+                  backgroundColor={Colors.lightGray}
+                  value={user.id.toString()}
+                  color={Colors.darkBlue}
+                  size={160} />
               </View>
                   
               <ArkadText text={"Booked events"} style={styles.header} />
-
               <View style={styles.eventList}> 
                 {bookedEvents == undefined 
                   ? <Text>Loading events...</Text>
@@ -290,8 +297,8 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   name: {
-    paddingTop: '2%',
-    fontSize: 20,
+    paddingTop: '4%',
+    fontSize: 24,
     color: Colors.darkBlue,
   },
   infoItem: {
@@ -303,7 +310,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: Colors.darkBlue,
-    fontSize: 12,
+    fontSize: 16,
     paddingHorizontal: 8,
   },
   header: {
@@ -311,7 +318,13 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
-    fontSize: 16,
+    fontSize: 20,
+    color: Colors.darkBlue,
+  },
+  qrheader: {
+    paddingTop: '10%',
+    textAlign: 'center',
+    fontSize: 20,
     color: Colors.darkBlue,
   },
   descriptionContainer: {
@@ -325,10 +338,18 @@ const styles = StyleSheet.create({
   description: {
     color: Colors.darkBlue,
     width: '100%',
-    fontSize: 14,
+    fontSize: 16,
     padding: 12,
     textAlign: 'left',
     textAlignVertical: 'top'
+  },
+  qrcontainer: {
+    marginTop: '4%',
+    padding: '4%',
+    borderRadius: 12,
+    borderColor: Colors.darkBlue,
+    backgroundColor: Colors.lightGray,
+    borderWidth: 4,
   },
   studentContainer: {
     alignItems: 'center',
@@ -345,7 +366,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
   text: {
-    justifyContent: "center",
+    justifyContent: 'center',
     textAlignVertical: 'center',
     textAlign: 'center',
     fontFamily: 'montserrat',
