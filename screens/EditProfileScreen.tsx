@@ -114,7 +114,7 @@ export default function EditProfileScreen({ navigation }: EditProfileScreenParam
   
   return <View style={styles.container}>
     <ScrollView>
-      <EditUserProfile user={user} setUpdateUserDto={setUpdateUserDto} setEditStatus={setUserEditStatus}/>
+      <EditUserProfile user={user} setUpdateUserDto={setUpdateUserDto} setEditStatus={setUserEditStatus} />
       {student && <EditStudentProfile student={student} setUpdateStudentDto={setUpdateStudentDto} setEditStatus={setStudentEditStatus}/>}
       {company && <EditCompanyProfile company={company} setUpdateCompanyDto={setUpdateCompanyDto} setEditStatus={setCompanyEditStatus} />}
 
