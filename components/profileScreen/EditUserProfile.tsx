@@ -1,12 +1,15 @@
-import { Ionicons } from '@expo/vector-icons';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UpdateUserDto, User } from '../../api/users';
 import ProfilePicture from '../ProfilePicture';
 import { View, Text } from '../Themed';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';
 import { TextInput } from '../TextInput';
 import { EditStatus } from '../../screens/EditProfileScreen';
+import { ArkadButton } from '../Buttons';
+import { ArkadText } from '../StyledText';
+import { API } from '../../api';
+import * as ImagePicker from 'expo-image-picker';
 
 type EditUserProfileProps = {
   user: User;
@@ -15,13 +18,14 @@ type EditUserProfileProps = {
 }
 
 export default function EditUserProfile({ user, setUpdateUserDto, setEditStatus }: EditUserProfileProps) {
-  const [firstName, setFirstName] = React.useState<string | null>(user.firstName);
-  const [lastName, setLastName] = React.useState<string | null>(user.lastName);
-  const [phoneNr, setPhoneNr] = React.useState<string | null>(user.phoneNr);
-  const [password, setPassword] = React.useState<string>('');
-  const [repeatPassword, setRepeatPassword] = React.useState<string>('');
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(user.profilePictureUrl);
+  const [firstName, setFirstName] = useState<string | null>(user.firstName);
+  const [lastName, setLastName] = useState<string | null>(user.lastName);
+  const [phoneNr, setPhoneNr] = useState<string | null>(user.phoneNr);
+  const [password, setPassword] = useState<string>('');
+  const [repeatPassword, setRepeatPassword] = useState<string>('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     // TODO Validate password strength with zxvcbn
     if (password && password.length < 8) {
       setEditStatus({
@@ -52,9 +56,48 @@ export default function EditUserProfile({ user, setUpdateUserDto, setEditStatus 
 
   }, [firstName, lastName, phoneNr, password, repeatPassword])
 
+  const setProfilePicture = async () => {
+    if (Platform.OS !== 'web') {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('We need camera roll permissions to upload a new profile picture');
+        return;
+      }
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+      base64: true,
+    });
+
+    if (!result.cancelled) {
+      const dto = await API.files.updateProfilePicture(result.base64 ? result.base64 : result.uri);
+      setProfilePictureUrl(dto.url);
+    }
+  }
+
+  const removeProfilePicture = async () => {
+    await API.files.removeProfilePicture();
+    setProfilePictureUrl(null);
+  }
+
   return <>
     <View style={styles.container}>
-      <ProfilePicture url={user.profilePictureUrl} />
+      <ProfilePicture url={profilePictureUrl} />
+      <ArkadButton onPress={setProfilePicture}>
+        {profilePictureUrl 
+        ? <ArkadText text="Change profile picture" />
+        : <ArkadText text="Set profile picture" />
+        }
+      </ArkadButton>
+      {profilePictureUrl &&
+        <ArkadButton onPress={removeProfilePicture}>
+          <ArkadText text="Remove profile picture" />
+        </ArkadButton>
+      }
 
       <Text>First name</Text>
       <TextInput value={firstName ? firstName : ''} placeholder="John" onChangeText={setFirstName}/>

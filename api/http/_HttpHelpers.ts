@@ -106,7 +106,7 @@ export const postAuth = async (endpoint: string, body: any) => {
  * @param endpoint 
  * @returns 
  */
-export const postAuthFile = async (endpoint: string, fileUri: string) => {
+export const postAuthFile = async (endpoint: string, dataUri: string) => {
   if (!await isAuthenticated()) {
     // TODO Raise some kind of exception
     console.error('postAuthFile: Not authenticated');
@@ -114,12 +114,12 @@ export const postAuthFile = async (endpoint: string, fileUri: string) => {
   const jwt = await getJwt();
 
   const data = new FormData();
-  data.append('file', fileUri);
+  const blob = await (await fetch(dataUri)).blob();
+  data.append('file', blob);
 
   return fetch(apiUrl(endpoint), {
     method: 'POST',
     headers: {
-      'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer ${jwt}`,
     },
     body: data,
