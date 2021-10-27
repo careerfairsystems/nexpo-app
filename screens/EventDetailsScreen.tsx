@@ -40,7 +40,6 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
 
   const createTicket = async () => {
     setLoading(true);
-    console.log(event)
 
     if(event?.id == undefined) {
       return;

@@ -16,10 +16,10 @@ export interface Student {
 }
 
 export interface UpdateStudentDto {
-  guild: Guild | null;
-  linkedIn: string | null;
-  masterTitle: string | null;
-  year: number | null;
+  guild?: Guild | null;
+  linkedIn?: string | null;
+  masterTitle?: string | null;
+  year?: number | null;
 }
 
 /**

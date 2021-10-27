@@ -19,14 +19,14 @@ export interface Company extends PublicCompanyDto {
 }
 
 export interface UpdateCompanySelfDto {
-  description?: string;
-  website?: string;
+  description?: string | null;
+  website?: string | null;
 }
 
 export interface UpdateCompanyDto extends UpdateCompanySelfDto {
-  hostName?: string;
-  hostEmail?: string;
-  hostPhone?: string;
+  hostName?: string | null;
+  hostEmail?: string | null;
+  hostPhone?: string | null;
 }
 
 /**
