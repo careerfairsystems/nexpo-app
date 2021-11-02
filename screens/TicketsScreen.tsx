@@ -11,26 +11,20 @@ import { TicketList } from '../components/ticketList/TicketList';
 import { API } from '../api';
 import { TicketItem } from '../components/ticketList/TicketItem';
 
-type TicketsScreenParams = {
-  route: {
-    params: {
-      tickets: Ticket[];
-    };
-  };
-}
-
-export default function ProfileScreen({ route }: TicketsScreenParams) {
-  const { tickets } = route.params;
+export default function ProfileScreen() {
   const [loading, setLoading] = useState<boolean>(false);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [ticketItems, setTicketItems] = useState<TicketItem[]>([]);
 
-  useEffect(() => {
-    setLoading(true);
-    loadTickets();
-    setLoading(false);
-  }, []);
 
-  const loadTickets = async () => {
+  
+
+  const getTickets = async () => {
+    setLoading(true);
+
+    const tickets = await API.tickets.getAllTickets();
+    setTickets(tickets);
+
     const events = await API.events.getBookedEvents();
     const ticketItems: TicketItem[] = [];
     for (let i1 = 0; i1 < tickets.length; i1++) {
@@ -46,7 +40,12 @@ export default function ProfileScreen({ route }: TicketsScreenParams) {
       }
     }
     setTicketItems(ticketItems);
+    setLoading(false);
   }
+  
+  useEffect(() => {
+    getTickets();
+  }, []);
 
   const viewTicket = (ticketItem: TicketItem) => {
     // TODO: When pressing a ticket

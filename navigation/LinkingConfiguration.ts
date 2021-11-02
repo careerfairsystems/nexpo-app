@@ -36,6 +36,7 @@ export default {
           Profile: {
             screens: {
               ProfileScreen: 'profile',
+              EditProfileScreen: 'profile/edit',
               TicketsScreen: 'event/tickets/',
             },
           },

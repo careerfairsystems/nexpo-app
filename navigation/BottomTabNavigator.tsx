@@ -22,6 +22,8 @@ import QRScreen from '../screens/QRScreen';
 import { Ticket } from '../api/tickets';
 import ZoomMapScreen from '../screens/ZoomMapScreen';
 import { Map } from '../components/maps/MapProps';
+import EditProfileScreen from '../screens/EditProfileScreen';
+
 
 
 export type BottomTabParamList = {
@@ -36,7 +38,7 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Companies"
+      initialRouteName="Events"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Companies"
@@ -152,12 +154,11 @@ function MapNavigator() {
 
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
+  EditProfileScreen: undefined;
   EventDetailsScreen: {
     id: number;
   },
-  TicketsScreen: {
-    tickets: Ticket[];
-  },
+  TicketsScreen: undefined;
   QRScreen: undefined,
 }
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
@@ -168,6 +169,11 @@ function ProfileNavigator() {
         name="ProfileScreen"
         component={ProfileScreen}
         options={{ title: 'Profile', headerTitle: 'Profile' }}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+        options={{ title: 'Edit Profile', headerTitle: 'Edit Profile' }}
       />
       <ProfileStack.Screen 
         name="EventDetailsScreen"

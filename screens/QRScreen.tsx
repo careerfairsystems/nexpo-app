@@ -8,16 +8,21 @@ import { CompanyCompanyConnectionDto, CreateCompanyConnectionDto } from "../api/
 import { ArkadButton } from "../components/Buttons";
 import { ArkadText } from "../components/StyledText";
 import Colors from "../constants/Colors";
-import { profileNavigation } from "./ProfileScreen";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { ProfileStackParamList } from "../navigation/BottomTabNavigator";
 
 const { width, height } = Dimensions.get("window");
 
-interface QRProps{
+interface ScanResult{
   type: string,
   data: string,
 }
 
-export default function QRScreen({ navigation }: profileNavigation) {
+type QRScreenProps = {
+  navigation: StackNavigationProp<ProfileStackParamList, 'QRScreen'>;
+}
+
+export default function QRScreen({ navigation }: QRScreenProps) {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
   const [studentID, setStudentID] = useState<number>(-1);
@@ -48,7 +53,7 @@ export default function QRScreen({ navigation }: profileNavigation) {
     navigation.goBack()
   }
 
-  const handleBarCodeScanned = ({ type, data }: QRProps) => {
+  const handleBarCodeScanned = ({ type, data }: ScanResult) => {
     setScanned(true);
     setStudentID(Number(data));
   };

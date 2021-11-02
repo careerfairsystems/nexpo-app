@@ -5,7 +5,7 @@ import Colors from '../constants/Colors';
 interface buttonProps {
   children?: React.ReactNode;
   onPress: () => void;
-  style: ViewStyle;
+  style?: ViewStyle;
 }
 
 export function ArkadButton(props: buttonProps) {

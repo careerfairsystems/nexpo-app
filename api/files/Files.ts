@@ -1,36 +1,47 @@
 import { deleteAuth, postAuthFile } from "../http/_HttpHelpers"
 
+export interface FileCreatedDto {
+  url: string;
+}
 
 /**
  * Upload a new profile picture
  */
-export const updateProfilePicture = async (fileUri: string): Promise<boolean> => {
-  const response = await postAuthFile('/files/profile_picture', fileUri);
-  return response.ok;
+export const updateProfilePicture = async (dataUri: string): Promise<FileCreatedDto> => {
+  const response = await postAuthFile('/files/profile_picture', dataUri);
+  const json = await response.json();
+  const dto = json as FileCreatedDto;
+  return dto;
 }
 
 /**
  * Upload a new company logo
  */
-export const updateCompanyLogo = async (fileUri: string): Promise<boolean> => {
-  const response = await postAuthFile('/files/company_logo', fileUri);
-  return response.ok;
+export const updateCompanyLogo = async (dataUri: string): Promise<FileCreatedDto> => {
+  const response = await postAuthFile('/files/company_logo', dataUri);
+  const json = await response.json();
+  const dto = json as FileCreatedDto;
+  return dto;
 }
 
 /**
  * Upload a new english resume
  */
-export const updateResumeEnglish = async (fileUri: string): Promise<boolean> => {
-  const response = await postAuthFile('/files/resume_english', fileUri);
-  return response.ok;
+export const updateResumeEnglish = async (dataUri: string): Promise<FileCreatedDto> => {
+  const response = await postAuthFile('/files/resume_english', dataUri);
+  const json = await response.json();
+  const dto = json as FileCreatedDto;
+  return dto;
 }
 
 /**
  * Upload a new swedish resume
  */
-export const updateResumeSwedish = async (fileUri: string): Promise<boolean> => {
-  const response = await postAuthFile('/files/resume_swedish', fileUri);
-  return response.ok;
+export const updateResumeSwedish = async (dataUri: string): Promise<FileCreatedDto> => {
+  const response = await postAuthFile('/files/resume_swedish', dataUri);
+  const json = await response.json();
+  const dto = json as FileCreatedDto;
+  return dto;
 }
 
 /**

@@ -1969,6 +1969,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
   integrity sha512-rk4sWFsmtOw8oyx8SD3KSvawwaK7gRBSEIy2TAwURyGt+3TizssXP1r8nx3zY+R7v2vYYHXZ+k2/GULAT/bcaQ==
 
+"@react-native-picker/picker@1.9.11":
+  version "1.9.11"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.9.11.tgz#490c752417c17d687e2941659b3c0bff9cb79b83"
+  integrity sha512-E7whvvMIl9Ln1sxgug7OAEVWQ69n82iV0d2OWWp5VV52+RW3azKh1IFm4rxdW5/oByMfl7FFL0eHNelGgY4BMQ==
+
 "@react-navigation/bottom-tabs@5.11.2":
   version "5.11.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.11.2.tgz#5b541612fcecdea2a5024a4028da35e4a727bde6"
@@ -3816,6 +3821,16 @@ expo-font@~9.1.0:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-image-picker@~10.1.4:
+  version "10.1.4"
+  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-10.1.4.tgz#5805ea365385298cd59315790481a0a8d6c6a9ef"
+  integrity sha512-4U16RteJNWP5mC198fOIK/BgI3ZXRjqwslFK/gUrKiK5QKECXdvPCHrPwbXlo1DRQNhoPvWd+Cnhod0RsDnMkQ==
+  dependencies:
+    "@expo/config-plugins" "^1.0.18"
+    expo-permissions "~12.0.1"
+    unimodules-permissions-interface "~6.1.0"
+    uuid "7.0.2"
+
 expo-keep-awake@~9.1.2:
   version "9.1.2"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-9.1.2.tgz#b3e52c7bef0ade975ae88637a2bf980f6b573368"
@@ -3830,6 +3845,11 @@ expo-linking@~2.2.3:
     invariant "^2.2.4"
     qs "^6.5.0"
     url-parse "^1.4.4"
+
+expo-permissions@~12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-12.0.1.tgz#5163c00d991bf565bf987354611628c298ddd0c4"
+  integrity sha512-TtypNPPLG4SdVEKBlrArLLZIyhlhE+3B4dhz2HaY1Mve2rcvKE0C7z/e1WoUVU8+LgcdKoNGwg/wRVeCkxeEhg==
 
 expo-secure-store@~10.1.0:
   version "10.1.0"
@@ -7020,7 +7040,7 @@ react-native-screens@~3.0.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.0.0.tgz#ee4c2d69abf7411603868b57214feec5e8f637fa"
   integrity sha512-35II5oxTaVp3OP8y0eLPOPpQkxG4fRKQ+dL1YSE1we5kCZFOU0l/Rn0T79HbyUu1LPwUZr6lZupPs0ULnRyMuQ==
 
-react-native-svg@^12.1.1:
+react-native-svg@^12.1.0:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
   integrity sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q==
@@ -8316,6 +8336,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+
+uuid@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
+  integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==
 
 uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"

@@ -10,7 +10,7 @@ export function DefaultText(props: TextProps) {
 
 interface textProps {
   text: string,
-  style: TextStyle,
+  style?: TextStyle,
 }
 
 export function ArkadText(props: textProps) {

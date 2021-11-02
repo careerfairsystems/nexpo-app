@@ -1,92 +1,67 @@
-import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React from 'react';
+import { View, Text } from '../Themed';
 import { StyleSheet } from 'react-native';
-import { Text, View } from '../../components/Themed';
-import { User } from "../../api/users/Users";
-import { ArkadText } from "../StyledText";
-import { BookedEventList } from "./BookedEventList";
-import { EmptyEventItem } from "./EmptyEventItem";
-import { Event } from '../../api/events';
-import Colors from "../../constants/Colors";
+import Colors from '../../constants/Colors';
+import { Guild, Student } from '../../api/students';
+import QRCode from 'react-native-qrcode-svg';
+import { ArkadText } from '../StyledText';
 
-type StudentProfileParams = {
-  user: User;
-  bookedEvents: Event[] | null;
-  openEventDetails: (eventId: number) => void,
+type StudentProfileProps = {
+  student: Student;
 }
 
-/* Currently an unused component. In the future it would be nice to
- * refer to this component from the profile screen it improve 
- * readability since the profile screen is quite messy.
- */
-
-export const StudentProfile = 
-    ({ user, bookedEvents, openEventDetails }: StudentProfileParams) =>
+export default function StudentProfile({ student }: StudentProfileProps) {
+  return <>
     <View style={styles.container}>
-        <ArkadText 
-          text={user.firstName + " " + user.lastName} 
-          style={styles.name} />
-        <View style={styles.infoList}>
-          <View style={styles.infoItem}>
-            <Ionicons name="mail" size={16} color="black"/>
-            <ArkadText text={user.email} style={styles.itemText} />
-          </View>
-          <View style={styles.infoItem}>
-            <Ionicons name="call" size={16} color="black"/>
-            <ArkadText text={user.phoneNr ? user.phoneNr : '\u2013'} style={styles.itemText}/>
-          </View>
-        </View>
-            
-        <ArkadText text={"Booked events"} style={styles.header} />
+      <Text style={styles.label}>Guild</Text>
+      <Text style={styles.text}>{student.guild ? `${Guild[student.guild]}-Guild` : '\u2013'}</Text>
 
-        <View style={styles.eventList}> 
-          {bookedEvents == undefined 
-            ? <Text>Loading events...</Text>
-            : bookedEvents.length == 0 
-              ? <EmptyEventItem />
-              : <BookedEventList
-                  bookedEvents={bookedEvents}
-                  onPress={openEventDetails} />
-          }
+      <Text style={styles.label}>Year</Text>
+      <Text style={styles.text}>{student.year ? student.year : '\u2013'}</Text>
+
+      <Text style={styles.label}>Master</Text>
+      <Text style={styles.text}>{student.masterTitle ? student.masterTitle : '\u2013'}</Text>
+
+      <Text style={styles.label}>LinkedIn</Text>
+      <Text style={styles.text}>{student.linkedIn ? student.linkedIn : '\u2013'}</Text>
+
+      <Text style={styles.qrHeader}>Arkad Connect</Text>
+      <View style={styles.qrContainer}>
+        <QRCode
+          size={160}
+          value={student.id.toString()} />
       </View>
     </View>
-  
+  </>;
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
     alignItems: 'center',
   },
-  name: {
-    paddingTop: '8%',
+  label: {
+    marginTop: 8,
+    fontSize: 12,
+    fontFamily: 'montserrat',
+    color: Colors.darkBlue,
+  },
+  text: {
+    fontFamily: 'montserrat',
+    color: Colors.darkBlue,
+  },
+  qrHeader: {
+    marginTop: 24,
+    fontFamily: 'montserrat',
     fontSize: 24,
     color: Colors.darkBlue,
+    marginBottom: 8,
   },
-  infoList: {
-    paddingTop: '2%',
-  },
-  infoItem: {
-    paddingTop: '2%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  itemText: {
-    color: Colors.darkBlue,
-    fontSize: 12,
-    paddingHorizontal: 8,
-    textAlign: 'center'
-  },
-  header: {
-    paddingTop: '20%',
-    paddingLeft: '4%',
-    width: '100%',
-    textAlign: 'left',
-    fontSize: 16,
-    color: Colors.darkBlue,
-  },
-  eventList: {
-    paddingTop: '2%',
-    alignItems: 'center',
-    width: '100%',
+  qrContainer: {
+    borderWidth: 3,
+    borderColor: Colors.lightGray,
+    borderRadius: 5,
+    padding: 16,
+    marginBottom: 24,
   },
 });
