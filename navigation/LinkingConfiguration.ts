@@ -29,6 +29,8 @@ export default {
           },
           Map: {
             screens: {
+              MapScreen: 'maps',
+              ZoomMapScreen: 'maps/:map.name',
             }
           },
           Profile: {
