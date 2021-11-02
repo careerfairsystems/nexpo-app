@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
-
-import { View } from '../components/Themed';
-import { format } from "date-fns";
+import { Alert, StyleSheet } from 'react-native';
+import { Ionicons, MaterialIcons, MaterialCommunityIcons   } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors'
 
-import { Event } from '../api/events';
-import { CreateTicketDto } from '../api/tickets';
-
 import { API } from '../api';
+import { bookedEvent, Event } from '../api/events';
+import { CreateTicketDto, removeTicket } from '../api/tickets';
+
+import { View } from '../components/Themed';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadButton } from '../components/Buttons';
 import { ArkadText } from '../components/StyledText';
-import { Ionicons, MaterialIcons, MaterialCommunityIcons   } from '@expo/vector-icons';
 
 type EventDetailsScreenParams = {
   route: {
@@ -28,14 +26,13 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
   
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [registered, setRegistered] = useState<boolean>(false);
 
   const getEvent = async () => {
-    setLoading(true);
-
     const event = await API.events.getEvent(id);
     setEvent(event);
-
-    setLoading(false);
+    const reg = event != null && await bookedEvent(event)
+    setRegistered(reg)
   }
 
   const createTicket = async () => {
@@ -62,8 +59,26 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     }
   }
 
+  async function deregister(): Promise<void> {
+    setLoading(true);
+    if(event?.id == undefined) {
+      return;
+    }
+
+    const success = await removeTicket(event.id)
+    // TicketID or eventID ???
+    if(success) {
+      alert('De-registered from ' + event?.name + ' ' + event?.date);
+    } else {
+      alert('Could not de-register from ' + event?.name + ' ' + event?.date);
+    }
+    setLoading(false);
+  }
+
   useEffect(() => {
+    setLoading(true);
     getEvent();
+    setLoading(false);
   }, [])
 
   if (loading || !event) {
@@ -109,9 +124,14 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
         <ArkadText text={event.description} style={styles.description}/>
       </View>
       
-      <ArkadButton onPress={createTicket} style={styles.button}>
-        <ArkadText text="Attend event" style={styles.title}/>
-      </ArkadButton>
+      {registered
+        ? <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
+            <ArkadText text="De-register" style={styles.title}/>
+          </ArkadButton>
+        : <ArkadButton onPress={createTicket} style={styles.bookButton}>
+            <ArkadText text="Register to event" style={styles.title}/>
+          </ArkadButton>
+      }
     </View>
   );
 }
@@ -174,7 +194,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'left'
   },
-  button: {
+  bookButton: {
+    marginTop: 40,
+    width: '90%',
+    height: '10%',
+    padding: 40,
+    borderRadius: 12,
+  },
+  bookedButton: {
+    backgroundColor: Colors.lightGreen,
     marginTop: 40,
     width: '90%',
     height: '10%',
