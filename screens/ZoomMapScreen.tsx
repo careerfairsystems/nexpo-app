@@ -1,3 +1,4 @@
+import React from 'react'
 import { StyleSheet } from 'react-native';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
 import { Map } from '../components/maps/MapProps';
