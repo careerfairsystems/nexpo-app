@@ -13,17 +13,22 @@ import useColorScheme from '../hooks/useColorScheme';
 
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
-import EventListScreen from "../screens/EventListScreen";
-import ProfileScreen from '../screens/ProfileScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
+import EventListScreen from "../screens/EventListScreen";
+import MapScreen from "../screens/MapScreen";
+import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
 import QRScreen from '../screens/QRScreen';
 import { Ticket } from '../api/tickets';
+import ZoomMapScreen from '../screens/ZoomMapScreen';
+import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
+
 
 
 export type BottomTabParamList = {
   Companies: undefined;
+  Maps: undefined;
   Profile: undefined;
   Events: undefined
 };
@@ -40,6 +45,13 @@ export default function BottomTabNavigator() {
         component={CompaniesNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen 
+        name="Maps"
+        component={MapNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -116,6 +128,28 @@ function EventsNavigator() {
       />
     </EventStack.Navigator>
   );
+}
+
+export type MapStackParamList = {
+  MapScreen: undefined;
+  ZoomMapScreen: {
+    map: Map;
+  }
+}
+const MapStack = createStackNavigator<MapStackParamList>();
+function MapNavigator() {
+  return (
+    <MapStack.Navigator>
+      <MapStack.Screen
+        name="MapScreen"
+        component={MapScreen}
+        options={{ title: 'Maps', headerTitle: 'Maps' }} />
+    <MapStack.Screen
+        name="ZoomMapScreen"
+        component={ZoomMapScreen}
+        options={{ title: 'Map', headerTitle: 'Map' }} />
+    </MapStack.Navigator>
+  )
 }
 
 export type ProfileStackParamList = {
