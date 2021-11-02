@@ -20,6 +20,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
 import QRScreen from '../screens/QRScreen';
 import { Ticket } from '../api/tickets';
+import ZoomMapScreen from '../screens/ZoomMapScreen';
+import { Map } from '../components/maps/mapProps';
 
 
 export type BottomTabParamList = {
@@ -128,6 +130,9 @@ function EventsNavigator() {
 
 export type MapStackParamList = {
   MapScreen: undefined;
+  ZoomMapScreen: {
+    map: Map;
+  }
 }
 const MapStack = createStackNavigator<MapStackParamList>();
 function MapNavigator() {
@@ -137,6 +142,10 @@ function MapNavigator() {
         name="MapScreen"
         component={MapScreen}
         options={{ title: 'Maps', headerTitle: 'Maps' }} />
+    <MapStack.Screen
+        name="ZoomMapScreen"
+        component={ZoomMapScreen}
+        options={{ title: 'Map', headerTitle: 'Map' }} />
     </MapStack.Navigator>
   )
 }
