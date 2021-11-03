@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 40,
     height: 40,
+    resizeMode: 'contain',
   },
   companyName: {
     flex: 1,
