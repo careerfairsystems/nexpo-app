@@ -97,7 +97,9 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           }
         </View>
 
-        <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} /> 
+        {/* Add TicketsButton once the screen has been implemented.
+            Until then, keep the bookedEvents scrollable on this screen.
+        <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} /> */}
         {company && <ScanQRButton onPress={() => navigation.navigate('QRScreen')} />}
         <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
         <LogoutButton onPress={logout} />
