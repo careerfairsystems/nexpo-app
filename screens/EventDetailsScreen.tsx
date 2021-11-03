@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons   } from '@expo/vector-icons';
+import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import { CreateResult } from 'react-native-add-calendar-event';
 
 import Colors from '../constants/Colors'
 
 import { API } from '../api';
-import { bookedEvent, Event } from '../api/events';
+import { bookedEvent, Event, formatTimeUTC } from '../api/events';
 import { CreateTicketDto, getTicketForEvent, removeTicket, Ticket } from '../api/tickets';
 
 import { View } from '../components/Themed';
@@ -19,6 +21,13 @@ type EventDetailsScreenParams = {
       id: number;
     };
   };
+}
+
+type CalEvent = {
+  title: string,
+  startDate: string,
+  endDate: string,
+  location: string;
 }
 
 export default function EventDetailsScreen({ route }: EventDetailsScreenParams) {
@@ -82,6 +91,27 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     setLoading(false);
   }
 
+  function addCalendarEvent(): void {
+    const eventConfig: CalEvent = {
+      title: event!.name,
+      startDate: formatTimeUTC(event!.date, event!.start),
+      endDate: formatTimeUTC(event!.date, event!.end),
+      location: event!.location
+    }
+
+    AddCalendarEvent.presentEventCreatingDialog(eventConfig)
+    .then((value: CreateResult) => {
+      if(value.action == "SAVED") {
+        alert('Saved ' + event!.name + ' to calendar');
+      }
+    })
+    .catch((error: string) => {
+      alert('Could not save ' + event!.name + ' to calendar');
+      console.log(error)
+    });
+  }
+    
+
   useEffect(() => {
     setLoading(true);
     getEvent();
@@ -132,13 +162,16 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
       </View>
       
       {registered
-        ? <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
+        ? <ArkadButton onPress={deregister} style={styles.bookedButton}>
             <ArkadText text="De-register" style={styles.title}/>
           </ArkadButton>
         : <ArkadButton onPress={createTicket} style={styles.bookButton}>
             <ArkadText text="Register to event" style={styles.title}/>
           </ArkadButton>
       }
+      <ArkadButton onPress={addCalendarEvent} style={styles.bookButton}>
+        <ArkadText text="Save event to calendar" style={styles.title}/>
+      </ArkadButton>
     </View>
   );
 }

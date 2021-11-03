@@ -33,6 +33,24 @@ export function formatTime(date: string, start: string, end: string): string {
   }
 }
 
+/**
+ * Returns a time format used by google calendar
+ */
+ export function formatTimeUTC(date: string, time: string): string {
+  if(date == "" || time == "") {
+    return ""
+  }
+  var d: Date = new Date(date)
+
+  try {
+    const dateString = format(d, "yyyy-MM-dd") + "T" + time + ":00.00+01:00";
+    console.log(dateString)
+    return dateString;
+  } catch(RangeError) {
+    return ""
+  }
+}
+
 export const bookedEvent = async (event: Event): Promise<boolean> => {
   const regEvents = await getAllTickets();
   for(var i = 0; i < regEvents.length; i++) {
