@@ -27,9 +27,16 @@ export default {
               EventDetailsScreen: 'events/:id',
             },
           },
+          Map: {
+            screens: {
+              MapScreen: 'maps',
+              ZoomMapScreen: 'maps/:map.name',
+            }
+          },
           Profile: {
             screens: {
               ProfileScreen: 'profile',
+              EditProfileScreen: 'profile/edit',
               TicketsScreen: 'event/tickets/',
             },
           },

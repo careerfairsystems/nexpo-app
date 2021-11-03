@@ -80,9 +80,9 @@ const AuthStack = createStackNavigator<AuthStackParamList>();
 function AuthNavigator() {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginScreen">
-      <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
-      <AuthStack.Screen name="SignUpScreen" component={SignUpScreen} />
-      <AuthStack.Screen name="FinalizeSignUpScreen" component={FinalizeSignUpScreen} />
+      <AuthStack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'Login' }}/>
+      <AuthStack.Screen name="SignUpScreen" component={SignUpScreen} options={{ title: 'Sign up' }} />
+      <AuthStack.Screen name="FinalizeSignUpScreen" component={FinalizeSignUpScreen} options={{ title: 'Finalize signup' }} />
     </AuthStack.Navigator>
   );
 }

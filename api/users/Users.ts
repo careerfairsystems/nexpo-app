@@ -19,11 +19,11 @@ export enum Role {
 }
 
 export interface UpdateUserDto {
-  firstName?: string;
-  lastName?: string;
-  phoneNr?: string;
-  foodPreferences?: string;
-  password?: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  phoneNr?: string | null;
+  foodPreferences?: string | null;
+  password?: string | null;
 }
 
 /**

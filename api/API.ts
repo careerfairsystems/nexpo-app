@@ -6,6 +6,7 @@ import * as Users from './users';
 import * as SignUp from './signup';
 import * as Files from './files';
 import * as CompanyConnections from './companyconnections';
+import * as Students from './students';
 
 export class API {
   static auth = Auth
@@ -16,4 +17,5 @@ export class API {
   static signup = SignUp
   static files = Files
   static companyconnections = CompanyConnections
+  static students = Students
 }

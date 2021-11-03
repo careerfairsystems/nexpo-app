@@ -13,15 +13,22 @@ import useColorScheme from '../hooks/useColorScheme';
 
 import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
-import EventListScreen from "../screens/EventListScreen";
-import ProfileScreen from '../screens/ProfileScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
+import EventListScreen from "../screens/EventListScreen";
+import MapScreen from "../screens/MapScreen";
+import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
+import QRScreen from '../screens/QRScreen';
 import { Ticket } from '../api/tickets';
+import ZoomMapScreen from '../screens/ZoomMapScreen';
+import { Map } from '../components/maps/MapProps';
+import EditProfileScreen from '../screens/EditProfileScreen';
+
 
 
 export type BottomTabParamList = {
   Companies: undefined;
+  Maps: undefined;
   Profile: undefined;
   Events: undefined
 };
@@ -31,13 +38,20 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Companies"
+      initialRouteName="Events"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Companies"
         component={CompaniesNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen 
+        name="Maps"
+        component={MapNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -81,12 +95,12 @@ function CompaniesNavigator() {
       <CompanyStack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}
-        options={{ headerTitle: 'Companies' }}
+        options={{ title: 'Companies', headerTitle: 'Companies' }}
       />
       <CompanyStack.Screen
         name="CompanyDetailsScreen"
         component={CompanyDetailsScreen}
-        options={{ headerTitle: 'Company Details' }}
+        options={{ title: 'Company Details', headerTitle: 'Company Details' }}
       />
     </CompanyStack.Navigator>
   );
@@ -105,25 +119,47 @@ function EventsNavigator() {
       <EventStack.Screen
         name="EventListScreen"
         component={EventListScreen}
-        options={{ headerTitle: 'Events' }}
+        options={{ title: 'Events', headerTitle: 'Events' }}
       />
       <EventStack.Screen
         name="EventDetailsScreen"
         component={EventDetailsScreen}
-        options={{ headerTitle: 'Event Details' }}
+        options={{ title: 'Event Details', headerTitle: 'Event Details' }}
       />
     </EventStack.Navigator>
   );
 }
 
+export type MapStackParamList = {
+  MapScreen: undefined;
+  ZoomMapScreen: {
+    map: Map;
+  }
+}
+const MapStack = createStackNavigator<MapStackParamList>();
+function MapNavigator() {
+  return (
+    <MapStack.Navigator>
+      <MapStack.Screen
+        name="MapScreen"
+        component={MapScreen}
+        options={{ title: 'Maps', headerTitle: 'Maps' }} />
+    <MapStack.Screen
+        name="ZoomMapScreen"
+        component={ZoomMapScreen}
+        options={{ title: 'Map', headerTitle: 'Map' }} />
+    </MapStack.Navigator>
+  )
+}
+
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
+  EditProfileScreen: undefined;
   EventDetailsScreen: {
     id: number;
   },
-  TicketsScreen: {
-    tickets: Ticket[];
-  }
+  TicketsScreen: undefined;
+  QRScreen: undefined,
 }
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
 function ProfileNavigator() {
@@ -132,12 +168,27 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ headerTitle: 'Profile' }}
+        options={{ title: 'Profile', headerTitle: 'Profile' }}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+        options={{ title: 'Edit Profile', headerTitle: 'Edit Profile' }}
+      />
+      <ProfileStack.Screen 
+        name="EventDetailsScreen"
+        component={EventDetailsScreen}
+        options={{ headerTitle: 'Event' }}
       />
       <ProfileStack.Screen 
         name="TicketsScreen"
         component={TicketsScreen}
-        options={{ headerTitle: 'Tickets' }}
+        options={{ title: 'Tickets', headerTitle: 'Tickets' }}
+      />
+      <ProfileStack.Screen
+        name="QRScreen"
+        component={QRScreen}
+        options={{ headerTitle: 'QR' }}
       />
     </ProfileStack.Navigator>
   );
