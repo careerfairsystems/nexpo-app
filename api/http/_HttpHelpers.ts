@@ -1,14 +1,15 @@
 import Constants from 'expo-constants';
 import { isAuthenticated, getJwt } from '../auth/_AuthState';
+import { backendUrl } from '../../config';
 
-const baseUrl: string = Constants.manifest.extra?.backendUrl;
+//const baseUrl: string = Constants.manifest.extra?.backendUrl;
 
 /**
  * Return the full url to a api endpoint
  * @param endpoint the endpoint to reach
  */
 const apiUrl = (endpoint: string): string => {
-  return `${baseUrl}${endpoint}`
+  return `${backendUrl}${endpoint}`
 }
 
 /**
@@ -29,6 +30,7 @@ export const get = (endpoint: string) => {
  * @param body the body to send
  */
 export const post = (endpoint: string, body: any) => {
+  console.log(apiUrl(endpoint))
   return fetch(apiUrl(endpoint), {
     method: 'POST',
     headers: {
