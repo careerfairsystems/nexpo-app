@@ -1,5 +1,3 @@
-const isDev = process.env.NODE_ENV == 'development';
-
 export default {
   name: 'Arkad',
   slug: 'nexpo-app',
@@ -36,9 +34,4 @@ export default {
   web: {
     favicon: './assets/images/favicon.png'
   },
-  extra: {
-    backendUrl: isDev 
-      ? (process.env.NEXPO_BACKEND_URL || 'https://nexpo-nova.marfor.io/api')
-      : 'https://nexpo.arkadtlth.se/api' ,
-  }
 }

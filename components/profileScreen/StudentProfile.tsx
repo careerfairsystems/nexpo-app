@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from '../Themed';
-import { StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Guild, Student } from '../../api/students';
 import QRCode from 'react-native-qrcode-svg';
@@ -26,11 +26,11 @@ export default function StudentProfile({ student }: StudentProfileProps) {
       <Text style={styles.text}>{student.linkedIn ? student.linkedIn : '\u2013'}</Text>
 
       <Text style={styles.qrHeader}>Arkad Connect</Text>
-      <View style={styles.qrContainer}>
+      <Pressable style={styles.qrContainer} onPress={() => alert('Let a company representative scan this QR code with their app to share your profile with them.')}>
         <QRCode
           size={160}
           value={student.id.toString()} />
-      </View>
+      </Pressable>
     </View>
   </>;
 }

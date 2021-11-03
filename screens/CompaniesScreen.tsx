@@ -35,21 +35,23 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
     getCompanies();
   }, []);
   
+  if (isLoading) {
+    return (<View style={styles.container}>
+      <Text>Loading...</Text>
+    </View>)
+  }
+
   return (
     <View style={styles.container}>
-      {isLoading 
-        ? <Text>Loading...</Text>
-        : <View style={styles.listContainer}>
-            <FlatList
-              data={companies}
-              keyExtractor={({ id }) => id.toString()}
-              renderItem={({ item: company }) => 
-                <CompanyListItem
-                  company={company} 
-                  onPress={() => openCompanyDetails(company.id)} />
-              } />
-          </View>
-      }
+      <FlatList
+        style={styles.list}
+        data={companies}
+        keyExtractor={({ id }) => id.toString()}
+        renderItem={({ item: company }) => 
+          <CompanyListItem
+            company={company} 
+            onPress={() => openCompanyDetails(company.id)} />
+        } />
     </View>
   );
 }
@@ -60,8 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  listContainer: {
-    flex: 1,
-    width: '90%',
+  list: {
+    width: '100%',
   },
 });

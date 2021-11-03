@@ -44,11 +44,14 @@ export default function EditCompanyProfile({ company, setUpdateCompanyDto, setEd
     <View style={styles.container}>
       <Text style={styles.nameLabel}>{company.name}</Text>
 
-      <Text>Description</Text>
-      <TextInput value={description ? description : ''} placeholder="Write something eye catching about your company" onChangeText={setDescription}/>
+      <Text>About us</Text>
+      <TextInput style={[styles.textInput, styles.descriptionInput]}
+        multiline
+        value={description ? description : ''} placeholder="Write something eye catching about your company" onChangeText={setDescription}/>
 
       <Text>Website</Text>
-      <TextInput value={website ? website : ''} placeholder="https://example.com" onChangeText={setWebsite}/>
+      <TextInput style={styles.textInput}
+        value={website ? website : ''} placeholder="https://example.com" onChangeText={setWebsite}/>
     </View>
   </>;
 }
@@ -57,6 +60,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
+    marginTop: 24,
   },
   nameLabel: {
     paddingTop: 8,
@@ -64,5 +68,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'montserrat',
     color: Colors.darkBlue,
+  },
+  textInput: {
+    width: '80%',
+    maxWidth: 400,
+  },
+  descriptionInput: {
+    height: 200,
   },
 });

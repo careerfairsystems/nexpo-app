@@ -61,7 +61,7 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
             <Text 
               style={styles.contactInfoText}
               onPress={() => { if (company.website) { Linking.openURL(company.website) }}}>
-              { company.website ? company.website : '\u2013'}
+              { company.website ? company.website.replace(/^https?:\/\//, '') : '\u2013'}
             </Text>
           </View>
 
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    paddingTop: 8,
+    marginTop: 24,
     paddingBottom: 8,
     fontSize: 24,
     fontFamily: 'montserrat',

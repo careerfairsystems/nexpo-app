@@ -100,17 +100,22 @@ export default function EditUserProfile({ user, setUpdateUserDto, setEditStatus 
       }
 
       <Text>First name</Text>
-      <TextInput value={firstName ? firstName : ''} placeholder="John" onChangeText={setFirstName}/>
+      <TextInput style={styles.textInput}
+        value={firstName ? firstName : ''} placeholder="John" onChangeText={setFirstName}/>
 
       <Text>Last name</Text>
-      <TextInput value={lastName ? lastName : ''} placeholder="Doe" onChangeText={setLastName}/>
+      <TextInput style={styles.textInput}
+        value={lastName ? lastName : ''} placeholder="Doe" onChangeText={setLastName}/>
 
       <Text>Phone number</Text>
-      <TextInput value={phoneNr ? phoneNr : ''} placeholder="076-1234567" onChangeText={setPhoneNr}/>
+      <TextInput style={styles.textInput}
+        value={phoneNr ? phoneNr : ''} placeholder="076-1234567" onChangeText={setPhoneNr}/>
 
       <Text>Password</Text>
-      <TextInput secureTextEntry placeholder="New password" onChangeText={setPassword}/>
-      <TextInput secureTextEntry placeholder="Repeat password" onChangeText={setRepeatPassword}/>
+      <TextInput style={styles.textInput}
+        secureTextEntry placeholder="New password" onChangeText={setPassword}/>
+      <TextInput style={styles.textInput}
+        secureTextEntry placeholder="Repeat password" onChangeText={setRepeatPassword}/>
     </View>
   </>;
 }
@@ -127,17 +132,8 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat',
     color: Colors.darkBlue,
   },
-  contactInfoContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 4,
+  textInput: {
+    width: '80%',
+    maxWidth: 400,
   },
-  contactInfoText: {
-    fontSize: 14,
-    paddingLeft: 8,
-    fontFamily: 'montserrat',
-    color: Colors.darkBlue,
-  }
 });
