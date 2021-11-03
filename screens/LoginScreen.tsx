@@ -54,11 +54,13 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
         <TextInput
           placeholder="Email" 
           keyboardType="email-address"
-          onChangeText={setEmail} />
+          onChangeText={setEmail}
+          onSubmitEditing={login} />
         <TextInput
           placeholder="Password"
           secureTextEntry
-          onChangeText={setPassword} />
+          onChangeText={setPassword}
+          onSubmitEditing={login} />
         { loading
           ? <ActivityIndicator/>
           : <ArkadButton onPress={login} style={{}}>
