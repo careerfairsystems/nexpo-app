@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 import { TextInput } from '../TextInput';
 import { EditStatus } from '../../screens/EditProfileScreen';
 import { Picker } from '@react-native-picker/picker';
+import Colors from '../../constants/Colors';
 
 type EditStudentProfileProps = {
   student: Student;
@@ -62,10 +63,12 @@ export default function EditStudentProfile({ student, setUpdateStudentDto, setEd
       </Picker>
 
       <Text>Master Title</Text>
-      <TextInput value={masterTitle ? masterTitle : ''} onChangeText={setMasterTitle}/>
+      <TextInput style={styles.textInput}
+        value={masterTitle ? masterTitle : ''} onChangeText={setMasterTitle}/>
 
       <Text>LinkedIn</Text>
-      <TextInput value={linkedIn ? linkedIn : ''} onChangeText={setLinkedIn}/>
+      <TextInput style={styles.textInput}
+        value={linkedIn ? linkedIn : ''} onChangeText={setLinkedIn}/>
     </View>
   </>;
 }
@@ -76,7 +79,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   picker: {
-    width: 200,
-    padding: 8,
-  }
+    width: '80%',
+    maxWidth: 400,
+    padding: 10,
+    borderRadius: 3,
+    borderColor: Colors.gray,
+    fontFamily: 'montserrat',
+    margin: 12,
+  },
+  textInput: {
+    width: '80%',
+    maxWidth: 400,
+  },
 });
