@@ -55,6 +55,7 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     } 
     else {
       alert('Could not register to ' + event?.name + ' ' + event?.date);
+      getEvent();
     }
 
     setLoading(false);

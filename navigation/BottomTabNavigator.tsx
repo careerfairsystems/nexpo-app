@@ -81,7 +81,7 @@ export default function BottomTabNavigator() {
             if (navigation.canGoBack()) {
               navigation.popToTop()
             }
-            navigation.replace('EventsScreen')
+            navigation.replace('EventListScreen')
           },
         })}
       />
@@ -91,7 +91,7 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
         }}
-        listeners={({ navigation }) => ({
+        listeners={({ navigation, route }) => ({
           tabPress: (e) => {
             if (navigation.canGoBack()) {
               navigation.popToTop()
