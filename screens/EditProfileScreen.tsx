@@ -97,7 +97,13 @@ export default function EditProfileScreen({ navigation }: EditProfileScreenParam
       setCompany(company);
     }
 
-    navigation.goBack();
+    // Navigate back if possible, otherwise navigate explicitly
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+    else {
+      navigation.replace('ProfileScreen')
+    }
   }
 
   useEffect(() => {
