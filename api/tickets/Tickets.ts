@@ -1,4 +1,5 @@
 import { deleteAuth, getAuth, postAuth } from '../http/_HttpHelpers';
+import { Event } from '../events/Events'
 
 export interface CreateTicketDto {
   eventId: number;
@@ -11,6 +12,22 @@ export interface Ticket {
   photoOk: boolean,
   eventId: number,
   userId: number
+}
+
+/**
+ * @param Event The event related to the ticket. 
+ * @returns the ticket which is booked to the given event. 
+ * If it is not booked then this function returns null.
+ */
+export async function getTicketForEvent(event: Event): Promise<Ticket | null> {
+  const tickets = await getAllTickets();
+  const evId = event.id
+  for (var i = 0; i < tickets.length; i++) {
+    if(evId == tickets[i].eventId) {
+      return tickets[i];
+    }
+  }
+  return null;
 }
 
 /**
