@@ -6,7 +6,7 @@ import Colors from '../constants/Colors'
 
 import { API } from '../api';
 import { bookedEvent, Event } from '../api/events';
-import { CreateTicketDto, removeTicket } from '../api/tickets';
+import { CreateTicketDto, getTicketForEvent, removeTicket, Ticket } from '../api/tickets';
 
 import { View } from '../components/Themed';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
@@ -25,8 +25,8 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
   const { id } = route.params;
   
   const [event, setEvent] = useState<Event | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [registered, setRegistered] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
@@ -49,14 +49,15 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     
     const ticket = await API.tickets.createTicket(ticketRequest);
 
-    setLoading(false);
-
     if (ticket != undefined) {
       alert('Registered to ' + event?.name + ' ' + event?.date);
+      getEvent();
     } 
     else {
       alert('Could not register to ' + event?.name + ' ' + event?.date);
     }
+
+    setLoading(false);
   }
 
   async function deregister(): Promise<void> {
@@ -65,10 +66,16 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
       return;
     }
 
-    const success = await removeTicket(event.id)
-    // TicketID or eventID ???
+    const ticket: Ticket | null = await getTicketForEvent(event);
+    if(ticket == null) {
+      alert('You are not booked to ' + event?.name + ' ' + event?.date);
+      return;
+    }
+
+    const success = await removeTicket(ticket.id)
     if(success) {
-      alert('De-registered from ' + event?.name + ' ' + event?.date);
+      alert('Successfully de-registered from ' + event?.name + ' ' + event?.date);
+      getEvent();
     } else {
       alert('Could not de-register from ' + event?.name + ' ' + event?.date);
     }
