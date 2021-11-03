@@ -42,7 +42,7 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.outerContainer}>
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.logoContainer}>
@@ -74,9 +74,13 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+  },
   container: {
     display: 'flex',
     flex: 1,
+    padding: '8%',
     alignItems: 'center',
   },
   logoContainer: {
@@ -112,14 +116,12 @@ const styles = StyleSheet.create({
   descHeader: {
     alignSelf: 'flex-start',
     textDecorationLine: 'underline',
-    paddingHorizontal: '8%',
     paddingTop: 16,
     fontSize: 18,
     fontFamily: 'montserrat',
     color: Colors.darkBlue,
   },
   desc: {
-    paddingHorizontal: '8%',
     paddingTop: 6,
     fontSize: 14,
     fontFamily: 'montserrat',
