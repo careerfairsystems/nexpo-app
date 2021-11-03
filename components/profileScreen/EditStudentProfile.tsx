@@ -15,8 +15,8 @@ type EditStudentProfileProps = {
 export default function EditStudentProfile({ student, setUpdateStudentDto, setEditStatus }: EditStudentProfileProps) {
   const [guild, setGuild] = React.useState<Guild | null>(student.guild);
   const [year, setYear] = React.useState<number | null>(student.year);
-  const [masterTitle, setMasterTitle] = React.useState<string | null>(null);
-  const [linkedIn, setLinkedIn] = React.useState<string | null>(null);
+  const [masterTitle, setMasterTitle] = React.useState<string | null>(student.masterTitle);
+  const [linkedIn, setLinkedIn] = React.useState<string | null>(student.linkedIn);
 
   React.useEffect(() => {
     const dto = {
