@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    width: '90%',
+    alignSelf: 'center',
     marginTop: 10,
     marginHorizontal: 10,
     backgroundColor: Colors.darkBlue,
