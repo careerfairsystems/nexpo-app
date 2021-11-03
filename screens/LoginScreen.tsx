@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
     // It is probably because the state updates don't happen immediately.
     setLoading(true);
     
-    const success = await API.auth.login(email, password);
+    const success = await API.auth.login(email.toLowerCase(), password);
 
     setLoading(false);
 
