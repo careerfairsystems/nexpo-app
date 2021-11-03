@@ -49,7 +49,7 @@ export default function BottomTabNavigator() {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             if (navigation.canGoBack()) {
-              navigation.popToTop()
+              //navigation.popToTop()
             }
             navigation.replace('CompaniesScreen')
           },
@@ -64,7 +64,7 @@ export default function BottomTabNavigator() {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             if (navigation.canGoBack()) {
-              navigation.popToTop()
+              //navigation.popToTop()
             }
             navigation.replace('MapScreen')
           },
@@ -79,7 +79,7 @@ export default function BottomTabNavigator() {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             if (navigation.canGoBack()) {
-              navigation.popToTop()
+              //navigation.popToTop()
             }
             navigation.replace('EventListScreen')
           },
@@ -94,7 +94,7 @@ export default function BottomTabNavigator() {
         listeners={({ navigation, route }) => ({
           tabPress: (e) => {
             if (navigation.canGoBack()) {
-              navigation.popToTop()
+              //navigation.popToTop()
             }
             navigation.replace('ProfileScreen')
           },
