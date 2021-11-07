@@ -30,7 +30,6 @@ export const get = (endpoint: string) => {
  * @param body the body to send
  */
 export const post = (endpoint: string, body: any) => {
-  console.log(apiUrl(endpoint))
   return fetch(apiUrl(endpoint), {
     method: 'POST',
     headers: {

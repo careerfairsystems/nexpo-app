@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons   } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors'
@@ -49,8 +49,9 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
     
     const ticket = await API.tickets.createTicket(ticketRequest);
 
-    if (ticket != undefined) {
+    if (ticket) {
       alert('Registered to ' + event?.name + ' ' + event?.date);
+      alert('If you have any allergies or food preferences, please update your profile to contain it.');
       getEvent();
     } 
     else {
@@ -94,57 +95,62 @@ export default function EventDetailsScreen({ route }: EventDetailsScreenParams) 
   }
   
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <ArkadText text={event.name} style={styles.title}/>
-      </View>
-      <View style={styles.headerContainer}>
-        <View style={[styles.subHeaderContainer, {flex: 0.7}]}>
-          <View style={styles.leftItem}>
-            <Ionicons name="calendar" size={16} color="black"/>
-            <ArkadText 
-              text={API.events.formatTime(event.date, event.start, event.end)} 
-              style={styles.headerText} 
-            />
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <ArkadText text={event.name} style={styles.title}/>
+        </View>
+        <View style={styles.headerContainer}>
+          <View style={[styles.subHeaderContainer, {flex: 0.7}]}>
+            <View style={styles.leftItem}>
+              <Ionicons name="calendar" size={16} color="black"/>
+              <ArkadText 
+                text={API.events.formatTime(event.date, event.start, event.end)} 
+                style={styles.headerText} 
+              />
+            </View>
+            <View style={styles.leftItem}>
+              <Ionicons name="map" size={16} color="black"/>
+              <ArkadText text={event.location} style={styles.headerText}/>
+            </View>
+            <View style={styles.leftItem}>
+              <MaterialCommunityIcons name="microphone" size={16} color="black"/>
+              <ArkadText text={event.host} style={styles.headerText}/>
+            </View>
           </View>
-          <View style={styles.leftItem}>
-            <Ionicons name="map" size={16} color="black"/>
-            <ArkadText text={event.location} style={styles.headerText}/>
-          </View>
-          <View style={styles.leftItem}>
-            <MaterialCommunityIcons name="microphone" size={16} color="black"/>
-            <ArkadText text={event.host} style={styles.headerText}/>
+          <View style={[styles.subHeaderContainer, {flex: 0.3}]}>
+            <View style={styles.rightItem}>
+              <Ionicons name="people" size={16} color="black"/>
+              <ArkadText text={event.ticketCount + "/" + event.capacity} style={styles.headerText}/>
+            </View>
+            <View style={styles.rightItem}>
+              <MaterialIcons name="language" size={16} color="black"/>
+              <ArkadText text={event.language} style={styles.headerText}/>
+            </View>
           </View>
         </View>
-        <View style={[styles.subHeaderContainer, {flex: 0.3}]}>
-          <View style={styles.rightItem}>
-            <Ionicons name="people" size={16} color="black"/>
-            <ArkadText text={event.ticketCount + "/" + event.capacity} style={styles.headerText}/>
-          </View>
-          <View style={styles.rightItem}>
-            <MaterialIcons name="language" size={16} color="black"/>
-            <ArkadText text={event.language} style={styles.headerText}/>
-          </View>
-        </View>
-      </View>
 
-      <View style={styles.descriptionContainer}>
-        <ArkadText text={event.description} style={styles.description}/>
+        <View style={styles.descriptionContainer}>
+          <ArkadText text={event.description} style={styles.description}/>
+        </View>
+
+        {registered
+          ? <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
+              <ArkadText text="De-register" style={styles.title}/>
+            </ArkadButton>
+          : <ArkadButton onPress={createTicket} style={styles.bookButton}>
+              <ArkadText text="Register to event" style={styles.title}/>
+            </ArkadButton>
+        }
       </View>
-      
-      {registered
-        ? <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
-            <ArkadText text="De-register" style={styles.title}/>
-          </ArkadButton>
-        : <ArkadButton onPress={createTicket} style={styles.bookButton}>
-            <ArkadText text="Register to event" style={styles.title}/>
-          </ArkadButton>
-      }
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: Colors.white,
+  },
   container: {
     flex: 1,
     width: '100%',

@@ -7,11 +7,12 @@ export interface CreateTicketDto {
 }
 
 export interface Ticket {
-  id: number,
-  code: string,
-  photoOk: boolean,
-  eventId: number,
-  userId: number
+  id: number;
+  code: string;
+  photoOk: boolean;
+  eventId: number;
+  event: Event;
+  userId: number;
 }
 
 /**

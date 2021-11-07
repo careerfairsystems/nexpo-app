@@ -22,6 +22,7 @@ export default function EditUserProfile({ user, setUpdateUserDto, setEditStatus 
   const [firstName, setFirstName] = useState<string | null>(user.firstName);
   const [lastName, setLastName] = useState<string | null>(user.lastName);
   const [phoneNr, setPhoneNr] = useState<string | null>(user.phoneNr);
+  const [foodPreferences, setFoodPreferences] = useState<string | null>(user.foodPreferences);
   const [password, setPassword] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
 
@@ -51,10 +52,11 @@ export default function EditUserProfile({ user, setUpdateUserDto, setEditStatus 
       lastName,
       phoneNr,
       password,
+      foodPreferences,
     }
     setUpdateUserDto(dto);
 
-  }, [firstName, lastName, phoneNr, password, repeatPassword])
+  }, [firstName, lastName, phoneNr, password, repeatPassword, foodPreferences])
 
   const setProfilePicture = async () => {
     if (Platform.OS !== 'web') {
@@ -110,6 +112,10 @@ export default function EditUserProfile({ user, setUpdateUserDto, setEditStatus 
       <Text>Phone number</Text>
       <TextInput style={styles.textInput}
         value={phoneNr ? phoneNr : ''} placeholder="076-1234567" onChangeText={setPhoneNr}/>
+
+      <Text>Food preferences</Text>
+      <TextInput style={styles.textInput}
+        value={foodPreferences ? foodPreferences : ''} placeholder="Vegetarian.." onChangeText={setFoodPreferences}/>
 
       <Text>Password</Text>
       <TextInput style={styles.textInput}

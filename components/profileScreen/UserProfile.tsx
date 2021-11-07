@@ -24,6 +24,10 @@ export default function UserProfile({ user }: UserProfileProps) {
         <Ionicons name="call" size={16} color={Colors.darkBlue} />
         <Text style={styles.contactInfoText}>{ user.phoneNr ? user.phoneNr : '\u2013'}</Text>
       </View>
+      <View style={styles.contactInfoContainer}>
+        <Ionicons name="pizza" size={16} color={Colors.darkBlue} />
+        <Text style={styles.contactInfoText}>{ user.foodPreferences ? user.foodPreferences : '\u2013'}</Text>
+      </View>
     </View>
   </>;
 }

@@ -19,7 +19,6 @@ import MapScreen from "../screens/MapScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
 import QRScreen from '../screens/QRScreen';
-import { Ticket } from '../api/tickets';
 import ZoomMapScreen from '../screens/ZoomMapScreen';
 import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
