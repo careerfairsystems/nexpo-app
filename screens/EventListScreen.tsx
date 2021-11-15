@@ -24,7 +24,9 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
     setLoading(true);
 
     const events = await API.events.getAllEvents();
-    setEvents(events);
+    // Don't show past events
+    const futureEvents = events.filter(e => new Date(e.date).setHours(1) > new Date().setHours(0))
+    setEvents(futureEvents);
     const bookedEvents = await API.events.getBookedEvents();
     setBookedEvents(bookedEvents);
 
