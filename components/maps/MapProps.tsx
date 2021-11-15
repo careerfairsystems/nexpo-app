@@ -3,23 +3,85 @@ export interface Map {
   props: any
 }
 
+const folderPath = '../../assets/images/maps/';
+
 export const FairMap: Map = {
   name: 'Fair', 
-  props: {source: require("../../assets/images/maps/MapFair.png")}
+  props: {
+    images: [{
+      url: '',
+      props: {
+        source: require(folderPath + "oversikt.png")
+      }
+    },{
+      url: '',
+      props: {
+        source: require(folderPath + "oversikt-list.png")
+      }
+    }]
+  }
 }
 export const KarhusetMap: Map = {
   name: 'Kårhuset', 
-  props: {source: require("../../assets/images/maps/MapKarhuset.png")}
+  props: {
+    images: [{
+      url: '',
+      props: {
+        source: require(folderPath + "Karhuset.png")
+      }
+    },{
+      url: '',
+      props: {
+        source: require(folderPath + "Karhuset-list.png")
+      }
+    }]
+  }
 }
 export const EMap: Map = {
   name: 'E-huset', 
-  props: {source: require("../../assets/images/maps/MapE.png")}
+  props: {
+    images: [{
+      url: '',
+      props: {
+        source: require(folderPath + "E-huset.png")
+      }
+    },{
+      url: '',
+      props: {
+        source: require(folderPath + "E-huset-list.png")
+      }
+    }]
+  }
 }
 export const SC1Map: Map = {
   name: 'Studiecentrum first floor', 
-  props: {source: require("../../assets/images/maps/MapSC1.png")}
+  props: {
+    images: [{
+      url: '',
+      props: {
+        source: require(folderPath + "Sc-1.png")
+      }
+    },{
+      url: '',
+      props: {
+        source: require(folderPath + "Sc-1-list.png")
+      }
+    }]
+  }
 }
 export const SC2Map: Map = {
-  name: 'Studiecentrum first floor', 
-  props: {source: require("../../assets/images/maps/MapSC2.png")}
+  name: 'Studiecentrum second floor', 
+  props: {
+    images: [{
+      url: '',
+      props: {
+        source: require(folderPath + "Sc-2.png")
+      }
+    },{
+      url: '',
+      props: {
+        source: require(folderPath + "Sc-2-list.png")
+      }
+    }]
+  }
 }
