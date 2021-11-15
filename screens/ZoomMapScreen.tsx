@@ -1,11 +1,13 @@
 import React from 'react'
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
 import { Map } from '../components/maps/MapProps';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ArkadText } from '../components/StyledText';
 import { View } from '../components/Themed';
 import Colors from '../constants/Colors';
+import Pdf from 'react-native-pdf';
+import PDFExample from '../components/maps/ZoomableImage';
 
 type MapScreenParams = {
   route: {
@@ -26,17 +28,11 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
     url: '',
     props: map.props
   }]
+  const source = {uri: 'https://ibb.co/mDtRWxf'};
 
   return (
     <View style={styles.container}>
-      <ImageViewer
-        imageUrls={images}
-        maxOverflow={0}
-        renderHeader={(currentIndex?: number) => 
-          <ArkadText 
-            text={map.name} 
-            style={styles.mapName} />}
-        backgroundColor={Colors.white} />
+      <PDFExample/>
     </View>
   )
 }
@@ -44,9 +40,13 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 25,
   },
-  mapName: {
-    color: Colors.darkBlue,
-    fontSize: 24,
-  },
+  pdf: {
+      flex:1,
+      width:Dimensions.get('window').width,
+      height:Dimensions.get('window').height,
+  }
 })

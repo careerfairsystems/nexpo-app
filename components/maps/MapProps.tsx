@@ -3,23 +3,35 @@ export interface Map {
   props: any
 }
 
+const folderPath = 'nexpo-app/assets/images/maps2/';
+
 export const FairMap: Map = {
   name: 'Fair', 
-  props: {source: require("../../assets/images/maps/MapFair.png")}
+  props: {
+    source: folderPath + "https://ibb.co/mDtRWxf",
+  }
 }
 export const KarhusetMap: Map = {
   name: 'Kårhuset', 
-  props: {source: require("../../assets/images/maps/MapKarhuset.png")}
+  props: {
+    source: folderPath + "Karhuset.png"
+  }
 }
 export const EMap: Map = {
   name: 'E-huset', 
-  props: {source: require("../../assets/images/maps/MapE.png")}
+  props: {
+    source: folderPath + "E-huset.png"
+  }
 }
 export const SC1Map: Map = {
   name: 'Studiecentrum first floor', 
-  props: {source: require("../../assets/images/maps/MapSC1.png")}
+  props: {
+    source: folderPath + "Sc-1.png"
+  }
 }
 export const SC2Map: Map = {
   name: 'Studiecentrum first floor', 
-  props: {source: require("../../assets/images/maps/MapSC2.png")}
+  props: {
+    source: folderPath + "Sc-2.png"
+  }
 }
