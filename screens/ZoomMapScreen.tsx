@@ -22,17 +22,17 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
       <ScreenActivityIndicator />
     )
   }
-  const images = map.props.images
 
+  const images = map.props.images
   return (
     <View style={styles.container}>
-        <ImageViewer
-          imageUrls={images}
-          backgroundColor={Colors.white}
-          renderHeader={(currentIndex?: number) => 
-            <ArkadText 
-              text={'Page ' + (currentIndex! + 1) + '/2'}
-              style={styles.mapName} />} />
+      <ImageViewer
+        imageUrls={images}
+        backgroundColor={Colors.white}
+        renderHeader={(currentIndex?: number) => 
+          <ArkadText 
+            text={'Page ' + (currentIndex! + 1) + '/2'}
+            style={styles.mapName} />} />
     </View>
   )
 }
@@ -40,9 +40,6 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: 25,
   },
   mapName: {
     paddingTop: 50,
