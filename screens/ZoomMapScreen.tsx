@@ -40,6 +40,9 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 25,
   },
   mapName: {
     paddingTop: 50,
