@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   bookButton: {
     marginTop: 40,
     width: '90%',
-    height: '10%',
+    //height: '10%',
     padding: 40,
     borderRadius: 12,
   },
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGreen,
     marginTop: 40,
     width: '90%',
-    height: '10%',
+    //height: '10%',
     padding: 40,
     borderRadius: 12,
   },
