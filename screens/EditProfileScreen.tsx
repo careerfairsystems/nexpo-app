@@ -97,7 +97,13 @@ export default function EditProfileScreen({ navigation }: EditProfileScreenParam
       setCompany(company);
     }
 
-    navigation.goBack();
+    // Navigate back if possible, otherwise navigate explicitly
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+    else {
+      navigation.replace('ProfileScreen')
+    }
   }
 
   useEffect(() => {
@@ -112,8 +118,8 @@ export default function EditProfileScreen({ navigation }: EditProfileScreenParam
     );
   }
   
-  return <View style={styles.container}>
-    <ScrollView>
+  return <>
+    <ScrollView style={styles.container}>
       <EditUserProfile user={user} setUpdateUserDto={setUpdateUserDto} setEditStatus={setUserEditStatus} />
       {student && <EditStudentProfile student={student} setUpdateStudentDto={setUpdateStudentDto} setEditStatus={setStudentEditStatus}/>}
       {company && <EditCompanyProfile company={company} setUpdateCompanyDto={setUpdateCompanyDto} setEditStatus={setCompanyEditStatus} />}
@@ -123,11 +129,13 @@ export default function EditProfileScreen({ navigation }: EditProfileScreenParam
         <ArkadText text="Save" style={{}}/>
       </ArkadButton>
     </ScrollView>
-  </View>;
+  </>;
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
+    paddingVertical: 24,
+    backgroundColor: Colors.white,
   },
 });

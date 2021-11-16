@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
     // It is probably because the state updates don't happen immediately.
     setLoading(true);
     
-    const success = await API.auth.login(email, password);
+    const success = await API.auth.login(email.toLowerCase(), password);
 
     setLoading(false);
 
@@ -54,11 +54,13 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
         <TextInput
           placeholder="Email" 
           keyboardType="email-address"
-          onChangeText={setEmail} />
+          onChangeText={setEmail}
+          onSubmitEditing={login} />
         <TextInput
           placeholder="Password"
           secureTextEntry
-          onChangeText={setPassword} />
+          onChangeText={setPassword}
+          onSubmitEditing={login} />
         { loading
           ? <ActivityIndicator/>
           : <ArkadButton onPress={login} style={{}}>

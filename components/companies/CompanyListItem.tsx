@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    width: '90%',
+    alignSelf: 'center',
     marginTop: 10,
     marginHorizontal: 10,
     backgroundColor: Colors.darkBlue,
@@ -40,6 +42,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 40,
     height: 40,
+    resizeMode: 'contain',
   },
   companyName: {
     flex: 1,
