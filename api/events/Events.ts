@@ -1,6 +1,6 @@
 import { get } from '../http/_HttpHelpers';
 import { getAllTickets, Ticket } from '../tickets';
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 
 export interface Event {
   id: number,
@@ -51,6 +51,29 @@ export const getAllEvents = async (): Promise<Event[]> => {
   const json = await response.json();
   const events = json as Event[];
   return events;
+}
+
+export function getUpcomingEvents(allEvents: Event[]): Event[] {
+  const now: Date = new Date();
+
+  return allEvents.filter((event) => {
+    return !hasHappened(event, now)
+  });
+}
+
+/**Used to filter Events which are not relevant anymore.
+ * @param event Given Event object to compare to.
+ * @param now Date object referring to this moment.
+ * @returns True if the event has ended.
+ */
+function hasHappened(event: Event, now: Date): boolean {
+  try {
+    let date: Date = new Date(event.date + " " + event.end);
+    return isAfter(now, date)
+  } catch(e : any) {
+    console.log("RangeError occurred when parsing event date: " + e)
+    return true;
+  }
 }
 
 /**
