@@ -19,7 +19,6 @@ import MapScreen from "../screens/MapScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
 import QRScreen from '../screens/QRScreen';
-import { Ticket } from '../api/tickets';
 import ZoomMapScreen from '../screens/ZoomMapScreen';
 import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
@@ -46,6 +45,14 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (navigation.canGoBack()) {
+              //navigation.popToTop()
+            }
+            navigation.replace('CompaniesScreen')
+          },
+        })}
       />
       <BottomTab.Screen 
         name="Maps"
@@ -53,6 +60,14 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (navigation.canGoBack()) {
+              //navigation.popToTop()
+            }
+            navigation.replace('MapScreen')
+          },
+        })}
       />
       <BottomTab.Screen
         name="Events"
@@ -60,6 +75,14 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (navigation.canGoBack()) {
+              //navigation.popToTop()
+            }
+            navigation.replace('EventListScreen')
+          },
+        })}
       />
       <BottomTab.Screen
         name="Profile"
@@ -67,6 +90,14 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
         }}
+        listeners={({ navigation, route }) => ({
+          tabPress: (e) => {
+            if (navigation.canGoBack()) {
+              //navigation.popToTop()
+            }
+            navigation.replace('ProfileScreen')
+          },
+        })}
       />
     </BottomTab.Navigator>
   );

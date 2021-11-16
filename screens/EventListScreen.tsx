@@ -7,6 +7,7 @@ import { API } from '../api';
 import { Event } from '../api/events';
 import { EventList } from '../components/eventList/EventList';
 import { EventStackParamlist } from '../navigation/BottomTabNavigator';
+import { UpcomingButton } from '../components/eventList/UpcomingButton';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<
@@ -18,6 +19,8 @@ type EventsNavigation = {
 export default function CompaniesScreen({navigation}: EventsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [events, setEvents] = React.useState<Event[] | null>(null);
+  const [upcomingEvents, setUpcomingEvents] = React.useState<Event[] | null>(null);
+  const [showAllEvents, setShowAllEvents] = React.useState<boolean>(false);
   const [bookedEvents, setBookedEvents] = React.useState<Event[] | null>(null);
   
   const getEvents = async () => {
@@ -25,10 +28,15 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
 
     const events = await API.events.getAllEvents();
     setEvents(events);
+    setUpcomingEvents(API.events.getUpcomingEvents(events));
     const bookedEvents = await API.events.getBookedEvents();
     setBookedEvents(bookedEvents);
 
     setLoading(false);
+  }
+
+  function switchEvents() {
+    setShowAllEvents(!showAllEvents);
   }
 
   const openEventDetails = (id: number) => {
@@ -43,10 +51,15 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
     <View style={styles.container}>
       {isLoading 
         ? <Text>Loading...</Text>
-        : <EventList 
-            events={events}
-            bookedEvents={bookedEvents}
-            onPress={openEventDetails} />
+        : <View style={styles.container}>
+            <UpcomingButton 
+              showAllEvents={showAllEvents}
+              onPress={switchEvents} />
+            <EventList 
+              events={showAllEvents ? events : upcomingEvents}
+              bookedEvents={bookedEvents}
+              onPress={openEventDetails} />
+          </View>
       }
     </View>
   );

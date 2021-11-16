@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
+    marginTop: 24,
   },
   logoContainer: {
     height: 120,
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat',
     color: Colors.darkBlue,
     fontSize: 12,
-    marginBottom: 8,
-  }
+    marginTop: 12,
+    marginBottom: 4,
+  },
 });
