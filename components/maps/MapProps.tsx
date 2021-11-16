@@ -3,20 +3,18 @@ export interface Map {
   props: any
 }
 
-const folderPath = '../../assets/images/maps/';
-
 export const FairMap: Map = {
   name: 'Fair', 
   props: {
     images: [{
       url: '',
       props: {
-        source: require(folderPath + "oversikt.png")
+        source: require("../../assets/images/maps/oversikt.png")
       }
     },{
       url: '',
       props: {
-        source: require(folderPath + "oversikt-list.png")
+        source: require("../../assets/images/maps/oversikt-list.png")
       }
     }]
   }
@@ -27,12 +25,12 @@ export const KarhusetMap: Map = {
     images: [{
       url: '',
       props: {
-        source: require(folderPath + "Karhuset.png")
+        source: require("../../assets/images/maps/Karhuset.png")
       }
     },{
       url: '',
       props: {
-        source: require(folderPath + "Karhuset-list.png")
+        source: require("../../assets/images/maps/Karhuset-list.png")
       }
     }]
   }
@@ -43,12 +41,12 @@ export const EMap: Map = {
     images: [{
       url: '',
       props: {
-        source: require(folderPath + "E-huset.png")
+        source: require("../../assets/images/maps/E-huset.png")
       }
     },{
       url: '',
       props: {
-        source: require(folderPath + "E-huset-list.png")
+        source: require("../../assets/images/maps/E-huset-list.png")
       }
     }]
   }
@@ -59,12 +57,12 @@ export const SC1Map: Map = {
     images: [{
       url: '',
       props: {
-        source: require(folderPath + "Sc-1.png")
+        source: require("../../assets/images/maps/Sc-1.png")
       }
     },{
       url: '',
       props: {
-        source: require(folderPath + "Sc-1-list.png")
+        source: require("../../assets/images/maps/Sc-1-list.png")
       }
     }]
   }
@@ -75,12 +73,12 @@ export const SC2Map: Map = {
     images: [{
       url: '',
       props: {
-        source: require(folderPath + "Sc-2.png")
+        source: require("../../assets/images/maps/Sc-2.png")
       }
     },{
       url: '',
       props: {
-        source: require(folderPath + "Sc-2-list.png")
+        source: require("../../assets/images/maps/Sc-2-list.png")
       }
     }]
   }
