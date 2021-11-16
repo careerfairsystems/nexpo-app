@@ -10,21 +10,25 @@ type buttonProps = {
 
 const { width, height } = Dimensions.get('window')
 
-export const UpcomingButton = ({showAllEvents, onPress}: buttonProps) => 
-  <View style={styles.eventBox}>
-    {showAllEvents 
-      ? <Pressable
-          style={[styles.button, styles.yellowBack]}
-          onPress={onPress}>
-          <Text style={styles.text}>Hide old events</Text>
-        </Pressable>
-      : <Pressable
-          style={[styles.button, styles.greenBack]}
-          onPress={onPress}>
-          <Text style={styles.text}>Show old events</Text>
-        </Pressable>
-    }
-  </View>
+export function UpcomingButton ({showAllEvents, onPress}: buttonProps) {
+  return (
+    <View style={styles.eventBox}>
+      {showAllEvents 
+        ? <Pressable
+            style={[styles.button, styles.yellowBack]}
+            onPress={onPress}>
+            <Text style={styles.text}>Hide old events</Text>
+          </Pressable>
+        : <Pressable
+            style={[styles.button, styles.greenBack]}
+            onPress={onPress}>
+            <Text style={styles.text}>Show old events</Text>
+          </Pressable>
+      }
+    </View>
+  )
+  
+} 
 
 
 const styles = StyleSheet.create({

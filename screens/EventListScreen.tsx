@@ -36,10 +36,6 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
   }
 
   function switchEvents() {
-    /* Refresh the upcoming events before showing */
-    if(showAllEvents && events != null) {
-      setUpcomingEvents(API.events.getUpcomingEvents(events));
-    }
     setShowAllEvents(!showAllEvents);
   }
 

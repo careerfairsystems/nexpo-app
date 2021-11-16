@@ -1,6 +1,6 @@
 import { get } from '../http/_HttpHelpers';
 import { getAllTickets, Ticket } from '../tickets';
-import { format, isAfter } from "date-fns";
+import { addDays, format, isAfter } from "date-fns";
 
 export interface Event {
   id: number,
@@ -68,8 +68,9 @@ export function getUpcomingEvents(allEvents: Event[]): Event[] {
  */
 function hasHappened(event: Event, now: Date): boolean {
   try {
-    let date: Date = new Date(event.date + " " + event.end);
-    return isAfter(now, date)
+    let date: Date = new Date(event.date);
+    addDays(date, 1);
+    return isAfter(now, date);
   } catch(e : any) {
     console.log("RangeError occurred when parsing event date: " + e)
     return true;
