@@ -13,6 +13,8 @@ export default {
       LoginScreen: 'login',
       SignUpScreen: 'signup',
       FinalizeSignUpScreen: 'finalize_signup/:token',
+      ForgotPasswordScreen: 'forgot_password',
+      ResetPasswordScreen: 'reset_password/:token',
       Root: {
         screens: {
           Companies: {

@@ -17,6 +17,8 @@ import { AuthContext } from '../components/AuthContext';
 
 import { API } from '../api';
 import FinalizeSignUpScreen from '../screens/FinalizeSignUpScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -74,7 +76,11 @@ export type AuthStackParamList = {
   SignUpScreen: undefined;
   FinalizeSignUpScreen: {
     token: string;
-  }
+  };
+  ForgotPasswordScreen: undefined;
+  ResetPasswordScreen: {
+    token: string;
+  };
 }
 const AuthStack = createStackNavigator<AuthStackParamList>();
 function AuthNavigator() {
@@ -83,6 +89,8 @@ function AuthNavigator() {
       <AuthStack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'Login' }}/>
       <AuthStack.Screen name="SignUpScreen" component={SignUpScreen} options={{ title: 'Sign up' }} />
       <AuthStack.Screen name="FinalizeSignUpScreen" component={FinalizeSignUpScreen} options={{ title: 'Finalize signup' }} />
+      <AuthStack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} options={{ title: 'Forgot password' }} />
+      <AuthStack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} options={{ title: 'Reset password' }} />
     </AuthStack.Navigator>
   );
 }

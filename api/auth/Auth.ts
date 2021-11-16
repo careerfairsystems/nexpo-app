@@ -32,3 +32,13 @@ export const logout = async (): Promise<void> => {
   await AuthState.deleteJwt();
   await AuthState.deleteUserRole();
 }
+
+export const forgotPassword = async (email: string): Promise<boolean> => {
+  const response = await post('/session/forgot_password', { email });
+  return response.ok;
+}
+
+export const resetPassword = async (token: string, password: string): Promise<boolean> => {
+  const response = await post('/session/reset_password', { token, password });
+  return response.ok;
+}
