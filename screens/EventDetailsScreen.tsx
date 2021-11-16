@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Pressable, ScrollView, StyleSheet } from "react-native";
+import { Pressable, ScrollView, StyleSheet } from "react-native";
 import {
   Ionicons,
   MaterialIcons,
@@ -167,11 +167,11 @@ export default function EventDetailsScreen({
               onPress={() => deregister()}
               style={styles.bookedButton}
             >
-              <ArkadText text="De-register" style={styles.title} />
+              <ArkadText text="De-register from event" style={styles.title} />
             </ArkadButton>
             <Pressable
               style={styles.qrContainer}
-              onPress={() => alert("Ticket")}
+              onPress={() => alert("Ticket to the event")}
             >
               <QRCode size={160} value={ticket.id.toString()} />
             </Pressable>
@@ -250,16 +250,18 @@ const styles = StyleSheet.create({
   bookButton: {
     marginTop: 40,
     width: "90%",
-    height: "10%",
-    padding: 40,
+    height: 60,
+    padding: 8,
+    marginBottom: 20,
     borderRadius: 12,
   },
   bookedButton: {
     backgroundColor: Colors.lightGreen,
     marginTop: 40,
     width: "90%",
-    height: "10%",
-    padding: 40,
+    height: 60,
+    padding: 8,
+    marginBottom: 20,
     borderRadius: 12,
   },
   qrHeader: {
@@ -274,6 +276,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.lightGray,
     borderRadius: 5,
     padding: 16,
-    marginBottom: 24,
+    marginBottom: 60,
   },
 });
