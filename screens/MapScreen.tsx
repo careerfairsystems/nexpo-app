@@ -1,5 +1,5 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { StyleSheet, ScrollView } from 'react-native';
 import { MapPreview } from '../components/maps/MapPreview';
 import { Map, EMap, FairMap, KarhusetMap, SC1Map, SC2Map } from '../components/maps/MapProps';
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flex: 1,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
   }
