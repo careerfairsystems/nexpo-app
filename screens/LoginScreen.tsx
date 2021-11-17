@@ -70,6 +70,9 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
         <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('SignUpScreen') }>
           <Text style={styles.signUpText}>Don't have an account? Sign up here!</Text>
         </Pressable>
+        <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('ForgotPasswordScreen') }>
+          <Text style={styles.signUpText}>Forgot your password?</Text>
+        </Pressable>
       </View>
     </View>
   );
