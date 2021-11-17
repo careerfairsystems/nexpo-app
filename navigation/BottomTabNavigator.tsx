@@ -22,6 +22,7 @@ import QRScreen from '../screens/QRScreen';
 import ZoomMapScreen from '../screens/ZoomMapScreen';
 import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import { Platform } from 'react-native';
 
 
 
@@ -54,6 +55,7 @@ export default function BottomTabNavigator() {
           },
         })}
       />
+      {Platform.OS !== 'web' &&
       <BottomTab.Screen 
         name="Maps"
         component={MapNavigator}
@@ -69,6 +71,7 @@ export default function BottomTabNavigator() {
           },
         })}
       />
+      }
       <BottomTab.Screen
         name="Events"
         component={EventsNavigator}
