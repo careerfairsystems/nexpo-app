@@ -1,7 +1,7 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
 
 export enum Guild {
-  A, D, E, F, I, ING, K, M, V
+  A, D, E, F, I, ING, K, M, V, W
 }
 
 export interface Student {

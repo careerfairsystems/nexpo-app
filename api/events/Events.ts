@@ -1,63 +1,63 @@
-import { get } from '../http/_HttpHelpers';
-import { getAllTickets, Ticket } from '../tickets';
-import { addDays, format, isAfter } from "date-fns";
+import { get } from "../http/_HttpHelpers";
+import { getAllTickets, Ticket } from "../tickets";
+import { addDays, format, isAfter, subDays } from "date-fns";
 
 export interface Event {
-  id: number,
-  name: string,
-  description: string,
-  date: string,
-  start: string,
-  end: string,
-  location: string,
-  host: string,
-  language: string,
-  capacity: number,
-  ticketCount: number,
+  id: number;
+  name: string;
+  description: string;
+  date: string;
+  start: string;
+  end: string;
+  location: string;
+  host: string;
+  language: string;
+  capacity: number;
+  ticketCount: number;
 }
 
 export function formatTime(date: string, start: string, end: string): string {
-  if(date == "") {
-    return ""
+  if (date == "") {
+    return "";
   }
-  var clock: string = start + " - " + end
-  var d: Date = new Date(date)
+  var clock: string = start + " - " + end;
+  var d: Date = new Date(date);
   try {
     const dateString = format(d, "LLL d") + "  :  " + clock;
-    if(clock != "") {
+    if (clock != "") {
       dateString + "  :  " + clock;
     }
     return dateString;
-  } catch(RangeError) {
-    return ""
+  } catch (RangeError) {
+    return "";
   }
 }
 
 export const bookedEvent = async (event: Event): Promise<boolean> => {
   const regEvents = await getAllTickets();
-  for(var i = 0; i < regEvents.length; i++) {
-    if(event.id == regEvents[i].eventId) {
+  for (var i = 0; i < regEvents.length; i++) {
+    if (event.id == regEvents[i].eventId) {
       return true;
     }
   }
-  return false
-}
+  return false;
+};
 
 /**
  * Get all events
  */
 export const getAllEvents = async (): Promise<Event[]> => {
-  const response = await get('/events');
+  const response = await get("/events");
   const json = await response.json();
   const events = json as Event[];
   return events;
-}
+};
 
 export function getUpcomingEvents(allEvents: Event[]): Event[] {
-  const now: Date = new Date();
+  const now: Date = subDays(new Date(), 1);
 
   return allEvents.filter((event) => {
-    return !hasHappened(event, now)
+    return !hasHappened(event, now);
   });
 }
 
@@ -71,8 +71,8 @@ function hasHappened(event: Event, now: Date): boolean {
     let date: Date = new Date(event.date);
     addDays(date, 1);
     return isAfter(now, date);
-  } catch(e : any) {
-    console.log("RangeError occurred when parsing event date: " + e)
+  } catch (e: any) {
+    console.log("RangeError occurred when parsing event date: " + e);
     return true;
   }
 }
@@ -85,7 +85,7 @@ export const getEvent = async (eventId: number): Promise<Event> => {
   const json = await response.json();
   const event = json as Event;
   return event;
-}
+};
 
 // Note: getBookedEvents is slow and should not be used repeatedly
 export const getBookedEvents = async (): Promise<Event[]> => {
@@ -93,16 +93,16 @@ export const getBookedEvents = async (): Promise<Event[]> => {
   const tickets: Ticket[] = await getAllTickets();
   const regEvents: Event[] = [];
 
-  if(tickets == undefined || events == undefined) {
+  if (tickets == undefined || events == undefined) {
     return regEvents;
   }
 
-  for(let i1 = 0; i1 < tickets.length; i1++) {
-    for(let i2 = 0; i2 < events.length; i2++) {
-      if(tickets[i1].eventId == events[i2].id) {
+  for (let i1 = 0; i1 < tickets.length; i1++) {
+    for (let i2 = 0; i2 < events.length; i2++) {
+      if (tickets[i1].eventId == events[i2].id) {
         regEvents.push(events[i2]);
       }
     }
   }
   return regEvents;
-}
+};
