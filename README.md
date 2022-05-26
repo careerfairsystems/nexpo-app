@@ -10,8 +10,11 @@ Recommended IDE: Visual Studio Code
 
 1. Clone the nexpo-app repository.
 2. Open the terminal in the nexpo-app directory.
-3. Run the command `npm install`
-4. Install Expo CLI by running `npm install --global expo-cli`
+3. Install yarn by running `npm install --global yarn`
+4. Run the command `yarn install`
+5. Install Expo CLI by running `npm install --global expo-cli`
+6. Select the backend to use by setting the environment variable `BACKEND_URL` to the api endpoint to use. If none is set, the public development server will be used. In powershell, this is done by running `$env:BACKEND_URL='http://localhost/api'`, in BASH (Mac and Linux) this is done by running `BACKEND_URL='http://localhost/api'`. If you use the normal command prompt on Windows, switch to powershell or if you really want to use it, run: `set BACKEND_URL=http://localhost/api`
+7. Start the development server with `yarn start`
 
 ### Common issues
 #### Running scripts is disabled on Windows
