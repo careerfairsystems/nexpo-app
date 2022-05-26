@@ -25,10 +25,9 @@ jobs:
       - uses: actions/setup-node@v2
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       # We don't have any meaningful at the moment so only typecheck for now
       - name: Run tests
-      #  run: yarn test
-        run: yarn typecheck
-
+      #  run: npm test
+        run: npm run typecheck
