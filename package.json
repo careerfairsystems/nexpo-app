@@ -15,12 +15,11 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
-    "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/masked-view": "0.1.11",
     "@react-native-picker/picker": "2.4.0",
     "@react-navigation/bottom-tabs": "5.11.2",
     "@react-navigation/native": "~5.8.10",
     "@react-navigation/stack": "^5.14.5",
-    "@types/date-fns": "^2.6.0",
     "date-fns": "^2.24.0",
     "expo": "^45.0.0",
     "expo-asset": "~8.5.0",
