@@ -185,8 +185,8 @@ function EventsNavigator() {
 }
 
 export type StudentSessionsStackParamlist = {
-  StudentSessionsListScreen: undefined;
-  StudentSessionsDetailsScreen: {
+  StudentSessionsCompaniesScreen: undefined;
+  StudentSessionsListScreen: {
     id: number;
   }
 }
@@ -196,14 +196,14 @@ function StudentSessionsNavigator() {
   return (
     <StudentSessionsStack.Navigator>
       <StudentSessionsStack.Screen
-        name="StudentSessionsListScreen"
+        name="StudentSessionsCompaniesScreen"
         component={StudentSessionsCompaniesScreen}
         options={{ title: 'Student Sessions', headerTitle: 'Student Sessions' }}
       />
       <StudentSessionsStack.Screen
-        name="StudentSessionsDetailsScreen"
-        component={EventDetailsScreen}
-        options={{ title: 'Student Sessions Details', headerTitle: 'Student Sessions Details' }}
+        name="StudentSessionsListScreen"
+        component={StudentSessionsListScreen}
+        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List' }}
       />
     </StudentSessionsStack.Navigator>
   );

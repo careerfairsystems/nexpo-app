@@ -7,16 +7,16 @@ import { Text, View } from '../components/Themed';
 import { API } from '../api';
 import { PublicCompanyDto } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
-import { CompanyStackParamList } from '../navigation/BottomTabNavigator';
+import { StudentSessionsStackParamlist } from '../navigation/BottomTabNavigator';
 
-type companiesNavigation = {
+type StudentSessionsNavigation = {
   navigation: StackNavigationProp<
-    CompanyStackParamList,
-    'CompaniesScreen'
+    StudentSessionsStackParamlist,
+    'StudentSessionsCompaniesScreen'
   >
 };
 
-export default function CompaniesScreen({navigation}: companiesNavigation) {
+export default function CompaniesScreen({navigation}: StudentSessionsNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
 
@@ -27,8 +27,8 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
     setLoading(false);
   }
 
-  const openCompanyDetails = (id: number) => {
-    navigation.navigate('CompanyDetailsScreen', { id });
+  const openCompanyStudentSessions = (id: number) => {
+    navigation.navigate('StudentSessionsListScreen', { id });
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
         renderItem={({ item: company }) => 
           <CompanyListItem
             company={company} 
-            onPress={() => openCompanyDetails(company.id)} />
+            onPress={() => openCompanyStudentSessions(company.id)} />
         } />
     </View>
   );
