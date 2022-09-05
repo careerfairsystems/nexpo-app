@@ -15,6 +15,8 @@ import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EventListScreen from "../screens/EventListScreen";
+import StudentSessionsCompaniesScreen from '../screens/StudentSessionsCompaniesScreen';
+import StudentSessionsListScreen from "../screens/StudentSessionsListScreen";
 import MapScreen from "../screens/MapScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
@@ -22,6 +24,7 @@ import QRScreen from '../screens/QRScreen';
 import ZoomMapScreen from '../screens/ZoomMapScreen';
 import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
+
 import { Platform } from 'react-native';
 
 
@@ -90,7 +93,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="StudentSessions"
-        component={EventsNavigator}
+        component={StudentSessionsNavigator}
         options={{
           title: 'Student Sessions',
           tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
@@ -100,7 +103,7 @@ export default function BottomTabNavigator() {
             if (navigation.canGoBack()) {
               //navigation.popToTop()
             }
-            navigation.replace('EventListScreen')
+            navigation.replace('StudentSessionsCompaniesScreen')
           },
         })}
       />
@@ -178,6 +181,31 @@ function EventsNavigator() {
         options={{ title: 'Event Details', headerTitle: 'Event Details' }}
       />
     </EventStack.Navigator>
+  );
+}
+
+export type StudentSessionsStackParamlist = {
+  StudentSessionsListScreen: undefined;
+  StudentSessionsDetailsScreen: {
+    id: number;
+  }
+}
+
+const StudentSessionsStack = createStackNavigator<StudentSessionsStackParamlist>();
+function StudentSessionsNavigator() {
+  return (
+    <StudentSessionsStack.Navigator>
+      <StudentSessionsStack.Screen
+        name="StudentSessionsListScreen"
+        component={StudentSessionsCompaniesScreen}
+        options={{ title: 'Student Sessions', headerTitle: 'Student Sessions' }}
+      />
+      <StudentSessionsStack.Screen
+        name="StudentSessionsDetailsScreen"
+        component={EventDetailsScreen}
+        options={{ title: 'Student Sessions Details', headerTitle: 'Student Sessions Details' }}
+      />
+    </StudentSessionsStack.Navigator>
   );
 }
 
