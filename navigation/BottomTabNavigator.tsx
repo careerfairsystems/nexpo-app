@@ -30,6 +30,7 @@ export type BottomTabParamList = {
   Companies: undefined;
   Maps: undefined;
   Profile: undefined;
+  StudentSessions: undefined;
   Events: undefined
 };
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -74,6 +75,21 @@ export default function BottomTabNavigator() {
       }
       <BottomTab.Screen
         name="Events"
+        component={EventsNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (navigation.canGoBack()) {
+              //navigation.popToTop()
+            }
+            navigation.replace('EventListScreen')
+          },
+        })}
+      />
+      <BottomTab.Screen
+        name="StudentSessions"
         component={EventsNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
