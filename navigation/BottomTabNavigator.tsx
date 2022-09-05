@@ -56,7 +56,7 @@ export default function BottomTabNavigator() {
           },
         })}
       />
-      {Platform.OS !== 'web' &&
+      {//Platform.OS !== 'web' && commented out because didn't know why was here
       <BottomTab.Screen 
         name="Maps"
         component={MapNavigator}
