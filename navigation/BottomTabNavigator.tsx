@@ -92,6 +92,7 @@ export default function BottomTabNavigator() {
         name="StudentSessions"
         component={EventsNavigator}
         options={{
+          title: 'Student Sessions',
           tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
         }}
         listeners={({ navigation }) => ({
