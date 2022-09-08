@@ -1,51 +1,27 @@
 import React from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
-import { bookedEvent, Event } from '../../api/events';
+import { StudentSessionTimeslot } from '../../api/studentSessions';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
 import { API } from '../../api';
 
 type ListedEventItemProps = {
-  event: Event;
-  booked: boolean;
+  timeslot: StudentSessionTimeslot;
   itemStyle: ViewStyle;
   onPress: () => void;
 }
 
-export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEventItemProps) => 
+export const StudentSessionListItem = ({ timeslot, itemStyle, onPress }: ListedEventItemProps) => 
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
     <View style={styles.headerContainer}>
-      <ArkadText style={styles.eventName} text={event.name}/>
+      <ArkadText style={styles.eventName} text={"student session"}/>
     </View>
 
     <View style={styles.footerContainer}>
       <ArkadText 
         style={styles.eventTime}
-        text={API.events.formatTime(event.date, event.start, event.end)} />
-
-      {/* Color of box changes depending on status */}
-      {booked 
-      ? <View 
-        style={[
-          styles.eventBookedContainer, 
-          {backgroundColor: Colors.lightGreen} ]}>
-        <ArkadText 
-          style={styles.eventBookedText}
-          text="Booked" />
-      </View>
-      : <View style={[
-        styles.eventBookedContainer, 
-        event.capacity == event.ticketCount 
-          ? {backgroundColor:Colors.darkRed}
-          : {backgroundColor:Colors.darkYellow}
-        ]}
-      >
-        <ArkadText 
-          style={styles.eventBookedText}
-          text={event.ticketCount + "/" + event.capacity} />
-      </View>
-      }
+        text={API.studenSessions.formatTime(timeslot.start, timeslot.end)} />
     </View>
   </Pressable>
 

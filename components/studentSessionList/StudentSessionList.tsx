@@ -1,37 +1,35 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { Event } from '../../api/events';
+import { StudentSessionTimeslot } from '../../api/studentSessions';
 import Colors from '../../constants/Colors';
-import { EventListItem } from './StudentSessionListItem';
+import { StudentSessionListItem } from './StudentSessionListItem';
 
-type EventListProps = {
-  events: Event[] | null;
-  bookedEvents: Event[] | null;
+type TimeslotListProps = {
+  timeslots: StudentSessionTimeslot[] | null;
   onPress: (id: number) => void;
 }
 
 const { width, height } = Dimensions.get('window')
 
-export function EventList ({ events, bookedEvents, onPress }: EventListProps) {
-  if(events?.length == 0) {
+export function EventList ({ timeslots, onPress }: TimeslotListProps) {
+  if(timeslots?.length == 0) {
     return (
-      <Text style={styles.text}>No upcoming events =(</Text>
+      <Text style={styles.text}>No upcoming timeslots =(</Text>
     )
   }
 
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
-      data={events}
+      data={timeslots}
       keyExtractor={({ id }) => id.toString()}
-      renderItem={({ item: event }) => 
+      renderItem={({ item: timeslot }) => 
         <View style={styles.eventBox}>
-          <EventListItem
-            event={event} 
+          <StudentSessionListItem
+            timeslot={timeslot} 
             itemStyle={{}}
-            booked={bookedEvents != null && bookedEvents.includes(event)}
-            onPress={() => onPress(event.id)} />
+            onPress={() => onPress(timeslot.id)} />
         </View>
       }
     />
