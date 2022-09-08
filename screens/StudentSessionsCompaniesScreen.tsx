@@ -45,8 +45,8 @@ export default function CompaniesScreen({navigation}: StudentSessionsNavigation)
     <View style={styles.container}>
       <FlatList
         style={styles.list}
-        //data={companies} den gamla raden om vi bara vill visa alla företag
-        data={companies?.filter(c => c.studentSessionTimeslots == null ? false : c.studentSessionTimeslots.length > 0)}
+        data={companies} //den gamla raden om vi bara vill visa alla företag
+        //data={companies?.filter(c => c.studentSessionTimeslots == null ? false : c.studentSessionTimeslots.length > 0)}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) => 
           <CompanyListItem
