@@ -8,7 +8,6 @@ export interface PublicCompanyDto {
   description: string | null;
   website: string | null;
   logoUrl: string | null;
-  studentSessionTimeslots: StudentSessionTimeslot[] | null;
 }
 
 export interface Company extends PublicCompanyDto {
@@ -16,6 +15,7 @@ export interface Company extends PublicCompanyDto {
   hostEmail: string | null;
   hostPhone: string | null;
   representatives: User[] | null;
+  studentSessionTimeslots: StudentSessionTimeslot[] | null;
 }
 
 export interface UpdateCompanySelfDto {

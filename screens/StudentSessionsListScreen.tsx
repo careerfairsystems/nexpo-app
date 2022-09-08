@@ -5,9 +5,9 @@ import { Text, View } from '../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
 import { Event } from '../api/events';
-import { EventList } from '../components/eventList/EventList';
+import { EventList } from '../components/studentSessionList/StudentSessionList';
 import { EventStackParamlist } from '../navigation/BottomTabNavigator';
-import { UpcomingButton } from '../components/eventList/UpcomingButton';
+import { UpcomingButton } from '../components/studentSessionList/UpcomingButton';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<
