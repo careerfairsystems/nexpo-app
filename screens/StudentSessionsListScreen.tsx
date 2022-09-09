@@ -5,30 +5,30 @@ import { Text, View } from '../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
 import { StudentSessionTimeslot } from '../api/studentSessions';
-import { EventList } from '../components/studentSessionList/StudentSessionList';
-import { EventStackParamlist } from '../navigation/BottomTabNavigator';
-import { UpcomingButton } from '../components/studentSessionList/UpcomingButton';
+import { TimeslotList } from '../components/studentSessionList/StudentSessionList';
+import { StudentSessionsStackParamlist } from '../navigation/BottomTabNavigator';
 
-type EventsNavigation = {
+type StudentSessionsNavigation = {
   navigation: StackNavigationProp<
-    EventStackParamlist,
-    'EventListScreen'
+    StudentSessionsStackParamlist,
+    'StudentSessionsListScreen'
   >;
 };
 
-export default function CompaniesScreen({navigation}: EventsNavigation) {
+export default function StudentSessionsListScreen({navigation}: StudentSessionsNavigation, {id} : {id: number}) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [studentSessionTimeslots, setTimeslots] = React.useState<StudentSessionTimeslot[] | null>(null);
   
   const getTimeslots = async () => {
     setLoading(true);
-    const studentSessionTimeslots = await API.studenSessions.getAllTimeslots();
+    const studentSessionTimeslots = await API.studenSessions.getAllTimeslots(); 
+    //const studentSessionTimeslots = await API.studenSessions.getTimeslotsByCompanyId(id); will soon be implemented
     setTimeslots(studentSessionTimeslots);
     setLoading(false);
   }
 
-  const openEventDetails = (id: number) => {
-    navigation.navigate('EventDetailsScreen', { id });
+  const openStudentSessionDetails = (id: number) => {
+    navigation.navigate('StudentSessionsDetailsScreen', { id });
   }
   
   React.useEffect(() => {
@@ -40,9 +40,9 @@ export default function CompaniesScreen({navigation}: EventsNavigation) {
       {isLoading 
         ? <Text>Loading...</Text>
         : <View style={styles.container}>
-            <EventList 
+            <TimeslotList 
               timeslots={studentSessionTimeslots}
-              onPress={openEventDetails} />
+              onPress={openStudentSessionDetails} />
           </View>
       }
     </View>

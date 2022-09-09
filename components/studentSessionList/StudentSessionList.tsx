@@ -12,7 +12,7 @@ type TimeslotListProps = {
 
 const { width, height } = Dimensions.get('window')
 
-export function EventList ({ timeslots, onPress }: TimeslotListProps) {
+export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
   if(timeslots?.length == 0) {
     return (
       <Text style={styles.text}>No upcoming timeslots =(</Text>
@@ -28,6 +28,7 @@ export function EventList ({ timeslots, onPress }: TimeslotListProps) {
         <View style={styles.eventBox}>
           <StudentSessionListItem
             timeslot={timeslot} 
+            booked={timeslot.studentId == null ? false : true}
             itemStyle={{}}
             onPress={() => onPress(timeslot.id)} />
         </View>

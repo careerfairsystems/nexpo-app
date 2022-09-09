@@ -6,22 +6,42 @@ import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
 import { API } from '../../api';
 
-type ListedEventItemProps = {
+type ListedTimeslotProps = {
   timeslot: StudentSessionTimeslot;
+  booked: boolean;
   itemStyle: ViewStyle;
   onPress: () => void;
 }
 
-export const StudentSessionListItem = ({ timeslot, itemStyle, onPress }: ListedEventItemProps) => 
+export const StudentSessionListItem = ({ timeslot, booked, itemStyle, onPress }: ListedTimeslotProps) => 
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
     <View style={styles.headerContainer}>
       <ArkadText style={styles.eventName} text={"student session"}/>
     </View>
-
     <View style={styles.footerContainer}>
       <ArkadText 
         style={styles.eventTime}
         text={API.studenSessions.formatTime(timeslot.start, timeslot.end)} />
+        {/* Color of box changes depending on status */}
+      {booked 
+      ? <View 
+        style={[
+          styles.eventBookedContainer, 
+          {backgroundColor: Colors.darkRed} ]}>
+        <ArkadText 
+          style={styles.eventBookedText}
+          text="Booked" />
+      </View>
+      : <View style={[
+        styles.eventBookedContainer, 
+          {backgroundColor:Colors.lightGreen}
+        ]}
+      >
+        <ArkadText 
+          style={styles.eventBookedText}
+          text={"Available"} />
+      </View>
+      }
     </View>
   </Pressable>
 

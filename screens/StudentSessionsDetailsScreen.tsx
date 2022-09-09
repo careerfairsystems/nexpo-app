@@ -9,21 +9,14 @@ import {
 import Colors from "../constants/Colors";
 
 import { API } from "../api";
-import { bookedEvent, Event } from "../api/events";
-import {
-  CreateTicketDto,
-  getTicketForEvent,
-  removeTicket,
-  Ticket,
-} from "../api/tickets";
+import { StudentSessionTimeslot, updateTimeslot } from "../api/studentSessions";
 
 import { View } from "../components/Themed";
 import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
 import { ArkadButton } from "../components/Buttons";
 import { ArkadText } from "../components/StyledText";
-import QRCode from "react-native-qrcode-svg";
 
-type EventDetailsScreenParams = {
+type StudentSessionsDetailsScreenParams = {
   route: {
     params: {
       id: number;
@@ -31,87 +24,68 @@ type EventDetailsScreenParams = {
   };
 };
 
-export default function EventDetailsScreen({
+export default function StudentSessionsDetailsScreen({
   route,
-}: EventDetailsScreenParams) {
+}: StudentSessionsDetailsScreenParams) {
   const { id } = route.params;
 
-  const [event, setEvent] = useState<Event | null>(null);
-  const [registered, setRegistered] = useState<boolean>(false);
+  const [timeslot, setTimeslot] = useState<StudentSessionTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [ticket, setTicket] = useState<Ticket | null>(null);
 
-  const getEvent = async () => {
-    const event = await API.events.getEvent(id);
-    setEvent(event);
-    const reg = event != null && (await bookedEvent(event));
-    setRegistered(reg);
-    if (reg) {
-      const ticket = await getTicketForEvent(event);
-      setTicket(ticket);
-    }
+  const getTimeslot = async () => {
+    const timeslot = await API.studenSessions.getTimeslot(id);
+    setTimeslot(timeslot);
+
   };
 
-  const createTicket = async () => {
+  const bookTimeslot = async () => {
     setLoading(true);
-
-    if (event?.id == undefined) {
+    if (timeslot?.id == undefined) {
       return;
     }
-
-    const ticketRequest: CreateTicketDto = {
-      eventId: event.id,
-      photoOk: true,
-    };
-
-    const ticket = await API.tickets.createTicket(ticketRequest);
-
-    if (ticket) {
-      alert("Registered to " + event?.name + " " + event?.date);
-      alert(
-        "If you have any allergies or food preferences, please update your profile to contain it."
-      );
-
-      getEvent();
+    const ts = await API.studenSessions.updateTimeslot(timeslot.id, 1);
+    if (ts) {
+      alert("Registered to student session " + timeslot?.start.toLocaleDateString());
+      getTimeslot();
     } else {
-      alert("Could not register to " + event?.name + " " + event?.date);
-      getEvent();
+      alert("Could not register to student session " + timeslot?.start.toLocaleDateString());
+      getTimeslot();
     }
-
     setLoading(false);
   };
 
   async function deregister(): Promise<void> {
     setLoading(true);
-    if (event?.id == undefined) {
+    if (timeslot?.id == undefined) {
       return;
     }
 
-    const ticket: Ticket | null = await getTicketForEvent(event);
-    if (ticket == null) {
-      alert("You are not booked to " + event?.name + " " + event?.date);
+    if (timeslot.studentId == null) {
+      alert("You are not booked to student session " + timeslot?.start.toLocaleDateString());
       return;
     }
 
-    const success = await removeTicket(ticket.id);
+    const success = await updateTimeslot(timeslot.id, null);
+
     if (success) {
       alert(
-        "Successfully de-registered from " + event?.name + " " + event?.date
+        "Successfully de-registered from student session " + timeslot?.start.toLocaleDateString()
       );
-      getEvent();
+      getTimeslot();
     } else {
-      alert("Could not de-register from " + event?.name + " " + event?.date);
+      alert("Could not de-register from student session " + timeslot?.start.toLocaleDateString());
     }
+
     setLoading(false);
   }
 
   useEffect(() => {
     setLoading(true);
-    getEvent();
+    getTimeslot();
     setLoading(false);
   }, []);
 
-  if (loading || !event) {
+  if (loading || !timeslot) {
     return <ScreenActivityIndicator />;
   }
 
@@ -119,20 +93,20 @@ export default function EventDetailsScreen({
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <ArkadText text={event.name} style={styles.title} />
+          <ArkadText text={"Student session"} style={styles.title} />
         </View>
         <View style={styles.headerContainer}>
           <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
             <View style={styles.leftItem}>
               <Ionicons name="calendar" size={16} color="black" />
               <ArkadText
-                text={API.events.formatTime(event.date, event.start, event.end)}
+                text={API.studenSessions.formatTime(timeslot.start, timeslot.end)}
                 style={styles.headerText}
               />
             </View>
             <View style={styles.leftItem}>
               <Ionicons name="map" size={16} color="black" />
-              <ArkadText text={event.location} style={styles.headerText} />
+              <ArkadText text={timeslot.location} style={styles.headerText} />
             </View>
             <View style={styles.leftItem}>
               <MaterialCommunityIcons
@@ -140,45 +114,37 @@ export default function EventDetailsScreen({
                 size={16}
                 color="black"
               />
-              <ArkadText text={event.host} style={styles.headerText} />
+              <ArkadText text={"1"} style={styles.headerText} />
             </View>
           </View>
           <View style={[styles.subHeaderContainer, { flex: 0.3 }]}>
             <View style={styles.rightItem}>
               <Ionicons name="people" size={16} color="black" />
               <ArkadText
-                text={event.ticketCount + "/" + event.capacity}
+                text={timeslot.studentId ? "Booked" : "Available"}
                 style={styles.headerText}
               />
             </View>
-            <View style={styles.rightItem}>
-              <MaterialIcons name="language" size={16} color="black" />
-              <ArkadText text={event.language} style={styles.headerText} />
-            </View>
           </View>
         </View>
-        <View style={styles.descriptionContainer}>
-          <ArkadText text={event.description} style={styles.description} />
-        </View>
 
-        {ticket && registered ? (
+        {timeslot.studentId ? (
           <>
             <ArkadButton
               onPress={() => deregister()}
               style={styles.bookedButton}
             >
-              <ArkadText text="De-register from event" style={styles.title} />
+              <ArkadText text="De-register from timeslot" style={styles.title} />
             </ArkadButton>
             <Pressable
               style={styles.qrContainer}
-              onPress={() => alert("Ticket to the event")}
+              onPress={() => alert("Ticket to the timeslot")}
             >
-              <QRCode size={160} value={ticket.id.toString()} />
             </Pressable>
           </>
         ) : (
-          <ArkadButton onPress={createTicket} style={styles.bookButton}>
-            <ArkadText text="Register to event" style={styles.title} />
+          <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
+            <ArkadText text="Register to timeslot" style={styles.title} />
           </ArkadButton>
         )}
       </View>

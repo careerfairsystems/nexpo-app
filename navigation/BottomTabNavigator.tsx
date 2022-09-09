@@ -26,6 +26,7 @@ import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
 
 import { Platform } from 'react-native';
+import StudentSessionsDetailsScreen from '../screens/StudentSessionsDetailsScreen';
 
 
 
@@ -189,6 +190,9 @@ export type StudentSessionsStackParamlist = {
   StudentSessionsListScreen: {
     id: number;
   }
+  StudentSessionsDetailsScreen: {
+    id: number;
+  }
 }
 
 const StudentSessionsStack = createStackNavigator<StudentSessionsStackParamlist>();
@@ -204,6 +208,11 @@ function StudentSessionsNavigator() {
         name="StudentSessionsListScreen"
         component={StudentSessionsListScreen}
         options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List' }}
+      />
+      <StudentSessionsStack.Screen
+        name="StudentSessionsDetailsScreen"
+        component={StudentSessionsDetailsScreen}
+        options={{ title: 'Session Details', headerTitle: 'Session Details' }}
       />
     </StudentSessionsStack.Navigator>
   );

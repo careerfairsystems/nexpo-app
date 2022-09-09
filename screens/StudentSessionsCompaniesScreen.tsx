@@ -16,7 +16,7 @@ type StudentSessionsNavigation = {
   >
 };
 
-export default function CompaniesScreen({navigation}: StudentSessionsNavigation) {
+export default function StudentSessionsCompaniesScreen({navigation}: StudentSessionsNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
 
