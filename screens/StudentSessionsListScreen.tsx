@@ -13,22 +13,29 @@ type StudentSessionsNavigation = {
     StudentSessionsStackParamlist,
     'StudentSessionsListScreen'
   >;
+  route: {
+    params: {
+      companyId: number;
+      timeslotId: number;
+    };
+  };
 };
 
-export default function StudentSessionsListScreen({navigation}: StudentSessionsNavigation, {id} : {id: number}) {
+export default function StudentSessionsListScreen({navigation, route}: StudentSessionsNavigation) {
+  const companyId = route.params.companyId;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [studentSessionTimeslots, setTimeslots] = React.useState<StudentSessionTimeslot[] | null>(null);
   
   const getTimeslots = async () => {
     setLoading(true);
     const studentSessionTimeslots = await API.studenSessions.getAllTimeslots(); 
-    //const studentSessionTimeslots = await API.studenSessions.getTimeslotsByCompanyId(id); will soon be implemented
+    //const studentSessionTimeslots = await API.studenSessions.getTimeslotsByCompanyId(companyId); will soon be implemented
     setTimeslots(studentSessionTimeslots);
     setLoading(false);
   }
 
-  const openStudentSessionDetails = (id: number) => {
-    navigation.navigate('StudentSessionsDetailsScreen', { id });
+  const openStudentSessionDetails = (timeslotId: number) => {
+    navigation.navigate('StudentSessionsDetailsScreen',{companyId , timeslotId});
   }
   
   React.useEffect(() => {

@@ -16,7 +16,7 @@ type EventsNavigation = {
   >;
 };
 
-export default function CompaniesScreen({navigation}: EventsNavigation) {
+export default function EventListScreen({navigation}: EventsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [events, setEvents] = React.useState<Event[] | null>(null);
   const [upcomingEvents, setUpcomingEvents] = React.useState<Event[] | null>(null);

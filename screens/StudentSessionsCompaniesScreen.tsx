@@ -27,8 +27,8 @@ export default function StudentSessionsCompaniesScreen({navigation}: StudentSess
     setLoading(false);
   }
 
-  const openCompanyStudentSessions = (id: number) => {
-    navigation.navigate('StudentSessionsListScreen', { id });
+  const openCompanyStudentSessions = (companyId: number) => {
+    navigation.navigate('StudentSessionsListScreen', { companyId });
   }
 
   useEffect(() => {

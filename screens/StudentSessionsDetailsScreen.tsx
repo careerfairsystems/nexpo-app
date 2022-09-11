@@ -19,7 +19,8 @@ import { ArkadText } from "../components/StyledText";
 type StudentSessionsDetailsScreenParams = {
   route: {
     params: {
-      id: number;
+      companyId: number;
+      timeslotId: number;
     };
   };
 };
@@ -27,13 +28,13 @@ type StudentSessionsDetailsScreenParams = {
 export default function StudentSessionsDetailsScreen({
   route,
 }: StudentSessionsDetailsScreenParams) {
-  const { id } = route.params;
+  const { timeslotId  } = route.params;
 
   const [timeslot, setTimeslot] = useState<StudentSessionTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getTimeslot = async () => {
-    const timeslot = await API.studenSessions.getTimeslot(id);
+    const timeslot = await API.studenSessions.getTimeslot(timeslotId);
     setTimeslot(timeslot);
 
   };

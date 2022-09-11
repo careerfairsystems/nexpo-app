@@ -29,6 +29,13 @@ export default {
               EventDetailsScreen: 'events/:id',
             },
           },
+          StudentSessions: {
+            screens: {
+              StudentSessionsCompaniesScreen: 'studentSessions',
+              StudentSessionsListScreen: 'studentSessions/:companyId',
+              StudentSessionsDetailsScreen: 'studentSessions/:companyId/:timeslotId',
+            },
+          },
           Map: {
             screens: {
               MapScreen: 'maps',

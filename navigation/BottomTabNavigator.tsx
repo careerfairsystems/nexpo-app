@@ -188,10 +188,11 @@ function EventsNavigator() {
 export type StudentSessionsStackParamlist = {
   StudentSessionsCompaniesScreen: undefined;
   StudentSessionsListScreen: {
-    id: number;
+    companyId: number;
   }
   StudentSessionsDetailsScreen: {
-    id: number;
+    companyId: number;
+    timeslotId: number;
   }
 }
 
