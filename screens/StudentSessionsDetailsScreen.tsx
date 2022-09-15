@@ -9,7 +9,7 @@ import {
 import Colors from "../constants/Colors";
 
 import { API } from "../api";
-import { StudentSessionTimeslot, updateTimeslot } from "../api/studentSessions";
+import { StudentSessionTimeslot, updateTimeslot } from "../api/studentsessions";
 
 import { View } from "../components/Themed";
 import ScreenActivityIndicator from "../components/ScreenActivityIndicator";

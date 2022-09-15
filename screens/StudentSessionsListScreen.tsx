@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { Text, View } from '../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
-import { StudentSessionTimeslot } from '../api/studentSessions';
+import { StudentSessionTimeslot } from '../api/studentsessions';
 import { TimeslotList } from '../components/studentSessionList/StudentSessionList';
 import { StudentSessionsStackParamlist } from '../navigation/BottomTabNavigator';
 
@@ -28,8 +28,8 @@ export default function StudentSessionsListScreen({navigation, route}: StudentSe
   
   const getTimeslots = async () => {
     setLoading(true);
-    const studentSessionTimeslots = await API.studenSessions.getAllTimeslots(); 
-    //const studentSessionTimeslots = await API.studenSessions.getTimeslotsByCompanyId(companyId); will soon be implemented
+    //const studentSessionTimeslots = await API.studenSessions.getAllTimeslots(); 
+    const studentSessionTimeslots = await API.studenSessions.getTimeslotsByCompanyId(companyId);
     setTimeslots(studentSessionTimeslots);
     setLoading(false);
   }

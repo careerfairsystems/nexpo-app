@@ -17,19 +17,19 @@ export const getAllTimeslots = async (): Promise<StudentSessionTimeslot[]> => {
   return Timeslots;
 };
 export const getTimeslot = async (timeslotId: number): Promise<StudentSessionTimeslot> => {
-  const response = await get(`/events/${timeslotId}`);
+  const response = await get(`/studentsessions/timeslots/${timeslotId}`);
   const json = await response.json();
   const Timeslots = json as StudentSessionTimeslot;
   return Timeslots;
 };
 export const updateTimeslot = async (timeslotId: number, studentId: number | null): Promise<StudentSessionTimeslot> => {
-  const response = await putAuth(`/timeslot/${timeslotId}`, studentId);
+  const response = await putAuth(`/studentsessions/timeslots/${timeslotId}`, studentId);
   const json = await response.json();
   const timeslot = json as StudentSessionTimeslot;
   return timeslot;
 }
 export const getTimeslotsByCompanyId = async (companyId: number): Promise<StudentSessionTimeslot[]> => {
-  const response = await get(`/StudentSessionTimeslots/${companyId}`);
+  const response = await get(`/studentsessions/timeslots/company/${companyId}`);
   const json = await response.json();
   const Timeslots = json as StudentSessionTimeslot[];
   return Timeslots;
