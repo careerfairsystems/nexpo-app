@@ -1,4 +1,4 @@
-import { get, putAuth } from "../http/_HttpHelpers";
+import { get, getAuth, putAuth } from "../http/_HttpHelpers";
 import { addDays, format, isAfter, subDays } from "date-fns";
 
 export interface StudentSessionTimeslot {
@@ -29,7 +29,7 @@ export const updateTimeslot = async (timeslotId: number, studentId: number | nul
   return timeslot;
 }
 export const getTimeslotsByCompanyId = async (companyId: number): Promise<StudentSessionTimeslot[]> => {
-  const response = await get(`/studentsessions/timeslots/company/${companyId}`);
+  const response = await getAuth(`/studentsessions/timeslots/company/${companyId}`);
   const json = await response.json();
   const Timeslots = json as StudentSessionTimeslot[];
   return Timeslots;
