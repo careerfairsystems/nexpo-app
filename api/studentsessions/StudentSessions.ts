@@ -39,8 +39,7 @@ export function formatTime(start: Date, end: Date): string {
   try {
     const clock: string = start.toLocaleTimeString + " - " + end.toLocaleTimeString
     const dateString = format(start, "LLL d") + "  :  " + clock;
-    dateString + "  :  " + clock;
-    return dateString;
+    return dateString + "  :  " + clock;
   } catch (RangeError) {
     return "";
   }
