@@ -36,10 +36,12 @@ export const getTimeslotsByCompanyId = async (companyId: number): Promise<SSTime
 };
 
 export function formatTime(start: Date, end: Date): string {
-  try {
-    const clock: string = start.toLocaleTimeString + " - " + end.toLocaleTimeString
-    const dateString = format(start, "LLL d") + "  :  " + clock;
-    return dateString + "  :  " + clock;
+  try{
+    const st = new Date(start.toString());
+    const en = new Date(end.toString());
+    const clock: string = st.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) + " - " + en.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+    const dateString = format(st, "LLL d") + "  :  " + clock;
+    return dateString;
   } catch (RangeError) {
     return "";
   }
