@@ -7,16 +7,16 @@ import { Text, View } from '../components/Themed';
 import { API } from '../api';
 import { PublicCompanyDto } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
-import { StudentSessionsStackParamlist } from '../navigation/BottomTabNavigator';
+import { SSsStackParamlist } from '../navigation/BottomTabNavigator';
 
-type StudentSessionsNavigation = {
+type SSsNavigation = {
   navigation: StackNavigationProp<
-    StudentSessionsStackParamlist,
-    'StudentSessionsCompaniesScreen'
+    SSsStackParamlist,
+    'SSsCompaniesScreen'
   >
 };
 
-export default function StudentSessionsCompaniesScreen({navigation}: StudentSessionsNavigation) {
+export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
 
@@ -27,8 +27,8 @@ export default function StudentSessionsCompaniesScreen({navigation}: StudentSess
     setLoading(false);
   }
 
-  const openCompanyStudentSessions = (companyId: number) => {
-    navigation.navigate('StudentSessionsListScreen', { companyId });
+  const openCompanySSs = (companyId: number) => {
+    navigation.navigate('SSsListScreen', { companyId });
   }
 
   useEffect(() => {
@@ -46,12 +46,12 @@ export default function StudentSessionsCompaniesScreen({navigation}: StudentSess
       <FlatList
         style={styles.list}
         data={companies} //den gamla raden om vi bara vill visa alla företag
-        //data={companies?.filter(c => c.studentSessionTimeslots == null ? false : c.studentSessionTimeslots.length > 0)}
+        //data={companies?.filter(c => c.ssTimeslots == null ? false : c.ssTimeslots.length > 0)}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) => 
           <CompanyListItem
             company={company} 
-            onPress={() => openCompanyStudentSessions(company.id)} />
+            onPress={() => openCompanySSs(company.id)} />
         } />
     </View>
   );

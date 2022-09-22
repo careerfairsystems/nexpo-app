@@ -1,7 +1,7 @@
 import { get, getAuth, putAuth } from "../http/_HttpHelpers";
 import { addDays, format, isAfter, subDays } from "date-fns";
 
-export interface StudentSessionTimeslot {
+export interface SSTimeslot {
   id: number;
   start: Date;
   end: Date;
@@ -10,28 +10,28 @@ export interface StudentSessionTimeslot {
   companyId: number;
 }
 
-export const getAllTimeslots = async (): Promise<StudentSessionTimeslot[]> => {
+export const getAllTimeslots = async (): Promise<SSTimeslot[]> => {
   const response = await get("/events");
   const json = await response.json();
-  const Timeslots = json as StudentSessionTimeslot[];
+  const Timeslots = json as SSTimeslot[];
   return Timeslots;
 };
-export const getTimeslot = async (timeslotId: number): Promise<StudentSessionTimeslot> => {
+export const getTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
   const response = await get(`/studentsessions/timeslots/${timeslotId}`);
   const json = await response.json();
-  const Timeslots = json as StudentSessionTimeslot;
+  const Timeslots = json as SSTimeslot;
   return Timeslots;
 };
-export const updateTimeslot = async (timeslotId: number, studentId: number | null): Promise<StudentSessionTimeslot> => {
+export const updateTimeslot = async (timeslotId: number, studentId: number | null): Promise<SSTimeslot> => {
   const response = await putAuth(`/studentsessions/timeslots/${timeslotId}`, studentId);
   const json = await response.json();
-  const timeslot = json as StudentSessionTimeslot;
+  const timeslot = json as SSTimeslot;
   return timeslot;
 }
-export const getTimeslotsByCompanyId = async (companyId: number): Promise<StudentSessionTimeslot[]> => {
+export const getTimeslotsByCompanyId = async (companyId: number): Promise<SSTimeslot[]> => {
   const response = await getAuth(`/studentsessions/timeslots/company/${companyId}`);
   const json = await response.json();
-  const Timeslots = json as StudentSessionTimeslot[];
+  const Timeslots = json as SSTimeslot[];
   return Timeslots;
 };
 

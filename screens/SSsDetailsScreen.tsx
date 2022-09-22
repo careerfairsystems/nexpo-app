@@ -9,14 +9,14 @@ import {
 import Colors from "../constants/Colors";
 
 import { API } from "../api";
-import { StudentSessionTimeslot, updateTimeslot } from "../api/studentsessions";
+import { SSTimeslot, updateTimeslot } from "../api/studentsessions";
 
 import { View } from "../components/Themed";
 import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
 import { ArkadButton } from "../components/Buttons";
 import { ArkadText } from "../components/StyledText";
 
-type StudentSessionsDetailsScreenParams = {
+type SSsDetailsScreenParams = {
   route: {
     params: {
       companyId: number;
@@ -25,12 +25,12 @@ type StudentSessionsDetailsScreenParams = {
   };
 };
 
-export default function StudentSessionsDetailsScreen({
+export default function SSsDetailsScreen({
   route,
-}: StudentSessionsDetailsScreenParams) {
+}: SSsDetailsScreenParams) {
   const { timeslotId  } = route.params;
 
-  const [timeslot, setTimeslot] = useState<StudentSessionTimeslot | null>(null);
+  const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getTimeslot = async () => {

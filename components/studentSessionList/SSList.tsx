@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { StudentSessionTimeslot } from '../../api/studentSessions';
+import { SSTimeslot } from '../../api/studentsessions';
 import Colors from '../../constants/Colors';
-import { StudentSessionListItem } from './StudentSessionListItem';
+import { SSListItem } from './SSsListItem';
 
 type TimeslotListProps = {
-  timeslots: StudentSessionTimeslot[] | null;
+  timeslots: SSTimeslot[] | null;
   onPress: (id: number) => void;
 }
 
@@ -26,7 +26,7 @@ export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
       keyExtractor={({ id }) => id.toString()}
       renderItem={({ item: timeslot }) => 
         <View style={styles.eventBox}>
-          <StudentSessionListItem
+          <SSListItem
             timeslot={timeslot} 
             booked={timeslot.studentId == null ? false : true}
             itemStyle={{}}

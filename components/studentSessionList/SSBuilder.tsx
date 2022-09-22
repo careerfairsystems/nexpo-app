@@ -1,10 +1,10 @@
-import StudentSession from "./StudentSession"
+import SS from "./SS"
 
 export class FairEventBuilder{
-    private readonly fairEvent: StudentSession
+    private readonly fairEvent: SS
 
     constructor() {
-        this.fairEvent = new StudentSession
+        this.fairEvent = new SS
     }
 
     name(n: string): FairEventBuilder{
