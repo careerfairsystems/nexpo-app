@@ -25,7 +25,7 @@ export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
       data={timeslots}
       keyExtractor={({ id }) => id.toString()}
       renderItem={({ item: timeslot }) => 
-        <View style={styles.eventBox}>
+        <View style={styles.ssBox}>
           <SSListItem
             timeslot={timeslot} 
             booked={timeslot.studentId == null ? false : true}
@@ -38,9 +38,9 @@ export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
   
 }
 const styles = StyleSheet.create({
-  eventBox: {
+  ssBox: {
     width: width * 0.85,
-    height: height * 0.24
+    height: height * 0.12,
   },
   text: {
     paddingTop: 40,
