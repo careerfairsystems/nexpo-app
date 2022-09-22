@@ -15,6 +15,9 @@ import { View } from "../components/Themed";
 import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
 import { ArkadButton } from "../components/Buttons";
 import { ArkadText } from "../components/StyledText";
+import StudentSessionsCompInfo from '../components/studentSessionList/StudentSessionCompInfo';
+import { Props } from "react-native-image-zoom-viewer/built/image-viewer.type";
+
 
 type StudentSessionsDetailsScreenParams = {
   route: {
@@ -28,7 +31,7 @@ type StudentSessionsDetailsScreenParams = {
 export default function StudentSessionsDetailsScreen({
   route,
 }: StudentSessionsDetailsScreenParams) {
-  const { timeslotId  } = route.params;
+  const { timeslotId, companyId} = route.params;
 
   const [timeslot, setTimeslot] = useState<StudentSessionTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -95,6 +98,11 @@ export default function StudentSessionsDetailsScreen({
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <ArkadText text={"Student session"} style={styles.title} />
+        </View>
+        <View style={styles.headerContainer}>
+          <StudentSessionsCompInfo
+            route.params.id={companyId}
+          />
         </View>
         <View style={styles.headerContainer}>
           <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
