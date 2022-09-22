@@ -19,9 +19,11 @@ export const SSListItem = ({ timeslot, booked, itemStyle, onPress }: ListedTimes
       <ArkadText style={styles.eventName} text={"student session"}/>
     </View>
     <View style={styles.footerContainer}>
-      <ArkadText 
-        style={styles.eventTime}
-        text={API.studenSessions.formatTime(timeslot.start, timeslot.end)} />
+      <View style = {styles.eventBookedContainer}>
+        <ArkadText 
+          style={styles.eventTime}
+          text={API.studenSessions.formatTime(timeslot.start, timeslot.end)} />
+      </View>
         {/* Color of box changes depending on status */}
       {booked 
       ? <View 
@@ -66,16 +68,18 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     /* Footer is pushed to bottom since header
       has flex: 1. */
     paddingBottom: 4,
   },
   eventTime: {
-    paddingBottom: 6,
+    paddingTop: 4,
     fontSize: 14,
-    textAlign: 'right',
+    textAlign: 'center',
+    paddingVertical: 4,
+    paddingRight: 16,
     color: Colors.white,
   },
   eventBookedContainer: {

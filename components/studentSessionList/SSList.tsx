@@ -13,11 +13,15 @@ type TimeslotListProps = {
 const { width, height } = Dimensions.get('window')
 
 export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
-  if(timeslots?.length == 0) {
+  if(timeslots?.length == 0 || timeslots == null) {
     return (
       <Text style={styles.text}>No upcoming timeslots =(</Text>
     )
   }
+  
+  timeslots?.sort((a,b) => 
+    new Date(a.start).getTime() - new Date(b.start).getTime()
+  );
 
   return (
     <FlatList
