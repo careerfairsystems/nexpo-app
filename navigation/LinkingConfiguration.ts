@@ -31,9 +31,9 @@ export default {
           },
           SSs: {
             screens: {
-              SSsCompaniesScreen: 'sss',
-              SSsListScreen: 'sss/:companyId',
-              SSsDetailsScreen: 'sss/:companyId/:timeslotId',
+              SSsCompaniesScreen: 'studentSessions',
+              SSsListScreen: 'studentSessions/:companyName',
+              SSsDetailsScreen: 'studentSessions/:companyName/:timeslotId',
             },
           },
           Map: {

@@ -16,6 +16,7 @@ type SSsNavigation = {
   route: {
     params: {
       companyId: number;
+      companyName: string;
       timeslotId: number;
     };
   };
@@ -23,6 +24,7 @@ type SSsNavigation = {
 
 export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const companyId = route.params.companyId;
+  const companyName = route.params.companyName;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
   
@@ -35,7 +37,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }
 
   const openSSDetails = (timeslotId: number) => {
-    navigation.navigate('SSsDetailsScreen',{companyId , timeslotId});
+    navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId});
   }
   
   React.useEffect(() => {

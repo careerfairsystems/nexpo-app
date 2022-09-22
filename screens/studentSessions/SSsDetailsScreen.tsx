@@ -20,6 +20,7 @@ type SSsDetailsScreenParams = {
   route: {
     params: {
       companyId: number;
+      companyName: string;
       timeslotId: number;
     };
   };
@@ -28,7 +29,7 @@ type SSsDetailsScreenParams = {
 export default function SSsDetailsScreen({
   route,
 }: SSsDetailsScreenParams) {
-  const { timeslotId  } = route.params;
+  const { timeslotId, companyName } = route.params;
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -115,7 +116,7 @@ export default function SSsDetailsScreen({
                 size={16}
                 color="black"
               />
-              <ArkadText text={"1"} style={styles.headerText} />
+              <ArkadText text={companyName} style={styles.headerText} />
             </View>
           </View>
           <View style={[styles.subHeaderContainer, { flex: 0.3 }]}>

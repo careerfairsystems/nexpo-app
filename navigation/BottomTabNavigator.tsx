@@ -189,9 +189,11 @@ export type SSsStackParamlist = {
   SSsCompaniesScreen: undefined;
   SSsListScreen: {
     companyId: number;
+    companyName: string;
   }
   SSsDetailsScreen: {
     companyId: number;
+    companyName: string;
     timeslotId: number;
   }
 }
