@@ -15,8 +15,8 @@ import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EventListScreen from "../screens/EventListScreen";
-import SSsCompaniesScreen from '../screens/SSsCompaniesScreen';
-import SSsListScreen from "../screens/SSsListScreen";
+import SSsCompaniesScreen from '../screens/studentSessions/SSsCompaniesScreen';
+import SSsListScreen from "../screens/studentSessions/SSsListScreen";
 import MapScreen from "../screens/MapScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
@@ -26,7 +26,7 @@ import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
 
 import { Platform } from 'react-native';
-import SSsDetailsScreen from '../screens/SSsDetailsScreen';
+import SSsDetailsScreen from '../screens/studentSessions/SSsDetailsScreen';
 
 
 

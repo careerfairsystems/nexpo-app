@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../../components/Themed';
 
-import { API } from '../api';
-import { PublicCompanyDto } from '../api/companies';
-import { CompanyListItem } from '../components/companies/CompanyListItem';
-import { SSsStackParamlist } from '../navigation/BottomTabNavigator';
+import { API } from '../../api';
+import { PublicCompanyDto } from '../../api/companies';
+import { CompanyListItem } from '../../components/companies/CompanyListItem';
+import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<

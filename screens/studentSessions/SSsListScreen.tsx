@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '../api';
-import { SSTimeslot } from '../api/studentsessions';
-import { TimeslotList } from '../components/studentSessionList/SSList';
-import { SSsStackParamlist } from '../navigation/BottomTabNavigator';
+import { API } from '../../api';
+import { SSTimeslot } from '../../api/studentsessions';
+import { TimeslotList } from '../../components/studentSessionList/SSList';
+import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<

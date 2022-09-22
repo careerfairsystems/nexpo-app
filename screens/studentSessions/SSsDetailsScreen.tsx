@@ -6,15 +6,15 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import Colors from "../constants/Colors";
+import Colors from "../../constants/Colors";
 
-import { API } from "../api";
-import { SSTimeslot, updateTimeslot } from "../api/studentsessions";
+import { API } from "../../api";
+import { SSTimeslot, updateTimeslot } from "../../api/studentsessions";
 
-import { View } from "../components/Themed";
-import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
-import { ArkadButton } from "../components/Buttons";
-import { ArkadText } from "../components/StyledText";
+import { View } from "../../components/Themed";
+import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
+import { ArkadButton } from "../../components/Buttons";
+import { ArkadText } from "../../components/StyledText";
 
 type SSsDetailsScreenParams = {
   route: {
