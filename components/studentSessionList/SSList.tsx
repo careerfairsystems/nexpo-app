@@ -31,6 +31,7 @@ export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
       renderItem={({ item: timeslot }) => 
         <View style={styles.ssBox}>
           <SSListItem
+            key={timeslot.id}
             timeslot={timeslot} 
             booked={timeslot.studentId == null ? false : true}
             itemStyle={{}}
