@@ -7,6 +7,8 @@ import { API } from '../../api';
 import { SSTimeslot } from '../../api/studentsessions';
 import { TimeslotList } from '../../components/studentSessionList/SSList';
 import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
+import { ArkadButton } from '../../components/Buttons';
+import { ArkadText } from '../../components/StyledText';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -39,6 +41,11 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const openSSDetails = (timeslotId: number) => {
     navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId});
   }
+
+  const openSSsApplicaion = () => {
+    navigation.navigate('SSsApplicationScreen',{companyId , companyName});
+  }
+
   
   React.useEffect(() => {
     getTimeslots();
@@ -46,14 +53,19 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     
   return (
     <View style={styles.container}>
-      {isLoading 
-        ? <Text>Loading...</Text>
-        : <View style={styles.container}>
-            <TimeslotList 
-              timeslots={ssTimeslots}
-              onPress={openSSDetails} />
-          </View>
-      }
+      <ArkadButton onPress={() => openSSsApplicaion()}>
+        <ArkadText text = "Apply for a session" />
+      </ArkadButton>
+      <View>
+        {isLoading 
+          ? <Text>Loading...</Text>
+          : <View style={styles.container}>
+              <TimeslotList 
+                timeslots={ssTimeslots}
+                onPress={openSSDetails} />
+            </View>
+        }
+      </View>
     </View>
   );
 }

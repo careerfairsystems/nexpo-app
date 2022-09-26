@@ -27,7 +27,7 @@ import EditProfileScreen from '../screens/EditProfileScreen';
 
 import { Platform } from 'react-native';
 import SSsDetailsScreen from '../screens/studentSessions/SSsDetailsScreen';
-
+import SSsApplicationScreen from '../screens/studentSessions/SSsApplicationSreen';
 
 
 export type BottomTabParamList = {
@@ -196,6 +196,10 @@ export type SSsStackParamlist = {
     companyName: string;
     timeslotId: number;
   }
+  SSsApplicationScreen: {
+    companyId: number;
+    companyName: string;
+  }
 }
 
 const SSsStack = createStackNavigator<SSsStackParamlist>();
@@ -216,6 +220,11 @@ function SSsNavigator() {
         name="SSsDetailsScreen"
         component={SSsDetailsScreen}
         options={{ title: 'Session Details', headerTitle: 'Session Details' }}
+      />
+      <SSsStack.Screen
+        name="SSsApplicationScreen"
+        component={SSsApplicationScreen}
+        options={{ title: 'Application', headerTitle: 'Application' }}
       />
     </SSsStack.Navigator>
   );
