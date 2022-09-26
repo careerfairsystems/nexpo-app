@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
 import { StudentSessionTimeslot } from '../api/studentSessions';
 import { TimeslotList } from '../components/studentSessionList/StudentSessionList';
+import StudentSessionCompInfo from '../components/studentSessionList/StudentSessionCompInfo';
 import { StudentSessionsStackParamlist } from '../navigation/BottomTabNavigator';
 
 type StudentSessionsNavigation = {
