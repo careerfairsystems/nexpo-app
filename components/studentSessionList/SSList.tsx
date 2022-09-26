@@ -1,23 +1,27 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { StudentSessionTimeslot } from '../../api/studentSessions';
+import { SSTimeslot } from '../../api/studentsessions';
 import Colors from '../../constants/Colors';
-import { StudentSessionListItem } from './StudentSessionListItem';
+import { SSListItem } from './SSsListItem';
 
 type TimeslotListProps = {
-  timeslots: StudentSessionTimeslot[] | null;
+  timeslots: SSTimeslot[] | null;
   onPress: (id: number) => void;
 }
 
 const { width, height } = Dimensions.get('window')
 
 export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
-  if(timeslots?.length == 0) {
+  if(timeslots?.length == 0 || timeslots == null) {
     return (
       <Text style={styles.text}>No upcoming timeslots =(</Text>
     )
   }
+  
+  timeslots?.sort((a,b) => 
+    new Date(a.start).getTime() - new Date(b.start).getTime()
+  );
 
   return (
     <FlatList
@@ -25,8 +29,9 @@ export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
       data={timeslots}
       keyExtractor={({ id }) => id.toString()}
       renderItem={({ item: timeslot }) => 
-        <View style={styles.eventBox}>
-          <StudentSessionListItem
+        <View style={styles.ssBox}>
+          <SSListItem
+            key={timeslot.id}
             timeslot={timeslot} 
             booked={timeslot.studentId == null ? false : true}
             itemStyle={{}}
@@ -38,9 +43,9 @@ export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
   
 }
 const styles = StyleSheet.create({
-  eventBox: {
+  ssBox: {
     width: width * 0.85,
-    height: height * 0.24
+    height: height * 0.12,
   },
   text: {
     paddingTop: 40,

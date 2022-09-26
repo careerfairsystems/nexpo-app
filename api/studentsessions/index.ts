@@ -1,1 +1,1 @@
-export * from './StudentSessions';
+export * from './SSs';

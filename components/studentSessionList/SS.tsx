@@ -1,4 +1,4 @@
-export default class StudentSession {
+export default class SS {
   name: string;
   dateStart: Date;
   dateEnd: Date;

@@ -1,27 +1,29 @@
 import React from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
-import { StudentSessionTimeslot } from '../../api/studentSessions';
+import { SSTimeslot } from '../../api/studentsessions';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
 import { API } from '../../api';
 
 type ListedTimeslotProps = {
-  timeslot: StudentSessionTimeslot;
+  timeslot: SSTimeslot;
   booked: boolean;
   itemStyle: ViewStyle;
   onPress: () => void;
 }
 
-export const StudentSessionListItem = ({ timeslot, booked, itemStyle, onPress }: ListedTimeslotProps) => 
+export const SSListItem = ({ timeslot, booked, itemStyle, onPress }: ListedTimeslotProps) => 
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
     <View style={styles.headerContainer}>
       <ArkadText style={styles.eventName} text={"student session"}/>
     </View>
     <View style={styles.footerContainer}>
-      <ArkadText 
-        style={styles.eventTime}
-        text={API.studenSessions.formatTime(timeslot.start, timeslot.end)} />
+      <View style = {styles.eventBookedContainer}>
+        <ArkadText 
+          style={styles.eventTime}
+          text={API.studenSessions.formatTime(timeslot.start, timeslot.end)} />
+      </View>
         {/* Color of box changes depending on status */}
       {booked 
       ? <View 
@@ -66,16 +68,18 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     /* Footer is pushed to bottom since header
       has flex: 1. */
     paddingBottom: 4,
   },
   eventTime: {
-    paddingBottom: 6,
+    paddingTop: 4,
     fontSize: 14,
-    textAlign: 'right',
+    textAlign: 'center',
+    paddingVertical: 4,
+    paddingRight: 16,
     color: Colors.white,
   },
   eventBookedContainer: {

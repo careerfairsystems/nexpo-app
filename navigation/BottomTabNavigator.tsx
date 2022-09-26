@@ -15,8 +15,8 @@ import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EventListScreen from "../screens/EventListScreen";
-import StudentSessionsCompaniesScreen from '../screens/StudentSessionsCompaniesScreen';
-import StudentSessionsListScreen from "../screens/StudentSessionsListScreen";
+import SSsCompaniesScreen from '../screens/studentSessions/SSsCompaniesScreen';
+import SSsListScreen from "../screens/studentSessions/SSsListScreen";
 import MapScreen from "../screens/MapScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
@@ -26,15 +26,15 @@ import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
 
 import { Platform } from 'react-native';
-import StudentSessionsDetailsScreen from '../screens/StudentSessionsDetailsScreen';
-
+import SSsDetailsScreen from '../screens/studentSessions/SSsDetailsScreen';
+import SSsApplicationScreen from '../screens/studentSessions/SSsApplicationSreen';
 
 
 export type BottomTabParamList = {
   Companies: undefined;
   Maps: undefined;
   Profile: undefined;
-  StudentSessions: undefined;
+  SSs: undefined;
   Events: undefined
 };
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -93,8 +93,8 @@ export default function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="StudentSessions"
-        component={StudentSessionsNavigator}
+        name="SSs"
+        component={SSsNavigator}
         options={{
           title: 'Student Sessions',
           tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
@@ -104,7 +104,7 @@ export default function BottomTabNavigator() {
             if (navigation.canGoBack()) {
               //navigation.popToTop()
             }
-            navigation.replace('StudentSessionsCompaniesScreen')
+            navigation.replace('SSsCompaniesScreen')
           },
         })}
       />
@@ -185,37 +185,48 @@ function EventsNavigator() {
   );
 }
 
-export type StudentSessionsStackParamlist = {
-  StudentSessionsCompaniesScreen: undefined;
-  StudentSessionsListScreen: {
+export type SSsStackParamlist = {
+  SSsCompaniesScreen: undefined;
+  SSsListScreen: {
     companyId: number;
+    companyName: string;
   }
-  StudentSessionsDetailsScreen: {
+  SSsDetailsScreen: {
     companyId: number;
+    companyName: string;
     timeslotId: number;
+  }
+  SSsApplicationScreen: {
+    companyId: number;
+    companyName: string;
   }
 }
 
-const StudentSessionsStack = createStackNavigator<StudentSessionsStackParamlist>();
-function StudentSessionsNavigator() {
+const SSsStack = createStackNavigator<SSsStackParamlist>();
+function SSsNavigator() {
   return (
-    <StudentSessionsStack.Navigator>
-      <StudentSessionsStack.Screen
-        name="StudentSessionsCompaniesScreen"
-        component={StudentSessionsCompaniesScreen}
+    <SSsStack.Navigator>
+      <SSsStack.Screen
+        name="SSsCompaniesScreen"
+        component={SSsCompaniesScreen}
         options={{ title: 'Student Sessions', headerTitle: 'Student Sessions' }}
       />
-      <StudentSessionsStack.Screen
-        name="StudentSessionsListScreen"
-        component={StudentSessionsListScreen}
+      <SSsStack.Screen
+        name="SSsListScreen"
+        component={SSsListScreen}
         options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List' }}
       />
-      <StudentSessionsStack.Screen
-        name="StudentSessionsDetailsScreen"
-        component={StudentSessionsDetailsScreen}
+      <SSsStack.Screen
+        name="SSsDetailsScreen"
+        component={SSsDetailsScreen}
         options={{ title: 'Session Details', headerTitle: 'Session Details' }}
       />
-    </StudentSessionsStack.Navigator>
+      <SSsStack.Screen
+        name="SSsApplicationScreen"
+        component={SSsApplicationScreen}
+        options={{ title: 'Application', headerTitle: 'Application' }}
+      />
+    </SSsStack.Navigator>
   );
 }
 

@@ -6,31 +6,37 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import Colors from "../constants/Colors";
+import Colors from "../../constants/Colors";
 
-import { API } from "../api";
-import { StudentSessionTimeslot, updateTimeslot } from "../api/studentSessions";
+import { API } from "../../api";
+import { SSTimeslot, updateTimeslot } from "../../api/studentsessions";
 
-import { View } from "../components/Themed";
-import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
-import { ArkadButton } from "../components/Buttons";
-import { ArkadText } from "../components/StyledText";
+import { View } from "../../components/Themed";
+import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
+import { ArkadButton } from "../../components/Buttons";
+import { ArkadText } from "../../components/StyledText";
 
-type StudentSessionsDetailsScreenParams = {
+type SSsDetailsScreenParams = {
   route: {
     params: {
       companyId: number;
+      companyName: string;
       timeslotId: number;
     };
   };
 };
 
-export default function StudentSessionsDetailsScreen({
+export default function SSsDetailsScreen({
   route,
+<<<<<<< HEAD:screens/StudentSessionsDetailsScreen.tsx
 }: StudentSessionsDetailsScreenParams) {
   const { timeslotId, companyId} = route.params;
+=======
+}: SSsDetailsScreenParams) {
+  const { timeslotId, companyName } = route.params;
+>>>>>>> e411e3178721f113c64049e44d4562dee143230b:screens/studentSessions/SSsDetailsScreen.tsx
 
-  const [timeslot, setTimeslot] = useState<StudentSessionTimeslot | null>(null);
+  const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getTimeslot = async () => {
@@ -115,7 +121,7 @@ export default function StudentSessionsDetailsScreen({
                 size={16}
                 color="black"
               />
-              <ArkadText text={"1"} style={styles.headerText} />
+              <ArkadText text={companyName} style={styles.headerText} />
             </View>
           </View>
           <View style={[styles.subHeaderContainer, { flex: 0.3 }]}>

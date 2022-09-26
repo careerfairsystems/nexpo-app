@@ -29,11 +29,12 @@ export default {
               EventDetailsScreen: 'events/:id',
             },
           },
-          StudentSessions: {
+          SSs: {
             screens: {
-              StudentSessionsCompaniesScreen: 'studentSessions',
-              StudentSessionsListScreen: 'studentSessions/:companyId',
-              StudentSessionsDetailsScreen: 'studentSessions/:companyId/:timeslotId',
+              SSsCompaniesScreen: 'studentSessions',
+              SSsListScreen: 'studentSessions/:companyName',
+              SSsDetailsScreen: 'studentSessions/:companyName/:timeslotId',
+              SSsApplicationScreen: 'studentSessions/:companyName/application',
             },
           },
           Map: {
