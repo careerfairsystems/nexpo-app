@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, TextInput } from "react-native";
-import {
-  Ionicons,
-  MaterialIcons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
 
 import Colors from "../../constants/Colors";
 
@@ -28,7 +23,7 @@ type SSsApplicationScreenParams = {
 export default function SSsApplicationScreen({
   route,
 }: SSsApplicationScreenParams) {
-  const { companyId } = route.params;
+  const { companyId, companyName } = route.params;
 
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("hello");
@@ -36,6 +31,7 @@ export default function SSsApplicationScreen({
   const sendApplication = async () => {
     setLoading(true);
     await API.studenSessions.sendApplication(companyId, msg);
+    alert("Atplication to " + companyId + " sent");
     setLoading(false);
   };
 
