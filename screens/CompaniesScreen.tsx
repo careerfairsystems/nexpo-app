@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Text, View } from '../components/Themed';
@@ -8,6 +8,7 @@ import { API } from '../api';
 import { PublicCompanyDto } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
 import { CompanyStackParamList } from '../navigation/BottomTabNavigator';
+import Colors from '../constants/Colors';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -19,6 +20,7 @@ type companiesNavigation = {
 export default function CompaniesScreen({navigation}: companiesNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
+  const [text, onChangeText] = React.useState("");
 
   const getCompanies = async () => {
     setLoading(true);
@@ -43,9 +45,15 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
 
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+        placeholder={"search for company"}
+      />
       <FlatList
         style={styles.list}
-        data={companies}
+        data={API.companies.filterData(text, companies)}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) => 
           <CompanyListItem
@@ -65,4 +73,16 @@ const styles = StyleSheet.create({
   list: {
     width: '100%',
   },
+  input: {
+    width: '90%',
+    border: '3px solid ' + Colors.darkBlue,
+    color: Colors.darkBlue,
+    padding: '10px',
+    height: '45px',
+    borderRadius: 7,
+    margin: '10px',
+    fontSize: 15,
+    fontFamily: 'montserrat',
+  },
+  
 });
