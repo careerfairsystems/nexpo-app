@@ -26,11 +26,11 @@ export default function SSsApplicationScreen({
   const { companyId, companyName } = route.params;
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [msg, setMsg] = useState<string>("hello");
+  const [msg, setMsg] = useState<string>("");
 
   const sendApplication = async () => {
     setLoading(true);
-    await API.studenSessions.sendApplication(companyId, msg);
+    await API.studentSessions.sendApplication(companyId, msg);
     alert("Application to " + companyName + " sent");
     setLoading(false);
   };
@@ -47,6 +47,7 @@ export default function SSsApplicationScreen({
           style={styles.input}
           onChangeText={setMsg}
           value={msg}
+          placeholder={"hejhej jag vill gärna jobba hos er \nhoppas ni vill ha mig <3"}
         />
         <ArkadButton onPress={sendApplication}>
           <ArkadText text="Send application" />

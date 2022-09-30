@@ -22,7 +22,7 @@ export const SSListItem = ({ timeslot, booked, itemStyle, onPress }: ListedTimes
       <View style = {styles.eventBookedContainer}>
         <ArkadText 
           style={styles.eventTime}
-          text={API.studenSessions.formatTime(timeslot.start, timeslot.end)} />
+          text={API.studentSessions.formatTime(timeslot.start, timeslot.end)} />
       </View>
         {/* Color of box changes depending on status */}
       {booked 

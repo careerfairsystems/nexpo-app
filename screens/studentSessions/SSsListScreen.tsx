@@ -32,8 +32,8 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   
   const getTimeslots = async () => {
     setLoading(true);
-    //const ssTimeslots = await API.studenSessions.getAllTimeslots(); 
-    const ssTimeslots = await API.studenSessions.getTimeslotsByCompanyId(companyId);
+    //const ssTimeslots = await API.studentSessions.getAllTimeslots(); 
+    const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
     setTimeslots(ssTimeslots);
     setLoading(false);
   }

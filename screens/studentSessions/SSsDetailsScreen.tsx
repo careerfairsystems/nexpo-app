@@ -35,7 +35,7 @@ export default function SSsDetailsScreen({
   const [loading, setLoading] = useState<boolean>(true);
 
   const getTimeslot = async () => {
-    const timeslot = await API.studenSessions.getTimeslot(timeslotId);
+    const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     setTimeslot(timeslot);
 
   };
@@ -45,7 +45,7 @@ export default function SSsDetailsScreen({
     if (timeslot?.id == undefined) {
       return;
     }
-    const ts = await API.studenSessions.updateTimeslot(timeslot.id, 1);
+    const ts = await API.studentSessions.updateTimeslot(timeslot.id, 1);
     if (ts) {
       alert("Registered to student session " + timeslot?.start.toLocaleDateString());
       getTimeslot();
@@ -102,7 +102,7 @@ export default function SSsDetailsScreen({
             <View style={styles.leftItem}>
               <Ionicons name="calendar" size={16} color="black" />
               <ArkadText
-                text={API.studenSessions.formatTime(timeslot.start, timeslot.end)}
+                text={API.studentSessions.formatTime(timeslot.start, timeslot.end)}
                 style={styles.headerText}
               />
             </View>
