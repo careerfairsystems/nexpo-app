@@ -15,30 +15,28 @@ export default function SSCompInfo(props) {
 
   return (
     <View style={styles.outerContainer}>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.logoContainer}>
-            <Image 
-              source={props.company.logoUrl 
-                ? {uri: props.company.logoUrl}
-                : require('../assets/images/icon.png')}
-              defaultSource={require('../assets/images/icon.png')}
-              style={styles.logo} />
-          </View>
-
-          <Text style={styles.title}>{props.company?.name}</Text>
-
-          <View style={styles.contactInfoContainer}>
-            <Ionicons name="link" size={16} color={Colors.darkBlue} />
-            <Text 
-              style={styles.contactInfoText}>
-            </Text>
-          </View>
-
-          <Text style={styles.descHeader}>About us</Text>
-          <Text style={styles.desc}>{ props.company.description ? props.company.description : '\u2013'}</Text>
+      <View style={styles.container}>
+        <View style={styles.logoContainer}>
+          <Image 
+            source={props.company.logoUrl 
+              ? {uri: props.company.logoUrl}
+              : require('../../assets/images/icon.png')}
+            defaultSource={require('../../assets/images/icon.png')}
+            style={styles.logo} />
         </View>
-      </ScrollView> 
+
+        <Text style={styles.title}>{props.company?.name}</Text>
+
+        <View style={styles.contactInfoContainer}>
+          <Ionicons name="link" size={16} color={Colors.darkBlue} />
+          <Text 
+            style={styles.contactInfoText}>
+          </Text>
+        </View>
+
+        <Text style={styles.descHeader}>About us</Text>
+        <Text style={styles.desc}>{ props.company.description ? props.company.description : '\u2013'}</Text>
+      </View>
     </View>
   );
 }

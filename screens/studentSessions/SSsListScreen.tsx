@@ -10,6 +10,8 @@ import SSCompInfo from '../../components/studentSessionList/SSCompInfo';
 import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
+import { PublicCompanyDto } from '../../api/companies/Companies';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -30,14 +32,13 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const companyName = route.params.companyName;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
-  const [company, setCompany] = React.useState< PublicCompanyDto>(null);
+  const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
 
   const getTimeslotsAndCompany = async () => {
     setLoading(true);
-    //const ssTimeslots = await API.studenSessions.getAllTimeslots(); 
     const ssTimeslots = await API.studenSessions.getTimeslotsByCompanyId(companyId);
     const company = await API.companies.getCompany(companyId);
-
+    setCompany(company)
     setTimeslots(ssTimeslots);
     setLoading(false);
   }
@@ -57,22 +58,22 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     
   return (
     <View style={styles.container}>
-      <SSCompInfo>
-        company={company}
-      <SSCompInfo/>
-      <ArkadButton onPress={() => openSSsApplicaion()}>
-        <ArkadText text = "Apply for a session" />
-      </ArkadButton>
-      <View>
-        {isLoading 
-          ? <Text>Loading...</Text>
-          : <View style={styles.container}>
-              <TimeslotList 
-                timeslots={ssTimeslots}
-                onPress={openSSDetails} />
-            </View>
-        }
-      </View>
+      <ScrollView>
+        {company == null ? <Text>Loading...</Text> : <SSCompInfo company={company}/>}
+        <ArkadButton style={styles.button} onPress={() => openSSsApplicaion()}>
+          <ArkadText text = "Apply for a session!" />
+        </ArkadButton>
+        <View>
+          {isLoading 
+            ? <Text>Loading...</Text>
+            : <View style={styles.container}>
+                <TimeslotList 
+                  timeslots={ssTimeslots}
+                  onPress={openSSDetails} />
+              </View>
+          }
+        </View>
+      </ScrollView>
     </View>
   );
   
@@ -82,5 +83,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center'
+  },
+  button: {
+    width: '60%',
+    alignSelf: 'center',
   },
 });

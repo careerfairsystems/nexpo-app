@@ -15,9 +15,9 @@ type ListedTimeslotProps = {
 
 export const SSListItem = ({ timeslot, booked, itemStyle, onPress }: ListedTimeslotProps) => 
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
-    <View style={styles.headerContainer}>
+    {/* <View style={styles.headerContainer}>
       <ArkadText style={styles.eventName} text={"student session"}/>
-    </View>
+    </View> */}
     <View style={styles.footerContainer}>
       <View style = {styles.eventBookedContainer}>
         <ArkadText 
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   eventName: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 12,
     textAlign: 'left',
     color: Colors.white,
   },
