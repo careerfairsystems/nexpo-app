@@ -1,45 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, Linking } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
+import { Text, View } from '../Themed';
 
 import { PublicCompanyDto } from '../../api/companies'
 import { API } from '../../api';
-import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import ScreenActivityIndicator from '../ScreenActivityIndicator';
 import { ScrollView } from 'react-native-gesture-handler';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
-type StudentSessionsCompInfoParams = {
-  route: {
-    params: {
-      id: number;
-    };
-  };
-}
 
-export default function StudentSessionsCompInfo({ route }: StudentSessionsCompInfoParams) {
-  const { id } = route.params;
-
-  const [company, setCompany] = useState<PublicCompanyDto | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const getCompany = async () => {
-    setLoading(true);
-
-    const company = await API.companies.getCompany(id);
-    setCompany(company);
-
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    getCompany();
-  }, []);
-  
-  if (loading || company == null) {
-    return (<ScreenActivityIndicator />)
-  }
+export default function SSCompInfo(props) {
 
   return (
     <View style={styles.outerContainer}>
@@ -47,14 +19,14 @@ export default function StudentSessionsCompInfo({ route }: StudentSessionsCompIn
         <View style={styles.container}>
           <View style={styles.logoContainer}>
             <Image 
-              source={company.logoUrl 
-                ? {uri: company.logoUrl}
+              source={props.company.logoUrl 
+                ? {uri: props.company.logoUrl}
                 : require('../assets/images/icon.png')}
               defaultSource={require('../assets/images/icon.png')}
               style={styles.logo} />
           </View>
 
-          <Text style={styles.title}>{company?.name}</Text>
+          <Text style={styles.title}>{props.company?.name}</Text>
 
           <View style={styles.contactInfoContainer}>
             <Ionicons name="link" size={16} color={Colors.darkBlue} />
@@ -64,7 +36,7 @@ export default function StudentSessionsCompInfo({ route }: StudentSessionsCompIn
           </View>
 
           <Text style={styles.descHeader}>About us</Text>
-          <Text style={styles.desc}>{ company.description ? company.description : '\u2013'}</Text>
+          <Text style={styles.desc}>{ props.company.description ? props.company.description : '\u2013'}</Text>
         </View>
       </ScrollView> 
     </View>
@@ -126,3 +98,4 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
 });
+

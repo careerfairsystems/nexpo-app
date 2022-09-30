@@ -26,15 +26,8 @@ type SSsDetailsScreenParams = {
   };
 };
 
-export default function SSsDetailsScreen({
-  route,
-<<<<<<< HEAD:screens/StudentSessionsDetailsScreen.tsx
-}: StudentSessionsDetailsScreenParams) {
-  const { timeslotId, companyId} = route.params;
-=======
-}: SSsDetailsScreenParams) {
+export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   const { timeslotId, companyName } = route.params;
->>>>>>> e411e3178721f113c64049e44d4562dee143230b:screens/studentSessions/SSsDetailsScreen.tsx
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
