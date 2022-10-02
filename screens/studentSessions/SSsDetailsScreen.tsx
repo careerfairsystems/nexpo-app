@@ -26,9 +26,7 @@ type SSsDetailsScreenParams = {
   };
 };
 
-export default function SSsDetailsScreen({
-  route,
-}: SSsDetailsScreenParams) {
+export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   const { timeslotId, companyName } = route.params;
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
@@ -95,7 +93,7 @@ export default function SSsDetailsScreen({
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <ArkadText text={"Student session"} style={styles.title} />
+          <ArkadText text={"Student session Company"} style={styles.title} />
         </View>
         <View style={styles.headerContainer}>
           <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
