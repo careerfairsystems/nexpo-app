@@ -23,7 +23,9 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   const getCompanies = async () => {
     setLoading(true);
     const companies = await API.companies.getAll();
-    setCompanies(companies);
+    const timeslots = await API.studenSessions.getAllTimeslots();
+    const companiesWithTimeslots = new Set(timeslots.map(timeslot => timeslot.companyId));
+    setCompanies(companies.filter(c => c.id in companiesWithTimeslots));
     setLoading(false);
   }
 
