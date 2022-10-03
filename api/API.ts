@@ -19,5 +19,5 @@ export class API {
   static files = Files
   static companyconnections = CompanyConnections
   static students = Students
-  static studenSessions = SSs
+  static studentSessions = SSs
 }

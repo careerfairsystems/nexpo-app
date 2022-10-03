@@ -26,16 +26,14 @@ type SSsDetailsScreenParams = {
   };
 };
 
-export default function SSsDetailsScreen({
-  route,
-}: SSsDetailsScreenParams) {
+export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   const { timeslotId, companyName } = route.params;
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getTimeslot = async () => {
-    const timeslot = await API.studenSessions.getTimeslot(timeslotId);
+    const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     setTimeslot(timeslot);
 
   };
@@ -45,7 +43,7 @@ export default function SSsDetailsScreen({
     if (timeslot?.id == undefined) {
       return;
     }
-    const ts = await API.studenSessions.updateTimeslot(timeslot.id, 1);
+    const ts = await API.studentSessions.updateTimeslot(timeslot.id, 1);
     if (ts) {
       alert("Registered to student session " + timeslot?.start.toLocaleDateString());
       getTimeslot();
@@ -95,14 +93,14 @@ export default function SSsDetailsScreen({
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <ArkadText text={"Student session"} style={styles.title} />
+          <ArkadText text={"Student session Company"} style={styles.title} />
         </View>
         <View style={styles.headerContainer}>
           <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
             <View style={styles.leftItem}>
               <Ionicons name="calendar" size={16} color="black" />
               <ArkadText
-                text={API.studenSessions.formatTime(timeslot.start, timeslot.end)}
+                text={API.studentSessions.formatTime(timeslot.start, timeslot.end)}
                 style={styles.headerText}
               />
             </View>
