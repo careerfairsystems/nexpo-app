@@ -15,6 +15,7 @@ import { View } from "../../components/Themed";
 import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
 import { ArkadButton } from "../../components/Buttons";
 import { ArkadText } from "../../components/StyledText";
+import { User } from "../../api/users";
 
 type SSsDetailsScreenParams = {
   route: {
@@ -31,24 +32,29 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User>();
+
 
   const getTimeslot = async () => {
     const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     setTimeslot(timeslot);
-
   };
-
+  const getUser = async () => {
+    const usr = await API.users.getMe();
+    setUser(usr);
+  };
   const bookTimeslot = async () => {
     setLoading(true);
-    if (timeslot?.id == undefined) {
+    if (timeslot?.id == undefined || user?.id == undefined) {
       return;
     }
-    const ts = await API.studentSessions.updateTimeslot(timeslot.id, 1);
-    if (ts) {
-      alert("Registered to student session " + timeslot?.start.toLocaleDateString());
+    const ts = await API.studentSessions.updateTimeslot(timeslot.id, user.id);
+    if (ts.id != undefined) {
+      console.log(ts);
+      alert("Registered to student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
       getTimeslot();
     } else {
-      alert("Could not register to student session " + timeslot?.start.toLocaleDateString());
+      alert("Could not register to student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
       getTimeslot();
     }
     setLoading(false);
@@ -61,7 +67,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     }
 
     if (timeslot.studentId == null) {
-      alert("You are not booked to student session " + timeslot?.start.toLocaleDateString());
+      alert("You are not booked to student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
       return;
     }
 
@@ -69,19 +75,19 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
 
     if (success) {
       alert(
-        "Successfully de-registered from student session " + timeslot?.start.toLocaleDateString()
+        "Successfully de-registered from student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end)
       );
       getTimeslot();
     } else {
-      alert("Could not de-register from student session " + timeslot?.start.toLocaleDateString());
+      alert("Could not de-register from student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
     }
-
     setLoading(false);
   }
 
   useEffect(() => {
     setLoading(true);
     getTimeslot();
+    getUser();
     setLoading(false);
   }, []);
 
