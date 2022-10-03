@@ -1,4 +1,4 @@
-import { get, getAuth, putAuth } from "../http/_HttpHelpers";
+import { get, getAuth, postAuth, putAuth } from "../http/_HttpHelpers";
 import { addDays, format, isAfter, subDays } from "date-fns";
 
 export interface SSTimeslot {
@@ -17,30 +17,30 @@ export const getAllTimeslots = async (): Promise<SSTimeslot[]> => {
   return Timeslots;
 };
 export const getTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
-  const response = await get(`/studentsessions/timeslots/${timeslotId}`);
+  const response = await get(`/timeslots/${timeslotId}`);
   const json = await response.json();
   const Timeslots = json as SSTimeslot;
   return Timeslots;
 };
 export const updateTimeslot = async (timeslotId: number, studentId: number | null): Promise<SSTimeslot> => {
-  const response = await putAuth(`/studentsessions/timeslots/${timeslotId}`, studentId);
+  const response = await putAuth(`/timeslots/${timeslotId}`, studentId);
   const json = await response.json();
   const timeslot = json as SSTimeslot;
   return timeslot;
 }
 export const getTimeslotsByCompanyId = async (companyId: number): Promise<SSTimeslot[]> => {
-  const response = await getAuth(`/studentsessions/timeslots/company/${companyId}`);
+  const response = await getAuth(`/timeslots/company/${companyId}`);
   const json = await response.json();
   const Timeslots = json as SSTimeslot[];
   return Timeslots;
 };
 export const sendApplication = async (companyId: number, msg: string) => {
-  //await putAuth(`/studentsessions/timeslots/company/${companyId}`, msg);
+  await postAuth(`/applications/company/${companyId}`, msg);
 };
 
 
 export function formatTime(start: Date, end: Date): string {
-  try{
+  try {
     const st = new Date(start.toString());
     const en = new Date(end.toString());
     const clock: string = st.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) + " - " + en.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
