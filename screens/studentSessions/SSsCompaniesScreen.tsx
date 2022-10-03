@@ -8,6 +8,7 @@ import { API } from '../../api';
 import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
 import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
+import { SSTimeslot } from '../../api/studentsessions';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -23,9 +24,12 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   const getCompanies = async () => {
     setLoading(true);
     const companies = await API.companies.getAll();
-    const timeslots = await API.studenSessions.getAllTimeslots();
-    const companiesWithTimeslots = new Set(timeslots.map(timeslot => timeslot.companyId));
-    setCompanies(companies.filter(c => c.id in companiesWithTimeslots));
+    var companiesWithTimeslots : PublicCompanyDto[] = [];
+    for (let i = 0; i < companies.length; i++) {
+      const ts = await API.studentSessions.getTimeslotsByCompanyId(companies[i].id);
+      ts.length > 0 ? companiesWithTimeslots.push(companies[i]) : null;
+    }
+    setCompanies(companiesWithTimeslots);
     setLoading(false);
   }
 

@@ -9,13 +9,6 @@ export interface SSTimeslot {
   studentId: number | null;
   companyId: number;
 }
-
-export const getAllTimeslots = async (): Promise<SSTimeslot[]> => {
-  const response = await get("/events");
-  const json = await response.json();
-  const Timeslots = json as SSTimeslot[];
-  return Timeslots;
-};
 export const getTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
   const response = await get(`/timeslots/${timeslotId}`);
   const json = await response.json();
