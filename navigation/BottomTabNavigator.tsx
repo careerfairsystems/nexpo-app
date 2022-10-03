@@ -24,10 +24,12 @@ import QRScreen from '../screens/QRScreen';
 import ZoomMapScreen from '../screens/ZoomMapScreen';
 import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import { getMe, Role } from '../api/users';
 
 import { Platform } from 'react-native';
 import SSsDetailsScreen from '../screens/studentSessions/SSsDetailsScreen';
 import SSsApplicationScreen from '../screens/studentSessions/SSsApplicationSreen';
+import SSsApplicationsListScreen from '../screens/studentSessions/SSsApplicationsListScreen';
 
 
 export type BottomTabParamList = {
@@ -40,6 +42,30 @@ export type BottomTabParamList = {
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const [isLoading, setLoading] = React.useState<boolean>(true);
+
+  const [role, setRole] = React.useState< Role | null>(null);
+
+  const getRole = async () => {
+    setLoading(true);
+    const user = await getMe();
+    setRole(user.role);
+    setLoading(false);
+  }
+
+  React.useEffect(() => {
+    getRole();
+  }, []);
+
+  const studentSessions = () => {
+    if (role === Role.CompanyRepresentative) {
+      return 'SSsListScreen'
+    } else {
+      return 'SSsCompaniesScreen'
+    }
+  }
+
+ 
 
   return (
     <BottomTab.Navigator
@@ -104,7 +130,7 @@ export default function BottomTabNavigator() {
             if (navigation.canGoBack()) {
               //navigation.popToTop()
             }
-            navigation.replace('SSsCompaniesScreen')
+            navigation.replace(studentSessions)
           },
         })}
       />
@@ -200,6 +226,10 @@ export type SSsStackParamlist = {
     companyId: number;
     companyName: string;
   }
+  SSsApplicationsListScreen: {
+    companyId: number;
+    companyName: string;
+  }
 }
 
 const SSsStack = createStackNavigator<SSsStackParamlist>();
@@ -225,6 +255,11 @@ function SSsNavigator() {
         name="SSsApplicationScreen"
         component={SSsApplicationScreen}
         options={{ title: 'Application', headerTitle: 'Application' }}
+      />
+        <SSsStack.Screen
+        name="SSsApplicationsListScreen"
+        component={SSsApplicationsListScreen}
+        options={{ title: 'Applications', headerTitle: 'Applications' }}
       />
     </SSsStack.Navigator>
   );

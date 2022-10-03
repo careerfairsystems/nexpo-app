@@ -35,6 +35,7 @@ export default {
               SSsListScreen: 'studentSessions/:companyName',
               SSsDetailsScreen: 'studentSessions/:companyName/:timeslotId',
               SSsApplicationScreen: 'studentSessions/:companyName/application',
+              SSsApplicationsListScreen : 'studentSessions/:companyName/applicationsList',
             },
           },
           Map: {

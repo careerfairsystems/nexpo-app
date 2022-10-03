@@ -12,6 +12,7 @@ import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
 import { PublicCompanyDto } from '../../api/companies/Companies';
 import { ScrollView } from 'react-native-gesture-handler';
+import { getMe, Role } from '../../api/users/Users';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -33,12 +34,19 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
+  //const [user, setUser] = React.useState< User | null>(null);
+  const [role, setRole] = React.useState< Role | null>(null);
+
+
+
 
   const getTimeslotsAndCompany = async () => {
     setLoading(true);
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
     const company = await API.companies.getCompany(companyId);
-    setCompany(company)
+    const user = await getMe();
+    setRole(user.role);
+    setCompany(company);
     setTimeslots(ssTimeslots);
     setLoading(false);
   }
@@ -47,35 +55,69 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId});
   }
 
-  const openSSsApplicaion = () => {
-    navigation.navigate('SSsApplicationScreen',{companyId , companyName});
+  const openSSsApplicaion = (isStudent: boolean) => {
+    if (isStudent) {
+      navigation.navigate('SSsApplicationScreen',{companyId , companyName});
+    } else {
+      navigation.navigate('SSsApplicationsListScreen',{companyId , companyName});
+    }
   }
+
+
+
+
+  
+
+
 
   
   React.useEffect(() => {
     getTimeslotsAndCompany();
   }, []);
-    
-  return (
-    <View style={styles.container}>
-      <ScrollView>
-        {company == null ? <Text>Loading...</Text> : <SSCompInfo company={company}/>}
-        <ArkadButton style={styles.button} onPress={() => openSSsApplicaion()}>
-          <ArkadText text = "Apply for a session!" />
-        </ArkadButton>
-        <View>
-          {isLoading 
-            ? <Text>Loading...</Text>
-            : <View style={styles.container}>
-                <TimeslotList 
-                  timeslots={ssTimeslots}
-                  onPress={openSSDetails} />
-              </View>
-          }
-        </View>
-      </ScrollView>
-    </View>
-  );
+
+  if (role === Role.CompanyRepresentative) {
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          {company == null ? <Text>Loading...</Text> : <SSCompInfo company={company}/>}
+          <ArkadButton style={styles.button} onPress={() => openSSsApplicaion(false)}>
+              <ArkadText text = "See applications!" />
+          </ArkadButton>
+          <View>
+            {isLoading 
+              ? <Text>Loading...</Text>
+              : <View style={styles.container}>
+                  <TimeslotList 
+                    timeslots={ssTimeslots}
+                    onPress={openSSDetails} />
+                </View>
+            }
+          </View>
+        </ScrollView>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          {company == null ? <Text>Loading...</Text> : <SSCompInfo company={company}/>}
+          <ArkadButton style={styles.button} onPress={() => openSSsApplicaion(true)}>
+              <ArkadText text = {"Apply here!"} />
+          </ArkadButton>
+          <View>
+            {isLoading 
+              ? <Text>Loading...</Text>
+              : <View style={styles.container}>
+                  <TimeslotList 
+                    timeslots={ssTimeslots}
+                    onPress={openSSDetails} />
+                </View>
+            }
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
   
 }
 
