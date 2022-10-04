@@ -14,6 +14,7 @@ import { PublicCompanyDto } from '../../api/companies/Companies';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getMe, User } from '../../api/users/Users';
 import { sendApplication } from '../../api/studentsessions';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 
 type SSsNavigation = {
     navigation: StackNavigationProp<
@@ -46,7 +47,7 @@ export default function SSsApplicationsListScreen({navigation, route}: SSsNaviga
     return (
         <View>
         {isLoading 
-          ? <Text>Loading...</Text>
+          ? <ScreenActivityIndicator />
           : <View style={styles.container}>
               <div><h1>Här ska listan vara</h1></div>
             </View>

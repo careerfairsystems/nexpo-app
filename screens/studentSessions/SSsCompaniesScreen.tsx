@@ -9,6 +9,7 @@ import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
 import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
 import { SSTimeslot } from '../../api/studentsessions';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -43,7 +44,7 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   
   if (isLoading) {
     return (<View style={styles.container}>
-      <Text>Loading...</Text>
+      <ScreenActivityIndicator />
     </View>)
   }
 

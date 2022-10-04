@@ -8,6 +8,7 @@ import { Event } from '../api/events';
 import { EventList } from '../components/eventList/EventList';
 import { EventStackParamlist } from '../navigation/BottomTabNavigator';
 import { UpcomingButton } from '../components/eventList/UpcomingButton';
+import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<
@@ -46,21 +47,24 @@ export default function EventListScreen({navigation}: EventsNavigation) {
   React.useEffect(() => {
     getEvents();
   }, []);
+
+  if (isLoading) {
+    return (<View style={styles.container}>
+      <ScreenActivityIndicator />
+    </View>)
+  }
     
   return (
     <View style={styles.container}>
-      {isLoading 
-        ? <Text>Loading...</Text>
-        : <View style={styles.container}>
-            <UpcomingButton 
-              showAllEvents={showAllEvents}
-              onPress={switchEvents} />
-            <EventList 
-              events={showAllEvents ? events : upcomingEvents}
-              bookedEvents={bookedEvents}
-              onPress={openEventDetails} />
-          </View>
-      }
+      <View style={styles.container}>
+        <UpcomingButton 
+          showAllEvents={showAllEvents}
+          onPress={switchEvents} />
+        <EventList 
+          events={showAllEvents ? events : upcomingEvents}
+          bookedEvents={bookedEvents}
+          onPress={openEventDetails} />
+      </View>
     </View>
   );
 }

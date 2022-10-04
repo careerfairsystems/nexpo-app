@@ -8,6 +8,7 @@ import { API } from '../api';
 import { PublicCompanyDto } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
 import { CompanyStackParamList } from '../navigation/BottomTabNavigator';
+import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -37,7 +38,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   
   if (isLoading) {
     return (<View style={styles.container}>
-      <Text>Loading...</Text>
+      <ScreenActivityIndicator />
     </View>)
   }
 
