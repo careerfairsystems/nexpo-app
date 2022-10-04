@@ -48,10 +48,6 @@ export default function BottomTabNavigator() {
         }}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
-            if (navigation.canGoBack()) {
-              //navigation.popToTop()
-            }
-            navigation.replace('CompaniesScreen')
           },
         })}
       />
@@ -63,11 +59,7 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
         }}
         listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            if (navigation.canGoBack()) {
-              //navigation.popToTop()
-            }
-            navigation.replace('MapScreen')
+          tabPress: (e) => {   
           },
         })}
       />
@@ -79,11 +71,7 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
         }}
         listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            if (navigation.canGoBack()) {
-              //navigation.popToTop()
-            }
-            navigation.replace('EventListScreen')
+          tabPress: (e) => { 
           },
         })}
       />
@@ -95,10 +83,7 @@ export default function BottomTabNavigator() {
         }}
         listeners={({ navigation, route }) => ({
           tabPress: (e) => {
-            if (navigation.canGoBack()) {
-              //navigation.popToTop()
-            }
-            navigation.replace('ProfileScreen')
+        
           },
         })}
       />
