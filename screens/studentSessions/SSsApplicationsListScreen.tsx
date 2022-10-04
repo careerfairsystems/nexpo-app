@@ -6,7 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../api';
 import { SSTimeslot } from '../../api/studentsessions';
 import { TimeslotList } from '../../components/studentSessionList/SSList';
-import SSCompInfo from '../../components/studentSessionList/SSCompInfo';
+import { ApplicationsList } from '../../components/sSApplicationList/SSApplicationList';
 import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
@@ -15,45 +15,50 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { getMe, User } from '../../api/users/Users';
 import { sendApplication } from '../../api/studentsessions';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import { SSApplication } from '../../api/sSApplications';
 
 type SSsNavigation = {
     navigation: StackNavigationProp<
       SSsStackParamlist,
       'SSsApplicationsListScreen'
     >;
-    route: {
-      params: {
-        companyId: number;
-        companyName: string;
-        timeslotId: number;
-      };
-    };
-
-    
 };
 
 
 
-export default function SSsApplicationsListScreen({navigation, route}: SSsNavigation) {
-    const companyId = route.params.companyId;
-    const companyName = route.params.companyName;
+export default function SSsApplicationsListScreen({navigation}: SSsNavigation) {
     const [isLoading, setLoading] = React.useState<boolean>(true);
-    const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
+    const [applications, setApplications] = React.useState<SSApplication[] | null>(null);
+    
+    const getApplications = async () => {
+      setLoading(true);
+      const applications = await API.sSApplications.getApplications();
+      setApplications(applications);
+      setLoading(false);
+    }
+  
+    React.useEffect(() => {
+      getApplications();
+    }, []);
 
-    const openSSsApplication = () => {
-          navigation.navigate('SSsListScreen',{companyId , companyName});
+    const openApplicationDetails = () => {
+          //navigation.navigate('SSsApplicationDetailsScreen');
+    }
+
+    if(isLoading){
+        return <ScreenActivityIndicator/>
     }
 
     return (
-        <View>
-        {isLoading 
-          ? <ScreenActivityIndicator />
-          : <View style={styles.container}>
-              <div><h1>Här ska listan vara</h1></div>
-            </View>
-        }
+      <View style={styles.container}>
+        <ScrollView>
+          <ApplicationsList
+            applications={applications}
+            onPress={openApplicationDetails}
+          />
+        </ScrollView>
       </View>
-      );
+    );
 }
 
 const styles = StyleSheet.create({

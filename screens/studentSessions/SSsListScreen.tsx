@@ -56,7 +56,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }
 
   const openSSsApplicaion = () => {
-    navigation.navigate(role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen' ,{companyId , companyName});
+    navigation.navigate(role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen');
   }
 
   React.useEffect(() => {

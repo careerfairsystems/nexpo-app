@@ -228,10 +228,7 @@ export type SSsStackParamlist = {
     companyId: number;
     companyName: string;
   }
-  SSsApplicationsListScreen: {
-    companyId: number;
-    companyName: string;
-  }
+  SSsApplicationsListScreen: undefined;
 }
 
 const SSsStack = createStackNavigator<SSsStackParamlist>();
