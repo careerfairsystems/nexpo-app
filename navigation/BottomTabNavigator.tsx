@@ -24,12 +24,14 @@ import QRScreen from '../screens/QRScreen';
 import ZoomMapScreen from '../screens/ZoomMapScreen';
 import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
-import { getMe, Role } from '../api/users';
+import { getMe, Role, User } from '../api/users';
 
 import { Platform } from 'react-native';
 import SSsDetailsScreen from '../screens/studentSessions/SSsDetailsScreen';
 import SSsApplicationScreen from '../screens/studentSessions/SSsApplicationSreen';
 import SSsApplicationsListScreen from '../screens/studentSessions/SSsApplicationsListScreen';
+import { Text, View } from '../components/Themed';
+import { API } from '../api';
 
 
 export type BottomTabParamList = {
@@ -43,30 +45,31 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const [isLoading, setLoading] = React.useState<boolean>(true);
+  const [companyId, setCompanyId] = React.useState<number | null>(null);
+  const [companyName, setCompanyName] = React.useState<string | null>(null);
 
-  const [role, setRole] = React.useState< Role | null>(null);
+  const [user, setUser] = React.useState< User | null>(null);
 
-  const getRole = async () => {
+  const getUser = async () => {
     setLoading(true);
-    const user = await getMe();
-    setRole(user.role);
+    const usr = await getMe();
+    setUser(usr);
+    setCompanyId(usr.companyId);
+    const company = usr.companyId ? await API.companies.getCompany(usr.companyId) : null;
+    setCompanyName(company?.name ? company.name : null);
     setLoading(false);
   }
 
   React.useEffect(() => {
-    getRole();
+    getUser();
   }, []);
 
-  const studentSessions = () => {
-    if (role === Role.CompanyRepresentative) {
-      return 'SSsListScreen'
-    } else {
-      return 'SSsCompaniesScreen'
-    }
+
+  if(isLoading || user == null) {
+    return (<View>
+              <Text>isLoading</Text>
+            </View>)
   }
-
- 
-
   return (
     <BottomTab.Navigator
       initialRouteName="Events"
@@ -130,7 +133,7 @@ export default function BottomTabNavigator() {
             if (navigation.canGoBack()) {
               //navigation.popToTop()
             }
-            navigation.replace(studentSessions)
+            user.role === Role.CompanyRepresentative ? navigation.replace('SSsListScreen', { companyId, companyName }) : navigation.replace('SSsListScreen')
           },
         })}
       />

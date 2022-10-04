@@ -23,7 +23,6 @@ type SSsNavigation = {
     params: {
       companyId: number;
       companyName: string;
-      timeslotId: number;
     };
   };
 };
