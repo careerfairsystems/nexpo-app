@@ -10,22 +10,25 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
+type CompanyDetailsScreenProps= {
+  company: PublicCompanyDto;
+}
 
-export default function SSCompInfo(props) {
+export default function SSCompInfo({ company }: CompanyDetailsScreenProps) {
 
   return (
     <View style={styles.outerContainer}>
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Image 
-            source={props.company.logoUrl 
-              ? {uri: props.company.logoUrl}
+            source={company.logoUrl 
+              ? {uri: company.logoUrl}
               : require('../../assets/images/icon.png')}
             defaultSource={require('../../assets/images/icon.png')}
             style={styles.logo} />
         </View>
 
-        <Text style={styles.title}>{props.company?.name}</Text>
+        <Text style={styles.title}>{company?.name}</Text>
 
         <View style={styles.contactInfoContainer}>
           <Ionicons name="link" size={16} color={Colors.darkBlue} />
@@ -35,7 +38,7 @@ export default function SSCompInfo(props) {
         </View>
 
         <Text style={styles.descHeader}>About us</Text>
-        <Text style={styles.desc}>{ props.company.description ? props.company.description : '\u2013'}</Text>
+        <Text style={styles.desc}>{ company.description ? company.description : '\u2013'}</Text>
       </View>
     </View>
   );
