@@ -47,7 +47,6 @@ export default function BottomTabNavigator() {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [companyId, setCompanyId] = React.useState<number | null>(null);
   const [companyName, setCompanyName] = React.useState<string | null>(null);
-
   const [user, setUser] = React.useState< User | null>(null);
 
   const getUser = async () => {
@@ -133,7 +132,7 @@ export default function BottomTabNavigator() {
             if (navigation.canGoBack()) {
               //navigation.popToTop()
             }
-            user.role === Role.CompanyRepresentative ? navigation.replace('SSsListScreen', { companyId, companyName }) : navigation.replace('SSsListScreen')
+            user.role === Role.CompanyRepresentative ? navigation.replace('SSsListScreen', { companyId, companyName }) : navigation.replace('SSsCompaniesScreen')
           },
         })}
       />
