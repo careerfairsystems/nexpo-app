@@ -22,43 +22,50 @@ type SSsNavigation = {
       SSsStackParamlist,
       'SSsApplicationsListScreen'
     >;
+    route: {
+      params: {
+        companyId: number;
+        companyName: string;
+      };
+    };
 };
 
 
 
-export default function SSsApplicationsListScreen({navigation}: SSsNavigation) {
-    const [isLoading, setLoading] = React.useState<boolean>(true);
-    const [applications, setApplications] = React.useState<SSApplication[] | null>(null);
-    
-    const getApplications = async () => {
-      setLoading(true);
-      const applications = await API.sSApplications.getApplications();
-      setApplications(applications);
-      setLoading(false);
-    }
+export default function SSsApplicationsListScreen({navigation, route}: SSsNavigation) {
+  const companyId = route.params.companyId
+  const [isLoading, setLoading] = React.useState<boolean>(true);
+  const [applications, setApplications] = React.useState<SSApplication[] | null>(null);
   
-    React.useEffect(() => {
-      getApplications();
-    }, []);
+  const getApplications = async () => {
+    setLoading(true);
+    const applications = await API.sSApplications.getApplications();
+    setApplications(applications);
+    setLoading(false);
+  }
 
-    const openApplicationDetails = () => {
-          //navigation.navigate('SSsApplicationDetailsScreen');
-    }
+  React.useEffect(() => {
+    getApplications();
+  }, []);
 
-    if(isLoading){
-        return <ScreenActivityIndicator/>
-    }
+  const openApplicationDetails = () => {
+        //navigation.navigate('SSsApplicationDetailsScreen');
+  }
 
-    return (
-      <View style={styles.container}>
-        <ScrollView>
-          <ApplicationsList
-            applications={applications}
-            onPress={openApplicationDetails}
-          />
-        </ScrollView>
-      </View>
-    );
+  if(isLoading){
+      return <ScreenActivityIndicator/>
+  }
+
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        <ApplicationsList
+          applications={applications}
+          onPress={openApplicationDetails}
+        />
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
