@@ -30,7 +30,7 @@ export default function SSsApplicationScreen({
 
   const sendApplication = async () => {
     setLoading(true);
-    await API.studentSessions.sendApplication(companyId, msg);
+    await API.sSApplications.sendApplication(companyId, msg);
     alert("Application to " + companyName + " sent");
     setLoading(false);
   };

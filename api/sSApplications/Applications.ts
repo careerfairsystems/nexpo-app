@@ -1,4 +1,4 @@
-import { getAuth } from "../http/_HttpHelpers";
+import { getAuth, postAuth } from "../http/_HttpHelpers";
 
 
 export interface SSApplication {
@@ -15,3 +15,6 @@ export const getApplications = async (): Promise<SSApplication[]> => {
   const Applications = json as SSApplication[];
   return Applications;
 }
+export const sendApplication = async (companyId: number, msg: string) => {
+  await postAuth(`/applications/company/${companyId}`, msg);
+};
