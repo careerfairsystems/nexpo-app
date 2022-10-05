@@ -84,6 +84,6 @@ export const filterData = (query: string, data: PublicCompanyDto[] | null) => {
   if (!query) {
     return data;
   } else {
-    return data.filter((d) => d.name.toLowerCase().includes(query));
+    return data.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
   }
 };
