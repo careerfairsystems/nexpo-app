@@ -1,4 +1,4 @@
-import { getAuth, postAuth } from "../http/_HttpHelpers";
+import { getAuth, postAuth, putAuth } from "../http/_HttpHelpers";
 
 
 export interface SSApplication {
@@ -9,6 +9,9 @@ export interface SSApplication {
   companyId: number;
   booked: boolean;
 }
+export interface UpdateApplicationDto {
+  status: number;
+}
 export const getApplications = async (): Promise<SSApplication[]> => {
   const response = await getAuth(`/applications/my/company`);
   const json = await response.json();
@@ -18,3 +21,6 @@ export const getApplications = async (): Promise<SSApplication[]> => {
 export const sendApplication = async (companyId: number, msg: string) => {
   await postAuth(`/applications/company/${companyId}`, msg);
 };
+export const changeApplication = async(applicationId: number, status: UpdateApplicationDto) => {
+  await putAuth(`/applications/${applicationId}`, status);
+}

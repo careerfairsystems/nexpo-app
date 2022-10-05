@@ -41,8 +41,8 @@ export default function SSsApplicationsListScreen({navigation, route}: SSsNaviga
     getApplications();
   }, []);
 
-  const openApplicationDetails = () => {
-        //navigation.navigate('SSsApplicationDetailsScreen');
+  const openApplicationDetails = (application: SSApplication) => {
+        navigation.navigate('SSsApplicationDetailsScreen', {application});
   }
 
   if(isLoading){

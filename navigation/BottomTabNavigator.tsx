@@ -32,6 +32,8 @@ import SSsApplicationScreen from '../screens/studentSessions/SSsApplicationSreen
 import SSsApplicationsListScreen from '../screens/studentSessions/SSsApplicationsListScreen';
 import { Text, View } from '../components/Themed';
 import { API } from '../api';
+import { SSApplication } from '../api/sSApplications';
+import SSsApplicationDetailsScreen from '../screens/studentSessions/SSsApplicationDetailsScreen';
 
 
 export type BottomTabParamList = {
@@ -232,6 +234,9 @@ export type SSsStackParamlist = {
     companyId: number;
     companyName: string;
   }
+  SSsApplicationDetailsScreen: {
+    application: SSApplication;
+  }
 }
 
 const SSsStack = createStackNavigator<SSsStackParamlist>();
@@ -262,6 +267,11 @@ function SSsNavigator() {
         name="SSsApplicationsListScreen"
         component={SSsApplicationsListScreen}
         options={{ title: 'Applications', headerTitle: 'Applications' }}
+      />
+      <SSsStack.Screen
+        name="SSsApplicationDetailsScreen"
+        component={SSsApplicationDetailsScreen}
+        options={{ title: 'Application Details', headerTitle: 'Application Details' }}
       />
     </SSsStack.Navigator>
   );

@@ -7,7 +7,7 @@ import { SSListItem } from './SSsApplicationListItem';
 
 type ApplicationsListProps = {
   applications: SSApplication[] | null;
-  onPress: (id: number) => void;
+  onPress: (application: SSApplication) => void;
 }
 
 const { width, height } = Dimensions.get('window')
@@ -29,7 +29,7 @@ export function ApplicationsList ({ applications, onPress }: ApplicationsListPro
           <SSListItem
             key={application.id}
             application={application} 
-            onPress={() => onPress(application.id)} />
+            onPress={() => onPress(application)} />
         </View>
       }
     />

@@ -28,7 +28,6 @@ export const getTimeslotsByCompanyId = async (companyId: number): Promise<SSTime
   return Timeslots;
 };
 
-
 export function formatTime(start: Date, end: Date): string {
   try {
     const st = new Date(start.toString());
