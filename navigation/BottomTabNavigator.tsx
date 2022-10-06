@@ -34,6 +34,10 @@ import { Text, View } from '../components/Themed';
 import { API } from '../api';
 import { SSApplication } from '../api/sSApplications';
 import SSsApplicationDetailsScreen from '../screens/studentSessions/SSsApplicationDetailsScreen';
+import { LogoutButton } from '../components/profileScreen/Buttons';
+import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { useContext } from 'react';
+import { AuthContext } from '../components/AuthContext';
 
 
 export type BottomTabParamList = {
@@ -50,6 +54,7 @@ export default function BottomTabNavigator() {
   const [companyId, setCompanyId] = React.useState<number | null>(null);
   const [companyName, setCompanyName] = React.useState<string | null>(null);
   const [user, setUser] = React.useState< User | null>(null);
+  const authContext = useContext(AuthContext);
 
   const getUser = async () => {
     setLoading(true);
@@ -65,11 +70,18 @@ export default function BottomTabNavigator() {
     getUser();
   }, []);
 
+  async function logout() {
+    await API.auth.logout();
+    authContext.signOut();
+  };
 
   if(isLoading || user == null) {
-    return (<View>
-              <Text>isLoading</Text>
-            </View>)
+    return (
+    <View>
+      <ScreenActivityIndicator />
+      <LogoutButton onPress={logout} />
+    </View>
+    )
   }
   return (
     <BottomTab.Navigator
