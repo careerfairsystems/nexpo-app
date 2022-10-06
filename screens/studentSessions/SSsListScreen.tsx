@@ -90,7 +90,6 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center'
   },
   button: {

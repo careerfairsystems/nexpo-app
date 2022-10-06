@@ -34,7 +34,6 @@ export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
             key={timeslot.id}
             timeslot={timeslot} 
             booked={timeslot.studentId == null ? false : true}
-            itemStyle={{}}
             onPress={() => onPress(timeslot.id)} />
         </View>
       }
@@ -45,7 +44,7 @@ export function TimeslotList ({ timeslots, onPress }: TimeslotListProps) {
 const styles = StyleSheet.create({
   ssBox: {
     width: width * 0.85,
-    height: height * 0.12,
+    height: height * 0.09,
   },
   text: {
     paddingTop: 40,

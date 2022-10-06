@@ -12,9 +12,10 @@ import { View } from '../../components/Themed';
 import { Guild, Student } from '../../api/students';
 import StudentProfile from '../../components/profileScreen/StudentProfile';
 import Colors from '../../constants/Colors';
-import { SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
+import { getApplication, SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
+import { getActionFromState } from '@react-navigation/native';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -32,32 +33,32 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   const [loading, setLoading] = useState<boolean>(false);
 
   async function getStudent() {
-    //const sdnt = await API.students.getStudent(application.studentId);
-    const sdnt = {
-      id: 10,
-      guild: Guild.D,
-      resumeEnUrl: null,
-      resumeSvUrl: null,
-      linkedIn: null,
-      masterTitle: null,
-      year: 3,
-      userId: 15
-    } as Student
+    const sdnt = await API.students.getStudent(application.studentId);
     setStudent(sdnt);
   }
-
-  function accept() {
-    API.sSApplications.changeApplication(application.id, {status: 1} as UpdateApplicationDto)
-    setApplication(application)
+  async function getApplication() {
+    const app = await API.sSApplications.getApplication(application.id);
+    setApplication(app);
   }
-  function reject() {
+  async function accept() {
+    API.sSApplications.changeApplication(application.id, {status: 1} as UpdateApplicationDto)
+    setLoading(true);
+    const app = await API.sSApplications.getApplication(application.id);
+    setApplication(app);
+    setLoading(false);
+  }
+  async function reject() {
     API.sSApplications.changeApplication(application.id, {status: 0} as UpdateApplicationDto)
-    setApplication(application)
+    setLoading(true);
+    const app = await API.sSApplications.getApplication(application.id);
+    setApplication(application);
+    setLoading(false);
   }
 
   useEffect(() => {
     setLoading(true);
     getStudent();
+    getApplication();
     setLoading(false);
   }, []);
   

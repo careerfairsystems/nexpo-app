@@ -9,72 +9,49 @@ import { API } from '../../api';
 type ListedTimeslotProps = {
   timeslot: SSTimeslot;
   booked: boolean;
-  itemStyle: ViewStyle;
   onPress: () => void;
 }
 
-export const SSListItem = ({ timeslot, booked, itemStyle, onPress }: ListedTimeslotProps) => 
-  <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
-    {/* <View style={styles.headerContainer}>
-      <ArkadText style={styles.eventName} text={"student session"}/>
-    </View> */}
-    <View style={styles.footerContainer}>
-      <View style = {styles.eventBookedContainer}>
-        <ArkadText 
-          style={styles.eventTime}
-          text={API.studentSessions.formatTime(timeslot.start, timeslot.end)} />
-      </View>
-        {/* Color of box changes depending on status */}
-      {booked 
-      ? <View 
-        style={[
-          styles.eventBookedContainer, 
-          {backgroundColor: Colors.darkRed} ]}>
-        <ArkadText 
-          style={styles.eventBookedText}
-          text="Booked" />
-      </View>
-      : <View style={[
-        styles.eventBookedContainer, 
-          {backgroundColor:Colors.lightGreen}
-        ]}
-      >
-        <ArkadText 
-          style={styles.eventBookedText}
-          text={"Available"} />
-      </View>
-      }
+export const SSListItem = ({ timeslot, booked, onPress }: ListedTimeslotProps) => 
+  <Pressable onPress={onPress} style={styles.container}>
+    <View style = {styles.timeslotBookedContainer}>
+      <ArkadText 
+        style={styles.timeslotTime}
+        text={API.studentSessions.formatTime(timeslot.start, timeslot.end)} />
     </View>
+      {/* Color of box changes depending on status */}
+    {booked 
+    ? <View 
+      style={[
+        styles.timeslotBookedContainer, 
+        {backgroundColor: Colors.darkRed} ]}>
+      <ArkadText 
+        style={styles.timeslotBookedText}
+        text="Booked" />
+    </View>
+    : <View style={[
+      styles.timeslotBookedContainer, 
+        {backgroundColor:Colors.lightGreen}
+      ]}
+    >
+      <ArkadText 
+        style={styles.timeslotBookedText}
+        text={"Available"} />
+    </View>
+    }
   </Pressable>
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 10,
     marginHorizontal: 10,
     backgroundColor: Colors.darkBlue,
     padding: 16,
     borderRadius: 16,
   },
-  headerContainer: {
-    flex: 1,
-  },
-  eventName: {
-    flex: 1,
-    fontSize: 12,
-    textAlign: 'left',
-    color: Colors.white,
-  },
-  footerContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    /* Footer is pushed to bottom since header
-      has flex: 1. */
-    paddingBottom: 4,
-  },
-  eventTime: {
+  timeslotTime: {
     paddingTop: 4,
     fontSize: 14,
     textAlign: 'center',
@@ -82,12 +59,12 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     color: Colors.white,
   },
-  eventBookedContainer: {
+  timeslotBookedContainer: {
     paddingTop: 4,
     alignSelf: 'flex-end',
     borderRadius: 10,
   },
-  eventBookedText: {
+  timeslotBookedText: {
     fontSize: 14,
     textAlign: 'center',
     paddingVertical: 4,
