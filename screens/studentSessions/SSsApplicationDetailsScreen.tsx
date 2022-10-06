@@ -55,8 +55,6 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     setApplication(application)
   }
 
-  
-
   useEffect(() => {
     setLoading(true);
     getStudent();
