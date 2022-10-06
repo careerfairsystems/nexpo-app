@@ -4,18 +4,16 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { API } from '../../api'
-import { Company } from '../../api/companies';
-import { ProfileStackParamList, SSsStackParamlist } from '../../navigation/BottomTabNavigator';
+import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
 
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { View } from '../../components/Themed';
-import { Guild, Student } from '../../api/students';
+import { Student } from '../../api/students';
 import StudentProfile from '../../components/profileScreen/StudentProfile';
 import Colors from '../../constants/Colors';
-import { getApplication, SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
+import { SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
-import { getActionFromState } from '@react-navigation/native';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -41,17 +39,17 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     setApplication(app);
   }
   async function accept() {
-    API.sSApplications.changeApplication(application.id, {status: 1} as UpdateApplicationDto)
     setLoading(true);
+    API.sSApplications.changeApplication(application.id, {status: 1} as UpdateApplicationDto)
     const app = await API.sSApplications.getApplication(application.id);
     setApplication(app);
     setLoading(false);
   }
   async function reject() {
-    API.sSApplications.changeApplication(application.id, {status: 0} as UpdateApplicationDto)
     setLoading(true);
+    API.sSApplications.changeApplication(application.id, {status: 0} as UpdateApplicationDto)
     const app = await API.sSApplications.getApplication(application.id);
-    setApplication(application);
+    setApplication(app);
     setLoading(false);
   }
 

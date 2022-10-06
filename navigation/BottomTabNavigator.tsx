@@ -47,6 +47,7 @@ export type BottomTabParamList = {
   SSs: undefined;
   Events: undefined
 };
+
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
@@ -90,37 +91,17 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Companies"
         component={CompaniesNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
-        }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-          },
-        })}
+        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />, }}
       />
-      {//Platform.OS !== 'web' && commented out because didn't know why was here
       <BottomTab.Screen 
         name="Maps"
         component={MapNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
-        }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {   
-          },
-        })}
+        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,}}
       />
-      }
       <BottomTab.Screen
         name="Events"
         component={EventsNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
-        }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => { 
-          },
-        })}
+        options={{ tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />, }}
       />
       <BottomTab.Screen
         name="SSs"
@@ -141,14 +122,7 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Profile"
         component={ProfileNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
-        }}
-        listeners={({ navigation, route }) => ({
-          tabPress: (e) => {
-        
-          },
-        })}
+        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />, }}
       />
     </BottomTab.Navigator>
   );
@@ -260,7 +234,7 @@ function SSsNavigator() {
         component={SSsApplicationScreen}
         options={{ title: 'Application', headerTitle: 'Application' }}
       />
-        <SSsStack.Screen
+      <SSsStack.Screen
         name="SSsApplicationsListScreen"
         component={SSsApplicationsListScreen}
         options={{ title: 'Applications', headerTitle: 'Applications' }}
