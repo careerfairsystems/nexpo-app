@@ -18,6 +18,12 @@ export const getApplications = async (): Promise<SSApplication[]> => {
   const Applications = json as SSApplication[];
   return Applications;
 }
+export const getStudentApplications = async (): Promise<SSApplication[]> => {
+  const response = await getAuth(`/applications/my/student`);
+  const json = await response.json();
+  const Applications = json as SSApplication[];
+  return Applications;
+}
 export const getApplication = async (applicationId: number): Promise<SSApplication> => {
   const response = await getAuth(`/applications/${applicationId}`);
   const json = await response.json();

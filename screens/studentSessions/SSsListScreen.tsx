@@ -12,8 +12,9 @@ import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
 import { PublicCompanyDto } from '../../api/companies/Companies';
 import { ScrollView } from 'react-native-gesture-handler';
-import { getMe, Role } from '../../api/users/Users';
+import { getMe, Role, User } from '../../api/users/Users';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import { SSApplication } from '../../api/sSApplications';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -34,36 +35,40 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
-  //const [user, setUser] = React.useState< User | null>(null);
-  const [role, setRole] = React.useState< Role | null>(null);
-
-
-
+  const [user, setUser] = React.useState< User | null>(null);
+  const [applications, setApplications] = React.useState< SSApplication[] | null>(null);
 
   const getTimeslotsAndCompany = async () => {
     setLoading(true);
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
     const company = await API.companies.getCompany(companyId);
     const user = await getMe();
-    setRole(user.role);
+    const apps = await API.sSApplications.getApplications();
+    setApplications(apps);
+    setUser(user);
     setCompany(company);
     setTimeslots(ssTimeslots);
     setLoading(false);
   }
+  const isAccepted = () => {
+    const status = applications?.find((application) => application.companyId === companyId)?.status;
+    return status === 1;
+  }
 
   const openSSDetails = (timeslotId: number) => {
-    navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId});
+    isAccepted() ? navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId}) : 
+    alert('You must first send an application and get it accepted to be able to book a time');
   }
 
   const openSSsApplicaion = () => {
-    navigation.navigate(role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId , companyName});
+    navigation.navigate(user?.role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId , companyName});
   }
 
   React.useEffect(() => {
     getTimeslotsAndCompany();
   }, []);
 
-  if (isLoading || company == null) {
+  if (isLoading || company == null || user == null) {
     return(
       <View style={styles.container}>
         <ScreenActivityIndicator />
@@ -76,7 +81,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
       <ScrollView>
         <SSCompInfo company={company}/>
         <ArkadButton style={styles.button} onPress={() => openSSsApplicaion()}>
-            <ArkadText text = {role === Role.CompanyRepresentative ? "See applications!" : "Apply here!"} />
+            <ArkadText text = {user.role === Role.CompanyRepresentative ? "See applications!" : "Apply here!"} />
         </ArkadButton>
         <View style={styles.container}>
           <TimeslotList 
