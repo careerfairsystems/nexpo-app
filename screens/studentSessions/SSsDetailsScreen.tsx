@@ -148,16 +148,14 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
             </View>
           </View>
         </View>
-          { user.role === Role.Student && timeslot.studentId === user.id ? (
-            <>
-              <ArkadButton
-                onPress={deregister}
-                style={styles.bookedButton}
-              >
-                <ArkadText text="De-register from timeslot" style={styles.title} />
-              </ArkadButton>
-            </>
-          ) : user.role === Role.Student && (
+          { user.role === Role.Student && timeslot.studentId == user.id ? (
+            <ArkadButton
+              onPress={deregister}
+              style={styles.bookedButton}
+            >
+              <ArkadText text="De-register from timeslot" style={styles.title} />
+            </ArkadButton>
+          ) : user.role === Role.Student && timeslot.studentId === null && (
             <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
               <ArkadText text="Register to timeslot" style={styles.title} />
             </ArkadButton>
