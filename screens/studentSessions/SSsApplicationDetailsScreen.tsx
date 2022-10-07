@@ -72,14 +72,22 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     <ScrollView style={styles.container}>
       <StudentProfile student={student as NonNullable<Student>} />
       <ArkadText text={application.status ? "Accepted!" : "Not accepted"} style={styles.acceptedText}/>
-      <ArkadButton onPress={application.status ? reject : accept }>
-        <ArkadText text={application.status ? 'Reject Application ' : 'Accept application'}/>
-      </ArkadButton>
+      <View style={application.status ? styles.accepted : styles.notAccepted}>
+        <ArkadButton  onPress={application.status ? reject : accept }>
+          <ArkadText text={application.status ? 'Reject Application ' : 'Accept application'}/>
+        </ArkadButton>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  accepted: {
+    backgroundColor: Colors.lightGreen,
+  },
+  notAccepted: {
+    backgroundColor: Colors.darkRed,
+  },
   acceptedText:{
     color: Colors.darkBlue,
   },
