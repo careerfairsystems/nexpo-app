@@ -12,11 +12,21 @@ export interface SSApplication {
 export interface UpdateApplicationDto {
   status: number;
 }
+export interface ApplicationAcceptedDto {
+  accepted: boolean;
+  booked: boolean;
+}
 export const getApplications = async (): Promise<SSApplication[]> => {
   const response = await getAuth(`/applications/my/company`);
   const json = await response.json();
   const Applications = json as SSApplication[];
   return Applications;
+}
+export const getApplicationAccepted = async (companyId: number): Promise<ApplicationAcceptedDto> => {
+  const response = await getAuth(`/applications/accepeted/${companyId}`);
+  const json = await response.json();
+  const accepted = json as ApplicationAcceptedDto;
+  return accepted;
 }
 export const getStudentApplications = async (): Promise<SSApplication[]> => {
   const response = await getAuth(`/applications/my/student`);

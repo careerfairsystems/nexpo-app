@@ -14,7 +14,7 @@ import { PublicCompanyDto } from '../../api/companies/Companies';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getMe, Role, User } from '../../api/users/Users';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { SSApplication } from '../../api/sSApplications';
+import { ApplicationAcceptedDto, SSApplication } from '../../api/sSApplications';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -36,15 +36,15 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
   const [user, setUser] = React.useState< User | null>(null);
-  const [applications, setApplications] = React.useState< SSApplication[] | null>(null);
+  const [accepted, setAccepted] = React.useState< ApplicationAcceptedDto | null>(null);
 
   const getTimeslotsAndCompany = async () => {
     setLoading(true);
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
     const company = await API.companies.getCompany(companyId);
     const user = await getMe();
-    const apps = user.role === Role.Student ? await API.sSApplications.getStudentApplications(): null;
-    setApplications(apps);
+    const acc = user.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId): null;
+    setAccepted(acc);
     setUser(user);
     setCompany(company);
     setTimeslots(ssTimeslots);
@@ -54,12 +54,11 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     if(!(user?.role === Role.Student)){
       return true;
     }
-    const status = applications?.find((application) => application.companyId === companyId)?.status;
-    return status === 1;
+    return accepted?.accepted;
   }
 
   const openSSDetails = (timeslotId: number) => {
-    isAccepted() ? navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId}) : 
+    !(user?.role === Role.Student) || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId}) : 
     alert('You must first send an application and get it accepted to be able to book a time');
   }
 
