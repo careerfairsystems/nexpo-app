@@ -16,6 +16,7 @@ import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
 import UserProfile from '../../components/profileScreen/UserProfile';
 import { User } from '../../api/users';
+import { ApplicationsMsg } from '../../components/sSApplication/SSApplicationMsg';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -79,7 +80,8 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     <ScrollView style={styles.container}>
       <UserProfile user={user as NonNullable<User>} />
       <StudentProfile student={student as NonNullable<Student>} />
-      <ArkadText text={application.status === 1 ? "Accepted!" : "Not accepted"} style={styles.acceptedText}/>
+      <ApplicationsMsg msg={application.motivation} />
+      { application.status === 1 && <ArkadText text={ "Accepted!" } style={styles.acceptedText}/>}
       {application.status !== 1 &&
       <>
         <ArkadButton style={styles.accepted} onPress={ accept }>
@@ -104,7 +106,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkRed,
   },
   acceptedText:{
-    color: Colors.darkBlue,
+    alignSelf: 'center',
+    marginBottom: 20,
+    fontSize: 16,
+    padding: 20,
+    borderRadius: 5,
+    width: '50%',
+    backgroundColor: Colors.lightGreen,
+    color: Colors.white,
+    fontFamily: 'montserrat',
   },
   container: {
     display: 'flex',
