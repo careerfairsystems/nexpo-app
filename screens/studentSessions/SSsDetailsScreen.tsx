@@ -9,13 +9,14 @@ import {
 import Colors from "../../constants/Colors";
 
 import { API } from "../../api";
-import { SSTimeslot, updateTimeslot } from "../../api/studentsessions";
+import { SSTimeslot, unbookTimeslot, } from "../../api/studentsessions";
 
 import { View } from "../../components/Themed";
 import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
 import { ArkadButton } from "../../components/Buttons";
 import { ArkadText } from "../../components/StyledText";
-import { User } from "../../api/users";
+import { Role, User } from "../../api/users";
+import { ApplicationAcceptedDto } from "../../api/sSApplications";
 
 type SSsDetailsScreenParams = {
   route: {
@@ -28,31 +29,40 @@ type SSsDetailsScreenParams = {
 };
 
 export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
-  const { timeslotId, companyName } = route.params;
+  const { timeslotId, companyName, companyId} = route.params;
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>();
+  const [accepted, setAccepted] = useState<ApplicationAcceptedDto | null>(null);
 
 
   const getTimeslot = async () => {
     const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     setTimeslot(timeslot);
   };
+  const getAccepted = async () => {
+    const acc = await API.sSApplications.getApplicationAccepted(companyId);
+    setAccepted(acc);
+  };
   const getUser = async () => {
     const usr = await API.users.getMe();
     setUser(usr);
   };
   const bookTimeslot = async () => {
-    if (timeslot?.id == undefined || user?.id == undefined) {
+    if (timeslot?.id == undefined || user?.id == undefined || accepted?.accepted == undefined) {
       return;
     }
     if (timeslot.studentId != null) {
       alert("Timeslot is already booked");
       return;
     }
+    if (accepted.booked){
+      alert("You have already booked a timeslot");
+      return;
+    }
     setLoading(true);
-    const ts = await API.studentSessions.updateTimeslot(timeslot.id, user.id);
+    const ts = await API.studentSessions.bookTimeslot(timeslot.id);
     if (ts.id != undefined) {
       alert("Registered to student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
       getTimeslot();
@@ -74,7 +84,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
       return;
     }
 
-    const success = await updateTimeslot(timeslot.id, null);
+    const success = await unbookTimeslot(timeslot.id);
 
     if (success) {
       alert(
@@ -90,11 +100,12 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   useEffect(() => {
     setLoading(true);
     getTimeslot();
+    getAccepted();
     getUser();
     setLoading(false);
   }, []);
 
-  if (loading || !timeslot || !user) {
+  if (loading || !timeslot || !user || !accepted) {
     return <ScreenActivityIndicator />;
   }
 
@@ -136,21 +147,20 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
             </View>
           </View>
         </View>
-
-        {timeslot.studentId == user.id ? (
-          <>
-            <ArkadButton
-              onPress={() => deregister()}
-              style={styles.bookedButton}
-            >
-              <ArkadText text="De-register from timeslot" style={styles.title} />
+          { user.role === Role.Student && timeslot.studentId === user.id ? (
+            <>
+              <ArkadButton
+                onPress={deregister}
+                style={styles.bookedButton}
+              >
+                <ArkadText text="De-register from timeslot" style={styles.title} />
+              </ArkadButton>
+            </>
+          ) : user.role === Role.Student && (
+            <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
+              <ArkadText text="Register to timeslot" style={styles.title} />
             </ArkadButton>
-          </>
-        ) : (
-          <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
-            <ArkadText text="Register to timeslot" style={styles.title} />
-          </ArkadButton>
-        )}
+          )})
       </View>
     </ScrollView>
   );

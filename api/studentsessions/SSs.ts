@@ -15,8 +15,14 @@ export const getTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
   const Timeslots = json as SSTimeslot;
   return Timeslots;
 };
-export const updateTimeslot = async (timeslotId: number, studentId: number | null): Promise<SSTimeslot> => {
-  const response = await putAuth(`/timeslots/${timeslotId}`, studentId);
+export const bookTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
+  const response = await putAuth(`/timeslots/book/${timeslotId}`, {});
+  const json = await response.json();
+  const timeslot = json as SSTimeslot;
+  return timeslot;
+}
+export const unbookTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
+  const response = await putAuth(`/timeslots/unbook/${timeslotId}`, {});
   const json = await response.json();
   const timeslot = json as SSTimeslot;
   return timeslot;
