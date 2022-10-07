@@ -17,6 +17,7 @@ import { ArkadButton } from "../../components/Buttons";
 import { ArkadText } from "../../components/StyledText";
 import { Role, User } from "../../api/users";
 import { ApplicationAcceptedDto } from "../../api/sSApplications";
+import { Student } from "../../api/students";
 
 type SSsDetailsScreenParams = {
   route: {
@@ -34,12 +35,17 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>();
+  const [student, setStudent] = useState<Student | null>(null);
   const [accepted, setAccepted] = useState<ApplicationAcceptedDto | null>(null);
 
 
   const getTimeslot = async () => {
     const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     setTimeslot(timeslot);
+  };
+  const getStudent = async () => {
+    const student = user?.role === Role.Student ? await API.students.getMe(): null;
+    if (user?.role === Role.Student) setStudent(student);
   };
   const getAccepted = async () => {
     const acc = user?.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId) : null;
@@ -102,11 +108,13 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     getUser();
     getTimeslot();
     getAccepted();
+    getStudent();
     setLoading(false);
   }, []);
 
-  if (loading || !timeslot || !user || (accepted === null && user.role === Role.Student)) {
+  if (loading || !timeslot || !user || ((!accepted || !student) && user.role === Role.Student)) {
     getAccepted();
+    getStudent();
     return <ScreenActivityIndicator />;
   }
 
@@ -148,7 +156,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
             </View>
           </View>
         </View>
-          { user.role === Role.Student && timeslot.studentId == user.id ? (
+          { user.role === Role.Student && timeslot.studentId === student?.id ? (
             <ArkadButton
               onPress={deregister}
               style={styles.bookedButton}
