@@ -76,9 +76,9 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     <View style={styles.container}>
       <ScrollView>
         <SSCompInfo company={company}/>
-        <ArkadButton style={styles.button} onPress={() => openSSsApplicaion()}>
+        {!accepted?.accepted && <ArkadButton style={styles.button} onPress={() => openSSsApplicaion()}>
             <ArkadText text = {user.role === Role.CompanyRepresentative ? "See applications!" : "Apply here!"} />
-        </ArkadButton>
+        </ArkadButton>}
         <View style={styles.container}>
           <TimeslotList 
             timeslots={ssTimeslots}
