@@ -15,6 +15,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { getMe, Role, User } from '../../api/users/Users';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { ApplicationAcceptedDto, SSApplication } from '../../api/sSApplications';
+import { Student } from '../../api/students';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -36,6 +37,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
   const [user, setUser] = React.useState< User | null>(null);
+  const [student, setStudent] = React.useState< Student | null>(null);
   const [accepted, setAccepted] = React.useState< ApplicationAcceptedDto | null>(null);
 
   const getTimeslotsAndCompany = async () => {
@@ -43,6 +45,8 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     const company = await API.companies.getCompany(companyId);
     const user = await getMe();
     const acc = user.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId): null;
+    const stdnt = user.role === Role.Student ? await API.students.getMe(): null;
+    setStudent(stdnt);
     setAccepted(acc);
     setUser(user);
     setCompany(company);
@@ -83,6 +87,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
         <View style={styles.container}>
           <TimeslotList 
             timeslots={ssTimeslots}
+            student={student}
             onPress={openSSDetails} />
         </View>
       </ScrollView>

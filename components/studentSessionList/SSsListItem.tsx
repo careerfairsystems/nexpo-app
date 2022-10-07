@@ -9,10 +9,11 @@ import { API } from '../../api';
 type ListedTimeslotProps = {
   timeslot: SSTimeslot;
   booked: boolean;
+  bookedByMe: boolean;
   onPress: () => void;
 }
 
-export const SSListItem = ({ timeslot, booked, onPress }: ListedTimeslotProps) => 
+export const SSListItem = ({ timeslot, booked, bookedByMe, onPress }: ListedTimeslotProps) => 
   <Pressable onPress={onPress} style={styles.container}>
     <View style = {styles.timeslotBookedContainer}>
       <ArkadText 
@@ -24,10 +25,10 @@ export const SSListItem = ({ timeslot, booked, onPress }: ListedTimeslotProps) =
     ? <View 
       style={[
         styles.timeslotBookedContainer, 
-        {backgroundColor: Colors.darkRed} ]}>
+        bookedByMe ? {backgroundColor: Colors.lightBlue} : {backgroundColor: Colors.darkRed} ]}>
       <ArkadText 
         style={styles.timeslotBookedText}
-        text="Booked" />
+        text={bookedByMe ? "Yours!" : "Booked"} />
     </View>
     : <View style={[
       styles.timeslotBookedContainer, 
