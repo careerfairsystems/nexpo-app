@@ -43,7 +43,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   };
   const getAccepted = async () => {
     const acc = user?.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId) : null;
-    !(user?.role === Role.Student) && setAccepted(acc)
+    if (user?.role === Role.Student) setAccepted(acc)
   };
   const getUser = async () => {
     const usr = await API.users.getMe();
@@ -106,6 +106,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   }, []);
 
   if (loading || !timeslot || !user || (accepted === null && user.role === Role.Student)) {
+    getAccepted();
     return <ScreenActivityIndicator />;
   }
 
