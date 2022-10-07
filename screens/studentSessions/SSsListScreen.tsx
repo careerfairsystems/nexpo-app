@@ -39,7 +39,6 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [accepted, setAccepted] = React.useState< ApplicationAcceptedDto | null>(null);
 
   const getTimeslotsAndCompany = async () => {
-    setLoading(true);
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
     const company = await API.companies.getCompany(companyId);
     const user = await getMe();
@@ -48,7 +47,6 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     setUser(user);
     setCompany(company);
     setTimeslots(ssTimeslots);
-    setLoading(false);
   }
 
   const openSSDetails = (timeslotId: number) => {
@@ -61,10 +59,13 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }
 
   React.useEffect(() => {
+    setLoading(true);
     getTimeslotsAndCompany();
+    setLoading(false);
   }, []);
 
   if (isLoading || company == null || user == null) {
+    getTimeslotsAndCompany();
     return(
       <View style={styles.container}>
         <ScreenActivityIndicator />

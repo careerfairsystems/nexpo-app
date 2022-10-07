@@ -15,9 +15,10 @@ const { width, height } = Dimensions.get('window')
 export function ApplicationsList ({ applications, onPress }: ApplicationsListProps) {
   if(applications?.length == 0 || applications == null) {
     return (
-      <Text style={styles.text}>No applications </Text>
+      <Text style={styles.text}> No applications </Text>
     )
   }
+  applications.sort((a, b) => a.status - b.status)
 
   return (
     <FlatList
