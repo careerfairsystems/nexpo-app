@@ -35,7 +35,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     setStudent(sdnt);
   }
   async function getApplication() {
-    const app = await API.sSApplications.getApplication(application.id);
+    const app = await API.sSApplications.getApplication(route.params.application.id);
     setApplication(app);
   }
   async function accept() {
@@ -55,8 +55,8 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
 
   useEffect(() => {
     setLoading(true);
-    getStudent();
     getApplication();
+    getStudent();
     setLoading(false);
   }, []);
   

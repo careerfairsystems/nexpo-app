@@ -44,13 +44,16 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     setUser(usr);
   };
   const bookTimeslot = async () => {
-    setLoading(true);
     if (timeslot?.id == undefined || user?.id == undefined) {
       return;
     }
+    if (timeslot.studentId != null) {
+      alert("Timeslot is already booked");
+      return;
+    }
+    setLoading(true);
     const ts = await API.studentSessions.updateTimeslot(timeslot.id, user.id);
     if (ts.id != undefined) {
-      console.log(ts);
       alert("Registered to student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
       getTimeslot();
     } else {
@@ -91,7 +94,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     setLoading(false);
   }, []);
 
-  if (loading || !timeslot) {
+  if (loading || !timeslot || !user) {
     return <ScreenActivityIndicator />;
   }
 
@@ -134,7 +137,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
           </View>
         </View>
 
-        {timeslot.studentId ? (
+        {timeslot.studentId == user.id ? (
           <>
             <ArkadButton
               onPress={() => deregister()}
@@ -142,11 +145,6 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
             >
               <ArkadText text="De-register from timeslot" style={styles.title} />
             </ArkadButton>
-            <Pressable
-              style={styles.qrContainer}
-              onPress={() => alert("Ticket to the timeslot")}
-            >
-            </Pressable>
           </>
         ) : (
           <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
