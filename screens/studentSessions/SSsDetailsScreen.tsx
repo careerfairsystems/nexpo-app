@@ -105,7 +105,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     setLoading(false);
   }, []);
 
-  if (loading || !timeslot || !user || (!accepted && user.role === Role.Student)) {
+  if (loading || !timeslot || !user || (accepted === null && user.role === Role.Student)) {
     return <ScreenActivityIndicator />;
   }
 
