@@ -50,15 +50,9 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     setTimeslots(ssTimeslots);
     setLoading(false);
   }
-  const isAccepted = () => {
-    if(!(user?.role === Role.Student)){
-      return true;
-    }
-    return accepted?.accepted;
-  }
 
   const openSSDetails = (timeslotId: number) => {
-    !(user?.role === Role.Student) || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId}) : 
+    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId}) : 
     alert('You must first send an application and get it accepted to be able to book a time');
   }
 
