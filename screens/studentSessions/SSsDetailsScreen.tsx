@@ -42,7 +42,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     setTimeslot(timeslot);
   };
   const getAccepted = async () => {
-    const acc = await API.sSApplications.getApplicationAccepted(companyId);
+    const acc = user?.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId) : null;
     setAccepted(acc);
   };
   const getUser = async () => {
@@ -99,9 +99,9 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
 
   useEffect(() => {
     setLoading(true);
+    getUser();
     getTimeslot();
     getAccepted();
-    getUser();
     setLoading(false);
   }, []);
 
