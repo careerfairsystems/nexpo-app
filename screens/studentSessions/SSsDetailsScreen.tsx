@@ -43,7 +43,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   };
   const getAccepted = async () => {
     const acc = user?.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId) : null;
-    setAccepted(acc);
+    !(user?.role === Role.Student) && setAccepted(acc)
   };
   const getUser = async () => {
     const usr = await API.users.getMe();
@@ -105,7 +105,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     setLoading(false);
   }, []);
 
-  if (loading || !timeslot || !user || !accepted) {
+  if (loading || !timeslot || !user || (!accepted && user.role === Role.Student)) {
     return <ScreenActivityIndicator />;
   }
 
@@ -160,7 +160,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
             <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
               <ArkadText text="Register to timeslot" style={styles.title} />
             </ArkadButton>
-          )})
+          )}
       </View>
     </ScrollView>
   );
