@@ -13,15 +13,36 @@ type ListedApplicationProps = {
 
 export const SSListItem = ({ application, onPress }: ListedApplicationProps) => 
   <Pressable onPress={onPress} style={[styles.container]}>
-    {/* <View style={styles.headerContainer}>
-      <ArkadText style={styles.eventName} text={"student session"}/>
-    </View> */}
+    <View style={styles.headerContainer}>
+      <ArkadText style={styles.studentName} text={"student name"}/>
+    </View>
     <View style={styles.footerContainer}>
-      <View style = {styles.eventBookedContainer}>
+      <ArkadText 
+        style={styles.guildAndYear}
+        text={"Guild: D, Year 4"} />
+
+      {/* Color of box changes depending on status */}
+      {application.status === 1 ? 
+      <View 
+        style={[
+          styles.applicationStatusContainer, 
+          {backgroundColor: Colors.lightGreen} ]}>
         <ArkadText 
-          style={styles.eventTime}
-          text={application.motivation} />
+          style={styles.applicationStatusText}
+          text="Accepted" />
+      </View> :
+      <View style={[
+        styles.applicationStatusContainer, 
+        application.status === 2
+          ? {backgroundColor:Colors.darkRed}
+          : {backgroundColor:Colors.darkYellow}
+        ]}
+      >
+        <ArkadText 
+          style={styles.applicationStatusText}
+          text={application.status === 2 ? "Rejected" : "Pending"} />
       </View>
+      }
     </View>
   </Pressable>
 
@@ -38,9 +59,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
   },
-  eventName: {
+  studentName: {
     flex: 1,
-    fontSize: 12,
+    fontSize: 16,
     textAlign: 'left',
     color: Colors.white,
   },
@@ -52,7 +73,7 @@ const styles = StyleSheet.create({
       has flex: 1. */
     paddingBottom: 4,
   },
-  eventTime: {
+  guildAndYear: {
     paddingTop: 4,
     fontSize: 14,
     textAlign: 'center',
@@ -60,12 +81,12 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     color: Colors.white,
   },
-  eventBookedContainer: {
+  applicationStatusContainer: {
     paddingTop: 4,
     alignSelf: 'flex-end',
     borderRadius: 10,
   },
-  eventBookedText: {
+  applicationStatusText: {
     fontSize: 14,
     textAlign: 'center',
     paddingVertical: 4,
