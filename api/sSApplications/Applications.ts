@@ -31,7 +31,7 @@ export const getApplication = async (applicationId: number): Promise<SSApplicati
   return Applications;
 }
 export const sendApplication = async (companyId: number, msg: string) => {
-  await postAuth(`/applications/company/${companyId}`, msg);
+  await postAuth(`/applications/company/${companyId}`, {motivation: msg});
 };
 export const changeApplication = async(applicationId: number, status: UpdateApplicationDto) => {
   await putAuth(`/applications/${applicationId}`, status);
