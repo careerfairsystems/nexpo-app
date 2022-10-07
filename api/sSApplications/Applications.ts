@@ -23,7 +23,7 @@ export const getApplications = async (): Promise<SSApplication[]> => {
   return Applications;
 }
 export const getApplicationAccepted = async (companyId: number): Promise<ApplicationAcceptedDto> => {
-  const response = await getAuth(`/applications/accepeted/${companyId}`);
+  const response = await getAuth(`/applications/accepted/${companyId}`);
   const json = await response.json();
   const accepted = json as ApplicationAcceptedDto;
   return accepted;
