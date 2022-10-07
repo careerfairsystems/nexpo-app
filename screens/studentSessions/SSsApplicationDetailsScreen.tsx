@@ -14,6 +14,8 @@ import Colors from '../../constants/Colors';
 import { SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
+import UserProfile from '../../components/profileScreen/UserProfile';
+import { User } from '../../api/users';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -28,8 +30,14 @@ export type SSsApplicationDetailsScreenParams = {
 export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApplicationDetailsScreenParams) {
   const [application, setApplication] = useState<SSApplication>(route.params.application);
   const [student, setStudent] = useState<Student | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  async function getUser() {
+    //TODO this should get the student user and not the company user when its implemented in the backend
+    const user = await API.users.getMe();
+    setUser(user);
+  }
   async function getStudent() {
     const sdnt = await API.students.getStudent(application.studentId);
     setStudent(sdnt);
@@ -46,7 +54,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   }
   async function reject() {
     setLoading(true);
-    await API.sSApplications.changeApplication(application.id, {status: 0} as UpdateApplicationDto)
+    await API.sSApplications.changeApplication(application.id, {status: 2} as UpdateApplicationDto)
     await getApplication();
     setLoading(false);
   }
@@ -55,10 +63,11 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     setLoading(true);
     getApplication();
     getStudent();
+    getUser();
     setLoading(false);
   }, []);
   
-  if (loading || !student) {
+  if (loading || !student || !user) {
     return (
       <View style={styles.container}>
         <ScreenActivityIndicator />
@@ -68,11 +77,21 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   
   return (
     <ScrollView style={styles.container}>
+      <UserProfile user={user as NonNullable<User>} />
       <StudentProfile student={student as NonNullable<Student>} />
-      <ArkadText text={application.status ? "Accepted!" : "Not accepted"} style={styles.acceptedText}/>
-      <ArkadButton style={application.status ? styles.notAccepted : styles.accepted} onPress={application.status ? reject : accept }>
-        <ArkadText text={application.status ? 'Reject Application ' : 'Accept application'}/>
-      </ArkadButton>
+      <ArkadText text={application.status === 1 ? "Accepted!" : "Not accepted"} style={styles.acceptedText}/>
+      {application.status !== 1 &&
+      <>
+        <ArkadButton style={styles.accepted} onPress={ accept }>
+          <ArkadText text={'Accept application'}/>
+        </ArkadButton>
+        {application.status !== 2 &&
+        <ArkadButton style={styles.notAccepted} onPress={ reject }>
+          <ArkadText text={'Reject Application '}/>
+        </ArkadButton>
+        }
+      </>
+      }
     </ScrollView>
   );
 }
