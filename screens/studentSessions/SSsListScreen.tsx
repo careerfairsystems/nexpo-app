@@ -43,7 +43,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
     const company = await API.companies.getCompany(companyId);
     const user = await getMe();
-    const apps = await API.sSApplications.getApplications();
+    const apps = user.role === Role.Student ? await API.sSApplications.getApplications(): null;
     setApplications(apps);
     setUser(user);
     setCompany(company);
@@ -51,6 +51,9 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     setLoading(false);
   }
   const isAccepted = () => {
+    if(!(user?.role === Role.Student)){
+      return true;
+    }
     const status = applications?.find((application) => application.companyId === companyId)?.status;
     return status === 1;
   }
