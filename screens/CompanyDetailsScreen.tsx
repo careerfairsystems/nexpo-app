@@ -67,6 +67,8 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
 
           <Text style={styles.descHeader}>About us</Text>
           <Text style={styles.desc}>{ company.description ? company.description : '\u2013'}</Text>
+          <Text style={styles.descHeader}>Did you know?</Text>
+          <Text style={styles.desc}>{company.didYouKnow ? company.didYouKnow: '\u2013'}</Text>
         </View>
       </ScrollView> 
     </View>
