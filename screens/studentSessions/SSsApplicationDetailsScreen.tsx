@@ -40,16 +40,14 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   }
   async function accept() {
     setLoading(true);
-    API.sSApplications.changeApplication(application.id, {status: 1} as UpdateApplicationDto)
-    const app = await API.sSApplications.getApplication(application.id);
-    setApplication(app);
+    await API.sSApplications.changeApplication(application.id, {status: 1} as UpdateApplicationDto)
+    await getApplication();
     setLoading(false);
   }
   async function reject() {
     setLoading(true);
-    API.sSApplications.changeApplication(application.id, {status: 0} as UpdateApplicationDto)
-    const app = await API.sSApplications.getApplication(application.id);
-    setApplication(app);
+    await API.sSApplications.changeApplication(application.id, {status: 0} as UpdateApplicationDto)
+    await getApplication();
     setLoading(false);
   }
 
@@ -72,11 +70,9 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     <ScrollView style={styles.container}>
       <StudentProfile student={student as NonNullable<Student>} />
       <ArkadText text={application.status ? "Accepted!" : "Not accepted"} style={styles.acceptedText}/>
-      <View style={application.status ? styles.accepted : styles.notAccepted}>
-        <ArkadButton  onPress={application.status ? reject : accept }>
-          <ArkadText text={application.status ? 'Reject Application ' : 'Accept application'}/>
-        </ArkadButton>
-      </View>
+      <ArkadButton style={application.status ? styles.notAccepted : styles.accepted} onPress={application.status ? reject : accept }>
+        <ArkadText text={application.status ? 'Reject Application ' : 'Accept application'}/>
+      </ArkadButton>
     </ScrollView>
   );
 }
