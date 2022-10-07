@@ -43,7 +43,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
     const company = await API.companies.getCompany(companyId);
     const user = await getMe();
-    const apps = user.role === Role.Student ? await API.sSApplications.getApplications(): null;
+    const apps = user.role === Role.Student ? await API.sSApplications.getStudentApplications(): null;
     setApplications(apps);
     setUser(user);
     setCompany(company);
