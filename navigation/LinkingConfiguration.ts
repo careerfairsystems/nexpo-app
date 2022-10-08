@@ -32,11 +32,11 @@ export default {
           SSs: {
             screens: {
               SSsCompaniesScreen: 'studentSessions',
-              SSsListScreen: 'studentSessions/:companyName',
-              SSsDetailsScreen: 'studentSessions/:companyName/:timeslotId',
-              SSsApplicationScreen: 'studentSessions/:companyName/application',
-              SSsApplicationsListScreen : 'studentSessions/:companyName/applicationsList',
-              SSsApplicationsDetailsScreen : 'studentSessions/:companyName/applicationsList/:applicationId',
+              SSsListScreen: 'studentSessions/:companyId',
+              SSsDetailsScreen: 'studentSessions/:companyId/:timeslotId',
+              SSsApplicationScreen: 'studentSessions/:companyId/application',
+              SSsApplicationsListScreen : 'studentSessions/:companyId/applications',
+              SSsApplicationDetailsScreen : 'studentSessions/applications/:applicationId',
             },
           },
           Map: {

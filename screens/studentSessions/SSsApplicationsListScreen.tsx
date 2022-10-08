@@ -18,7 +18,6 @@ type SSsNavigation = {
     route: {
       params: {
         companyId: number;
-        companyName: string;
       };
     };
 };
@@ -42,7 +41,8 @@ export default function SSsApplicationsListScreen({navigation, route}: SSsNaviga
   }, []);
 
   const openApplicationDetails = (application: SSApplication) => {
-        navigation.navigate('SSsApplicationDetailsScreen', {application});
+    const applicationId = application.id;
+    navigation.navigate('SSsApplicationDetailsScreen', {applicationId});
   }
 
   if(isLoading){

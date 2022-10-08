@@ -34,8 +34,8 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
     setLoading(false);
   }
 
-  const openCompanySSs = (companyId: number, companyName: string) => {
-    navigation.navigate('SSsListScreen', { companyId, companyName });
+  const openCompanySSs = (companyId: number) => {
+    navigation.navigate('SSsListScreen', { companyId });
   }
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
         renderItem={({ item: company }) => 
           <CompanyListItem
             company={company} 
-            onPress={() => openCompanySSs(company.id, company.name)} />
+            onPress={() => openCompanySSs(company.id)} />
         } />
     </View>
   );

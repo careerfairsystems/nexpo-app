@@ -10,12 +10,12 @@ import { View } from "../../components/Themed";
 import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
 import { ArkadButton } from "../../components/Buttons";
 import { ArkadText } from "../../components/StyledText";
+import { PublicCompanyDto } from "../../api/companies";
 
 type SSsApplicationScreenParams = {
   route: {
     params: {
       companyId: number;
-      companyName: string;
     };
   };
 };
@@ -23,7 +23,7 @@ type SSsApplicationScreenParams = {
 export default function SSsApplicationScreen({
   route,
 }: SSsApplicationScreenParams) {
-  const { companyId, companyName } = route.params;
+  const { companyId } = route.params;
 
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
@@ -31,7 +31,8 @@ export default function SSsApplicationScreen({
   const sendApplication = async () => {
     setLoading(true);
     await API.sSApplications.sendApplication(companyId, msg);
-    alert("Application to " + companyName + " sent");
+    const company = await API.companies.getCompany(companyId);
+    alert("Application to " + company.name + " sent");
     setLoading(false);
   };
 

@@ -22,14 +22,15 @@ export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
   route: {
     params: {
-      application: SSApplication;
+      applicationId: number;
     };
   };
 };
 
 
 export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApplicationDetailsScreenParams) {
-  const [application, setApplication] = useState<SSApplication>(route.params.application);
+  const applicationId = route.params.applicationId;
+  const [application, setApplication] = useState<SSApplication | null>(null);
   const [student, setStudent] = useState<Student | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,36 +40,33 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     const user = await API.users.getMe();
     setUser(user);
   }
-  async function getStudent() {
-    const sdnt = await API.students.getStudent(application.studentId);
-    setStudent(sdnt);
-  }
-  async function getApplication() {
-    const app = await API.sSApplications.getApplication(route.params.application.id);
+  async function getAppAndStudent() {
+    const app = await API.sSApplications.getApplication(applicationId);
+    const sdnt = await API.students.getStudent(app.studentId);
     setApplication(app);
+    setStudent(sdnt);
   }
   async function accept() {
     setLoading(true);
-    await API.sSApplications.changeApplication(application.id, {status: 1} as UpdateApplicationDto)
-    await getApplication();
+    await API.sSApplications.changeApplication(applicationId, {status: 1} as UpdateApplicationDto)
+    await getAppAndStudent();
     setLoading(false);
   }
   async function reject() {
     setLoading(true);
-    await API.sSApplications.changeApplication(application.id, {status: 2} as UpdateApplicationDto)
-    await getApplication();
+    await API.sSApplications.changeApplication(applicationId, {status: 2} as UpdateApplicationDto)
+    await getAppAndStudent();
     setLoading(false);
   }
 
   useEffect(() => {
     setLoading(true);
-    getApplication();
-    getStudent();
+    getAppAndStudent();
     getUser();
     setLoading(false);
   }, []);
   
-  if (loading || !student || !user) {
+  if (loading || !student || !user || !application) {
     return (
       <View style={styles.container}>
         <ScreenActivityIndicator />

@@ -18,30 +18,35 @@ import { ArkadText } from "../../components/StyledText";
 import { Role, User } from "../../api/users";
 import { ApplicationAcceptedDto } from "../../api/sSApplications";
 import { Student } from "../../api/students";
+import { PublicCompanyDto } from "../../api/companies";
 
 type SSsDetailsScreenParams = {
   route: {
     params: {
       companyId: number;
-      companyName: string;
       timeslotId: number;
     };
   };
 };
 
 export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
-  const { timeslotId, companyName, companyId} = route.params;
+  const {timeslotId, companyId} = route.params;
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>();
   const [student, setStudent] = useState<Student | null>(null);
   const [accepted, setAccepted] = useState<ApplicationAcceptedDto | null>(null);
+  const [company, setCompany] = useState<PublicCompanyDto | null>(null);
 
 
   const getTimeslot = async () => {
     const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     setTimeslot(timeslot);
+  };
+  const getCompany = async () => {
+    const company = await API.companies.getCompany(companyId);
+    setCompany(company);
   };
   const getStudent = async () => {
     const student = user?.role === Role.Student ? await API.students.getMe(): null;
@@ -109,10 +114,11 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     getTimeslot();
     getAccepted();
     getStudent();
+    getCompany();
     setLoading(false);
   }, []);
 
-  if (loading || !timeslot || !user || ((!accepted || !student) && user.role === Role.Student)) {
+  if (loading || !timeslot || !company || !user || ((!accepted || !student) && user.role === Role.Student)) {
     getAccepted();
     getStudent();
     return <ScreenActivityIndicator />;
@@ -143,7 +149,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
                 size={16}
                 color="black"
               />
-              <ArkadText text={companyName} style={styles.headerText} />
+              <ArkadText text={company.name} style={styles.headerText} />
             </View>
           </View>
           <View style={[styles.subHeaderContainer, { flex: 0.3 }]}>
