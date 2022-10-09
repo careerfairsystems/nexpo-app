@@ -30,13 +30,6 @@ export default function SSCompInfo({ company }: CompanyDetailsScreenProps) {
 
         <Text style={styles.title}>{company?.name}</Text>
 
-        <View style={styles.contactInfoContainer}>
-          <Ionicons name="link" size={16} color={Colors.darkBlue} />
-          <Text 
-            style={styles.contactInfoText}>
-          </Text>
-        </View>
-
         <Text style={styles.descHeader}>About us</Text>
         <Text style={styles.desc}>{ company.description ? company.description : '\u2013'}</Text>
       </View>
@@ -85,7 +78,7 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   descHeader: {
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     textDecorationLine: 'underline',
     paddingTop: 16,
     fontSize: 18,
