@@ -34,9 +34,9 @@ export default {
               SSsCompaniesScreen: 'studentSessions',
               SSsListScreen: 'studentSessions/:companyId',
               SSsDetailsScreen: 'studentSessions/:companyId/:timeslotId',
-              SSsApplicationScreen: 'studentSessions/:companyId/application',
-              SSsApplicationsListScreen : 'studentSessions/:companyId/applications',
-              SSsApplicationDetailsScreen : 'studentSessions/applications/:applicationId',
+              SSsApplicationScreen: 'studentSessions/send-application/:companyId',
+              SSsApplicationsListScreen : 'studentSessions/applications/:companyId',
+              SSsApplicationDetailsScreen : 'studentSessions/application-details/:applicationId',
             },
           },
           Map: {

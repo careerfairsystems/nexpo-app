@@ -25,14 +25,12 @@ type SSsNavigation = {
   route: {
     params: {
       companyId: number;
-      companyName: string;
     };
   };
 };
 
 export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const companyId = route.params.companyId;
-  const companyName = route.params.companyName;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
@@ -54,12 +52,12 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }
 
   const openSSDetails = (timeslotId: number) => {
-    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{companyId , companyName, timeslotId}) : 
+    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{companyId, timeslotId}) : 
     alert('You must first send an application and get it accepted to be able to book a time');
   }
 
   const openSSsApplicaion = () => {
-    navigation.navigate(user?.role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId , companyName});
+    navigation.navigate(user?.role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId});
   }
 
   React.useEffect(() => {

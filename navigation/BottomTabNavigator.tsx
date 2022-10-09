@@ -53,7 +53,6 @@ export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [companyId, setCompanyId] = React.useState<number | null>(null);
-  const [companyName, setCompanyName] = React.useState<string | null>(null);
   const [user, setUser] = React.useState< User | null>(null);
   const authContext = useContext(AuthContext);
 
@@ -62,8 +61,6 @@ export default function BottomTabNavigator() {
     const usr = await getMe();
     setUser(usr);
     setCompanyId(usr.companyId);
-    const company = usr.companyId ? await API.companies.getCompany(usr.companyId) : null;
-    setCompanyName(company?.name ? company.name : null);
     setLoading(false);
   }
 
@@ -115,7 +112,7 @@ export default function BottomTabNavigator() {
             if (navigation.canGoBack()) {
               //navigation.popToTop()
             }
-            user.role === Role.CompanyRepresentative ? navigation.replace('SSsListScreen', { companyId, companyName }) : navigation.replace('SSsCompaniesScreen')
+            user.role === Role.CompanyRepresentative ? navigation.replace('SSsListScreen', { companyId }) : navigation.replace('SSsCompaniesScreen')
           },
         })}
       />
