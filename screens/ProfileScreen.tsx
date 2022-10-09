@@ -83,22 +83,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
       { company && <CompanyProfile company={company} />}
-
-      <ArkadText text={"Booked events"} style={styles.header} />
-      <View style={styles.eventList}> 
-        {!bookedEvents 
-          ? <Text>Loading events...</Text>
-          : bookedEvents.length == 0 
-            ? <EmptyEventItem />
-            : <BookedEventList
-                bookedEvents={bookedEvents}
-                onPress={id => navigation.navigate('EventDetailsScreen', { id })} />
-        }
-      </View>
-
-      {/* Add TicketsButton once the screen has been implemented.
-          Until then, keep the bookedEvents scrollable on this screen.
-      <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} /> */}
+      <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} />
       {company && <ScanQRButton onPress={() => navigation.navigate('QRScreen')} />}
       <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
       <LogoutButton onPress={logout} />

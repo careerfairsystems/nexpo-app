@@ -169,6 +169,7 @@ export default function EventDetailsScreen({
             >
               <ArkadText text="De-register from event" style={styles.title} />
             </ArkadButton>
+            <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={styles.qrContainer}
               onPress={() => alert("Ticket to the event")}
@@ -187,6 +188,11 @@ export default function EventDetailsScreen({
 }
 
 const styles = StyleSheet.create({
+  ticketTitle: {
+    color: Colors.darkBlue,
+    fontSize: 20,
+    marginBottom: 10,
+  },
   scrollView: {
     backgroundColor: Colors.white,
   },
