@@ -128,7 +128,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <ArkadText text={"Student session Company"} style={styles.title} />
+          <ArkadText text={`${company.name} student session`} style={styles.title} />
         </View>
         <View style={styles.headerContainer}>
           <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
@@ -165,15 +165,16 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
           { user.role === Role.Student && timeslot.studentId === student?.id ? (
             <ArkadButton
               onPress={deregister}
-              style={styles.bookedButton}
+              style={styles.deregisterButton}
             >
               <ArkadText text="De-register from timeslot" style={styles.title} />
             </ArkadButton>
-          ) : user.role === Role.Student && timeslot.studentId === null && (
+          ) : user.role === Role.Student && timeslot.studentId === null ? (
             <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
               <ArkadText text="Register to timeslot" style={styles.title} />
             </ArkadButton>
-          )}
+          ): <ArkadText text="You can't book this timeslot" style={styles.acceptedText} />
+          }
       </View>
     </ScrollView>
   );
@@ -182,6 +183,18 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.white,
+  },
+  acceptedText:{
+    alignSelf: 'center',
+    marginTop: 40,
+    fontSize: 14,
+    padding: 22,
+    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 12,
+    width: '90%',
+    backgroundColor: Colors.darkBlue,
+    color: Colors.white,
+    fontFamily: 'montserrat',
   },
   container: {
     flex: 1,
@@ -241,6 +254,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   bookButton: {
+    backgroundColor: Colors.lightGreen,
     marginTop: 40,
     width: "90%",
     height: 60,
@@ -248,8 +262,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 12,
   },
-  bookedButton: {
-    backgroundColor: Colors.lightGreen,
+  deregisterButton: {
+    backgroundColor: Colors.darkRed,
     marginTop: 40,
     width: "90%",
     height: 60,
