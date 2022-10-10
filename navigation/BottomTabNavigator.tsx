@@ -15,12 +15,13 @@ import CompaniesScreen from '../screens/CompaniesScreen';
 import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import EventListScreen from "../screens/EventListScreen";
+import EventParticipantsScreen from "../screens/EventParticipantsScreen";
+import QRScreen from '../screens/QRScreen';
 import SSsCompaniesScreen from '../screens/studentSessions/SSsCompaniesScreen';
 import SSsListScreen from "../screens/studentSessions/SSsListScreen";
 import MapScreen from "../screens/MapScreen";
 import ProfileScreen from '../screens/ProfileScreen';
 import TicketsScreen from '../screens/TicketsScreen';
-import QRScreen from '../screens/QRScreen';
 import ZoomMapScreen from '../screens/ZoomMapScreen';
 import { Map } from '../components/maps/MapProps';
 import EditProfileScreen from '../screens/EditProfileScreen';
@@ -161,6 +162,10 @@ function CompaniesNavigator() {
 
 export type EventStackParamlist = {
   EventListScreen: undefined;
+  QRScreen: undefined;
+  EventParticipantsScreen: {
+    eventId: number;
+  }
   EventDetailsScreen: {
     id: number;
   }
@@ -178,6 +183,16 @@ function EventsNavigator() {
         name="EventDetailsScreen"
         component={EventDetailsScreen}
         options={{ title: 'Event Details', headerTitle: 'Event Details' }}
+      />
+      <EventStack.Screen
+        name="EventParticipantsScreen"
+        component={EventParticipantsScreen}
+        options={{ title: 'Event Participants', headerTitle: 'Event Participants' }}
+      />
+      <EventStack.Screen
+        name="QRScreen"
+        component={QRScreen}
+        options={{ title: 'QR Scan', headerTitle: 'QR Scan' }}
       />
     </EventStack.Navigator>
   );

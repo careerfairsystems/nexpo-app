@@ -36,6 +36,7 @@ export async function getTicketForEvent(event: Event): Promise<Ticket | null> {
   return null;
 }
 
+
 /**
  * Create a new ticket for an event.
  */
@@ -82,4 +83,14 @@ export const updateTicket = async (code: string, dto: UpdateTicketDto): Promise<
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;
+}
+
+/**
+ * Get all tickets for a specific event
+ */
+export const getAllTicketsForEvent = async (eventId: number) => {
+  const response = await getAuth(`/events/${eventId}/tickets`);
+  const json = await response.json();
+  const tickets = json as Ticket[];
+  return tickets;
 }
