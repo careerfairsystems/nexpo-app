@@ -124,5 +124,3 @@ function TabBarIonicon(props: { name: React.ComponentProps<typeof Ionicons>['nam
 function TabBarMaterialIcon(props: { name: React.ComponentProps<typeof MaterialIcons>['name']; color: string }) {
   return <MaterialIcons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
-
-
