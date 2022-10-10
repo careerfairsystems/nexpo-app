@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   descHeader: {
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     textDecorationLine: 'underline',
     paddingTop: 16,
     fontSize: 18,

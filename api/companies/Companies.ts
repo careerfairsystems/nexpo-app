@@ -1,5 +1,5 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
-import { StudentSessionTimeslot } from '../studentsessions';
+import { SSTimeslot } from '../studentsessions';
 import { User } from '../users';
 
 export interface PublicCompanyDto {
@@ -16,7 +16,7 @@ export interface Company extends PublicCompanyDto {
   hostEmail: string | null;
   hostPhone: string | null;
   representatives: User[] | null;
-  studentSessionTimeslots: StudentSessionTimeslot[] | null;
+  ssTimeslots: SSTimeslot[] | null;
 }
 
 export interface UpdateCompanySelfDto {

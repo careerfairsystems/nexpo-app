@@ -1,0 +1,54 @@
+import { get, getAuth, postAuth, putAuth } from "../http/_HttpHelpers";
+import { addDays, format, isAfter, subDays } from "date-fns";
+import { PublicCompanyDto } from "../companies";
+
+export interface SSTimeslot {
+  id: number;
+  start: Date;
+  end: Date;
+  location: string;
+  studentId: number | null;
+  companyId: number;
+}
+export const getTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
+  const response = await get(`/timeslots/${timeslotId}`);
+  const json = await response.json();
+  const Timeslots = json as SSTimeslot;
+  return Timeslots;
+};
+export const bookTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
+  const response = await putAuth(`/timeslots/book/${timeslotId}`, {});
+  const json = await response.json();
+  const timeslot = json as SSTimeslot;
+  return timeslot;
+}
+export const unbookTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
+  const response = await putAuth(`/timeslots/unbook/${timeslotId}`, {});
+  const json = await response.json();
+  const timeslot = json as SSTimeslot;
+  return timeslot;
+}
+export const getTimeslotsByCompanyId = async (companyId: number): Promise<SSTimeslot[]> => {
+  const response = await getAuth(`/timeslots/company/${companyId}`);
+  const json = await response.json();
+  const Timeslots = json as SSTimeslot[];
+  return Timeslots;
+};
+export const getCompaniesWithTimeslots = async (): Promise<PublicCompanyDto[]> => {
+  const response = await getAuth(`/timeslots/companies`);
+  const json = await response.json();
+  const companies = json as PublicCompanyDto[];
+  return companies;
+};
+
+export function formatTime(start: Date, end: Date): string {
+  try {
+    const st = new Date(start.toString());
+    const en = new Date(end.toString());
+    const clock: string = st.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) + " - " + en.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+    const dateString = format(st, "LLL d") + "  :  " + clock;
+    return dateString;
+  } catch (RangeError) {
+    return "";
+  }
+}
