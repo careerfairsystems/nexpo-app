@@ -7,7 +7,7 @@ import { Text, View } from '../../components/Themed';
 import { API } from '../../api';
 import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
-import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
+import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
 import { SSTimeslot } from '../../api/studentsessions';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { Role, User } from '../../api/users';
@@ -48,9 +48,6 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
     return (<View style={styles.container}>
       <ScreenActivityIndicator />
     </View>)
-  }
-  if (user?.role === Role.CompanyRepresentative && user.companyId) {
-    navigation.replace('SSsListScreen', { companyId: user.companyId });
   }
 
   return (

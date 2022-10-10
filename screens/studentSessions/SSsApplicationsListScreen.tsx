@@ -5,7 +5,7 @@ import { View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../api';
 import { ApplicationsList } from '../../components/sSApplication/SSApplicationList';
-import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
+import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
 import { ScrollView } from 'react-native-gesture-handler';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { SSApplication } from '../../api/sSApplications';

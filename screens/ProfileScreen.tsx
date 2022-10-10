@@ -7,7 +7,7 @@ import { API } from '../api'
 import { Role, User } from '../api/users';
 import { Event } from '../api/events';
 import { Company } from '../api/companies';
-import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
+import { ProfileStackParamList } from "../navigation/ProfileNavigator";
 
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { Text, View } from '../components/Themed';
