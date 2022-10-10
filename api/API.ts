@@ -5,7 +5,6 @@ import * as Tickets from './tickets';
 import * as Users from './users';
 import * as SignUp from './signup';
 import * as Files from './files';
-import * as CompanyConnections from './companyconnections';
 import * as Students from './students';
 import * as SSs from './studentsessions';
 import * as SSApplications from './sSApplications';
@@ -18,7 +17,6 @@ export class API {
   static users = Users
   static signup = SignUp
   static files = Files
-  static companyconnections = CompanyConnections
   static students = Students
   static studentSessions = SSs
   static sSApplications = SSApplications
