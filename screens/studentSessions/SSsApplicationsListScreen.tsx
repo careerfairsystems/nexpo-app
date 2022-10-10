@@ -15,17 +15,11 @@ type SSsNavigation = {
       SSsStackParamlist,
       'SSsApplicationsListScreen'
     >;
-    route: {
-      params: {
-        companyId: number;
-      };
-    };
 };
 
 
 
-export default function SSsApplicationsListScreen({navigation, route}: SSsNavigation) {
-  const companyId = route.params.companyId
+export default function SSsApplicationsListScreen({navigation}: SSsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [applications, setApplications] = React.useState<SSApplication[] | null>(null);
   

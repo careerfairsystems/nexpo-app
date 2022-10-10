@@ -10,6 +10,7 @@ import { CompanyListItem } from '../../components/companies/CompanyListItem';
 import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
 import { SSTimeslot } from '../../api/studentsessions';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import { Role, User } from '../../api/users';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -21,17 +22,15 @@ type SSsNavigation = {
 export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const getCompanies = async () => {
-    setLoading(true);
-    const companies = await API.companies.getAll();
-    var companiesWithTimeslots : PublicCompanyDto[] = [];
-    for (let i = 0; i < companies.length; i++) {
-      const ts = await API.studentSessions.getTimeslotsByCompanyId(companies[i].id);
-      ts.length > 0 ? companiesWithTimeslots.push(companies[i]) : null;
-    }
-    setCompanies(companiesWithTimeslots);
-    setLoading(false);
+    const companies = await API.studentSessions.getCompaniesWithTimeslots();
+    setCompanies(companies);
+  }
+  const getUser = async () => {
+    const user = await API.users.getMe();
+    setUser(user);
   }
 
   const openCompanySSs = (companyId: number) => {
@@ -39,21 +38,26 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   }
 
   useEffect(() => {
+    setLoading(true);
     getCompanies();
+    getUser();
+    setLoading(false);
   }, []);
   
-  if (isLoading) {
+  if (isLoading || !user) {
     return (<View style={styles.container}>
       <ScreenActivityIndicator />
     </View>)
+  }
+  if (user?.role === Role.CompanyRepresentative && user.companyId) {
+    navigation.replace('SSsListScreen', { companyId: user.companyId });
   }
 
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.list}
-        data={companies} //den gamla raden om vi bara vill visa alla företag
-        //data={companies?.filter(c => c.ssTimeslots == null ? false : c.ssTimeslots.length > 0)}
+        data={companies}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) => 
           <CompanyListItem
