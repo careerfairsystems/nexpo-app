@@ -52,7 +52,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }
 
   const openSSDetails = (timeslotId: number) => {
-    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{timeslotId}) : 
+    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{timeslotId, companyId}) : 
     alert('You must first send an application and get it accepted to be able to book a time');
   }
 

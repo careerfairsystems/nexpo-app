@@ -33,7 +33,7 @@ export default {
             screens: {
               SSsCompaniesScreen: 'studentSessions',
               SSsListScreen: 'studentSessions/:companyId',
-              SSsDetailsScreen: 'studentSessions/timeslot-details/:timeslotId',
+              SSsDetailsScreen: 'studentSessions/timeslot-details/:companyId/:timeslotId',
               SSsApplicationScreen: 'studentSessions/send-application/:companyId',
               SSsApplicationsListScreen : 'studentSessions/student-applications',
               SSsApplicationDetailsScreen : 'studentSessions/application-details/:applicationId',
