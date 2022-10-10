@@ -23,14 +23,13 @@ import { PublicCompanyDto } from "../../api/companies";
 type SSsDetailsScreenParams = {
   route: {
     params: {
-      companyId: number;
       timeslotId: number;
     };
   };
 };
 
 export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
-  const {timeslotId, companyId} = route.params;
+  const {timeslotId} = route.params;
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -45,7 +44,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     setTimeslot(timeslot);
   };
   const getCompany = async () => {
-    const company = await API.companies.getCompany(companyId);
+    const company = timeslot?.companyId ? await API.companies.getCompany(timeslot.companyId): null;
     setCompany(company);
   };
   const getStudent = async () => {
@@ -53,7 +52,7 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
     if (user?.role === Role.Student) setStudent(student);
   };
   const getAccepted = async () => {
-    const acc = user?.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId) : null;
+    const acc = user?.role === Role.Student && timeslot?.companyId ? await API.sSApplications.getApplicationAccepted(timeslot.companyId) : null;
     if (user?.role === Role.Student) setAccepted(acc)
   };
   const getUser = async () => {
