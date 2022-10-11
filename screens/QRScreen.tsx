@@ -8,7 +8,7 @@ import { ArkadButton } from "../components/Buttons";
 import { ArkadText } from "../components/StyledText";
 import Colors from "../constants/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ProfileStackParamList } from "../navigation/BottomTabNavigator";
+import { ProfileStackParamList } from "../navigation/ProfileNavigator";
 
 const { width, height } = Dimensions.get("window");
 

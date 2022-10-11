@@ -7,7 +7,7 @@ import { Text, View } from '../components/Themed';
 import { API } from '../api';
 import { PublicCompanyDto } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
-import { CompanyStackParamList } from '../navigation/BottomTabNavigator';
+import { CompanyStackParamList } from "../navigation/CompaniesNavigator";
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import Colors from '../constants/Colors';
 
