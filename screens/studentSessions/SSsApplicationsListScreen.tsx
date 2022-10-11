@@ -5,29 +5,25 @@ import { View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../api';
 import { ApplicationsList } from '../../components/sSApplication/SSApplicationList';
-import { SSsStackParamlist } from '../../navigation/BottomTabNavigator';
+import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
 import { ScrollView } from 'react-native-gesture-handler';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { SSApplication } from '../../api/sSApplications';
+import { useIsFocused } from '@react-navigation/native';
 
 type SSsNavigation = {
     navigation: StackNavigationProp<
       SSsStackParamlist,
       'SSsApplicationsListScreen'
     >;
-    route: {
-      params: {
-        companyId: number;
-      };
-    };
 };
 
 
 
-export default function SSsApplicationsListScreen({navigation, route}: SSsNavigation) {
-  const companyId = route.params.companyId
+export default function SSsApplicationsListScreen({navigation}: SSsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [applications, setApplications] = React.useState<SSApplication[] | null>(null);
+  const isFocused = useIsFocused();
   
   const getApplications = async () => {
     setLoading(true);
@@ -38,7 +34,7 @@ export default function SSsApplicationsListScreen({navigation, route}: SSsNaviga
 
   React.useEffect(() => {
     getApplications();
-  }, []);
+  }, [isFocused]);
 
   const openApplicationDetails = (application: SSApplication) => {
     const applicationId = application.id;

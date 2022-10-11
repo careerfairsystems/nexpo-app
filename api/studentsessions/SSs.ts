@@ -1,5 +1,6 @@
 import { get, getAuth, postAuth, putAuth } from "../http/_HttpHelpers";
 import { addDays, format, isAfter, subDays } from "date-fns";
+import { PublicCompanyDto } from "../companies";
 
 export interface SSTimeslot {
   id: number;
@@ -32,6 +33,12 @@ export const getTimeslotsByCompanyId = async (companyId: number): Promise<SSTime
   const json = await response.json();
   const Timeslots = json as SSTimeslot[];
   return Timeslots;
+};
+export const getCompaniesWithTimeslots = async (): Promise<PublicCompanyDto[]> => {
+  const response = await getAuth(`/timeslots/companies`);
+  const json = await response.json();
+  const companies = json as PublicCompanyDto[];
+  return companies;
 };
 
 export function formatTime(start: Date, end: Date): string {

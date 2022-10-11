@@ -7,7 +7,7 @@ import { API } from '../api'
 import { Role, User } from '../api/users';
 import { Event } from '../api/events';
 import { Company } from '../api/companies';
-import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
+import { ProfileStackParamList } from "../navigation/ProfileNavigator";
 
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { Text, View } from '../components/Themed';
@@ -84,7 +84,6 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       { student && <StudentProfile student={student} />}
       { company && <CompanyProfile company={company} />}
       <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} />
-      {company && <ScanQRButton onPress={() => navigation.navigate('QRScreen')} />}
       <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
       <LogoutButton onPress={logout} />
     </ScrollView>

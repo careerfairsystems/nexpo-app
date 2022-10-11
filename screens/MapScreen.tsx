@@ -4,7 +4,7 @@ import { StyleSheet, ScrollView } from 'react-native';
 import { MapPreview } from '../components/maps/MapPreview';
 import { Map, EMap, FairMap, KarhusetMap, SC1Map, SC2Map } from '../components/maps/MapProps';
 import { View } from '../components/Themed';
-import { MapStackParamList } from '../navigation/BottomTabNavigator';
+import { MapStackParamList } from "../navigation/MapNavigator";
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, 'MapScreen'>;
