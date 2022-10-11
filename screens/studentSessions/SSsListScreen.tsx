@@ -16,6 +16,7 @@ import { getMe, Role, User } from '../../api/users/Users';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { ApplicationAcceptedDto, SSApplication } from '../../api/sSApplications';
 import { Student } from '../../api/students';
+import { useIsFocused } from '@react-navigation/native';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -37,6 +38,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [user, setUser] = React.useState< User | null>(null);
   const [student, setStudent] = React.useState< Student | null>(null);
   const [accepted, setAccepted] = React.useState< ApplicationAcceptedDto | null>(null);
+  const isFocused = useIsFocused();
 
   const getTimeslotsAndCompany = async () => {
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
@@ -64,7 +66,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     setLoading(true);
     getTimeslotsAndCompany();
     setLoading(false);
-  }, []);
+  }, [isFocused]);
 
   if (isLoading || company == null || user == null) {
     return(
