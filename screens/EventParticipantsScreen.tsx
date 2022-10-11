@@ -5,7 +5,7 @@ import { Text, View } from '../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
 import SSCompInfo from '../components/studentSessionList/SSCompInfo';
-import { EventStackParamlist } from '../navigation/BottomTabNavigator';
+import { EventStackParamlist } from '../navigation/EventsNavigator';
 import { PublicCompanyDto } from '../api/companies/Companies';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getMe, Role, User } from '../api/users/Users';

@@ -11,7 +11,7 @@ import { TicketList } from '../components/ticketList/TicketList';
 import { API } from '../api';
 import { TicketItem } from '../components/ticketList/TicketItem';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
+import { ProfileStackParamList } from '../navigation/ProfileNavigator';
 import { getItemAsync } from 'expo-secure-store';
 import { isSearchBarAvailableForCurrentPlatform } from 'react-native-screens';
 import { ScrollView } from 'react-native-gesture-handler';
