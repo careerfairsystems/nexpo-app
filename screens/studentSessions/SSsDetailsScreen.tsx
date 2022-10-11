@@ -23,14 +23,13 @@ import { PublicCompanyDto } from "../../api/companies";
 type SSsDetailsScreenParams = {
   route: {
     params: {
-      companyId: number;
       timeslotId: number;
     };
   };
 };
 
 export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
-  const {timeslotId, companyId} = route.params;
+  const {timeslotId} = route.params;
 
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -40,25 +39,21 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
 
 
+  const getData = async () => {
+    const timeslot = await API.studentSessions.getTimeslot(timeslotId);
+    const usr = await API.users.getMe();
+    const company = await API.companies.getCompany(timeslot.companyId);
+    const student = usr.role === Role.Student ? await API.students.getMe(): null;
+    const acc = usr.role === Role.Student ? await API.sSApplications.getApplicationAccepted(timeslot.companyId) : null;
+    setTimeslot(timeslot);
+    setUser(usr);
+    setCompany(company);
+    setStudent(student);
+    setAccepted(acc);
+  };
   const getTimeslot = async () => {
     const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     setTimeslot(timeslot);
-  };
-  const getCompany = async () => {
-    const company = await API.companies.getCompany(companyId);
-    setCompany(company);
-  };
-  const getStudent = async () => {
-    const student = user?.role === Role.Student ? await API.students.getMe(): null;
-    if (user?.role === Role.Student) setStudent(student);
-  };
-  const getAccepted = async () => {
-    const acc = user?.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId) : null;
-    if (user?.role === Role.Student) setAccepted(acc)
-  };
-  const getUser = async () => {
-    const usr = await API.users.getMe();
-    setUser(usr);
   };
   const bookTimeslot = async () => {
     if (timeslot?.id == undefined || user?.id == undefined || accepted?.accepted == undefined) {
@@ -110,17 +105,11 @@ export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
 
   useEffect(() => {
     setLoading(true);
-    getUser();
-    getTimeslot();
-    getAccepted();
-    getStudent();
-    getCompany();
+    getData();
     setLoading(false);
   }, []);
 
   if (loading || !timeslot || !company || !user || ((!accepted || !student) && user.role === Role.Student)) {
-    getAccepted();
-    getStudent();
     return <ScreenActivityIndicator />;
   }
 
