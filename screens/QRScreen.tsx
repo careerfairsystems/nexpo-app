@@ -4,12 +4,11 @@ import React, { useEffect, useState } from "react";
 import { TextInput, StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { API } from "../api";
-import { CompanyCompanyConnectionDto, CreateCompanyConnectionDto } from "../api/companyconnections";
 import { ArkadButton } from "../components/Buttons";
 import { ArkadText } from "../components/StyledText";
 import Colors from "../constants/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ProfileStackParamList } from "../navigation/BottomTabNavigator";
+import { ProfileStackParamList } from "../navigation/ProfileNavigator";
 
 const { width, height } = Dimensions.get("window");
 
@@ -40,21 +39,6 @@ export default function QRScreen({ navigation }: QRScreenProps) {
   useEffect(() => {
     getPermission();
   }, []);
-
-  async function createCompanyConnection() {
-    const connection: CreateCompanyConnectionDto = {
-      studentId: studentID,
-      rating: rating,
-      comment: description
-    }
-    const response: CompanyCompanyConnectionDto = await API.companyconnections.createConnection(connection)
-    if(response) {
-      alert(`Successfully connected with student!`);
-    } else {
-      alert(`Could not connect with student.`);
-    }
-    navigation.goBack()
-  }
 
   const handleBarCodeScanned = ({ type, data }: ScanResult) => {
     setScanned(true);
@@ -108,7 +92,7 @@ export default function QRScreen({ navigation }: QRScreenProps) {
         </View>
         
         <ArkadButton 
-          onPress={createCompanyConnection} 
+          onPress={() => {}}
           style={styles.button}>
           <ArkadText text={"Connect with student"} style={{}}/>
         </ArkadButton>

@@ -6,7 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../api';
 import { Event } from '../api/events';
 import { EventList } from '../components/eventList/EventList';
-import { EventStackParamlist } from '../navigation/BottomTabNavigator';
+import { EventStackParamlist } from "../navigation/EventsNavigator";
 import { UpcomingButton } from '../components/eventList/UpcomingButton';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 
