@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../api';
 import { SSTimeslot } from '../../api/studentsessions';
@@ -14,9 +14,10 @@ import { PublicCompanyDto } from '../../api/companies/Companies';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getMe, Role, User } from '../../api/users/Users';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { ApplicationAcceptedDto, SSApplication } from '../../api/sSApplications';
+import { ApplicationAcceptedDto } from '../../api/sSApplications';
 import { Student } from '../../api/students';
-import { useIsFocused } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -38,7 +39,6 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [user, setUser] = React.useState< User | null>(null);
   const [student, setStudent] = React.useState< Student | null>(null);
   const [accepted, setAccepted] = React.useState< ApplicationAcceptedDto | null>(null);
-  const isFocused = useIsFocused();
 
   const getTimeslotsAndCompany = async () => {
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
@@ -62,11 +62,11 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     navigation.navigate(user?.role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId});
   }
 
-  React.useEffect(() => {
+  useFocusEffect(useCallback(() => {
     setLoading(true);
     getTimeslotsAndCompany();
     setLoading(false);
-  }, [isFocused]);
+  }, []));
 
   if (isLoading || company == null || user == null) {
     return(
