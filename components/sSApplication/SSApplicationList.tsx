@@ -18,6 +18,7 @@ export function ApplicationsList ({ applications, onPress }: ApplicationsListPro
       <Text style={styles.text}> No applications </Text>
     )
   }
+  applications.sort((a, b) => a.studentFirstName.localeCompare(b.studentFirstName))
   applications.sort((a, b) => a.status - b.status)
 
   return (

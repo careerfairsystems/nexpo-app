@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { SSApplicationDto } from '../../api/sSApplications';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
+import { Guild } from '../../api/students';
 
 type ListedApplicationProps = {
   application: SSApplicationDto;
@@ -18,7 +19,7 @@ export const SSListItem = ({ application, onPress }: ListedApplicationProps) =>
     <View style={styles.footerContainer}>
       <ArkadText 
         style={styles.guildAndYear}
-        text={`Guild: ${application.studentGuild}, Year ${application.studentYear}`} />
+        text={`Guild: ${Guild[application.studentGuild]}    Year ${application.studentYear}`} />
 
       {/* Color of box changes depending on status */}
       {application.status === 1 ? 
