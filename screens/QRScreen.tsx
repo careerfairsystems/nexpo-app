@@ -19,14 +19,21 @@ interface ScanResult{
 
 type QRScreenProps = {
   navigation: StackNavigationProp<ProfileStackParamList, 'QRScreen'>;
+  route: {
+    params: {
+      id: number;
+    };
+  };
 }
 
-export default function QRScreen({ navigation }: QRScreenProps) {
+export default function QRScreen({ navigation, route }: QRScreenProps) {
+  const {id} = route.params;
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
   const [studentID, setStudentID] = useState<number>(-1);
   const [rating, setRating] = useState<number>(3);
   const [description, setDescription] = useState<string>("");
+  const role = API.auth.getUserRole;
   
   async function getPermission() {
     // No support for the QR scanner on web yet

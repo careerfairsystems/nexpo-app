@@ -22,13 +22,13 @@ type EventNavigation = {
   >;
   route: {
     params: {
-      eventId: number;
+      id: number;
     };
   };
 };
 
 export default function EventParticipantsScreen({navigation, route}: EventNavigation) {
-  const eventId = route.params.eventId;
+  const id = route.params.id;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
   const [user, setUser] = React.useState< User | null>(null);
@@ -42,7 +42,7 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
   }
 
   const getTickets = async () => {
-    const tickets = await getAllTicketsForEvent(eventId);
+    const tickets = await getAllTicketsForEvent(id);
     setTickets(tickets);
     setLoading(false);
   }

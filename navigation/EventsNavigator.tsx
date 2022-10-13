@@ -10,7 +10,7 @@ export type EventStackParamlist = {
   EventListScreen: undefined;
   QRScreen: undefined;
   EventParticipantsScreen: {
-    eventId: number;
+    id: number;
   }
   EventDetailsScreen: {
     id: number;
