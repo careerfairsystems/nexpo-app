@@ -53,7 +53,7 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
   return (
     <View style={styles.container}>
       <ScrollView>
-        <ScanQRButton onPress={() => navigation.navigate('QRScreen')} />
+        <ScanQRButton onPress={() => navigation.navigate('QRScreen', {id}) }/>
         <StudentTicketList tickets={tickets} />
       </ScrollView>
     </View>

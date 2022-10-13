@@ -8,11 +8,13 @@ import QRScreen from '../screens/QRScreen';
 
 export type EventStackParamlist = {
   EventListScreen: undefined;
-  QRScreen: undefined;
+  EventDetailsScreen: {
+    id: number;
+  }
   EventParticipantsScreen: {
     id: number;
   }
-  EventDetailsScreen: {
+  QRScreen: {
     id: number;
   }
 }

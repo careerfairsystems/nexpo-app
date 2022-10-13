@@ -14,7 +14,6 @@ export type ProfileStackParamList = {
     id: number;
   };
   TicketsScreen: undefined;
-  QRScreen: undefined;
 };
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
 export function ProfileNavigator() {
@@ -36,10 +35,6 @@ export function ProfileNavigator() {
         name="TicketsScreen"
         component={TicketsScreen}
         options={{ title: 'Tickets', headerTitle: 'Tickets' }} />
-      <ProfileStack.Screen
-        name="QRScreen"
-        component={QRScreen}
-        options={{ headerTitle: 'QR' }} />
     </ProfileStack.Navigator>
   );
 }

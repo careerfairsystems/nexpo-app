@@ -74,8 +74,8 @@ export const getAllTickets = async (): Promise<Ticket[]> => {
 /**
  * Get a single ticket by ticket code
  */
-export const getTicket = async (code: string): Promise<Ticket> => {
-  const response = await getAuth(`/tickets/${code}`);
+export const getTicket = async (id: number): Promise<Ticket> => {
+  const response = await getAuth(`/tickets/${id}`);
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;
@@ -84,8 +84,8 @@ export const getTicket = async (code: string): Promise<Ticket> => {
 /**
  * Update a ticket, eg set the consumed flag
  */
-export const updateTicket = async (code: string, dto: UpdateTicketDto): Promise<Ticket> => {
-  const response = await putAuth(`/tickets/${code}`, dto);
+export const updateTicket = async (id: number, dto: UpdateTicketDto): Promise<Ticket> => {
+  const response = await putAuth(`/tickets/${id}`, dto);
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;
