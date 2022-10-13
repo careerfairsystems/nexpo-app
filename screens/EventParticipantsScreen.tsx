@@ -28,12 +28,10 @@ type EventNavigation = {
 };
 
 export default function EventParticipantsScreen({navigation, route}: EventNavigation) {
-  const id = route.params.id;
+  const id = route.params;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
   const [user, setUser] = React.useState< User | null>(null);
-  const [tickets, setTickets] = React.useState< Ticket[] | null>(null);
-  const [event, setEvent] = React.useState< Event | null>(null);
   
   const getUser = async () => {
     const user = await getMe();
@@ -41,17 +39,13 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
     setCompany(company);
   }
 
-  const getTickets = async () => {
-    const tickets = await getAllTicketsForEvent(id);
-    setTickets(tickets);
-    setLoading(false);
-  }
 
 
   React.useEffect(() => {
     setLoading(true);
+
     getUser();
-    getTickets();
+    
     setLoading(false);
   }, []);
 
@@ -68,9 +62,7 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
       <ScrollView>
         <SSCompInfo company={company}/>
         {<ScanQRButton onPress={() => navigation.navigate('QRScreen')} />}
-        <View style={styles.container}>
-            
-        </View>
+        
       </ScrollView>
     </View>
   );
@@ -84,4 +76,5 @@ const styles = StyleSheet.create({
     width: '60%',
     alignSelf: 'center',
   },
+  
 });

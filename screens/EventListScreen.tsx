@@ -49,9 +49,9 @@ export default function EventListScreen({navigation}: EventsNavigation) {
   const openEventDetails = (id: number) => {
     if(role === Role.Administrator){
       navigation.navigate('EventParticipantsScreen', { id });
+    } else {
+      navigation.navigate('EventDetailsScreen', { id });
     }
-
-    navigation.navigate('EventDetailsScreen', { id });
   }
   
   React.useEffect(() => {
