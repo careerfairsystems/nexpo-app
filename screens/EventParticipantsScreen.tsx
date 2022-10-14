@@ -38,17 +38,21 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
 
   useFocusEffect(useCallback(() => {
     setLoading(true);
+
     getTickets();
+    
     setLoading(false);
+    console.log(tickets);
   }, []));
 
-  if (isLoading || tickets == null) {
+  if (isLoading) {
+    console.log('loading');
     return(
       <View style={styles.container}>
         <ScreenActivityIndicator />
       </View>
     )
-  }
+  } else {
   
   return (
     <View style={styles.container}>
@@ -59,7 +63,7 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
     </View>
   );
 }
-
+}
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center'

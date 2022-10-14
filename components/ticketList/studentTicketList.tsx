@@ -37,7 +37,7 @@ export function StudentTicketList ({ tickets }: TicketListProps) {
 }
 const styles = StyleSheet.create({
   ticketsBox: {
-    width: width * 0.9,
+    width: width * 0.5,
     height: height * 0.09,
   },
   text: {

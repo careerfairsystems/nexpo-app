@@ -22,23 +22,23 @@ export const SSListItem = ({ timeslot, booked, bookedByMe, onPress }: ListedTime
     </View>
       {/* Color of box changes depending on status */}
     {booked 
-    ? <View 
-      style={[
+      ? <View 
+        style={[
+          styles.timeslotBookedContainer, 
+          bookedByMe ? {backgroundColor: Colors.lightBlue} : {backgroundColor: Colors.darkRed} ]}>
+        <ArkadText 
+          style={styles.timeslotBookedText}
+          text={bookedByMe ? "Yours!" : "Booked"} />
+      </View>
+      : <View style={[
         styles.timeslotBookedContainer, 
-        bookedByMe ? {backgroundColor: Colors.lightBlue} : {backgroundColor: Colors.darkRed} ]}>
-      <ArkadText 
-        style={styles.timeslotBookedText}
-        text={bookedByMe ? "Yours!" : "Booked"} />
-    </View>
-    : <View style={[
-      styles.timeslotBookedContainer, 
-        {backgroundColor:Colors.lightGreen}
-      ]}
-    >
-      <ArkadText 
-        style={styles.timeslotBookedText}
-        text={"Available"} />
-    </View>
+          {backgroundColor:Colors.lightGreen}
+        ]}
+      >
+        <ArkadText 
+          style={styles.timeslotBookedText}
+          text={"Available"} />
+      </View>
     }
   </Pressable>
 
@@ -46,10 +46,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    marginTop: 2,
+    marginBottom: 2,
     marginHorizontal: 10,
     backgroundColor: Colors.darkBlue,
-    padding: 16,
+    padding: 10,
     borderRadius: 16,
   },
   timeslotTime: {

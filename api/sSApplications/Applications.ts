@@ -1,4 +1,5 @@
 import { getAuth, postAuth, putAuth } from "../http/_HttpHelpers";
+import { Guild } from "../students";
 
 
 export interface SSApplication {
@@ -9,6 +10,19 @@ export interface SSApplication {
   companyId: number;
   booked: boolean;
 }
+
+export interface SSApplicationDto {
+  id: number;
+  motivation: string;
+  status: number;
+  studentId: number;
+  companyId: number;
+  booked: boolean;
+  studentFirstName: string;
+  studentLastName: string;
+  studentYear: number;
+  studentGuild: Guild;
+}
 export interface UpdateApplicationDto {
   status: number;
 }
@@ -16,10 +30,10 @@ export interface ApplicationAcceptedDto {
   accepted: boolean;
   booked: boolean;
 }
-export const getApplications = async (): Promise<SSApplication[]> => {
+export const getApplications = async (): Promise<SSApplicationDto[]> => {
   const response = await getAuth(`/applications/my/company`);
   const json = await response.json();
-  const Applications = json as SSApplication[];
+  const Applications = json as SSApplicationDto[];
   return Applications;
 }
 export const getApplicationAccepted = async (companyId: number): Promise<ApplicationAcceptedDto> => {
