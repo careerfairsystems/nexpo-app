@@ -38,34 +38,36 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
 
   useFocusEffect(useCallback(() => {
     setLoading(true);
+
     getTickets();
+    
     setLoading(false);
+    console.log(tickets);
   }, []));
 
-  if (isLoading || tickets == null) {
+  if (isLoading) {
+    console.log('loading');
     return(
       <View style={styles.container}>
         <ScreenActivityIndicator />
       </View>
     )
-  }
+  } else {
   
   return (
     <View style={styles.container}>
-      <ScrollView>
         <ScanQRButton onPress={() => navigation.navigate('QRScreen', {id}) }/>
         <StudentTicketList tickets={tickets} />
-      </ScrollView>
     </View>
   );
 }
-
+}
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center'
   },
   button: {
-    width: '60%',
+    width: '30%',
     alignSelf: 'center',
   },
   

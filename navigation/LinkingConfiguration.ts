@@ -27,7 +27,7 @@ export default {
             screens: {
               EventListScreen: 'events',
               EventDetailsScreen: 'events/:id',
-              EventParticipantsScreen: 'events/participants',
+              EventParticipantsScreen: 'events/eventinfo/:id',
               QRScreen: 'events/qr',
 
             },
