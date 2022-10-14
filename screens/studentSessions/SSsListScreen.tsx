@@ -16,6 +16,8 @@ import { getMe, Role, User } from '../../api/users/Users';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { ApplicationAcceptedDto, SSApplication } from '../../api/sSApplications';
 import { Student } from '../../api/students';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -60,14 +62,13 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     navigation.navigate(user?.role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId});
   }
 
-  React.useEffect(() => {
+  useFocusEffect(useCallback(() => {
     setLoading(true);
     getTimeslotsAndCompany();
     setLoading(false);
-  }, []);
+  }, []));
 
   if (isLoading || company == null || user == null) {
-    getTimeslotsAndCompany();
     return(
       <View style={styles.container}>
         <ScreenActivityIndicator />
