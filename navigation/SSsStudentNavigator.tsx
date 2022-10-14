@@ -2,10 +2,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import SSsCompaniesScreen from '../screens/studentSessions/SSsCompaniesScreen';
 import SSsListScreen from "../screens/studentSessions/SSsListScreen";
-import SSsDetailsScreen from '../screens/studentSessions/SSsDetailsScreen';
-import SSsApplicationScreen from '../screens/studentSessions/SSsApplicationSreen';
-import SSsApplicationsListScreen from '../screens/studentSessions/SSsApplicationsListScreen';
+import SSsDetailsScreen from '../screenTemplates/SSsDetailsScreen';
+import SSsApplicationScreen from '../screenTemplates/SSsApplicationSreen';
+import SSsApplicationsListScreen from '../screenTemplates/SSsApplicationsListScreen';
 import SSsApplicationDetailsScreen from '../screens/studentSessions/SSsApplicationDetailsScreen';
+import SSsSwitchScreen from '../screens/studentSessions/SSsSwitchScreen';
 
 
 export type SSsStackParamlist = {
@@ -13,16 +14,10 @@ export type SSsStackParamlist = {
   SSsListScreen: {
     companyId: number;
   };
-  SSsDetailsScreen: {
-    timeslotId: number;
-  };
-  SSsApplicationScreen: {
-    companyId: number;
-  };
-  SSsApplicationsListScreen: undefined;
-  SSsApplicationDetailsScreen: {
-    applicationId: number;
-  };
+  SSsSwitchScreen: {
+    id: number;
+    screen: string;
+  }
 };
 const SSsStack = createStackNavigator<SSsStackParamlist>();
 export function SSsStudentNavigator() {
@@ -36,22 +31,10 @@ export function SSsStudentNavigator() {
         name="SSsListScreen"
         component={SSsListScreen}
         options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List' }} />
-      <SSsStack.Screen
-        name="SSsDetailsScreen"
-        component={SSsDetailsScreen}
-        options={{ title: 'Session Details', headerTitle: 'Session Details' }} />
-      <SSsStack.Screen
-        name="SSsApplicationScreen"
-        component={SSsApplicationScreen}
-        options={{ title: 'Application', headerTitle: 'Application' }} />
-      <SSsStack.Screen
-        name="SSsApplicationsListScreen"
-        component={SSsApplicationsListScreen}
-        options={{ title: 'Applications', headerTitle: 'Applications' }} />
-      <SSsStack.Screen
-        name="SSsApplicationDetailsScreen"
-        component={SSsApplicationDetailsScreen}
-        options={{ title: 'Application Details', headerTitle: 'Application Details' }} />
+        <SSsStack.Screen
+        name="SSsSwitchScreen"
+        component={SSsSwitchScreen}
+        options={{ title: 'Studentsession', headerTitle: 'Studentsession' }} />
     </SSsStack.Navigator>
   );
 }

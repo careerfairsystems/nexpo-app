@@ -1,29 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, TextInput } from "react-native";
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, TextInput } from "react-native";
 
-import Colors from "../../constants/Colors";
+import Colors from "../constants/Colors";
 
-import { API } from "../../api";
-import { } from "../../api/studentsessions";
+import { API } from "../api";
+import { } from "../api/studentsessions";
 
-import { View } from "../../components/Themed";
-import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
-import { ArkadButton } from "../../components/Buttons";
-import { ArkadText } from "../../components/StyledText";
-import { PublicCompanyDto } from "../../api/companies";
+import { View } from "../components/Themed";
+import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
+import { ArkadButton } from "../components/Buttons";
+import { ArkadText } from "../components/StyledText";
+import { Role } from "../api/users";
 
-type SSsApplicationScreenParams = {
-  route: {
-    params: {
-      companyId: number;
-    };
-  };
-};
-
-export default function SSsApplicationScreen({
-  route,
-}: SSsApplicationScreenParams) {
-  const { companyId } = route.params;
+export default function SSsApplicationScreen(companyId: number) {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
