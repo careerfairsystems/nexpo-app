@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: '4%',
     marginBottom: '2%',
-    width: '85%',
+    width: '45%',
   },
   editing: {
     alignSelf: 'center',

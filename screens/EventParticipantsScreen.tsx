@@ -56,10 +56,8 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
   
   return (
     <View style={styles.container}>
-      <ScrollView>
         <ScanQRButton onPress={() => navigation.navigate('QRScreen', {id}) }/>
         <StudentTicketList tickets={tickets} />
-      </ScrollView>
     </View>
   );
 }
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   button: {
-    width: '60%',
+    width: '30%',
     alignSelf: 'center',
   },
   
