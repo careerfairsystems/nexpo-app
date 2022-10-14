@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '../../components/Themed';
+import { Text, View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../api';
 import { SSTimeslot } from '../../api/studentsessions';
@@ -11,13 +11,11 @@ import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
 import { PublicCompanyDto } from '../../api/companies/Companies';
-import { ScrollView } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import { getMe, Role, User } from '../../api/users/Users';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { ApplicationAcceptedDto } from '../../api/sSApplications';
+import { ApplicationAcceptedDto, SSApplication } from '../../api/sSApplications';
 import { Student } from '../../api/students';
-import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -62,13 +60,14 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     navigation.navigate(user?.role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId});
   }
 
-  useFocusEffect(useCallback(() => {
+  React.useEffect(() => {
     setLoading(true);
     getTimeslotsAndCompany();
     setLoading(false);
-  }, []));
+  }, []);
 
   if (isLoading || company == null || user == null) {
+    getTimeslotsAndCompany();
     return(
       <View style={styles.container}>
         <ScreenActivityIndicator />
@@ -77,19 +76,34 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }
   
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <SSCompInfo company={company}/>
-        {!accepted?.accepted && <ArkadButton style={styles.button} onPress={() => openSSsApplicaion()}>
-            <ArkadText text = {user.role === Role.CompanyRepresentative ? "See applications!" : "Apply here!"} />
-        </ArkadButton>}
-        <View style={styles.container}>
-          <TimeslotList 
-            timeslots={ssTimeslots}
-            student={student}
-            onPress={openSSDetails} />
-        </View>
-      </ScrollView>
+    <View style={styles.container}  >
+      <FlatList
+        data={null} 
+        renderItem={null}
+        ListHeaderComponent={
+          <>
+            <SSCompInfo 
+              company={company}
+            />
+            {!accepted?.accepted && <ArkadButton 
+              style={styles.button} 
+              onPress={ () => openSSsApplicaion()}
+            >
+              <ArkadText text= {user.role === Role.CompanyRepresentative ? " See applications!" : "Apply here!"}/>
+            </ArkadButton>}     
+          </>
+        } 
+        ListFooterComponent={  
+          <View style={styles.container}>
+            <TimeslotList 
+              timeslots={ssTimeslots}
+              student={student}              
+              onPress={openSSDetails} 
+            />
+          </View>
+        } 
+      >
+      </FlatList>
     </View>
   );
 }
