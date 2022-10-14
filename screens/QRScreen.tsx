@@ -52,12 +52,18 @@ export default function QRScreen({ route }: QRScreenProps) {
   }, []);
 
   const handleBarCodeScanned = async ({ data }: ScanResult) => {
+    setLoading(true);
     setScanned(true);
     setTicketId(Number(data));
     getTicket();
     if (ticket && ticket.eventId === id) {
-      await API.tickets.updateTicket(ticket.id, {isConsumed: true});
+      if(!ticket.isConsumed) {
+        await API.tickets.updateTicket(ticket.id, {isConsumed: true});
+      }else {
+        setTicket(null);
+      }
     }
+    setLoading(false);
   };
 
   if (Platform.OS === 'web') {
@@ -84,7 +90,7 @@ export default function QRScreen({ route }: QRScreenProps) {
       <ScreenActivityIndicator/>
     </View>;
   }
-  if(scanned && ticket) {
+  if(scanned) {
     return (
       <View style={styles.container}>
         {ticket && ticket.eventId === id ? 
@@ -95,7 +101,7 @@ export default function QRScreen({ route }: QRScreenProps) {
         <ArkadButton 
           onPress={() => {setScanned(false); setTicketId(null); setTicket(null);}}
           style={styles.button}>
-          <ArkadText text={"Click to scan again"} style={styles.id}/>
+          <ArkadText text={"Click to scan again"} style={styles.scanAgain}/>
         </ArkadButton>
       </View>
     )
@@ -120,6 +126,10 @@ const styles = StyleSheet.create({
   id: {
     paddingTop: '4%',
     color: Colors.darkBlue,
+    fontSize: 24
+  },
+  scanAgain: { 
+    color: Colors.white,
     fontSize: 24
   },
   button: {
