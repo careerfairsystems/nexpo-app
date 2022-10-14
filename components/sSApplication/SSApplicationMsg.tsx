@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.darkBlue,
     borderRadius: 10,
     overflow: 'hidden',
-    marginBottom: 20,
+    margin: 20,
   },
   headerBox: {
     alignItems: 'center',

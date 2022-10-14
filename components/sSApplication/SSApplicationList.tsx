@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { SSApplication } from '../../api/sSApplications';
+import { SSApplication, SSApplicationDto } from '../../api/sSApplications';
 import Colors from '../../constants/Colors';
 import { SSListItem } from './SSsApplicationListItem';
 
 type ApplicationsListProps = {
-  applications: SSApplication[] | null;
-  onPress: (application: SSApplication) => void;
+  applications: SSApplicationDto[] | null;
+  onPress: (application: SSApplicationDto) => void;
 }
 
 const { width, height } = Dimensions.get('window')
@@ -18,6 +18,7 @@ export function ApplicationsList ({ applications, onPress }: ApplicationsListPro
       <Text style={styles.text}> No applications </Text>
     )
   }
+  applications.sort((a, b) => a.studentFirstName.localeCompare(b.studentFirstName))
   applications.sort((a, b) => a.status - b.status)
 
   return (

@@ -35,16 +35,13 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  async function getUser() {
-    //TODO this should get the student user and not the company user when its implemented in the backend
-    const user = await API.users.getMe();
-    setUser(user);
-  }
   async function getAppAndStudent() {
     const app = await API.sSApplications.getApplication(applicationId);
     const sdnt = await API.students.getStudent(app.studentId);
+    const user = await API.users.getUser(sdnt.userId);
     setApplication(app);
     setStudent(sdnt);
+    setUser(user);
   }
   async function accept() {
     setLoading(true);
@@ -62,7 +59,6 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   useEffect(() => {
     setLoading(true);
     getAppAndStudent();
-    getUser();
     setLoading(false);
   }, []);
   

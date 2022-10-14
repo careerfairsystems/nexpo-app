@@ -1,25 +1,25 @@
 import React from 'react';
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
-import { SSApplication } from '../../api/sSApplications';
+import { SSApplicationDto } from '../../api/sSApplications';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
-import { API } from '../../api';
+import { Guild } from '../../api/students';
 
 type ListedApplicationProps = {
-  application: SSApplication;
+  application: SSApplicationDto;
   onPress: () => void;
 }
 
 export const SSListItem = ({ application, onPress }: ListedApplicationProps) => 
   <Pressable onPress={onPress} style={[styles.container]}>
     <View style={styles.headerContainer}>
-      <ArkadText style={styles.studentName} text={"student name"}/>
+    <ArkadText style={styles.studentName} text={`${application.studentFirstName} ${application.studentLastName}`}/>
     </View>
     <View style={styles.footerContainer}>
       <ArkadText 
         style={styles.guildAndYear}
-        text={"Guild: D, Year 4"} />
+        text={`Guild: ${Guild[application.studentGuild]}    Year ${application.studentYear}`} />
 
       {/* Color of box changes depending on status */}
       {application.status === 1 ? 

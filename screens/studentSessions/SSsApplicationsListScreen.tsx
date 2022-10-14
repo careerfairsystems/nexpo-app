@@ -8,7 +8,7 @@ import { ApplicationsList } from '../../components/sSApplication/SSApplicationLi
 import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
 import { ScrollView } from 'react-native-gesture-handler';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { SSApplication } from '../../api/sSApplications';
+import { SSApplication, SSApplicationDto } from '../../api/sSApplications';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 
@@ -23,7 +23,7 @@ type SSsNavigation = {
 
 export default function SSsApplicationsListScreen({navigation}: SSsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
-  const [applications, setApplications] = React.useState<SSApplication[] | null>(null);
+  const [applications, setApplications] = React.useState<SSApplicationDto[] | null>(null);
   
   const getApplications = async () => {
     setLoading(true);
@@ -36,7 +36,7 @@ export default function SSsApplicationsListScreen({navigation}: SSsNavigation) {
     getApplications();
   }, []));
 
-  const openApplicationDetails = (application: SSApplication) => {
+  const openApplicationDetails = (application: SSApplicationDto) => {
     const applicationId = application.id;
     navigation.navigate('SSsApplicationDetailsScreen', {applicationId});
   }
