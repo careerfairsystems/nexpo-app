@@ -84,7 +84,7 @@ export default function QRScreen({ route }: QRScreenProps) {
       <ScreenActivityIndicator/>
     </View>;
   }
-  if(scanned) {
+  if(scanned && ticket) {
     return (
       <View style={styles.container}>
         {ticket && ticket.eventId === id ? 
@@ -93,7 +93,7 @@ export default function QRScreen({ route }: QRScreenProps) {
           <ArkadText text="Ticket not found" style={styles.id} />
         }
         <ArkadButton 
-          onPress={() => {setScanned(false)}}
+          onPress={() => {setScanned(false); setTicketId(null); setTicket(null);}}
           style={styles.button}>
           <ArkadText text={"Click to scan again"} style={styles.id}/>
         </ArkadButton>
