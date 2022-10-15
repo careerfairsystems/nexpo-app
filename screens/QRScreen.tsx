@@ -55,7 +55,7 @@ export default function QRScreen({ route }: QRScreenProps) {
     setLoading(true);
     setScanned(true);
     setTicketId(Number(data));
-    getTicket();
+    await getTicket();
     if (ticket && ticket.eventId === id) {
       if(!ticket.isConsumed) {
         await API.tickets.updateTicket(ticket.id, {isConsumed: true});
@@ -96,7 +96,7 @@ export default function QRScreen({ route }: QRScreenProps) {
         {ticket && ticket.eventId === id ? 
           <ArkadText text={`Ticket for ${ticket.event.name} consumed!`} style={styles.id} /> :
           ticket ? <ArkadText text={`Ticket is not for this event\nits for ${ticket.event.name}`} style={styles.id} />:
-          <ArkadText text="Ticket not found" style={styles.id} />
+          <ArkadText text="Ticket not found or used" style={styles.id} />
         }
         <ArkadButton 
           onPress={() => {setScanned(false); setTicketId(null); setTicket(null);}}
@@ -112,7 +112,6 @@ export default function QRScreen({ route }: QRScreenProps) {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject} />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   )
 }
