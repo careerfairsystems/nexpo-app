@@ -5,13 +5,15 @@ import { useFocusEffect } from '@react-navigation/native';
 import { View } from '../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { EventStackParamlist } from '../navigation/EventsNavigator';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Event } from '../api/events';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { ScanQRButton } from '../components/profileScreen/Buttons';
 import { useCallback } from 'react';
 import { TicketDto } from '../api/tickets';
 import { API } from '../api';
 import { StudentTicketList } from '../components/ticketList/studentTicketList';
+import { ArkadText } from '../components/StyledText';
+import Colors from '../constants/Colors';
 
 type EventNavigation = {
   navigation: StackNavigationProp<
@@ -29,15 +31,21 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
   const { id } = route.params;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [tickets, setTickets] = React.useState<TicketDto[] | null>(null);
+  const [event , setEvent] = React.useState<Event | null>(null);
   
   const getTickets = async () => {
     const tkts = await API.tickets.getAllTicketsForEvent(id);
     setTickets(tkts);
   }
+  const getEvent = async () => {
+    const event = await API.events.getEvent(id);
+    setEvent(event);
+  }
 
   useFocusEffect(useCallback(() => {
     setLoading(true);
     getTickets();
+    getEvent();
     setLoading(false);
   }, []));
 
@@ -51,12 +59,28 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
   
   return (
     <View style={styles.container}>
-        <ScanQRButton onPress={() => navigation.navigate('QRScreen', {id}) }/>
-        <StudentTicketList tickets={tickets} />
+        <View style={styles.titleContainer}>
+          <ArkadText text={`All participants for the event\n ${event?.name}`} style={styles.title}/>
+        </View>
+      <ScanQRButton onPress={() => navigation.navigate('QRScreen', {id}) }/>
+      <StudentTicketList tickets={tickets} />
     </View>
   );
 }
 const styles = StyleSheet.create({
+  title: {
+    justifyContent: "center",
+    fontSize: 16,
+  },
+  titleContainer: {
+    width: "90%",
+    marginTop: 20,
+    height: 100,
+    backgroundColor: Colors.darkBlue,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    justifyContent: "center",
+  },
   container: {
     alignItems: 'center'
   },
