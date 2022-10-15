@@ -13,7 +13,6 @@ import { TicketDto } from '../api/tickets';
 import { API } from '../api';
 import { StudentTicketList } from '../components/ticketList/studentTicketList';
 
-
 type EventNavigation = {
   navigation: StackNavigationProp<
     EventStackParamlist,
@@ -38,21 +37,17 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
 
   useFocusEffect(useCallback(() => {
     setLoading(true);
-
     getTickets();
-    
     setLoading(false);
-    console.log(tickets);
   }, []));
 
   if (isLoading) {
-    console.log('loading');
     return(
       <View style={styles.container}>
         <ScreenActivityIndicator />
       </View>
     )
-  } else {
+  }
   
   return (
     <View style={styles.container}>
@@ -60,7 +55,6 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
         <StudentTicketList tickets={tickets} />
     </View>
   );
-}
 }
 const styles = StyleSheet.create({
   container: {
@@ -70,5 +64,4 @@ const styles = StyleSheet.create({
     width: '30%',
     alignSelf: 'center',
   },
-  
 });

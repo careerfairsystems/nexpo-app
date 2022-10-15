@@ -10,7 +10,7 @@ type ListedTimeslotProps = {
 }
 
 export const StudentTicketListItem = ({ name, isConsumed }: ListedTimeslotProps) => 
-  <View style={isConsumed ? styles.scannedContainer : styles.container}>
+  <View style={[styles.container, {backgroundColor: isConsumed ? Colors.lightGreen : Colors.darkBlue}]}>
     <View style = {styles.timeslotBookedContainer}>
       <ArkadText 
         style={styles.timeslotTime}
@@ -36,16 +36,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.darkBlue,
-    padding: 16,
-    borderRadius: 16,
-  },
-  scannedContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-    marginHorizontal: 10,
-    backgroundColor: Colors.lightGreen,
     padding: 16,
     borderRadius: 16,
   },
