@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import EventDetailsScreen from '../event/EventDetailsScreen';
+import EventSwitchScreen from '../event/EventSwitchScreen';
+import EventDetailsScreen from '../event/templates/EventDetailsScreen';
 import ProfileScreen from './ProfileScreen';
 import ProfileSwitchScreen from './ProfileSwitchScreen';
 
@@ -9,9 +10,10 @@ export type ProfileStackParamList = {
   ProfileSwitchScreen: {
     screen: string;
   };
-  EventDetailsScreen: {
+  EventSwitchScreen: {
     id: number;
-  };
+    screen: string;
+  }
 };
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
 export function ProfileNavigator() {
@@ -26,8 +28,8 @@ export function ProfileNavigator() {
         component={ProfileSwitchScreen}
         options={{ headerTitle: 'Profile' }} />
       <ProfileStack.Screen
-        name="EventDetailsScreen"
-        component={EventDetailsScreen}
+        name="EventSwitchScreen"
+        component={EventSwitchScreen}
         options={{ headerTitle: 'Event' }} />
     </ProfileStack.Navigator>
   );

@@ -26,8 +26,7 @@ export default {
           Events: {
             screens: {
               EventListScreen: 'events',
-              EventDetailsScreen: 'events/:id',
-              EventParticipantsScreen: 'events/eventinfo/:id',
+              EventSwitchScreen: 'events/:screen/:id',
               QRScreen: 'events/qr/:id',
 
             },
@@ -56,6 +55,7 @@ export default {
             screens: {
               ProfileScreen: 'profile',
               ProfileSwitchScreen: 'profile/:screen',
+              EventSwitchScreen: 'ticket/:screen/:id',
             },
           },
         },

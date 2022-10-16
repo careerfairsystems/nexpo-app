@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
     <View style={styles.container}>
       <Image 
         style={styles.logo} 
-        source={require('../assets/images/arkad_logo.png')} 
+        source={require('../../assets/images/arkad_logo.png')} 
       />
       <View style={styles.inputContainer}>
         <TextInput

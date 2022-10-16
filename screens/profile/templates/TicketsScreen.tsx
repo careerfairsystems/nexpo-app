@@ -14,13 +14,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileStackParamList } from '../ProfileNavigator';
 import { ScrollView } from 'react-native-gesture-handler';
 
-type TicketScreenParams = {
-  navigation: StackNavigationProp<
-    ProfileStackParamList,
-    'ProfileSwitchScreen'
-  >;
-};
-
 export default function TicketScreen(navigation: StackNavigationProp<ProfileStackParamList,'ProfileSwitchScreen'>) {
   const [loading, setLoading] = useState<boolean>(false);
   const [ticketItems, setTicketItems] = useState<TicketItem[]>([]);
@@ -53,7 +46,7 @@ export default function TicketScreen(navigation: StackNavigationProp<ProfileStac
 
   const viewTicket = (ticketItem: TicketItem) => {
     const id = ticketItem.event.id;
-    navigation.navigate('EventDetailsScreen', { id })
+    navigation.navigate('EventSwitchScreen', { id: id, screen: 'details' });
   }
 
 

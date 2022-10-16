@@ -48,9 +48,9 @@ export default function EventListScreen({navigation}: EventsNavigation) {
 
   const openEventDetails = (id: number) => {
     if(role === Role.Administrator){
-      navigation.navigate('EventParticipantsScreen', { id });
+      navigation.navigate('EventSwitchScreen', { id: id, screen: 'participatians' });
     } else {
-      navigation.navigate('EventDetailsScreen', { id });
+      navigation.navigate('EventSwitchScreen', { id: id, screen: 'details' });
     }
   }
   

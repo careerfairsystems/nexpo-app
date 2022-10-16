@@ -59,7 +59,7 @@ export default function FinalizeSignUpScreen({ route, navigation }: FinalizeSign
     <View style={styles.container}>
       <Image 
         style={styles.logo} 
-        source={require('../assets/images/arkad_logo.png')} 
+        source={require('../../assets/images/arkad_logo.png')} 
       />
       <View style={styles.inputContainer}>
         <TextInput

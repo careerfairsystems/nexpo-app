@@ -15,10 +15,10 @@ type ProfileSwitchScreenParams = {
   };
 };
 
-export default function SSsSwitchScreen({ navigation, route }: ProfileSwitchScreenParams) {
+export default function ProfileSwitchScreen({ navigation, route }: ProfileSwitchScreenParams) {
   const { screen } = route.params;
   switch (screen) {
-    case 'tickets':{ return (EditProfileScreen(navigation)); }
-    default: { return (TicketScreen(navigation)); }
+    case 'tickets':{ return (TicketScreen(navigation)); }
+    default: { return (EditProfileScreen(navigation)); }
   }
 }
