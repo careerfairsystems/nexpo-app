@@ -10,23 +10,21 @@ type ListedTimeslotProps = {
 }
 
 export const StudentTicketListItem = ({ name, isConsumed }: ListedTimeslotProps) => 
-  <View style={[styles.container, {backgroundColor: isConsumed ? Colors.lightGreen : Colors.darkBlue}]}>
-    <View style = {styles.timeslotBookedContainer}>
+  <View style={[
+    styles.container, 
+    {backgroundColor: isConsumed ? Colors.lightGreen : Colors.darkBlue}
+    ]}>
+    <View style = {styles.smallContainer}>
       <ArkadText 
-        style={styles.timeslotTime}
+        style={styles.timeslotTimeText}
         text={name} />
     </View>
-      {/*box exists if consumed */}
+      {/* Below showing if isConsumed */}
     {isConsumed &&
-    <View style={[
-      styles.timeslotBookedContainer, 
-        {backgroundColor:Colors.lightGreen}
-      ]}
-    >
       <ArkadText 
-        style={styles.timeslotBookedText}
-        text={"Scanned!"} />
-    </View>
+        style={styles.timeslotTimeText}
+        text={"Scanned!"} 
+      />
     }
   </View>
 
@@ -34,29 +32,21 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    marginTop: 5,
     marginHorizontal: 10,
-    padding: 16,
+    padding: 10,
     borderRadius: 16,
   },
-  timeslotTime: {
+  timeslotTimeText: {
     paddingTop: 4,
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'center',
     paddingVertical: 4,
-    paddingRight: 16,
+    paddingRight: 10,
     color: Colors.white,
   },
-  timeslotBookedContainer: {
+  smallContainer: {
     paddingTop: 0,
     alignSelf: 'flex-end',
-    borderRadius: 10,
-  },
-  timeslotBookedText: {
-    fontSize: 14,
-    textAlign: 'center',
-    paddingVertical: 4,
-    paddingHorizontal: 16,
-    color: Colors.white,
   },
 })

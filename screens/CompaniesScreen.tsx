@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '90%',
-    border: '3px solid ' + Colors.darkBlue,
+    //border: '3px solid ' + Colors.darkBlue, gave error
     color: Colors.darkBlue,
     padding: '10px',
     height: '45px',

@@ -20,7 +20,6 @@ export function StudentTicketList ({ tickets }: TicketListProps) {
 
   return (
     <FlatList
-     // showsVerticalScrollIndicator={false}
       data={tickets}
       keyExtractor={({ ticket }) => ticket.id.toString()}
       renderItem={({ item: ticket }) => 
@@ -38,10 +37,10 @@ export function StudentTicketList ({ tickets }: TicketListProps) {
 const styles = StyleSheet.create({
   ticketsBox: {
     width: width * 0.9,
-    height: height * 0.10,
+    height: height * 0.07,
   },
   text: {
-    paddingTop: 40,
+    paddingTop: 10,
     fontFamily: 'montserrat',
     fontSize: 20,
     color: Colors.darkBlue,

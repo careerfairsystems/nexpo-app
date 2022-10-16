@@ -70,22 +70,15 @@ export default function EventParticipantsScreen({navigation, route}: EventNaviga
 const styles = StyleSheet.create({
   title: {
     justifyContent: "center",
-    fontSize: 16,
+    fontSize: 20,
+    color: Colors.darkBlue,
   },
   titleContainer: {
     width: "90%",
-    marginTop: 20,
-    height: 100,
-    backgroundColor: Colors.darkBlue,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    height: 80,
     justifyContent: "center",
   },
   container: {
     alignItems: 'center'
-  },
-  button: {
-    width: '30%',
-    alignSelf: 'center',
   },
 });
