@@ -1,6 +1,22 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
+import { Guild } from '../students';
 import { SSTimeslot } from '../studentsessions';
 import { User } from '../users';
+
+export enum Degree {
+  Bachelor, Master, PhD
+}
+
+export enum Position {
+  Thesis, TraineeEmployment, Internship, SummerJob, ForeignOppurtunity, PartTime 
+}
+
+export enum Industry {
+        
+  ElectricityEnergyPower, Environment, BankingFinance, Union, Investment, Insurance, Recruitment, Construction, Architecture, 
+  GraphicDesign, DataIT, FinanceConsultancy, Telecommunication, Consulting, Management, Media, Industry, NuclearPower, LifeScience, 
+  MedicalTechniques, PropertyInfrastructure, Research, Coaching
+}
 
 export interface PublicCompanyDto {
   id: number;
@@ -9,6 +25,10 @@ export interface PublicCompanyDto {
   didYouKnow: string | null;
   website: string | null;
   logoUrl: string | null;
+  desiredDegress: Degree[] | null;
+  desiredGuilds: Guild[] | null;
+  positions: Position[] | null;
+  industries: Industry[] | null;
 }
 
 export interface Company extends PublicCompanyDto {
