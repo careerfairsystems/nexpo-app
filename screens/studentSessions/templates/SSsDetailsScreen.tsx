@@ -14,7 +14,7 @@ import { SSTimeslot, unbookTimeslot, } from "../../../api/studentsessions";
 import { View } from "../../../components/Themed";
 import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator";
 import { ArkadButton } from "../../../components/Buttons";
-import { ArkadText } from "../../../components/StyledText";
+import { ArkadText, NoButton } from "../../../components/StyledText";
 import { Role, User } from "../../../api/users";
 import { ApplicationAcceptedDto } from "../../../api/sSApplications";
 import { Student } from "../../../api/students";
@@ -155,7 +155,7 @@ export default function SSsDetailsScreen(timeslotId: number) {
             <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
               <ArkadText text="Register to timeslot" style={styles.title} />
             </ArkadButton>
-          ): <ArkadText text="You can't book this timeslot" style={styles.acceptedText} />
+          ): <NoButton text="You can't book this timeslot" style={styles.acceptedText} />
           }
       </View>
     </ScrollView>
@@ -175,8 +175,6 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 12,
     width: '90%',
     backgroundColor: Colors.darkBlue,
-    color: Colors.white,
-    fontFamily: 'montserrat',
   },
   container: {
     flex: 1,

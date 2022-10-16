@@ -1,16 +1,14 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { AirbnbRating } from 'react-native-ratings';
 import React, { useEffect, useState } from "react";
-import { TextInput, StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
 import { API } from "../../api";
 import { ArkadButton } from "../../components/Buttons";
 import { ArkadText } from "../../components/StyledText";
 import Colors from "../../constants/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ProfileStackParamList } from "../profile/ProfileNavigator";
-
-const { width, height } = Dimensions.get("window");
+import { EventStackParamlist } from "./EventsNavigator";
+import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
+import { Ticket } from "../../api/tickets";
 
 interface ScanResult{
   type: string,
@@ -18,15 +16,21 @@ interface ScanResult{
 }
 
 type QRScreenProps = {
-  navigation: StackNavigationProp<ProfileStackParamList, 'QRScreen'>;
+  navigation: StackNavigationProp<EventStackParamlist, 'QRScreen'>;
+  route: {
+    params: {
+      id: number;
+    };
+  };
 }
 
-export default function QRScreen({ navigation }: QRScreenProps) {
+export default function QRScreen({ route }: QRScreenProps) {
+  const { id } = route.params;
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
-  const [studentID, setStudentID] = useState<number>(-1);
-  const [rating, setRating] = useState<number>(3);
-  const [description, setDescription] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [ticketId, setTicketId] = useState<number | null>(null);
+  const [ticket, setTicket] = useState<Ticket | null>(null);
   
   async function getPermission() {
     // No support for the QR scanner on web yet
@@ -35,14 +39,33 @@ export default function QRScreen({ navigation }: QRScreenProps) {
     const { status } = await BarCodeScanner.requestPermissionsAsync();
     setHasPermission(status === 'granted');
   }
-
+ async function getTicket() {
+    setLoading(true);
+    const ticket = ticketId ? await API.tickets.getTicket(ticketId): null;
+    setTicket(ticket);
+    setLoading(false);
+  }
   useEffect(() => {
+    setLoading(true);
     getPermission();
+    setLoading(false);
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }: ScanResult) => {
-    setScanned(true);
-    setStudentID(Number(data));
+  const handleBarCodeScanned = async ({ data }: ScanResult) => {
+    try{
+      setLoading(true);
+      setScanned(true);
+      setTicketId(Number(data));
+      await getTicket();
+      if (ticket && ticket.eventId === id && ticket.isConsumed === false) {
+        await API.tickets.updateTicket(ticket.id, {isConsumed: true});
+      }
+    } catch (error) {
+      console.log(error);
+      alert("could not update ticket");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (Platform.OS === 'web') {
@@ -64,37 +87,24 @@ export default function QRScreen({ navigation }: QRScreenProps) {
       </ArkadButton>
     </View>;
   }
+  if(loading) {
+    return <View style={styles.container}>
+      <ScreenActivityIndicator/>
+    </View>;
+  }
   if(scanned) {
     return (
       <View style={styles.container}>
-        <ArkadText text={"Student ID: " + studentID.toString()} style={styles.id} />
-
-        <AirbnbRating
-          count={5}
-          defaultRating={3}
-          size={32}
-          selectedColor={Colors.lightBlue}
-          reviews={[]}
-          onFinishRating={(rating: number) => setRating(rating)} />
-        
-        <ArkadText text={"Comments"} style={styles.header} />
-
-        <View style={styles.descriptionContainer}>
-          <ScrollView showsVerticalScrollIndicator={false} style={{height: height * 0.2}}>
-            <TextInput 
-              style={styles.description}
-              defaultValue={''}
-              multiline={true}
-              numberOfLines={8}
-              editable={true}
-              onChangeText={text => setDescription(text)} />
-          </ScrollView>
-        </View>
-        
+        {ticket && ticket.eventId === id && ticket.isConsumed === false ? 
+          <ArkadText text={`Ticket for ${ticket.event.name} consumed!`} style={styles.id} /> :
+          ticket && ticket.eventId === id ? <ArkadText text={`ERR: Ticket already scanned`} style={styles.id} />:
+          ticket ? <ArkadText text={`ERR: Ticket is not for this event\n its for ${ticket.event.name}`} style={styles.id} /> :
+          <ArkadText text={`ERR: Ticket not found`} style={styles.id} />
+        }
         <ArkadButton 
-          onPress={() => {}}
+          onPress={() => {setScanned(false); setTicketId(null); setTicket(null);}}
           style={styles.button}>
-          <ArkadText text={"Connect with student"} style={{}}/>
+          <ArkadText text={"Click to scan again"} style={styles.scanAgain}/>
         </ArkadButton>
       </View>
     )
@@ -105,7 +115,6 @@ export default function QRScreen({ navigation }: QRScreenProps) {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject} />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   )
 }
@@ -121,34 +130,9 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
     fontSize: 24
   },
-  header: {
-    paddingTop: '20%',
-    paddingLeft: '7%',
-    width: '100%',
-    textAlign: 'left',
-    fontSize: 16,
-    color: Colors.darkBlue,
-  },
-  descriptionContainer: {
-    marginTop: '4%',
-    width: '86%',
-    borderRadius: 8,
-    borderColor: Colors.black,
-    borderWidth: 1,
-    backgroundColor: Colors.lightGray
-  },
-  scroll: {
-    width: '86%',
-  },
-  description: {
-    color: Colors.darkBlue,
-    width: '100%',
-    fontSize: 14,
-    padding: 12,
-    textAlign: 'left',
-    textAlignVertical: 'top',
-    justifyContent: "center",
-    fontFamily: 'montserrat',
+  scanAgain: { 
+    color: Colors.white,
+    fontSize: 24
   },
   button: {
     marginTop: '20%',

@@ -2,19 +2,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import EventDetailsScreen from '../event/EventDetailsScreen';
 import ProfileScreen from './ProfileScreen';
-import TicketsScreen from './TicketsScreen';
-import QRScreen from '../event/QRScreen';
-import EditProfileScreen from './EditProfileScreen';
-
+import ProfileSwitchScreen from './ProfileSwitchScreen';
 
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
-  EditProfileScreen: undefined;
+  ProfileSwitchScreen: {
+    screen: string;
+  };
   EventDetailsScreen: {
     id: number;
   };
-  TicketsScreen: undefined;
-  QRScreen: undefined;
 };
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
 export function ProfileNavigator() {
@@ -24,22 +21,14 @@ export function ProfileNavigator() {
         name="ProfileScreen"
         component={ProfileScreen}
         options={{ title: 'Profile', headerTitle: 'Profile' }} />
-      <ProfileStack.Screen
-        name="EditProfileScreen"
-        component={EditProfileScreen}
-        options={{ title: 'Edit Profile', headerTitle: 'Edit Profile' }} />
+        <ProfileStack.Screen
+        name="ProfileSwitchScreen"
+        component={ProfileSwitchScreen}
+        options={{ headerTitle: 'Profile' }} />
       <ProfileStack.Screen
         name="EventDetailsScreen"
         component={EventDetailsScreen}
         options={{ headerTitle: 'Event' }} />
-      <ProfileStack.Screen
-        name="TicketsScreen"
-        component={TicketsScreen}
-        options={{ title: 'Tickets', headerTitle: 'Tickets' }} />
-      <ProfileStack.Screen
-        name="QRScreen"
-        component={QRScreen}
-        options={{ headerTitle: 'QR' }} />
     </ProfileStack.Navigator>
   );
 }

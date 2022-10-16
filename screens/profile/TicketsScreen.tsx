@@ -10,14 +10,23 @@ import { Ticket } from '../../api/tickets';
 import { TicketList } from '../../components/ticketList/TicketList';
 import { API } from '../../api';
 import { TicketItem } from '../../components/ticketList/TicketItem';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ProfileStackParamList } from './ProfileNavigator';
+import { getItemAsync } from 'expo-secure-store';
+import { isSearchBarAvailableForCurrentPlatform } from 'react-native-screens';
+import { ScrollView } from 'react-native-gesture-handler';
 
-export default function ProfileScreen() {
+type TicketScreenParams = {
+  navigation: StackNavigationProp<
+    ProfileStackParamList,
+    'TicketsScreen'
+  >;
+};
+
+export default function TicketScreen({ navigation }: TicketScreenParams) {
   const [loading, setLoading] = useState<boolean>(false);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [ticketItems, setTicketItems] = useState<TicketItem[]>([]);
-
-
-  
 
   const getTickets = async () => {
     setLoading(true);
@@ -48,8 +57,8 @@ export default function ProfileScreen() {
   }, []);
 
   const viewTicket = (ticketItem: TicketItem) => {
-    // TODO: When pressing a ticket
-    // Open the event in EventDetailsScreen perhaps?
+    const id = ticketItem.event.id;
+    navigation.navigate('EventDetailsScreen', { id })
   }
 
 
@@ -63,11 +72,13 @@ export default function ProfileScreen() {
   }
   else {
     return (
-      <View style={styles.container}>
-        <TicketList
-          ticketItems={ticketItems}
-          onPress={viewTicket} />
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <TicketList
+            ticketItems={ticketItems}
+            onPress={viewTicket} />
+        </View>
+      </ScrollView>
     )
   }
 }

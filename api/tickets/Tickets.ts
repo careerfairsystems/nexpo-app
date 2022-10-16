@@ -16,6 +16,12 @@ export interface Ticket {
   userId: number;
 }
 
+export interface TicketDto {
+  userFirstName: string;
+  userLastName: string;
+  ticket: Ticket;
+}
+
 export interface UpdateTicketDto {
   isConsumed: boolean;
 }
@@ -35,6 +41,7 @@ export async function getTicketForEvent(event: Event): Promise<Ticket | null> {
   }
   return null;
 }
+
 
 /**
  * Create a new ticket for an event.
@@ -67,8 +74,8 @@ export const getAllTickets = async (): Promise<Ticket[]> => {
 /**
  * Get a single ticket by ticket code
  */
-export const getTicket = async (code: string): Promise<Ticket> => {
-  const response = await getAuth(`/tickets/${code}`);
+export const getTicket = async (id: number): Promise<Ticket> => {
+  const response = await getAuth(`/tickets/${id}`);
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;
@@ -77,9 +84,19 @@ export const getTicket = async (code: string): Promise<Ticket> => {
 /**
  * Update a ticket, eg set the consumed flag
  */
-export const updateTicket = async (code: string, dto: UpdateTicketDto): Promise<Ticket> => {
-  const response = await putAuth(`/tickets/${code}`, dto);
+export const updateTicket = async (id: number, dto: UpdateTicketDto): Promise<Ticket> => {
+  const response = await putAuth(`/tickets/${id}`, dto);
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;
+}
+
+/**
+ * Get all tickets for a specific event
+ */
+export const getAllTicketsForEvent = async (eventId: number): Promise<TicketDto[]> => {
+  const response = await getAuth(`/events/${eventId}/tickets`);
+  const json = await response.json();
+  const tickets = json as TicketDto[];
+  return tickets;
 }
