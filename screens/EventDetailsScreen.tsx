@@ -211,10 +211,10 @@ export default function EventDetailsScreen({
             <ArkadText text="Register to event" style={styles.title} />
           </ArkadButton>
         )}
-      <ArkadButton onPress={addCalendarEvent} style={styles.bookButton}>
-        <ArkadText text="Save event to calendar" style={styles.title}/>
-      </ArkadButton>
-    </View>
+        <ArkadButton onPress={addCalendarEvent} style={styles.bookButton}>
+          <ArkadText text="Save event to calendar" style={styles.title}/>
+        </ArkadButton>
+      </View>
     </ScrollView>
   );
 }
