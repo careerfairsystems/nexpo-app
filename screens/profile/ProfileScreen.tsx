@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -10,12 +10,9 @@ import { Company } from '../../api/companies';
 import { ProfileStackParamList } from "./ProfileNavigator";
 
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { Text, View } from '../../components/Themed';
-import { ArkadText } from '../../components/StyledText';
+import { View } from '../../components/Themed';
 import { AuthContext } from '../../components/AuthContext';
-import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../../components/profileScreen/Buttons';
-import { EmptyEventItem } from '../../components/profileScreen/EmptyEventItem';
-import { BookedEventList } from '../../components/profileScreen/BookedEventList';
+import { EditProfileButton, LogoutButton, TicketsButton } from '../../components/profileScreen/Buttons';
 import UserProfile from '../../components/profileScreen/UserProfile';
 import { Student } from '../../api/students';
 import StudentProfile from '../../components/profileScreen/StudentProfile';
@@ -83,8 +80,8 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
       { company && <CompanyProfile company={company} />}
-      <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} />
-      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
+      <TicketsButton onPress={() => navigation.navigate('ProfileSwitchScreen', {screen: "tickets"})} />
+      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', {screen: "edit"})} />
       <LogoutButton onPress={logout} />
     </ScrollView>
   </>;

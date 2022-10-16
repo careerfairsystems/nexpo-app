@@ -3,7 +3,7 @@ import { UpdateStudentDto, Student, Guild } from "../../api/students";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/profile/EditProfileScreen";
+import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { Picker } from "@react-native-picker/picker";
 import Colors from "../../constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

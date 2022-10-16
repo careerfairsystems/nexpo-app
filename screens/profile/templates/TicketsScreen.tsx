@@ -1,38 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '../../components/Themed';
+import { View } from '../../../components/Themed';
 
-import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { ArkadText } from '../../components/StyledText';
+import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
+import { ArkadText } from '../../../components/StyledText';
 
-import { Ticket } from '../../api/tickets';
-import { TicketList } from '../../components/ticketList/TicketList';
-import { API } from '../../api';
-import { TicketItem } from '../../components/ticketList/TicketItem';
+import { Ticket } from '../../../api/tickets';
+import { TicketList } from '../../../components/ticketList/TicketList';
+import { API } from '../../../api';
+import { TicketItem } from '../../../components/ticketList/TicketItem';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { ProfileStackParamList } from './ProfileNavigator';
-import { getItemAsync } from 'expo-secure-store';
-import { isSearchBarAvailableForCurrentPlatform } from 'react-native-screens';
+import { ProfileStackParamList } from '../ProfileNavigator';
 import { ScrollView } from 'react-native-gesture-handler';
 
 type TicketScreenParams = {
   navigation: StackNavigationProp<
     ProfileStackParamList,
-    'TicketsScreen'
+    'ProfileSwitchScreen'
   >;
 };
 
-export default function TicketScreen({ navigation }: TicketScreenParams) {
+export default function TicketScreen(navigation: StackNavigationProp<ProfileStackParamList,'ProfileSwitchScreen'>) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [ticketItems, setTicketItems] = useState<TicketItem[]>([]);
 
   const getTickets = async () => {
     setLoading(true);
-
     const tickets = await API.tickets.getAllTickets();
-    setTickets(tickets);
 
     const events = await API.events.getBookedEvents();
     const ticketItems: TicketItem[] = [];

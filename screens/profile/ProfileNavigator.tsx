@@ -21,7 +21,7 @@ export function ProfileNavigator() {
         name="ProfileScreen"
         component={ProfileScreen}
         options={{ title: 'Profile', headerTitle: 'Profile' }} />
-        <ProfileStack.Screen
+      <ProfileStack.Screen
         name="ProfileSwitchScreen"
         component={ProfileSwitchScreen}
         options={{ headerTitle: 'Profile' }} />
