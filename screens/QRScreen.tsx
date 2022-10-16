@@ -52,18 +52,20 @@ export default function QRScreen({ route }: QRScreenProps) {
   }, []);
 
   const handleBarCodeScanned = async ({ data }: ScanResult) => {
-    setLoading(true);
-    setScanned(true);
-    setTicketId(Number(data));
-    await getTicket();
-    if (ticket && ticket.eventId === id) {
-      if(!ticket.isConsumed) {
+    try{
+      setLoading(true);
+      setScanned(true);
+      setTicketId(Number(data));
+      await getTicket();
+      if (ticket && ticket.eventId === id && ticket.isConsumed === false) {
         await API.tickets.updateTicket(ticket.id, {isConsumed: true});
-      }else {
-        setTicket(null);
       }
+    } catch (error) {
+      console.log(error);
+      alert("could not update ticket");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   if (Platform.OS === 'web') {
@@ -93,10 +95,11 @@ export default function QRScreen({ route }: QRScreenProps) {
   if(scanned) {
     return (
       <View style={styles.container}>
-        {ticket && ticket.eventId === id ? 
+        {ticket && ticket.eventId === id && ticket.isConsumed === false ? 
           <ArkadText text={`Ticket for ${ticket.event.name} consumed!`} style={styles.id} /> :
-          ticket ? <ArkadText text={`Ticket is not for this event\nits for ${ticket.event.name}`} style={styles.id} />:
-          <ArkadText text="Ticket not found or used" style={styles.id} />
+          ticket && ticket.eventId === id ? <ArkadText text={`ERR: Ticket already scanned`} style={styles.id} />:
+          ticket ? <ArkadText text={`ERR: Ticket is not for this event\n its for ${ticket.event.name}`} style={styles.id} /> :
+          <ArkadText text={`ERR: Ticket not found`} style={styles.id} />
         }
         <ArkadButton 
           onPress={() => {setScanned(false); setTicketId(null); setTicket(null);}}
