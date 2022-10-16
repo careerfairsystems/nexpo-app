@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -11,9 +11,8 @@ import { ProfileStackParamList } from "../navigation/ProfileNavigator";
 
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { Text, View } from '../components/Themed';
-import { ArkadText } from '../components/StyledText';
 import { AuthContext } from '../components/AuthContext';
-import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../components/profileScreen/Buttons';
+import { EditProfileButton, LogoutButton } from '../components/profileScreen/Buttons';
 import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
 import { BookedEventList } from '../components/profileScreen/BookedEventList';
 import UserProfile from '../components/profileScreen/UserProfile';

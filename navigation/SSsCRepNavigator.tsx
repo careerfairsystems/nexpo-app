@@ -1,6 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import SSsCompaniesScreen from '../screens/studentSessions/SSsCompaniesScreen';
 import SSsListScreen from "../screens/studentSessions/SSsListScreen";
 import SSsDetailsScreen from '../screens/studentSessions/SSsDetailsScreen';
 import SSsApplicationScreen from '../screens/studentSessions/SSsApplicationSreen';
