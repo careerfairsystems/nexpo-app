@@ -13,6 +13,8 @@ export default {
       LoginScreen: 'login',
       SignUpScreen: 'signup',
       FinalizeSignUpScreen: 'finalize_signup/:token',
+      ForgotPasswordScreen: 'forgot_password',
+      ResetPasswordScreen: 'reset_password/:token',
       Root: {
         screens: {
           Companies: {
@@ -25,6 +27,16 @@ export default {
             screens: {
               EventListScreen: 'events',
               EventDetailsScreen: 'events/:id',
+            },
+          },
+          SSs: {
+            screens: {
+              SSsCompaniesScreen: 'studentSessions',
+              SSsListScreen: 'studentSessions/:companyId',
+              SSsDetailsScreen: 'studentSessions/timeslot-details/:timeslotId',
+              SSsApplicationScreen: 'studentSessions/send-application/:companyId',
+              SSsApplicationsListScreen : 'studentSessions/student-applications',
+              SSsApplicationDetailsScreen : 'studentSessions/application-details/:applicationId',
             },
           },
           Map: {

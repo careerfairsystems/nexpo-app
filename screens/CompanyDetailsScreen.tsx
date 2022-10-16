@@ -61,12 +61,14 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
             <Text 
               style={styles.contactInfoText}
               onPress={() => { if (company.website) { Linking.openURL(company.website) }}}>
-              { company.website ? company.website : '\u2013'}
+              { company.website ? company.website.replace(/^https?:\/\//, '') : '\u2013'}
             </Text>
           </View>
 
           <Text style={styles.descHeader}>About us</Text>
           <Text style={styles.desc}>{ company.description ? company.description : '\u2013'}</Text>
+          <Text style={styles.descHeader}>Did you know?</Text>
+          <Text style={styles.desc}>{company.didYouKnow ? company.didYouKnow: '\u2013'}</Text>
         </View>
       </ScrollView> 
     </View>
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    paddingTop: 8,
+    marginTop: 24,
     paddingBottom: 8,
     fontSize: 24,
     fontFamily: 'montserrat',
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   descHeader: {
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     textDecorationLine: 'underline',
     paddingTop: 16,
     fontSize: 18,

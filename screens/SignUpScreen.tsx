@@ -26,7 +26,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
 
   const signUp = async () => {
     setLoading(true);
-    const success = await API.signup.initialSignUp({ email, firstName, lastName });
+    const success = await API.signup.initialSignUp({ email: email.toLowerCase(), firstName, lastName });
     setLoading(false);
 
     if (success) {

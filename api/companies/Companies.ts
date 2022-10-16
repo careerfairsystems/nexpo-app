@@ -1,13 +1,34 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
-import { StudentSessionTimeslot } from '../studentsessions';
+import { Guild } from '../students';
+import { SSTimeslot } from '../studentsessions';
 import { User } from '../users';
+
+export enum Degree {
+  Bachelor, Master, PhD
+}
+
+export enum Position {
+  Thesis, TraineeEmployment, Internship, SummerJob, ForeignOppurtunity, PartTime 
+}
+
+export enum Industry {
+        
+  ElectricityEnergyPower, Environment, BankingFinance, Union, Investment, Insurance, Recruitment, Construction, Architecture, 
+  GraphicDesign, DataIT, FinanceConsultancy, Telecommunication, Consulting, Management, Media, Industry, NuclearPower, LifeScience, 
+  MedicalTechniques, PropertyInfrastructure, Research, Coaching
+}
 
 export interface PublicCompanyDto {
   id: number;
   name: string;
   description: string | null;
+  didYouKnow: string | null;
   website: string | null;
   logoUrl: string | null;
+  desiredDegress: Degree[] | null;
+  desiredGuilds: Guild[] | null;
+  positions: Position[] | null;
+  industries: Industry[] | null;
 }
 
 export interface Company extends PublicCompanyDto {
@@ -15,11 +36,12 @@ export interface Company extends PublicCompanyDto {
   hostEmail: string | null;
   hostPhone: string | null;
   representatives: User[] | null;
-  studentSessionTimeslots: StudentSessionTimeslot[] | null;
+  ssTimeslots: SSTimeslot[] | null;
 }
 
 export interface UpdateCompanySelfDto {
   description?: string | null;
+  didyouknow?: string | null;
   website?: string | null;
 }
 
@@ -78,3 +100,12 @@ export const updateMe = async (dto: UpdateCompanySelfDto): Promise<Company> => {
   const company = json as Company;
   return company;
 }
+
+export const filterData = (query: string, data: PublicCompanyDto[] | null) => {
+  if(!data) return null;
+  if (!query) {
+    return data;
+  } else {
+    return data.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
+  }
+};

@@ -1,4 +1,4 @@
-import { deleteAuth, getAuth, postAuth } from '../http/_HttpHelpers';
+import { deleteAuth, getAuth, postAuth, putAuth } from '../http/_HttpHelpers';
 import { Event } from '../events/Events'
 
 export interface CreateTicketDto {
@@ -7,11 +7,17 @@ export interface CreateTicketDto {
 }
 
 export interface Ticket {
-  id: number,
-  code: string,
-  photoOk: boolean,
-  eventId: number,
-  userId: number
+  id: number;
+  code: string;
+  photoOk: boolean;
+  isConsumed: boolean;
+  eventId: number;
+  event: Event;
+  userId: number;
+}
+
+export interface UpdateTicketDto {
+  isConsumed: boolean;
 }
 
 /**
@@ -59,10 +65,20 @@ export const getAllTickets = async (): Promise<Ticket[]> => {
 }
 
 /**
- * Get a single ticket by id
+ * Get a single ticket by ticket code
  */
-export const getTicket = async (ticketId: number): Promise<Ticket> => {
-  const response = await getAuth(`/tickets/${ticketId}`);
+export const getTicket = async (code: string): Promise<Ticket> => {
+  const response = await getAuth(`/tickets/${code}`);
+  const json = await response.json();
+  const ticket = json as Ticket;
+  return ticket;
+}
+
+/**
+ * Update a ticket, eg set the consumed flag
+ */
+export const updateTicket = async (code: string, dto: UpdateTicketDto): Promise<Ticket> => {
+  const response = await putAuth(`/tickets/${code}`, dto);
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;

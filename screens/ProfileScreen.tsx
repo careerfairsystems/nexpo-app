@@ -7,7 +7,7 @@ import { API } from '../api'
 import { Role, User } from '../api/users';
 import { Event } from '../api/events';
 import { Company } from '../api/companies';
-import { ProfileStackParamList } from '../navigation/BottomTabNavigator';
+import { ProfileStackParamList } from "../navigation/ProfileNavigator";
 
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { Text, View } from '../components/Themed';
@@ -79,38 +79,37 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   }
   
   return <>
-    <View style={styles.container}>
-      <ScrollView>
-        <UserProfile user={user as NonNullable<User>} />
-        { student && <StudentProfile student={student} />}
-        { company && <CompanyProfile company={company} />}
+    <ScrollView style={styles.container}>
+      <UserProfile user={user as NonNullable<User>} />
+      { student && <StudentProfile student={student} />}
+      { company && <CompanyProfile company={company} />}
 
-        <ArkadText text={"Booked events"} style={styles.header} />
-        <View style={styles.eventList}> 
-          {!bookedEvents 
-            ? <Text>Loading events...</Text>
-            : bookedEvents.length == 0 
-              ? <EmptyEventItem />
-              : <BookedEventList
-                  bookedEvents={bookedEvents}
-                  onPress={id => navigation.navigate('EventDetailsScreen', { id })} />
-          }
-        </View>
+      <ArkadText text={"Booked events"} style={styles.header} />
+      <View style={styles.eventList}> 
+        {!bookedEvents 
+          ? <Text>Loading events...</Text>
+          : bookedEvents.length == 0 
+            ? <EmptyEventItem />
+            : <BookedEventList
+                bookedEvents={bookedEvents}
+                onPress={id => navigation.navigate('EventDetailsScreen', { id })} />
+        }
+      </View>
 
-        {/* Add TicketsButton once the screen has been implemented.
-            Until then, keep the bookedEvents scrollable on this screen.
-        <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} /> */}
-        {company && <ScanQRButton onPress={() => navigation.navigate('QRScreen')} />}
-        <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
-        <LogoutButton onPress={logout} />
-      </ScrollView>
-    </View>
+      {/* Add TicketsButton once the screen has been implemented.
+          Until then, keep the bookedEvents scrollable on this screen.
+      <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} /> */}
+      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
+      <LogoutButton onPress={logout} />
+    </ScrollView>
   </>;
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
+    paddingVertical: 24,
+    backgroundColor: Colors.white,
   },
   header: {
     paddingTop: '10%',

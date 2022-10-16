@@ -1,15 +1,14 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { AirbnbRating } from 'react-native-ratings';
 import React, { useEffect, useState } from "react";
-import { TextInput, StyleSheet, Text, Button, View, Dimensions } from "react-native";
+import { TextInput, StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { API } from "../api";
-import { CompanyCompanyConnectionDto, CreateCompanyConnectionDto } from "../api/companyconnections";
 import { ArkadButton } from "../components/Buttons";
 import { ArkadText } from "../components/StyledText";
 import Colors from "../constants/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ProfileStackParamList } from "../navigation/BottomTabNavigator";
+import { ProfileStackParamList } from "../navigation/ProfileNavigator";
 
 const { width, height } = Dimensions.get("window");
 
@@ -30,6 +29,9 @@ export default function QRScreen({ navigation }: QRScreenProps) {
   const [description, setDescription] = useState<string>("");
   
   async function getPermission() {
+    // No support for the QR scanner on web yet
+    if (Platform.OS === 'web') return;
+
     const { status } = await BarCodeScanner.requestPermissionsAsync();
     setHasPermission(status === 'granted');
   }
@@ -38,31 +40,29 @@ export default function QRScreen({ navigation }: QRScreenProps) {
     getPermission();
   }, []);
 
-  async function createCompanyConnection() {
-    const connection: CreateCompanyConnectionDto = {
-      studentId: studentID,
-      rating: rating,
-      comment: description
-    }
-    const response: CompanyCompanyConnectionDto = await API.companyconnections.createConnection(connection)
-    if(response) {
-      alert(`Successfully connected with student!`);
-    } else {
-      alert(`Could not connect with student.`);
-    }
-    navigation.goBack()
-  }
-
   const handleBarCodeScanned = ({ type, data }: ScanResult) => {
     setScanned(true);
     setStudentID(Number(data));
   };
 
+  if (Platform.OS === 'web') {
+    return <View style={styles.container}>
+      <Text>Scanning is not avaialable on the web yet, please install the standalone app from the app store for this functionality</Text>
+    </View>;
+  }
+
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <View style={styles.container}>
+      <Text>Requesting for camera permission</Text>
+    </View>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <View style={styles.container}>
+      <Text>No access to camera, press the button below to request camera permission again</Text>
+      <ArkadButton onPress={getPermission} style={styles.button}>
+        <ArkadText text="Get permission" />
+      </ArkadButton>
+    </View>;
   }
   if(scanned) {
     return (
@@ -92,7 +92,7 @@ export default function QRScreen({ navigation }: QRScreenProps) {
         </View>
         
         <ArkadButton 
-          onPress={createCompanyConnection} 
+          onPress={() => {}}
           style={styles.button}>
           <ArkadText text={"Connect with student"} style={{}}/>
         </ArkadButton>
@@ -113,7 +113,8 @@ export default function QRScreen({ navigation }: QRScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: Colors.white,
   },
   id: {
     paddingTop: '4%',
@@ -153,4 +154,7 @@ const styles = StyleSheet.create({
     marginTop: '20%',
     width: '86%',
   },
+  permissionButton: {
+    marginTop: 50,
+  }
 }); 
