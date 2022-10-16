@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { API } from '../../api'
-import { SSsStackParamlist } from "../../navigation/SSsCRepNavigator";
+import { SSsStackParamlist } from "./SSsCrepNavigator"
 
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { View } from '../../components/Themed';

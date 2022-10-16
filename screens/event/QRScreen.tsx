@@ -3,12 +3,12 @@ import { AirbnbRating } from 'react-native-ratings';
 import React, { useEffect, useState } from "react";
 import { TextInput, StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { API } from "../api";
-import { ArkadButton } from "../components/Buttons";
-import { ArkadText } from "../components/StyledText";
-import Colors from "../constants/Colors";
+import { API } from "../../api";
+import { ArkadButton } from "../../components/Buttons";
+import { ArkadText } from "../../components/StyledText";
+import Colors from "../../constants/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ProfileStackParamList } from "../navigation/ProfileNavigator";
+import { ProfileStackParamList } from "../profile/ProfileNavigator";
 
 const { width, height } = Dimensions.get("window");
 

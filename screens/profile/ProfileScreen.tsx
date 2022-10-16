@@ -3,24 +3,24 @@ import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API } from '../api'
-import { Role, User } from '../api/users';
-import { Event } from '../api/events';
-import { Company } from '../api/companies';
-import { ProfileStackParamList } from "../navigation/ProfileNavigator";
+import { API } from '../../api'
+import { Role, User } from '../../api/users';
+import { Event } from '../../api/events';
+import { Company } from '../../api/companies';
+import { ProfileStackParamList } from "./ProfileNavigator";
 
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { Text, View } from '../components/Themed';
-import { ArkadText } from '../components/StyledText';
-import { AuthContext } from '../components/AuthContext';
-import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../components/profileScreen/Buttons';
-import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
-import { BookedEventList } from '../components/profileScreen/BookedEventList';
-import UserProfile from '../components/profileScreen/UserProfile';
-import { Student } from '../api/students';
-import StudentProfile from '../components/profileScreen/StudentProfile';
-import CompanyProfile from '../components/profileScreen/CompanyProfile';
-import Colors from '../constants/Colors';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import { Text, View } from '../../components/Themed';
+import { ArkadText } from '../../components/StyledText';
+import { AuthContext } from '../../components/AuthContext';
+import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../../components/profileScreen/Buttons';
+import { EmptyEventItem } from '../../components/profileScreen/EmptyEventItem';
+import { BookedEventList } from '../../components/profileScreen/BookedEventList';
+import UserProfile from '../../components/profileScreen/UserProfile';
+import { Student } from '../../api/students';
+import StudentProfile from '../../components/profileScreen/StudentProfile';
+import CompanyProfile from '../../components/profileScreen/CompanyProfile';
+import Colors from '../../constants/Colors';
 import { useIsFocused } from '@react-navigation/native';
 
 export type ProfileScreenParams = {

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet } from 'react-native';
 
-import { View } from '../components/Themed';
-import { TextInput } from '../components/TextInput';
+import { View } from '../../components/Themed';
+import { TextInput } from '../../components/TextInput';
 
-import { ArkadButton } from '../components/Buttons';
-import { ArkadText } from '../components/StyledText';
+import { ArkadButton } from '../../components/Buttons';
+import { ArkadText } from '../../components/StyledText';
 
-import { AuthStackParamList } from '../navigation';
+import { AuthStackParamList } from "./AuthNavigator";
 
-import { API } from '../api'
+import { API } from '../../api'
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type FinalizeSignUpScreenParams = {

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '../api';
-import { Event } from '../api/events';
-import { EventList } from '../components/eventList/EventList';
-import { EventStackParamlist } from "../navigation/EventsNavigator";
-import { UpcomingButton } from '../components/eventList/UpcomingButton';
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { API } from '../../api';
+import { Event } from '../../api/events';
+import { EventList } from '../../components/eventList/EventList';
+import { EventStackParamlist } from "./EventsNavigator";
+import { UpcomingButton } from '../../components/eventList/UpcomingButton';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<

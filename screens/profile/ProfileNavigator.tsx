@@ -1,10 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import EventDetailsScreen from '../screens/EventDetailsScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import TicketsScreen from '../screens/TicketsScreen';
-import QRScreen from '../screens/QRScreen';
-import EditProfileScreen from '../screens/EditProfileScreen';
+import EventDetailsScreen from '../event/EventDetailsScreen';
+import ProfileScreen from './ProfileScreen';
+import TicketsScreen from './TicketsScreen';
+import QRScreen from '../event/QRScreen';
+import EditProfileScreen from './EditProfileScreen';
 
 
 export type ProfileStackParamList = {

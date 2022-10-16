@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, Linking } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../../components/Themed';
 
-import { PublicCompanyDto } from '../api/companies'
-import { API } from '../api';
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { PublicCompanyDto } from '../../api/companies'
+import { API } from '../../api';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { ScrollView } from 'react-native-gesture-handler';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
 type CompanyDetailsScreenParams = {

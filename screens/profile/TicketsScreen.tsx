@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '../components/Themed';
+import { View } from '../../components/Themed';
 
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { ArkadText } from '../components/StyledText';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import { ArkadText } from '../../components/StyledText';
 
-import { Ticket } from '../api/tickets';
-import { TicketList } from '../components/ticketList/TicketList';
-import { API } from '../api';
-import { TicketItem } from '../components/ticketList/TicketItem';
+import { Ticket } from '../../api/tickets';
+import { TicketList } from '../../components/ticketList/TicketList';
+import { API } from '../../api';
+import { TicketItem } from '../../components/ticketList/TicketItem';
 
 export default function ProfileScreen() {
   const [loading, setLoading] = useState<boolean>(false);

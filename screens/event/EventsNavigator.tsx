@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import EventDetailsScreen from '../screens/EventDetailsScreen';
-import EventListScreen from "../screens/EventListScreen";
+import EventDetailsScreen from './EventDetailsScreen';
+import EventListScreen from "./EventListScreen";
 
 
 export type EventStackParamlist = {
