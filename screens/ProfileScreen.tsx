@@ -83,7 +83,16 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
       { company && <CompanyProfile company={company} />}
-      <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} />
+      <View style={styles.eventList}> 
+        {!bookedEvents 
+          ? <Text>Loading events...</Text>
+          : bookedEvents.length == 0 
+            ? <EmptyEventItem />
+            : <BookedEventList
+                bookedEvents={bookedEvents}
+                onPress={id => navigation.navigate('EventDetailsScreen', { id })} />
+        }
+      </View>
       <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
       <LogoutButton onPress={logout} />
     </ScrollView>
@@ -105,8 +114,6 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   eventList: {
-    paddingTop: '2%',
-    alignItems: 'center',
-    width: '100%',
+    paddingTop: '3%',
   },
 });
