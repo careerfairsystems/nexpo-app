@@ -32,7 +32,7 @@ type SSsNavigation = {
 };
 
 export default function SSsListScreen({navigation, route}: SSsNavigation) {
-  const companyId = route.params.companyId;
+  const id = route.params.companyId;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
@@ -41,10 +41,10 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [accepted, setAccepted] = React.useState< ApplicationAcceptedDto | null>(null);
 
   const getTimeslotsAndCompany = async () => {
-    const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
-    const company = await API.companies.getCompany(companyId);
+    const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(id);
+    const company = await API.companies.getCompany(id);
     const user = await getMe();
-    const acc = user.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId): null;
+    const acc = user.role === Role.Student ? await API.sSApplications.getApplicationAccepted(id): null;
     const stdnt = user.role === Role.Student ? await API.students.getMe(): null;
     setStudent(stdnt);
     setAccepted(acc);
@@ -53,13 +53,14 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     setTimeslots(ssTimeslots);
   }
 
-  const openSSDetails = (timeslotId: number) => {
-    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{timeslotId}) : 
+  const openSSDetails = (id: number) => {
+    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsSwitchScreen',{id: id, screen : "DetailsScreen"}) : 
     alert('You must first send an application and get it accepted to be able to book a time');
   }
 
   const openSSsApplicaion = () => {
-    navigation.navigate(user?.role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId});
+    const screen = user?.role == Role.Student ? "application" : "applicationList"
+    navigation.navigate('SSsSwitchScreen', {id: id, screen: screen});
   }
 
   useFocusEffect(useCallback(() => {

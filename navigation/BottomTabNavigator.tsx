@@ -44,11 +44,17 @@ export default function BottomTabNavigator() {
   const authContext = useContext(AuthContext);
 
   const getUser = async () => {
-    setLoading(true);
-    const usr = await getMe();
-    setUser(usr);
-    setCompanyId(usr.companyId);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const usr = await getMe();
+      setUser(usr);
+      setCompanyId(usr.companyId);
+    } catch (error) {
+      console.log(error);
+      logout();
+    } finally {
+      setLoading(false);
+    }
   }
 
   React.useEffect(() => {

@@ -27,16 +27,21 @@ export default {
             screens: {
               EventListScreen: 'events',
               EventDetailsScreen: 'events/:id',
+              QRScreen: 'events/qr/:id',
             },
           },
-          SSs: {
+          SSsStudent: {
             screens: {
               SSsCompaniesScreen: 'studentSessions',
               SSsListScreen: 'studentSessions/:companyId',
-              SSsDetailsScreen: 'studentSessions/timeslot-details/:timeslotId',
-              SSsApplicationScreen: 'studentSessions/send-application/:companyId',
-              SSsApplicationsListScreen : 'studentSessions/student-applications',
-              SSsApplicationDetailsScreen : 'studentSessions/application-details/:applicationId',
+              SSsSwitchScreen: 'studentSessions/:screen/:id',
+            },
+          },
+          SSsCRep: {
+            screens: {
+              SSsListScreen: 'company/studentSessions/:companyId',
+              SSsSwitchScreen: 'company/studentSessions/:screen/:id',
+              SSsApplicationDetailsScreen : 'company/studentSessions/application-details/:applicationId',
             },
           },
           Map: {

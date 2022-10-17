@@ -6,31 +6,24 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import Colors from "../../constants/Colors";
+import Colors from "../constants/Colors";
 
-import { API } from "../../api";
-import { SSTimeslot, unbookTimeslot, } from "../../api/studentsessions";
+import { API } from "../api";
+import { SSTimeslot, unbookTimeslot, } from "../api/studentsessions";
 
-import { View } from "../../components/Themed";
-import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
-import { ArkadButton } from "../../components/Buttons";
-import { ArkadText } from "../../components/StyledText";
-import { Role, User } from "../../api/users";
-import { ApplicationAcceptedDto } from "../../api/sSApplications";
-import { Student } from "../../api/students";
-import { PublicCompanyDto } from "../../api/companies";
+import { View } from "../components/Themed";
+import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
+import { ArkadButton } from "../components/Buttons";
+import { ArkadText } from "../components/StyledText";
+import { Role, User } from "../api/users";
+import { ApplicationAcceptedDto } from "../api/sSApplications";
+import { Student } from "../api/students";
+import { PublicCompanyDto } from "../api/companies";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { SSsStackParamlist } from "../navigation/SSsCRepNavigator";
 
-type SSsDetailsScreenParams = {
-  route: {
-    params: {
-      timeslotId: number;
-    };
-  };
-};
-
-export default function SSsDetailsScreen({ route }: SSsDetailsScreenParams) {
-  const {timeslotId} = route.params;
-
+export default function SSsDetailsScreen(timeslotId: number) {
+  
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>();
