@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { Text, View } from '../components/Themed';
+import { View } from '../components/Themed';
 
 import { API } from '../api';
 import { PublicCompanyDto } from '../api/companies';
@@ -50,7 +50,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
         style={styles.input}
         onChangeText={onChangeText}
         value={text}
-        placeholder={"search for company"}
+        placeholder={"Search for company here!"}
       />
       <FlatList
         style={styles.list}
@@ -76,14 +76,16 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '90%',
-    border: '3px solid ' + Colors.darkBlue,
+    borderColor: Colors.darkBlue,
+    borderWidth: 3,
     color: Colors.darkBlue,
-    padding: '10px',
-    height: '45px',
+    padding: '0.1%',
+    height: 45,
     borderRadius: 7,
-    margin: '10px',
+    margin: 10,
     fontSize: 15,
     fontFamily: 'montserrat',
+    paddingHorizontal: 10
   },
   
 });
