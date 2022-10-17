@@ -10,7 +10,7 @@ import {
 import {useForm, Controller} from 'react-hook-form';
 
 
-export function DropDown()   {
+export default function DropDown() {
     const [positions, setPositions] = useState([
       { label: "Thesis", value: 0 },
       { label: "Trainee Employment", value: 1 },
@@ -19,7 +19,7 @@ export function DropDown()   {
       { label: "Foreign opportunity", value: 4 },
       { label: "Part time", value: 5 },
     ]);
-    
+
     const [industry, setIndustry] = useState([
       { label: "ElectricityEnergyPower"   , value: 0 },
       { label: "Environment"              , value: 1 },
@@ -45,29 +45,31 @@ export function DropDown()   {
       { label: "Research"                 , value: 21 },
       { label: "Coaching"                 , value: 22 },
     ]);
-  
+
     const [positionOpen, setPositionOpen] = useState(false);
-    const [positionValue, setPositionValue] = useState(null);
+    const [positionValue, setPositionValue] = useState<number[] | null>(null);
     const onPositionOpen = useCallback(() => {
       setIndustryOpen(false);
     }, []);
-  
+
     const [industryOpen, setIndustryOpen] = useState(false);
-    const [industryValue, setIndustryValue] = useState(null);
+    const [industryValue, setIndustryValue] = useState<number[] | null>(null);
     const onIndustryOpen = useCallback(() => {
       setPositionOpen(false);
     }, []);
-  
+
     const [loading, setLoading] = useState(false);
-  
+
     const { handleSubmit, control } = useForm();
-    const onSubmit = (data) => {
+    const onSubmit = (data: any) => {
       console.log(data, "data");
     };
-  
-  
-  
-  
+
+
+
+
+
+
     return (
       <View style={styles.container}>
         <Text style={styles.label}>Position</Text><Controller
@@ -80,7 +82,7 @@ export function DropDown()   {
                 style={styles.dropdown}
                 multiple={true}
                 open={positionOpen}
-                value={positionValue} 
+                value={positionValue}
                 items={positions}
                 setOpen={setPositionOpen}
                 setValue={setPositionValue}
@@ -93,7 +95,7 @@ export function DropDown()   {
                 zIndexInverse={1000} />
             </View>
         )} />
-  
+
         <Text style={styles.label}>Industry</Text><Controller
         name="industry"
         defaultValue=""
@@ -104,7 +106,7 @@ export function DropDown()   {
                 style={styles.dropdown}
                 multiple={true}
                 open={industryOpen}
-                value={industryValue} 
+                value={industryValue}
                 items={industry}
                 setOpen={setIndustryOpen}
                 setValue={setIndustryValue}
@@ -141,4 +143,4 @@ const styles = StyleSheet.create({
   },
 
 });
-  
+
