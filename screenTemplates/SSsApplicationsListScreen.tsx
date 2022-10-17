@@ -1,27 +1,18 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '../../components/Themed';
+import { View } from '../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '../../api';
-import { ApplicationsList } from '../../components/sSApplication/SSApplicationList';
-import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
+import { API } from '../api';
+import { ApplicationsList } from '../components/sSApplication/SSApplicationList';
+import { SSsStackParamlist } from "../navigation/SSsCRepNavigator";
 import { ScrollView } from 'react-native-gesture-handler';
-import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { SSApplication, SSApplicationDto } from '../../api/sSApplications';
+import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { SSApplicationDto } from '../api/sSApplications';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 
-type SSsNavigation = {
-    navigation: StackNavigationProp<
-      SSsStackParamlist,
-      'SSsApplicationsListScreen'
-    >;
-};
-
-
-
-export default function SSsApplicationsListScreen({navigation}: SSsNavigation) {
+export default function SSsApplicationsListScreen(navigation: StackNavigationProp<SSsStackParamlist,'SSsSwitchScreen'>) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [applications, setApplications] = React.useState<SSApplicationDto[] | null>(null);
   

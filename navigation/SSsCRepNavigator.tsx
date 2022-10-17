@@ -1,23 +1,18 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import SSsListScreen from "../screens/studentSessions/SSsListScreen";
-import SSsDetailsScreen from '../screens/studentSessions/SSsDetailsScreen';
-import SSsApplicationScreen from '../screens/studentSessions/SSsApplicationSreen';
-import SSsApplicationsListScreen from '../screens/studentSessions/SSsApplicationsListScreen';
 import SSsApplicationDetailsScreen from '../screens/studentSessions/SSsApplicationDetailsScreen';
+import SSsSwitchScreen from '../screens/studentSessions/SSsSwitchScreen';
 
 
 export type SSsStackParamlist = {
   SSsListScreen: {
     companyId: number;
   };
-  SSsDetailsScreen: {
-    timeslotId: number;
-  };
-  SSsApplicationScreen: {
-    companyId: number;
-  };
-  SSsApplicationsListScreen: undefined;
+  SSsSwitchScreen: {
+    id: number;
+    screen: string;
+  }
   SSsApplicationDetailsScreen: {
     applicationId: number;
   };
@@ -39,19 +34,10 @@ export function SSsCRepNavigator({route}: SSsCRepNavigatorParams) {
         component={SSsListScreen}
         options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List' }}
         initialParams= {{companyId}} />
-        
       <SSsStack.Screen
-        name="SSsDetailsScreen"
-        component={SSsDetailsScreen}
-        options={{ title: 'Session Details', headerTitle: 'Session Details' }} />
-      <SSsStack.Screen
-        name="SSsApplicationScreen"
-        component={SSsApplicationScreen}
-        options={{ title: 'Application', headerTitle: 'Application' }} />
-      <SSsStack.Screen
-        name="SSsApplicationsListScreen"
-        component={SSsApplicationsListScreen}
-        options={{ title: 'Applications', headerTitle: 'Applications' }} />
+        name="SSsSwitchScreen"
+        component={SSsSwitchScreen}
+        options={{ title: 'Studentsession', headerTitle: 'Studentsession' }} />
       <SSsStack.Screen
         name="SSsApplicationDetailsScreen"
         component={SSsApplicationDetailsScreen}
