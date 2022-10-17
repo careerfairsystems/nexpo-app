@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
 import { API } from "../api";
 import { ArkadButton } from "../components/Buttons";
-import { ArkadText } from "../components/StyledText";
+import { ArkadText, NoButton } from "../components/StyledText";
 import Colors from "../constants/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { EventStackParamlist } from "../navigation/EventsNavigator";
@@ -29,7 +29,6 @@ export default function QRScreen({ route }: QRScreenProps) {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [ticketCode, setTicketCode] = useState<string | null>(null);
   const [ticket, setTicket] = useState<Ticket | null>(null);
   
   async function getPermission() {
@@ -39,12 +38,6 @@ export default function QRScreen({ route }: QRScreenProps) {
     const { status } = await BarCodeScanner.requestPermissionsAsync();
     setHasPermission(status === 'granted');
   }
- async function getTicket() {
-    setLoading(true);
-    const ticket = ticketCode ? await API.tickets.getTicket(ticketCode): null;
-    setTicket(ticket);
-    setLoading(false);
-  }
   useEffect(() => {
     setLoading(true);
     getPermission();
@@ -53,10 +46,10 @@ export default function QRScreen({ route }: QRScreenProps) {
 
   const handleBarCodeScanned = async ({ data }: ScanResult) => {
     try{
-      setScanned(true);
       setLoading(true);
-      setTicketCode(data);
-      await getTicket();
+      setScanned(true);
+      const ticket = await API.tickets.getTicket(data);
+      setTicket(ticket);
       if (ticket && ticket.eventId === id && ticket.isConsumed === false) {
         await API.tickets.updateTicket(ticket.id, {isConsumed: true});
       }
@@ -96,13 +89,13 @@ export default function QRScreen({ route }: QRScreenProps) {
     return (
       <View style={styles.container}>
         {ticket && ticket.eventId === id && ticket.isConsumed === false ? 
-          <ArkadText text={`Ticket for ${ticket.event.name} consumed!`} style={styles.id} /> :
-          ticket && ticket.eventId === id ? <ArkadText text={`ERR: Ticket already scanned`} style={styles.id} />:
-          ticket ? <ArkadText text={`ERR: Ticket is not for this event\n its for ${ticket.event.name}`} style={styles.id} /> :
-          <ArkadText text={`ERR: Ticket not found`} style={styles.id} />
+          <NoButton text={`Ticket for ${ticket.event.name} consumed!`} style={styles.success} /> :
+          ticket && ticket.eventId === id ? <NoButton text={`ERR: Ticket already scanned`} style={styles.fail} />:
+          ticket ? <NoButton text={`ERR: Ticket is not for this event\n its for ${ticket.event.name}`} style={styles.fail} /> :
+          <NoButton text={`ERR: Ticket not found`} style={styles.fail} />
         }
         <ArkadButton 
-          onPress={() => {setScanned(false); setTicketCode(null); setTicket(null);}}
+          onPress={() => {setScanned(false); setTicket(null);}}
           style={styles.button}>
           <ArkadText text={"Click to scan again"} style={styles.scanAgain}/>
         </ArkadButton>
@@ -125,10 +118,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.white,
   },
-  id: {
-    paddingTop: '4%',
-    color: Colors.darkBlue,
-    fontSize: 24
+  success: {
+    backgroundColor: Colors.lightGreen,
+    width: "80%",
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  fail: {
+    backgroundColor: Colors.darkRed,
+    width: "80%",
+    borderRadius: 10,
+    marginTop: 100,
+    marginBottom: 0,
   },
   scanAgain: { 
     color: Colors.white,
