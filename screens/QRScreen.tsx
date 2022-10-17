@@ -29,7 +29,7 @@ export default function QRScreen({ route }: QRScreenProps) {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [ticketId, setTicketId] = useState<number | null>(null);
+  const [ticketCode, setTicketCode] = useState<string | null>(null);
   const [ticket, setTicket] = useState<Ticket | null>(null);
   
   async function getPermission() {
@@ -41,7 +41,7 @@ export default function QRScreen({ route }: QRScreenProps) {
   }
  async function getTicket() {
     setLoading(true);
-    const ticket = ticketId ? await API.tickets.getTicket(ticketId): null;
+    const ticket = ticketCode ? await API.tickets.getTicket(ticketCode): null;
     setTicket(ticket);
     setLoading(false);
   }
@@ -53,9 +53,9 @@ export default function QRScreen({ route }: QRScreenProps) {
 
   const handleBarCodeScanned = async ({ data }: ScanResult) => {
     try{
-      setLoading(true);
       setScanned(true);
-      setTicketId(Number(data));
+      setLoading(true);
+      setTicketCode(data);
       await getTicket();
       if (ticket && ticket.eventId === id && ticket.isConsumed === false) {
         await API.tickets.updateTicket(ticket.id, {isConsumed: true});
@@ -102,7 +102,7 @@ export default function QRScreen({ route }: QRScreenProps) {
           <ArkadText text={`ERR: Ticket not found`} style={styles.id} />
         }
         <ArkadButton 
-          onPress={() => {setScanned(false); setTicketId(null); setTicket(null);}}
+          onPress={() => {setScanned(false); setTicketCode(null); setTicket(null);}}
           style={styles.button}>
           <ArkadText text={"Click to scan again"} style={styles.scanAgain}/>
         </ArkadButton>

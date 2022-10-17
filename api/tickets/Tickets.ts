@@ -74,8 +74,8 @@ export const getAllTickets = async (): Promise<Ticket[]> => {
 /**
  * Get a single ticket by ticket code
  */
-export const getTicket = async (id: number): Promise<Ticket> => {
-  const response = await getAuth(`/tickets/${id}`);
+export const getTicket = async (code: string): Promise<Ticket> => {
+  const response = await getAuth(`/tickets/${code}`);
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;
