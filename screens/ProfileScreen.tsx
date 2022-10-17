@@ -85,9 +85,8 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <View style={styles.eventList}> 
         {!bookedEvents 
           ? <Text>Loading events...</Text>
-          : bookedEvents.length == 0 
-            ? <EmptyEventItem />
-            : <BookedEventList
+          : bookedEvents.length !== 0 &&
+             <BookedEventList
                 bookedEvents={bookedEvents}
                 onPress={id => navigation.navigate('EventDetailsScreen', { id })} />
         }

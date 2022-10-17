@@ -2,8 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import TicketsScreen from '../screens/TicketsScreen';
-import QRScreen from '../screens/QRScreen';
+
 import EditProfileScreen from '../screens/EditProfileScreen';
 
 
@@ -13,7 +12,6 @@ export type ProfileStackParamList = {
   EventDetailsScreen: {
     id: number;
   };
-  TicketsScreen: undefined;
 };
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
 export function ProfileNavigator() {
@@ -31,10 +29,6 @@ export function ProfileNavigator() {
         name="EventDetailsScreen"
         component={EventDetailsScreen}
         options={{ headerTitle: 'Event' }} />
-      <ProfileStack.Screen
-        name="TicketsScreen"
-        component={TicketsScreen}
-        options={{ title: 'Tickets', headerTitle: 'Tickets' }} />
     </ProfileStack.Navigator>
   );
 }
