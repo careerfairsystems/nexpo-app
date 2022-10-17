@@ -9,6 +9,7 @@ import { EventList } from '../components/eventList/EventList';
 import { EventStackParamlist } from "../navigation/EventsNavigator";
 import { UpcomingButton } from '../components/eventList/UpcomingButton';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { Role } from '../api/users';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<
@@ -20,6 +21,8 @@ type EventsNavigation = {
 export default function EventListScreen({navigation}: EventsNavigation) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [events, setEvents] = React.useState<Event[] | null>(null);
+  const [role, setRole] = React.useState<Role | null>(null);
+
   const [upcomingEvents, setUpcomingEvents] = React.useState<Event[] | null>(null);
   const [showAllEvents, setShowAllEvents] = React.useState<boolean>(false);
   const [bookedEvents, setBookedEvents] = React.useState<Event[] | null>(null);
@@ -28,6 +31,9 @@ export default function EventListScreen({navigation}: EventsNavigation) {
     setLoading(true);
 
     const events = await API.events.getAllEvents();
+    const role = await API.auth.getUserRole();
+
+    setRole(role);
     setEvents(events);
     setUpcomingEvents(API.events.getUpcomingEvents(events));
     const bookedEvents = await API.events.getBookedEvents();
@@ -41,7 +47,11 @@ export default function EventListScreen({navigation}: EventsNavigation) {
   }
 
   const openEventDetails = (id: number) => {
-    navigation.navigate('EventDetailsScreen', { id });
+    if(role === Role.Administrator){
+      navigation.navigate('EventParticipantsScreen', { id });
+    } else {
+      navigation.navigate('EventDetailsScreen', { id });
+    }
   }
   
   React.useEffect(() => {

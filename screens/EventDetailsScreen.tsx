@@ -20,7 +20,7 @@ import {
 import { View } from "../components/Themed";
 import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
 import { ArkadButton } from "../components/Buttons";
-import { ArkadText } from "../components/StyledText";
+import { ArkadText, NoButton } from "../components/StyledText";
 import QRCode from "react-native-qrcode-svg";
 
 type EventDetailsScreenParams = {
@@ -163,17 +163,19 @@ export default function EventDetailsScreen({
 
         {ticket && registered ? (
           <>
-            <ArkadButton
+            {ticket.isConsumed ? <NoButton text="Ticket consumed!" style={styles.consumedText}/>
+            :<ArkadButton
               onPress={() => deregister()}
               style={styles.bookedButton}
             >
               <ArkadText text="De-register from event" style={styles.title} />
-            </ArkadButton>
+            </ArkadButton>}
+            <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={styles.qrContainer}
               onPress={() => alert("Ticket to the event")}
             >
-              <QRCode size={160} value={ticket.id.toString()} />
+              <QRCode size={160} value={ticket.code} />
             </Pressable>
           </>
         ) : (
@@ -187,8 +189,24 @@ export default function EventDetailsScreen({
 }
 
 const styles = StyleSheet.create({
+  ticketTitle: {
+    color: Colors.darkBlue,
+    fontSize: 20,
+    marginBottom: 10,
+  },
   scrollView: {
     backgroundColor: Colors.white,
+  },
+  consumedText: {
+    alignSelf: "center",
+    backgroundColor: Colors.darkBlue,
+    marginTop: 40,
+    marginBottom: 20,
+    fontSize: 16,
+    padding: 22,
+    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 12,
+    width: '90%',
   },
   container: {
     flex: 1,

@@ -10,7 +10,6 @@ import { View } from "../components/Themed";
 import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
 import { ArkadButton } from "../components/Buttons";
 import { ArkadText } from "../components/StyledText";
-import { Role } from "../api/users";
 
 export default function SSsApplicationScreen(companyId: number) {
 

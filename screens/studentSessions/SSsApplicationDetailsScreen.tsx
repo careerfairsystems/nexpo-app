@@ -13,7 +13,7 @@ import StudentProfile from '../../components/profileScreen/StudentProfile';
 import Colors from '../../constants/Colors';
 import { SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
 import { ArkadButton } from '../../components/Buttons';
-import { ArkadText } from '../../components/StyledText';
+import { ArkadText, NoButton } from '../../components/StyledText';
 import UserProfile from '../../components/profileScreen/UserProfile';
 import { User } from '../../api/users';
 import { ApplicationsMsg } from '../../components/sSApplication/SSApplicationMsg';
@@ -75,7 +75,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
       <UserProfile user={user as NonNullable<User>} />
       <StudentProfile student={student as NonNullable<Student>} />
       <ApplicationsMsg msg={application.motivation} />
-      { application.status === 1 && <ArkadText text={ "Accepted!" } style={styles.acceptedText}/>}
+      { application.status === 1 && <NoButton text={ "Accepted!" } style={styles.acceptedText}/>}
       {application.status !== 1 &&
       <>
         <ArkadButton style={styles.accepted} onPress={ accept }>
@@ -102,13 +102,9 @@ const styles = StyleSheet.create({
   acceptedText:{
     alignSelf: 'center',
     marginBottom: 20,
-    fontSize: 16,
-    padding: 20,
-    borderRadius: 5,
     width: '50%',
     backgroundColor: Colors.lightGreen,
-    color: Colors.white,
-    fontFamily: 'montserrat',
+    borderRadius: 5,
   },
   container: {
     display: 'flex',
