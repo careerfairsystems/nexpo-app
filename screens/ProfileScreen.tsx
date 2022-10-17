@@ -93,7 +93,9 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         }
       </View>
       <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
-      <LogoutButton onPress={logout} />
+      <View style= {styles.logout}>
+        <LogoutButton onPress={logout} />
+      </View>
     </ScrollView>
   </>;
 }
@@ -115,4 +117,7 @@ const styles = StyleSheet.create({
   eventList: {
     paddingTop: '3%',
   },
+  logout: {
+    paddingBottom: '10%',
+  }
 });
