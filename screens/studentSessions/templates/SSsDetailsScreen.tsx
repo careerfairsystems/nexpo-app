@@ -18,8 +18,6 @@ import { Role, User } from "../../../api/users";
 import { ApplicationAcceptedDto } from "../../../api/sSApplications";
 import { Student } from "../../../api/students";
 import { PublicCompanyDto } from "../../../api/companies";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { SSsStackParamlist } from "../SSsCRepNavigator";
 
 export default function SSsDetailsScreen(timeslotId: number) {
   

@@ -10,7 +10,6 @@ import { Company, UpdateCompanySelfDto } from '../../../api/companies';
 import { ProfileStackParamList } from "../ProfileNavigator";
 
 import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
-import { View } from '../../../components/Themed';
 import { ArkadText } from '../../../components/StyledText';
 import { Student, UpdateStudentDto } from '../../../api/students';
 import EditUserProfile from '../../../components/profileScreen/EditUserProfile';
