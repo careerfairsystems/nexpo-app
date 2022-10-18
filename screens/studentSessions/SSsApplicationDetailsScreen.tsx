@@ -62,11 +62,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   }, []);
   
   if (loading || !student || !user || !application) {
-    return (
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    );
+    return <ScreenActivityIndicator />
   }
   
   return (

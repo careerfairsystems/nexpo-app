@@ -59,9 +59,7 @@ export default function EventListScreen({navigation}: EventsNavigation) {
   }, []);
 
   if (isLoading) {
-    return (<View style={styles.container}>
-      <ScreenActivityIndicator />
-    </View>)
+    return <ScreenActivityIndicator />
   }
     
   return (

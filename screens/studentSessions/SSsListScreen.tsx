@@ -70,11 +70,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }, []));
 
   if (isLoading || company == null || user == null) {
-    return(
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    )
+    return <ScreenActivityIndicator />
   }
   
   return (

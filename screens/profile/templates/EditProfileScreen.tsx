@@ -97,11 +97,7 @@ export default function EditProfileScreen(navigation: StackNavigationProp<Profil
   }, []);
 
   if (loading || !user) {
-    return (
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    );
+    return <ScreenActivityIndicator />
   }
   
   return <>

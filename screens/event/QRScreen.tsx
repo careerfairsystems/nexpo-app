@@ -81,9 +81,7 @@ export default function QRScreen({ route }: QRScreenProps) {
     </View>;
   }
   if(loading) {
-    return <View style={styles.container}>
-      <ScreenActivityIndicator/>
-    </View>;
+    return <ScreenActivityIndicator/>
   }
   if(scanned) {
     return (
