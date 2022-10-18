@@ -28,7 +28,6 @@ export default {
               EventListScreen: 'events',
               EventSwitchScreen: 'events/:screen/:id',
               QRScreen: 'events/qr/:id',
-
             },
           },
           SSsStudent: {
@@ -54,8 +53,7 @@ export default {
           Profile: {
             screens: {
               ProfileScreen: 'profile',
-              EditProfileScreen: 'profile/edit',
-              EventSwitchScreen: 'ticket/:screen/:id',
+              ProfileSwitchScreen: 'profile/:screen/:id',
             },
           },
         },
