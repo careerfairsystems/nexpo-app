@@ -104,15 +104,13 @@ export default function EditUserProfile({
   };
 
   const setCV = async () => {
-
     const resultFile = await DocumentPicker.getDocumentAsync({});
-    //needs maximum size
-    if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  /*&& (resultFile.size? < 21:  false)*/ ) {
+    if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 300000 : false)) {
       const dto = await API.s3bucket.postToS3 (resultFile.uri, user.id.toString())
-
       console.log(resultFile.uri)
-      //console.log(dto)
       setCvURL(true)
+    } else {
+      alert("File needs to be in PDF format and must be smaller than 300kb")
     }
   }
 

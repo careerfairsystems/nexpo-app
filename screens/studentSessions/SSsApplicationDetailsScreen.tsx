@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Linking, ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -68,11 +68,19 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
       </View>
     );
   }
+
+  
+  
   
   return (
     <ScrollView style={styles.container}>
       <UserProfile user={user as NonNullable<User>} />
       <StudentProfile student={student as NonNullable<Student>} />
+
+      {true && 
+        <ArkadButton onPress = {() => API.users.downloadCV(user.id)}><ArkadText text="Download CV" /></ArkadButton>
+        } 
+      
       <ApplicationsMsg msg={application.motivation} />
       { application.status === 1 && <NoButton text={ "Accepted!" } style={styles.acceptedText}/>}
       {application.status !== 1 &&
