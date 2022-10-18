@@ -68,10 +68,7 @@ export default function BottomTabNavigator() {
 
   if(isLoading || !user) {
     return (
-    <View>
       <ScreenActivityIndicator />
-      <LogoutButton onPress={logout} />
-    </View>
     )
   }
   return (

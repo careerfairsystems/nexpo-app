@@ -2,10 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import SSsCompaniesScreen from './SSsCompaniesScreen';
 import SSsListScreen from "./SSsListScreen";
-import SSsDetailsScreen from './templates/SSsDetailsScreen';
-import SSsApplicationScreen from './templates/SSsApplicationSreen';
-import SSsApplicationsListScreen from './templates/SSsApplicationsListScreen';
-import SSsApplicationDetailsScreen from './SSsApplicationDetailsScreen';
 import SSsSwitchScreen from './SSsSwitchScreen';
 
 

@@ -44,9 +44,7 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   }, []);
   
   if (isLoading || !user) {
-    return (<View style={styles.container}>
-      <ScreenActivityIndicator />
-    </View>)
+    return <ScreenActivityIndicator />
   }
 
   return (

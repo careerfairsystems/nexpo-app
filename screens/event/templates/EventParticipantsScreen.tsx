@@ -46,11 +46,7 @@ export default function EventParticipantsScreen(navigation: StackNavigationProp<
   }, []));
 
   if (isLoading) {
-    return(
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    )
+    return <ScreenActivityIndicator /> 
   }
   
   return (
