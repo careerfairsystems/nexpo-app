@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import {
   Ionicons,
-  MaterialIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 

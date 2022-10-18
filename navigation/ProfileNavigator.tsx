@@ -1,15 +1,15 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import EventSwitchScreen from '../event/EventSwitchScreen';
-import EventDetailsScreen from '../event/templates/EventDetailsScreen';
-import ProfileScreen from './ProfileScreen';
-import ProfileSwitchScreen from './ProfileSwitchScreen';
+import EventDetailsScreen from '../screens/EventDetailsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+
+import EditProfileScreen from '../screens/EditProfileScreen';
+
 
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
   EditProfileScreen: undefined;
-  ProfileSwitchScreen: {
-    screen: string 
+  EventDetailsScreen: {
     id: number;
   };
 };
@@ -22,9 +22,13 @@ export function ProfileNavigator() {
         component={ProfileScreen}
         options={{ title: 'Profile', headerTitle: 'Profile' }} />
       <ProfileStack.Screen
-        name="ProfileSwitchScreen"
-        component={ProfileSwitchScreen}
-        options={{ headerTitle: 'Profile' }} />
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+        options={{ title: 'Edit Profile', headerTitle: 'Edit Profile' }} />
+      <ProfileStack.Screen
+        name="EventDetailsScreen"
+        component={EventDetailsScreen}
+        options={{ headerTitle: 'Event' }} />
     </ProfileStack.Navigator>
   );
 }

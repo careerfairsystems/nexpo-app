@@ -1,28 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import Colors from '../../../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
 
 import { API } from '../../../api'
 import { Role, UpdateUserDto, User } from '../../../api/users';
-import { Event } from '../../../api/events';
 import { Company, UpdateCompanySelfDto } from '../../../api/companies';
 import { ProfileStackParamList } from "../ProfileNavigator";
 
 import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
-import { Text, View } from '../../../components/Themed';
+import { View } from '../../../components/Themed';
 import { ArkadText } from '../../../components/StyledText';
-import { AuthContext } from '../../../components/AuthContext';
-import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../../../components/profileScreen/Buttons';
-import { EmptyEventItem } from '../../../components/profileScreen/EmptyEventItem';
-import { BookedEventList } from '../../../components/profileScreen/BookedEventList';
-import QRCode from 'react-native-qrcode-svg';
-import UserProfile from '../../../components/profileScreen/UserProfile';
 import { Student, UpdateStudentDto } from '../../../api/students';
-import StudentProfile from '../../../components/profileScreen/StudentProfile';
-import CompanyProfile from '../../../components/profileScreen/CompanyProfile';
 import EditUserProfile from '../../../components/profileScreen/EditUserProfile';
 import { ArkadButton } from '../../../components/Buttons';
 import EditStudentProfile from '../../../components/profileScreen/EditStudentProfile';

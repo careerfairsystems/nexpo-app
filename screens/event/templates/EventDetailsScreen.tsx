@@ -164,7 +164,7 @@ export default function EventDetailsScreen(id: number) {
               style={styles.qrContainer}
               onPress={() => alert("Ticket to the event")}
             >
-              <QRCode size={160} value={ticket.id.toString()} />
+              <QRCode size={160} value={ticket.code} />
             </Pressable>
           </>
         ) : (

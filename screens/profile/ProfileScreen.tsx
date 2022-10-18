@@ -12,13 +12,14 @@ import { ProfileStackParamList } from "./ProfileNavigator";
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { View } from '../../components/Themed';
 import { AuthContext } from '../../components/AuthContext';
-import { EditProfileButton, LogoutButton, TicketsButton } from '../../components/profileScreen/Buttons';
+import { EditProfileButton, LogoutButton } from '../../components/profileScreen/Buttons';
 import UserProfile from '../../components/profileScreen/UserProfile';
 import { Student } from '../../api/students';
 import StudentProfile from '../../components/profileScreen/StudentProfile';
 import CompanyProfile from '../../components/profileScreen/CompanyProfile';
 import Colors from '../../constants/Colors';
 import { useIsFocused } from '@react-navigation/native';
+import { BookedEventList } from '../../components/profileScreen/BookedEventList';
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
@@ -80,9 +81,19 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
       { company && <CompanyProfile company={company} />}
-      <TicketsButton onPress={() => navigation.navigate('ProfileSwitchScreen', {screen: "tickets"})} />
-      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', {screen: "edit"})} />
-      <LogoutButton onPress={logout} />
+      <View style={styles.eventList}> 
+        {!bookedEvents 
+          ? <ScreenActivityIndicator />
+          : bookedEvents.length !== 0 &&
+             <BookedEventList
+                bookedEvents={bookedEvents}
+                onPress={id => navigation.navigate('ProfileSwitchScreen', { screen: "details", id: id })} />
+        }
+      </View>
+      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
+      <View style= {styles.logout}>
+        <LogoutButton onPress={logout} />
+      </View>
     </ScrollView>
   </>;
 }
@@ -102,8 +113,9 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   eventList: {
-    paddingTop: '2%',
-    alignItems: 'center',
-    width: '100%',
+    paddingTop: '3%',
   },
+  logout: {
+    paddingBottom: '10%',
+  }
 });

@@ -54,7 +54,7 @@ export default {
           Profile: {
             screens: {
               ProfileScreen: 'profile',
-              ProfileSwitchScreen: 'profile/:screen',
+              EditProfileScreen: 'profile/edit',
               EventSwitchScreen: 'ticket/:screen/:id',
             },
           },
