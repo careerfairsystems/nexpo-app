@@ -103,8 +103,8 @@ export const updateMe = async (dto: UpdateCompanySelfDto): Promise<Company> => {
 
 export const filterData = (query: string, data: PublicCompanyDto[] | null, filterPos: number[] | null, filterInd: number[] | null) => {
   if(!data) return null;
-  else if(!filterPos && !filterInd) return data;
-  else if(!filterInd) {
+  else if(!filterPos && !filterInd && !query) return data; //nothing to filter
+/*  else if(!filterInd) { //filter on query and
     return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
     || (d.positions && d.positions.some((r) => filterPos && filterPos.includes(r))))
   }
@@ -112,9 +112,11 @@ export const filterData = (query: string, data: PublicCompanyDto[] | null, filte
     return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
     || (d.industries && d.industries.some((r) => filterInd && filterInd.includes(r))));
   }
-  else if (!query) {
-    return data;
-  } else {
+  else if(!query) {
+    return data.filter((d) => (d.positions && d.positions.some((r) => filterPos && filterPos.includes(r)))
+    || (d.industries && d.industries.some((r) => filterInd && filterInd.includes(r))));
+  }*/
+  else {
     return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
     || (d.positions && d.positions.some((r) => filterPos && filterPos.includes(r)))
     || (d.industries && d.industries.some((r) => filterInd && filterInd.includes(r))));

@@ -47,13 +47,13 @@ export default function DropDown() {
     ]);
 
     const [positionOpen, setPositionOpen] = useState(false);
-    const [positionValue, setPositionValue] = useState<number[] | null>(null);
+    const [positionValue, setPositionValue] = useState([]);
     const onPositionOpen = useCallback(() => {
       setIndustryOpen(false);
     }, []);
 
     const [industryOpen, setIndustryOpen] = useState(false);
-    const [industryValue, setIndustryValue] = useState<number[] | null>(null);
+    const [industryValue, setIndustryValue] = useState([]);
     const onIndustryOpen = useCallback(() => {
       setPositionOpen(false);
     }, []);
@@ -81,6 +81,8 @@ export default function DropDown() {
               <DropDownPicker
                 style={styles.dropdown}
                 multiple={true}
+                min = {0}
+                max = {6}
                 open={positionOpen}
                 value={positionValue}
                 items={positions}
@@ -105,6 +107,8 @@ export default function DropDown() {
               <DropDownPicker
                 style={styles.dropdown}
                 multiple={true}
+                min = {0}
+                max = {23}
                 open={industryOpen}
                 value={industryValue}
                 items={industry}

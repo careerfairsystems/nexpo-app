@@ -66,16 +66,17 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   ]);
 
   const [positionOpen, setPositionOpen] = useState(false);
-  const [positionValue, setPositionValue] = useState<number[] | null>(null);
+  const [positionValue, setPositionValue] = useState([]);
   const onPositionOpen = useCallback(() => {
     setIndustryOpen(false);
   }, []);
 
   const [industryOpen, setIndustryOpen] = useState(false);
-  const [industryValue, setIndustryValue] = useState<number[] | null>(null);
+  const [industryValue, setIndustryValue] = useState([]);
   const onIndustryOpen = useCallback(() => {
     setPositionOpen(false);
   }, []);
+
 
   const { handleSubmit, control } = useForm();
   const onSubmit = (data: any) => {
@@ -113,16 +114,17 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
         value={text}
         placeholder={"Search for company here!"}
       />
-      <View style={styles.container}>
-        <Text style={styles.label}>Position</Text><Controller
+      <View style = {styles.rowContainer}>
+     <Controller
           name="position"
           defaultValue=""
           control={control}
           render={({ field: { onChange, value } }) => (
             <View style={styles.dropdown}>
               <DropDownPicker
-                style={styles.dropdown}
                 multiple={true}
+                min = {0}
+                max = {6}
                 open={positionOpen}
                 value={positionValue}
                 items={positions}
@@ -138,15 +140,16 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
             </View>
         )} />
 
-        <Text style={styles.label}>Industry</Text><Controller
+      <Controller
         name="industry"
         defaultValue=""
         control={control}
         render={({ field: { onChange, value } }) => (
           <View style={styles.dropdown}>
               <DropDownPicker
-                style={styles.dropdown}
                 multiple={true}
+                min = {0}
+                max = {23}
                 open={industryOpen}
                 value={industryValue}
                 items={industry}
@@ -161,10 +164,11 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
                 zIndexInverse={1000} />
           </View>
         )} />
-      </View>
+        </View>
+
       <FlatList
         style={styles.list}
-        data={API.companies.filterData(text, companies, industryValue, positionValue)}
+        data={API.companies.filterData(text, companies, positionValue, industryValue)}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) =>
           <CompanyListItem
@@ -180,6 +184,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  rowContainer: {
+    flexDirection: 'row'
   },
   list: {
     width: '100%',
@@ -197,19 +204,26 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat',
     paddingHorizontal: 10
   },
-
-
+  dropdown: {
+    width: '50%',
+    borderColor: Colors.darkBlue,
+    borderWidth: 3,
+    color: Colors.darkBlue,
+    padding: '0.1%',
+    height: 45,
+    borderRadius: 7,
+    margin: 10,
+    fontSize: 15,
+    fontFamily: 'montserrat',
+    paddingHorizontal: 10
+  },
   label: {
     marginBottom: 7,
     marginStart: 10,
   },
-
   placeholderStyles: {
     color: "grey",
   },
-  dropdown: {
-    marginHorizontal: 10,
-    width: "80%",
-    marginBottom: 15,
-  },
+
+
 });
