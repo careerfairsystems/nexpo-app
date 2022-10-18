@@ -94,23 +94,19 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
   }
   return (
     <Modal
-      animationType="slide"
-      transparent={false}
+      animationType="fade"
+      transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
         setModalVisible(!modalVisible);
       }}
       >
-      
       <View style={styles.centeredView}>
         <View style={styles.header}>
           <ArkadButton
+            style={styles.closeButton}
             onPress={() => setModalVisible(!modalVisible)}>
-            <ArkadText text="Close"/>
-          </ArkadButton>
-          <ArkadButton
-            onPress={resetFilters}>
-            <ArkadText text="Reset filters"/>
+            <ArkadText text="X"/>
           </ArkadButton>
         </View>
         <View style={[styles.modalView, {zIndex: 3}]}>
@@ -123,6 +119,13 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
             setOpen={guildSetOpen}
             setValue={guildSetValue}
             setItems={setGuilds}
+            selectedItemContainerStyle={{
+              backgroundColor: Colors.lightGray
+            }}
+            listItemLabelStyle={{
+              color: Colors.darkBlue,
+              fontFamily: 'montserrat',
+            }}
           />
         </View>
         <View style={[styles.modalView, {zIndex: 2}]}>
@@ -135,6 +138,13 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
             setOpen={positionSetOpen}
             setValue={positionSetValue}
             setItems={setPositions}
+            selectedItemContainerStyle={{
+              backgroundColor: Colors.lightGray
+            }}
+            listItemLabelStyle={{
+              color: Colors.darkBlue,
+              fontFamily: 'montserrat',
+            }}
           />
         </View>
         <View style={[styles.modalView, {zIndex: 1}]}>
@@ -147,9 +157,20 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
             setOpen={industrySetOpen}
             setValue={industrySetValue}
             setItems={setIndustry}
+            selectedItemContainerStyle={{
+              backgroundColor: Colors.lightGray
+            }}
+            listItemLabelStyle={{
+              color: Colors.darkBlue,
+              fontFamily: 'montserrat',
+            }}
           />
         </View>
         <View style={styles.footer}>
+          <ArkadButton
+            onPress={resetFilters}>
+            <ArkadText text="Reset filters"/>
+          </ArkadButton>
           <ArkadButton
             onPress={filterCompanies}>
             <ArkadText text="Apply filters"/>
@@ -162,7 +183,13 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
 
 const styles = StyleSheet.create({
   centeredView: {
-    justifyContent: "center",
+    flex: 1,
+    justifyContent: "flex-start",
+    borderWidth: 3,
+    borderColor: Colors.lightGray,
+    borderRadius: 15,
+    backgroundColor: "rgba(255, 255, 255, 0.93)",
+    padding: 10,
   },
   label: {
     fontSize: 20,
@@ -185,17 +212,22 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
+  closeButton: {
+    backgroundColor: Colors.gray,
+    borderRadius: 15,
+  },
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     width: '100%',
     padding: 10,
   },
   footer: {
+    marginTop: "auto",
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     width: '100%',
     padding: 10,
     zIndex: -1,
