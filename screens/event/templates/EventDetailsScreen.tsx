@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet } from "react-native";
+import { Dimensions, Modal, Pressable, ScrollView, StyleSheet } from "react-native";
 import {
   Ionicons,
   MaterialIcons,
@@ -29,6 +29,7 @@ export default function EventDetailsScreen(id: number) {
   const [registered, setRegistered] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
@@ -107,6 +108,7 @@ export default function EventDetailsScreen(id: number) {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
+        <QrModal/>
         <View style={styles.titleContainer}>
           <ArkadText text={event.name} style={styles.title} />
         </View>
@@ -162,7 +164,7 @@ export default function EventDetailsScreen(id: number) {
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={styles.qrContainer}
-              onPress={() => alert("Ticket to the event")}
+              onPress={() => setModalVisible(true)}
             >
               <QRCode size={160} value={ticket.code} />
             </Pressable>
@@ -176,6 +178,26 @@ export default function EventDetailsScreen(id: number) {
       </View>
     </ScrollView>
   );
+
+  function QrModal() {
+    return (<Modal
+      animationType="none"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(!modalVisible);
+      } }
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.qrModalContainer}>
+          {ticket && <QRCode size={Dimensions.get('window').width * 0.75} value={ticket.code} />}
+        </View>
+        <ArkadButton onPress={() => setModalVisible(!modalVisible)}>
+          <ArkadText text={"Close"} />
+        </ArkadButton>
+      </View>
+    </Modal>)
+  }
 }
 
 const styles = StyleSheet.create({
@@ -285,5 +307,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 16,
     marginBottom: 60,
+  },
+  qrModalContainer: {
+    borderWidth: 3,
+    borderColor: Colors.lightGray,
+    borderRadius: 5,
+    padding: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.8)",
   },
 });
