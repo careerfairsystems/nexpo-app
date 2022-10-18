@@ -77,6 +77,7 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
     industrySetValue([]);
     guildSetValue([]);
     setFilteredCompanies(companies);
+    setModalVisible(false);
   }
   function filterCompanies() {
     let filteredCompanies = companies;
