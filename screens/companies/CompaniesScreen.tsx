@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-
 import { Text, View } from '../../components/Themed';
-
 import { API } from '../../api';
 import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
 import { CompanyStackParamList } from "./CompaniesNavigator";
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import Colors from '../../constants/Colors';
+import CompaniesModal from '../../components/companies/CompaniesModal';
+import { ArkadButton } from '../../components/Buttons';
+import { ArkadText } from '../../components/StyledText';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -21,11 +22,14 @@ type companiesNavigation = {
 export default function CompaniesScreen({navigation}: companiesNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
+  const [filteredCompanies, setFilteredCompanies] = useState<PublicCompanyDto[] | null>(null);
   const [text, onChangeText] = React.useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const getCompanies = async () => {
     setLoading(true);
     const companies = await API.companies.getAll();
+    setFilteredCompanies(companies);
     setCompanies(companies);
     setLoading(false);
   }
@@ -37,26 +41,37 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   useEffect(() => {
     getCompanies();
   }, []);
-  
+
   if (isLoading) {
     return (<ScreenActivityIndicator />)
   }
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder={"Search for company here!"}
-      />
+      <CompaniesModal 
+        companies={companies ? companies : []}
+        setFilteredCompanies={setFilteredCompanies}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      /> 
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          value={text}
+          placeholder={"Search for company here!"}
+        />
+        <ArkadButton style={styles.filterbutton} onPress={() => setModalVisible(true)} >
+          <ArkadText text = "Filter" />
+        </ArkadButton>  
+      </View>
       <FlatList
         style={styles.list}
-        data={API.companies.filterData(text, companies)}
+        data={API.companies.filterData(text, filteredCompanies)}
         keyExtractor={({ id }) => id.toString()}
-        renderItem={({ item: company }) => 
+        renderItem={({ item: company }) =>
           <CompanyListItem
-            company={company} 
+            company={company}
             onPress={() => openCompanyDetails(company.id)} />
         } />
     </View>
@@ -73,7 +88,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   input: {
-    width: '90%',
     borderColor: Colors.darkBlue,
     borderWidth: 3,
     color: Colors.darkBlue,
@@ -85,5 +99,28 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat',
     paddingHorizontal: 10
   },
-  
+  filterbutton: {
+    height: 45,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  },
+
+  label: {
+    marginBottom: 7,
+    marginStart: 10,
+  },
+
+  placeholderStyles: {
+    color: "grey",
+  },
+  dropdown: {
+    marginHorizontal: 10,
+    width: "80%",
+    marginBottom: 15,
+  },
 });

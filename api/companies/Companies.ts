@@ -8,13 +8,13 @@ export enum Degree {
 }
 
 export enum Position {
-  Thesis, TraineeEmployment, Internship, SummerJob, ForeignOppurtunity, PartTime 
+  Thesis, TraineeEmployment, Internship, SummerJob, ForeignOppurtunity, PartTime
 }
 
 export enum Industry {
-        
-  ElectricityEnergyPower, Environment, BankingFinance, Union, Investment, Insurance, Recruitment, Construction, Architecture, 
-  GraphicDesign, DataIT, FinanceConsultancy, Telecommunication, Consulting, Management, Media, Industry, NuclearPower, LifeScience, 
+
+  ElectricityEnergyPower, Environment, BankingFinance, Union, Investment, Insurance, Recruitment, Construction, Architecture,
+  GraphicDesign, DataIT, FinanceConsultancy, Telecommunication, Consulting, Management, Media, Industry, NuclearPower, LifeScience,
   MedicalTechniques, PropertyInfrastructure, Research, Coaching
 }
 
@@ -103,9 +103,9 @@ export const updateMe = async (dto: UpdateCompanySelfDto): Promise<Company> => {
 
 export const filterData = (query: string, data: PublicCompanyDto[] | null) => {
   if(!data) return null;
-  if (!query) {
+  else if (!query) {
     return data;
   } else {
-    return data.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
+    return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase())));
   }
 };
