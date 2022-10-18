@@ -118,4 +118,4 @@ export const filterData = (query: string, data: PublicCompanyDto[] | null, filte
     && (d.positions && filterPos && filterPos.length > 0 && d.positions.some((r) => filterPos.includes(r)))
     && (d.industries && filterInd && filterInd.length > 0 && d.industries.some((r) => filterInd.includes(r))))
   }
-};
+}

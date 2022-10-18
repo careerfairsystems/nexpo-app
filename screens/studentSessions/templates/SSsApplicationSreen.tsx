@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, TextInput } from "react-native";
 
-import Colors from "../constants/Colors";
+import Colors from "../../../constants/Colors";
 
-import { API } from "../api";
-import { } from "../api/studentsessions";
+import { API } from "../../../api";
+import { } from "../../../api/studentsessions";
 
-import { View } from "../components/Themed";
-import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
-import { ArkadButton } from "../components/Buttons";
-import { ArkadText } from "../components/StyledText";
-import { Role } from "../api/users";
+import { View } from "../../../components/Themed";
+import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator";
+import { ArkadButton } from "../../../components/Buttons";
+import { ArkadText } from "../../../components/StyledText";
+import { CardWithHeader } from "../../../components/sSApplication/SSApplicationMsg";
 
 export default function SSsApplicationScreen(companyId: number) {
 
@@ -37,8 +37,9 @@ export default function SSsApplicationScreen(companyId: number) {
           style={styles.input}
           onChangeText={setMsg}
           value={msg}
-          placeholder={"hejhej jag vill gärna jobba hos er \nhoppas ni vill ha mig <3"}
+          placeholder={"here you can write a motivation to the company: \n \nhejhej jag vill gärna jobba hos er \nhoppas ni vill ha mig <3"}
         />
+        <CardWithHeader msg={"The company you send your application to can not only see your message but also your entire profile! \nA good idea is to make sure you have added CV and/or Linkedin-link in your profile to have the best chance at getting approved."} header={"Remember!"} />
         <ArkadButton onPress={sendApplication}>
           <ArkadText text="Send application" />
         </ArkadButton>
@@ -58,11 +59,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    height: 80,
-    margin: 12,
-    borderWidth: 1,
+    width: '85%',
+    borderColor: Colors.darkBlue,
+    borderWidth: 3,
+    color: Colors.darkBlue,
     padding: 10,
-    width: "80%",
-    borderradius: 10,
+    height: 120,
+    borderRadius: 7,
+    margin: 10,
+    fontSize: 13,
+    fontFamily: 'montserrat',
+    paddingHorizontal: 10
   },
 });

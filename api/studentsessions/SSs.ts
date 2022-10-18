@@ -45,7 +45,9 @@ export function formatTime(start: Date, end: Date): string {
   try {
     const st = new Date(start.toString());
     const en = new Date(end.toString());
-    const clock: string = st.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) + " - " + en.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+    const startString = format(st, "HH:mm");
+    const endString = format(en, "HH:mm");
+    const clock: string = `${startString} - ${endString}`;
     const dateString = format(st, "LLL d") + "  :  " + clock;
     return dateString;
   } catch (RangeError) {

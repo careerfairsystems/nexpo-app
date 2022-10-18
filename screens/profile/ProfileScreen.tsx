@@ -1,27 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API } from '../api'
-import { Role, User } from '../api/users';
-import { Event } from '../api/events';
-import { Company } from '../api/companies';
-import { ProfileStackParamList } from "../navigation/ProfileNavigator";
+import { API } from '../../api'
+import { Role, User } from '../../api/users';
+import { Event } from '../../api/events';
+import { Company } from '../../api/companies';
+import { ProfileStackParamList } from "./ProfileNavigator";
 
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { Text, View } from '../components/Themed';
-import { ArkadText } from '../components/StyledText';
-import { AuthContext } from '../components/AuthContext';
-import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../components/profileScreen/Buttons';
-import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
-import { BookedEventList } from '../components/profileScreen/BookedEventList';
-import UserProfile from '../components/profileScreen/UserProfile';
-import { Student } from '../api/students';
-import StudentProfile from '../components/profileScreen/StudentProfile';
-import CompanyProfile from '../components/profileScreen/CompanyProfile';
-import Colors from '../constants/Colors';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import { View } from '../../components/Themed';
+import { AuthContext } from '../../components/AuthContext';
+import { EditProfileButton, LogoutButton } from '../../components/profileScreen/Buttons';
+import UserProfile from '../../components/profileScreen/UserProfile';
+import { Student } from '../../api/students';
+import StudentProfile from '../../components/profileScreen/StudentProfile';
+import CompanyProfile from '../../components/profileScreen/CompanyProfile';
+import Colors from '../../constants/Colors';
 import { useIsFocused } from '@react-navigation/native';
+import { BookedEventList } from '../../components/profileScreen/BookedEventList';
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
@@ -70,12 +68,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
 
   
   if (loading || !user) {
-    return (
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-        <LogoutButton onPress={logout} />
-      </View>
-    );
+    return <ScreenActivityIndicator />
   }
   
   return <>
@@ -83,24 +76,19 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
       { company && <CompanyProfile company={company} />}
-
-      <ArkadText text={"Booked events"} style={styles.header} />
       <View style={styles.eventList}> 
         {!bookedEvents 
-          ? <Text>Loading events...</Text>
-          : bookedEvents.length == 0 
-            ? <EmptyEventItem />
-            : <BookedEventList
+          ? <ActivityIndicator />
+          : bookedEvents.length !== 0 &&
+             <BookedEventList
                 bookedEvents={bookedEvents}
-                onPress={id => navigation.navigate('EventDetailsScreen', { id })} />
+                onPress={id => navigation.navigate('ProfileSwitchScreen', { screen: "details", id: id })} />
         }
       </View>
-
-      {/* Add TicketsButton once the screen has been implemented.
-          Until then, keep the bookedEvents scrollable on this screen.
-      <TicketsButton onPress={() => navigation.navigate('TicketsScreen')} /> */}
-      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
-      <LogoutButton onPress={logout} />
+      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
+      <View style= {styles.logout}>
+        <LogoutButton onPress={logout} />
+      </View>
     </ScrollView>
   </>;
 }
@@ -120,8 +108,9 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   eventList: {
-    paddingTop: '2%',
-    alignItems: 'center',
-    width: '100%',
+    paddingTop: '3%',
   },
+  logout: {
+    paddingBottom: '10%',
+  }
 });

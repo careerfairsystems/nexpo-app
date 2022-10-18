@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 
 import { API } from '../../api';
 import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
-import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
-import { SSTimeslot } from '../../api/studentsessions';
+import { SSsStackParamlist } from "./SSsStudentNavigator";
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { Role, User } from '../../api/users';
+import { User } from '../../api/users';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -45,9 +44,7 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   }, []);
   
   if (isLoading || !user) {
-    return (<View style={styles.container}>
-      <ScreenActivityIndicator />
-    </View>)
+    return <ScreenActivityIndicator />
   }
 
   return (

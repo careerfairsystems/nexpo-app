@@ -18,12 +18,12 @@ import { LogoutButton } from '../components/profileScreen/Buttons';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { useContext } from 'react';
 import { AuthContext } from '../components/AuthContext';
-import { MapNavigator } from './MapNavigator';
-import { ProfileNavigator } from './ProfileNavigator';
-import { EventsNavigator } from './EventsNavigator';
-import { CompaniesNavigator } from './CompaniesNavigator';
-import { SSsStudentNavigator } from './SSsStudentNavigator';
-import { SSsCRepNavigator } from './SSsCRepNavigator';
+import { MapNavigator } from '../screens/maps/MapNavigator';
+import { ProfileNavigator } from '../screens/profile/ProfileNavigator';
+import { EventsNavigator } from '../screens/event/EventsNavigator';
+import { CompaniesNavigator } from '../screens/companies/CompaniesNavigator';
+import { SSsStudentNavigator } from '../screens/studentSessions/SSsStudentNavigator';
+import { SSsCRepNavigator } from '../screens/studentSessions/SSsCRepNavigator';
 
 
 export type BottomTabParamList = {
@@ -68,10 +68,7 @@ export default function BottomTabNavigator() {
 
   if(isLoading || !user) {
     return (
-    <View>
       <ScreenActivityIndicator />
-      <LogoutButton onPress={logout} />
-    </View>
     )
   }
   return (
