@@ -1,7 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import EventSwitchScreen from '../event/EventSwitchScreen';
-import EventDetailsScreen from '../event/templates/EventDetailsScreen';
 import ProfileScreen from './ProfileScreen';
 import ProfileSwitchScreen from './ProfileSwitchScreen';
 
