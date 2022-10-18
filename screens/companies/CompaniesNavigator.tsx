@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import CompaniesScreen from '../screens/CompaniesScreen';
-import CompanyDetailsScreen from '../screens/CompanyDetailsScreen';
+import CompaniesScreen from './CompaniesScreen';
+import CompanyDetailsScreen from './CompanyDetailsScreen';
 
 
 export type CompanyStackParamList = {

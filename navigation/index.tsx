@@ -7,8 +7,6 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
-import LoginScreen from '../screens/LoginScreen';
-import SignUpScreen from '../screens/SignUpScreen';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -16,9 +14,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import { AuthContext } from '../components/AuthContext';
 
 import { API } from '../api';
-import FinalizeSignUpScreen from '../screens/FinalizeSignUpScreen';
-import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
-import ResetPasswordScreen from '../screens/ResetPasswordScreen';
+import { AuthNavigator } from '../screens/auth/AuthNavigator';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -71,26 +67,4 @@ function RootNavigator() {
   );
 }
 
-export type AuthStackParamList = {
-  LoginScreen: undefined;
-  SignUpScreen: undefined;
-  FinalizeSignUpScreen: {
-    token: string;
-  };
-  ForgotPasswordScreen: undefined;
-  ResetPasswordScreen: {
-    token: string;
-  };
-}
-const AuthStack = createStackNavigator<AuthStackParamList>();
-function AuthNavigator() {
-  return (
-    <AuthStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginScreen">
-      <AuthStack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'Login' }}/>
-      <AuthStack.Screen name="SignUpScreen" component={SignUpScreen} options={{ title: 'Sign up' }} />
-      <AuthStack.Screen name="FinalizeSignUpScreen" component={FinalizeSignUpScreen} options={{ title: 'Finalize signup' }} />
-      <AuthStack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} options={{ title: 'Forgot password' }} />
-      <AuthStack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} options={{ title: 'Reset password' }} />
-    </AuthStack.Navigator>
-  );
-}
+

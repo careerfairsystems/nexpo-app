@@ -1,14 +1,14 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
-import { API } from "../api";
-import { ArkadButton } from "../components/Buttons";
-import { ArkadText, NoButton } from "../components/StyledText";
-import Colors from "../constants/Colors";
+import { API } from "../../api";
+import { ArkadButton } from "../../components/Buttons";
+import { ArkadText, NoButton } from "../../components/StyledText";
+import Colors from "../../constants/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { EventStackParamlist } from "../navigation/EventsNavigator";
-import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
-import { Ticket } from "../api/tickets";
+import { EventStackParamlist } from "./EventsNavigator";
+import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
+import { Ticket } from "../../api/tickets";
 
 interface ScanResult{
   type: string,

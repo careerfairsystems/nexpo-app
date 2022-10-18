@@ -5,7 +5,7 @@ import { View, Text } from "../Themed";
 import { Platform, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/EditProfileScreen";
+import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
 import { API } from "../../api";

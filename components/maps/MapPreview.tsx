@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { ArkadText } from '../StyledText';
-import { mapNavigation } from '../../screens/MapScreen';
+import { mapNavigation } from '../../screens/maps/MapScreen';
 import { ArkadButton } from '../Buttons';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';

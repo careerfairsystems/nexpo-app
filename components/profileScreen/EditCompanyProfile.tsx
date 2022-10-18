@@ -4,7 +4,7 @@ import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/EditProfileScreen";
+import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type EditCompanyProfileProps = {

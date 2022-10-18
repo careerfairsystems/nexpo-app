@@ -1,18 +1,17 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import EventDetailsScreen from '../screens/EventDetailsScreen';
-import EventListScreen from "../screens/EventListScreen";
-import EventParticipantsScreen from '../screens/EventParticipantsScreen';
-import QRScreen from '../screens/QRScreen';
+import EventDetailsScreen from './templates/EventDetailsScreen';
+import EventListScreen from "./EventListScreen";
+import EventParticipantsScreen from './templates/EventParticipantsScreen';
+import QRScreen from './QRScreen';
+import EventSwitchScreen from './EventSwitchScreen';
 
 
 export type EventStackParamlist = {
   EventListScreen: undefined;
-  EventDetailsScreen: {
+  EventSwitchScreen: {
     id: number;
-  }
-  EventParticipantsScreen: {
-    id: number;
+    screen: string;
   }
   QRScreen: {
     id: number;
@@ -28,13 +27,8 @@ export function EventsNavigator() {
         options={{ title: 'Events', headerTitle: 'Events' }}
       />
       <EventStack.Screen
-        name="EventDetailsScreen"
-        component={EventDetailsScreen}
-        options={{ title: 'Event Details', headerTitle: 'Event Details' }}
-      />
-      <EventStack.Screen
-        name="EventParticipantsScreen"
-        component={EventParticipantsScreen}
+        name="EventSwitchScreen"
+        component={EventSwitchScreen}
         options={{ title: 'Event Participants', headerTitle: 'Event Participants' }}
       />
       <EventStack.Screen

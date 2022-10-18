@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
 
-import { Text, View } from '../components/Themed';
-import { TextInput } from '../components/TextInput';
+import { Text, View } from '../../components/Themed';
+import { TextInput } from '../../components/TextInput';
 
-import { ArkadButton } from '../components/Buttons';
-import { ArkadText } from '../components/StyledText';
+import { ArkadButton } from '../../components/Buttons';
+import { ArkadText } from '../../components/StyledText';
 
-import { API } from '../api'
-import { AuthContext } from '../components/AuthContext';
+import { API } from '../../api'
+import { AuthContext } from '../../components/AuthContext';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthStackParamList } from '../navigation';
+import { AuthStackParamList } from "./AuthNavigator";
 
 type LoginScreenParams = {
   navigation: StackNavigationProp<
@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
     <View style={styles.container}>
       <Image 
         style={styles.logo} 
-        source={require('../assets/images/arkad_logo.png')} 
+        source={require('../../assets/images/arkad_logo.png')} 
       />
       <View style={styles.inputContainer}>
         <TextInput

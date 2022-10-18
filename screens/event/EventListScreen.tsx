@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '../api';
-import { Event } from '../api/events';
-import { EventList } from '../components/eventList/EventList';
-import { EventStackParamlist } from "../navigation/EventsNavigator";
-import { UpcomingButton } from '../components/eventList/UpcomingButton';
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { Role } from '../api/users';
+import { API } from '../../api';
+import { Event } from '../../api/events';
+import { EventList } from '../../components/eventList/EventList';
+import { EventStackParamlist } from "./EventsNavigator";
+import { UpcomingButton } from '../../components/eventList/UpcomingButton';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import { Role } from '../../api/users';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<
@@ -48,9 +48,9 @@ export default function EventListScreen({navigation}: EventsNavigation) {
 
   const openEventDetails = (id: number) => {
     if(role === Role.Administrator){
-      navigation.navigate('EventParticipantsScreen', { id });
+      navigation.navigate('EventSwitchScreen', { id: id, screen: 'participatians' });
     } else {
-      navigation.navigate('EventDetailsScreen', { id });
+      navigation.navigate('EventSwitchScreen', { id: id, screen: 'details' });
     }
   }
   

@@ -2,32 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
-import Colors from '../constants/Colors';
+import Colors from '../../../constants/Colors';
 
-import { API } from '../api'
-import { Role, UpdateUserDto, User } from '../api/users';
-import { Company, UpdateCompanySelfDto } from '../api/companies';
-import { ProfileStackParamList } from "../navigation/ProfileNavigator";
+import { API } from '../../../api'
+import { Role, UpdateUserDto, User } from '../../../api/users';
+import { Company, UpdateCompanySelfDto } from '../../../api/companies';
+import { ProfileStackParamList } from "../ProfileNavigator";
 
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { View } from '../components/Themed';
-import { ArkadText } from '../components/StyledText';
-import { Student, UpdateStudentDto } from '../api/students';
-import EditUserProfile from '../components/profileScreen/EditUserProfile';
-import { ArkadButton } from '../components/Buttons';
-import EditStudentProfile from '../components/profileScreen/EditStudentProfile';
-import EditCompanyProfile from '../components/profileScreen/EditCompanyProfile';
+import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
+import { View } from '../../../components/Themed';
+import { ArkadText } from '../../../components/StyledText';
+import { Student, UpdateStudentDto } from '../../../api/students';
+import EditUserProfile from '../../../components/profileScreen/EditUserProfile';
+import { ArkadButton } from '../../../components/Buttons';
+import EditStudentProfile from '../../../components/profileScreen/EditStudentProfile';
+import EditCompanyProfile from '../../../components/profileScreen/EditCompanyProfile';
 
 export type EditStatus = {
   ok: boolean;
   message: string | null;
 };
 
-export type EditProfileScreenParams = {
-  navigation: StackNavigationProp<ProfileStackParamList, 'EditProfileScreen'>
-};
-
-export default function EditProfileScreen({ navigation }: EditProfileScreenParams) {
+export default function EditProfileScreen(navigation: StackNavigationProp<ProfileStackParamList, 'ProfileSwitchScreen'>) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [user, setUser] = useState<User | null>(null);

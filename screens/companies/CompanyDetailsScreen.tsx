@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, Linking } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../../components/Themed';
 
-import { PublicCompanyDto } from '../api/companies'
-import { API } from '../api';
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { PublicCompanyDto } from '../../api/companies'
+import { API } from '../../api';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { ScrollView } from 'react-native-gesture-handler';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
 type CompanyDetailsScreenParams = {
@@ -49,8 +49,8 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
             <Image 
               source={company.logoUrl 
                 ? {uri: company.logoUrl}
-                : require('../assets/images/icon.png')}
-              defaultSource={require('../assets/images/icon.png')}
+                : require('../../assets/images/icon.png')}
+              defaultSource={require('../../assets/images/icon.png')}
               style={styles.logo} />
           </View>
 

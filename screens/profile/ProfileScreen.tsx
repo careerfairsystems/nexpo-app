@@ -3,24 +3,23 @@ import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API } from '../api'
-import { Role, User } from '../api/users';
-import { Event } from '../api/events';
-import { Company } from '../api/companies';
-import { ProfileStackParamList } from "../navigation/ProfileNavigator";
+import { API } from '../../api'
+import { Role, User } from '../../api/users';
+import { Event } from '../../api/events';
+import { Company } from '../../api/companies';
+import { ProfileStackParamList } from "./ProfileNavigator";
 
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { Text, View } from '../components/Themed';
-import { AuthContext } from '../components/AuthContext';
-import { EditProfileButton, LogoutButton } from '../components/profileScreen/Buttons';
-import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
-import { BookedEventList } from '../components/profileScreen/BookedEventList';
-import UserProfile from '../components/profileScreen/UserProfile';
-import { Student } from '../api/students';
-import StudentProfile from '../components/profileScreen/StudentProfile';
-import CompanyProfile from '../components/profileScreen/CompanyProfile';
-import Colors from '../constants/Colors';
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import { View } from '../../components/Themed';
+import { AuthContext } from '../../components/AuthContext';
+import { EditProfileButton, LogoutButton } from '../../components/profileScreen/Buttons';
+import UserProfile from '../../components/profileScreen/UserProfile';
+import { Student } from '../../api/students';
+import StudentProfile from '../../components/profileScreen/StudentProfile';
+import CompanyProfile from '../../components/profileScreen/CompanyProfile';
+import Colors from '../../constants/Colors';
 import { useIsFocused } from '@react-navigation/native';
+import { BookedEventList } from '../../components/profileScreen/BookedEventList';
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
@@ -84,14 +83,14 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       { company && <CompanyProfile company={company} />}
       <View style={styles.eventList}> 
         {!bookedEvents 
-          ? <Text>Loading events...</Text>
+          ? <ScreenActivityIndicator />
           : bookedEvents.length !== 0 &&
              <BookedEventList
                 bookedEvents={bookedEvents}
-                onPress={id => navigation.navigate('EventDetailsScreen', { id })} />
+                onPress={id => navigation.navigate('ProfileSwitchScreen', { screen: "details", id: id })} />
         }
       </View>
-      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('EditProfileScreen')} />
+      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
       <View style= {styles.logout}>
         <LogoutButton onPress={logout} />
       </View>

@@ -7,7 +7,7 @@ import { API } from '../../api';
 import { SSTimeslot } from '../../api/studentsessions';
 import { TimeslotList } from '../../components/studentSessionList/SSList';
 import SSCompInfo from '../../components/studentSessionList/SSCompInfo';
-import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
+import { SSsStackParamlist } from "./SSsStudentNavigator";
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
 import { PublicCompanyDto } from '../../api/companies/Companies';

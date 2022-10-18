@@ -2,24 +2,21 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { useFocusEffect } from '@react-navigation/native';
-import { View } from '../components/Themed';
+import { View } from '../../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { EventStackParamlist } from '../navigation/EventsNavigator';
-import { Event } from '../api/events';
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { ScanQRButton } from '../components/profileScreen/Buttons';
+import { EventStackParamlist } from '../EventsNavigator';
+import { Event } from '../../../api/events';
+import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
+import { ScanQRButton } from '../../../components/profileScreen/Buttons';
 import { useCallback } from 'react';
-import { TicketDto } from '../api/tickets';
-import { API } from '../api';
-import { StudentTicketList } from '../components/ticketList/studentTicketList';
-import { ArkadText } from '../components/StyledText';
-import Colors from '../constants/Colors';
+import { TicketDto } from '../../../api/tickets';
+import { API } from '../../../api';
+import { StudentTicketList } from '../../../components/ticketList/studentTicketList';
+import { ArkadText } from '../../../components/StyledText';
+import Colors from '../../../constants/Colors';
 
 type EventNavigation = {
-  navigation: StackNavigationProp<
-    EventStackParamlist,
-    'EventParticipantsScreen'
-  >;
+  navigation: StackNavigationProp<EventStackParamlist,'EventSwitchScreen'>;
   route: {
     params: {
       id: number;
@@ -27,8 +24,7 @@ type EventNavigation = {
   };
 };
 
-export default function EventParticipantsScreen({navigation, route}: EventNavigation) {
-  const { id } = route.params;
+export default function EventParticipantsScreen(navigation: StackNavigationProp<EventStackParamlist,'EventSwitchScreen'>, id: number) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [tickets, setTickets] = React.useState<TicketDto[] | null>(null);
   const [event , setEvent] = React.useState<Event | null>(null);
