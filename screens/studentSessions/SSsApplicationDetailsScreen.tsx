@@ -15,7 +15,7 @@ import { ArkadButton } from '../../components/Buttons';
 import { ArkadText, NoButton } from '../../components/StyledText';
 import UserProfile from '../../components/profileScreen/UserProfile';
 import { User } from '../../api/users';
-import { ApplicationsMsg } from '../../components/sSApplication/SSApplicationMsg';
+import { CardWithHeader } from '../../components/sSApplication/SSApplicationMsg';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -69,7 +69,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
     <ScrollView style={styles.container}>
       <UserProfile user={user as NonNullable<User>} />
       <StudentProfile student={student as NonNullable<Student>} />
-      <ApplicationsMsg msg={application.motivation} />
+      <CardWithHeader msg={application.motivation} header={'Student Motivation'} />
       { application.status === 1 && <NoButton text={ "Accepted!" } style={styles.acceptedText}/>}
       {application.status !== 1 &&
       <>

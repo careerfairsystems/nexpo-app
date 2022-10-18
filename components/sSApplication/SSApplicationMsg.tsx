@@ -6,17 +6,18 @@ import Colors from '../../constants/Colors';
 const { width } = Dimensions.get('window')
 
 type ApplicationsMsgProps = {
+  header: string;
   msg: string;
 }
 
-export function ApplicationsMsg ({msg}: ApplicationsMsgProps) {
+export function CardWithHeader ({header, msg}: ApplicationsMsgProps) {
   return (
     <View style={styles.motivationBox}> 
       <View style={styles.headerBox}>
-        <Text style={styles.headerText}> Student motivation </Text>
+        <Text style={styles.headerText}>{header}</Text>
       </View>
       <View style={styles.msgBox}>
-        <Text style={styles.motivationText}> {msg} </Text>
+        <Text style={styles.motivationText}>{msg}</Text>
       </View>
     </View>
   )
