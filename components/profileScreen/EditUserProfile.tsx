@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "../../api/users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { Platform, StyleSheet } from "react-native";
+import { BackHandler, Platform, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
@@ -12,6 +12,9 @@ import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
+import RNFetchBlob from "rn-fetch-blob";
+import { color } from "react-native-reanimated";
+import { setStatusBarBackgroundColor } from "expo-status-bar";
 
 type EditUserProfileProps = {
   user: User;
@@ -122,12 +125,24 @@ export default function EditUserProfile({
   }
 
   const downloadCV = async () => {
-    const dto = await API.s3bucket.getFromS3(user.id.toString())
-    //console.log(dto)
-
+    const blob = await API.s3bucket.getFromS3(user.id.toString())
+    console.log(blob)
     
+    RNFetchBlob.config({
+      fileCache : true
+    })
+    .fetch('GET', blob)
+    //console.log(blob)
+    //const url = URL.createObjectURL(blob)
+    //console.log(url)
+    //const a = document.createElement('a')
+    //a.href = url;
+    //a.download = __filename || 'download'
+    //a.click;
     
   }
+
+
 
   
 
@@ -156,12 +171,15 @@ export default function EditUserProfile({
           )}
         </ArkadButton>
 
-        //????
-        if (hasCv) {
-         <ArkadButton onPress={deleteCV}><ArkadText text="Delete CV" /></ArkadButton>
+       
+        {hasCv &&
+          <ArkadButton onPress={deleteCV} style={styles.hasCv}>
+            <ArkadText text="Delete CV" />
+          </ArkadButton>
         }
-
+        {hasCv &&
         <ArkadButton onPress ={downloadCV}><ArkadText text="Download CV" /></ArkadButton>
+        } 
         
 
         <Text>First name</Text>
@@ -218,6 +236,9 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     alignItems: "center",
+  },
+  hasCv: {
+    backgroundColor: Colors.darkRed
   },
   nameLabel: {
     paddingTop: 8,
