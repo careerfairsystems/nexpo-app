@@ -36,7 +36,7 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
   useEffect(() => {
     getCompany();
   }, []);
-  
+
   if (loading || company == null) {
     return (<ScreenActivityIndicator />)
   }
@@ -46,8 +46,8 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.logoContainer}>
-            <Image 
-              source={company.logoUrl 
+            <Image
+              source={company.logoUrl
                 ? {uri: company.logoUrl}
                 : require('../assets/images/icon.png')}
               defaultSource={require('../assets/images/icon.png')}
@@ -58,7 +58,7 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
 
           <View style={styles.contactInfoContainer}>
             <Ionicons name="link" size={16} color={Colors.darkBlue} />
-            <Text 
+            <Text
               style={styles.contactInfoText}
               onPress={() => { if (company.website) { Linking.openURL(company.website) }}}>
               { company.website ? company.website.replace(/^https?:\/\//, '') : '\u2013'}
@@ -67,10 +67,15 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
 
           <Text style={styles.descHeader}>About us</Text>
           <Text style={styles.desc}>{ company.description ? company.description : '\u2013'}</Text>
+          <Text style={styles.descHeader}>We are looking for</Text>
+          <Text style={styles.desc}>{ company.positions ? company.positions.toString : 'no positions'}</Text>
+          <Text style={styles.descHeader}>in industries</Text>
+          <Text style={styles.desc}>{ company.industries ? company.industries.toString : 'no industries'}</Text>
+
           <Text style={styles.descHeader}>Did you know?</Text>
           <Text style={styles.desc}>{company.didYouKnow ? company.didYouKnow: '\u2013'}</Text>
         </View>
-      </ScrollView> 
+      </ScrollView>
     </View>
   );
 }

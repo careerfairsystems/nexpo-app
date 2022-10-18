@@ -103,22 +103,19 @@ export const updateMe = async (dto: UpdateCompanySelfDto): Promise<Company> => {
 
 export const filterData = (query: string, data: PublicCompanyDto[] | null, filterPos: number[] | null, filterInd: number[] | null) => {
   if(!data) return null;
-  else if(!filterPos && !filterInd && !query) return data; //nothing to filter
-/*  else if(!filterInd) { //filter on query and
-    return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
-    || (d.positions && d.positions.some((r) => filterPos && filterPos.includes(r))))
+  else if((!filterPos || filterPos.length <= 0) && (!filterInd || filterInd.length <= 0) && !query) return data; //nothing to filter
+  else if((!filterInd || filterInd.length <= 0) && query && (!filterPos || filterPos.length <= 0)) { //only filter on query
+    return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase())));
   }
-  else if(!filterPos) {
-    return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
-    || (d.industries && d.industries.some((r) => filterInd && filterInd.includes(r))));
+  else if(filterPos && filterPos.length > 0 && !query && (!filterInd || filterInd.length <= 0)) { //only filter on positions
+    return data.filter((d) => (d.positions && d.positions.some((r) => filterPos.includes(r))));
   }
-  else if(!query) {
-    return data.filter((d) => (d.positions && d.positions.some((r) => filterPos && filterPos.includes(r)))
-    || (d.industries && d.industries.some((r) => filterInd && filterInd.includes(r))));
-  }*/
+  else if(filterInd && filterInd.length > 0 && !query && (!filterPos || filterPos.length <= 0)) { //only filter on industries
+    return data.filter((d) => (d.industries && d.industries.some((r) => filterInd.includes(r))));
+  }
   else {
     return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
-    || (d.positions && d.positions.some((r) => filterPos && filterPos.includes(r)))
-    || (d.industries && d.industries.some((r) => filterInd && filterInd.includes(r))));
+    && (d.positions && filterPos && filterPos.length > 0 && d.positions.some((r) => filterPos.includes(r)))
+    && (d.industries && filterInd && filterInd.length > 0 && d.industries.some((r) => filterInd.includes(r))))
   }
 };

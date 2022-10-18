@@ -130,7 +130,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
                 setOpen={setPositionOpen}
                 setValue={setPositionValue}
                 setItems={setPositions}
-                placeholder="Select position"
+                placeholder="Select positions"
                 placeholderStyle={styles.placeholderStyles}
                 onOpen={onPositionOpen}
                 onChangeValue={onChange}
@@ -158,7 +158,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
               setOpen={setIndustryOpen}
               setValue={setIndustryValue}
               setItems={setIndustry}
-              placeholder="Select industry"
+              placeholder="Select industries"
               placeholderStyle={styles.placeholderStyles}
               onOpen={onIndustryOpen}
               onChangeValue={onChange}

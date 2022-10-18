@@ -9,16 +9,16 @@ import {
   } from "react-native";
 import {useForm, Controller} from 'react-hook-form';
 
-
 export default function DropDown() {
-    const [positions, setPositions] = useState([
-      { label: "Thesis", value: 0 },
-      { label: "Trainee Employment", value: 1 },
-      { label: "Internship", value: 2 },
-      { label: "Summer job", value: 3 },
-      { label: "Foreign opportunity", value: 4 },
-      { label: "Part time", value: 5 },
-    ]);
+
+  const [positions, setPositions] = useState([
+    { label: "Thesis", value: 0 },
+    { label: "Trainee Employment", value: 1 },
+    { label: "Internship", value: 2 },
+    { label: "Summer job", value: 3 },
+    { label: "Foreign opportunity", value: 4 },
+    { label: "Part time", value: 5 },
+  ]);
 
     const [industry, setIndustry] = useState([
       { label: "ElectricityEnergyPower"   , value: 0 },
@@ -92,7 +92,7 @@ export default function DropDown() {
                 placeholder="Select position"
                 placeholderStyle={styles.placeholderStyles}
                 onOpen={onPositionOpen}
-                onChangeValue={onChange}
+                onChangeValue={val => { setPositionValue(value);}}
                 zIndex={3000}
                 zIndexInverse={1000} />
             </View>
@@ -118,7 +118,7 @@ export default function DropDown() {
                 placeholder="Select industry"
                 placeholderStyle={styles.placeholderStyles}
                 onOpen={onIndustryOpen}
-                onChangeValue={onChange}
+                onChangeValue={ val => { setIndustryValue(value)}}
                 zIndex={3000}
                 zIndexInverse={1000} />
           </View>
