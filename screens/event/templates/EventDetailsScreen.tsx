@@ -167,7 +167,8 @@ export default function EventDetailsScreen(id: number) {
               <QRCode size={160} value={ticket.code} />
             </Pressable>
           </>
-        ) : (
+        ) : event.capacity === event.ticketCount ? <NoButton text="No tickets Left :-(" style={styles.consumedText}/> 
+        : (
           <ArkadButton onPress={createTicket} style={styles.bookButton}>
             <ArkadText text="Register to event" style={styles.title} />
           </ArkadButton>
