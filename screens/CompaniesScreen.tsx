@@ -11,7 +11,6 @@ import { PublicCompanyDto } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
 import { CompanyStackParamList } from "../navigation/CompaniesNavigator";
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import DropDown from '../components/companies/DropDown';
 import Colors from '../constants/Colors';
 import { Controller, useForm } from 'react-hook-form';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -40,7 +39,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   ]);
 
   const [industry, setIndustry] = useState([
-    { label: "ElectricityEnergyPower"   , value: 0 },
+    { label: "Electricity Energy Power"   , value: 0 },
     { label: "Environment"              , value: 1 },
     { label: "BankingFinance"           , value: 2 },
     { label: "Union"                    , value: 3 },
@@ -136,7 +135,9 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
                 onOpen={onPositionOpen}
                 onChangeValue={onChange}
                 zIndex={3000}
-                zIndexInverse={1000} />
+                zIndexInverse={1000}
+                mode = "BADGE"
+                />
             </View>
         )} />
 
@@ -146,22 +147,25 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
         control={control}
         render={({ field: { onChange, value } }) => (
           <View style={styles.dropdown}>
-              <DropDownPicker
-                multiple={true}
-                min = {0}
-                max = {23}
-                open={industryOpen}
-                value={industryValue}
-                items={industry}
-                setOpen={setIndustryOpen}
-                setValue={setIndustryValue}
-                setItems={setIndustry}
-                placeholder="Select industry"
-                placeholderStyle={styles.placeholderStyles}
-                onOpen={onIndustryOpen}
-                onChangeValue={onChange}
-                zIndex={3000}
-                zIndexInverse={1000} />
+            <DropDownPicker
+              dropDownContainerStyle = {styles.dropDownContainerStyle}
+              multiple={true}
+              min = {0}
+              max = {23}
+              open={industryOpen}
+              value={industryValue}
+              items={industry}
+              setOpen={setIndustryOpen}
+              setValue={setIndustryValue}
+              setItems={setIndustry}
+              placeholder="Select industry"
+              placeholderStyle={styles.placeholderStyles}
+              onOpen={onIndustryOpen}
+              onChangeValue={onChange}
+              zIndex={3000}
+              zIndexInverse={1000}
+              mode = "BADGE"
+               />
           </View>
         )} />
         </View>
@@ -186,10 +190,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   rowContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    width: '50%',
   },
   list: {
     width: '100%',
+    zIndex: -3000,
   },
   input: {
     width: '90%',
@@ -206,6 +212,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     width: '50%',
+    alignSelf: 'center',
     borderColor: Colors.darkBlue,
     borderWidth: 3,
     color: Colors.darkBlue,
@@ -215,7 +222,18 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 15,
     fontFamily: 'montserrat',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+  },
+  dropDownContainerStyle: {
+    width: '100%',
+    alignSelf: 'center',
+    borderColor: Colors.darkBlue,
+    borderWidth: 3,
+    borderRadius: 7,
+    margin: 10,
+    fontSize: 15,
+    fontFamily: 'montserrat',
+
   },
   label: {
     marginBottom: 7,
