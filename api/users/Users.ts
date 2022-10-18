@@ -10,7 +10,7 @@ export interface User {
   foodPreferences: string | null;
   profilePictureUrl: string | null;
   companyId: number | null;
-  cvURL: string | null;
+  hasCv: boolean | null;
 }
 
 export enum Role {
@@ -25,7 +25,7 @@ export interface UpdateUserDto {
   phoneNr?: string | null;
   foodPreferences?: string | null;
   password?: string | null;
-  cvURL?: string | null;
+  hasCv?: boolean | null;
 }
 
 /**

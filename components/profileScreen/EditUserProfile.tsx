@@ -33,8 +33,8 @@ export default function EditUserProfile({
   const [foodPreferences, setFoodPreferences] = useState<string | null>(
     user.foodPreferences
   );
-  const [cvURL, setCvURL] = useState<string | null> (
-    user.cvURL
+  const [hasCv, setCvURL] = useState<boolean| null> (
+    user.hasCv
   );
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
@@ -104,12 +104,29 @@ export default function EditUserProfile({
   const setCV = async () => {
 
     const resultFile = await DocumentPicker.getDocumentAsync({});
-    if( resultFile.type == "success") {
-      const dto = await API.s3bucket.postToS3 (resultFile.uri)
+    //needs maximum size
+    if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  /*&& (resultFile.size? < 21:  false)*/ ) {
+      const dto = await API.s3bucket.postToS3 (resultFile.uri, user.id.toString())
 
-      console.log(resultFile)
-      setCvURL(dto.url)
+      console.log(resultFile.uri)
+      //console.log(dto)
+      setCvURL(true)
     }
+  }
+
+  const deleteCV = async () => {
+    const dto = await API.s3bucket.deleteOnS3(user.id.toString())
+    if (dto.valueOf() == true) {
+      setCvURL(false)
+    }
+  }
+
+  const downloadCV = async () => {
+    const dto = await API.s3bucket.getFromS3(user.id.toString())
+    //console.log(dto)
+
+    
+    
   }
 
   
@@ -132,12 +149,20 @@ export default function EditUserProfile({
           
         )}
         <ArkadButton onPress={setCV}>
-          {cvURL ? (
+          {hasCv ? (
             <ArkadText text="Update CV" />
             ) : (
             <ArkadText text="Upload CV" />
           )}
         </ArkadButton>
+
+        //????
+        if (hasCv) {
+         <ArkadButton onPress={deleteCV}><ArkadText text="Delete CV" /></ArkadButton>
+        }
+
+        <ArkadButton onPress ={downloadCV}><ArkadText text="Download CV" /></ArkadButton>
+        
 
         <Text>First name</Text>
         <TextInput
