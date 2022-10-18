@@ -1,3 +1,5 @@
+import { Linking } from 'react-native';
+import { API } from '../API';
 import { getAuth, putAuth, deleteAuth } from '../http/_HttpHelpers';
 
 export interface User {
@@ -10,6 +12,7 @@ export interface User {
   foodPreferences: string | null;
   profilePictureUrl: string | null;
   companyId: number | null;
+  hasCv: boolean | null;
 }
 
 export enum Role {
@@ -24,6 +27,7 @@ export interface UpdateUserDto {
   phoneNr?: string | null;
   foodPreferences?: string | null;
   password?: string | null;
+  hasCv?: boolean | null;
 }
 
 /**
@@ -90,4 +94,20 @@ export const updateMe = async (dto: UpdateUserDto): Promise<User> => {
 export const removeMe = async (): Promise<boolean> => {
   const response = await deleteAuth('/users/me');
   return response.ok;
+}
+
+/**
+ * Download user CV
+ */
+export const downloadCV = async (userId: number) => {
+  try {
+    const Uri = await API.s3bucket.getFromS3(userId.toString())
+    Linking.canOpenURL(Uri).then((supported) => {
+      return Linking.openURL(Uri);
+    });
+  }
+  catch (error) {
+    console.log(error);
+    alert('No CV found');
+  }
 }

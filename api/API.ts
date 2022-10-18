@@ -8,6 +8,7 @@ import * as Files from './files';
 import * as Students from './students';
 import * as SSs from './studentsessions';
 import * as SSApplications from './sSApplications';
+import * as S3bucket from './s3bucket'
 
 export class API {
   static auth = Auth
@@ -20,4 +21,5 @@ export class API {
   static students = Students
   static studentSessions = SSs
   static sSApplications = SSApplications
+  static s3bucket = S3bucket
 }

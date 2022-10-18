@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "../../api/users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { Platform, StyleSheet } from "react-native";
+import { BackHandler, Linking, Platform, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
@@ -11,6 +11,7 @@ import { ArkadText } from "../StyledText";
 import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as DocumentPicker from "expo-document-picker";
 
 type EditUserProfileProps = {
   user: User;
@@ -32,8 +33,13 @@ export default function EditUserProfile({
   const [foodPreferences, setFoodPreferences] = useState<string | null>(
     user.foodPreferences
   );
+  const [hasCv, setCvURL] = useState<boolean| null> (
+    user.hasCv
+  );
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
+  const [uri, setUri] = useState<string|null>(null);
+
 
   useEffect(() => {
     // TODO Validate password strength with zxvcbn
@@ -97,6 +103,32 @@ export default function EditUserProfile({
     setProfilePictureUrl(null);
   };
 
+  const setCV = async () => {
+    const resultFile = await DocumentPicker.getDocumentAsync({});
+    if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 300000 : false)) {
+      const dto = await API.s3bucket.postToS3 (resultFile.uri, user.id.toString())
+      console.log(resultFile.uri)
+      setCvURL(true)
+    } else {
+      alert("File needs to be in PDF format and must be smaller than 300kb")
+    }
+  }
+
+  const deleteCV = async () => {
+    const dto = await API.s3bucket.deleteOnS3(user.id.toString())
+    if (dto.valueOf() == true) {
+      setCvURL(false)
+    }
+  }
+
+  const downloadCV = async () => {
+    const Uri = await API.s3bucket.getFromS3(user.id.toString())
+    setUri(Uri) 
+    Linking.canOpenURL(Uri).then((supported) => {
+      return Linking.openURL(Uri);
+    });
+  }
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -112,8 +144,24 @@ export default function EditUserProfile({
           <ArkadButton onPress={removeProfilePicture}>
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
+          
         )}
-
+        <ArkadButton onPress={setCV}>
+          {hasCv ? (
+            <ArkadText text="Update CV" />
+            ) : (
+            <ArkadText text="Upload CV" />
+          )}
+        </ArkadButton>
+        {hasCv &&
+          <ArkadButton onPress={deleteCV} style={styles.hasCv}>
+            <ArkadText text="Delete CV" />
+          </ArkadButton>
+        }
+        {hasCv &&
+        <ArkadButton onPress ={downloadCV}><ArkadText text="Download CV" /></ArkadButton>
+        } 
+        
         <Text>First name</Text>
         <TextInput
           style={styles.textInput}
@@ -168,6 +216,9 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     alignItems: "center",
+  },
+  hasCv: {
+    backgroundColor: Colors.darkRed
   },
   nameLabel: {
     paddingTop: 8,
