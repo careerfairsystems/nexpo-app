@@ -101,22 +101,11 @@ export const updateMe = async (dto: UpdateCompanySelfDto): Promise<Company> => {
   return company;
 }
 
-export const filterData = (query: string, data: PublicCompanyDto[] | null, filterPos: number[] | null, filterInd: number[] | null) => {
+export const filterData = (query: string, data: PublicCompanyDto[] | null) => {
   if(!data) return null;
-  else if(!filterPos && !filterInd) return data;
-  else if(!filterInd) {
-    return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
-    || (d.positions && d.positions.some((r) => filterPos && filterPos.includes(r))))
-  }
-  else if(!filterPos) {
-    return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
-    || (d.industries && d.industries.some((r) => filterInd && filterInd.includes(r))));
-  }
   else if (!query) {
     return data;
   } else {
-    return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase()))
-    || (d.positions && d.positions.some((r) => filterPos && filterPos.includes(r)))
-    || (d.industries && d.industries.some((r) => filterInd && filterInd.includes(r))));
+    return data.filter((d) => (d.name.toLowerCase().includes(query.toLowerCase())));
   }
 };

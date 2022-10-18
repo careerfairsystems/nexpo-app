@@ -1,20 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-
-
-import { Text, View } from '../components/Themed';
-
-
+import { View } from '../components/Themed';
 import { API } from '../api';
 import { PublicCompanyDto } from '../api/companies';
 import { CompanyListItem } from '../components/companies/CompanyListItem';
 import { CompanyStackParamList } from "../navigation/CompaniesNavigator";
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import DropDown from '../components/companies/DropDown';
 import Colors from '../constants/Colors';
-import { Controller, useForm } from 'react-hook-form';
-import DropDownPicker from 'react-native-dropdown-picker';
+import CompaniesModal from '../components/companies/CompaniesModal';
+import { ArkadButton } from '../components/Buttons';
+import { ArkadText } from '../components/StyledText';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -26,67 +22,14 @@ type companiesNavigation = {
 export default function CompaniesScreen({navigation}: companiesNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
+  const [filteredCompanies, setFilteredCompanies] = useState<PublicCompanyDto[] | null>(null);
   const [text, onChangeText] = React.useState("");
-  const [filterIndustries, setFilterIndustries] = useState<number[] | null>(null);
-  const [filterPositions, setFilterPositions] = useState<number[] | null>(null);
-
-  const [positions, setPositions] = useState([
-    { label: "Thesis", value: 0 },
-    { label: "Trainee Employment", value: 1 },
-    { label: "Internship", value: 2 },
-    { label: "Summer job", value: 3 },
-    { label: "Foreign opportunity", value: 4 },
-    { label: "Part time", value: 5 },
-  ]);
-
-  const [industry, setIndustry] = useState([
-    { label: "ElectricityEnergyPower"   , value: 0 },
-    { label: "Environment"              , value: 1 },
-    { label: "BankingFinance"           , value: 2 },
-    { label: "Union"                    , value: 3 },
-    { label: "Investment"               , value: 4 },
-    { label: "Insurance"                , value: 5 },
-    { label: "Recruitment"              , value: 6 },
-    { label: "Construction"             , value: 7 },
-    { label: "Architecture"             , value: 8 },
-    { label: "GraphicDesign"            , value: 9 },
-    { label: "DataIT"                   , value: 10 },
-    { label: "FinanceConsultancy"       , value: 11 },
-    { label: "Telecommunication"        , value: 12 },
-    { label: "Consulting"               , value: 13 },
-    { label: "Management"               , value: 14 },
-    { label: "Media"                    , value: 15 },
-    { label: "Industry"                 , value: 16 },
-    { label: "NuclearPower"             , value: 17 },
-    { label: "LifeScience"              , value: 18 },
-    { label: "MedicalTechniques"        , value: 19 },
-    { label: "PropertyInfrastructure"   , value: 20 },
-    { label: "Research"                 , value: 21 },
-    { label: "Coaching"                 , value: 22 },
-  ]);
-
-  const [positionOpen, setPositionOpen] = useState(false);
-  const [positionValue, setPositionValue] = useState<number[] | null>(null);
-  const onPositionOpen = useCallback(() => {
-    setIndustryOpen(false);
-  }, []);
-
-  const [industryOpen, setIndustryOpen] = useState(false);
-  const [industryValue, setIndustryValue] = useState<number[] | null>(null);
-  const onIndustryOpen = useCallback(() => {
-    setPositionOpen(false);
-  }, []);
-
-  const { handleSubmit, control } = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data, "data");
-  };
-
-
+  const [modalVisible, setModalVisible] = useState(false);
 
   const getCompanies = async () => {
     setLoading(true);
     const companies = await API.companies.getAll();
+    setFilteredCompanies(companies);
     setCompanies(companies);
     setLoading(false);
   }
@@ -107,64 +50,26 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder={"Search for company here!"}
-      />
-      <View style={styles.container}>
-        <Text style={styles.label}>Position</Text><Controller
-          name="position"
-          defaultValue=""
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <View style={styles.dropdown}>
-              <DropDownPicker
-                style={styles.dropdown}
-                multiple={true}
-                open={positionOpen}
-                value={positionValue}
-                items={positions}
-                setOpen={setPositionOpen}
-                setValue={setPositionValue}
-                setItems={setPositions}
-                placeholder="Select position"
-                placeholderStyle={styles.placeholderStyles}
-                onOpen={onPositionOpen}
-                onChangeValue={onChange}
-                zIndex={3000}
-                zIndexInverse={1000} />
-            </View>
-        )} />
-
-        <Text style={styles.label}>Industry</Text><Controller
-        name="industry"
-        defaultValue=""
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <View style={styles.dropdown}>
-              <DropDownPicker
-                style={styles.dropdown}
-                multiple={true}
-                open={industryOpen}
-                value={industryValue}
-                items={industry}
-                setOpen={setIndustryOpen}
-                setValue={setIndustryValue}
-                setItems={setIndustry}
-                placeholder="Select industry"
-                placeholderStyle={styles.placeholderStyles}
-                onOpen={onIndustryOpen}
-                onChangeValue={onChange}
-                zIndex={3000}
-                zIndexInverse={1000} />
-          </View>
-        )} />
+      <CompaniesModal 
+        companies={companies ? companies : []}
+        setFilteredCompanies={setFilteredCompanies}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      /> 
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          value={text}
+          placeholder={"Search for company here!"}
+        />
+        <ArkadButton style={styles.filterbutton} onPress={() => setModalVisible(true)} >
+          <ArkadText text = "Filter" />
+        </ArkadButton>  
       </View>
       <FlatList
         style={styles.list}
-        data={API.companies.filterData(text, companies, industryValue, positionValue)}
+        data={API.companies.filterData(text, filteredCompanies)}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) =>
           <CompanyListItem
@@ -197,7 +102,16 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat',
     paddingHorizontal: 10
   },
-
+  filterbutton: {
+    height: 45,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  },
 
   label: {
     marginBottom: 7,
