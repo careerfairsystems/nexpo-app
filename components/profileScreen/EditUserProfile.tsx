@@ -11,6 +11,7 @@ import { ArkadText } from "../StyledText";
 import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as DocumentPicker from "expo-document-picker";
 
 type EditUserProfileProps = {
   user: User;
@@ -31,6 +32,9 @@ export default function EditUserProfile({
   const [phoneNr, setPhoneNr] = useState<string | null>(user.phoneNr);
   const [foodPreferences, setFoodPreferences] = useState<string | null>(
     user.foodPreferences
+  );
+  const [cvURL, setCvURL] = useState<string | null> (
+    user.cvURL
   );
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
@@ -97,6 +101,19 @@ export default function EditUserProfile({
     setProfilePictureUrl(null);
   };
 
+  const setCV = async () => {
+
+    const resultFile = await DocumentPicker.getDocumentAsync({});
+    if( resultFile.type == "success") {
+      const dto = await API.s3bucket.postToS3 (resultFile.uri)
+
+      console.log(resultFile)
+      setCvURL(dto.url)
+    }
+  }
+
+  
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -112,7 +129,15 @@ export default function EditUserProfile({
           <ArkadButton onPress={removeProfilePicture}>
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
+          
         )}
+        <ArkadButton onPress={setCV}>
+          {cvURL ? (
+            <ArkadText text="Update CV" />
+            ) : (
+            <ArkadText text="Upload CV" />
+          )}
+        </ArkadButton>
 
         <Text>First name</Text>
         <TextInput
