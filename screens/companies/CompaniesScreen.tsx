@@ -39,9 +39,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   }, []);
   
   if (isLoading) {
-    return (<View style={styles.container}>
-      <ScreenActivityIndicator />
-    </View>)
+    return (<ScreenActivityIndicator />)
   }
 
   return (

@@ -6,7 +6,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../api'
 import { SSsStackParamlist } from "./SSsCRepNavigator"
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { View } from '../../components/Themed';
 import { Student } from '../../api/students';
 import StudentProfile from '../../components/profileScreen/StudentProfile';
 import Colors from '../../constants/Colors';
@@ -15,7 +14,7 @@ import { ArkadButton } from '../../components/Buttons';
 import { ArkadText, NoButton } from '../../components/StyledText';
 import UserProfile from '../../components/profileScreen/UserProfile';
 import { User } from '../../api/users';
-import { ApplicationsMsg } from '../../components/sSApplication/SSApplicationMsg';
+import { CardWithHeader } from '../../components/sSApplication/SSApplicationMsg';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -62,11 +61,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   }, []);
   
   if (loading || !student || !user || !application) {
-    return (
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    );
+    return <ScreenActivityIndicator />
   }
 
   
@@ -81,7 +76,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
         <ArkadButton onPress = {() => API.users.downloadCV(user.id)}><ArkadText text="Download CV" /></ArkadButton>
         } 
       
-      <ApplicationsMsg msg={application.motivation} />
+      <CardWithHeader msg={application.motivation} header={'Student Motivation'} />
       { application.status === 1 && <NoButton text={ "Accepted!" } style={styles.acceptedText}/>}
       {application.status !== 1 &&
       <>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -68,12 +68,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
 
   
   if (loading || !user) {
-    return (
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-        <LogoutButton onPress={logout} />
-      </View>
-    );
+    return <ScreenActivityIndicator />
   }
   
   return <>
@@ -83,7 +78,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       { company && <CompanyProfile company={company} />}
       <View style={styles.eventList}> 
         {!bookedEvents 
-          ? <ScreenActivityIndicator />
+          ? <ActivityIndicator />
           : bookedEvents.length !== 0 &&
              <BookedEventList
                 bookedEvents={bookedEvents}

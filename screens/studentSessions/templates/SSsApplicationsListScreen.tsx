@@ -6,7 +6,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../../api';
 import { ApplicationsList } from '../../../components/sSApplication/SSApplicationList';
 import { SSsStackParamlist } from "../SSsCRepNavigator";
-import { ScrollView } from 'react-native-gesture-handler';
 import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
 import { SSApplicationDto } from '../../../api/sSApplications';
 import { useFocusEffect } from '@react-navigation/native';
@@ -38,12 +37,10 @@ export default function SSsApplicationsListScreen(navigation: StackNavigationPro
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <ApplicationsList
-          applications={applications}
-          onPress={openApplicationDetails}
-        />
-      </ScrollView>
+      <ApplicationsList
+        applications={applications}
+        onPress={openApplicationDetails}
+      />
     </View>
   );
 }

@@ -1,8 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import EventDetailsScreen from './templates/EventDetailsScreen';
 import EventListScreen from "./EventListScreen";
-import EventParticipantsScreen from './templates/EventParticipantsScreen';
 import QRScreen from './QRScreen';
 import EventSwitchScreen from './EventSwitchScreen';
 
