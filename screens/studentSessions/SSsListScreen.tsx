@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../api';
 import { SSTimeslot } from '../../api/studentsessions';
 import { TimeslotList } from '../../components/studentSessionList/SSList';
 import SSCompInfo from '../../components/studentSessionList/SSCompInfo';
-import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
+import { SSsStackParamlist } from "./SSsStudentNavigator";
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
 import { PublicCompanyDto } from '../../api/companies/Companies';
 import { FlatList } from 'react-native-gesture-handler';
 import { getMe, Role, User } from '../../api/users/Users';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { ApplicationAcceptedDto, SSApplication } from '../../api/sSApplications';
+import { ApplicationAcceptedDto } from '../../api/sSApplications';
 import { Student } from '../../api/students';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
@@ -70,11 +70,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }, []));
 
   if (isLoading || company == null || user == null) {
-    return(
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    )
+    return <ScreenActivityIndicator />
   }
   
   return (

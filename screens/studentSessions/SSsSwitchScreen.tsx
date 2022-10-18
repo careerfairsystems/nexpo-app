@@ -1,8 +1,8 @@
 import { StackNavigationProp } from "@react-navigation/stack";
-import { SSsStackParamlist } from "../../navigation/SSsCRepNavigator";
-import SSsApplicationsListScreen from "../../screenTemplates/SSsApplicationsListScreen";
-import SSsApplicationScreen from "../../screenTemplates/SSsApplicationSreen";
-import SSsDetailsScreen from "../../screenTemplates/SSsDetailsScreen";
+import { SSsStackParamlist } from "./SSsCRepNavigator";
+import SSsApplicationsListScreen from "./templates/SSsApplicationsListScreen";
+import SSsApplicationScreen from "./templates/SSsApplicationSreen";
+import SSsDetailsScreen from "./templates/SSsDetailsScreen";
 
 type SSsSwitchScreenParams = {
   navigation: StackNavigationProp<

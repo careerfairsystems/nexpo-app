@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
 
-import { Text, View } from '../components/Themed';
-import { TextInput } from '../components/TextInput';
+import { Text, View } from '../../components/Themed';
+import { TextInput } from '../../components/TextInput';
 
-import { ArkadButton } from '../components/Buttons';
-import { ArkadText } from '../components/StyledText';
+import { ArkadButton } from '../../components/Buttons';
+import { ArkadText } from '../../components/StyledText';
 
-import { API } from '../api'
+import { API } from '../../api'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthStackParamList } from '../navigation';
-import Colors from '../constants/Colors';
-import { Checkbox } from '../components/Checkbox';
+import { AuthStackParamList } from "./AuthNavigator";
+import Colors from '../../constants/Colors';
+import { Checkbox } from '../../components/Checkbox';
 
 type SignUpScreenParams = {
   navigation: StackNavigationProp<
@@ -50,7 +50,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
     <View style={styles.container}>
       <Image 
         style={styles.logo} 
-        source={require('../assets/images/arkad_logo.png')} 
+        source={require('../../assets/images/arkad_logo.png')} 
       />
       <View style={styles.inputContainer}>
         <TextInput

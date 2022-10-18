@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '../components/Themed';
+import { View } from '../../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '../api';
-import { ApplicationsList } from '../components/sSApplication/SSApplicationList';
-import { SSsStackParamlist } from "../navigation/SSsCRepNavigator";
-import { ScrollView } from 'react-native-gesture-handler';
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { SSApplicationDto } from '../api/sSApplications';
+import { API } from '../../../api';
+import { ApplicationsList } from '../../../components/sSApplication/SSApplicationList';
+import { SSsStackParamlist } from "../SSsCRepNavigator";
+import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
+import { SSApplicationDto } from '../../../api/sSApplications';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 
@@ -38,12 +37,10 @@ export default function SSsApplicationsListScreen(navigation: StackNavigationPro
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <ApplicationsList
-          applications={applications}
-          onPress={openApplicationDetails}
-        />
-      </ScrollView>
+      <ApplicationsList
+        applications={applications}
+        onPress={openApplicationDetails}
+      />
     </View>
   );
 }

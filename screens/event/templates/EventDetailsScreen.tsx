@@ -1,45 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet } from "react-native";
+import { Dimensions, Modal, Pressable, ScrollView, StyleSheet } from "react-native";
 import {
   Ionicons,
   MaterialIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import Colors from "../constants/Colors";
+import Colors from "../../../constants/Colors";
 
-import { API } from "../api";
-import { bookedEvent, Event } from "../api/events";
+import { API } from "../../../api";
+import { bookedEvent, Event } from "../../../api/events";
 import {
   CreateTicketDto,
   getTicketForEvent,
   removeTicket,
   Ticket,
-} from "../api/tickets";
+} from "../../../api/tickets";
 
-import { View } from "../components/Themed";
-import ScreenActivityIndicator from "../components/ScreenActivityIndicator";
-import { ArkadButton } from "../components/Buttons";
-import { ArkadText } from "../components/StyledText";
+import { View } from "../../../components/Themed";
+import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator";
+import { ArkadButton } from "../../../components/Buttons";
+import { ArkadText, NoButton } from "../../../components/StyledText";
 import QRCode from "react-native-qrcode-svg";
 
-type EventDetailsScreenParams = {
-  route: {
-    params: {
-      id: number;
-    };
-  };
-};
-
-export default function EventDetailsScreen({
-  route,
-}: EventDetailsScreenParams) {
-  const { id } = route.params;
+export default function EventDetailsScreen(id: number) {
 
   const [event, setEvent] = useState<Event | null>(null);
   const [registered, setRegistered] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
@@ -118,6 +108,7 @@ export default function EventDetailsScreen({
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
+        <QrModal/>
         <View style={styles.titleContainer}>
           <ArkadText text={event.name} style={styles.title} />
         </View>
@@ -163,20 +154,23 @@ export default function EventDetailsScreen({
 
         {ticket && registered ? (
           <>
-            <ArkadButton
+            {ticket.isConsumed ? <NoButton text="Ticket consumed!" style={styles.consumedText}/>
+            :<ArkadButton
               onPress={() => deregister()}
               style={styles.bookedButton}
             >
               <ArkadText text="De-register from event" style={styles.title} />
-            </ArkadButton>
+            </ArkadButton>}
+            <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={styles.qrContainer}
-              onPress={() => alert("Ticket to the event")}
+              onPress={() => setModalVisible(true)}
             >
-              <QRCode size={160} value={ticket.id.toString()} />
+              <QRCode size={160} value={ticket.code} />
             </Pressable>
           </>
-        ) : (
+        ) : event.capacity === event.ticketCount ? <NoButton text="No tickets Left :-(" style={styles.consumedText}/> 
+        : (
           <ArkadButton onPress={createTicket} style={styles.bookButton}>
             <ArkadText text="Register to event" style={styles.title} />
           </ArkadButton>
@@ -184,11 +178,47 @@ export default function EventDetailsScreen({
       </View>
     </ScrollView>
   );
+
+  function QrModal() {
+    return (<Modal
+      animationType="none"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(!modalVisible);
+      } }
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.qrModalContainer}>
+          {ticket && <QRCode size={Dimensions.get('window').width * 0.75} value={ticket.code} />}
+        </View>
+        <ArkadButton onPress={() => setModalVisible(!modalVisible)}>
+          <ArkadText text={"Close"} />
+        </ArkadButton>
+      </View>
+    </Modal>)
+  }
 }
 
 const styles = StyleSheet.create({
+  ticketTitle: {
+    color: Colors.darkBlue,
+    fontSize: 20,
+    marginBottom: 10,
+  },
   scrollView: {
     backgroundColor: Colors.white,
+  },
+  consumedText: {
+    alignSelf: "center",
+    backgroundColor: Colors.darkBlue,
+    marginTop: 40,
+    marginBottom: 20,
+    fontSize: 16,
+    padding: 22,
+    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 12,
+    width: '90%',
   },
   container: {
     flex: 1,
@@ -277,5 +307,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 16,
     marginBottom: 60,
+  },
+  qrModalContainer: {
+    borderWidth: 3,
+    borderColor: Colors.lightGray,
+    borderRadius: 5,
+    padding: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.8)",
   },
 });

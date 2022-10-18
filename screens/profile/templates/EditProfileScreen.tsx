@@ -1,43 +1,28 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
-import Colors from '../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
+import Colors from '../../../constants/Colors';
 
-import { API } from '../api'
-import { Role, UpdateUserDto, User } from '../api/users';
-import { Event } from '../api/events';
-import { Company, UpdateCompanySelfDto } from '../api/companies';
-import { ProfileStackParamList } from "../navigation/ProfileNavigator";
+import { API } from '../../../api'
+import { Role, UpdateUserDto, User } from '../../../api/users';
+import { Company, UpdateCompanySelfDto } from '../../../api/companies';
+import { ProfileStackParamList } from "../ProfileNavigator";
 
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import { Text, View } from '../components/Themed';
-import { ArkadText } from '../components/StyledText';
-import { AuthContext } from '../components/AuthContext';
-import { EditProfileButton, LogoutButton, ScanQRButton, TicketsButton } from '../components/profileScreen/Buttons';
-import { EmptyEventItem } from '../components/profileScreen/EmptyEventItem';
-import { BookedEventList } from '../components/profileScreen/BookedEventList';
-import QRCode from 'react-native-qrcode-svg';
-import UserProfile from '../components/profileScreen/UserProfile';
-import { Student, UpdateStudentDto } from '../api/students';
-import StudentProfile from '../components/profileScreen/StudentProfile';
-import CompanyProfile from '../components/profileScreen/CompanyProfile';
-import EditUserProfile from '../components/profileScreen/EditUserProfile';
-import { ArkadButton } from '../components/Buttons';
-import EditStudentProfile from '../components/profileScreen/EditStudentProfile';
-import EditCompanyProfile from '../components/profileScreen/EditCompanyProfile';
+import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
+import { ArkadText } from '../../../components/StyledText';
+import { Student, UpdateStudentDto } from '../../../api/students';
+import EditUserProfile from '../../../components/profileScreen/EditUserProfile';
+import { ArkadButton } from '../../../components/Buttons';
+import EditStudentProfile from '../../../components/profileScreen/EditStudentProfile';
+import EditCompanyProfile from '../../../components/profileScreen/EditCompanyProfile';
 
 export type EditStatus = {
   ok: boolean;
   message: string | null;
 };
 
-export type EditProfileScreenParams = {
-  navigation: StackNavigationProp<ProfileStackParamList, 'EditProfileScreen'>
-};
-
-export default function EditProfileScreen({ navigation }: EditProfileScreenParams) {
+export default function EditProfileScreen(navigation: StackNavigationProp<ProfileStackParamList, 'ProfileSwitchScreen'>) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [user, setUser] = useState<User | null>(null);
@@ -111,11 +96,7 @@ export default function EditProfileScreen({ navigation }: EditProfileScreenParam
   }, []);
 
   if (loading || !user) {
-    return (
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    );
+    return <ScreenActivityIndicator />
   }
   
   return <>

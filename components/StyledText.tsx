@@ -16,8 +16,19 @@ interface textProps {
 export function ArkadText(props: textProps) {
   return <Text style={[styles.text, props.style]}>{props.text}</Text>
 }
+export function NoButton(props: textProps) {
+  return <Text style={[styles.acceptedText, props.style]}>{props.text}</Text>
+}
 
 const styles = StyleSheet.create({
+  acceptedText:{
+    fontSize: 16,
+    padding: 20,
+    color: Colors.white,
+    fontFamily: 'montserrat',
+    justifyContent: "center",
+    textAlign: "center",
+  },
   text: {
     justifyContent: "center",
     textAlign: "center",

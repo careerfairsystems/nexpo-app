@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { View } from '../components/Themed';
-import { API } from '../api';
-import { PublicCompanyDto } from '../api/companies';
-import { CompanyListItem } from '../components/companies/CompanyListItem';
-import { CompanyStackParamList } from "../navigation/CompaniesNavigator";
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
-import Colors from '../constants/Colors';
-import CompaniesModal from '../components/companies/CompaniesModal';
-import { ArkadButton } from '../components/Buttons';
-import { ArkadText } from '../components/StyledText';
+import { Text, View } from '../../components/Themed';
+import { API } from '../../api';
+import { PublicCompanyDto } from '../../api/companies';
+import { CompanyListItem } from '../../components/companies/CompanyListItem';
+import { CompanyStackParamList } from "./CompaniesNavigator";
+import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
+import Colors from '../../constants/Colors';
+import CompaniesModal from '../../components/companies/CompaniesModal';
+import { ArkadButton } from '../../components/Buttons';
+import { ArkadText } from '../../components/StyledText';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -43,9 +43,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   }, []);
 
   if (isLoading) {
-    return (<View style={styles.container}>
-      <ScreenActivityIndicator />
-    </View>)
+    return (<ScreenActivityIndicator />)
   }
 
   return (

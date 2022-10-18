@@ -1,12 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import SSsCompaniesScreen from '../screens/studentSessions/SSsCompaniesScreen';
-import SSsListScreen from "../screens/studentSessions/SSsListScreen";
-import SSsDetailsScreen from '../screenTemplates/SSsDetailsScreen';
-import SSsApplicationScreen from '../screenTemplates/SSsApplicationSreen';
-import SSsApplicationsListScreen from '../screenTemplates/SSsApplicationsListScreen';
-import SSsApplicationDetailsScreen from '../screens/studentSessions/SSsApplicationDetailsScreen';
-import SSsSwitchScreen from '../screens/studentSessions/SSsSwitchScreen';
+import SSsCompaniesScreen from './SSsCompaniesScreen';
+import SSsListScreen from "./SSsListScreen";
+import SSsSwitchScreen from './SSsSwitchScreen';
 
 
 export type SSsStackParamlist = {
