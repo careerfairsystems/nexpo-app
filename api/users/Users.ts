@@ -100,8 +100,14 @@ export const removeMe = async (): Promise<boolean> => {
  * Download user CV
  */
 export const downloadCV = async (userId: number) => {
-  const Uri = await API.s3bucket.getFromS3(userId.toString())
-  Linking.canOpenURL(Uri).then((supported) => {
-    return Linking.openURL(Uri);
-  });
+  try {
+    const Uri = await API.s3bucket.getFromS3(userId.toString())
+    Linking.canOpenURL(Uri).then((supported) => {
+      return Linking.openURL(Uri);
+    });
+  }
+  catch (error) {
+    console.log(error);
+    alert('No CV found');
+  }
 }
