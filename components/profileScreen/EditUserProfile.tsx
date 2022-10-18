@@ -125,7 +125,6 @@ export default function EditUserProfile({
 
   const downloadCV = async () => {
     const Uri = await API.s3bucket.getFromS3(user.id.toString())
-    console.log(Uri)
     setUri(Uri) 
     Linking.canOpenURL(Uri).then((supported) => {
       return Linking.openURL(Uri);

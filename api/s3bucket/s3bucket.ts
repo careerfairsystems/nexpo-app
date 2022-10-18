@@ -20,6 +20,5 @@ export const deleteOnS3 = async(userId: string): Promise<boolean> => {
 export const getFromS3 = async(userId: string): Promise<string> => {
   const response = await getAuth(`/awss3/${userId}`)
   console.log(response)
-  console.log(response.body)
   return response.url
 }
