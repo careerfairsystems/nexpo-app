@@ -1,6 +1,4 @@
-import { PanResponder } from "react-native";
 import { deleteAuth, getAuth, postAuthFile } from "../http/_HttpHelpers"
-import * as reactnativefs from "react-native-fs";
 
 export interface FileCreatedDto {
     url: string;
@@ -19,21 +17,9 @@ export const deleteOnS3 = async(userId: string): Promise<boolean> => {
   return response.ok
 }
 
-export const getFromS3 = async(userId: string): Promise<Blob> => {
+export const getFromS3 = async(userId: string): Promise<string> => {
   const response = await getAuth(`/awss3/${userId}`)
   console.log(response)
-  const blob = await response.blob();
-  console.log(blob)
-  const url = URL.createObjectURL(blob)
-  console.log(url)
-  const a = document.createElement('a')
-  a.href = url;
-  a.download = __filename || 'download'
-  a.click;
-
-
-  //var RNFS = require('react-native-fs');
-  //reactnativefs.readFile(response.body)
-  //const dto = json as FileCreatedDto;
-  return blob
+  console.log(response.body)
+  return response.url
 }

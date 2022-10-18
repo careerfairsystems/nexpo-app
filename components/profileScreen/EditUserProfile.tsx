@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "../../api/users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { BackHandler, Platform, StyleSheet } from "react-native";
+import { BackHandler, Linking, Platform, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
@@ -12,9 +12,6 @@ import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
-import RNFetchBlob from "rn-fetch-blob";
-import { color } from "react-native-reanimated";
-import { setStatusBarBackgroundColor } from "expo-status-bar";
 
 type EditUserProfileProps = {
   user: User;
@@ -41,6 +38,8 @@ export default function EditUserProfile({
   );
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
+  const [uri, setUri] = useState<string|null>(null);
+
 
   useEffect(() => {
     // TODO Validate password strength with zxvcbn
@@ -125,26 +124,13 @@ export default function EditUserProfile({
   }
 
   const downloadCV = async () => {
-    const blob = await API.s3bucket.getFromS3(user.id.toString())
-    console.log(blob)
-    
-    RNFetchBlob.config({
-      fileCache : true
-    })
-    .fetch('GET', blob)
-    //console.log(blob)
-    //const url = URL.createObjectURL(blob)
-    //console.log(url)
-    //const a = document.createElement('a')
-    //a.href = url;
-    //a.download = __filename || 'download'
-    //a.click;
-    
+    const Uri = await API.s3bucket.getFromS3(user.id.toString())
+    console.log(Uri)
+    setUri(Uri) 
+    Linking.canOpenURL(Uri).then((supported) => {
+      return Linking.openURL(Uri);
+    });
   }
-
-
-
-  
 
   return (
     <KeyboardAwareScrollView>
@@ -170,8 +156,6 @@ export default function EditUserProfile({
             <ArkadText text="Upload CV" />
           )}
         </ArkadButton>
-
-       
         {hasCv &&
           <ArkadButton onPress={deleteCV} style={styles.hasCv}>
             <ArkadText text="Delete CV" />
@@ -181,7 +165,6 @@ export default function EditUserProfile({
         <ArkadButton onPress ={downloadCV}><ArkadText text="Download CV" /></ArkadButton>
         } 
         
-
         <Text>First name</Text>
         <TextInput
           style={styles.textInput}
