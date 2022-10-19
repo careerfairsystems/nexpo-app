@@ -24,8 +24,8 @@ export default function EditStudentProfile({
   const [masterTitle, setMasterTitle] = React.useState<string | null>(
     student.masterTitle
   );
-  const [linkedIn, setLinkedIn] = React.useState<string | null>(
-    student.linkedIn
+  const [linkedIn, setLinkedIn] = React.useState<string>(
+    student.linkedIn === null ? "" : student.linkedIn
   );
 
   React.useEffect(() => {
@@ -45,6 +45,7 @@ export default function EditStudentProfile({
         <Picker
           style={styles.picker}
           selectedValue={guild}
+          key={guild}
           onValueChange={(value, index) => {
             if (index === 0) setGuild(null);
             else setGuild(Number(value));
@@ -55,7 +56,7 @@ export default function EditStudentProfile({
             .map(Number)
             .filter((key) => !isNaN(key))
             .map((guild) => (
-              <Picker.Item label={Guild[guild]} value={guild} />
+              <Picker.Item label={Guild[guild]} value={guild} key={guild} />
             ))}
         </Picker>
 

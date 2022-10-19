@@ -21,6 +21,6 @@ export default function ProfileSwitchScreen({ navigation, route }: ProfileSwitch
   const { screen, id } = route.params;
   switch (screen) {
     case 'details':{ return (EventDetailsScreen(id)); }
-    default: { return (EditProfileScreen(navigation)); }
+    default: { return (<EditProfileScreen navigation={navigation}></EditProfileScreen>); }
   }
 }
