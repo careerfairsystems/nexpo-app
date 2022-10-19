@@ -169,10 +169,12 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
         </View>
         <View style={styles.footer}>
           <ArkadButton
+          style={styles.button}
             onPress={resetFilters}>
             <ArkadText text="Reset filters"/>
           </ArkadButton>
           <ArkadButton
+          style={styles.button}
             onPress={filterCompanies}>
             <ArkadText text="Apply filters"/>
           </ArkadButton>
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 25,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -216,6 +218,7 @@ const styles = StyleSheet.create({
   closeButton: {
     backgroundColor: Colors.gray,
     borderRadius: 15,
+    margin: 0,
   },
   header: {
     display: 'flex',
@@ -233,5 +236,8 @@ const styles = StyleSheet.create({
     padding: 10,
     zIndex: -1,
   },
+  button: {
+    margin: 5,
+  }
 });
 

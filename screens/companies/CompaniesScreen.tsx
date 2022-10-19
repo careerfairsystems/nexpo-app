@@ -59,7 +59,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
           style={styles.input}
           onChangeText={onChangeText}
           value={text}
-          placeholder={"Search for company here!"}
+          placeholder={"Search for a company!"}
         />
         <ArkadButton style={styles.filterbutton} onPress={() => setModalVisible(true)} >
           <ArkadText text = "Filter" />
@@ -97,17 +97,19 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 15,
     fontFamily: 'montserrat',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    width: '80%',
   },
   filterbutton: {
     height: 45,
   },
   searchContainer: {
     flexDirection: 'row',
-    width: '100%',
+    width: '93%',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
+    justifyContent: 'space-between',
+    marginTop: 10,
+    marginBottom: 10,
   },
 
   label: {
