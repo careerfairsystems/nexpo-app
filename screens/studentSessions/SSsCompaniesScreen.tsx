@@ -3,7 +3,8 @@ import { FlatList, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { View } from '../../components/Themed';
-
+import Colors from '../../constants/Colors';
+import { ArkadText } from '../../components/StyledText';
 import { API } from '../../api';
 import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
@@ -49,6 +50,13 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.titleContainer}>
+          <ArkadText text={'Welcome to Student Sessions!'} style={styles.title}/>
+          <ArkadText text={
+            'Make sure to book your session with your favorite company' + 
+            'below to get familiar. This is an excellent way to get close to one specific company of interest. '
+            } style={styles.text} />
+      </View>
       <FlatList
         style={styles.list}
         data={companies}
@@ -63,6 +71,21 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    justifyContent: "center",
+    fontSize: 20,
+    color: Colors.darkBlue,
+  },
+  text: {
+    justifyContent: "center",
+    fontSize: 12,
+    color: Colors.darkBlue,
+  },
+  titleContainer: {
+    width: "90%",
+    height: 80,
+    justifyContent: "center",
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

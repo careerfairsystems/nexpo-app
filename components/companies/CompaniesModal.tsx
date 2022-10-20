@@ -1,6 +1,7 @@
 //A react native modal that can be used to display a list of companies
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { AntDesign } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { StyleSheet, View, Modal } from 'react-native';
 import { Industry, Position, PublicCompanyDto } from '../../api/companies';
@@ -72,6 +73,27 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
   const [guildOpen, guildSetOpen] = useState(false);
   const [guildValue, guildSetValue] = useState<Guild[]>([]);
 
+  const onIndustryOpen = useCallback(() => {
+    positionSetOpen(false);
+    guildSetOpen(false);
+  }, []);
+
+  const onPositionOpen = useCallback(() => {
+    industrySetOpen(false);
+    guildSetOpen(false);
+  }, []);
+
+  const onGuildOpen = useCallback(() => {
+    positionSetOpen(false);
+    industrySetOpen(false);
+  }, []);
+
+  const onAllClose = useCallback(() => {
+    positionSetOpen(false);
+    industrySetOpen(false);
+    guildSetOpen(false);
+  }, []);
+
   function resetFilters() {
     positionSetValue([]);
     industrySetValue([]);
@@ -91,7 +113,7 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
       filteredCompanies = filteredCompanies.filter(company => company.desiredGuilds ? company.desiredGuilds.some(guild => guildValue.includes(guild)): false);
     }
     setFilteredCompanies(filteredCompanies);
-    setModalVisible(false);
+    setModalVisible(!modalVisible);
   }
   return (
     <Modal
@@ -106,8 +128,9 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
         <View style={styles.header}>
           <ArkadButton
             style={styles.closeButton}
-            onPress={() => setModalVisible(!modalVisible)}>
-            <ArkadText text="X"/>
+            onPress={() => 
+            setModalVisible(!modalVisible)}>
+            <ArkadText text="X "/>
           </ArkadButton>
         </View>
         <View style={[styles.modalView, {zIndex: 3}]}>
@@ -115,6 +138,7 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
           <DropDownPicker
             multiple={true}
             open={guildOpen}
+            onOpen={onGuildOpen}
             value={guildValue}
             items={guilds}
             setOpen={guildSetOpen}
@@ -127,13 +151,16 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
               color: Colors.darkBlue,
               fontFamily: 'montserrat',
             }}
+            maxHeight={130}
+            mode = 'BADGE'
           />
         </View>
-        <View style={[styles.modalView, {zIndex: 2}]}>
+        <View style={[styles.modalView, {zIndex: 1}]}>
           <ArkadText text="Positions" style={styles.label}/>
           <DropDownPicker
             multiple={true}
             open={positionOpen}
+            onOpen={onPositionOpen}
             value={positionValue}
             items={positions}
             setOpen={positionSetOpen}
@@ -146,9 +173,11 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
               color: Colors.darkBlue,
               fontFamily: 'montserrat',
             }}
+            maxHeight={130}
+            mode = 'BADGE'
           />
         </View>
-        <View style={[styles.modalView, {zIndex: 1}]}>
+        <View style={[styles.modalView, {zIndex: 0}]}>
           <ArkadText text="Industries" style={styles.label}/>
           <DropDownPicker
             multiple={true}
@@ -156,6 +185,7 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
             value={industryValue}
             items={industry}
             setOpen={industrySetOpen}
+            onOpen={onIndustryOpen}
             setValue={industrySetValue}
             setItems={setIndustry}
             selectedItemContainerStyle={{
@@ -165,7 +195,10 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
               color: Colors.darkBlue,
               fontFamily: 'montserrat',
             }}
-          />
+            dropDownDirection= {'BOTTOM'}
+            maxHeight={130}
+            mode = 'BADGE'
+       />
         </View>
         <View style={styles.footer}>
           <ArkadButton
@@ -199,10 +232,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   modalView: {
-    margin: 20,
+    margin: 10,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -215,14 +248,14 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     backgroundColor: Colors.gray,
-    borderRadius: 15,
+    borderRadius: 20,
   },
   header: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     width: '100%',
-    padding: 10,
+    padding: 1,
   },
   footer: {
     marginTop: "auto",
