@@ -23,7 +23,7 @@ export function Checkbox({ onPress, text, style }: checkboxProps) {
     onPress={onCheckmarkPress}
     style={styles.checkboxContainer}>
       <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
-      {checked && <Ionicons name="checkmark" size={24} style={styles.checkmark}/>}
+      {checked && <Ionicons name="checkmark" size={20} style={styles.checkmark}/>}
       </View>
       <ArkadText style={style ? style : styles.text} text={text}/>
     </Pressable>
