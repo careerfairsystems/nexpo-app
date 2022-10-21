@@ -18,11 +18,15 @@ export default function SSsApplicationScreen(companyId: number) {
   const [msg, setMsg] = useState<string>("");
 
   const sendApplication = async () => {
-    setLoading(true);
-    await API.sSApplications.sendApplication(companyId, msg);
-    const company = await API.companies.getCompany(companyId);
-    alert("Application to " + company.name + " sent");
-    setLoading(false);
+    if(msg === "") {
+      alert("Message cannot be empty");
+    } else {
+      setLoading(true);
+      await API.sSApplications.sendApplication(companyId, msg);
+      const company = await API.companies.getCompany(companyId);
+      alert("Application to " + company.name + " sent");
+      setLoading(false);
+    }
   };
 
   if (loading) {

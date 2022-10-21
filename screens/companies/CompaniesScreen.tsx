@@ -60,7 +60,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
           style={styles.input}
           onChangeText={onChangeText}
           value={text}
-          placeholder={"Search for company here!"}
+          placeholder={"Search for a company!"}
         />
         <ArkadButton style={styles.filterbutton} onPress={() => setModalVisible(true)} >
           <AntDesign name="filter" size={18} color="white" />
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   input: {
-    width: 280,
     borderColor: Colors.darkBlue,
     borderWidth: 3,
     color: Colors.darkBlue,
@@ -100,6 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'montserrat',
     paddingHorizontal: 10,
+    width: '80%',
   },
   filterbutton: {
     height: 45,
@@ -108,10 +108,11 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: 'row',
-    width: '100%',
+    width: '93%',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
+    justifyContent: 'space-between',
+    marginTop: 10,
+    marginBottom: 10,
   },
 
   label: {

@@ -21,8 +21,11 @@ export type EditStatus = {
   ok: boolean;
   message: string | null;
 };
+type EditProfileScreenProps = {
+  navigation: StackNavigationProp<ProfileStackParamList, 'ProfileSwitchScreen'>;
+}
 
-export default function EditProfileScreen(navigation: StackNavigationProp<ProfileStackParamList, 'ProfileSwitchScreen'>) {
+export default function EditProfileScreen({navigation}: EditProfileScreenProps) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [user, setUser] = useState<User | null>(null);
