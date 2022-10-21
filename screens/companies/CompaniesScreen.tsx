@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AntDesign } from '@expo/vector-icons'; 
 import { FlatList, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Text, View } from '../../components/Themed';
@@ -62,7 +63,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
           placeholder={"Search for a company!"}
         />
         <ArkadButton style={styles.filterbutton} onPress={() => setModalVisible(true)} >
-          <ArkadText text = "Filter" />
+          <AntDesign name="filter" size={18} color="white" />
         </ArkadButton>  
       </View>
       <FlatList
@@ -102,6 +103,8 @@ const styles = StyleSheet.create({
   },
   filterbutton: {
     height: 45,
+    padding: 10, 
+    margin: 0
   },
   searchContainer: {
     flexDirection: 'row',
