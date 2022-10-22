@@ -12,6 +12,8 @@ import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from 'expo-file-system';
+import { downloadAsync } from "expo-file-system";
 
 type EditUserProfileProps = {
   user: User;
@@ -24,8 +26,8 @@ export default function EditUserProfile({
   setUpdateUserDto,
   setEditStatus,
 }: EditUserProfileProps) {
-  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(
-    user.profilePictureUrl
+  const [profilePictureUrl, setProfilePictureUrl] = useState<boolean | null>(
+    user.hasProfilePicture
   );
   const [firstName, setFirstName] = useState<string | null>(user.firstName);
   const [lastName, setLastName] = useState<string | null>(user.lastName);
@@ -81,7 +83,6 @@ export default function EditUserProfile({
         return;
       }
     }
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -91,22 +92,34 @@ export default function EditUserProfile({
     });
 
     if (!result.cancelled) {
-      const dto = await API.files.updateProfilePicture(
-        result.base64 ? result.base64 : result.uri
-      );
-      setProfilePictureUrl(dto.url);
+      console.log(result.uri)
+      const dto = await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg");
+      setProfilePictureUrl(true);
+    } else {
+      alert("something went wrong")
+
     }
   };
 
   const removeProfilePicture = async () => {
-    await API.files.removeProfilePicture();
+    await API.s3bucket.deleteOnS3(profilePictureUrl + user.id.toString(), ".jpg");
     setProfilePictureUrl(null);
   };
+
+  //Does not work
+  const getProfilePicture = async () => {
+    const Uri = await API.s3bucket.getFromS3(user.id.toString(), ".jpg")
+    console.log(Uri)
+    FileSystem.documentDirectory
+    downloadAsync(Uri, FileSystem.documentDirectory + user.id.toString())
+    console.log(FileSystem.documentDirectory + user.id.toString())
+    return(FileSystem.documentDirectory + user.id.toString())
+  }
 
   const setCV = async () => {
     const resultFile = await DocumentPicker.getDocumentAsync({});
     if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 300000 : false)) {
-      const dto = await API.s3bucket.postToS3 (resultFile.uri, user.id.toString())
+      const dto = await API.s3bucket.postToS3 (resultFile.uri, user.id.toString(), ".pdf")
       console.log(resultFile.uri)
       setCvURL(true)
     } else {
@@ -115,14 +128,14 @@ export default function EditUserProfile({
   }
 
   const deleteCV = async () => {
-    const dto = await API.s3bucket.deleteOnS3(user.id.toString())
+    const dto = await API.s3bucket.deleteOnS3(user.id.toString() , ".pdf")
     if (dto.valueOf() == true) {
       setCvURL(false)
     }
   }
 
   const downloadCV = async () => {
-    const Uri = await API.s3bucket.getFromS3(user.id.toString())
+    const Uri = await API.s3bucket.getFromS3(user.id.toString(), ".pdf")
     setUri(Uri) 
     Linking.canOpenURL(Uri).then((supported) => {
       return Linking.openURL(Uri);
@@ -132,7 +145,8 @@ export default function EditUserProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <ProfilePicture url={profilePictureUrl} />
+        <ProfilePicture url={ "https://cvfiler.s3.eu-north-1.amazonaws.com/-1.jpg"}
+        />   
         <ArkadButton onPress={setProfilePicture}>
           {profilePictureUrl ? (
             <ArkadText text="Change profile picture" />
