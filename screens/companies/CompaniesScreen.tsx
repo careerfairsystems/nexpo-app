@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AntDesign, Ionicons } from '@expo/vector-icons'; 
-import { Animated, Easing, FlatList, StyleSheet, TextInput } from 'react-native';
+import { AntDesign, Entypo } from '@expo/vector-icons'; 
+import { Animated, FlatList, LayoutAnimation, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 import { API } from '../../api';
 import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
@@ -11,7 +11,7 @@ import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import Colors from '../../constants/Colors';
 import CompaniesModal from '../../components/companies/CompaniesModal';
 import { ArkadButton } from '../../components/Buttons';
-import { useAnimatedScrollHandler } from 'react-native-reanimated';
+import { toggleAnimation } from '../../animations/toggleAnimation';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -27,37 +27,19 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   const [text, onChangeText] = React.useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
-  const height: number = -252;
 
-  const fadeAnim = useRef(new Animated.Value(height)).current;
+  const animnationController = useRef(new Animated.Value(0)).current;
 
-  const fade = () => {
-    !modalVisible ? fadeIn() : fadeOut();
+  const toggleFilter = () => {
+    const config = {
+      duration : 300,
+      toValue : modalVisible ? 0 : 1,
+      useNativeDriver : true,
+    }
+    Animated.timing(animnationController, config).start();
+    LayoutAnimation.configureNext(toggleAnimation);
     setModalVisible(!modalVisible);
-  }
-
-  const fadeIn = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: false
-    }).start();
   };
-  const fadeOut = () => {
-    // Will change fadeAnim value to 0 in 3 seconds
-    Animated.timing(fadeAnim, {
-      toValue: height,
-      duration: 300,
-      useNativeDriver: false
-    }).start();
-  };
-  const fastFadeOut = () => {
-    // Will change fadeAnim value to 0 in 3 seconds
-    setModalVisible(false);
-    fadeAnim.setValue(height);
-  };
- 
 
   const getCompanies = async () => {
     setLoading(true);
@@ -88,25 +70,21 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
           value={text}
           placeholder={"Search for a company..."}
         />
-        <ArkadButton style={styles.filterbutton} onPress={() => fade()} >
-          {modalVisible ? <Ionicons name="close" size={24} color="white" />
+        <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()} >
+          {modalVisible ? <Entypo name="chevron-thin-up" size={24} color="white" />
           : <AntDesign name="filter" size={24} color="white" />}
           {isFiltered && <View style={styles.filterBadge} />}
         </ArkadButton>  
       </View>
-      <Animated.View
-        style={[{translateY: fadeAnim,height: Animated.add(-height, fadeAnim) }, styles.animationContainer]}
-      >
-        <CompaniesModal
+        {<CompaniesModal
           companies={companies ? companies : []}
           setFilteredCompanies={setFilteredCompanies}
           setIsFiltered={setIsFiltered}
           isVisable={modalVisible}
-        />
-      </Animated.View>
+        />}
       <FlatList
         style={styles.list}  
-        onScroll={() => modalVisible && fastFadeOut()}
+        onScroll={modalVisible ? () => toggleFilter() : () => {}}
         data={API.companies.filterData(text, filteredCompanies)}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) =>
@@ -131,7 +109,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.darkBlue,
     borderWidth: 2,
     color: Colors.darkBlue,
-    padding: '0.1%',
     height: 48,
     borderRadius: 7,
     marginRight: 16,
@@ -165,24 +142,5 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     zIndex: 1,
     backgroundColor: Colors.white,
-  },
-  animationContainer: {
-    width: "100%",
-    justifyContent: "center", 
-    alignItems: "center",
-    zIndex: 0,
-  },
-  label: {
-    marginBottom: 7,
-    marginStart: 10,
-  },
-
-  placeholderStyles: {
-    color: "grey",
-  },
-  dropdown: {
-    marginHorizontal: 10,
-    width: "80%",
-    marginBottom: 15,
   },
 });
