@@ -8,15 +8,16 @@ import Colors from '../../constants/Colors';
 import { ArkadButton } from '../Buttons';
 import { ArkadText } from '../StyledText';
 import { Guild } from '../../api/students';
+import { Ionicons } from '@expo/vector-icons';
 
 type CompaniesModalProps = {
   companies: PublicCompanyDto[];
-  modalVisible: boolean;
-  setModalVisible: (value: boolean) => void;
   setFilteredCompanies: (value: PublicCompanyDto[]) => void;
+  setIsFiltered: (value: boolean) => void;
+  isVisable: boolean;
 }
 
-export default function CompaniesModal({ companies, modalVisible, setModalVisible, setFilteredCompanies }: CompaniesModalProps) {
+export default function CompaniesModal({ companies, setFilteredCompanies, setIsFiltered, isVisable }: CompaniesModalProps) {
   const [positions, setPositions] = useState([
     { label: "Thesis", value: Position.Thesis },
     { label: "Trainee Employment", value: Position.TraineeEmployment },
@@ -26,27 +27,27 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
     { label: "Part time", value: Position.PartTime },
   ]);
   const [industry, setIndustry] = useState([
-    { label: "ElectricityEnergyPower"   , value: Industry.ElectricityEnergyPower },
+    { label: "Electricity/energy/power"   , value: Industry.ElectricityEnergyPower },
     { label: "Environment"              , value: Industry.Environment },
-    { label: "BankingFinance"           , value: Industry.BankingFinance },
+    { label: "Banking/finance"           , value: Industry.BankingFinance },
     { label: "Union"                    , value: Industry.Union },
     { label: "Investment"               , value: Industry.Investment},
     { label: "Insurance"                , value: Industry.Insurance },
     { label: "Recruitment"              , value: Industry.Recruitment },
     { label: "Construction"             , value: Industry.Construction },
     { label: "Architecture"             , value: Industry.Architecture },
-    { label: "GraphicDesign"            , value: Industry.GraphicDesign },
-    { label: "DataIT"                   , value: Industry.DataIT },
-    { label: "FinanceConsultancy"       , value: Industry.FinanceConsultancy },
+    { label: "Graphic design"            , value: Industry.GraphicDesign },
+    { label: "Data/IT"                   , value: Industry.DataIT },
+    { label: "Finance consultancy"       , value: Industry.FinanceConsultancy },
     { label: "Telecommunication"        , value: Industry.Telecommunication },
     { label: "Consulting"               , value: Industry.Consulting },
     { label: "Management"               , value: Industry.Management },
     { label: "Media"                    , value: Industry.Media },
     { label: "Industry"                 , value: Industry.Industry },
-    { label: "NuclearPower"             , value: Industry.NuclearPower },
-    { label: "LifeScience"              , value: Industry.LifeScience },
-    { label: "MedicalTechniques"        , value: Industry.MedicalTechniques },
-    { label: "PropertyInfrastructure"   , value: Industry.PropertyInfrastructure },
+    { label: "Nuclear power"             , value: Industry.NuclearPower },
+    { label: "Life science"              , value: Industry.LifeScience },
+    { label: "Medical techniques"        , value: Industry.MedicalTechniques },
+    { label: "Property infrastructure"   , value: Industry.PropertyInfrastructure },
     { label: "Research"                 , value: Industry.Research },
     { label: "Coaching"                 , value: Industry.Coaching },
   ]);
@@ -97,8 +98,8 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
     positionSetValue([]);
     industrySetValue([]);
     guildSetValue([]);
+    setIsFiltered(false);
     setFilteredCompanies(companies);
-    setModalVisible(false);
   }
   function filterCompanies() {
     let filteredCompanies = companies;
@@ -112,164 +113,158 @@ export default function CompaniesModal({ companies, modalVisible, setModalVisibl
       filteredCompanies = filteredCompanies.filter(company => company.desiredGuilds ? company.desiredGuilds.some(guild => guildValue.includes(guild)): false);
     }
     setFilteredCompanies(filteredCompanies);
-    setModalVisible(!modalVisible);
+    setIsFiltered(industryValue.length > 0 || positionValue.length > 0 || guildValue.length > 0);
   }
+  // if(isVisable) { 
+  //   return null;
+  // }
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
-      >
-      <View style={styles.centeredView}>
-        <View style={styles.header}>
-          <ArkadButton
-            style={styles.closeButton}
-            onPress={() => 
-            setModalVisible(!modalVisible)}>
-            <ArkadText text="X "/>
-          </ArkadButton>
-        </View>
-        <View style={[styles.modalView, {zIndex: 3}]}>
-          <ArkadText text="Desired program" style={styles.label}/>
-          <DropDownPicker
-            multiple={true}
-            open={guildOpen}
-            onOpen={onGuildOpen}
-            value={guildValue}
-            items={guilds}
-            setOpen={guildSetOpen}
-            setValue={guildSetValue}
-            setItems={setGuilds}
-            selectedItemContainerStyle={{
-              backgroundColor: Colors.lightGray
-            }}
-            listItemLabelStyle={{
-              color: Colors.darkBlue,
-              fontFamily: 'montserrat',
-            }}
-            maxHeight={130}
-            mode = 'BADGE'
-          />
-        </View>
-        <View style={[styles.modalView, {zIndex: 1}]}>
-          <ArkadText text="Positions" style={styles.label}/>
-          <DropDownPicker
-            multiple={true}
-            open={positionOpen}
-            onOpen={onPositionOpen}
-            value={positionValue}
-            items={positions}
-            setOpen={positionSetOpen}
-            setValue={positionSetValue}
-            setItems={setPositions}
-            selectedItemContainerStyle={{
-              backgroundColor: Colors.lightGray
-            }}
-            listItemLabelStyle={{
-              color: Colors.darkBlue,
-              fontFamily: 'montserrat',
-            }}
-            maxHeight={130}
-            mode = 'BADGE'
-          />
-        </View>
-        <View style={[styles.modalView, {zIndex: 0}]}>
-          <ArkadText text="Industries" style={styles.label}/>
-          <DropDownPicker
-            multiple={true}
-            open={industryOpen}
-            value={industryValue}
-            items={industry}
-            setOpen={industrySetOpen}
-            onOpen={onIndustryOpen}
-            setValue={industrySetValue}
-            setItems={setIndustry}
-            selectedItemContainerStyle={{
-              backgroundColor: Colors.lightGray
-            }}
-            listItemLabelStyle={{
-              color: Colors.darkBlue,
-              fontFamily: 'montserrat',
-            }}
-            dropDownDirection= {'BOTTOM'}
-            maxHeight={130}
-            mode = 'BADGE'
-       />
-        </View>
-        <View style={styles.footer}>
-          <ArkadButton
-          style={styles.button}
-            onPress={resetFilters}>
-            <ArkadText text="Reset filters"/>
-          </ArkadButton>
-          <ArkadButton
-          style={styles.button}
-            onPress={filterCompanies}>
-            <ArkadText text="Apply filters"/>
-          </ArkadButton>
-        </View>
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+        <DropDownPicker
+          style={styles.dropdown}
+          multiple={true}
+          open={guildOpen}
+          onOpen={onGuildOpen}
+          value={guildValue}
+          items={guilds}
+          setOpen={guildSetOpen}
+          setValue={guildSetValue}
+          setItems={setGuilds}
+          placeholder="Desired program"
+          placeholderStyle={{ 
+            color: Colors.darkBlue,
+            fontFamily: 'montserrat'}}
+          selectedItemContainerStyle={{
+            backgroundColor: Colors.lightGray
+          }}
+          closeIconContainerStyle={styles.closeButton}
+          listItemContainerStyle={styles.container}
+          showArrowIcon={false}
+          listItemLabelStyle={{
+            color: Colors.darkBlue,
+            fontFamily: 'montserrat',
+          }}
+          mode = 'BADGE'
+          listMode="MODAL"
+          onClose={filterCompanies}
+        />
       </View>
-    </Modal>
+      <View style={styles.modalView}>
+        <DropDownPicker
+          style={styles.dropdown}
+          multiple={true}
+          open={positionOpen}
+          onOpen={onPositionOpen}
+          value={positionValue}
+          items={positions}
+          setOpen={positionSetOpen}
+          setValue={positionSetValue}
+          setItems={setPositions}
+          placeholder="Select Positions"
+          placeholderStyle={{ 
+            color: Colors.darkBlue,
+            fontFamily: 'montserrat'}}
+          selectedItemContainerStyle={{
+            backgroundColor: Colors.lightGray
+          }}
+          listItemLabelStyle={{
+            color: Colors.darkBlue,
+            fontFamily: 'montserrat',
+          }}
+          closeIconContainerStyle={styles.closeButton}
+          listItemContainerStyle={styles.container}
+          showArrowIcon={false}
+          mode = 'BADGE'
+          listMode="MODAL"
+          onClose={filterCompanies}
+        />
+      </View>
+      <View style={styles.modalView}>
+        <DropDownPicker
+          style={styles.dropdown}
+          multiple={true}
+          open={industryOpen}
+          value={industryValue}
+          items={industry}
+          setOpen={industrySetOpen}
+          onOpen={onIndustryOpen}
+          setValue={industrySetValue}
+          setItems={setIndustry}
+          placeholder="Select Industries"
+          placeholderStyle={{ 
+            color: Colors.darkBlue,
+            fontFamily: 'montserrat'}}
+          selectedItemContainerStyle={{
+            backgroundColor: Colors.lightGray
+          }}
+          listItemLabelStyle={{
+            color: Colors.darkBlue,
+            fontFamily: 'montserrat',
+          }}
+          closeIconContainerStyle={styles.closeButton}
+          listItemContainerStyle={styles.container}
+          showArrowIcon={false}
+          mode = 'BADGE'
+          listMode="MODAL"
+          badgeDotStyle={{
+            backgroundColor: Colors.darkBlue,
+          }}
+          onClose={filterCompanies}
+          
+      />
+      </View>
+      <View style={styles.footer}>
+        <ArkadButton
+        style={styles.button}
+          onPress={resetFilters}>
+          <ArkadText text="Reset filters"/>
+        </ArkadButton>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
     justifyContent: "flex-start",
-    borderWidth: 3,
+    borderWidth: 0,
     borderColor: Colors.lightGray,
     borderRadius: 15,
-    backgroundColor: "rgba(255, 255, 255, 0.93)",
-    padding: 10,
-  },
-  label: {
-    fontSize: 20,
-    fontFamily: 'montserrat',
-    color: Colors.darkBlue,
-    marginBottom: 10,
+    padding: 0,
+    margin: 0,
+    width: '90%',
   },
   modalView: {
-    margin: 10,
-    backgroundColor: "white",
+    marginBottom: 12,
     borderRadius: 20,
-    padding: 25,
+    padding: 0,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
   },
   closeButton: {
-    backgroundColor: Colors.gray,
-    borderRadius: 15,
+    backgroundColor: Colors.lightGray,
+    borderRadius: 48,
+    padding: 12,
     margin: 0,
   },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    width: '100%',
-    padding: 1,
+  dropdown: {
+    borderColor: Colors.darkBlue,
+    borderWidth: 2,
+  },
+  container: {
+    borderBottomColor: Colors.darkBlue,
+    borderBottomWidth: 1,
+    height: 60,
   },
   footer: {
-    marginTop: "auto",
-    display: 'flex',
+    justifyContent: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    padding: 10,
-    zIndex: -1,
+    alignItems: 'center',
+    padding: 5,
   },
   button: {
-    margin: 5,
+    margin: 0,
+    padding: 15,
   }
 });
 
