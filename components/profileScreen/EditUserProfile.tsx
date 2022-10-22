@@ -13,7 +13,6 @@ import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from 'expo-file-system';
-import { downloadAsync } from "expo-file-system";
 
 type EditUserProfileProps = {
   user: User;
@@ -26,9 +25,13 @@ export default function EditUserProfile({
   setUpdateUserDto,
   setEditStatus,
 }: EditUserProfileProps) {
-  const [profilePictureUrl, setProfilePictureUrl] = useState<boolean | null>(
+  const [hasProfilePicture, setHasProfilePicture] = useState<boolean | null>(
     user.hasProfilePicture
   );
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(
+    user.profilePictureUrl
+  );
+  
   const [firstName, setFirstName] = useState<string | null>(user.firstName);
   const [lastName, setLastName] = useState<string | null>(user.lastName);
   const [phoneNr, setPhoneNr] = useState<string | null>(user.phoneNr);
@@ -94,7 +97,9 @@ export default function EditUserProfile({
     if (!result.cancelled) {
       console.log(result.uri)
       const dto = await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg");
-      setProfilePictureUrl(true);
+      setHasProfilePicture(true);
+      await setProfilePictureUrl(user.id.toString() + ".jpg")
+      console.log("https://cvfiler.s3.eu-north-1.amazonaws.com/" + user.id + ".jpg")
     } else {
       alert("something went wrong")
 
@@ -102,17 +107,22 @@ export default function EditUserProfile({
   };
 
   const removeProfilePicture = async () => {
-    await API.s3bucket.deleteOnS3(profilePictureUrl + user.id.toString(), ".jpg");
-    setProfilePictureUrl(null);
+    if (hasProfilePicture == false) {
+      alert("You have no profile picture")
+    } else{
+      await API.s3bucket.deleteOnS3("https://cvfiler.s3.eu-north-1.amazonaws.com/" + user.id + ".jpg", "");
+      setHasProfilePicture(false);
+    }
   };
 
   //Does not work
   const getProfilePicture = async () => {
-    const Uri = await API.s3bucket.getFromS3(user.id.toString(), ".jpg")
+    if (profilePictureUrl == null) {
+      alert("You have no profile picture")
+    } 
+    const Uri = await API.s3bucket.getFromS3(user.profilePictureUrl || "", "")
     console.log(Uri)
-    FileSystem.documentDirectory
-    downloadAsync(Uri, FileSystem.documentDirectory + user.id.toString())
-    console.log(FileSystem.documentDirectory + user.id.toString())
+    
     return(FileSystem.documentDirectory + user.id.toString())
   }
 
@@ -145,16 +155,17 @@ export default function EditUserProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <ProfilePicture url={ "https://cvfiler.s3.eu-north-1.amazonaws.com/-1.jpg"}
+        <ProfilePicture url={"https://cvfiler.s3.eu-north-1.amazonaws.com/" + user.id + ".jpg"}
         />   
+        
         <ArkadButton onPress={setProfilePicture}>
-          {profilePictureUrl ? (
+          {hasProfilePicture ? (
             <ArkadText text="Change profile picture" />
           ) : (
             <ArkadText text="Set profile picture" />
           )}
         </ArkadButton>
-        {profilePictureUrl && (
+        {hasProfilePicture && (
           <ArkadButton onPress={removeProfilePicture}>
             <ArkadText text="Remove profile picture" />
           </ArkadButton>

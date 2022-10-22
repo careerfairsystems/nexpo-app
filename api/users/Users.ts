@@ -13,6 +13,7 @@ export interface User {
   hasProfilePicture: boolean | null;
   companyId: number | null;
   hasCv: boolean | null;
+  profilePictureUrl: string | null;
 }
 
 export enum Role {
@@ -28,6 +29,7 @@ export interface UpdateUserDto {
   foodPreferences?: string | null;
   password?: string | null;
   hasCv?: boolean | null;
+  profilePictureUrl?: string | null;
 }
 
 /**
