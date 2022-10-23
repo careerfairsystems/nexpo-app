@@ -41,10 +41,9 @@ export default {
   extra: {
     isDev: process.env.NODE_ENV === 'development',
     isProd: process.env.NODE_ENV !== 'development',
-    //backendUrl: process.env.NODE_ENV === 'development' ? (process.env.BACKEND_URL ? process.env.BACKEND_URL : 'https://nexpo-dev.arkadtlth.se/api') : 'https://nexpo.arkadtlth.se/api',  
-    backendUrl: process.env.NODE_ENV === 'development' ? (process.env.BACKEND_URL ? process.env.BACKEND_URL : 'http://localhost/api') : 'http://localhost/api',  },
-    eas : {
-      projectId: "736e5c8b-3245-43fc-9803-293e803f584e"
-    }
+    backendUrl: process.env.NODE_ENV === 'development' ? (process.env.BACKEND_URL ? process.env.BACKEND_URL : 'https://nexpo-dev.arkadtlth.se/api') : 'https://nexpo.arkadtlth.se/api',  
+    // backendUrl: 'http://localhost/api',
+    // backendUrl: 'https://nexpo.arkadtlth.se/api',
+  },
 }
 

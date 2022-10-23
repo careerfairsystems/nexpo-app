@@ -6,7 +6,6 @@
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -17,7 +16,7 @@ import { API } from '../api';
 import { AuthNavigator } from '../screens/auth/AuthNavigator';
 
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   const [signedIn, setSignedIn] = React.useState<boolean>(false);
 
   const authContext = {
@@ -43,7 +42,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     <AuthContext.Provider value={authContext}>
       <NavigationContainer
         linking={LinkingConfiguration}
-        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        theme={DefaultTheme}>
           { signedIn
             ? <RootNavigator />
             : <AuthNavigator />
