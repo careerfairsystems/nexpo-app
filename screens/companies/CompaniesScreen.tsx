@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 15,
     height: 15,
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: 'white'
   },
   searchContainer: {
