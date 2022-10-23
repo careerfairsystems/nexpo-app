@@ -13,6 +13,7 @@ type categoriesDropdownProps = {
   setItems: (value: any) => void;
   filterCompanies: () => void;
   title : string;
+  onChangeValue: () => void;
 }
 
 export function CategoriesDropdown(props: categoriesDropdownProps) {
@@ -23,6 +24,7 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       open={props.open}
       value={props.value}
       items={props.items}
+      onChangeValue={() => {props.onChangeValue()}}
       setOpen={props.setOpen}
       setValue={props.setValue}
       setItems={props.setItems}

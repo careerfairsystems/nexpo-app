@@ -29,11 +29,14 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
   const [guildOpen, guildSetOpen] = useState(false);
   const [guildValue, guildSetValue] = useState<Guild[]>([]);
 
+  const setSetFilteredCompanies = () => {
+    setIsFiltered(industryValue.length > 0 || positionValue.length > 0 || guildValue.length > 0);
+  }
+
   function resetFilters() {
     positionSetValue([]);
     industrySetValue([]);
     guildSetValue([]);
-    setIsFiltered(false);
     setFilteredCompanies(companies);
   }
   function filterCompanies() {
@@ -48,7 +51,6 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
       filteredCompanies = filteredCompanies.filter(company => company.desiredGuilds ? company.desiredGuilds.some(guild => guildValue.includes(guild)): false);
     }
     setFilteredCompanies(filteredCompanies);
-    setIsFiltered(industryValue.length > 0 || positionValue.length > 0 || guildValue.length > 0);
   }
   if(!isVisable) { 
     return null;
@@ -64,7 +66,8 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
           open={guildOpen}
           value={guildValue} 
           setItems={setGuilds}
-          filterCompanies={filterCompanies}/>
+          filterCompanies={filterCompanies}
+          onChangeValue={setSetFilteredCompanies}/>
       </View>
       <View style={styles.modalView}>
       <CategoriesDropdown
@@ -75,7 +78,8 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
           open={positionOpen}
           value={positionValue} 
           setItems={setPositions}
-          filterCompanies={filterCompanies}/>
+          filterCompanies={filterCompanies}
+          onChangeValue={setSetFilteredCompanies}/>
       </View>
       <View style={styles.modalView}>
       <CategoriesDropdown
@@ -86,7 +90,8 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
           open={industryOpen}
           value={industryValue} 
           setItems={setIndustry}
-          filterCompanies={filterCompanies}/>
+          filterCompanies={filterCompanies}
+          onChangeValue={setSetFilteredCompanies}/>
       </View>
       <View style={styles.footer}>
         <ArkadButton

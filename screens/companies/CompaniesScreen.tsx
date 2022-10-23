@@ -76,12 +76,12 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
           {isFiltered && <View style={styles.filterBadge} />}
         </ArkadButton>  
       </View>
-        {<CompaniesModal
+        <CompaniesModal
           companies={companies ? companies : []}
           setFilteredCompanies={setFilteredCompanies}
           setIsFiltered={setIsFiltered}
           isVisable={modalVisible}
-        />}
+        />
       <FlatList
         style={styles.list}  
         onScroll={modalVisible ? () => toggleFilter() : () => {}}
