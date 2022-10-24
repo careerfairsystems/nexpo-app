@@ -24,8 +24,8 @@ export default function EditStudentProfile({
   const [masterTitle, setMasterTitle] = React.useState<string | null>(
     student.masterTitle
   );
-  const [linkedIn, setLinkedIn] = React.useState<string | null>(
-    student.linkedIn
+  const [linkedIn, setLinkedIn] = React.useState<string>(
+    student.linkedIn === null ? "" : student.linkedIn
   );
 
   React.useEffect(() => {
@@ -38,6 +38,19 @@ export default function EditStudentProfile({
     setUpdateStudentDto(dto);
   }, [guild, linkedIn, masterTitle, year]);
 
+  const _setLinkedIn = (text: string) => {
+    setLinkedIn(text);
+    if (text.length > 0 && !text.startsWith("https://www.linkedin.com/in/")) {
+      setEditStatus({
+        ok: false,
+        message: "LinkedIn Needs to start with: https://www.linkedin.com/in/",
+      });
+    } else {
+      setEditStatus({ ok: true, message: null });
+    }
+  };
+
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -45,6 +58,7 @@ export default function EditStudentProfile({
         <Picker
           style={styles.picker}
           selectedValue={guild}
+          key={guild}
           onValueChange={(value, index) => {
             if (index === 0) setGuild(null);
             else setGuild(Number(value));
@@ -55,7 +69,7 @@ export default function EditStudentProfile({
             .map(Number)
             .filter((key) => !isNaN(key))
             .map((guild) => (
-              <Picker.Item label={Guild[guild]} value={guild} />
+              <Picker.Item label={Guild[guild]} value={guild} key={guild} />
             ))}
         </Picker>
 
@@ -87,7 +101,8 @@ export default function EditStudentProfile({
         <TextInput
           style={styles.textInput}
           value={linkedIn ? linkedIn : ""}
-          onChangeText={setLinkedIn}
+          onChangeText={_setLinkedIn}
+          placeholder="https://www.linkedin.com/in/..."
         />
       </View>
     </KeyboardAwareScrollView>

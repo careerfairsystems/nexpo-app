@@ -19,14 +19,14 @@ export function Checkbox({ onPress, text, style }: checkboxProps) {
   }
 
   return (
-    <View style={styles.checkboxContainer}>
-      <Pressable
-        style={[styles.checkboxBase, checked && styles.checkboxChecked]}
-        onPress={onCheckmarkPress}>
-        {checked && <Ionicons name="checkmark" size={24} color="white" />}
-      </Pressable>
+    <Pressable
+    onPress={onCheckmarkPress}
+    style={styles.checkboxContainer}>
+      <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
+      {checked && <Ionicons name="checkmark" size={20} style={styles.checkmark}/>}
+      </View>
       <ArkadText style={style ? style : styles.text} text={text}/>
-    </View>
+    </Pressable>
   );
 }
 
@@ -55,5 +55,10 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  
+  checkmark: {
+    color: Colors.white,
+    alignSelf: 'center',
   },
 });

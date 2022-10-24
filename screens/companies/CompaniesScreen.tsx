@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { AntDesign } from '@expo/vector-icons'; 
-import { FlatList, StyleSheet, TextInput } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { AntDesign, Entypo } from '@expo/vector-icons'; 
+import { Animated, FlatList, LayoutAnimation, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 import { API } from '../../api';
 import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
@@ -11,7 +11,7 @@ import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import Colors from '../../constants/Colors';
 import CompaniesModal from '../../components/companies/CompaniesModal';
 import { ArkadButton } from '../../components/Buttons';
-import { ArkadText } from '../../components/StyledText';
+import { toggleAnimation } from '../../animations/toggleAnimation';
 
 type companiesNavigation = {
   navigation: StackNavigationProp<
@@ -26,6 +26,20 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   const [filteredCompanies, setFilteredCompanies] = useState<PublicCompanyDto[] | null>(null);
   const [text, onChangeText] = React.useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
+
+  const animnationController = useRef(new Animated.Value(0)).current;
+
+  const toggleFilter = () => {
+    const config = {
+      duration : 300,
+      toValue : modalVisible ? 0 : 1,
+      useNativeDriver : true,
+    }
+    Animated.timing(animnationController, config).start();
+    LayoutAnimation.configureNext(toggleAnimation);
+    setModalVisible(!modalVisible);
+  };
 
   const getCompanies = async () => {
     setLoading(true);
@@ -49,25 +63,28 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
 
   return (
     <View style={styles.container}>
-      <CompaniesModal 
-        companies={companies ? companies : []}
-        setFilteredCompanies={setFilteredCompanies}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      /> 
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
           onChangeText={onChangeText}
           value={text}
-          placeholder={"Search for company here!"}
+          placeholder={"Search for a company..."}
         />
-        <ArkadButton style={styles.filterbutton} onPress={() => setModalVisible(true)} >
-          <AntDesign name="filter" size={18} color="white" />
+        <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()} >
+          {modalVisible ? <Entypo name="chevron-thin-up" size={24} color="white" />
+          : <AntDesign name="filter" size={24} color="white" />}
+          {isFiltered && <View style={styles.filterBadge} />}
         </ArkadButton>  
       </View>
+        <CompaniesModal
+          companies={companies ? companies : []}
+          setFilteredCompanies={setFilteredCompanies}
+          setIsFiltered={setIsFiltered}
+          isVisable={modalVisible}
+        />
       <FlatList
-        style={styles.list}
+        style={styles.list}  
+        onScrollBeginDrag ={modalVisible ? () => toggleFilter() : () => {}}
         data={API.companies.filterData(text, filteredCompanies)}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) =>
@@ -89,42 +106,41 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   input: {
-    width: 280,
     borderColor: Colors.darkBlue,
-    borderWidth: 3,
+    borderWidth: 2,
     color: Colors.darkBlue,
-    padding: '0.1%',
-    height: 45,
+    height: 48,
     borderRadius: 7,
-    margin: 10,
+    marginRight: 16,
     fontSize: 15,
     fontFamily: 'montserrat',
     paddingHorizontal: 10,
+    flexGrow: 1,
   },
   filterbutton: {
     height: 45,
     padding: 10, 
     margin: 0
   },
+  filterBadge: {
+    position: 'absolute',
+    top: -5,
+    left: -5,
+    backgroundColor: Colors.lightRed,
+    borderRadius: 50,
+    width: 15,
+    height: 15,
+    borderWidth: 0,
+    borderColor: 'white'
+  },
   searchContainer: {
     flexDirection: 'row',
-    width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-  },
-
-  label: {
-    marginBottom: 7,
-    marginStart: 10,
-  },
-
-  placeholderStyles: {
-    color: "grey",
-  },
-  dropdown: {
-    marginHorizontal: 10,
-    width: "80%",
-    marginBottom: 15,
+    width: '90%',
+    justifyContent: 'space-between',
+    paddingTop: 5,
+    marginBottom: 16,
+    zIndex: 1,
+    backgroundColor: Colors.white,
   },
 });

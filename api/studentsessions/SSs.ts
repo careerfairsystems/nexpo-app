@@ -1,5 +1,5 @@
-import { get, getAuth, postAuth, putAuth } from "../http/_HttpHelpers";
-import { addDays, format, isAfter, subDays } from "date-fns";
+import { get, getAuth, putAuth } from "../http/_HttpHelpers";
+import { format } from "date-fns";
 import { PublicCompanyDto } from "../companies";
 
 export interface SSTimeslot {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
+import { Image, ActivityIndicator, StyleSheet, Pressable, Linking } from 'react-native';
 
 import { Text, View } from '../../components/Themed';
 import { TextInput } from '../../components/TextInput';
@@ -64,10 +64,13 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
           placeholder="Last Name"
           onChangeText={setLastName} />
         <Checkbox
-          text="I accept that Arkad will store my data in accordance with the GDPR"            
+          text="I accept Arkads privacy policy"            
           onPress={(value) => setCheckboxState(!value)}
           style={invalidSignUp ? styles.checkboxError : styles.checkbox}
         />
+        <Pressable style={styles.policyContainer} onPress={() => Linking.openURL("https://www.arkadtlth.se/privacypolicy") }>
+          <Text style={styles.loginText}>See privacy policy</Text>
+        </Pressable>
         { loading
         ? <ActivityIndicator/>
         : <ArkadButton onPress={signUp} style={{}}>
@@ -115,6 +118,10 @@ const styles = StyleSheet.create({
   loginContainer: {
     marginTop: 20,
     padding: 16,
+  },
+  policyContainer: {
+    padding: 16,
+    margin: 5,
   },
   loginText: {
     textAlign: 'center',
