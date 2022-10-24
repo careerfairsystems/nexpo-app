@@ -10,9 +10,10 @@ export interface User {
   lastName: string;
   phoneNr: string | null;
   foodPreferences: string | null;
-  profilePictureUrl: string | null;
+  hasProfilePicture: boolean | null;
   companyId: number | null;
   hasCv: boolean | null;
+  profilePictureUrl: string | null;
 }
 
 export enum Role {
@@ -28,6 +29,7 @@ export interface UpdateUserDto {
   foodPreferences?: string | null;
   password?: string | null;
   hasCv?: boolean | null;
+  profilePictureUrl?: string | null;
 }
 
 /**
@@ -99,9 +101,9 @@ export const removeMe = async (): Promise<boolean> => {
 /**
  * Download user CV
  */
-export const downloadCV = async (userId: number) => {
+export const downloadFile = async (userId: number, fileType: string) => {
   try {
-    const Uri = await API.s3bucket.getFromS3(userId.toString())
+    const Uri = await API.s3bucket.getFromS3(userId.toString(), fileType)
     Linking.canOpenURL(Uri).then((supported) => {
       return Linking.openURL(Uri);
     });
