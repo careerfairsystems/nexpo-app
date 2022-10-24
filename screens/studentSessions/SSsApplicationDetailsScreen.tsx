@@ -73,7 +73,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
       <StudentProfile student={student as NonNullable<Student>} />
 
       {true && 
-        <ArkadButton onPress = {() => API.users.downloadCV(user.id)}><ArkadText text="Download CV" /></ArkadButton>
+        <ArkadButton onPress = {() => API.users.downloadFile(user.id, ".pdf")}><ArkadText text="Download CV" /></ArkadButton>
         } 
       
       <CardWithHeader msg={application.motivation} header={'Student Motivation'} />

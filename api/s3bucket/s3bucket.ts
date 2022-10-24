@@ -5,20 +5,21 @@ export interface FileCreatedDto {
   }
 
 
-export const postToS3 = async( dataUri :string, userId: string): Promise<FileCreatedDto> => {
-    const response = await postAuthFile(`/awss3/${userId}`, dataUri);
-    const json = await response.json();
-    const dto = json as FileCreatedDto;
-    return  dto;
+export const postToS3 = async( dataUri :string, userId: string, fileType: string): Promise<FileCreatedDto> => {
+    
+  const response = await postAuthFile(`/awss3/${userId + fileType}`, dataUri);
+  const json = await response.json();
+  const dto = json as FileCreatedDto;
+  return  dto;
 }
 
-export const deleteOnS3 = async(userId: string): Promise<boolean> => {
-  const response = await deleteAuth(`/awss3/${userId}`);
+export const deleteOnS3 = async(userId: string, fileType: string): Promise<boolean> => {
+  const response = await deleteAuth(`/awss3/${userId + fileType}`);
   return response.ok
 }
 
-export const getFromS3 = async(userId: string): Promise<string> => {
-  const response = await getAuth(`/awss3/${userId}`)
+export const getFromS3 = async(userId: string, fileType: string): Promise<string> => {
+  const response = await getAuth(`/awss3/${userId + fileType}`)
   console.log(response)
   return response.url
 }
