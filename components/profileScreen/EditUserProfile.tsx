@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "../../api/users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { BackHandler, Linking, Platform, StyleSheet } from "react-native";
+import { Linking, Platform, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
@@ -27,10 +27,6 @@ export default function EditUserProfile({
   const [hasProfilePicture, setHasProfilePicture] = useState<boolean | null>(
     user.hasProfilePicture
   );
-  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(
-    user.profilePictureUrl
-  );
-  
   const [firstName, setFirstName] = useState<string | null>(user.firstName);
   const [lastName, setLastName] = useState<string | null>(user.lastName);
   const [phoneNr, setPhoneNr] = useState<string | null>(user.phoneNr);
@@ -42,8 +38,6 @@ export default function EditUserProfile({
   );
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
-  const [uri, setUri] = useState<string|null>(null);
-
 
   useEffect(() => {
     // TODO Validate password strength with zxvcbn
@@ -63,7 +57,6 @@ export default function EditUserProfile({
         message: null,
       });
     }
-
     const dto = {
       firstName,
       lastName,
@@ -73,8 +66,6 @@ export default function EditUserProfile({
     };
     setUpdateUserDto(dto);
   }, [firstName, lastName, phoneNr, password, repeatPassword, foodPreferences]);
-
-  
 
   const setProfilePicture = async () => {
     if (Platform.OS !== "web") {
@@ -87,8 +78,6 @@ export default function EditUserProfile({
         return;
       } 
     } 
-
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -96,25 +85,22 @@ export default function EditUserProfile({
       quality: 1,
       base64: true,
     });
-
     if (!result.cancelled) {
       console.log(result.uri)
-      const dto = await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg");
+      await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg");
       setHasProfilePicture(true);
-      setProfilePictureUrl("null")
-      
+      alert("save profile to see profile picture");
     } else {
       alert("something went wrong")
-
     }
   };
-
   const removeProfilePicture = async () => {
     if (hasProfilePicture == false) {
       alert("You have no profile picture")
     } else{
       await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
       setHasProfilePicture(false);
+      alert("save profile to remove profile picture");
     }
   };
 
@@ -122,7 +108,7 @@ export default function EditUserProfile({
   const setCV = async () => {
     const resultFile = await DocumentPicker.getDocumentAsync({});
     if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 300000 : false)) {
-      const dto = await API.s3bucket.postToS3 (resultFile.uri, user.id.toString(), ".pdf")
+      await API.s3bucket.postToS3 (resultFile.uri, user.id.toString(), ".pdf")
       console.log(resultFile.uri)
       setCvURL(true)
     } else {
@@ -139,8 +125,7 @@ export default function EditUserProfile({
 
   const downloadCV = async () => {
     const Uri = await API.s3bucket.getFromS3(user.id.toString(), ".pdf")
-    setUri(Uri) 
-    Linking.canOpenURL(Uri).then((supported) => {
+    Linking.canOpenURL(Uri).then(() => {
       return Linking.openURL(Uri);
     });
   }
@@ -148,7 +133,7 @@ export default function EditUserProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <ProfilePicture url={profilePictureUrl}
+        <ProfilePicture url={user.profilePictureUrl}
         />   
         
         <ArkadButton onPress={setProfilePicture}>
