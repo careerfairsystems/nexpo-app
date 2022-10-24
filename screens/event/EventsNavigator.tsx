@@ -27,7 +27,7 @@ export function EventsNavigator() {
       <EventStack.Screen
         name="EventSwitchScreen"
         component={EventSwitchScreen}
-        options={{ title: 'Event Participants', headerTitle: 'Event Participants' }}
+        options={{ title: 'Event', headerTitle: 'Event' }}
       />
       <EventStack.Screen
         name="QRScreen"

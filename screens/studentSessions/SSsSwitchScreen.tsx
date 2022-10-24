@@ -21,7 +21,7 @@ export default function SSsSwitchScreen({ navigation, route }: SSsSwitchScreenPa
   const {id, screen} = route.params;
   switch (screen) {
     case 'applicationList':{ return (SSsApplicationsListScreen(navigation)); }
-    case 'application':{ return (SSsApplicationScreen(id));}
-    default: { return (SSsDetailsScreen(id)); }
+    case 'application':{ return (<SSsApplicationScreen companyId={id}/>);}
+    default: { return (<SSsDetailsScreen timeslotId={id}/>); }
   }
 }

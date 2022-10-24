@@ -19,7 +19,10 @@ import { ApplicationAcceptedDto } from "../../../api/sSApplications";
 import { Student } from "../../../api/students";
 import { PublicCompanyDto } from "../../../api/companies";
 
-export default function SSsDetailsScreen(timeslotId: number) {
+type SSsDetailsScreenParams = {
+  timeslotId: number;
+};
+export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
   
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
