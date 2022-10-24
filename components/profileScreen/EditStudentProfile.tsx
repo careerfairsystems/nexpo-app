@@ -38,6 +38,19 @@ export default function EditStudentProfile({
     setUpdateStudentDto(dto);
   }, [guild, linkedIn, masterTitle, year]);
 
+  const _setLinkedIn = (text: string) => {
+    setLinkedIn(text);
+    if (text.length > 0 && !text.startsWith("https://www.linkedin.com/in/")) {
+      setEditStatus({
+        ok: false,
+        message: "LinkedIn Needs to start with: https://www.linkedin.com/in/",
+      });
+    } else {
+      setEditStatus({ ok: true, message: null });
+    }
+  };
+
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -88,7 +101,8 @@ export default function EditStudentProfile({
         <TextInput
           style={styles.textInput}
           value={linkedIn ? linkedIn : ""}
-          onChangeText={setLinkedIn}
+          onChangeText={_setLinkedIn}
+          placeholder="https://www.linkedin.com/in/..."
         />
       </View>
     </KeyboardAwareScrollView>
