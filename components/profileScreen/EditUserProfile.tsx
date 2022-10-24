@@ -12,7 +12,6 @@ import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from 'expo-file-system';
 
 type EditUserProfileProps = {
   user: User;
@@ -75,6 +74,8 @@ export default function EditUserProfile({
     setUpdateUserDto(dto);
   }, [firstName, lastName, phoneNr, password, repeatPassword, foodPreferences]);
 
+  
+
   const setProfilePicture = async () => {
     if (Platform.OS !== "web") {
       const { status } =
@@ -84,8 +85,10 @@ export default function EditUserProfile({
           "We need camera roll permissions to upload a new profile picture"
         );
         return;
-      }
-    }
+      } 
+    } 
+
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -98,8 +101,8 @@ export default function EditUserProfile({
       console.log(result.uri)
       const dto = await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg");
       setHasProfilePicture(true);
-      await setProfilePictureUrl(user.id.toString() + ".jpg")
-      console.log("https://cvfiler.s3.eu-north-1.amazonaws.com/" + user.id + ".jpg")
+      setProfilePictureUrl("null")
+      
     } else {
       alert("something went wrong")
 
@@ -110,21 +113,11 @@ export default function EditUserProfile({
     if (hasProfilePicture == false) {
       alert("You have no profile picture")
     } else{
-      await API.s3bucket.deleteOnS3("https://cvfiler.s3.eu-north-1.amazonaws.com/" + user.id + ".jpg", "");
+      await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
       setHasProfilePicture(false);
     }
   };
 
-  //Does not work
-  const getProfilePicture = async () => {
-    if (profilePictureUrl == null) {
-      alert("You have no profile picture")
-    } 
-    const Uri = await API.s3bucket.getFromS3(user.profilePictureUrl || "", "")
-    console.log(Uri)
-    
-    return(FileSystem.documentDirectory + user.id.toString())
-  }
 
   const setCV = async () => {
     const resultFile = await DocumentPicker.getDocumentAsync({});
@@ -155,7 +148,7 @@ export default function EditUserProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <ProfilePicture url={"https://cvfiler.s3.eu-north-1.amazonaws.com/" + user.id + ".jpg"}
+        <ProfilePicture url={profilePictureUrl}
         />   
         
         <ArkadButton onPress={setProfilePicture}>
