@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, TextInput } from "react-native";
 
 import Colors from "../../../constants/Colors";
@@ -11,11 +11,17 @@ import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator
 import { ArkadButton } from "../../../components/Buttons";
 import { ArkadText } from "../../../components/StyledText";
 import { CardWithHeader } from "../../../components/sSApplication/SSApplicationMsg";
+import { PublicCompanyDto } from "../../../api/companies";
 
-export default function SSsApplicationScreen(companyId: number) {
+type SSsApplicationScreenParams = {
+  companyId: number;
+};
+
+export default function SSsApplicationScreen({companyId} : SSsApplicationScreenParams) {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
+  const [company, setCompany] = useState<PublicCompanyDto | null>(null);
 
   const sendApplication = async () => {
     if(msg === "") {
@@ -23,11 +29,19 @@ export default function SSsApplicationScreen(companyId: number) {
     } else {
       setLoading(true);
       await API.sSApplications.sendApplication(companyId, msg);
-      const company = await API.companies.getCompany(companyId);
-      alert("Application to " + company.name + " sent");
+      alert("Application to " + company?.name + " sent");
       setLoading(false);
     }
   };
+  const getCompany = async () => {
+    const company = await API.companies.getCompany(companyId);
+    setCompany(company);
+  };
+  useEffect(() => {
+    setLoading(true);
+    getCompany();
+    setLoading(false);
+  }, []);
 
   if (loading) {
     return <ScreenActivityIndicator />;
@@ -36,6 +50,10 @@ export default function SSsApplicationScreen(companyId: number) {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
+        {company?.studentSessionMotivation && <>
+        <ArkadText style={styles.header} text={`from ${company.name}:`}/>
+        <ArkadText style={styles.companyMotivation} text={company.studentSessionMotivation}/>
+        </>}
         <TextInput
           multiline
           style={styles.input}
@@ -53,6 +71,20 @@ export default function SSsApplicationScreen(companyId: number) {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    margin: 10,
+    marginBottom: 0,
+    color: Colors.darkBlue,
+  },
+  companyMotivation: {
+    fontSize: 16,
+    textAlign: "center",
+    margin: 10,
+    color: Colors.darkBlue,
+  },
   scrollView: {
     backgroundColor: Colors.white,
   },

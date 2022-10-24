@@ -29,6 +29,7 @@ export interface PublicCompanyDto {
   desiredGuilds: Guild[] | null;
   positions: Position[] | null;
   industries: Industry[] | null;
+  studentSessionMotivation: string | null;
 }
 
 export interface Company extends PublicCompanyDto {
@@ -36,7 +37,6 @@ export interface Company extends PublicCompanyDto {
   hostEmail: string | null;
   hostPhone: string | null;
   representatives: User[] | null;
-  ssTimeslots: SSTimeslot[] | null;
 }
 
 export interface UpdateCompanySelfDto {
