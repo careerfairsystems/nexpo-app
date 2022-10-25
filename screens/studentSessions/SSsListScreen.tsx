@@ -80,9 +80,9 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
         renderItem={null}
         ListHeaderComponent={
           <>
-            <SSCompInfo 
+            {user.role === Role.Student && <SSCompInfo 
               company={company}
-            />
+            />}
             {!accepted?.accepted && <ArkadButton 
               style={styles.button} 
               onPress={ () => openSSsApplicaion()}
