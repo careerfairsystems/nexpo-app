@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { View, Text } from '../Themed';
 import { Linking, Pressable, StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';
-import { Guild, Student } from '../../api/students';
+import { Programme, Student } from '../../api/students';
 
 type StudentProfileProps = {
   student: Student;
@@ -11,8 +11,8 @@ type StudentProfileProps = {
 export default function StudentProfile({ student }: StudentProfileProps) {
   return <>
     <View style={styles.container}>
-      <Text style={styles.label}>Guild</Text>
-      <Text style={styles.text}>{student.guild ? `${Guild[student.guild]}-Guild` : '\u2013'}</Text>
+      <Text style={styles.label}>Programme</Text>
+      <Text style={styles.text}>{student.programme ? `${Programme[student.programme]}-Programme` : '\u2013'}</Text>
 
       <Text style={styles.label}>Year</Text>
       <Text style={styles.text}>{student.year ? student.year : '\u2013'}</Text>
