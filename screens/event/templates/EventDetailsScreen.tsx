@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, Modal, Pressable, ScrollView, StyleSheet } from "react-native";
+import { Dimensions, Modal, Pressable, ScrollView, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import {
   Ionicons,
   MaterialIcons,
@@ -184,11 +184,15 @@ export default function EventDetailsScreen(id: number) {
       animationType="none"
       transparent={true}
       visible={modalVisible}
+      style={{backgroundColor: "transparent"}}
       onRequestClose={() => {
         setModalVisible(!modalVisible);
       } }
     >
       <View style={styles.centeredView}>
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
         <View style={styles.qrModalContainer}>
           {ticket && <QRCode size={Dimensions.get('window').width * 0.75} value={ticket.code} />}
         </View>
@@ -309,15 +313,24 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   qrModalContainer: {
-    borderWidth: 3,
+    borderWidth: 0,
     borderColor: Colors.lightGray,
     borderRadius: 5,
     padding: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    backgroundColor: "rgba(0,0,0,0.8)",
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.8)",
+    backgroundColor: "transparent",
   },
 });
