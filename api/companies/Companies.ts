@@ -1,6 +1,5 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
-import { Guild } from '../students';
-import { SSTimeslot } from '../studentsessions';
+import { Programme } from '../students';
 import { User } from '../users';
 
 export enum Degree {
@@ -26,7 +25,7 @@ export interface PublicCompanyDto {
   website: string | null;
   logoUrl: string | null;
   desiredDegress: Degree[] | null;
-  desiredGuilds: Guild[] | null;
+  desiredProgramme: Programme[] | null;
   positions: Position[] | null;
   industries: Industry[] | null;
   studentSessionMotivation: string | null;

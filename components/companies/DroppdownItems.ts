@@ -1,5 +1,5 @@
 import { Industry, Position } from "../../api/companies";
-import { Guild } from "../../api/students";
+import { Programme } from "../../api/students";
 
 export const POSITIONS = [
   { label: "Thesis", value: Position.Thesis },
@@ -37,14 +37,35 @@ export const INDUSTRIES = [
 ]
 
 export const PROGRAMS = [
-  { label: "A"   , value: Guild.A }, 
-  { label: "D"   , value: Guild.D },
-  { label: "E"   , value: Guild.E },
-  { label: "F"   , value: Guild.F },
-  { label: "I"   , value: Guild.I },
-  { label: "ING"   , value: Guild.ING },
-  { label: "K"   , value: Guild.K },
-  { label: "M"   , value: Guild.M },
-  { label: "V"   , value: Guild.V },
-  { label: "W"   , value: Guild.W },
+  { label: "A"   , value: 100}, 
+  { label: "D"   , value: 101 },
+  { label: "E"   , value: 102 },
+  { label: "F"   , value: 103 },
+  { label: "I"   , value: 104 },
+  { label: "ING"   , value: 105 },
+  { label: "K"   , value: 106 },
+  { label: "M"   , value: 107 },
+  { label: "V"   , value: 108 },
+  { label: "W"   , value: 109 },
+  { label: "Architecture"   , value: Programme.Arkitekt, parent: 100 },
+  { label: "Industrial design"   , value: Programme.Industridesign, parent: 100 },
+  { label: "Construction and Railway construction"   , value: Programme.Byggteknik_med_Järnvägsteknik, parent: 105 },
+  { label: "Construction and architecture"   , value: Programme.Byggteknik_med_arkitektur, parent: 105 },
+  { label: "Construction and road"   , value: Programme.Byggteknik_med_väg_och_trafikteknik, parent: 105 },
+  { label: "Computer/Software engineering"   , value: Programme.Datateknik, parent: 101 },
+  { label: "Engineering Information and comunication"   , value: Programme.Informations_och_Kommunikationsteknik, parent: 101 },
+  { label: "Electrical engineering"   , value: Programme.Elektroteknik, parent: 102 },
+  { label: "Medical engineering"   , value: Programme.Medicinteknik, parent: 102 },
+  { label: "Industrial economics"   , value: Programme.Industriell_ekonomi, parent: 104 },
+  { label: "Ecological engineering"   , value: Programme.Ekosystemteknik, parent: 109 },
+  { label: "Chemical engineering"   , value: Programme.Kemiteknik, parent: 106 },
+  { label: "Engineering Biotechnology"   , value: Programme.Bioteknik, parent: 106 },
+  { label: "Land surveying"   , value: Programme.Lantmäteri, parent: 108 },
+  { label: "Fire engineer"   , value: Programme.Brandingenjör, parent: 108 }, 
+  { label: "Civil engineering"   , value: Programme.Väg_och_vatttenbyggnad, parent: 108 },
+  { label: "Mechanical engineering"   , value: Programme.Maskinteknik, parent: 107 },
+  { label: "Mechanical engineering with technical design"   , value: Programme.Maskinteknik_Teknisk_Design, parent: 107 },
+  { label: "Engineering Nanoscience"   , value: Programme.Nanoveteknik, parent: 103 },
+  { label: "Engineering Physcics"   , value: Programme.Teknisk_Fysik, parent: 103 },
+  { label: "Engineering Mathematics"   , value: Programme.Teknisk_Matematik, parent: 103 },
 ]

@@ -1,5 +1,5 @@
 import React from "react";
-import { UpdateStudentDto, Student, Guild } from "../../api/students";
+import { UpdateStudentDto, Student, Programme } from "../../api/students";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 import { TextInput } from "../TextInput";
@@ -19,7 +19,7 @@ export default function EditStudentProfile({
   setUpdateStudentDto,
   setEditStatus,
 }: EditStudentProfileProps) {
-  const [guild, setGuild] = React.useState<Guild | null>(student.guild);
+  const [programme, setProgramme] = React.useState<Programme | null>(student.programme);
   const [year, setYear] = React.useState<number | null>(student.year);
   const [masterTitle, setMasterTitle] = React.useState<string | null>(
     student.masterTitle
@@ -30,13 +30,13 @@ export default function EditStudentProfile({
 
   React.useEffect(() => {
     const dto = {
-      guild,
+      programme,
       year,
       masterTitle,
       linkedIn,
     };
     setUpdateStudentDto(dto);
-  }, [guild, linkedIn, masterTitle, year]);
+  }, [programme, linkedIn, masterTitle, year]);
 
   const _setLinkedIn = (text: string) => {
     setLinkedIn(text);
@@ -54,22 +54,22 @@ export default function EditStudentProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <Text>Guild</Text>
+        <Text>Programme</Text>
         <Picker
           style={styles.picker}
-          selectedValue={guild}
-          key={guild}
+          selectedValue={programme}
+          key={programme}
           onValueChange={(value, index) => {
-            if (index === 0) setGuild(null);
-            else setGuild(Number(value));
+            if (index === 0) setProgramme(null);
+            else setProgramme(Number(value));
           }}
         >
-          <Picker.Item label="Select your guild" />
-          {Object.keys(Guild)
+          <Picker.Item label="Select your programme" />
+          {Object.keys(Programme)
             .map(Number)
             .filter((key) => !isNaN(key))
-            .map((guild) => (
-              <Picker.Item label={Guild[guild]} value={guild} key={guild} />
+            .map((programme) => (
+              <Picker.Item label={Programme[programme]} value={programme} key={programme} />
             ))}
         </Picker>
 

@@ -1,5 +1,5 @@
 import { getAuth, postAuth, putAuth } from "../http/_HttpHelpers";
-import { Guild } from "../students";
+import { Programme } from "../students";
 
 
 export interface SSApplication {
@@ -21,7 +21,7 @@ export interface SSApplicationDto {
   studentFirstName: string;
   studentLastName: string;
   studentYear: number;
-  studentGuild: Guild;
+  studentProgramme: Programme;
 }
 export interface UpdateApplicationDto {
   status: number;

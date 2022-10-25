@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { SSApplicationDto } from '../../api/sSApplications';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
-import { Guild } from '../../api/students';
+import { Programme } from '../../api/students';
 
 type ListedApplicationProps = {
   application: SSApplicationDto;
@@ -13,14 +13,17 @@ type ListedApplicationProps = {
 
 export const SSListItem = ({ application, onPress }: ListedApplicationProps) => 
   <Pressable onPress={onPress} style={[styles.container]}>
-    <View style={styles.headerContainer}>
-    <ArkadText style={styles.studentName} text={`${application.studentFirstName} ${application.studentLastName}`}/>
+    <View style={styles.left}>
+      <ArkadText
+        style={styles.studentName}
+        text={`${application.studentFirstName} ${application.studentLastName}`}/>
+      {application.studentProgramme && <ArkadText 
+        style={styles.programAndYear}
+        text={Programme[application.studentProgramme]} />}
+      {application.studentYear && <ArkadText 
+        style={styles.programAndYear}
+        text={`Year ${application.studentYear}`} />}
     </View>
-    <View style={styles.footerContainer}>
-      <ArkadText 
-        style={styles.guildAndYear}
-        text={`Guild: ${Guild[application.studentGuild]}    Year ${application.studentYear}`} />
-
       {/* Color of box changes depending on status */}
       {application.status === 1 ? 
       <View 
@@ -43,18 +46,23 @@ export const SSListItem = ({ application, onPress }: ListedApplicationProps) =>
           text={application.status === 2 ? "Rejected" : "Pending"} />
       </View>
       }
-    </View>
   </Pressable>
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 10,
     marginHorizontal: 10,
     backgroundColor: Colors.darkBlue,
     padding: 16,
     borderRadius: 16,
+  },
+  left: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   headerContainer: {
     flex: 1,
@@ -73,24 +81,24 @@ const styles = StyleSheet.create({
       has flex: 1. */
     paddingBottom: 4,
   },
-  guildAndYear: {
-    paddingTop: 4,
+  programAndYear: {
+    paddingTop: 2,
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: 'left',
     paddingVertical: 4,
-    paddingRight: 16,
     color: Colors.white,
+    paddingBottom: 0,
   },
   applicationStatusContainer: {
-    paddingTop: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     alignSelf: 'flex-end',
     borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   applicationStatusText: {
     fontSize: 14,
-    textAlign: 'center',
-    paddingVertical: 4,
-    paddingHorizontal: 16,
     color: Colors.white,
   },
 })

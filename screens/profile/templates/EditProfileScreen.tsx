@@ -108,9 +108,9 @@ export default function EditProfileScreen({navigation}: EditProfileScreenProps) 
       {student && <EditStudentProfile student={student} setUpdateStudentDto={setUpdateStudentDto} setEditStatus={setStudentEditStatus}/>}
       {company && <EditCompanyProfile company={company} setUpdateCompanyDto={setUpdateCompanyDto} setEditStatus={setCompanyEditStatus} />}
 
-
-      <ArkadButton onPress={saveChanges} style={{}}>
-        <ArkadText text="Save" style={{}}/>
+      
+      <ArkadButton onPress={saveChanges} style={{marginBottom: 40, width: "60%", alignSelf: "center"}}>
+        <ArkadText text="Save"/>
       </ArkadButton>
     </ScrollView>
   </>;
