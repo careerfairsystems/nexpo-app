@@ -14,6 +14,7 @@ type categoriesDropdownProps = {
   filterCompanies: () => void;
   title : string;
   onChangeValue: () => void;
+  categories: boolean;
 }
 
 export function CategoriesDropdown(props: categoriesDropdownProps) {
@@ -31,6 +32,8 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       placeholder={props.title}
       modalTitle={props.title}
       modalTitleStyle={styles.modalTitle}
+      categorySelectable={!props.categories}
+      listParentContainerStyle={props.categories ? styles.listParentContainer: null}
       placeholderStyle={{ 
         color: Colors.darkBlue,
         fontFamily: 'montserrat'}}
@@ -61,6 +64,10 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat',
     fontSize: 24
   },
+  listParentContainer: {
+    backgroundColor: Colors.lightGray,
+    height: 40,
+  },
   closeButton: {
     backgroundColor: Colors.lightGreen,
     borderRadius: 48,
@@ -72,8 +79,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   container: {
-    borderBottomColor: Colors.darkBlue,
-    borderBottomWidth: 1,
+    borderColor: Colors.darkBlue,
+    borderWidth: 0.5,
     height: 60,
   },
   checkmark: {

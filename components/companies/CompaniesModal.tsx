@@ -68,7 +68,8 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
           value={programmeValue} 
           setItems={setProgrammes}
           filterCompanies={filterCompanies}
-          onChangeValue={setSetFilteredCompanies}/>
+          onChangeValue={setSetFilteredCompanies}
+          categories={true}/>
       </View>
       <View style={styles.modalView}>
       <CategoriesDropdown
@@ -80,7 +81,8 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
           value={positionValue} 
           setItems={setPositions}
           filterCompanies={filterCompanies}
-          onChangeValue={setSetFilteredCompanies}/>
+          onChangeValue={setSetFilteredCompanies}
+          categories={false}/>
       </View>
       <View style={styles.modalView}>
       <CategoriesDropdown
@@ -92,7 +94,8 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
           value={industryValue} 
           setItems={setIndustry}
           filterCompanies={filterCompanies}
-          onChangeValue={setSetFilteredCompanies}/>
+          onChangeValue={setSetFilteredCompanies}
+          categories={false}/>
       </View>
       <View style={styles.footer}>
         <ArkadButton
