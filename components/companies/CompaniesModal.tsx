@@ -30,6 +30,7 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
   const [guildValue, guildSetValue] = useState<Guild[]>([]);
 
   const setSetFilteredCompanies = () => {
+    filterCompanies();
     setIsFiltered(industryValue.length > 0 || positionValue.length > 0 || guildValue.length > 0);
   }
 

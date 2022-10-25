@@ -31,12 +31,6 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
   const animnationController = useRef(new Animated.Value(0)).current;
 
   const toggleFilter = () => {
-    const config = {
-      duration : 300,
-      toValue : modalVisible ? 0 : 1,
-      useNativeDriver : true,
-    }
-    Animated.timing(animnationController, config).start();
     LayoutAnimation.configureNext(toggleAnimation);
     setModalVisible(!modalVisible);
   };
