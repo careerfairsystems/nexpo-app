@@ -47,7 +47,7 @@ export function TimeslotList ({ timeslots, onPress, student }: TimeslotListProps
 const styles = StyleSheet.create({
   ssBox: {
     width: width * 0.85,
-    height: height * 0.09,
+    marginVertical: 4,
   },
   text: {
     paddingTop: 40,
