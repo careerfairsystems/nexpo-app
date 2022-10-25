@@ -1,5 +1,5 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
-import { Guild } from '../students';
+import { Programme } from '../students';
 import { SSTimeslot } from '../studentsessions';
 import { User } from '../users';
 
@@ -26,7 +26,7 @@ export interface PublicCompanyDto {
   website: string | null;
   logoUrl: string | null;
   desiredDegress: Degree[] | null;
-  desiredGuilds: Guild[] | null;
+  desiredProgramme: Programme[] | null;
   positions: Position[] | null;
   industries: Industry[] | null;
   studentSessionMotivation: string | null;

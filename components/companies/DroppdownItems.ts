@@ -1,5 +1,5 @@
 import { Industry, Position } from "../../api/companies";
-import { Guild } from "../../api/students";
+import { Programme } from "../../api/students";
 
 export const POSITIONS = [
   { label: "Thesis", value: Position.Thesis },
@@ -37,14 +37,25 @@ export const INDUSTRIES = [
 ]
 
 export const PROGRAMS = [
-  { label: "A"   , value: Guild.A }, 
-  { label: "D"   , value: Guild.D },
-  { label: "E"   , value: Guild.E },
-  { label: "F"   , value: Guild.F },
-  { label: "I"   , value: Guild.I },
-  { label: "ING"   , value: Guild.ING },
-  { label: "K"   , value: Guild.K },
-  { label: "M"   , value: Guild.M },
-  { label: "V"   , value: Guild.V },
-  { label: "W"   , value: Guild.W },
+  { label: "Architecture"   , value: Programme.Arkitekt },
+  { label: "Industrial design"   , value: Programme.Industridesign },
+  { label: "Construction and Railway construction"   , value: Programme.Byggteknik_med_Järnvägsteknik },
+  { label: "Construction and architecture"   , value: Programme.Byggteknik_med_arkitektur },
+  { label: "Construction and road"   , value: Programme.Byggteknik_med_väg_och_trafikteknik },
+  { label: "Computer/Software engineering"   , value: Programme.Datateknik},
+  { label: "Engineering Information and comunication"   , value: Programme.Informations_och_Kommunikationsteknik },
+  { label: "Electrical engineering"   , value: Programme.Elektroteknik },
+  { label: "Medical engineering"   , value: Programme.Medicinteknik },
+  { label: "Industrial economics"   , value: Programme.Industriell_ekonomi },
+  { label: "Ecological engineering"   , value: Programme.Ekosystemteknik },
+  { label: "Chemical engineering"   , value: Programme.Kemiteknik },
+  { label: "Engineering Biotechnology"   , value: Programme.Bioteknik },
+  { label: "Land surveying"   , value: Programme.Lantmäteri },
+  { label: "Fire engineer"   , value: Programme.Brandingenjör}, 
+  { label: "Civil engineering"   , value: Programme.Väg_och_vatttenbyggnad },
+  { label: "Mechanical engineering"   , value: Programme.Maskinteknik },
+  { label: "Mechanical engineering with technical design"   , value: Programme.Maskinteknik_Teknisk_Design },
+  { label: "Engineering Nanoscience"   , value: Programme.Nanoveteknik },
+  { label: "Engineering Physcics"   , value: Programme.Teknisk_Fysik },
+  { label: "Engineering Mathematics"   , value: Programme.Teknisk_Matematik },
 ]
