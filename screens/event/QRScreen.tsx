@@ -106,9 +106,10 @@ export default function QRScreen({ route }: QRScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(255,255,255,0.8)",
   },
   success: {
     backgroundColor: Colors.lightGreen,
