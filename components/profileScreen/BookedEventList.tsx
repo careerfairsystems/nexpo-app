@@ -34,6 +34,7 @@ export const BookedEventList = ({ bookedEvents, onPress }: BookedEventListProps)
   const styles = StyleSheet.create({
     container: {
       height: 180,
+      alignItems: 'center',
     },
     item: {
       height: 150,

@@ -1,6 +1,5 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
 import { Programme } from '../students';
-import { SSTimeslot } from '../studentsessions';
 import { User } from '../users';
 
 export enum Degree {

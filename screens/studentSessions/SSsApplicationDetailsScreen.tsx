@@ -15,6 +15,7 @@ import { ArkadText, NoButton } from '../../components/StyledText';
 import UserProfile from '../../components/profileScreen/UserProfile';
 import { User } from '../../api/users';
 import { CardWithHeader } from '../../components/sSApplication/SSApplicationMsg';
+import { View } from '../../components/Themed';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -75,11 +76,11 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
       {true && 
         <ArkadButton onPress = {() => API.users.downloadFile(user.id, ".pdf")}><ArkadText text="Download CV" /></ArkadButton>
         } 
-      
       <CardWithHeader msg={application.motivation} header={'Student Motivation'} />
+      <View style={styles.buttons}>
       { application.status === 1 && <NoButton text={ "Accepted!" } style={styles.acceptedText}/>}
       {application.status !== 1 &&
-      <>
+        <>
         <ArkadButton style={styles.accepted} onPress={ accept }>
           <ArkadText text={'Accept application'}/>
         </ArkadButton>
@@ -88,8 +89,9 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
           <ArkadText text={'Reject Application '}/>
         </ArkadButton>
         }
-      </>
+        </>
       }
+      </View>
     </ScrollView>
   );
 }
@@ -101,11 +103,17 @@ const styles = StyleSheet.create({
   notAccepted: {
     backgroundColor: Colors.darkRed,
   },
+  buttons: {
+    paddingBottom: 30,
+    width: '80%',
+    justifyContent:'center',
+    alignSelf: 'center',
+  },
   acceptedText:{
     alignSelf: 'center',
     marginBottom: 20,
     width: '50%',
-    backgroundColor: Colors.lightGreen,
+    backgroundColor: Colors.darkBlue,
     borderRadius: 5,
   },
   container: {
