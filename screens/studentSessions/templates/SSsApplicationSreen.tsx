@@ -97,6 +97,8 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '85%',
+    textAlign: 'left',
+    textAlignVertical: 'top',
     borderColor: Colors.darkBlue,
     borderWidth: 3,
     color: Colors.darkBlue,
