@@ -112,5 +112,6 @@ const styles = StyleSheet.create({
   },
   logout: {
     paddingBottom: '10%',
+    backgroundColor: Colors.white,
   }
 });

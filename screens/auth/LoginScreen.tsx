@@ -11,6 +11,7 @@ import { API } from '../../api'
 import { AuthContext } from '../../components/AuthContext';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from "./AuthNavigator";
+import Colors from '../../constants/Colors';
 
 type LoginScreenParams = {
   navigation: StackNavigationProp<
@@ -63,7 +64,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           onSubmitEditing={login} />
         { loading
           ? <ActivityIndicator/>
-          : <ArkadButton onPress={login} style={{}}>
+          : <ArkadButton onPress={login} style={styles.loginButton}>
               <ArkadText text='Login' style={{}}/>
           </ArkadButton>
         }
@@ -104,5 +105,9 @@ const styles = StyleSheet.create({
   signUpText: {
     textAlign: 'center',
     textDecorationLine: 'underline',
+  },
+  loginButton: {
+    width: '45%',
+    alignSelf: 'center',
   }
 });

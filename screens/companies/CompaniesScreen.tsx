@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   input: {
-    borderColor: Colors.lightBlue,
+    borderColor: Colors.darkBlue,
     borderWidth: 2,
     color: Colors.darkBlue,
     height: 48,
-    borderRadius: 16,
+    borderRadius: 7,
     marginRight: 12,
     fontSize: 15,
     fontFamily: 'montserrat',
