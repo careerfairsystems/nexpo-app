@@ -45,14 +45,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     padding: 15,
-    fontFamily: 'montserrat',
-    fontSize: 16,
+    fontFamily: 'main-font-bold',
+    fontSize: 20,
     color: Colors.white,
   },
   motivationText: {
     padding: 10,
-    fontFamily: 'montserrat',
-    fontSize: 14,
+    fontFamily: 'main-font',
+    fontSize: 16,
     color: Colors.darkBlue,
   },
 });

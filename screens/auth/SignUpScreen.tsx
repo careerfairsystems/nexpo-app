@@ -88,12 +88,12 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
 
 const styles = StyleSheet.create({
   checkbox: {
-    fontSize: 14,
+    fontSize: 18,
     color: Colors.darkBlue,
     marginLeft: 12,
   },
   checkboxError: {
-    fontSize: 14,
+    fontSize: 18,
     color: Colors.lightRed,
     marginLeft: 12,
   },
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   loginContainer: {

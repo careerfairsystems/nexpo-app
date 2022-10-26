@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   },
   text: {
     paddingTop: 40,
-    fontFamily: 'montserrat',
-    fontSize: 20,
+    fontFamily: 'main-font-bold',
+    fontSize: 24,
     color: Colors.darkBlue,
   },
 });

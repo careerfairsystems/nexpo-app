@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   eventName: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 22,
     textAlign: 'left',
     color: Colors.white,
   },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   eventTime: {
     paddingBottom: 6,
-    fontSize: 14,
+    fontSize: 16,
     textAlign: 'left',
     color: Colors.white,
   },
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   eventBookedText: {
-    fontSize: 14,
+    fontSize: 16,
     textAlign: 'center',
     paddingVertical: 4,
     paddingHorizontal: 12,

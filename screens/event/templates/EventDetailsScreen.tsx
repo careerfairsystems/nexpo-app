@@ -207,7 +207,7 @@ export default function EventDetailsScreen(id: number) {
 const styles = StyleSheet.create({
   ticketTitle: {
     color: Colors.darkBlue,
-    fontSize: 20,
+    fontSize: 26,
     marginBottom: 10,
   },
   scrollView: {
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkBlue,
     marginTop: 40,
     marginBottom: 20,
-    fontSize: 16,
+    fontSize: 20,
     padding: 22,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 12,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
   },
   title: {
     justifyContent: "center",
-    fontSize: 16,
+    fontSize: 24,
   },
   headerContainer: {
     width: "90%",
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: Colors.black,
-    fontSize: 12,
+    fontSize: 16,
     paddingHorizontal: 8,
     textAlign: "left",
   },
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: Colors.black,
-    fontSize: 14,
+    fontSize: 18,
     textAlign: "left",
   },
   bookButton: {
@@ -295,8 +295,7 @@ const styles = StyleSheet.create({
   },
   qrHeader: {
     marginTop: 24,
-    fontFamily: "montserrat",
-    fontSize: 24,
+    fontSize: 30,
     color: Colors.darkBlue,
     marginBottom: 8,
   },

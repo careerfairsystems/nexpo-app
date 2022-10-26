@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGreen,
   },
   text: {
-    fontFamily: 'montserrat',
-    fontSize: 16,
+    fontFamily: 'main-font-bold',
+    fontSize: 20,
     color: Colors.white
   }
 });

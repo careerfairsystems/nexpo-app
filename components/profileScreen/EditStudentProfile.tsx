@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 3,
     borderColor: Colors.gray,
-    fontFamily: "montserrat",
     margin: 12,
   },
   textInput: {

@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 24,
     paddingBottom: 8,
-    fontSize: 24,
-    fontFamily: 'montserrat',
+    fontSize: 32,
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   contactInfoContainer: {
@@ -110,9 +110,9 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   contactInfoText: {
-    fontSize: 14,
+    fontSize: 18,
     paddingLeft: 8,
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   descHeader: {
@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     paddingTop: 16,
     fontSize: 18,
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   desc: {
     paddingTop: 6,
-    fontSize: 14,
-    fontFamily: 'montserrat',
+    fontSize: 16,
+    fontFamily: 'secoundary-font',
     color: Colors.darkBlue,
   },
 });

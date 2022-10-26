@@ -10,7 +10,7 @@ export function TextInput(props: TextInputProps) {
 
 const styles = StyleSheet.create({
   input: {
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     margin: 12,
     borderWidth: 2,
     borderRadius: 55,

@@ -55,17 +55,17 @@ const styles = StyleSheet.create({
   },
   label: {
     marginTop: 8,
-    fontSize: 12,
-    fontFamily: 'montserrat',
+    fontSize: 14,
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   text: {
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
     
   },
   url: {
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.lightBlue,
     textDecorationLine: 'underline',
     textAlign: 'center',
