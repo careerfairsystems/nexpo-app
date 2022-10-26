@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   text: {
+    fontSize: 20,
     justifyContent: "center",
     textAlign: "center",
     fontFamily: 'main-font-bold',

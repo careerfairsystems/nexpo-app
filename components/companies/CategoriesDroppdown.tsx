@@ -36,12 +36,14 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       listParentContainerStyle={props.categories ? styles.listParentContainer: null}
       placeholderStyle={{ 
         color: Colors.darkBlue,
+        fontSize: 20,
         fontFamily: 'main-font-bold'}}
       selectedItemContainerStyle={{
         backgroundColor: Colors.lightGray
       }}
       listItemLabelStyle={{
         color: Colors.darkBlue,
+        fontSize: 20,
         fontFamily: 'main-font-bold',
       }}
       closeIconContainerStyle={styles.closeButton}

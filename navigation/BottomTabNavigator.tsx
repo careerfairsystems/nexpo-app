@@ -8,13 +8,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
 import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
 
 import { getMe, Role, User } from '../api/users';
 
-import { View } from '../components/Themed';
 import { API } from '../api';
-import { LogoutButton } from '../components/profileScreen/Buttons';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { useContext } from 'react';
 import { AuthContext } from '../components/AuthContext';
@@ -24,6 +21,7 @@ import { EventsNavigator } from '../screens/event/EventsNavigator';
 import { CompaniesNavigator } from '../screens/companies/CompaniesNavigator';
 import { SSsStudentNavigator } from '../screens/studentSessions/SSsStudentNavigator';
 import { SSsCRepNavigator } from '../screens/studentSessions/SSsCRepNavigator';
+import { HeaderStyles } from '../components/HeaderStyles';
 
 
 export type BottomTabParamList = {
@@ -77,17 +75,17 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Companies"
         component={CompaniesNavigator}
-        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />, }}
+        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />, ...HeaderStyles }}
       />
       <BottomTab.Screen 
         name="Maps"
         component={MapNavigator}
-        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,}}
+        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />, ...HeaderStyles}}
       />
       <BottomTab.Screen
         name="Events"
         component={EventsNavigator}
-        options={{ tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />, }}
+        options={{ tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />, ...HeaderStyles}}
       />
       {user.role !== Role.CompanyRepresentative ? 
       <BottomTab.Screen
@@ -95,7 +93,7 @@ export default function BottomTabNavigator() {
         component={SSsStudentNavigator}
         options={{
           title: 'Student Sessions',
-          tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />, ...HeaderStyles
         }}
       /> : companyId &&
       <BottomTab.Screen
@@ -103,7 +101,7 @@ export default function BottomTabNavigator() {
         component={SSsCRepNavigator}
         options={{
           title: 'Student Sessions',
-          tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />, ...HeaderStyles
         }}
         initialParams={{companyId: companyId}}
       />
@@ -111,7 +109,7 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Profile"
         component={ProfileNavigator}
-        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />, }}
+        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />, ...HeaderStyles}}
       />
     </BottomTab.Navigator>
   );

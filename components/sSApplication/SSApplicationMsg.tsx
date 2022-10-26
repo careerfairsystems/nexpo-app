@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
   headerText: {
     padding: 15,
     fontFamily: 'main-font-bold',
-    fontSize: 20,
+    fontSize: 22,
     color: Colors.white,
   },
   motivationText: {
     padding: 10,
     fontFamily: 'main-font',
-    fontSize: 16,
+    fontSize: 18,
     color: Colors.darkBlue,
   },
 });

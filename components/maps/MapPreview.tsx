@@ -17,7 +17,7 @@ export function MapPreview ({ navigation, map}: mapNavigation) {
     <ArkadButton onPress={openMap} style={styles.previewContainer}>
       <ArkadText text={map.name} style={styles.previewText} />
       {/*<Image source={map.props.source} style={styles.img} />*/}
-      <Ionicons name="map" size={32} color={Colors.white} />
+      <Ionicons name="map" size={32} color={Colors.lightBlue} />
     </ArkadButton>
   )
 }
@@ -28,6 +28,8 @@ const styles = StyleSheet.create({
   },
   previewContainer: {
     flex: 1,
+    backgroundColor: Colors.darkBlue,
+    borderRadius: 10,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
