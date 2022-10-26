@@ -37,7 +37,6 @@ export type BottomTabParamList = {
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [companyId, setCompanyId] = React.useState<number | null>(null);
   const [user, setUser] = React.useState< User | null>(null);
@@ -74,7 +73,7 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Events"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{ activeTintColor: Colors.darkBlue }}>
       <BottomTab.Screen
         name="Companies"
         component={CompaniesNavigator}

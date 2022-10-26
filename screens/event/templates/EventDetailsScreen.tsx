@@ -34,7 +34,7 @@ export default function EventDetailsScreen(id: number) {
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
     setEvent(event);
-    const reg = event != null && (await bookedEvent(event));
+    const reg = await bookedEvent(event);
     setRegistered(reg);
     if (reg) {
       const ticket = await getTicketForEvent(event);
@@ -282,21 +282,16 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   bookButton: {
-    marginTop: 40,
     width: "90%",
-    height: 60,
-    padding: 8,
+    marginTop: 40,
     marginBottom: 20,
-    borderRadius: 12,
+    backgroundColor: Colors.lightGreen,
   },
   bookedButton: {
-    backgroundColor: Colors.lightGreen,
+    backgroundColor: Colors.darkRed,
     marginTop: 40,
     width: "90%",
-    height: 60,
-    padding: 8,
     marginBottom: 20,
-    borderRadius: 12,
   },
   qrHeader: {
     marginTop: 24,
@@ -313,10 +308,9 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   qrModalContainer: {
-    borderWidth: 0,
-    borderColor: Colors.lightGray,
     borderRadius: 5,
     padding: 16,
+    backgroundColor: Colors.white,
   },
   modalOverlay: {
     flex: 1,

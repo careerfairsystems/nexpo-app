@@ -2,19 +2,20 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { TextInput as TextInputField, TextInputProps } from 'react-native';
+import Colors from '../constants/Colors';
 
 export function TextInput(props: TextInputProps) {
-  return <TextInputField {...props} style={[styles.input, props.style]} />;
+  return <TextInputField placeholderTextColor={Colors.lightGray} {...props} style={[styles.input, props.style]} />;
 }
 
 const styles = StyleSheet.create({
   input: {
     fontFamily: 'montserrat',
-    height: 40,
     margin: 12,
-    borderWidth: 1,
-    borderRadius: 3,
+    borderWidth: 2,
+    borderRadius: 55,
     borderColor: '#333333',
-    padding: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
   },
 });

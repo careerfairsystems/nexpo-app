@@ -17,13 +17,12 @@ export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEvent
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
     <View style={styles.headerContainer}>
       <ArkadText style={styles.eventName} text={event.name}/>
-    </View>
-
-    <View style={styles.footerContainer}>
       <ArkadText 
         style={styles.eventTime}
         text={API.events.formatTime(event.date, event.start, event.end)} />
+    </View>
 
+    <View style={styles.footerContainer}>
       {/* Color of box changes depending on status */}
       {booked 
       ? <View 
@@ -79,11 +78,11 @@ const styles = StyleSheet.create({
   eventTime: {
     paddingBottom: 6,
     fontSize: 14,
-    textAlign: 'right',
+    textAlign: 'left',
     color: Colors.white,
   },
   eventBookedContainer: {
-    paddingTop: 4,
+    padding: 2,
     alignSelf: 'flex-end',
     borderRadius: 10,
   },
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     paddingVertical: 4,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     color: Colors.white,
   },
 })
