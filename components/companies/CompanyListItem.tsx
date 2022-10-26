@@ -28,9 +28,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.white,
     padding: 16,
     borderRadius: 16,
+    borderWidth: 2,
+    borderColor: Colors.darkBlue
   },
   row: {
     flex: 1,
@@ -39,8 +41,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   logo: {
-    width: 40,
-    height: 40,
+    width: 100,
+    height: 50,
     resizeMode: 'contain',
   },
   companyName: {
@@ -49,6 +51,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     padding: 12,
     marginHorizontal: 4,
-    color: Colors.white,
+    color: Colors.darkBlue,
   },
 })
