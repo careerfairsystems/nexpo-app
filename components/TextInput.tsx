@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     fontFamily: 'main-font-bold',
     margin: 12,
     borderWidth: 2,
-    borderRadius: 55,
+    borderRadius: 7,
     borderColor: Colors.darkBlue,
     paddingVertical: 12,
     paddingHorizontal: 16,

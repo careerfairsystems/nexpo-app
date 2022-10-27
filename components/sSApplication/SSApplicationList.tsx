@@ -40,7 +40,7 @@ export function ApplicationsList ({ applications, onPress }: ApplicationsListPro
 }
 const styles = StyleSheet.create({
   ssBox: {
-    width: width * 0.85,
+    width: width * 0.95,
   },
   text: {
     paddingTop: 40,

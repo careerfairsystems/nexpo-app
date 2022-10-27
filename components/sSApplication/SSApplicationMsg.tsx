@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   motivationText: {
     padding: 10,
     fontFamily: 'main-font',
-    fontSize: 18,
+    fontSize: 20,
     color: Colors.darkBlue,
   },
 });

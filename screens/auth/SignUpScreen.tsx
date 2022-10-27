@@ -31,7 +31,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
   const signUp = async () => {
     if(!checkboxState) {
       setInvalidSignUp(true);
-      alert('You must accept the terms and conditions to sign up');
+      alert('You must accept Arkads Privacy policy to sign up');
       return;
     }
     setLoading(true);
@@ -69,7 +69,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
           style={invalidSignUp ? styles.checkboxError : styles.checkbox}
         />
         <Pressable style={styles.policyContainer} onPress={() => Linking.openURL("https://www.arkadtlth.se/privacypolicy") }>
-          <Text style={styles.loginText}>See privacy policy</Text>
+          <ArkadText style={styles.loginText} text={"See privacy policy"}/>
         </Pressable>
         { loading
         ? <ActivityIndicator/>
@@ -78,10 +78,9 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
         </ArkadButton>
         }
         <Pressable style={styles.loginContainer} onPress={() => navigation.navigate('LoginScreen') }>
-          <Text style={styles.loginText}>Already have an account? Login here!</Text>
+          <ArkadText style={styles.loginText} text={"Already have an account? Login here!"}/>
         </Pressable>
       </View>
-      
     </View>
   );
 }
@@ -126,5 +125,6 @@ const styles = StyleSheet.create({
   loginText: {
     textAlign: 'center',
     textDecorationLine: 'underline',
+    color: Colors.darkBlue,
   }
 });

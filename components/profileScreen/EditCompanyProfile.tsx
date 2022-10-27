@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
   },
   descriptionInput: {
     height: 180,
-    borderRadius: 24,
     textAlignVertical: "top",
   },
 });
