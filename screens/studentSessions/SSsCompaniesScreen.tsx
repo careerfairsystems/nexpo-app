@@ -50,13 +50,15 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
+      <FlatList
+       ListHeaderComponent={
+        <View style={styles.titleContainer}>
           <ArkadText text={'Welcome to \n Student Sessions!'} style={styles.title}/>
           <ArkadText text={
             "Make sure to book a session with your favorite companies below. A student session is a 15 minute one on one meeting with a company representative. A great way to stand out in a sea of work hungry students!" 
-            } style={styles.text} />
-      </View>
-      <FlatList
+            } style={styles.text} />  
+        </View>
+        } 
         style={styles.list}
         data={companies}
         keyExtractor={({ id }) => id.toString()}
@@ -64,7 +66,8 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
           <CompanyListItem
             company={company} 
             onPress={() => openCompanySSs(company.id)} />
-        } />
+        } 
+      />
     </View>
   );
 }
@@ -72,26 +75,21 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
 const styles = StyleSheet.create({
   title: {
     paddingBottom: 5,
-    justifyContent: "center",
-    fontSize: 30,
+    fontSize: 50,
     color: Colors.darkBlue,
   },
   text: {
-    justifyContent: "center",
-    fontSize: 12,
+    fontSize: 16,
     color: Colors.darkBlue,
   },
   titleContainer: {
     paddingTop: 10,
     paddingBottom: 10,
     width: "90%",
-   // height: 100,
-    justifyContent: "center",
+    alignSelf: "center",
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   list: {
     width: '100%',
