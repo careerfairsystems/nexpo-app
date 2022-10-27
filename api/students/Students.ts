@@ -1,12 +1,32 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
 
-export enum Guild {
-  A, D, E, F, I, ING, K, M, V, W
+export enum Programme {
+  Brandingenjör,
+  Maskinteknik_Teknisk_Design,
+  Elektroteknik,
+  Ekosystemteknik,
+  Maskinteknik,
+  Nanoveteknik,
+  Bioteknik,
+  Industridesign,
+  Arkitekt,
+  Informations_och_Kommunikationsteknik,
+  Kemiteknik,
+  Byggteknik_med_Järnvägsteknik,
+  Väg_och_vatttenbyggnad,
+  Byggteknik_med_arkitektur,
+  Industriell_ekonomi,
+  Teknisk_Matematik,
+  Medicinteknik,
+  Lantmäteri,
+  Datateknik,
+  Teknisk_Fysik,
+  Byggteknik_med_väg_och_trafikteknik
 }
 
 export interface Student {
   id: number;
-  guild: Guild | null;
+  programme: Programme | null;
   resumeEnUrl: string | null;
   resumeSvUrl: string | null;
   linkedIn: string | null;
@@ -16,7 +36,7 @@ export interface Student {
 }
 
 export interface UpdateStudentDto {
-  guild?: Guild | null;
+  programme?: Programme | null;
   linkedIn?: string | null;
   masterTitle?: string | null;
   year?: number | null;

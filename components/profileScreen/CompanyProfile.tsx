@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 24,
-    fontFamily: 'montserrat',
+    fontSize: 32,
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   contactInfoContainer: {
@@ -85,15 +85,15 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   contactInfoText: {
-    fontSize: 14,
+    fontSize: 18,
     paddingLeft: 8,
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   header: {
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
-    fontSize: 12,
+    fontSize: 14,
     marginTop: 12,
     marginBottom: 4,
   },

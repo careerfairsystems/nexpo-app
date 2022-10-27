@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
   },
 });

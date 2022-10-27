@@ -21,8 +21,11 @@ export type EditStatus = {
   ok: boolean;
   message: string | null;
 };
+type EditProfileScreenProps = {
+  navigation: StackNavigationProp<ProfileStackParamList, 'ProfileSwitchScreen'>;
+}
 
-export default function EditProfileScreen(navigation: StackNavigationProp<ProfileStackParamList, 'ProfileSwitchScreen'>) {
+export default function EditProfileScreen({navigation}: EditProfileScreenProps) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [user, setUser] = useState<User | null>(null);
@@ -105,9 +108,9 @@ export default function EditProfileScreen(navigation: StackNavigationProp<Profil
       {student && <EditStudentProfile student={student} setUpdateStudentDto={setUpdateStudentDto} setEditStatus={setStudentEditStatus}/>}
       {company && <EditCompanyProfile company={company} setUpdateCompanyDto={setUpdateCompanyDto} setEditStatus={setCompanyEditStatus} />}
 
-
-      <ArkadButton onPress={saveChanges} style={{}}>
-        <ArkadText text="Save" style={{}}/>
+      
+      <ArkadButton onPress={saveChanges} style={{marginBottom: 40, width: "60%", alignSelf: "center"}}>
+        <ArkadText text="Save"/>
       </ArkadButton>
     </ScrollView>
   </>;

@@ -1,6 +1,6 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
+import { StyleSheet, Text, Button, View, Dimensions, Platform, ActivityIndicator } from "react-native";
 import { API } from "../../api";
 import { ArkadButton } from "../../components/Buttons";
 import { ArkadText, NoButton } from "../../components/StyledText";
@@ -55,7 +55,6 @@ export default function QRScreen({ route }: QRScreenProps) {
       }
     } catch (error) {
       console.log(error);
-      alert("could not update ticket");
     } finally {
       setLoading(false);
     }
@@ -80,11 +79,13 @@ export default function QRScreen({ route }: QRScreenProps) {
       </ArkadButton>
     </View>;
   }
-  if(loading) {
-    return <ScreenActivityIndicator/>
-  }
-  if(scanned) {
-    return (
+  return (
+    <View style={styles.container}>
+      <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject} />
+      {loading && <ActivityIndicator />}
+      {scanned && !loading &&
       <View style={styles.container}>
         {ticket && ticket.eventId === id && ticket.isConsumed === false ? 
           <NoButton text={`Ticket for ${ticket.event.name} consumed!`} style={styles.success} /> :
@@ -97,15 +98,7 @@ export default function QRScreen({ route }: QRScreenProps) {
           style={styles.button}>
           <ArkadText text={"Click to scan again"} style={styles.scanAgain}/>
         </ArkadButton>
-      </View>
-    )
-  }
-  
-  return (
-    <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject} />
+      </View>}
     </View>
   )
 }
@@ -113,8 +106,10 @@ export default function QRScreen({ route }: QRScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     alignItems: 'center',
-    backgroundColor: Colors.white,
+    justifyContent: 'center',
+    backgroundColor: "rgba(255,255,255,0.8)",
   },
   success: {
     backgroundColor: Colors.lightGreen,
@@ -131,7 +126,7 @@ const styles = StyleSheet.create({
   },
   scanAgain: { 
     color: Colors.white,
-    fontSize: 24
+    fontSize: 32
   },
   button: {
     marginTop: '20%',

@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { HeaderStyles } from '../../components/HeaderStyles';
 import SSsCompaniesScreen from './SSsCompaniesScreen';
 import SSsListScreen from "./SSsListScreen";
 import SSsSwitchScreen from './SSsSwitchScreen';
@@ -22,15 +23,15 @@ export function SSsStudentNavigator() {
       <SSsStack.Screen
         name="SSsCompaniesScreen"
         component={SSsCompaniesScreen}
-        options={{ title: 'Student Sessions', headerTitle: 'Student Sessions' }} />
+        options={{ title: 'Student Sessions', headerTitle: 'Student Sessions', ...HeaderStyles }} />
       <SSsStack.Screen
         name="SSsListScreen"
         component={SSsListScreen}
-        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List' }} />
+        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List', ...HeaderStyles }} />
         <SSsStack.Screen
         name="SSsSwitchScreen"
         component={SSsSwitchScreen}
-        options={{ title: 'Studentsession', headerTitle: 'Studentsession' }} />
+        options={{ title: 'Studentsession', headerTitle: 'Studentsession', ...HeaderStyles }} />
     </SSsStack.Navigator>
   );
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "../../api/users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { BackHandler, Linking, Platform, StyleSheet } from "react-native";
+import { Linking, Platform, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
@@ -24,8 +24,8 @@ export default function EditUserProfile({
   setUpdateUserDto,
   setEditStatus,
 }: EditUserProfileProps) {
-  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(
-    user.profilePictureUrl
+  const [hasProfilePicture, setHasProfilePicture] = useState<boolean | null>(
+    user.hasProfilePicture
   );
   const [firstName, setFirstName] = useState<string | null>(user.firstName);
   const [lastName, setLastName] = useState<string | null>(user.lastName);
@@ -38,8 +38,6 @@ export default function EditUserProfile({
   );
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
-  const [uri, setUri] = useState<string|null>(null);
-
 
   useEffect(() => {
     // TODO Validate password strength with zxvcbn
@@ -59,7 +57,6 @@ export default function EditUserProfile({
         message: null,
       });
     }
-
     const dto = {
       firstName,
       lastName,
@@ -79,9 +76,8 @@ export default function EditUserProfile({
           "We need camera roll permissions to upload a new profile picture"
         );
         return;
-      }
-    }
-
+      } 
+    } 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -89,24 +85,30 @@ export default function EditUserProfile({
       quality: 1,
       base64: true,
     });
-
     if (!result.cancelled) {
-      const dto = await API.files.updateProfilePicture(
-        result.base64 ? result.base64 : result.uri
-      );
-      setProfilePictureUrl(dto.url);
+      console.log(result.uri)
+      await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg");
+      setHasProfilePicture(true);
+      alert("save profile to see profile picture");
+    } else {
+      alert("something went wrong")
+    }
+  };
+  const removeProfilePicture = async () => {
+    if (hasProfilePicture == false) {
+      alert("You have no profile picture")
+    } else{
+      await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
+      setHasProfilePicture(false);
+      alert("save profile to remove profile picture");
     }
   };
 
-  const removeProfilePicture = async () => {
-    await API.files.removeProfilePicture();
-    setProfilePictureUrl(null);
-  };
 
   const setCV = async () => {
     const resultFile = await DocumentPicker.getDocumentAsync({});
     if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 300000 : false)) {
-      const dto = await API.s3bucket.postToS3 (resultFile.uri, user.id.toString())
+      await API.s3bucket.postToS3 (resultFile.uri, user.id.toString(), ".pdf")
       console.log(resultFile.uri)
       setCvURL(true)
     } else {
@@ -115,16 +117,15 @@ export default function EditUserProfile({
   }
 
   const deleteCV = async () => {
-    const dto = await API.s3bucket.deleteOnS3(user.id.toString())
+    const dto = await API.s3bucket.deleteOnS3(user.id.toString() , ".pdf")
     if (dto.valueOf() == true) {
       setCvURL(false)
     }
   }
 
   const downloadCV = async () => {
-    const Uri = await API.s3bucket.getFromS3(user.id.toString())
-    setUri(Uri) 
-    Linking.canOpenURL(Uri).then((supported) => {
+    const Uri = await API.s3bucket.getFromS3(user.id.toString(), ".pdf")
+    Linking.canOpenURL(Uri).then(() => {
       return Linking.openURL(Uri);
     });
   }
@@ -132,15 +133,17 @@ export default function EditUserProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <ProfilePicture url={profilePictureUrl} />
+        <ProfilePicture url={user.profilePictureUrl}
+        />   
+        
         <ArkadButton onPress={setProfilePicture}>
-          {profilePictureUrl ? (
+          {hasProfilePicture ? (
             <ArkadText text="Change profile picture" />
           ) : (
             <ArkadText text="Set profile picture" />
           )}
         </ArkadButton>
-        {profilePictureUrl && (
+        {hasProfilePicture && (
           <ArkadButton onPress={removeProfilePicture}>
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
@@ -223,8 +226,7 @@ const styles = StyleSheet.create({
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 24,
-    fontFamily: "montserrat",
+    fontSize: 32,
     color: Colors.darkBlue,
   },
   textInput: {

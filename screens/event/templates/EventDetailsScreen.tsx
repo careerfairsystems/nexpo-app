@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, Modal, Pressable, ScrollView, StyleSheet } from "react-native";
+import { Dimensions, Modal, Pressable, ScrollView, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import {
   Ionicons,
   MaterialIcons,
@@ -34,7 +34,7 @@ export default function EventDetailsScreen(id: number) {
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
     setEvent(event);
-    const reg = event != null && (await bookedEvent(event));
+    const reg = await bookedEvent(event);
     setRegistered(reg);
     if (reg) {
       const ticket = await getTicketForEvent(event);
@@ -184,11 +184,15 @@ export default function EventDetailsScreen(id: number) {
       animationType="none"
       transparent={true}
       visible={modalVisible}
+      style={{backgroundColor: "transparent"}}
       onRequestClose={() => {
         setModalVisible(!modalVisible);
       } }
     >
       <View style={styles.centeredView}>
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
         <View style={styles.qrModalContainer}>
           {ticket && <QRCode size={Dimensions.get('window').width * 0.75} value={ticket.code} />}
         </View>
@@ -203,7 +207,7 @@ export default function EventDetailsScreen(id: number) {
 const styles = StyleSheet.create({
   ticketTitle: {
     color: Colors.darkBlue,
-    fontSize: 20,
+    fontSize: 26,
     marginBottom: 10,
   },
   scrollView: {
@@ -214,7 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkBlue,
     marginTop: 40,
     marginBottom: 20,
-    fontSize: 16,
+    fontSize: 20,
     padding: 22,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 12,
@@ -237,7 +241,7 @@ const styles = StyleSheet.create({
   },
   title: {
     justifyContent: "center",
-    fontSize: 16,
+    fontSize: 24,
   },
   headerContainer: {
     width: "90%",
@@ -264,7 +268,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: Colors.black,
-    fontSize: 12,
+    fontSize: 16,
     paddingHorizontal: 8,
     textAlign: "left",
   },
@@ -274,30 +278,24 @@ const styles = StyleSheet.create({
   },
   description: {
     color: Colors.black,
-    fontSize: 14,
+    fontSize: 18,
     textAlign: "left",
   },
   bookButton: {
-    marginTop: 40,
     width: "90%",
-    height: 60,
-    padding: 8,
+    marginTop: 40,
     marginBottom: 20,
-    borderRadius: 12,
+    backgroundColor: Colors.lightGreen,
   },
   bookedButton: {
-    backgroundColor: Colors.lightGreen,
+    backgroundColor: Colors.darkRed,
     marginTop: 40,
     width: "90%",
-    height: 60,
-    padding: 8,
     marginBottom: 20,
-    borderRadius: 12,
   },
   qrHeader: {
     marginTop: 24,
-    fontFamily: "montserrat",
-    fontSize: 24,
+    fontSize: 30,
     color: Colors.darkBlue,
     marginBottom: 8,
   },
@@ -309,15 +307,23 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   qrModalContainer: {
-    borderWidth: 3,
-    borderColor: Colors.lightGray,
     borderRadius: 5,
     padding: 16,
+    backgroundColor: Colors.white,
+  },
+  modalOverlay: {
+    flex: 1,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    backgroundColor: "rgba(0,0,0,0.8)",
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.8)",
+    backgroundColor: "transparent",
   },
 });

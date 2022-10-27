@@ -19,7 +19,10 @@ import { ApplicationAcceptedDto } from "../../../api/sSApplications";
 import { Student } from "../../../api/students";
 import { PublicCompanyDto } from "../../../api/companies";
 
-export default function SSsDetailsScreen(timeslotId: number) {
+type SSsDetailsScreenParams = {
+  timeslotId: number;
+};
+export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
   
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -166,7 +169,7 @@ const styles = StyleSheet.create({
   acceptedText:{
     alignSelf: 'center',
     marginTop: 40,
-    fontSize: 14,
+    fontSize: 18,
     padding: 22,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 12,
@@ -190,7 +193,7 @@ const styles = StyleSheet.create({
   },
   title: {
     justifyContent: "center",
-    fontSize: 16,
+    fontSize: 20,
   },
   headerContainer: {
     width: "90%",
@@ -217,7 +220,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: Colors.black,
-    fontSize: 12,
+    fontSize: 16,
     paddingHorizontal: 8,
     textAlign: "left",
   },
@@ -227,7 +230,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: Colors.black,
-    fontSize: 14,
+    fontSize: 18,
     textAlign: "left",
   },
   bookButton: {
@@ -250,8 +253,7 @@ const styles = StyleSheet.create({
   },
   qrHeader: {
     marginTop: 24,
-    fontFamily: "montserrat",
-    fontSize: 24,
+    fontSize: 32,
     color: Colors.darkBlue,
     marginBottom: 8,
   },

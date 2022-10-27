@@ -78,8 +78,7 @@ const styles = StyleSheet.create({
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 24,
-    fontFamily: "montserrat",
+    fontSize: 32,
     color: Colors.darkBlue,
   },
   textInput: {
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   descriptionInput: {
-    height: 200,
+    height: 180,
+    textAlignVertical: "top",
   },
 });

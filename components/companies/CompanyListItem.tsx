@@ -13,11 +13,10 @@ type CompanyListItemProps = {
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => 
   <Pressable onPress={onPress} style={styles.container}>
     <View style={styles.row}>
+      <ArkadText text={company.name} style={styles.companyName}/>
       <Image 
-        source={ company.logoUrl ? {uri: company.logoUrl} : require('../../assets/images/adaptive-icon.png')}
-        style={styles.logo} 
-        defaultSource={require('../../assets/images/adaptive-icon.png')} />
-        <ArkadText text={company.name} style={styles.companyName}/>
+        source={company.logoUrl ? {uri: company.logoUrl} : require('../../assets/images/adaptive-icon.png')}
+        style={styles.logo} />
     </View>
   </Pressable>
 
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
   },
   companyName: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 24,
     textAlign: 'left',
     padding: 12,
     marginHorizontal: 4,

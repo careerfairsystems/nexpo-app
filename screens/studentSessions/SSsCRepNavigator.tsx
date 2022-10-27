@@ -3,6 +3,7 @@ import * as React from 'react';
 import SSsListScreen from "./SSsListScreen";
 import SSsApplicationDetailsScreen from './SSsApplicationDetailsScreen';
 import SSsSwitchScreen from './SSsSwitchScreen';
+import { HeaderStyles } from '../../components/HeaderStyles';
 
 
 export type SSsStackParamlist = {
@@ -32,16 +33,16 @@ export function SSsCRepNavigator({route}: SSsCRepNavigatorParams) {
       <SSsStack.Screen
         name="SSsListScreen"
         component={SSsListScreen}
-        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List' }}
+        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List', ...HeaderStyles }}
         initialParams= {{companyId}} />
       <SSsStack.Screen
         name="SSsSwitchScreen"
         component={SSsSwitchScreen}
-        options={{ title: 'Studentsession', headerTitle: 'Studentsession' }} />
+        options={{ title: 'Studentsession', headerTitle: 'Studentsession', ...HeaderStyles }} />
       <SSsStack.Screen
         name="SSsApplicationDetailsScreen"
         component={SSsApplicationDetailsScreen}
-        options={{ title: 'Application Details', headerTitle: 'Application Details' }} />
+        options={{ title: 'Application Details', headerTitle: 'Application Details', ...HeaderStyles }} />
     </SSsStack.Navigator>
   );
 }

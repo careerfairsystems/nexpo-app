@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import { Text, TextProps } from './Themed';
-import { StyleSheet, TextInput, TextStyle } from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 import Colors from '../constants/Colors'
 
 export function DefaultText(props: TextProps) {
-  return <Text {...props} style={[props.style, { fontFamily: 'montserrat' }]} />;
+  return <Text {...props} style={[props.style, { fontFamily: 'main-font-bold' }]} />;
 }
 
 interface textProps {
@@ -22,17 +22,18 @@ export function NoButton(props: textProps) {
 
 const styles = StyleSheet.create({
   acceptedText:{
-    fontSize: 16,
+    fontSize: 20,
     padding: 20,
     color: Colors.white,
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     justifyContent: "center",
     textAlign: "center",
   },
   text: {
+    fontSize: 20,
     justifyContent: "center",
     textAlign: "center",
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.white,
   },
 });
