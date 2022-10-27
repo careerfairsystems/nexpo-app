@@ -39,7 +39,10 @@ export default function SSsApplicationScreen(companyId: number) {
           value={msg}
           placeholder={"here you can write a motivation to the company: \n \nhejhej jag vill gärna jobba hos er \nhoppas ni vill ha mig <3"}
         />
-        <CardWithHeader msg={"The company you send your application to can not only see your message but also your entire profile! \nA good idea is to make sure you have added CV and/or Linkedin-link in your profile to have the best chance at getting approved."} header={"Remember!"} />
+        <CardWithHeader msg={'The company you send your application to can not only see your message but also your entire profile!' +
+         '\n \nA good idea is to make sure you have added CV and/or Linkedin-link in your profile to have the best chance at getting approved.' +
+         '\n \nWhen accepted, you will receive an e-mail telling you to book a session.'
+         } header={"Remember!"} />
         <ArkadButton onPress={sendApplication}>
           <ArkadText text="Send application" />
         </ArkadButton>
