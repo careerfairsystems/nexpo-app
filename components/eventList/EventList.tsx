@@ -40,7 +40,7 @@ export function EventList ({ events, bookedEvents, onPress }: EventListProps) {
 }
 const styles = StyleSheet.create({
   eventBox: {
-    width: width * 0.85,
+    width: width * 0.95,
     height: height * 0.24
   },
   text: {
