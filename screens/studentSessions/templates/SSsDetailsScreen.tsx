@@ -18,6 +18,7 @@ import { Role, User } from "../../../api/users";
 import { ApplicationAcceptedDto } from "../../../api/sSApplications";
 import { Student } from "../../../api/students";
 import { PublicCompanyDto } from "../../../api/companies";
+import SSsStudentInfo from "../../../components/studentSessionList/SSsStudentInfo";
 
 type SSsDetailsScreenParams = {
   timeslotId: number;
@@ -155,7 +156,8 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
             <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
               <ArkadText text="Register to timeslot" style={styles.title} />
             </ArkadButton>
-          ): <NoButton text="You can't book this timeslot" style={styles.acceptedText} />
+          ): timeslot.studentId ? <SSsStudentInfo studentId={timeslot.studentId}/> :
+          <NoButton text="When a student has booked this timeslot you can see their information here" style={styles.acceptedText} />
           }
       </View>
     </ScrollView>
