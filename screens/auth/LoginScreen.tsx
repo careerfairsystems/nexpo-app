@@ -37,8 +37,10 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
     const success = await API.auth.login(email.toLowerCase(), password);
 
     setLoading(false);
-
-    if (!success) {
+    if (success.status === 400) {
+      alert('wrong email or password');
+    }
+    else if (!success.ok) {
       alert('Login not successful');
     }
     else {
