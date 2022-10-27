@@ -166,10 +166,14 @@ export default function EventDetailsScreen(id: number) {
               style={styles.qrContainer}
               onPress={() => setModalVisible(true)}
             >
-              <QRCode size={160} value={ticket.code} />
+              <QRCode
+              size={160}
+              value={ticket.code}
+              backgroundColor={ticket.isConsumed? Colors.orange : Colors.white}
+              />
             </Pressable>
           </>
-        ) : event.capacity === event.ticketCount ? <NoButton text="No tickets Left :-(" style={styles.consumedText}/> 
+        ) : event.capacity === event.ticketCount ? <NoButton text="No tickets Left :-(" style={styles.consumedText}/>
         : (
           <ArkadButton onPress={createTicket} style={styles.bookButton}>
             <ArkadText text="Register to event" style={styles.title} />
@@ -194,7 +198,10 @@ export default function EventDetailsScreen(id: number) {
           <View style={styles.modalOverlay} />
         </TouchableWithoutFeedback>
         <View style={styles.qrModalContainer}>
-          {ticket && <QRCode size={Dimensions.get('window').width * 0.75} value={ticket.code} />}
+          {ticket && <QRCode
+          size={Dimensions.get('window').width * 0.75}
+          value={ticket.code}
+          backgroundColor={ticket.isConsumed? Colors.orange : Colors.white} />}
         </View>
         <ArkadButton onPress={() => setModalVisible(!modalVisible)}>
           <ArkadText text={"Close"} />
