@@ -77,11 +77,11 @@ export default function BottomTabNavigator() {
         component={CompaniesNavigator}
         options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />, ...HeaderStyles }}
       />
-      <BottomTab.Screen 
+      {/* <BottomTab.Screen 
         name="Maps"
         component={MapNavigator}
         options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />, ...HeaderStyles}}
-      />
+      /> */}
       <BottomTab.Screen
         name="Events"
         component={EventsNavigator}
