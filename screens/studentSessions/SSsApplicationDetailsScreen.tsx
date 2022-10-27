@@ -73,9 +73,11 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
       <UserProfile user={user as NonNullable<User>} />
       <StudentProfile student={student as NonNullable<Student>} />
 
-      {true && 
-        <ArkadButton onPress = {() => API.users.downloadFile(user.id, ".pdf")}><ArkadText text="Download CV" /></ArkadButton>
-        } 
+      {user.hasCv && 
+      <ArkadButton style={{width: "45%", alignSelf: "center"}}onPress = {() => API.users.downloadFile(user.id, ".pdf")}>
+        <ArkadText text="Download CV" />
+      </ArkadButton>
+      } 
       <CardWithHeader msg={application.motivation} header={'Student Motivation'} />
       <View style={styles.buttons}>
       { application.status === 1 && <NoButton text={ "Accepted!" } style={styles.acceptedText}/>}
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
-    fontSize: 20,
+    fontSize: 24,
     color: Colors.darkBlue,
   },
   eventList: {

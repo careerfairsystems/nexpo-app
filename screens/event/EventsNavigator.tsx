@@ -3,6 +3,7 @@ import * as React from 'react';
 import EventListScreen from "./EventListScreen";
 import QRScreen from './QRScreen';
 import EventSwitchScreen from './EventSwitchScreen';
+import { HeaderStyles } from '../../components/HeaderStyles';
 
 
 export type EventStackParamlist = {
@@ -22,17 +23,17 @@ export function EventsNavigator() {
       <EventStack.Screen
         name="EventListScreen"
         component={EventListScreen}
-        options={{ title: 'Events', headerTitle: 'Events' }}
+        options={{ title: 'Events', headerTitle: 'Events', ...HeaderStyles }}
       />
       <EventStack.Screen
         name="EventSwitchScreen"
         component={EventSwitchScreen}
-        options={{ title: 'Event', headerTitle: 'Event' }}
+        options={{ title: 'Event', headerTitle: 'Event', ...HeaderStyles }}
       />
       <EventStack.Screen
         name="QRScreen"
         component={QRScreen}
-        options={{ title: 'QR Scan', headerTitle: 'QR Scan' }}
+        options={{ title: 'QR Scan', headerTitle: 'QR Scan', ...HeaderStyles }}
       />
     </EventStack.Navigator>
   );

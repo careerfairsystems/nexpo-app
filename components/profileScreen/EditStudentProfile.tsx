@@ -69,7 +69,7 @@ export default function EditStudentProfile({
             .map(Number)
             .filter((key) => !isNaN(key))
             .map((programme) => (
-              <Picker.Item label={Programme[programme]} value={programme} key={programme} />
+              <Picker.Item label={Programme[programme].replace("_", " ").replace("_", " ")} value={programme} key={programme} />
             ))}
         </Picker>
 
@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 3,
     borderColor: Colors.gray,
-    fontFamily: "montserrat",
     margin: 12,
   },
   textInput: {

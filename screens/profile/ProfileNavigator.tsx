@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { HeaderStyles } from '../../components/HeaderStyles';
 import ProfileScreen from './ProfileScreen';
 import ProfileSwitchScreen from './ProfileSwitchScreen';
 
@@ -18,11 +19,11 @@ export function ProfileNavigator() {
       <ProfileStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ title: 'Profile', headerTitle: 'Profile' }} />
+        options={{ title: 'Profile', headerTitle: 'Profile', ...HeaderStyles }} />
       <ProfileStack.Screen
         name="ProfileSwitchScreen"
         component={ProfileSwitchScreen}
-        options={{ headerTitle: 'Profile' }} />
+        options={{ headerTitle: 'Profile', ...HeaderStyles }} />
     </ProfileStack.Navigator>
   );
 }

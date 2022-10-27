@@ -3,6 +3,7 @@ import * as React from 'react';
 import MapScreen from "./MapScreen";
 import ZoomMapScreen from './ZoomMapScreen';
 import { Map } from '../../components/maps/MapProps';
+import { HeaderStyles } from '../../components/HeaderStyles';
 
 
 export type MapStackParamList = {
@@ -18,11 +19,11 @@ export function MapNavigator() {
       <MapStack.Screen
         name="MapScreen"
         component={MapScreen}
-        options={{ title: 'Maps', headerTitle: 'Maps' }} />
+        options={{ title: 'Maps', headerTitle: 'Maps', ...HeaderStyles }} />
       <MapStack.Screen
         name="ZoomMapScreen"
         component={ZoomMapScreen}
-        options={{ title: 'Map', headerTitle: 'Map' }} />
+        options={{ title: 'Map', headerTitle: 'Map', ...HeaderStyles }} />
     </MapStack.Navigator>
   );
 }

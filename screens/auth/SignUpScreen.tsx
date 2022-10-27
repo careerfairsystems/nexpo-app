@@ -31,20 +31,21 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
   const signUp = async () => {
     if(!checkboxState) {
       setInvalidSignUp(true);
-      alert('You must accept the terms and conditions to sign up');
+      alert('You must accept Arkads Privacy policy to sign up');
       return;
     }
     setLoading(true);
     const success = await API.signup.initialSignUp({ email: email.toLowerCase(), firstName, lastName });
     setLoading(false);
 
-    if (success) {
+    if (success.status === 200) {
       alert('Account created, check your email for a link to finalize it before you can use it');
+    } else if (success.status === 409) {
+      alert('Email already in use');
     } else {
       alert('Something went wrong, please try again');
     }
   }
-  
 
   return (
     <View style={styles.container}>
@@ -69,7 +70,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
           style={invalidSignUp ? styles.checkboxError : styles.checkbox}
         />
         <Pressable style={styles.policyContainer} onPress={() => Linking.openURL("https://www.arkadtlth.se/privacypolicy") }>
-          <Text style={styles.loginText}>See privacy policy</Text>
+          <ArkadText style={styles.loginText} text={"See privacy policy"}/>
         </Pressable>
         { loading
         ? <ActivityIndicator/>
@@ -78,22 +79,21 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
         </ArkadButton>
         }
         <Pressable style={styles.loginContainer} onPress={() => navigation.navigate('LoginScreen') }>
-          <Text style={styles.loginText}>Already have an account? Login here!</Text>
+          <ArkadText style={styles.loginText} text={"Already have an account? Login here!"}/>
         </Pressable>
       </View>
-      
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   checkbox: {
-    fontSize: 14,
+    fontSize: 18,
     color: Colors.darkBlue,
     marginLeft: 12,
   },
   checkboxError: {
-    fontSize: 14,
+    fontSize: 18,
     color: Colors.lightRed,
     marginLeft: 12,
   },
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   loginContainer: {
@@ -126,5 +126,6 @@ const styles = StyleSheet.create({
   loginText: {
     textAlign: 'center',
     textDecorationLine: 'underline',
+    color: Colors.darkBlue,
   }
 });

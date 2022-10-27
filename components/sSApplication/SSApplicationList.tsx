@@ -40,12 +40,12 @@ export function ApplicationsList ({ applications, onPress }: ApplicationsListPro
 }
 const styles = StyleSheet.create({
   ssBox: {
-    width: width * 0.85,
+    width: width * 0.95,
   },
   text: {
     paddingTop: 40,
-    fontFamily: 'montserrat',
-    fontSize: 20,
+    fontFamily: 'main-font-bold',
+    fontSize: 24,
     color: Colors.darkBlue,
   },
 });

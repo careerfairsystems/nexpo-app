@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   statsText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     marginHorizontal: 5,
   },

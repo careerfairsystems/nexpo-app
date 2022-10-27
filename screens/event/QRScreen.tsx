@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   scanAgain: { 
     color: Colors.white,
-    fontSize: 24
+    fontSize: 32
   },
   button: {
     marginTop: '20%',

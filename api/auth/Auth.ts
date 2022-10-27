@@ -2,10 +2,10 @@ import * as AuthState from './_AuthState';
 import { post } from '../http/_HttpHelpers';
 import { getMe, Role } from '../users';
 
-export const login = async (email: string, password: string): Promise<boolean> => {
+export const login = async (email: string, password: string): Promise<Response> => {
   const result = await post('/session/signin', { email, password });
 
-  if (!result.ok) return false;
+  if (!result.ok) return result;
 
   const jwt = (await result.json()).token;
   await AuthState.setJwt(jwt);
@@ -13,7 +13,7 @@ export const login = async (email: string, password: string): Promise<boolean> =
   const user = await getMe();
   await AuthState.setUserRole(user.role);
 
-  return true;
+  return result;
 }
   
 export const isAuthenticated = (): Promise<boolean> => {

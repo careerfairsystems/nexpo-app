@@ -12,7 +12,7 @@ export default function StudentProfile({ student }: StudentProfileProps) {
   return <>
     <View style={styles.container}>
       <Text style={styles.label}>Programme</Text>
-      <Text style={styles.text}>{student.programme ? `${Programme[student.programme]}-Programme` : '\u2013'}</Text>
+      <Text style={styles.text}>{student.programme ? `${Programme[student.programme].replace("_", " ").replace("_", " ")}` : '\u2013'}</Text>
 
       <Text style={styles.label}>Year</Text>
       <Text style={styles.text}>{student.year ? student.year : '\u2013'}</Text>
@@ -55,17 +55,17 @@ const styles = StyleSheet.create({
   },
   label: {
     marginTop: 8,
-    fontSize: 12,
-    fontFamily: 'montserrat',
+    fontSize: 14,
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   text: {
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
     
   },
   url: {
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.lightBlue,
     textDecorationLine: 'underline',
     textAlign: 'center',

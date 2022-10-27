@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     color: Colors.darkBlue,
     marginBottom: '-20%',
-    fontSize: 24,
+    fontSize: 32,
   },
 })

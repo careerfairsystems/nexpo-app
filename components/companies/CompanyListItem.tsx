@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   companyName: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 24,
     textAlign: 'left',
     padding: 12,
     marginHorizontal: 4,

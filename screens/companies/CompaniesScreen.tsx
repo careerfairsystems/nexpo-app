@@ -63,6 +63,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
           onChangeText={onChangeText}
           value={text}
           placeholder={"Search for a company..."}
+          placeholderTextColor={Colors.lightGray}
         />
         <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()} >
           {modalVisible ? <Entypo name="chevron-thin-up" size={24} color="white" />
@@ -105,9 +106,9 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
     height: 48,
     borderRadius: 7,
-    marginRight: 16,
-    fontSize: 15,
-    fontFamily: 'montserrat',
+    marginRight: 12,
+    fontSize: 20,
+    fontFamily: 'main-font-bold',
     paddingHorizontal: 10,
     flexGrow: 1,
   },
@@ -118,14 +119,12 @@ const styles = StyleSheet.create({
   },
   filterBadge: {
     position: 'absolute',
-    top: -5,
-    left: -5,
-    backgroundColor: Colors.lightRed,
+    top: -1,
+    left: -1,
+    backgroundColor: Colors.lightBlue,
     borderRadius: 50,
     width: 15,
     height: 15,
-    borderWidth: 0,
-    borderColor: 'white'
   },
   searchContainer: {
     flexDirection: 'row',

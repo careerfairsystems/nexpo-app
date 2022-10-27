@@ -59,9 +59,12 @@ export default function SSsApplicationScreen({companyId} : SSsApplicationScreenP
           style={styles.input}
           onChangeText={setMsg}
           value={msg}
-          placeholder={"here you can write a motivation to the company: \n \nhejhej jag vill gärna jobba hos er \nhoppas ni vill ha mig <3"}
+          placeholder={"here you can write a motivation to the company: \n \n Hey! My name is X and I'm curious about your Y position. \n Currently I'm studying Z which I believe would be useful because of W. \n I have previous experience in H, from projects such as M,B,J."}
         />
-        <CardWithHeader msg={"The company you send your application to can not only see your message but also your entire profile! \nA good idea is to make sure you have added CV and/or Linkedin-link in your profile to have the best chance at getting approved."} header={"Remember!"} />
+        <CardWithHeader msg={'The company you send your application to can not only see your message but also your entire profile!' +
+         '\n \nA good idea is to make sure you have added CV and/or Linkedin-link in your profile to have the best chance at getting approved.' +
+         '\n \nWhen accepted, you will receive an e-mail telling you to book a session.'
+         } header={"Remember!"} />
         <ArkadButton onPress={sendApplication}>
           <ArkadText text="Send application" />
         </ArkadButton>
@@ -72,7 +75,7 @@ export default function SSsApplicationScreen({companyId} : SSsApplicationScreenP
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     margin: 10,
@@ -80,10 +83,11 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   companyMotivation: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "center",
     margin: 10,
     color: Colors.darkBlue,
+    fontFamily: "main-font"
   },
   scrollView: {
     backgroundColor: Colors.white,
@@ -96,6 +100,8 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '85%',
+    textAlign: 'left',
+    textAlignVertical: 'top',
     borderColor: Colors.darkBlue,
     borderWidth: 3,
     color: Colors.darkBlue,
@@ -103,8 +109,8 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 7,
     margin: 10,
-    fontSize: 13,
-    fontFamily: 'montserrat',
+    fontSize: 18,
+    fontFamily: 'main-font-bold',
     paddingHorizontal: 10
   },
 });

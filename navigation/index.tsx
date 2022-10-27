@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, Theme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
@@ -14,10 +14,23 @@ import { AuthContext } from '../components/AuthContext';
 
 import { API } from '../api';
 import { AuthNavigator } from '../screens/auth/AuthNavigator';
+import Colors from '../constants/Colors';
 
 
 export default function Navigation() {
   const [signedIn, setSignedIn] = React.useState<boolean>(false);
+
+  const theme: Theme = {
+    dark: false,
+    colors: {
+      primary: DefaultTheme.colors.primary,
+      background: Colors.white,
+      card: DefaultTheme.colors.card,
+      text: DefaultTheme.colors.text,
+      border: DefaultTheme.colors.border,
+      notification: DefaultTheme.colors.notification,
+    }
+  }
 
   const authContext = {
     signIn: () => {
@@ -42,7 +55,7 @@ export default function Navigation() {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer
         linking={LinkingConfiguration}
-        theme={DefaultTheme}>
+        theme={theme}>
           { signedIn
             ? <RootNavigator />
             : <AuthNavigator />
