@@ -11,9 +11,9 @@ export type FinalizeSignUpDto = {
   password: string;
 }
 
-export const initialSignUp = async (dto: SignUpUserDto): Promise<boolean> => {
+export const initialSignUp = async (dto: SignUpUserDto): Promise<Response> => {
   const response = await post('/signup/initial', dto);
-  return response.ok;
+  return response;
 }
 
 export const finalizeSignUp = async (dto: FinalizeSignUpDto): Promise<boolean> => {
