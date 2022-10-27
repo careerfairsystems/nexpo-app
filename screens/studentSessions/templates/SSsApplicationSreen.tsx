@@ -54,15 +54,15 @@ export default function SSsApplicationScreen({companyId} : SSsApplicationScreenP
         <ArkadText style={styles.header} text={`from ${company.name}:`}/>
         <ArkadText style={styles.companyMotivation} text={company.studentSessionMotivation}/>
         </>}
+        <ArkadText text="Motivation for the company:" style={styles.smallHeader}/>
         <TextInput
           multiline
           style={styles.input}
           onChangeText={setMsg}
           value={msg}
-          placeholder={"here you can write a motivation to the company: \n \n Hey! My name is X and I'm curious about your Y position. \n Currently I'm studying Z which I believe would be useful because of W. \n I have previous experience in H, from projects such as M,B,J."}
+          placeholder={"Hey! \nMy name is X and I'm curious about your Y position. \nCurrently I'm studying Z which I believe would be useful because of W. \nI have previous experience in H, from projects such as M,B,J."}
         />
-        <CardWithHeader msg={'The company you send your application to can not only see your message but also your entire profile!' +
-         '\n \nA good idea is to make sure you have added CV and/or Linkedin-link in your profile to have the best chance at getting approved.' +
+        <CardWithHeader msg={'The company will see your entire profile! Make sure to add CV and/or Linkedin-link in your profile for better chances of getting approved!' +
          '\n \nWhen accepted, you will receive an e-mail telling you to book a session.'
          } header={"Remember!"} />
         <ArkadButton onPress={sendApplication}>
@@ -82,6 +82,11 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     color: Colors.darkBlue,
   },
+  smallHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: Colors.darkBlue,
+  },
   companyMotivation: {
     fontSize: 20,
     textAlign: "center",
@@ -94,19 +99,19 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    width: "100%",
+    width: "90%",
     alignSelf: "center",
     alignItems: "center",
+    paddingTop: 10,
   },
   input: {
-    width: '85%',
     textAlign: 'left',
     textAlignVertical: 'top',
     borderColor: Colors.darkBlue,
     borderWidth: 3,
     color: Colors.darkBlue,
     padding: 10,
-    height: 120,
+    height: 180,
     borderRadius: 7,
     margin: 10,
     fontSize: 18,

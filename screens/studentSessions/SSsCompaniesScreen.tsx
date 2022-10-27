@@ -55,7 +55,7 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
         <View style={styles.titleContainer}>
           <ArkadText text={'Welcome to \n Student Sessions!'} style={styles.title}/>
           <ArkadText text={
-            "Make sure to book a session with your favorite companies below. A student session is a 15 minute one on one meeting with a company representative. A great way to stand out in a sea of work hungry students!" 
+            "Make sure to book a session with your favorite companies below. A student session is a 30 minute one on one meeting with a company representative. A great way to stand out in a sea of work hungry students!" 
             } style={styles.text} />  
         </View>
         } 

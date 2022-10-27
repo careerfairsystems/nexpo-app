@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    width: width * 0.85,
+    width: width * 0.75,
     borderWidth: 2,
     borderColor: Colors.darkBlue,
     borderRadius: 10,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   motivationText: {
     padding: 10,
     fontFamily: 'main-font',
-    fontSize: 20,
+    fontSize: 19,
     color: Colors.darkBlue,
   },
 });
