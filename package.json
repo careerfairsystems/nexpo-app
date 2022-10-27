@@ -3,6 +3,7 @@
   "scripts": {
     "start": "expo start",
     "tunnel": "expo start --tunnel",
+    "production": "expo start --tunnel --no-dev --minify",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
