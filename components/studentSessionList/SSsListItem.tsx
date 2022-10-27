@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   timeslotTime: {
-    fontSize: 14,
+    fontSize: 18,
     textAlign: 'center',
     paddingVertical: 4,
     color: Colors.white,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   timeslotBookedText: {
-    fontSize: 14,
+    fontSize: 18,
     textAlign: 'center',
     paddingVertical: 4,
     paddingHorizontal: 16,

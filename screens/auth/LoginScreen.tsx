@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 import { TextInput } from '../../components/TextInput';
 
 import { ArkadButton } from '../../components/Buttons';
@@ -11,6 +11,8 @@ import { API } from '../../api'
 import { AuthContext } from '../../components/AuthContext';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from "./AuthNavigator";
+import Colors from '../../constants/Colors';
+
 
 type LoginScreenParams = {
   navigation: StackNavigationProp<
@@ -63,15 +65,15 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           onSubmitEditing={login} />
         { loading
           ? <ActivityIndicator/>
-          : <ArkadButton onPress={login} style={{}}>
-              <ArkadText text='Login' style={{}}/>
+          : <ArkadButton onPress={login} style={styles.loginButton}>
+              <ArkadText text='Sign In' style={{}}/>
           </ArkadButton>
         }
         <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('SignUpScreen') }>
-          <Text style={styles.signUpText}>Don't have an account? Sign up here!</Text>
+          <ArkadText style={styles.signUpText}text={"Don't have an account? Sign up here!"}/>
         </Pressable>
         <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('ForgotPasswordScreen') }>
-          <Text style={styles.signUpText}>Forgot your password?</Text>
+          <ArkadText style={styles.signUpText} text={"Forgot your password?"}/>
         </Pressable>
       </View>
     </View>
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   signUpContainer: {
@@ -104,5 +106,10 @@ const styles = StyleSheet.create({
   signUpText: {
     textAlign: 'center',
     textDecorationLine: 'underline',
+    color: Colors.darkBlue,
+  },
+  loginButton: {
+    width: '45%',
+    alignSelf: 'center',
   }
 });

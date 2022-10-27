@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   timeslotTimeText: {
     paddingTop: 4,
-    fontSize: 12,
+    fontSize: 16,
     textAlign: 'center',
     paddingVertical: 4,
     paddingRight: 10,

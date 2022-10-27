@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { HeaderStyles } from '../../components/HeaderStyles';
 import CompaniesScreen from './CompaniesScreen';
 import CompanyDetailsScreen from './CompanyDetailsScreen';
 
@@ -17,11 +18,11 @@ export function CompaniesNavigator() {
       <CompanyStack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}
-        options={{ title: 'Companies', headerTitle: 'Companies' }} />
+        options={{ title: 'Companies', headerTitle: 'Companies', ...HeaderStyles }} />
       <CompanyStack.Screen
         name="CompanyDetailsScreen"
         component={CompanyDetailsScreen}
-        options={{ title: 'Company Details', headerTitle: 'Company Details' }} />
+        options={{ title: 'Company Details', headerTitle: 'Company Details', ...HeaderStyles }} />
     </CompanyStack.Navigator>
   );
 }

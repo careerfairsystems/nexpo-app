@@ -72,7 +72,7 @@ export default function SSsApplicationScreen({companyId} : SSsApplicationScreenP
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     margin: 10,
@@ -80,10 +80,11 @@ const styles = StyleSheet.create({
     color: Colors.darkBlue,
   },
   companyMotivation: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "center",
     margin: 10,
     color: Colors.darkBlue,
+    fontFamily: "main-font"
   },
   scrollView: {
     backgroundColor: Colors.white,
@@ -96,6 +97,8 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '85%',
+    textAlign: 'left',
+    textAlignVertical: 'top',
     borderColor: Colors.darkBlue,
     borderWidth: 3,
     color: Colors.darkBlue,
@@ -103,8 +106,8 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 7,
     margin: 10,
-    fontSize: 13,
-    fontFamily: 'montserrat',
+    fontSize: 18,
+    fontFamily: 'main-font-bold',
     paddingHorizontal: 10
   },
 });

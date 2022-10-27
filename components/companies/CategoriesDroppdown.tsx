@@ -36,13 +36,15 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       listParentContainerStyle={props.categories ? styles.listParentContainer: null}
       placeholderStyle={{ 
         color: Colors.darkBlue,
-        fontFamily: 'montserrat'}}
+        fontSize: 20,
+        fontFamily: 'main-font-bold'}}
       selectedItemContainerStyle={{
         backgroundColor: Colors.lightGray
       }}
       listItemLabelStyle={{
         color: Colors.darkBlue,
-        fontFamily: 'montserrat',
+        fontSize: 20,
+        fontFamily: 'main-font-bold',
       }}
       closeIconContainerStyle={styles.closeButton}
       listItemContainerStyle={styles.container}
@@ -61,8 +63,8 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontWeight: "bold",
     color: Colors.darkBlue,
-    fontFamily: 'montserrat',
-    fontSize: 24
+    fontFamily: 'main-font-bold',
+    fontSize: 32
   },
   listParentContainer: {
     backgroundColor: Colors.lightGray,

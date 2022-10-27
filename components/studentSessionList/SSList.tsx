@@ -46,13 +46,13 @@ export function TimeslotList ({ timeslots, onPress, student }: TimeslotListProps
 }
 const styles = StyleSheet.create({
   ssBox: {
-    width: width * 0.85,
+    width: width * 0.950,
     marginVertical: 4,
   },
   text: {
     paddingTop: 40,
-    fontFamily: 'montserrat',
-    fontSize: 20,
+    fontFamily: 'main-font-bold',
+    fontSize: 24,
     color: Colors.darkBlue,
   },
 });

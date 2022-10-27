@@ -19,7 +19,7 @@ export const SSListItem = ({ application, onPress }: ListedApplicationProps) =>
         text={`${application.studentFirstName} ${application.studentLastName}`}/>
       {application.studentProgramme && <ArkadText 
         style={styles.programAndYear}
-        text={Programme[application.studentProgramme]} />}
+        text={Programme[application.studentProgramme].replace("_" , " ").replace("_", " ")} />}
       {application.studentYear && <ArkadText 
         style={styles.programAndYear}
         text={`Year ${application.studentYear}`} />}
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'left',
     color: Colors.white,
   },
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   programAndYear: {
     paddingTop: 2,
-    fontSize: 14,
+    fontSize: 16,
     textAlign: 'left',
     paddingVertical: 4,
     color: Colors.white,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   applicationStatusText: {
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.white,
   },
 })

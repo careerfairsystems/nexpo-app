@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
-    fontSize: 20,
+    fontSize: 24,
     color: Colors.darkBlue,
   },
   eventList: {
@@ -112,5 +112,6 @@ const styles = StyleSheet.create({
   },
   logout: {
     paddingBottom: '10%',
+    backgroundColor: Colors.white,
   }
 });

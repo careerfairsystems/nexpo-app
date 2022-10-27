@@ -62,7 +62,7 @@ export default function EventParticipantsScreen(navigation: StackNavigationProp<
 const styles = StyleSheet.create({
   title: {
     justifyContent: "center",
-    fontSize: 20,
+    fontSize: 24,
     color: Colors.darkBlue,
   },
   titleContainer: {
