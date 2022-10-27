@@ -163,7 +163,7 @@ export default function EventDetailsScreen(id: number) {
             </ArkadButton>}
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
-              style={styles.qrContainer}
+              style={[styles.qrContainer, {backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white}]}
               onPress={() => setModalVisible(true)}
             >
               <QRCode size={160} value={ticket.code} />
@@ -193,7 +193,7 @@ export default function EventDetailsScreen(id: number) {
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
           <View style={styles.modalOverlay} />
         </TouchableWithoutFeedback>
-        <View style={styles.qrModalContainer}>
+        <View style={[styles.qrModalContainer, {backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white}]}>
           {ticket && <QRCode size={Dimensions.get('window').width * 0.75} value={ticket.code} />}
         </View>
         <ArkadButton onPress={() => setModalVisible(!modalVisible)}>
