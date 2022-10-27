@@ -163,7 +163,7 @@ export default function EventDetailsScreen(id: number) {
             </ArkadButton>}
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
-              style={styles.qrContainer}
+              style={[styles.qrContainer,{backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white}]}
               onPress={() => setModalVisible(true)}
             >
               <QRCode
@@ -315,8 +315,6 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   qrModalContainer: {
-    borderWidth: 3,
-    borderColor: Colors.lightGray,
     borderRadius: 5,
     padding: 16,
   },
