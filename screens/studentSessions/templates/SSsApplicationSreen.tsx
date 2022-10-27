@@ -59,7 +59,7 @@ export default function SSsApplicationScreen({companyId} : SSsApplicationScreenP
           style={styles.input}
           onChangeText={setMsg}
           value={msg}
-          placeholder={"here you can write a motivation to the company: \n \nhejhej jag vill gärna jobba hos er \nhoppas ni vill ha mig <3"}
+          placeholder={"here you can write a motivation to the company: \n \n Hey! My name is X and I'm curious about your Y position. \n Currently I'm studying Z which I believe would be useful because of W. \n I have previous experience in H, from projects such as M,B,J."}
         />
         <CardWithHeader msg={'The company you send your application to can not only see your message but also your entire profile!' +
          '\n \nA good idea is to make sure you have added CV and/or Linkedin-link in your profile to have the best chance at getting approved.' +
