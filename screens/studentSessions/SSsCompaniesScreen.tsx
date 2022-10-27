@@ -3,7 +3,8 @@ import { FlatList, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { View } from '../../components/Themed';
-
+import Colors from '../../constants/Colors';
+import { ArkadText } from '../../components/StyledText';
 import { API } from '../../api';
 import { PublicCompanyDto } from '../../api/companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
@@ -50,6 +51,14 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
   return (
     <View style={styles.container}>
       <FlatList
+       ListHeaderComponent={
+        <View style={styles.titleContainer}>
+          <ArkadText text={'Welcome to \n Student Sessions!'} style={styles.title}/>
+          <ArkadText text={
+            "Make sure to book a session with your favorite companies below. A student session is a 15 minute one on one meeting with a company representative. A great way to stand out in a sea of work hungry students!" 
+            } style={styles.text} />  
+        </View>
+        } 
         style={styles.list}
         data={companies}
         keyExtractor={({ id }) => id.toString()}
@@ -57,16 +66,30 @@ export default function SSsCompaniesScreen({navigation}: SSsNavigation) {
           <CompanyListItem
             company={company} 
             onPress={() => openCompanySSs(company.id)} />
-        } />
+        } 
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  title: {
+    paddingBottom: 5,
+    fontSize: 50,
+    color: Colors.darkBlue,
+  },
+  text: {
+    fontSize: 16,
+    color: Colors.darkBlue,
+  },
+  titleContainer: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    width: "90%",
+    alignSelf: "center",
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   list: {
     width: '100%',
