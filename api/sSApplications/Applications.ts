@@ -60,3 +60,14 @@ export const sendApplication = async (companyId: number, msg: string) => {
 export const changeApplication = async(applicationId: number, status: UpdateApplicationDto) => {
   await putAuth(`/applications/${applicationId}`, status);
 }
+
+/**
+ * Returns the application for a given student.
+ */
+export const getApplicationForStudent = async(studentId: number): Promise<SSApplication | undefined> => {
+  const response = await getAuth(`/applications/my/company`);
+  const json = await response.json();
+  const applications = json as SSApplication[];
+  const application = applications.find((application: SSApplication) => application.studentId === studentId);
+  return application;
+}
