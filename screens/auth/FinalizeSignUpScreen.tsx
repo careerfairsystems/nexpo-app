@@ -72,7 +72,7 @@ export default function FinalizeSignUpScreen({ route, navigation }: FinalizeSign
           onChangeText={setPasswordConfirm} />
         {loading
           ? <ActivityIndicator/>
-          : <ArkadButton onPress={finalizeSignUp} style={{}}>
+          : <ArkadButton onPress={finalizeSignUp} style={{width: "45%", alignSelf: "center"}}>
               <ArkadText text='Save' style={{}}/>
             </ArkadButton>
         }
