@@ -33,16 +33,16 @@ export function SSsCRepNavigator({route}: SSsCRepNavigatorParams) {
       <SSsStack.Screen
         name="SSsListScreen"
         component={SSsListScreen}
-        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List', ...HeaderStyles }}
+        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions', ...HeaderStyles }}
         initialParams= {{companyId}} />
       <SSsStack.Screen
         name="SSsSwitchScreen"
         component={SSsSwitchScreen}
-        options={{ title: 'Studentsession', headerTitle: 'Studentsession', ...HeaderStyles }} />
+        options={{ title: 'Studentsession', headerTitle: 'Student Sessions', ...HeaderStyles }} />
       <SSsStack.Screen
         name="SSsApplicationDetailsScreen"
         component={SSsApplicationDetailsScreen}
-        options={{ title: 'Application Details', headerTitle: 'Application Details', ...HeaderStyles }} />
+        options={{ title: 'Application Details', headerTitle: 'Student Sessions', ...HeaderStyles }} />
     </SSsStack.Navigator>
   );
 }
