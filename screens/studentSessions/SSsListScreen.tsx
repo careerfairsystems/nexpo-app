@@ -9,7 +9,7 @@ import { TimeslotList } from '../../components/studentSessionList/SSList';
 import SSCompInfo from '../../components/studentSessionList/SSCompInfo';
 import { SSsStackParamlist } from "./SSsStudentNavigator";
 import { ArkadButton } from '../../components/Buttons';
-import { ArkadText } from '../../components/StyledText';
+import { ArkadText, NoButton } from '../../components/StyledText';
 import { PublicCompanyDto } from '../../api/companies/Companies';
 import { FlatList } from 'react-native-gesture-handler';
 import { getMe, Role, User } from '../../api/users/Users';
@@ -18,6 +18,7 @@ import { ApplicationAcceptedDto } from '../../api/sSApplications';
 import { Student } from '../../api/students';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
+import Colors from '../../constants/Colors';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -83,12 +84,14 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
             {user.role === Role.Student && <SSCompInfo 
               company={company}
             />}
-            {!accepted?.accepted && <ArkadButton 
+            {!accepted?.accepted ? <ArkadButton 
               style={styles.button} 
               onPress={ () => openSSsApplicaion()}
             >
               <ArkadText text= {user.role === Role.CompanyRepresentative ? " See applications!" : "Apply here!"}/>
-            </ArkadButton>}     
+            </ArkadButton>:
+            <NoButton style={styles.accepted} text={'You have been accepted! \n Book a timeslot below.'}/>
+            }     
           </>
         } 
         ListFooterComponent={  
@@ -107,6 +110,13 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
 }
 
 const styles = StyleSheet.create({
+  accepted: {
+    color: Colors.lightGreen,
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 10,
+  },
   container: {
     alignItems: 'center'
   },

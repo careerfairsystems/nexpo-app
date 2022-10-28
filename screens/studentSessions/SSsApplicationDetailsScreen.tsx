@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Linking, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -7,15 +7,13 @@ import { API } from '../../api'
 import { SSsStackParamlist } from "./SSsCRepNavigator"
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { Student } from '../../api/students';
-import StudentProfile from '../../components/profileScreen/StudentProfile';
 import Colors from '../../constants/Colors';
 import { SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText, NoButton } from '../../components/StyledText';
-import UserProfile from '../../components/profileScreen/UserProfile';
 import { User } from '../../api/users';
-import { CardWithHeader } from '../../components/sSApplication/SSApplicationMsg';
 import { View } from '../../components/Themed';
+import SSsStudentInfo from '../../components/studentSessionList/SSsStudentInfo';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -70,15 +68,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   
   return (
     <ScrollView style={styles.container}>
-      <UserProfile user={user as NonNullable<User>} />
-      <StudentProfile student={student as NonNullable<Student>} />
-
-      {user.hasCv && 
-      <ArkadButton style={{width: "45%", alignSelf: "center"}}onPress = {() => API.users.downloadFile(user.id, ".pdf")}>
-        <ArkadText text="Download CV" />
-      </ArkadButton>
-      } 
-      <CardWithHeader msg={application.motivation} header={'Student Motivation'} />
+      <SSsStudentInfo studentId={student.id} />
       <View style={styles.buttons}>
       { application.status === 1 && <NoButton text={ "Accepted!" } style={styles.acceptedText}/>}
       {application.status !== 1 &&

@@ -31,7 +31,7 @@ export default {
     versionCode: 4,
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
-      backgroundColor: '#022B5C',
+      backgroundColor: '#F66628',
     },
     permissions: ['CAMERA'],
   },

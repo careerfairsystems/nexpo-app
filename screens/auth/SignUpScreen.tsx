@@ -38,7 +38,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
     const success = await API.signup.initialSignUp({ email: email.toLowerCase(), firstName, lastName });
     setLoading(false);
 
-    if (success.status === 200) {
+    if (success.ok) {
       alert('Account created, check your email for a link to finalize it before you can use it');
     } else if (success.status === 409) {
       alert('Email already in use');

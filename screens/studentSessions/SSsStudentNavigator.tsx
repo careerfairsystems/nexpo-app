@@ -27,11 +27,11 @@ export function SSsStudentNavigator() {
       <SSsStack.Screen
         name="SSsListScreen"
         component={SSsListScreen}
-        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions List', ...HeaderStyles }} />
+        options={{ title: 'Student Sessions List', headerTitle: 'Student Sessions', ...HeaderStyles }} />
         <SSsStack.Screen
         name="SSsSwitchScreen"
         component={SSsSwitchScreen}
-        options={{ title: 'Studentsession', headerTitle: 'Studentsession', ...HeaderStyles }} />
+        options={{ title: 'Studentsession', headerTitle: 'Student Sessions', ...HeaderStyles }} />
     </SSsStack.Navigator>
   );
 }

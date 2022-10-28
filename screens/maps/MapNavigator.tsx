@@ -23,7 +23,7 @@ export function MapNavigator() {
       <MapStack.Screen
         name="ZoomMapScreen"
         component={ZoomMapScreen}
-        options={{ title: 'Map', headerTitle: 'Map', ...HeaderStyles }} />
+        options={{ title: 'Map', headerTitle: 'Maps', ...HeaderStyles }} />
     </MapStack.Navigator>
   );
 }

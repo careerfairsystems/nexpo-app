@@ -22,7 +22,7 @@ export function CompaniesNavigator() {
       <CompanyStack.Screen
         name="CompanyDetailsScreen"
         component={CompanyDetailsScreen}
-        options={{ title: 'Company Details', headerTitle: 'Company Details', ...HeaderStyles }} />
+        options={{ title: 'Company Details', headerTitle: 'Companies', ...HeaderStyles }} />
     </CompanyStack.Navigator>
   );
 }
