@@ -12,15 +12,17 @@ type CompanyListItemProps = {
 }
 
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => 
-  <Pressable onPress={onPress} style={styles.container}>
+<View style={styles.container}>
+  <Pressable onPress={onPress}>
     <View style={styles.row}>
       <ArkadText text={company.name} style={styles.companyName}/>
       <Image 
         source={company.logoUrl ? {uri: company.logoUrl} : require('../../assets/images/adaptive-icon.png')}
         style={styles.logo} />
-      <TagsList company={company}/>
     </View>
   </Pressable>
+  <TagsList company={company}/>
+</View>
 
 const styles = StyleSheet.create({
   container: {
