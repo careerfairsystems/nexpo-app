@@ -4,6 +4,7 @@ import Colors from '../../constants/Colors'
 
 import { PublicCompanyDto } from '../../api/companies';
 import { ArkadText } from '../StyledText';
+import { TagsList } from './TagsList';
 
 type CompanyListItemProps = {
   company: PublicCompanyDto;
@@ -17,6 +18,7 @@ export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) =>
       <Image 
         source={company.logoUrl ? {uri: company.logoUrl} : require('../../assets/images/adaptive-icon.png')}
         style={styles.logo} />
+      <TagsList company={company}/>
     </View>
   </Pressable>
 
