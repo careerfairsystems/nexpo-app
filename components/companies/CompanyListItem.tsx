@@ -30,27 +30,29 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.darkBlue,
-    padding: 16,
+    backgroundColor: Colors.white,
+    paddingTop: 12,
     borderRadius: 16,
+    borderWidth: 4,
+    borderColor: Colors.darkBlue
   },
   row: {
     flex: 1,
     justifyContent: 'center', //Centered horizontally
     alignItems: 'center', //Centered vertically
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   logo: {
-    width: 40,
-    height: 40,
+    width: '85%',
+    height: 200,
     resizeMode: 'contain',
   },
   companyName: {
     flex: 1,
     fontSize: 24,
     textAlign: 'left',
-    padding: 12,
+    padding: 0,
     marginHorizontal: 4,
-    color: Colors.white,
+    color: Colors.darkBlue,
   },
 })
