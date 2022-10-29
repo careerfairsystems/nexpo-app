@@ -9,7 +9,7 @@ export default {
   splash: {
     image: './assets/images/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F66628',
   },
   updates: {
     fallbackToCacheTimeout: 0
@@ -30,7 +30,7 @@ export default {
     package: 'se.arkadtlth.nexpo',
     versionCode: 4,
     adaptiveIcon: {
-      foregroundImage: './assets/images/adaptive-icon.png',
+      foregroundImage: './assets/images/icon.png',
       backgroundColor: '#F66628',
     },
     permissions: ['CAMERA'],

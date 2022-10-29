@@ -79,6 +79,7 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
         />
       <FlatList
         style={styles.list}  
+        nestedScrollEnabled={true}
         onScrollBeginDrag ={modalVisible ? () => toggleFilter() : () => {}}
         data={API.companies.filterData(text, filteredCompanies)}
         keyExtractor={({ id }) => id.toString()}

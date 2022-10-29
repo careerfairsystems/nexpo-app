@@ -4,6 +4,7 @@ import Colors from '../../constants/Colors'
 
 import { PublicCompanyDto } from '../../api/companies';
 import { ArkadText } from '../StyledText';
+import { TagsList } from './TagsList';
 
 type CompanyListItemProps = {
   company: PublicCompanyDto;
@@ -11,7 +12,8 @@ type CompanyListItemProps = {
 }
 
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => 
-  <Pressable onPress={onPress} style={styles.container}>
+<View style={styles.container}>
+  <Pressable onPress={onPress}>
     <View style={styles.row}>
       <ArkadText text={company.name} style={styles.companyName}/>
       <Image 
@@ -19,6 +21,8 @@ export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) =>
         style={styles.logo} />
     </View>
   </Pressable>
+  <TagsList company={company}/>
+</View>
 
 const styles = StyleSheet.create({
   container: {
