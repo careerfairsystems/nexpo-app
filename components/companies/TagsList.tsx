@@ -47,19 +47,18 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
     padding: 5,
   },
   item: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     borderRadius: 20,
-    margin:5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    margin:3,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
   },
   text: {
     color: Colors.white,
-    fontSize: 16,
+    fontSize: 18,
   }
 });

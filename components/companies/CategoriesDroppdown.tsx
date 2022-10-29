@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   tickIcon: {
     color: Colors.lightBlue,
-    fontSize: 42,
+    fontSize: 32,
   }
   
 });

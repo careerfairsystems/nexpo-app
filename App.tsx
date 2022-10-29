@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ScreenActivityIndicator from './components/ScreenActivityIndicator';
-import Colors from './constants/Colors';
 
 import useCachedResources from './hooks/useCachedResources';
 import Navigation from './navigation';
