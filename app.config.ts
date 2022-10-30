@@ -1,7 +1,7 @@
 export default {
   name: 'Arkad',
   slug: 'nexpo-app',
-  version: '1.0.4',
+  version: '1.2.1',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   scheme: 'myapp',
@@ -19,7 +19,7 @@ export default {
   ],
   ios: {
     bundleIdentifier: "se.arkadtlth.nexpo",
-    buildNumber: '1.0.4',
+    buildNumber: '1.2.1',
     supportsTablet: true,
     infoPlist: {
       NSCameraUsageDescription: 'Camera access is needed for the QR-code scanning functionality',
@@ -28,9 +28,9 @@ export default {
   },
   android: {
     package: 'se.arkadtlth.nexpo',
-    versionCode: 4,
+    versionCode: 10,
     adaptiveIcon: {
-      foregroundImage: './assets/images/icon.png',
+      foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#F66628',
     },
     permissions: ['CAMERA'],
