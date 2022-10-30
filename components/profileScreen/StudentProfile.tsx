@@ -22,7 +22,7 @@ export default function StudentProfile({ student }: StudentProfileProps) {
       <Text style={styles.label}>Master</Text>
       <Text style={styles.text}>{student.masterTitle ? student.masterTitle : '\u2013'}</Text>
       
-      {student.linkedIn && OpenURLButton(student.linkedIn)}
+      {(student.linkedIn !== "" && student.linkedIn !== null) && OpenURLButton(student.linkedIn)}
     </View>
   </>;
 }
