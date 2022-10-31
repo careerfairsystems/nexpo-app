@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
+import { Image, ActivityIndicator, StyleSheet, Pressable, ScrollView } from 'react-native';
 
 import { View } from '../../components/Themed';
 import { TextInput } from '../../components/TextInput';
@@ -25,6 +25,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [writing, setWriting] = useState<boolean>(false);
   const authContext = React.useContext(AuthContext);
 
   const login = async () => {
@@ -49,7 +50,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView keyboardShouldPersistTaps = "handled" style={styles.container}>
       <Image 
         style={styles.logo} 
         source={require('../../assets/images/arkad_logo.png')} 
@@ -59,7 +60,8 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           placeholder="Email" 
           keyboardType="email-address"
           onChangeText={setEmail}
-          onSubmitEditing={login} />
+          onSubmitEditing={login}
+          />
         <TextInput
           placeholder="Password"
           secureTextEntry
@@ -78,7 +80,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           <ArkadText style={styles.signUpText} text={"Forgot your password?"}/>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -92,10 +94,12 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     resizeMode: 'contain',
+    zIndex: 2,
   },
   inputContainer: {
     width: '80%',
     maxWidth: 400,
+    zIndex: 2,
   },
   title: {
     fontSize: 24,
@@ -113,5 +117,13 @@ const styles = StyleSheet.create({
   loginButton: {
     width: '45%',
     alignSelf: 'center',
+    zIndex: 2,
+  },
+  clickOffContainer: {
+    maxWidth: 400,
+    maxHeight: 400,
+    resizeMode: 'contain',
+    backgroundColor: 'transparent',
+    zIndex: 3,
   }
 });
