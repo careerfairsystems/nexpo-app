@@ -48,6 +48,9 @@ export async function getTicketForEvent(event: Event): Promise<Ticket | null> {
  */
 export const createTicket = async (TicketRequest: CreateTicketDto): Promise<Ticket> => {
   const response = await postAuth('/tickets', TicketRequest);
+  if (response.status === 403) {
+    alert("Registration is closed for this event");
+  }
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;
