@@ -22,6 +22,7 @@ import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator
 import { ArkadButton } from "../../../components/Buttons";
 import { ArkadText, NoButton } from "../../../components/StyledText";
 import QRCode from "react-native-qrcode-svg";
+import { format } from "date-fns";
 
 export default function EventDetailsScreen(id: number) {
 
@@ -31,6 +32,14 @@ export default function EventDetailsScreen(id: number) {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const eventStopSellingDate = () => {
+    if(!event?.start) return("N/A");
+    const eventTime = new Date(event.date);
+    console.log(eventTime);
+    const dateOffset = (24*60*60*1000) * 2;
+    const stopSellingDate = new Date(eventTime.getTime() - dateOffset);
+    return format(stopSellingDate, "d LLL") + " - " + event.start;
+  }
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
     setEvent(event);
@@ -161,6 +170,7 @@ export default function EventDetailsScreen(id: number) {
             >
               <ArkadText text="De-register from event" style={styles.title} />
             </ArkadButton>}
+            <ArkadText text={`Last date to de-register to this event is: ${eventStopSellingDate()}`} style={{color: Colors.darkBlue}}/>
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={[styles.qrContainer, {backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white}]}
@@ -170,10 +180,12 @@ export default function EventDetailsScreen(id: number) {
             </Pressable>
           </>
         ) : event.capacity === event.ticketCount ? <NoButton text="No tickets Left :-(" style={styles.consumedText}/> 
-        : (
-          <ArkadButton onPress={createTicket} style={styles.bookButton}>
-            <ArkadText text="Register to event" style={styles.title} />
-          </ArkadButton>
+        : (<>
+            <ArkadButton onPress={createTicket} style={styles.bookButton}>
+              <ArkadText text="Register to event" style={styles.title} />
+            </ArkadButton>
+            <ArkadText text={`Last date to register to this event is: ${eventStopSellingDate()}`} style={{color: Colors.darkBlue}}/>
+          </>
         )}
       </View>
     </ScrollView>
