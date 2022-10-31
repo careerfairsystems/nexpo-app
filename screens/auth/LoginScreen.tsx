@@ -25,7 +25,6 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [writing, setWriting] = useState<boolean>(false);
   const authContext = React.useContext(AuthContext);
 
   const login = async () => {
@@ -50,36 +49,35 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
   }
 
   return (
-    <ScrollView keyboardShouldPersistTaps = "handled" style={styles.container}>
-      <Image 
-        style={styles.logo} 
-        source={require('../../assets/images/arkad_logo.png')} 
-      />
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email" 
-          keyboardType="email-address"
-          onChangeText={setEmail}
-          onSubmitEditing={login}
-          />
-        <TextInput
-          placeholder="Password"
-          secureTextEntry
-          onChangeText={setPassword}
-          onSubmitEditing={login} />
-        { loading
-          ? <ActivityIndicator/>
-          : <ArkadButton onPress={login} style={styles.loginButton}>
-              <ArkadText text='Sign In' style={{}}/>
-          </ArkadButton>
-        }
-        <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('SignUpScreen') }>
-          <ArkadText style={styles.signUpText}text={"Don't have an account? Sign up here!"}/>
-        </Pressable>
-        <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('ForgotPasswordScreen') }>
-          <ArkadText style={styles.signUpText} text={"Forgot your password?"}/>
-        </Pressable>
-      </View>
+    <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="handled" style={{flex: 1}} contentContainerStyle={styles.container}>
+        <Image 
+          style={styles.logo} 
+          source={require('../../assets/images/arkad_logo.png')} 
+        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Email" 
+            keyboardType="email-address"
+            onChangeText={setEmail}
+            onSubmitEditing={login} />
+          <TextInput
+            placeholder="Password"
+            secureTextEntry
+            onChangeText={setPassword}
+            onSubmitEditing={login} />
+          { loading
+            ? <ActivityIndicator/>
+            : <ArkadButton onPress={login} style={styles.loginButton}>
+                <ArkadText text='Sign In' style={{}}/>
+            </ArkadButton>
+          }
+          <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('SignUpScreen') }>
+            <ArkadText style={styles.signUpText}text={"Don't have an account? Sign up here!"}/>
+          </Pressable>
+          <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('ForgotPasswordScreen') }>
+            <ArkadText style={styles.signUpText} text={"Forgot your password?"}/>
+          </Pressable>
+        </View>
     </ScrollView>
   );
 }
@@ -94,12 +92,10 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     resizeMode: 'contain',
-    zIndex: 2,
   },
   inputContainer: {
     width: '80%',
     maxWidth: 400,
-    zIndex: 2,
   },
   title: {
     fontSize: 24,
@@ -117,13 +113,5 @@ const styles = StyleSheet.create({
   loginButton: {
     width: '45%',
     alignSelf: 'center',
-    zIndex: 2,
-  },
-  clickOffContainer: {
-    maxWidth: 400,
-    maxHeight: 400,
-    resizeMode: 'contain',
-    backgroundColor: 'transparent',
-    zIndex: 3,
   }
 });
