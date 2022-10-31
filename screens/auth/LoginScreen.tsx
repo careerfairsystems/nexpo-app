@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Image, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { Image, ActivityIndicator, StyleSheet, Pressable, ScrollView } from 'react-native';
 
 import { View } from '../../components/Themed';
 import { TextInput } from '../../components/TextInput';
@@ -49,7 +49,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="handled" style={{flex: 1}} contentContainerStyle={styles.container}>
       <Image 
         style={styles.logo} 
         source={require('../../assets/images/arkad_logo.png')} 
@@ -78,7 +78,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           <ArkadText style={styles.signUpText} text={"Forgot your password?"}/>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

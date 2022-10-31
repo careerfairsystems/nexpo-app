@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Image, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { Image, ActivityIndicator, StyleSheet, ScrollView } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 import { TextInput } from '../../components/TextInput';
 
 import { ArkadButton } from '../../components/Buttons';
@@ -40,7 +40,7 @@ export default function ForgotPasswordScreen({ navigation }: ForgotPasswordScree
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="handled" style={{flex: 1}} contentContainerStyle={styles.container}>
       <Image 
         style={styles.logo} 
         source={require('../../assets/images/arkad_logo.png')} 
@@ -61,7 +61,7 @@ export default function ForgotPasswordScreen({ navigation }: ForgotPasswordScree
           <ArkadText text='Back' style={{}}/>
         </ArkadButton>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
