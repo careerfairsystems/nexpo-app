@@ -5,6 +5,7 @@ import { MapPreview } from '../../components/maps/MapPreview';
 import { Map, EMap, FairMap, KarhusetMap, SC1Map, SC2Map } from '../../components/maps/MapProps';
 import { View } from '../../components/Themed';
 import { MapStackParamList } from "./MapNavigator";
+import { ImageMapper } from 'react-native-image-mapper';
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, 'MapScreen'>;
