@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, ActivityIndicator, StyleSheet, Pressable, Linking } from 'react-native';
+import { Image, ActivityIndicator, StyleSheet, Pressable, Linking, ScrollView } from 'react-native';
 
 import { Text, View } from '../../components/Themed';
 import { TextInput } from '../../components/TextInput';
@@ -48,7 +48,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="handled" style={{flex: 1}} contentContainerStyle={styles.container}>
       <Image 
         style={styles.logo} 
         source={require('../../assets/images/arkad_logo.png')} 
@@ -82,7 +82,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
           <ArkadText style={styles.loginText} text={"Already have an account? Login here!"}/>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
