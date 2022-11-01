@@ -82,18 +82,18 @@ export default function EditUserProfile({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
-      base64: true,
+      quality: 1
     });
     if (!result.cancelled) {
       console.log(result.uri)
-      await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg");
+      await API.s3bucket.postToS32(result, user.id.toString(), ".jpg");
       setHasProfilePicture(true);
       alert("save profile to see profile picture");
     } else {
       alert("something went wrong")
     }
   };
+  
   const removeProfilePicture = async () => {
     if (hasProfilePicture == false) {
       alert("You have no profile picture")
@@ -104,12 +104,15 @@ export default function EditUserProfile({
     }
   };
 
+  
 
   const setCV = async () => {
-    const resultFile = await DocumentPicker.getDocumentAsync({});
+    let resultFile = await DocumentPicker.getDocumentAsync({});
+    //alert(resultFile);
     if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
-      await API.s3bucket.postToS3 (resultFile.uri, user.id.toString(), ".pdf")
-      console.log(resultFile.uri)
+      alert(resultFile.uri);
+      await API.s3bucket.postToS3 (resultFile.uri, user.id.toString(), ".pdf").catch( e => {console.log(JSON.stringify(e)); alert(JSON.stringify(e))})
+      //console.log(resultFile.uri)
       setCvURL(true)
     } else {
       alert("File needs to be in PDF format and must be smaller than 2Mb")

@@ -1,5 +1,9 @@
 import Constants from 'expo-constants';
 import { isAuthenticated, getJwt } from '../auth/_AuthState';
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from 'expo-file-system';
+
+
 const backendUrl: string = Constants.manifest?.extra?.backendUrl;
 
 /**
@@ -123,6 +127,19 @@ export const postAuthFile = async (endpoint: string, dataUri: string) => {
     },
     body: data,
   });
+}
+export const postAuthFile2 = async (endpoint: string, image: ImagePicker.ImagePickerResult) => {
+  if (!await isAuthenticated()) {
+    // TODO Raise some kind of exception
+    console.error('postAuthFile: Not authenticated');
+  }
+  if (image.cancelled === false) {
+    const uploadResult = await FileSystem.uploadAsync(endpoint, image.uri, {
+      httpMethod: 'POST',
+    });
+    return uploadResult;
+  }
+  return "fail";
 }
 
 /**
