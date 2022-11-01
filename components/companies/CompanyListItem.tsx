@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, Pressable, StyleSheet, View } from 'react-native';
 import Colors from '../../constants/Colors'
 
 import { PublicCompanyDto } from '../../api/companies';
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: '85%',
-    height: 200,
+    height: Dimensions.get('window').height * 0.16,
     resizeMode: 'contain',
   },
   companyName: {
