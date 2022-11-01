@@ -19,7 +19,7 @@ export const SSListItem = ({ application, onPress }: ListedApplicationProps) =>
         text={`${application.studentFirstName} ${application.studentLastName}`}/>
       {application.studentProgramme && <ArkadText 
         style={styles.programAndYear}
-        text={Programme[application.studentProgramme].replace("_" , " ").replace("_", " ")} />}
+        text={Programme[application.studentProgramme].replace("_" , " ").replace("_", " ").replace("_", " ").replace("_", " ")} />}
       {application.studentYear && <ArkadText 
         style={styles.programAndYear}
         text={`Year ${application.studentYear}`} />}
