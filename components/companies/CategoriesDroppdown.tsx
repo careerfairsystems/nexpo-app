@@ -11,21 +11,22 @@ type categoriesDropdownProps = {
   setValue: (value: any) => void;
   items: any;
   setItems: (value: any) => void;
-  filterCompanies: () => void;
+  filterCompanies?: () => void;
   title : string;
-  onChangeValue: () => void;
+  onChangeValue?: () => void;
   categories: boolean;
+  single?: boolean;
 }
 
 export function CategoriesDropdown(props: categoriesDropdownProps) {
   return(
     <DropDownPicker
       style={styles.dropdown}
-      multiple={true}
+      multiple={props.single ? false : true}
       open={props.open}
       value={props.value}
       items={props.items}
-      onChangeValue={() => {props.onChangeValue()}}
+      onChangeValue={props.onChangeValue ? props.onChangeValue : () => {}}
       setOpen={props.setOpen}
       setValue={props.setValue}
       setItems={props.setItems}
@@ -58,7 +59,7 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       badgeDotStyle={{
         backgroundColor: Colors.darkBlue,
       }}
-      onClose={props.filterCompanies}
+      onClose={props.filterCompanies ? props.filterCompanies : () => {}}
       CloseIconComponent={() => <Ionicons name='checkmark' style={styles.checkmark} />}
       TickIconComponent={() => <Ionicons name='checkmark' style={styles.tickIcon} />}
     />
