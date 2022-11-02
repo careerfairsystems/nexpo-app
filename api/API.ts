@@ -4,7 +4,6 @@ import * as Events from './events';
 import * as Tickets from './tickets';
 import * as Users from './users';
 import * as SignUp from './signup';
-import * as Files from './files';
 import * as Students from './students';
 import * as SSs from './studentsessions';
 import * as SSApplications from './sSApplications';
