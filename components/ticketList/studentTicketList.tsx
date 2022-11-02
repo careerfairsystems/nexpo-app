@@ -20,6 +20,7 @@ export function StudentTicketList ({ tickets }: TicketListProps) {
 
   return (
     <FlatList
+      style={{marginBottom: 160}}
       data={tickets}
       keyExtractor={({ ticket }) => ticket.id.toString()}
       renderItem={({ item: ticket }) => 
