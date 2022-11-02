@@ -66,6 +66,6 @@ export const PROGRAMS = [
   { label: "Mechanical engineering"   , value: SwedishProgramme.Maskinteknik, parent: 107 },
   { label: "Mechanical engineering with technical design"   , value: SwedishProgramme.Maskinteknik_Teknisk_Design, parent: 107 },
   { label: "Engineering Nanoscience"   , value: SwedishProgramme.Nanoveteknik, parent: 103 },
-  { label: "Engineering Physcics"   , value: SwedishProgramme.Teknisk_Fysik, parent: 103 },
+  { label: "Engineering Physics"   , value: SwedishProgramme.Teknisk_Fysik, parent: 103 },
   { label: "Engineering Mathematics"   , value: SwedishProgramme.Teknisk_Matematik, parent: 103 },
 ]

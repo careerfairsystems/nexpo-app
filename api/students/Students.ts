@@ -43,7 +43,7 @@ export enum Programme {
   Medical_engineering,
   Land_surveying,
   Computer_Software_engineering,
-  Engineering_Physcics,
+  Engineering_Physics,
   Construction_and_road
 }
 
