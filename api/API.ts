@@ -16,7 +16,6 @@ export class API {
   static tickets = Tickets
   static users = Users
   static signup = SignUp
-  static files = Files
   static students = Students
   static studentSessions = SSs
   static sSApplications = SSApplications
