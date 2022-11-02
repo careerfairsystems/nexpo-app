@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { User } from '../../api/users';
+import { User } from '@/api/users';
 import ProfilePicture from '../ProfilePicture';
 import { View, Text } from '../Themed';
 import { StyleSheet } from 'react-native';

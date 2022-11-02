@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { Industry, Position, PublicCompanyDto } from '../../api/companies';
+import { Industry, Position, PublicCompanyDto } from '@/api/companies';
 
 import Colors from '../../constants/Colors';
 import { ArkadText } from '../StyledText';

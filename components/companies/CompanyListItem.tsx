@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dimensions, Image, Pressable, StyleSheet, View } from 'react-native';
-import Colors from '../../constants/Colors'
+import Colors from '@/constants/Colors'
 
-import { PublicCompanyDto } from '../../api/companies';
+import { PublicCompanyDto } from '@/api/companies';
 import { ArkadText } from '../StyledText';
 import { TagsList } from './TagsList';
 

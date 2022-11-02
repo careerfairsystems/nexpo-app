@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { View, Text } from '../Themed';
 import { Linking, Pressable, StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';
-import { Programme, Student } from '../../api/students';
+import { Programme, Student } from '@/api/students';
 import { ArkadButton } from '../Buttons';
 import { ArkadText } from '../StyledText';
 

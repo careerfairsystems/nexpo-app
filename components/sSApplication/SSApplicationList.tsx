@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { SSApplicationDto } from '../../api/sSApplications';
+import { SSApplicationDto } from '@/api/Applications';
 import Colors from '../../constants/Colors';
 import { SSListItem } from './SSsApplicationListItem';
 

@@ -1,5 +1,5 @@
-import { deleteAuth, getAuth, postAuth, putAuth } from '../http/_HttpHelpers';
-import { Event } from '../events/Events'
+import { deleteAuth, getAuth, postAuth, putAuth } from './HttpHelpers';
+import { Event } from './Events'
 
 export interface CreateTicketDto {
   eventId: number;

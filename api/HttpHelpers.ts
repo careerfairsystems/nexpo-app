@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { isAuthenticated, getJwt } from '../auth/_AuthState';
+import { isAuthenticated, getJwt } from './_AuthState';
 import * as FileSystem from 'expo-file-system';
 
 

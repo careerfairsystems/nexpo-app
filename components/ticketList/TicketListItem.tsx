@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
 import { TicketItem } from './TicketItem';
-import { API } from '../../api';
+import { API } from '@/api';
 
 type ListedTicketItemProps = {
   ticketItem: TicketItem;

@@ -8,19 +8,19 @@ import {
 
 import Colors from "../../../constants/Colors";
 
-import { API } from "../../../api";
-import { bookedEvent, Event } from "../../../api/events";
+import { API } from "@/api";
+import { bookedEvent, Event } from "@/api/events";
 import {
   CreateTicketDto,
   getTicketForEvent,
   removeTicket,
   Ticket,
-} from "../../../api/tickets";
+} from "@/api/tickets";
 
-import { View } from "../../../components/Themed";
-import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator";
-import { ArkadButton } from "../../../components/Buttons";
-import { ArkadText, NoButton } from "../../../components/StyledText";
+import { View } from "@/components/Themed";
+import ScreenActivityIndicator from "@/components/ScreenActivityIndicator";
+import { ArkadButton } from "@/components/Buttons";
+import { ArkadText, NoButton } from "@/components/StyledText";
 import QRCode from "react-native-qrcode-svg";
 import { format } from "date-fns";
 

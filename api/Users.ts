@@ -1,6 +1,6 @@
 import { Linking } from 'react-native';
-import { API } from '../API';
-import { getAuth, putAuth, deleteAuth } from '../http/_HttpHelpers';
+import { API } from '@/api';
+import { getAuth, putAuth, deleteAuth } from './HttpHelpers';
 
 export interface User {
   id: number;

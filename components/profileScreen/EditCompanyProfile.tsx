@@ -1,5 +1,5 @@
 import React from "react";
-import { Company, UpdateCompanySelfDto } from "../../api/companies";
+import { Company, UpdateCompanySelfDto } from "@/api/companies";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";

@@ -2,8 +2,8 @@ import { StyleSheet, Image } from 'react-native';
 
 import { Text, View } from '../Themed';
 
-import { PublicCompanyDto } from '../../api/companies'
-import Colors from '../../constants/Colors';
+import { PublicCompanyDto } from '@/api/companies'
+import Colors from '@/constants/Colors';
 
 
 type CompanyDetailsScreenProps= {

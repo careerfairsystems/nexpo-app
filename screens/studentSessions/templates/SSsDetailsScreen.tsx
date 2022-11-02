@@ -5,20 +5,20 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import Colors from "../../../constants/Colors";
+import Colors from "@/constants/Colors";
 
-import { API } from "../../../api";
-import { SSTimeslot, unbookTimeslot, } from "../../../api/studentsessions";
+import { API } from "@/api";
+import { SSTimeslot, unbookTimeslot, } from "@/api/Timeslots";
 
-import { View } from "../../../components/Themed";
-import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator";
-import { ArkadButton } from "../../../components/Buttons";
-import { ArkadText, NoButton } from "../../../components/StyledText";
-import { Role, User } from "../../../api/users";
-import { ApplicationAcceptedDto } from "../../../api/sSApplications";
-import { Student } from "../../../api/students";
-import { PublicCompanyDto } from "../../../api/companies";
-import SSsStudentInfo from "../../../components/studentSessionList/SSsStudentInfo";
+import { View } from "@/components/Themed";
+import ScreenActivityIndicator from "@/components/ScreenActivityIndicator";
+import { ArkadButton } from "@/components/Buttons";
+import { ArkadText, NoButton } from "@/components/StyledText";
+import { Role, User } from "@/api/users";
+import { ApplicationAcceptedDto } from "@/api/Applications";
+import { Student } from "@/api/students";
+import { PublicCompanyDto } from "@/api/companies";
+import SSsStudentInfo from "@/components/studentSessionList/SSsStudentInfo";
 
 type SSsDetailsScreenParams = {
   timeslotId: number;
