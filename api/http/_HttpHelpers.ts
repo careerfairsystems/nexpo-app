@@ -1,6 +1,5 @@
 import Constants from 'expo-constants';
 import { isAuthenticated, getJwt } from '../auth/_AuthState';
-import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from 'expo-file-system';
 
 
