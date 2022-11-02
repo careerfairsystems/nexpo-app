@@ -22,7 +22,6 @@ export default {
     buildNumber: '1.2.1',
     supportsTablet: true,
     infoPlist: {
-      NSAppTransportSecurity: 'NSAllowsArbitraryLoads',
       NSCameraUsageDescription: 'Camera access is needed for the QR-code scanning functionality',
       NSPhotoLibraryUsageDescription: 'Photo library access is needed to choose a profile picture to upload',
     }

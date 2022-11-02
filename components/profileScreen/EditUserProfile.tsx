@@ -12,6 +12,7 @@ import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from 'expo-file-system'
 
 type EditUserProfileProps = {
   user: User;
@@ -83,15 +84,21 @@ export default function EditUserProfile({
       allowsEditing: true,
       aspect: [1, 1]
     });
-    if (!result.cancelled) {
-      console.log(result)
-
-      await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg").catch(e => {console.log(e)});
-      setHasProfilePicture(true);
-      alert("save profile to see profile picture");
-    } else {
-      alert("something went wrong")
+    if (result.cancelled) return
+    const fileInfo = await FileSystem.getInfoAsync(result.uri)
+    if (result.type != 'image') {
+      alert("Only images allowed")
+      return
     }
+    if (fileInfo.size ? fileInfo.size > 1000000: false) {
+      alert("Maximum filesize is 1Mb")
+      return
+    }
+
+    await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg").catch(e => {console.log(e)});
+    setHasProfilePicture(true);
+    alert("save profile to see profile picture");
+    
   };
   
   const removeProfilePicture = async () => {
@@ -103,53 +110,38 @@ export default function EditUserProfile({
       alert("save profile to remove profile picture");
     }
   };
-
   const setCV = async () => {
     let resultFile = await DocumentPicker.getDocumentAsync({});
-    alert("resultfile   \n" + resultFile);
-    if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
-      const r = await fetch(resultFile.uri)
-      console.log("FF")
-      console.log(JSON.stringify(r.url.replace('file://','')))
-      console.log("--")
-      console.log(JSON.stringify(r).replace('file://',''))
-      const b = await r.blob()
-      console.log(b)
-      const res = await API.s3bucket.postToS32(b, user.id.toString(), ".pdf").catch( e => {console.log(e)})
-      
-      setCvURL(true)
-      console.log(res)
-    } else {
-      alert("File needs to be in PDF format and must be smaller than 2Mb")
-    }
-  }
-
-  const setCV2 = async () => {
-    let resultFile = await DocumentPicker.getDocumentAsync({});
-    alert("resultfile   \n" + resultFile);
-    if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
-      const r = await fetch(resultFile.uri)
-      console.log("fefefefefeeff")
-      console.log(JSON.stringify(r))
-      console.log("--")
-      console.log(JSON.stringify(r).replace('file://',''))
-      try {
-        const res = await API.s3bucket.postToS321(JSON.stringify(r).replace('file://',''), user.id.toString(), ".pdf")
-      
-      setCvURL(true)
-      console.log(res)
-      } catch (error) {
-        console.log(error)
+    if (resultFile.type == "success" ) {
+      if(resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
+        const r = resultFile.uri
+        console.log(JSON.stringify(r))
+        try {
+          const res = await API.s3bucket.postToS3(r, user.id.toString(), ".pdf")
+        
+          alert("CV uploaded")
+          setCvURL(true)
+        } catch (error) {
+          console.log(error)
+          alert("Something went wrong")
+        }
+      } else {
+        alert("File needs to be in PDF format and must be smaller than 2Mb")
       }
-    } else {
-      alert("File needs to be in PDF format and must be smaller than 2Mb")
     }
-  }
+}
 
   const deleteCV = async () => {
-    const dto = await API.s3bucket.deleteOnS3(user.id.toString() , ".pdf")
-    if (dto.valueOf() == true) {
+    try {
+      const dto = await API.s3bucket.deleteOnS3(user.id.toString() , ".pdf")
+      alert("CV deleted")
+      if (dto.valueOf() == true) {
+        setCvURL(false)
+      }
+    } catch (error) {
+      console.log(error)
       setCvURL(false)
+      alert("CV deleted")
     }
   }
 
@@ -179,7 +171,7 @@ export default function EditUserProfile({
           </ArkadButton>
           
         )}
-        <ArkadButton onPress={setCV2}>
+        <ArkadButton onPress={setCV}>
           {hasCv ? (
             <ArkadText text="Update CV" />
             ) : (

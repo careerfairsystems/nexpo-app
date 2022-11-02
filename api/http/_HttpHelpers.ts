@@ -111,65 +111,20 @@ export const postAuth = async (endpoint: string, body: any) => {
  */
 export const postAuthFile = async (endpoint: string, dataUri: string) => {
   if (!await isAuthenticated()) {
-    // TODO Raise some kind of exception
     console.error('postAuthFile: Not authenticated');
   }
-  const jwt = await getJwt();
-
-  const data = new FormData();
-  const blob = await (await fetch(dataUri)).blob();
-  data.append('file', blob);
-
-  //'Authorization': `Bearer ${jwt}`,
-  return fetch(apiUrl(endpoint), {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${jwt}`,
-    },
-    body: data,
-  });
-}
-export const postAuthFile2 = async (endpoint: string, b: Blob) => {
-  if (!await isAuthenticated()) {
-    // TODO Raise some kind of exception
-    console.log('postAuthFile: Not authenticated')
-    console.error('postAuthFile: Not authenticated');
+  try {
+    const response = FileSystem.uploadAsync(apiUrl(endpoint), dataUri, {
+      fieldName: 'file',
+      httpMethod: 'POST',
+      uploadType: FileSystem.FileSystemUploadType.MULTIPART
+    } )
+    return response
+  } catch (error) {
+    console.log(error)
+    return "something went wrong"
   }
   
-  const jwt = await getJwt();
-
-  //console.log("uri")
-  //'Content-Type': 'application/pdf',
-  const data = new FormData();
-  data.append('file', b);
-  return fetch('https://nexpo.arkadtlth.se/api/awss3/-3.pdf', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${jwt}`
-    },
-    body: data,
-  });
-}
-
-export const postAuthFile3 = async (endpoint: string, dataUri: string) => {
-  if (!await isAuthenticated()) {
-    // TODO Raise some kind of exception
-    console.error('postAuthFile: Not authenticated');
-  }
-  const jwt = await getJwt();
-
-  const data = new FormData();
-  const blob = await (await fetch(dataUri)).blob();
-  data.append('file', blob )
-
-  //'Authorization': `Bearer ${jwt}`,
-  return fetch('https://nexpo.arkadtlth.se/api/awss3/-3.pdf', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${jwt}`,
-    },
-    body: data,
-  });
 }
 
 /**
