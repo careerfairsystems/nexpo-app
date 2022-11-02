@@ -81,12 +81,12 @@ export default function EditUserProfile({
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1
+      aspect: [1, 1]
     });
     if (!result.cancelled) {
-      console.log(result.uri)
-      await API.s3bucket.postToS32(result, user.id.toString(), ".jpg");
+      console.log(result)
+
+      await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg").catch(e => {console.log(e)});
       setHasProfilePicture(true);
       alert("save profile to see profile picture");
     } else {
@@ -104,16 +104,43 @@ export default function EditUserProfile({
     }
   };
 
-  
-
   const setCV = async () => {
     let resultFile = await DocumentPicker.getDocumentAsync({});
-    //alert(resultFile);
+    alert("resultfile   \n" + resultFile);
     if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
-      alert(resultFile.uri);
-      await API.s3bucket.postToS3 (resultFile.uri, user.id.toString(), ".pdf").catch( e => {console.log(JSON.stringify(e)); alert(JSON.stringify(e))})
-      //console.log(resultFile.uri)
+      const r = await fetch(resultFile.uri)
+      console.log("FF")
+      console.log(JSON.stringify(r.url.replace('file://','')))
+      console.log("--")
+      console.log(JSON.stringify(r).replace('file://',''))
+      const b = await r.blob()
+      console.log(b)
+      const res = await API.s3bucket.postToS32(b, user.id.toString(), ".pdf").catch( e => {console.log(e)})
+      
       setCvURL(true)
+      console.log(res)
+    } else {
+      alert("File needs to be in PDF format and must be smaller than 2Mb")
+    }
+  }
+
+  const setCV2 = async () => {
+    let resultFile = await DocumentPicker.getDocumentAsync({});
+    alert("resultfile   \n" + resultFile);
+    if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
+      const r = await fetch(resultFile.uri)
+      console.log("fefefefefeeff")
+      console.log(JSON.stringify(r))
+      console.log("--")
+      console.log(JSON.stringify(r).replace('file://',''))
+      try {
+        const res = await API.s3bucket.postToS321(JSON.stringify(r).replace('file://',''), user.id.toString(), ".pdf")
+      
+      setCvURL(true)
+      console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       alert("File needs to be in PDF format and must be smaller than 2Mb")
     }
@@ -152,7 +179,7 @@ export default function EditUserProfile({
           </ArkadButton>
           
         )}
-        <ArkadButton onPress={setCV}>
+        <ArkadButton onPress={setCV2}>
           {hasCv ? (
             <ArkadText text="Update CV" />
             ) : (

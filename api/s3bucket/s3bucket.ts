@@ -1,5 +1,5 @@
 import { ImagePickerCancelledResult } from "expo-image-picker";
-import { deleteAuth, getAuth, postAuthFile, postAuthFile2 } from "../http/_HttpHelpers"
+import { deleteAuth, getAuth, postAuthFile, postAuthFile2, postAuthFile3 } from "../http/_HttpHelpers"
 import * as ImagePicker from "expo-image-picker";
 
 export interface FileCreatedDto {
@@ -16,13 +16,20 @@ export const postToS3 = async( dataUri :string, userId: string, fileType: string
   return  dto;
 }
 
-export const postToS32 = async( image: ImagePicker.ImagePickerResult, userId: string, fileType: string): Promise<string> => {
+export const postToS32 = async( b: Blob, userId: string, fileType: string): Promise<FileCreatedDto> => {
+  
+  const response = await postAuthFile2('/awss3/-4', b);
+  const json = await response;
+  const dto = json as FileCreatedDto;
+  return  dto;
+}
+
+export const postToS321 = async( dataUri :string, userId: string, fileType: string): Promise<FileCreatedDto> => {
  
-  const response = await postAuthFile2(`/awss3/${userId + fileType}`, image);
-  alert(response);
-  //const json = await response.json();
-  //const dto = json as FileCreatedDto;
-  return ""
+  const response = await postAuthFile3(`/awss3/${userId + fileType}`, dataUri);
+  const json = await response;
+  const dto = json as FileCreatedDto;
+  return  dto;
 }
 
 export const deleteOnS3 = async(userId: string, fileType: string): Promise<boolean> => {
