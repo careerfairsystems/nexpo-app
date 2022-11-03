@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     opacity: 0.7,
-    right: 230,
-    bottom: 60,
+    right: 300,
+    bottom: 320,
     margin: 0,
   },
 
