@@ -82,18 +82,18 @@ const styles = StyleSheet.create({
     height: 120,
     opacity: 0.7,
     margin: 0,
-    left: 150,
-    top: 10,
-    bottom: 90,
+    left: 210,
+    bottom: 200,
   },
 
   ebutton: {
     position: "absolute",
-    width: 110,
+    width: 100,
     height: 120,
     opacity: 0.7,
     margin: 0,
-    marginBottom: '30%'
+    left: 290,
+    bottom: 150
 
   }
 })
