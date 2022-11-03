@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     right: 300,
     bottom: 320,
     margin: 0,
+    zIndex: 1001,
   },
 
   studiebutton: {
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
     margin: 0,
     left: 210,
     bottom: 200,
+    zIndex: 1000,
   },
 
   ebutton: {
