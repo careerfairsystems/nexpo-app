@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, TextInput } from "react-native";
 
-import Colors from "@/constants/Colors";
+import Colors from "constants/Colors";
 
-import { API } from "@/api";
-import { } from "@/api/Timeslots";
+import { API } from "api";
+import { } from "api/Timeslots";
 
-import { View } from "@/components/Themed";
-import ScreenActivityIndicator from "@/components/ScreenActivityIndicator";
-import { ArkadButton } from "@/components/Buttons";
-import { ArkadText } from "@/components/StyledText";
-import { CardWithHeader } from "@/components/sSApplication/SSApplicationMsg";
-import { PublicCompanyDto } from "@/api/companies";
+import { View } from "components/Themed";
+import ScreenActivityIndicator from "components/ScreenActivityIndicator";
+import { ArkadButton } from "components/Buttons";
+import { ArkadText } from "components/StyledText";
+import { CardWithHeader } from "components/sSApplication/SSApplicationMsg";
+import { PublicCompanyDto } from "api/Companies";
 
 type SSsApplicationScreenParams = {
   companyId: number;

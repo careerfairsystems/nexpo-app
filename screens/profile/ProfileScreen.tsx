@@ -3,23 +3,23 @@ import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API } from '@/api'
-import { Role, User } from '@/api/users';
-import { Event } from '@/api/events';
-import { Company } from '@/api/companies';
+import { API } from 'api'
+import { Role, User } from 'api/Users';
+import { Event } from 'api/Events';
+import { Company } from 'api/Companies';
 import { ProfileStackParamList } from "./ProfileNavigator";
 
-import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { View } from '../../components/Themed';
-import { AuthContext } from '../../components/AuthContext';
-import { EditProfileButton, LogoutButton } from '../../components/profileScreen/Buttons';
-import UserProfile from '../../components/profileScreen/UserProfile';
-import { Student } from '@/api/students';
-import StudentProfile from '../../components/profileScreen/StudentProfile';
-import CompanyProfile from '../../components/profileScreen/CompanyProfile';
-import Colors from '../../constants/Colors';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { View } from 'components/Themed';
+import { AuthContext } from 'components/AuthContext';
+import { EditProfileButton, LogoutButton } from 'components/profileScreen/Buttons';
+import UserProfile from 'components/profileScreen/UserProfile';
+import { Student } from 'api/Students';
+import StudentProfile from 'components/profileScreen/StudentProfile';
+import CompanyProfile from 'components/profileScreen/CompanyProfile';
+import Colors from 'constants/Colors';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import { BookedEventList } from '../../components/profileScreen/BookedEventList';
+import { BookedEventList } from 'components/profileScreen/BookedEventList';
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>

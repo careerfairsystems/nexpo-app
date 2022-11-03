@@ -9,9 +9,9 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 
-import { getMe, Role, User } from '@/api/users';
+import { getMe, Role, User } from 'api/Users';
 
-import { API } from '@/api';
+import { API } from 'api';
 import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
 import { useContext } from 'react';
 import { AuthContext } from '../components/AuthContext';

@@ -3,17 +3,17 @@ import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API } from '@/api'
+import { API } from 'api'
 import { SSsStackParamlist } from "./SSsCRepNavigator"
-import ScreenActivityIndicator from '@/components/ScreenActivityIndicator';
-import { Student } from '@/api/students';
-import Colors from '@/constants/Colors';
-import { SSApplication, UpdateApplicationDto } from '@/api/Applications';
-import { ArkadButton } from '@/components/Buttons';
-import { ArkadText, NoButton } from '@/components/StyledText';
-import { User } from '@/api/users';
-import { View } from '@/components/Themed';
-import SSsStudentInfo from '@/components/studentSessionList/SSsStudentInfo';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { Student } from 'api/Students';
+import Colors from 'constants/Colors';
+import { SSApplication, UpdateApplicationDto } from 'api/Applications';
+import { ArkadButton } from 'components/Buttons';
+import { ArkadText, NoButton } from 'components/StyledText';
+import { User } from 'api/Users';
+import { View } from 'components/Themed';
+import SSsStudentInfo from 'components/studentSessionList/SSsStudentInfo';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>

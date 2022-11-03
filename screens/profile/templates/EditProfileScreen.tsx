@@ -4,18 +4,18 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Colors from '../../../constants/Colors';
 
-import { API } from '@/api'
-import { Role, UpdateUserDto, User } from '@/api/users';
-import { Company, UpdateCompanySelfDto } from '@/api/companies';
+import { API } from 'api'
+import { Role, UpdateUserDto, User } from 'api/Users';
+import { Company, UpdateCompanySelfDto } from 'api/Companies';
 import { ProfileStackParamList } from "../ProfileNavigator";
 
-import ScreenActivityIndicator from '@/components/ScreenActivityIndicator';
-import { ArkadText } from '@/components/StyledText';
-import { Student, UpdateStudentDto } from '@/api/students';
-import EditUserProfile from '@/components/profileScreen/EditUserProfile';
-import { ArkadButton } from '@/components/Buttons';
-import EditStudentProfile from '@/components/profileScreen/EditStudentProfile';
-import EditCompanyProfile from '@/components/profileScreen/EditCompanyProfile';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { ArkadText } from 'components/StyledText';
+import { Student, UpdateStudentDto } from 'api/Students';
+import EditUserProfile from 'components/profileScreen/EditUserProfile';
+import { ArkadButton } from 'components/Buttons';
+import EditStudentProfile from 'components/profileScreen/EditStudentProfile';
+import EditCompanyProfile from 'components/profileScreen/EditCompanyProfile';
 
 export type EditStatus = {
   ok: boolean;

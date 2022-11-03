@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Company } from '@/api/companies';
+import { Company } from 'api/Companies';
 import { View, Text } from '../Themed';
 import { Linking, StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';

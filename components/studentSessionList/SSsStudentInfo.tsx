@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-import { API } from '@/api'
-import ScreenActivityIndicator from '@/components/ScreenActivityIndicator';
-import { Student } from '@/api/students';
-import StudentProfile from '@/components/profileScreen/StudentProfile';
-import { SSApplication } from '@/api/Applications';
-import { ArkadButton } from '@/components/Buttons';
-import { ArkadText } from '@/components/StyledText';
-import UserProfile from '@/components/profileScreen/UserProfile';
-import { User } from '@/api/users';
-import { CardWithHeader } from '@/components/sSApplication/SSApplicationMsg';
+import { API } from 'api'
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { Student } from 'api/Students';
+import StudentProfile from 'components/profileScreen/StudentProfile';
+import { SSApplication } from 'api/Applications';
+import { ArkadButton } from 'components/Buttons';
+import { ArkadText } from 'components/StyledText';
+import UserProfile from 'components/profileScreen/UserProfile';
+import { User } from 'api/Users';
+import { CardWithHeader } from 'components/sSApplication/SSApplicationMsg';
 
 export type SSsStudentInfoProps = {
   studentId: number;

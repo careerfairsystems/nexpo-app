@@ -1,5 +1,5 @@
 import { get } from "./HttpHelpers";
-import { getAllTickets, Ticket } from "./tickets";
+import { getAllTickets, Ticket } from "./Tickets";
 import { addDays, format, isAfter, subDays } from "date-fns";
 
 export interface Event {

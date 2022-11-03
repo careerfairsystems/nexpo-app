@@ -3,13 +3,13 @@ import { StyleSheet } from 'react-native';
 
 import { View } from '../../components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '@/api';
-import { Event } from '@/api/events';
+import { API } from 'api';
+import { Event } from 'api/events';
 import { EventList } from '../../components/eventList/EventList';
 import { EventStackParamlist } from "./EventsNavigator";
 import { UpcomingButton } from '../../components/eventList/UpcomingButton';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { Role } from '@/api/users';
+import { Role } from 'api/Users';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 

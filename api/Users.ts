@@ -1,5 +1,5 @@
 import { Linking } from 'react-native';
-import { API } from '@/api';
+import { API } from 'api';
 import { getAuth, putAuth, deleteAuth } from './HttpHelpers';
 
 export interface User {

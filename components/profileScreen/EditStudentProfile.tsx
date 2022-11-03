@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UpdateStudentDto, Student, Programme } from "@/api/students";
+import { UpdateStudentDto, Student, Programme } from "api/Students";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 import { TextInput } from "../TextInput";

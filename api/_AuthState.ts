@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
-import { Role } from './users';
+import { Role } from './Users';
 
 /**
  * A storage adapter that implements the same methods as SecureStore. This is

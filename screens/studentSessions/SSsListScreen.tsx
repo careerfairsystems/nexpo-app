@@ -1,24 +1,24 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '@/components/Themed';
+import { View } from 'components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '@/api';
-import { SSTimeslot } from '@/api/Timeslots';
-import { TimeslotList } from '@/components/studentSessionList/SSList';
-import SSCompInfo from '@/components/studentSessionList/SSCompInfo';
+import { API } from 'api';
+import { SSTimeslot } from 'api/Timeslots';
+import { TimeslotList } from 'components/studentSessionList/SSList';
+import SSCompInfo from 'components/studentSessionList/SSCompInfo';
 import { SSsStackParamlist } from "./SSsStudentNavigator";
-import { ArkadButton } from '@/components/Buttons';
-import { ArkadText, NoButton } from '@/components/StyledText';
-import { PublicCompanyDto } from '@/api/Companies';
+import { ArkadButton } from 'components/Buttons';
+import { ArkadText, NoButton } from 'components/StyledText';
+import { PublicCompanyDto } from 'api/Companies';
 import { FlatList } from 'react-native-gesture-handler';
-import { getMe, Role, User } from '@/api/Users';
-import ScreenActivityIndicator from '@/components/ScreenActivityIndicator';
-import { ApplicationAcceptedDto } from '@/api/Applications';
-import { Student } from '@/api/students';
+import { getMe, Role, User } from 'api/Users';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { ApplicationAcceptedDto } from 'api/Applications';
+import { Student } from 'api/Students';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-import Colors from '@/constants/Colors';
+import Colors from 'constants/Colors';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<

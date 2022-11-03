@@ -1,5 +1,5 @@
 import { getAuth, postAuth, putAuth } from "./HttpHelpers";
-import { Programme } from "./students";
+import { Programme } from "./Students";
 
 
 export interface SSApplication {
