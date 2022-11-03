@@ -58,9 +58,8 @@ const styles = StyleSheet.create({
 
   image: {
     flex: 1,
-    width: 200,
-    height: 400,
-    resizeMode: "contains",
+    width: 650,
+    resizeMode: 'cover',
     justifyContent: "center",
     zIndex: 1,
     opacity: 1,
