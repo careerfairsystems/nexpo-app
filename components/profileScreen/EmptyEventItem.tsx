@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 
-import { Event } from 'api/events';
+import { Event } from 'api/Events';
 import { EventListItem } from '../eventList/EventListItem';
 
 const { width, height } = Dimensions.get('window')
