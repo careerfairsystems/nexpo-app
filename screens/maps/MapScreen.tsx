@@ -1,11 +1,11 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { StyleSheet, ScrollView, ImageBackground, Text } from 'react-native';
-import { MapPreview } from '../../components/maps/MapPreview';
-import { Map, EMap, FairMap, KarhusetMap, SC1Map, SC2Map } from '../../components/maps/MapProps';
+import { StyleSheet, ImageBackground, Text } from 'react-native';
+import { Map } from '../../components/maps/MapProps';
 import { View } from '../../components/Themed';
 import { MapStackParamList } from "./MapNavigator";
 import { ArkadButton } from '../../components/Buttons';
+import Colors from '../../constants/Colors';
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, 'MapScreen'>;
@@ -34,10 +34,6 @@ export default function MapScreen({ navigation }: mapNavigation) {
               } }>
                 <Text>E-building</Text>
             </ArkadButton>
-
-
-
-
       </ImageBackground>
     </View>
   );
@@ -53,49 +49,58 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '2%'
+    padding: '2%',
   },
 
   image: {
     flex: 1,
-    width: 650,
+    width: '100%',
     resizeMode: 'cover',
     justifyContent: "center",
     zIndex: 1,
     opacity: 1,
     padding: '2%',
+    position: "relative",
   },
 
   karbutton: {
     position: "absolute",
-    width: 120,
-    height: 120,
-    opacity: 0.7,
-    right: 300,
-    bottom: 320,
+    width: 100,
+    height: 100,
+    textAlign: 'center',
+    opacity: 0.3,
+    borderRadius: 100,
+    left: '14%',
+    bottom: '60%',
     margin: 0,
     zIndex: 1001,
+    backgroundColor: Colors.lightBlue,
   },
 
   studiebutton: {
     position: "absolute",
     width: 100,
-    height: 120,
-    opacity: 0.7,
-    margin: 0,
-    left: 210,
-    bottom: 200,
+    height: 100,
+    opacity: 0.3,
+    borderRadius: 100,
+    textAlign: 'center',
+    margin: "0%",
+    left: "20%",
+    bottom: "40%",
     zIndex: 1000,
+    backgroundColor: Colors.lightBlue,
   },
 
   ebutton: {
     position: "absolute",
     width: 100,
-    height: 120,
-    opacity: 0.7,
+    height: 200,
+    opacity: 0.3,
+    textAlign: 'center',
     margin: 0,
-    left: 290,
-    bottom: 150
-
+    left: "47%",
+    bottom: "22%",
+    borderRadius: 100,
+    backgroundColor: Colors.lightBlue,
   }
 })
