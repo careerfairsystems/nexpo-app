@@ -9,7 +9,6 @@ import Colors from "../../constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CategoriesDropdown } from "../companies/CategoriesDroppdown";
 import { PROGRAMS } from "../companies/DroppdownItems";
-import { NullLiteralTypeAnnotation } from "@babel/types";
 
 type EditStudentProfileProps = {
   student: Student;
@@ -31,17 +30,17 @@ export default function EditStudentProfile({
   );
   const [programmes, setProgrammes] = useState(PROGRAMS);
   const [programmeOpen, programmeSetOpen] = useState(false);
-  const [programmeValue, programmeSetValue] = useState<Programme | null>(student.programme);
+  const [programme, setProgramme] = useState<Programme | null>(student.programme);
 
   React.useEffect(() => {
     const dto = {
-      programmeValue,
+      programme,
       year,
       masterTitle,
       linkedIn,
     };
     setUpdateStudentDto(dto);
-  }, [programmeValue, linkedIn, masterTitle, year]);
+  }, [programme, linkedIn, masterTitle, year]);
 
   const _setLinkedIn = (text: string) => {
     setLinkedIn(text);
@@ -65,9 +64,9 @@ export default function EditStudentProfile({
             title="Desired program"
             items={programmes}
             setOpen={programmeSetOpen}
-            setValue={programmeSetValue}
+            setValue={setProgramme}
             open={programmeOpen}
-            value={programmeValue} 
+            value={programme} 
             setItems={setProgrammes}
             categories={true}
             single={true}/>
