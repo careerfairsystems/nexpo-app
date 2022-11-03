@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -18,7 +18,7 @@ import { Student } from '@/api/students';
 import StudentProfile from '../../components/profileScreen/StudentProfile';
 import CompanyProfile from '../../components/profileScreen/CompanyProfile';
 import Colors from '../../constants/Colors';
-import { useIsFocused } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { BookedEventList } from '../../components/profileScreen/BookedEventList';
 
 export type ProfileScreenParams = {
@@ -59,12 +59,12 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     authContext.signOut();
   };
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     setLoading(true);
     getUser();
     getRegisteredEvents();
     setLoading(false);
-  }, [isFocused]);
+  }, [isFocused]));
 
   
   if (loading || !user) {
