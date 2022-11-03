@@ -90,7 +90,7 @@ export default function EditUserProfile({
       alert("Only images allowed")
       return
     }
-    if (fileInfo.size ? fileInfo.size > 1000000: false) {
+    if (fileInfo.size ? fileInfo.size > 4000000: false) {
       alert("Maximum filesize is 1Mb")
       return
     }
