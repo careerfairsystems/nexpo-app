@@ -1,11 +1,11 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, ImageBackground, Text } from 'react-native';
 import { MapPreview } from '../../components/maps/MapPreview';
 import { Map, EMap, FairMap, KarhusetMap, SC1Map, SC2Map } from '../../components/maps/MapProps';
 import { View } from '../../components/Themed';
 import { MapStackParamList } from "./MapNavigator";
-import { ImageMapper } from 'react-native-image-mapper';
+import { ArkadButton } from '../../components/Buttons';
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, 'MapScreen'>;
@@ -13,26 +13,37 @@ export type mapNavigation = {
 };
 
 export default function MapScreen({ navigation }: mapNavigation) {
+  const imageSource = require('../../assets/images/maps/oversikt.png');
+
   return (
-    <View style={styles.scroller}>
-      <ScrollView style={styles.scroller}>
-        <View style={styles.container}>
-          <View style={styles.row}> 
-            <MapPreview navigation={navigation} map={FairMap} />
-          </View>
-          <View style={styles.row}> 
-            <MapPreview navigation={navigation} map={KarhusetMap} />
-            <MapPreview navigation={navigation} map={EMap} />
-          </View>
-          <View style={styles.row}> 
-            <MapPreview navigation={navigation} map={SC1Map} />
-            <MapPreview navigation={navigation} map={SC2Map} />
-          </View>
-        </View>
-      </ScrollView>
+    <View style={styles.container}>
+      <ImageBackground source={imageSource} style={styles.image}>
+
+            <ArkadButton style={styles.karbutton} onPress={function (): void {
+                alert("Go to kårhuset");
+              } }>
+                <Text>Kårhuset</Text>
+              </ArkadButton>
+            <ArkadButton style={styles.studiebutton} onPress={function (): void {
+                alert("Go to studiec");
+              } }>
+                <Text>Studiec</Text>
+              </ArkadButton>
+              <ArkadButton style={styles.ebutton} onPress={function (): void {
+                alert("Go to ehuset");
+              } }>
+                <Text>E-building</Text>
+            </ArkadButton>
+
+
+
+
+      </ImageBackground>
     </View>
-  )
+  );
+
 }
+
 
 const styles = StyleSheet.create({
   scroller: {
@@ -44,10 +55,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: '2%'
   },
-  row: {
+
+  image: {
     flex: 1,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    width: 200,
+    height: 400,
+    resizeMode: "contains",
+    justifyContent: "center",
+    zIndex: 1,
+    opacity: 1,
+    padding: '2%',
+  },
+
+  karbutton: {
+    position: "absolute",
+    width: 120,
+    height: 120,
+    opacity: 0.7,
+    right: 230,
+    bottom: 60,
+    margin: 0,
+  },
+
+  studiebutton: {
+    position: "absolute",
+    width: 100,
+    height: 120,
+    opacity: 0.7,
+    margin: 0,
+    left: 150,
+    top: 10,
+    bottom: 90,
+  },
+
+  ebutton: {
+    position: "absolute",
+    width: 110,
+    height: 120,
+    opacity: 0.7,
+    margin: 0,
+    marginBottom: '30%'
+
   }
 })
