@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { render } from 'react-dom';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
-import { ImageMapper } from 'react-native-image-mapper';
 import Colors from '../../constants/Colors';
 import { ArkadButton } from '../Buttons';
 

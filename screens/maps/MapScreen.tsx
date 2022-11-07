@@ -1,11 +1,13 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StyleSheet, ImageBackground, Text } from 'react-native';
-import { Map } from '../../components/maps/MapProps';
+import { EMap, KarhusetMap, Map, SC1Map } from '../../components/maps/MapProps';
+import { MapPreview } from '../../components/maps/MapPreview';
 import { View } from '../../components/Themed';
 import { MapStackParamList } from "./MapNavigator";
 import { ArkadButton } from '../../components/Buttons';
 import Colors from '../../constants/Colors';
+import { FairMap } from '../../components/maps/MapProps';
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, 'MapScreen'>;
@@ -15,23 +17,19 @@ export type mapNavigation = {
 export default function MapScreen({ navigation }: mapNavigation) {
   const imageSource = require('../../assets/images/maps/oversikt.png');
 
+  function openMap(map: Map) {
+    navigation.navigate('ZoomMapScreen', { map });
+  }
   return (
     <View style={styles.container}>
       <ImageBackground source={imageSource} style={styles.image}>
-
-            <ArkadButton style={styles.karbutton} onPress={function (): void {
-                alert("Go to kårhuset");
-              } }>
+            <ArkadButton style={styles.karbutton} onPress={() => openMap(KarhusetMap)}> 
                 <Text>Kårhuset</Text>
-              </ArkadButton>
-            <ArkadButton style={styles.studiebutton} onPress={function (): void {
-                alert("Go to studiec");
-              } }>
+            </ArkadButton>
+            <ArkadButton style={styles.studiebutton} onPress={() => openMap(SC1Map)}> 
                 <Text>Studiec</Text>
               </ArkadButton>
-              <ArkadButton style={styles.ebutton} onPress={function (): void {
-                alert("Go to ehuset");
-              } }>
+              <ArkadButton style={styles.ebutton} onPress={() => openMap(EMap)}> 
                 <Text>E-building</Text>
             </ArkadButton>
       </ImageBackground>
