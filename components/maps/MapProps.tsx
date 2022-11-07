@@ -44,13 +44,7 @@ export const SC1Map: Map = {
       props: {
         source: require("../../assets/images/maps/Sc-1.png")
       }
-    }]
-  }
-}
-export const SC2Map: Map = {
-  name: 'Studiecentrum second floor', 
-  props: {
-    images: [{
+    }, {
       url: '',
       props: {
         source: require("../../assets/images/maps/Sc-2.png")

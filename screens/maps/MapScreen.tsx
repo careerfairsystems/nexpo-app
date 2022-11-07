@@ -2,12 +2,10 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StyleSheet, ImageBackground, Text } from 'react-native';
 import { EMap, KarhusetMap, Map, SC1Map } from '../../components/maps/MapProps';
-import { MapPreview } from '../../components/maps/MapPreview';
 import { View } from '../../components/Themed';
 import { MapStackParamList } from "./MapNavigator";
 import { ArkadButton } from '../../components/Buttons';
 import Colors from '../../constants/Colors';
-import { FairMap } from '../../components/maps/MapProps';
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, 'MapScreen'>;
@@ -56,8 +54,8 @@ const styles = StyleSheet.create({
 
   karbutton: {
     position: "absolute",
-    width: 100,
-    height: 100,
+    width: "28%",
+    aspectRatio: 1,
     textAlign: 'center',
     opacity: 0.3,
     borderRadius: 100,
@@ -70,8 +68,8 @@ const styles = StyleSheet.create({
 
   studiebutton: {
     position: "absolute",
-    width: 100,
-    height: 100,
+    width: "28%",
+    aspectRatio: 1,
     opacity: 0.3,
     borderRadius: 100,
     textAlign: 'center',
@@ -84,8 +82,8 @@ const styles = StyleSheet.create({
 
   ebutton: {
     position: "absolute",
-    width: 100,
-    height: 200,
+    width: "28%",
+    aspectRatio: 0.5,
     opacity: 0.3,
     textAlign: 'center',
     margin: 0,
