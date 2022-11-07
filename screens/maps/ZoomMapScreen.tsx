@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
 import { Map } from '../../components/maps/MapProps';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { ArkadText } from '../../components/StyledText';
 import { View } from '../../components/Themed';
 import Colors from '../../constants/Colors';
 
@@ -29,10 +28,7 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
       <ImageViewer
         imageUrls={images}
         backgroundColor={Colors.white}
-        renderHeader={(currentIndex?: number) => 
-          <ArkadText 
-            text={'Page ' + (currentIndex! + 1) + '/2'}
-            style={styles.mapName} />} />
+      ></ImageViewer>
     </View>
   )
 }

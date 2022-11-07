@@ -23,19 +23,12 @@ export default function MapScreen({ navigation }: mapNavigation) {
   return (
     <View style={styles.container}>
       <ImageBackground source={imageSource} style={styles.image}>
-            <ArkadButton style={styles.karbutton} onPress={() => openMap(KarhusetMap)}> 
-                <Text>Kårhuset</Text>
-            </ArkadButton>
-            <ArkadButton style={styles.studiebutton} onPress={() => openMap(SC1Map)}> 
-                <Text>Studiec</Text>
-              </ArkadButton>
-              <ArkadButton style={styles.ebutton} onPress={() => openMap(EMap)}> 
-                <Text>E-building</Text>
-            </ArkadButton>
+        <ArkadButton style={styles.karbutton} onPress={() => openMap(KarhusetMap)}/> 
+        <ArkadButton style={styles.studiebutton} onPress={() => openMap(SC1Map)}/> 
+        <ArkadButton style={styles.ebutton} onPress={() => openMap(EMap)}/> 
       </ImageBackground>
     </View>
   );
-
 }
 
 
