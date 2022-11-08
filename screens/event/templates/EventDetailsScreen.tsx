@@ -22,7 +22,7 @@ import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator
 import { ArkadButton } from "../../../components/Buttons";
 import { ArkadText, NoButton } from "../../../components/StyledText";
 import QRCode from "react-native-qrcode-svg";
-import { format } from "date-fns";
+import { format, subDays } from "date-fns";
 
 export default function EventDetailsScreen(id: number) {
 
@@ -35,9 +35,7 @@ export default function EventDetailsScreen(id: number) {
   const eventStopSellingDate = () => {
     if(!event?.start) return("N/A");
     const eventTime = new Date(event.date);
-    console.log(eventTime);
-    const dateOffset = (24*60*60*1000) * 2;
-    const stopSellingDate = new Date(eventTime.getTime() - dateOffset);
+    const stopSellingDate = subDays(eventTime, 2);
     return format(stopSellingDate, "d LLL") + " - " + event.start;
   }
   const getEvent = async () => {
