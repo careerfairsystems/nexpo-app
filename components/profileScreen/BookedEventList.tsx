@@ -22,7 +22,6 @@ export const BookedEventList = ({ bookedEvents, onPress }: BookedEventListProps)
         <View style={styles.item}>
           <EventListItem
             event={event} 
-            booked={bookedEvents != null && bookedEvents.includes(event)}
             itemStyle={{width: windowWidth * 0.6}}
             onPress={() => onPress(event.id)} />
         </View>

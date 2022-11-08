@@ -27,20 +27,14 @@ export default function EventListScreen({navigation}: EventsNavigation) {
 
   const [upcomingEvents, setUpcomingEvents] = React.useState<Event[] | null>(null);
   const [showAllEvents, setShowAllEvents] = React.useState<boolean>(false);
-  const [bookedEvents, setBookedEvents] = React.useState<Event[] | null>(null);
   
   const getEvents = async () => {
     setLoading(true);
-
     const events = await API.events.getAllEvents();
     const role = await API.auth.getUserRole();
-
     setRole(role);
     setEvents(events);
     setUpcomingEvents(API.events.getUpcomingEvents(events));
-    const bookedEvents = await API.events.getBookedEvents();
-    setBookedEvents(bookedEvents);
-
     setLoading(false);
   }
 
@@ -72,7 +66,6 @@ export default function EventListScreen({navigation}: EventsNavigation) {
           onPress={switchEvents} />
         <EventList 
           events={showAllEvents ? events : upcomingEvents}
-          bookedEvents={bookedEvents}
           onPress={openEventDetails} />
       </View>
     </View>
