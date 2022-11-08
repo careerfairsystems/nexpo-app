@@ -88,7 +88,7 @@ export const getEvent = async (eventId: number): Promise<Event> => {
 };
 
 // Note: getBookedEvents is slow and should not be used repeatedly
-export const getBookedEvents = async (): Promise<Event[]> => {
+export const getBookedNotScannedEvents = async (): Promise<Event[]> => {
   const events: Event[] = await getAllEvents();
   const tickets: Ticket[] = await getAllTickets();
   const regEvents: Event[] = [];
@@ -99,7 +99,7 @@ export const getBookedEvents = async (): Promise<Event[]> => {
 
   for (let i1 = 0; i1 < tickets.length; i1++) {
     for (let i2 = 0; i2 < events.length; i2++) {
-      if (tickets[i1].eventId == events[i2].id) {
+      if (tickets[i1].eventId == events[i2].id && tickets[i1].isConsumed === false) {
         regEvents.push(events[i2]);
       }
     }

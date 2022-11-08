@@ -8,12 +8,11 @@ import { API } from '../../api';
 
 type ListedEventItemProps = {
   event: Event;
-  booked: boolean;
   itemStyle: ViewStyle;
   onPress: () => void;
 }
 
-export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEventItemProps) => 
+export const EventListItem = ({ event, itemStyle, onPress }: ListedEventItemProps) => 
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
     <View style={styles.headerContainer}>
       <ArkadText style={styles.eventName} text={event.name}/>
@@ -24,16 +23,7 @@ export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEvent
 
     <View style={styles.footerContainer}>
       {/* Color of box changes depending on status */}
-      {booked 
-      ? <View 
-        style={[
-          styles.eventBookedContainer, 
-          {backgroundColor: Colors.lightGreen} ]}>
-        <ArkadText 
-          style={styles.eventBookedText}
-          text="Booked" />
-      </View>
-      : <View style={[
+      <View style={[
         styles.eventBookedContainer, 
         event.capacity == event.ticketCount 
           ? {backgroundColor:Colors.darkRed}
@@ -44,7 +34,6 @@ export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEvent
           style={styles.eventBookedText}
           text={event.ticketCount + "/" + event.capacity} />
       </View>
-      }
     </View>
   </Pressable>
 

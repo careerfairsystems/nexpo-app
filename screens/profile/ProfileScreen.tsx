@@ -20,6 +20,7 @@ import CompanyProfile from '../../components/profileScreen/CompanyProfile';
 import Colors from '../../constants/Colors';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { BookedEventList } from '../../components/profileScreen/BookedEventList';
+import { ArkadText } from '../../components/StyledText';
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
@@ -50,7 +51,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   }
 
   async function getRegisteredEvents() {
-    const bookedEvents = await API.events.getBookedEvents();
+    const bookedEvents = await API.events.getBookedNotScannedEvents();
     setBookedEvents(bookedEvents);
   }
 
@@ -76,6 +77,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
       { company && <CompanyProfile company={company} />}
+      <ArkadText text={"Tickets to Events:"} style={styles.header}/>
       <View style={styles.eventList}> 
         {!bookedEvents 
           ? <ActivityIndicator />
@@ -100,12 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   header: {
-    paddingTop: '10%',
-    paddingLeft: '4%',
     width: '100%',
-    textAlign: 'left',
+    textAlign: 'center',
     fontSize: 24,
     color: Colors.darkBlue,
+    justifyContent: 'center',
   },
   eventList: {
     paddingTop: '3%',
