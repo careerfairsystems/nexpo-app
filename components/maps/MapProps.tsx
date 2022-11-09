@@ -9,7 +9,7 @@ export const FairMap: Map = {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/oversikt.png")
+        source: require("../../assets/images/maps/overview.png")
       }
     }]
   }
@@ -20,7 +20,12 @@ export const KarhusetMap: Map = {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/Karhuset.png")
+        source: require("../../assets/images/maps/karhuset1.png")
+      }
+    }, {
+      url: '',
+      props: {
+        source: require("../../assets/images/maps/karhuset2.png")
       }
     }]
   }
@@ -31,7 +36,7 @@ export const EMap: Map = {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/E-huset.png")
+        source: require("../../assets/images/maps/e.png")
       }
     }]
   }
@@ -42,12 +47,12 @@ export const SC1Map: Map = {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/Sc-1.png")
+        source: require("../../assets/images/maps/sc1.png")
       }
     }, {
       url: '',
       props: {
-        source: require("../../assets/images/maps/Sc-2.png")
+        source: require("../../assets/images/maps/sc2.png")
       }
     }]
   }

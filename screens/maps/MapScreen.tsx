@@ -13,7 +13,7 @@ export type mapNavigation = {
 };
 
 export default function MapScreen({ navigation }: mapNavigation) {
-  const imageSource = require('../../assets/images/maps/oversikt.png');
+  const imageSource = require('../../assets/images/maps/overview.png');
 
   function openMap(map: Map) {
     navigation.navigate('ZoomMapScreen', { map });
@@ -24,6 +24,7 @@ export default function MapScreen({ navigation }: mapNavigation) {
         <ArkadButton style={styles.karbutton} onPress={() => openMap(KarhusetMap)}/> 
         <ArkadButton style={styles.studiebutton} onPress={() => openMap(SC1Map)}/> 
         <ArkadButton style={styles.ebutton} onPress={() => openMap(EMap)}/> 
+        <ArkadButton style={styles.etext} onPress={() => openMap(EMap)}/> 
       </ImageBackground>
     </View>
   );
@@ -54,13 +55,13 @@ const styles = StyleSheet.create({
 
   karbutton: {
     position: "absolute",
-    width: "28%",
-    aspectRatio: 1,
+    width: "48%",
+    aspectRatio: 2.1,
     textAlign: 'center',
     opacity: 0.3,
     borderRadius: 100,
-    left: '14%',
-    bottom: '60%',
+    left: '32%',
+    bottom: '58%',
     margin: 0,
     zIndex: 1001,
     backgroundColor: Colors.lightBlue,
@@ -68,14 +69,14 @@ const styles = StyleSheet.create({
 
   studiebutton: {
     position: "absolute",
-    width: "28%",
-    aspectRatio: 1,
+    width: "48%",
+    aspectRatio: 1.9,
     opacity: 0.3,
     borderRadius: 100,
     textAlign: 'center',
     margin: "0%",
-    left: "20%",
-    bottom: "40%",
+    left: "10%",
+    bottom: "39%",
     zIndex: 1000,
     backgroundColor: Colors.lightBlue,
   },
@@ -87,8 +88,21 @@ const styles = StyleSheet.create({
     opacity: 0.3,
     textAlign: 'center',
     margin: 0,
-    left: "47%",
-    bottom: "22%",
+    left: "59%",
+    bottom: "18%",
+    borderRadius: 100,
+    backgroundColor: Colors.lightBlue,
+  },
+
+  etext: {
+    position: "absolute",
+    width: "33%",
+    aspectRatio: 1.9,
+    opacity: 0.3,
+    textAlign: 'center',
+    margin: 0,
+    left: "27%",
+    bottom: "24%",
     borderRadius: 100,
     backgroundColor: Colors.lightBlue,
   }

@@ -32,7 +32,7 @@ export function MapOverview() {
 
 
 
-const imageSource = require('../../assets/images/maps/oversikt.png');
+const imageSource = require('../../assets/images/maps/overview.png');
 const MAPPING = [
     {
       id: '0',
