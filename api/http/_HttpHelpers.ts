@@ -1,5 +1,8 @@
 import Constants from 'expo-constants';
 import { isAuthenticated, getJwt } from '../auth/_AuthState';
+import * as FileSystem from 'expo-file-system';
+
+
 const backendUrl: string = Constants.manifest?.extra?.backendUrl;
 
 /**
@@ -107,22 +110,20 @@ export const postAuth = async (endpoint: string, body: any) => {
  */
 export const postAuthFile = async (endpoint: string, dataUri: string) => {
   if (!await isAuthenticated()) {
-    // TODO Raise some kind of exception
     console.error('postAuthFile: Not authenticated');
   }
-  const jwt = await getJwt();
-
-  const data = new FormData();
-  const blob = await (await fetch(dataUri)).blob();
-  data.append('file', blob);
-
-  return fetch(apiUrl(endpoint), {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${jwt}`,
-    },
-    body: data,
-  });
+  try {
+    const response = FileSystem.uploadAsync(apiUrl(endpoint), dataUri, {
+      fieldName: 'file',
+      httpMethod: 'POST',
+      uploadType: FileSystem.FileSystemUploadType.MULTIPART
+    } )
+    return response
+  } catch (error) {
+    console.log(error)
+    return "something went wrong"
+  }
+  
 }
 
 /**

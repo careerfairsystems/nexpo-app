@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet, Pressable, Linking, ScrollView } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
+import { View } from '../../components/Themed';
 import { TextInput } from '../../components/TextInput';
 
 import { ArkadButton } from '../../components/Buttons';
@@ -40,6 +40,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
 
     if (success.ok) {
       alert('Account created, check your email for a link to finalize it before you can use it');
+      navigation.navigate('LoginScreen');
     } else if (success.status === 409) {
       alert('Email already in use');
     } else {

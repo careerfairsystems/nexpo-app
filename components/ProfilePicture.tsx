@@ -8,9 +8,10 @@ type ProfilePictureProps = {
 export default function ProfilePicture({ url }: ProfilePictureProps) {
   return (
     <Image 
-      source={ url ? {uri: url} : require('../assets/images/icon.png')}
+      source={ url ? {uri: url + "?" + new Date()} : require('../assets/images/icon.png')}
       defaultSource={require('../assets/images/icon.png')}
       style={styles.image}
+    
     />
   );
 }

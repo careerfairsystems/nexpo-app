@@ -12,6 +12,7 @@ import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from 'expo-file-system'
 
 type EditUserProfileProps = {
   user: User;
@@ -81,19 +82,25 @@ export default function EditUserProfile({
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-      base64: true,
+      aspect: [1, 1]
     });
-    if (!result.cancelled) {
-      console.log(result.uri)
-      await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg");
-      setHasProfilePicture(true);
-      alert("save profile to see profile picture");
-    } else {
-      alert("something went wrong")
+    if (result.cancelled) return
+    const fileInfo = await FileSystem.getInfoAsync(result.uri)
+    if (result.type != 'image') {
+      alert("Only images allowed")
+      return
     }
+    if (fileInfo.size ? fileInfo.size > 4000000: false) {
+      alert("Maximum filesize is 1Mb")
+      return
+    }
+
+    await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg").catch(e => {console.log(e)});
+    setHasProfilePicture(true);
+    alert("save profile to see profile picture");
+    
   };
+  
   const removeProfilePicture = async () => {
     if (hasProfilePicture == false) {
       alert("You have no profile picture")
@@ -103,23 +110,38 @@ export default function EditUserProfile({
       alert("save profile to remove profile picture");
     }
   };
-
-
   const setCV = async () => {
-    const resultFile = await DocumentPicker.getDocumentAsync({});
-    if( resultFile.type == "success" && resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
-      await API.s3bucket.postToS3 (resultFile.uri, user.id.toString(), ".pdf")
-      console.log(resultFile.uri)
-      setCvURL(true)
-    } else {
-      alert("File needs to be in PDF format and must be smaller than 2Mb")
+    let resultFile = await DocumentPicker.getDocumentAsync({});
+    if (resultFile.type == "success" ) {
+      if(resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
+        const r = resultFile.uri
+        console.log(JSON.stringify(r))
+        try {
+          const res = await API.s3bucket.postToS3(r, user.id.toString(), ".pdf")
+        
+          alert("CV uploaded")
+          setCvURL(true)
+        } catch (error) {
+          console.log(error)
+          alert("Something went wrong")
+        }
+      } else {
+        alert("File needs to be in PDF format and must be smaller than 2Mb")
+      }
     }
-  }
+}
 
   const deleteCV = async () => {
-    const dto = await API.s3bucket.deleteOnS3(user.id.toString() , ".pdf")
-    if (dto.valueOf() == true) {
+    try {
+      const dto = await API.s3bucket.deleteOnS3(user.id.toString() , ".pdf")
+      alert("CV deleted")
+      if (dto.valueOf() == true) {
+        setCvURL(false)
+      }
+    } catch (error) {
+      console.log(error)
       setCvURL(false)
+      alert("CV deleted")
     }
   }
 

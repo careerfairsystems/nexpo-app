@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet, Pressable, ScrollView } from 'react-native';
 
 import { View } from '../../components/Themed';
@@ -50,34 +50,34 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
 
   return (
     <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="handled" style={{flex: 1}} contentContainerStyle={styles.container}>
-        <Image 
-          style={styles.logo} 
-          source={require('../../assets/images/arkad_logo.png')} 
-        />
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Email" 
-            keyboardType="email-address"
-            onChangeText={setEmail}
-            onSubmitEditing={login} />
-          <TextInput
-            placeholder="Password"
-            secureTextEntry
-            onChangeText={setPassword}
-            onSubmitEditing={login} />
-          { loading
-            ? <ActivityIndicator/>
-            : <ArkadButton onPress={login} style={styles.loginButton}>
-                <ArkadText text='Sign In' style={{}}/>
-            </ArkadButton>
-          }
-          <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('SignUpScreen') }>
-            <ArkadText style={styles.signUpText}text={"Don't have an account? Sign up here!"}/>
-          </Pressable>
-          <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('ForgotPasswordScreen') }>
-            <ArkadText style={styles.signUpText} text={"Forgot your password?"}/>
-          </Pressable>
-        </View>
+      <Image 
+        style={styles.logo} 
+        source={require('../../assets/images/arkad_logo.png')} 
+      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Email" 
+          keyboardType="email-address"
+          onChangeText={setEmail}
+          onSubmitEditing={login} />
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          onChangeText={setPassword}
+          onSubmitEditing={login} />
+        { loading
+          ? <ActivityIndicator/>
+          : <ArkadButton onPress={login} style={styles.loginButton}>
+              <ArkadText text='Sign In' style={{}}/>
+          </ArkadButton>
+        }
+        <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('SignUpScreen') }>
+          <ArkadText style={styles.signUpText}text={"Don't have an account? Sign up here!"}/>
+        </Pressable>
+        <Pressable style={styles.signUpContainer} onPress={() => navigation.navigate('ForgotPasswordScreen') }>
+          <ArkadText style={styles.signUpText} text={"Forgot your password?"}/>
+        </Pressable>
+      </View>
     </ScrollView>
   );
 }

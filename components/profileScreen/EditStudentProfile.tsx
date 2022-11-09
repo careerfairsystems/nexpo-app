@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { UpdateStudentDto, Student, Programme } from "../../api/students";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
@@ -7,6 +7,8 @@ import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { Picker } from "@react-native-picker/picker";
 import Colors from "../../constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { CategoriesDropdown } from "../companies/CategoriesDroppdown";
+import { PROGRAMS } from "../companies/DroppdownItems";
 
 type EditStudentProfileProps = {
   student: Student;
@@ -19,7 +21,6 @@ export default function EditStudentProfile({
   setUpdateStudentDto,
   setEditStatus,
 }: EditStudentProfileProps) {
-  const [programme, setProgramme] = React.useState<Programme | null>(student.programme);
   const [year, setYear] = React.useState<number | null>(student.year);
   const [masterTitle, setMasterTitle] = React.useState<string | null>(
     student.masterTitle
@@ -27,6 +28,9 @@ export default function EditStudentProfile({
   const [linkedIn, setLinkedIn] = React.useState<string>(
     student.linkedIn === null ? "" : student.linkedIn
   );
+  const [programmes, setProgrammes] = useState(PROGRAMS);
+  const [programmeOpen, programmeSetOpen] = useState(false);
+  const [programme, setProgramme] = useState<Programme | null>(student.programme);
 
   React.useEffect(() => {
     const dto = {
@@ -55,23 +59,18 @@ export default function EditStudentProfile({
     <KeyboardAwareScrollView>
       <View style={styles.container}>
         <Text>Programme</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={programme}
-          key={programme}
-          onValueChange={(value, index) => {
-            if (index === 0) setProgramme(null);
-            else setProgramme(Number(value));
-          }}
-        >
-          <Picker.Item label="Select your programme" />
-          {Object.keys(Programme)
-            .map(Number)
-            .filter((key) => !isNaN(key))
-            .map((programme) => (
-              <Picker.Item label={Programme[programme].replace("_", " ").replace("_", " ")} value={programme} key={programme} />
-            ))}
-        </Picker>
+        <View style={styles.picker}>
+          <CategoriesDropdown
+            title="Desired program"
+            items={programmes}
+            setOpen={programmeSetOpen}
+            setValue={setProgramme}
+            open={programmeOpen}
+            value={programme} 
+            setItems={setProgrammes}
+            categories={true}
+            single={true}/>
+        </View>
 
         <Text>Year</Text>
         <Picker
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   picker: {
-    width: "80%",
+    width: "85%",
     maxWidth: 400,
     padding: 10,
     borderRadius: 3,

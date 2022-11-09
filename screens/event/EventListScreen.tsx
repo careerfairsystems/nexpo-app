@@ -10,6 +10,8 @@ import { EventStackParamlist } from "./EventsNavigator";
 import { UpcomingButton } from '../../components/eventList/UpcomingButton';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { Role } from '../../api/users';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 type EventsNavigation = {
   navigation: StackNavigationProp<
@@ -54,9 +56,9 @@ export default function EventListScreen({navigation}: EventsNavigation) {
     }
   }
   
-  React.useEffect(() => {
+  useFocusEffect(useCallback(() => {
     getEvents();
-  }, []);
+  }, []));
 
   if (isLoading) {
     return <ScreenActivityIndicator />

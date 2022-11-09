@@ -1,4 +1,4 @@
-import { get, getAuth, putAuth } from "../http/_HttpHelpers";
+import { getAuth, putAuth } from "../http/_HttpHelpers";
 import { format } from "date-fns";
 import { PublicCompanyDto } from "../companies";
 
@@ -11,7 +11,7 @@ export interface SSTimeslot {
   companyId: number;
 }
 export const getTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
-  const response = await get(`/timeslots/${timeslotId}`);
+  const response = await getAuth(`/timeslots/${timeslotId}`);
   const json = await response.json();
   const Timeslots = json as SSTimeslot;
   return Timeslots;
@@ -43,8 +43,8 @@ export const getCompaniesWithTimeslots = async (): Promise<PublicCompanyDto[]> =
 
 export function formatTime(start: Date, end: Date): string {
   try {
-    const st = new Date(start.toString());
-    const en = new Date(end.toString());
+    const st = new Date(start + "+01:00")
+    const en = new Date(end + "+01:00")
     const startString = format(st, "HH:mm");
     const endString = format(en, "HH:mm");
     const clock: string = `${startString} - ${endString}`;

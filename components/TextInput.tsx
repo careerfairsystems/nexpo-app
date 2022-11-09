@@ -5,7 +5,7 @@ import { TextInput as TextInputField, TextInputProps } from 'react-native';
 import Colors from '../constants/Colors';
 
 export function TextInput(props: TextInputProps) {
-  return <TextInputField placeholderTextColor={Colors.lightGray} {...props} style={[styles.input, props.style]} />;
+  return <TextInputField autoCapitalize='none' placeholderTextColor={Colors.lightGray} {...props} style={[styles.input, props.style]} />;
 }
 
 const styles = StyleSheet.create({
