@@ -47,7 +47,7 @@ export const SC1Map: Map = {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/test.png")
+        source: require("../../assets/images/maps/sc1_new.png")
       }
     }, {
       url: '',
