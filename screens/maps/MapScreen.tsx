@@ -13,7 +13,7 @@ export type mapNavigation = {
 };
 
 export default function MapScreen({ navigation }: mapNavigation) {
-  const imageSource = require('../../assets/images/maps/overview.png');
+  const imageSource = require('../../assets/images/maps/overviewtest.png');
 
   function openMap(map: Map) {
     navigation.navigate('ZoomMapScreen', { map });
@@ -55,13 +55,13 @@ const styles = StyleSheet.create({
 
   karbutton: {
     position: "absolute",
-    width: "48%",
-    aspectRatio: 2.1,
+    width: "50%",
+    aspectRatio: 1.4,
     textAlign: 'center',
-    opacity: 0.3,
+    opacity: 0,
     borderRadius: 100,
     left: '32%',
-    bottom: '58%',
+    bottom: '54%',
     margin: 0,
     zIndex: 1001,
     backgroundColor: Colors.lightBlue,
@@ -69,40 +69,40 @@ const styles = StyleSheet.create({
 
   studiebutton: {
     position: "absolute",
-    width: "48%",
-    aspectRatio: 1.9,
-    opacity: 0.3,
+    width: "60%",
+    aspectRatio: 2.2,
+    opacity: 0,
     borderRadius: 100,
     textAlign: 'center',
     margin: "0%",
-    left: "10%",
-    bottom: "39%",
+    left: "0%",
+    bottom: "35%",
     zIndex: 1000,
-    backgroundColor: Colors.lightBlue,
+    //backgroundColor: Colors.lightBlue,
   },
 
   ebutton: {
     position: "absolute",
     width: "28%",
     aspectRatio: 0.5,
-    opacity: 0.3,
+    opacity: 0,
     textAlign: 'center',
     margin: 0,
     left: "59%",
-    bottom: "18%",
+    bottom: "10%",
     borderRadius: 100,
     backgroundColor: Colors.lightBlue,
   },
 
   etext: {
     position: "absolute",
-    width: "33%",
-    aspectRatio: 1.9,
-    opacity: 0.3,
+    width: "55%",
+    aspectRatio: 2.3,
+    opacity: 0,
     textAlign: 'center',
     margin: 0,
-    left: "27%",
-    bottom: "24%",
+    left: "18%",
+    bottom: "10%",
     borderRadius: 100,
     backgroundColor: Colors.lightBlue,
   }
