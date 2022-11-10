@@ -20,12 +20,12 @@ export const KarhusetMap: Map = {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/gasque1.png")
+        source: require("../../assets/images/maps/union1.png")
       }
     }, {
       url: '',
       props: {
-        source: require("../../assets/images/maps/gasque2.png")
+        source: require("../../assets/images/maps/union2.png")
       }
     }]
   }
@@ -36,7 +36,7 @@ export const EMap: Map = {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/e_new.png")
+        source: require("../../assets/images/maps/e.png")
       }
     }]
   }
@@ -47,12 +47,12 @@ export const SC1Map: Map = {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/sc1_new.png")
+        source: require("../../assets/images/maps/sc1.png")
       }
     }, {
       url: '',
       props: {
-        source: require("../../assets/images/maps/sc2_new.png")
+        source: require("../../assets/images/maps/sc2.png")
       }
     }]
   }

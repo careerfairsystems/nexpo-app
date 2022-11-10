@@ -13,7 +13,7 @@ export type mapNavigation = {
 };
 
 export default function MapScreen({ navigation }: mapNavigation) {
-  const imageSource = require('../../assets/images/maps/overviewtest.png');
+  const imageSource = require('../../assets/images/maps/overview.png');
 
   function openMap(map: Map) {
     navigation.navigate('ZoomMapScreen', { map });
