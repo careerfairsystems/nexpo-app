@@ -4,7 +4,7 @@ export interface Map {
 }
 
 export const FairMap: Map = {
-  name: 'Fair', 
+  name: 'Fair',
   props: {
     images: [{
       url: '',
@@ -15,44 +15,44 @@ export const FairMap: Map = {
   }
 }
 export const KarhusetMap: Map = {
-  name: 'Kårhuset', 
+  name: 'Kårhuset',
   props: {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/karhuset1.png")
+        source: require("../../assets/images/maps/gasque1.png")
       }
     }, {
       url: '',
       props: {
-        source: require("../../assets/images/maps/karhuset2.png")
+        source: require("../../assets/images/maps/gasque2.png")
       }
     }]
   }
 }
 export const EMap: Map = {
-  name: 'E-huset', 
+  name: 'E-huset',
   props: {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/e.png")
+        source: require("../../assets/images/maps/e_new.png")
       }
     }]
   }
 }
 export const SC1Map: Map = {
-  name: 'Studiecentrum first floor', 
+  name: 'Studiecentrum first floor',
   props: {
     images: [{
       url: '',
       props: {
-        source: require("../../assets/images/maps/sc1.png")
+        source: require("../../assets/images/maps/sc1_new.png")
       }
     }, {
       url: '',
       props: {
-        source: require("../../assets/images/maps/sc2.png")
+        source: require("../../assets/images/maps/sc2_new.png")
       }
     }]
   }
