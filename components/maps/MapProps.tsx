@@ -52,7 +52,7 @@ export const SC1Map: Map = {
     }, {
       url: '',
       props: {
-        source: require("../../assets/images/maps/sc2.png")
+        source: require("../../assets/images/maps/sc2_new-3.png")
       }
     }]
   }
