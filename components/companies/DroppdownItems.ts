@@ -1,4 +1,4 @@
-import { Industry, Position } from "../../api/companies";
+import { Industry, Locations, Position } from "../../api/companies";
 import { SwedishProgramme, Programme } from "../../api/students";
 
 export const POSITIONS = [
@@ -64,8 +64,15 @@ export const PROGRAMS = [
   { label: "Fire Protection Engineering"   , value: SwedishProgramme.Brandingenjör, parent: 108 }, 
   { label: "Civil Engineering"   , value: SwedishProgramme.Väg_och_vatttenbyggnad, parent: 108 },
   { label: "Mechanical Engineering"   , value: SwedishProgramme.Maskinteknik, parent: 107 },
-  { label: "Mechanical Engineering with Technical Dssesign"   , value: SwedishProgramme.Maskinteknik_Teknisk_Design, parent: 107 },
+  { label: "Mechanical Engineering with Technical Design"   , value: SwedishProgramme.Maskinteknik_Teknisk_Design, parent: 107 },
   { label: "Engineering Nanoscience"   , value: SwedishProgramme.Nanoveteknik, parent: 103 },
   { label: "Engineering Physics"   , value: SwedishProgramme.Teknisk_Fysik, parent: 103 },
   { label: "Engineering Mathematics"   , value: SwedishProgramme.Teknisk_Matematik, parent: 103 },
+]
+
+export const LOCATIONS = [
+  { label: "Studie Centrum", value: Locations.StudieC },
+  { label: "Union House", value: Locations.Kårhuset },
+  { label: "E-House", value: Locations.E_huset },
+  { label: "Tent", value: Locations.Tält },
 ]
