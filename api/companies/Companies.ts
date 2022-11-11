@@ -7,7 +7,7 @@ export enum Degree {
 }
 
 export enum Locations {
-  StudieC, E_huset, Kårhuset, Tält
+  Studiecentrum, E_Building, Union_Building, Tent
 }
 
 export enum Position {
