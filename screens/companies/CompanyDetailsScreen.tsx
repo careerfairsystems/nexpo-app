@@ -68,7 +68,7 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
           </View>
           <View style={styles.contactInfoContainer}>
               <Ionicons name="map" size={18} color="black" />
-              <ArkadText text={Locations[companyLocations[company.id]].replace("_", " ")} style={styles.contactInfoText} />
+              <ArkadText text={(Locations[companyLocations[company.id]] ?? "No data").replace("_", " ")} style={styles.contactInfoText} />
           </View>
 
           <Text style={styles.descHeader}>About us</Text>

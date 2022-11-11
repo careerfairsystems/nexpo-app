@@ -3,6 +3,19 @@ type MyMapLikeType = Record<number,
  //46 , 57, 63, 91, 105, 125, 126, 128, 145, 
 export const companyLocations: MyMapLikeType = {
   // key: company id, value: location enum
+  // Studiecentrum: 0
+  // E_Building: 1
+  // Union_Building: 2
+  // Tent: 3
+  // 125 står ej på messsan
+  145: 1,
+  128: 0,
+  126: 0,
+  105: 0,
+  91: 0,
+  63: 2,
+  57: 0,
+  46: 1,
   6: 0,
   108: 2,
   49: 1,
