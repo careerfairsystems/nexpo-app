@@ -3,12 +3,14 @@ import { StyleSheet, Image, Linking } from 'react-native';
 
 import { Text, View } from '../../components/Themed';
 
-import { PublicCompanyDto } from '../../api/companies'
+import { Locations, PublicCompanyDto } from '../../api/companies'
 import { API } from '../../api';
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
 import { ScrollView } from 'react-native-gesture-handler';
 import Colors from '../../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { ArkadText } from '../../components/StyledText';
+import { companyLocations } from '../../components/companies/CompanyLocationsMap';
 
 type CompanyDetailsScreenParams = {
   route: {
@@ -63,6 +65,10 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
               onPress={() => { if (company.website) { Linking.openURL(company.website) }}}>
               { company.website ? company.website.replace(/^https?:\/\//, '') : '\u2013'}
             </Text>
+          </View>
+          <View style={styles.contactInfoContainer}>
+              <Ionicons name="map" size={18} color="black" />
+              <ArkadText text={(Locations[companyLocations[company.id]] ?? "No data").replace("_", " ")} style={styles.contactInfoText} />
           </View>
 
           <Text style={styles.descHeader}>About us</Text>

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Industry, Position, PublicCompanyDto } from '../../api/companies';
+import { Industry, Locations, Position, PublicCompanyDto } from '../../api/companies';
 import Colors from '../../constants/Colors';
 import { ArkadButton } from '../Buttons';
 import { ArkadText } from '../StyledText';
 import { Programme } from '../../api/students';
 import { CategoriesDropdown } from './CategoriesDroppdown';
-import { INDUSTRIES, POSITIONS, PROGRAMS } from './DroppdownItems';
+import { INDUSTRIES, LOCATIONS, POSITIONS, PROGRAMS } from './DroppdownItems';
+import { companyLocations } from './CompanyLocationsMap';
 
 type CompaniesModalProps = {
   companies: PublicCompanyDto[];
@@ -19,6 +20,10 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
   const [positions, setPositions] = useState(POSITIONS);
   const [industry, setIndustry] = useState(INDUSTRIES);
   const [programmes, setProgrammes] = useState(PROGRAMS);
+  const [location, setLocation] = useState(LOCATIONS);
+
+  const [locationOpen, setLocationOpen] = useState(false);
+  const [locationValue, setLocationValue] = useState<Locations[]>([]);
 
   const [positionOpen, positionSetOpen] = useState(false);
   const [positionValue, positionSetValue] = useState<Position[]>([]);
@@ -31,13 +36,14 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
 
   const setSetFilteredCompanies = () => {
     filterCompanies();
-    setIsFiltered(industryValue.length > 0 || positionValue.length > 0 || programmeValue.length > 0);
+    setIsFiltered(locationValue.length > 0 || industryValue.length > 0 || positionValue.length > 0 || programmeValue.length > 0);
   }
 
   function resetFilters() {
     positionSetValue([]);
     industrySetValue([]);
     programmeSetValue([]);
+    setLocationValue([]);
     setFilteredCompanies(companies);
   }
   function filterCompanies() {
@@ -50,6 +56,9 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
     }
     if (programmeValue.length > 0) {
       filteredCompanies = filteredCompanies.filter(company => company.desiredProgramme ? company.desiredProgramme.some(programme => programmeValue.includes(programme)): false);
+    }
+    if (locationValue.length > 0) {
+      filteredCompanies = filteredCompanies.filter(company => locationValue.includes(companyLocations[company.id]) ?? false);
     }
     setFilteredCompanies(filteredCompanies);
   }
@@ -93,6 +102,19 @@ export default function CompaniesModal({ companies, setFilteredCompanies, setIsF
           open={industryOpen}
           value={industryValue} 
           setItems={setIndustry}
+          filterCompanies={filterCompanies}
+          onChangeValue={setSetFilteredCompanies}
+          categories={false}/>
+      </View>
+      <View style={styles.modalView}>
+      <CategoriesDropdown
+          title="Select location"
+          items={location}
+          setOpen={setLocationOpen}
+          setValue={setLocationValue}
+          open={locationOpen}
+          value={locationValue}
+          setItems={setLocation}
           filterCompanies={filterCompanies}
           onChangeValue={setSetFilteredCompanies}
           categories={false}/>

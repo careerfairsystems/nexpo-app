@@ -6,6 +6,10 @@ export enum Degree {
   Bachelor, Master, PhD
 }
 
+export enum Locations {
+  Studiecentrum, E_Building, Union_Building, Tent
+}
+
 export enum Position {
   Thesis, TraineeEmployment, Internship, SummerJob, ForeignOppurtunity, PartTime
 }
