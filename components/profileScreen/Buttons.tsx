@@ -2,7 +2,7 @@ import React from "react"
 import { ArkadText } from "../StyledText"
 import { StyleSheet } from 'react-native';
 import { ArkadButton } from "../Buttons";
-import Colors from "../../constants/Colors";
+import Colors from "constants/Colors";
 
 type EditProfileParams = {
   editingProfile: boolean,

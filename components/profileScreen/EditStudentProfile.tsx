@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { UpdateStudentDto, Student, Programme } from "../../api/Students";
+import { UpdateStudentDto, Student, Programme } from "api/Students";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { Picker } from "@react-native-picker/picker";
-import Colors from "../../constants/Colors";
+import Colors from "constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CategoriesDropdown } from "../companies/CategoriesDroppdown";
 import { PROGRAMS } from "../companies/DroppdownItems";

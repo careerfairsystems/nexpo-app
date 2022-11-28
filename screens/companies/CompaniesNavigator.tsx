@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { HeaderStyles } from '../../components/HeaderStyles';
+import { HeaderStyles } from 'components/HeaderStyles';
 import CompaniesScreen from './CompaniesScreen';
 import CompanyDetailsScreen from './CompanyDetailsScreen';
 

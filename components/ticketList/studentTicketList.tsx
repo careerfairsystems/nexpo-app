@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
-import { TicketDto } from '../../api/Tickets';
-import Colors from '../../constants/Colors';
+import { TicketDto } from 'api/Tickets';
+import Colors from 'constants/Colors';
 import { StudentTicketListItem } from './studentTicketListItem';
 
 type TicketListProps = {

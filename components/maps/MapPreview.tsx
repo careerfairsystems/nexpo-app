@@ -4,7 +4,7 @@ import { ArkadText } from '../StyledText';
 import { mapNavigation } from '../../screens/maps/MapScreen';
 import { ArkadButton } from '../Buttons';
 import { Ionicons } from '@expo/vector-icons';
-import Colors from '../../constants/Colors';
+import Colors from 'constants/Colors';
 
 export function MapPreview ({ navigation, map}: mapNavigation) {
   const myMap = { map }

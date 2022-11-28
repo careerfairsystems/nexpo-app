@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import Colors from '../constants/Colors';
+import Colors from 'constants/Colors';
 
 interface buttonProps {
   children?: React.ReactNode;

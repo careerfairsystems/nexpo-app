@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, TextStyle, View } from 'react-native';
 import {Ionicons} from "@expo/vector-icons";
 import { ArkadText } from './StyledText';
-import Colors from '../constants/Colors';
+import Colors from 'constants/Colors';
 
 interface checkboxProps {
   onPress: (value: boolean) => void;

@@ -1,8 +1,8 @@
 import React from "react";
-import { Company, UpdateCompanySelfDto } from "../../api/Companies";
+import { Company, UpdateCompanySelfDto } from "api/Companies";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
-import Colors from "../../constants/Colors";
+import Colors from "constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet, Pressable, ScrollView } from 'react-native';
 
-import { View } from '../../components/Themed';
-import { TextInput } from '../../components/TextInput';
+import { View } from 'components/Themed';
+import { TextInput } from 'components/TextInput';
 
-import { ArkadButton } from '../../components/Buttons';
-import { ArkadText } from '../../components/StyledText';
+import { ArkadButton } from 'components/Buttons';
+import { ArkadText } from 'components/StyledText';
 
-import { API } from '../../api'
-import { AuthContext } from '../../components/AuthContext';
+import { API } from 'api'
+import { AuthContext } from 'components/AuthContext';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from "./AuthNavigator";
-import Colors from '../../constants/Colors';
+import Colors from 'constants/Colors';
 
 
 type LoginScreenParams = {

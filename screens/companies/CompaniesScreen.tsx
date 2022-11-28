@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AntDesign, Entypo } from '@expo/vector-icons'; 
 import { Animated, FlatList, LayoutAnimation, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { View } from '../../components/Themed';
-import { API } from '../../api';
-import { PublicCompanyDto } from '../../api/Companies';
-import { CompanyListItem } from '../../components/companies/CompanyListItem';
+import { View } from 'components/Themed';
+import { API } from 'api';
+import { PublicCompanyDto } from 'api/Companies';
+import { CompanyListItem } from 'components/companies/CompanyListItem';
 import { CompanyStackParamList } from "./CompaniesNavigator";
-import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import Colors from '../../constants/Colors';
-import CompaniesModal from '../../components/companies/CompaniesModal';
-import { ArkadButton } from '../../components/Buttons';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import Colors from 'constants/Colors';
+import CompaniesModal from 'components/companies/CompaniesModal';
+import { ArkadButton } from 'components/Buttons';
 import { toggleAnimation } from '../../animations/toggleAnimation';
 
 type companiesNavigation = {

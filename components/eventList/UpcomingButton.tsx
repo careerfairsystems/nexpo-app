@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, Pressable, StyleSheet } from 'react-native';
-import Colors from '../../constants/Colors';
-import { Text, View } from '../../components/Themed';
+import Colors from 'constants/Colors';
+import { Text, View } from 'components/Themed';
 import { ArkadButton } from '../Buttons';
 
 type buttonProps = {

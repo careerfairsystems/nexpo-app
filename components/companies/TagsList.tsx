@@ -1,8 +1,8 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { Industry, Position, PublicCompanyDto } from '../../api/Companies';
+import { Industry, Position, PublicCompanyDto } from 'api/Companies';
 
-import Colors from '../../constants/Colors';
+import Colors from 'constants/Colors';
 import { ArkadText } from '../StyledText';
 
 type TagsListProps = {

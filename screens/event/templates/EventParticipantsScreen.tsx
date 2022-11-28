@@ -2,18 +2,18 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { useFocusEffect } from '@react-navigation/native';
-import { View } from '../../../components/Themed';
+import { View } from 'components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { EventStackParamlist } from '../EventsNavigator';
-import { Event } from '../../../api/Events';
-import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
-import { ScanQRButton } from '../../../components/profileScreen/Buttons';
+import { Event } from 'api/Events';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { ScanQRButton } from 'components/profileScreen/Buttons';
 import { useCallback } from 'react';
-import { TicketDto } from '../../../api/Tickets';
-import { API } from '../../../api';
-import { StudentTicketList } from '../../../components/ticketList/studentTicketList';
-import { ArkadText } from '../../../components/StyledText';
-import Colors from '../../../constants/Colors';
+import { TicketDto } from 'api/Tickets';
+import { API } from 'api';
+import { StudentTicketList } from 'components/ticketList/studentTicketList';
+import { ArkadText } from 'components/StyledText';
+import Colors from 'constants/Colors';
 
 type EventNavigation = {
   navigation: StackNavigationProp<EventStackParamlist,'EventSwitchScreen'>;
