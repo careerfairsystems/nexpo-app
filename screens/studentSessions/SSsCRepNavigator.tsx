@@ -3,7 +3,7 @@ import * as React from 'react';
 import SSsListScreen from "./SSsListScreen";
 import SSsApplicationDetailsScreen from './SSsApplicationDetailsScreen';
 import SSsSwitchScreen from './SSsSwitchScreen';
-import { HeaderStyles } from '../../components/HeaderStyles';
+import { HeaderStyles } from 'components/HeaderStyles';
 
 
 export type SSsStackParamlist = {

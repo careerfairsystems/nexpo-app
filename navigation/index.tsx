@@ -10,11 +10,11 @@ import * as React from 'react';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
-import { AuthContext } from '../components/AuthContext';
+import { AuthContext } from 'components/AuthContext';
 
-import { API } from '../api';
+import { API } from 'api';
 import { AuthNavigator } from '../screens/auth/AuthNavigator';
-import Colors from '../constants/Colors';
+import Colors from 'constants/Colors';
 
 
 export default function Navigation() {

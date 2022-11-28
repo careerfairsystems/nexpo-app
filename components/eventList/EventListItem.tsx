@@ -1,10 +1,10 @@
 import React from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
-import { bookedEvent, Event } from '../../api/Events';
+import { bookedEvent, Event } from 'api/Events';
 import { ArkadText } from '../StyledText';
-import Colors from '../../constants/Colors';
-import { API } from '../../api';
+import Colors from 'constants/Colors';
+import { API } from 'api';
 
 type ListedEventItemProps = {
   event: Event;

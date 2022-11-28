@@ -5,7 +5,7 @@ import SignUpScreen from './SignUpScreen';
 import FinalizeSignUpScreen from './FinalizeSignUpScreen';
 import ForgotPasswordScreen from './ForgotPasswordScreen';
 import ResetPasswordScreen from './ResetPasswordScreen';
-import { HeaderStyles } from '../../components/HeaderStyles';
+import { HeaderStyles } from 'components/HeaderStyles';
 
 
 export type AuthStackParamList = {

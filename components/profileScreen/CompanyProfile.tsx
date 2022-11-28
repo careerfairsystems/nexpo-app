@@ -1,9 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Company } from '../../api/Companies';
+import { Company } from 'api/Companies';
 import { View, Text } from '../Themed';
 import { Linking, StyleSheet } from 'react-native';
-import Colors from '../../constants/Colors';
+import Colors from 'constants/Colors';
 import { Image } from 'react-native';
 import { ArkadText } from '../StyledText';
 

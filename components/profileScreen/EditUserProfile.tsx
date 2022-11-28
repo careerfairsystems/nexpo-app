@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { UpdateUserDto, User } from "../../api/Users";
+import { UpdateUserDto, User } from "api/Users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
 import { Linking, Platform, StyleSheet } from "react-native";
-import Colors from "../../constants/Colors";
+import Colors from "constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
-import { API } from "../../api";
+import { API } from "api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
