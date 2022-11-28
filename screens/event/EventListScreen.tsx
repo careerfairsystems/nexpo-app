@@ -9,7 +9,7 @@ import { EventList } from 'components/eventList/EventList';
 import { EventStackParamlist } from "./EventsNavigator";
 import { UpcomingButton } from 'components/eventList/UpcomingButton';
 import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
-import { Role } from 'api/Users';
+import { Role } from "api/Role";
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 

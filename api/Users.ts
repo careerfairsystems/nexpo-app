@@ -1,7 +1,7 @@
 import { Linking } from 'react-native';
-import { API } from './API';
+import { Role } from './Role';
+import { getFromS3 } from './S3bucket';
 import { getAuth, putAuth, deleteAuth } from './_HttpHelpers';
-
 export interface User {
   id: number;
   email: string;
@@ -14,12 +14,6 @@ export interface User {
   companyId: number | null;
   hasCv: boolean | null;
   profilePictureUrl: string | null;
-}
-
-export enum Role {
-  Administrator,
-  Student,
-  CompanyRepresentative,
 }
 
 export interface UpdateUserDto {
@@ -103,7 +97,7 @@ export const removeMe = async (): Promise<boolean> => {
  */
 export const downloadFile = async (userId: number, fileType: string) => {
   try {
-    const Uri = await API.s3bucket.getFromS3(userId.toString(), fileType)
+    const Uri = await getFromS3(userId.toString(), fileType)
     Linking.canOpenURL(Uri).then((supported) => {
       return Linking.openURL(Uri);
     });
