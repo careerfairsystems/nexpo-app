@@ -2,8 +2,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import MapScreen from "./MapScreen";
 import ZoomMapScreen from './ZoomMapScreen';
-import { Map } from '../../components/maps/MapProps';
-import { HeaderStyles } from '../../components/HeaderStyles';
+import { Map } from 'components/maps/MapProps';
+import { HeaderStyles } from 'components/HeaderStyles';
 
 
 export type MapStackParamList = {

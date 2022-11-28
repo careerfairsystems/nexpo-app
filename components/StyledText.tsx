@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Text, TextProps } from './Themed';
 import { StyleSheet, TextStyle } from 'react-native';
-import Colors from '../constants/Colors'
+import Colors from 'constants/Colors'
 
 export function DefaultText(props: TextProps) {
   return <Text {...props} style={[props.style, { fontFamily: 'main-font-bold' }]} />;

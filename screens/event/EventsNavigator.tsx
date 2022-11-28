@@ -3,7 +3,7 @@ import * as React from 'react';
 import EventListScreen from "./EventListScreen";
 import QRScreen from './QRScreen';
 import EventSwitchScreen from './EventSwitchScreen';
-import { HeaderStyles } from '../../components/HeaderStyles';
+import { HeaderStyles } from 'components/HeaderStyles';
 
 
 export type EventStackParamlist = {

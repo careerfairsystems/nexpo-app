@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
-import { TextInput } from '../../components/TextInput';
+import { Text, View } from 'components/Themed';
+import { TextInput } from 'components/TextInput';
 
-import { ArkadButton } from '../../components/Buttons';
-import { ArkadText } from '../../components/StyledText';
+import { ArkadButton } from 'components/Buttons';
+import { ArkadText } from 'components/StyledText';
 
-import { API } from '../../api'
+import { API } from 'api'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from "./AuthNavigator";
 

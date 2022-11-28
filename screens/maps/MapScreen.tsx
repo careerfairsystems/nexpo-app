@@ -1,11 +1,11 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StyleSheet, ImageBackground, Text } from 'react-native';
-import { EMap, KarhusetMap, Map, SC1Map } from '../../components/maps/MapProps';
-import { View } from '../../components/Themed';
+import { EMap, KarhusetMap, Map, SC1Map } from 'components/maps/MapProps';
+import { View } from 'components/Themed';
 import { MapStackParamList } from "./MapNavigator";
-import { ArkadButton } from '../../components/Buttons';
-import Colors from '../../constants/Colors';
+import { ArkadButton } from 'components/Buttons';
+import Colors from 'constants/Colors';
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, 'MapScreen'>;

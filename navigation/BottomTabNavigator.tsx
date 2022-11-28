@@ -7,21 +7,21 @@ import { Ionicons, MaterialIcons  } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import Colors from '../constants/Colors';
+import Colors from 'constants/Colors';
 
-import { getMe, Role, User } from '../api/Users';
+import { getMe, Role, User } from 'api/Users';
 
-import { API } from '../api';
-import ScreenActivityIndicator from '../components/ScreenActivityIndicator';
+import { API } from 'api';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
 import { useContext } from 'react';
-import { AuthContext } from '../components/AuthContext';
+import { AuthContext } from 'components/AuthContext';
 import { MapNavigator } from '../screens/maps/MapNavigator';
 import { ProfileNavigator } from '../screens/profile/ProfileNavigator';
 import { EventsNavigator } from '../screens/event/EventsNavigator';
 import { CompaniesNavigator } from '../screens/companies/CompaniesNavigator';
 import { SSsStudentNavigator } from '../screens/studentSessions/SSsStudentNavigator';
 import { SSsCRepNavigator } from '../screens/studentSessions/SSsCRepNavigator';
-import { HeaderStyles } from '../components/HeaderStyles';
+import { HeaderStyles } from 'components/HeaderStyles';
 
 
 export type BottomTabParamList = {

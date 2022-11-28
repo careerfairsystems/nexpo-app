@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '../../../components/Themed';
+import { View } from 'components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '../../../api';
-import { ApplicationsList } from '../../../components/sSApplication/SSApplicationList';
+import { API } from 'api';
+import { ApplicationsList } from 'components/sSApplication/SSApplicationList';
 import { SSsStackParamlist } from "../SSsCRepNavigator";
-import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
-import { SSApplicationDto } from '../../../api/Applications';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { SSApplicationDto } from 'api/Applications';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-import { ArkadText } from '../../../components/StyledText';
-import Colors from '../../../constants/Colors';
+import { ArkadText } from 'components/StyledText';
+import Colors from 'constants/Colors';
 
 export default function SSsApplicationsListScreen(navigation: StackNavigationProp<SSsStackParamlist,'SSsSwitchScreen'>) {
   const [isLoading, setLoading] = React.useState<boolean>(true);

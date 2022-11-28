@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ArkadText } from '../StyledText';
-import Colors from '../../constants/Colors';
+import Colors from 'constants/Colors';
 
 type ListedTimeslotProps = {
   name: string;

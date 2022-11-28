@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet } from 'react-native';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
-import { Map } from '../../components/maps/MapProps';
-import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { View } from '../../components/Themed';
-import Colors from '../../constants/Colors';
+import { Map } from 'components/maps/MapProps';
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { View } from 'components/Themed';
+import Colors from 'constants/Colors';
 
 type MapScreenParams = {
   route: {

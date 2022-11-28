@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Image, ActivityIndicator, StyleSheet, Pressable, Linking, ScrollView } from 'react-native';
 
-import { View } from '../../components/Themed';
-import { TextInput } from '../../components/TextInput';
+import { View } from 'components/Themed';
+import { TextInput } from 'components/TextInput';
 
-import { ArkadButton } from '../../components/Buttons';
-import { ArkadText } from '../../components/StyledText';
+import { ArkadButton } from 'components/Buttons';
+import { ArkadText } from 'components/StyledText';
 
-import { API } from '../../api'
+import { API } from 'api'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from "./AuthNavigator";
-import Colors from '../../constants/Colors';
-import { Checkbox } from '../../components/Checkbox';
+import Colors from 'constants/Colors';
+import { Checkbox } from 'components/Checkbox';
 
 type SignUpScreenParams = {
   navigation: StackNavigationProp<

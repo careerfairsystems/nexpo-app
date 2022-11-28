@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { Event } from '../../api/Events';
+import { Event } from 'api/Events';
 import { EventListItem } from '../eventList/EventListItem';
 
 type BookedEventListProps = {
