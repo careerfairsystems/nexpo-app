@@ -30,7 +30,7 @@ export default {
     package: 'se.arkadtlth.nexpo',
     versionCode: 14,
     adaptiveIcon: {
-      foregroundImage: './assets/images/adaptive-icon.png',
+      foregroundImage: './assets/images/android_icon.png',
       backgroundColor: '#F66628',
     },
     permissions: ['CAMERA'],
