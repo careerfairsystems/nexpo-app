@@ -1,28 +1,5 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers'; 
 
-export enum SwedishProgramme {
-  Brandingenjör,
-  Maskinteknik_Teknisk_Design,
-  Elektroteknik,
-  Ekosystemteknik,
-  Maskinteknik,
-  Nanoveteknik,
-  Bioteknik,
-  Industridesign,
-  Arkitekt,
-  Informations_och_Kommunikationsteknik,
-  Kemiteknik,
-  Byggteknik_med_Järnvägsteknik,
-  Väg_och_vatttenbyggnad,
-  Byggteknik_med_arkitektur,
-  Industriell_ekonomi,
-  Teknisk_Matematik,
-  Medicinteknik,
-  Lantmäteri,
-  Datateknik,
-  Teknisk_Fysik,
-  Byggteknik_med_väg_och_trafikteknik
-}
 export enum Programme {
   Fire_engineer,
   Mechanical_engineering_with_technical_design,
