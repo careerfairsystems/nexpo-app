@@ -1,6 +1,6 @@
-import { getAuth, putAuth } from "../http/_HttpHelpers";
+import { getAuth, putAuth } from "./_HttpHelpers";
 import { format } from "date-fns";
-import { PublicCompanyDto } from "../companies";
+import { PublicCompanyDto } from "./Companies";
 
 export interface SSTimeslot {
   id: number;

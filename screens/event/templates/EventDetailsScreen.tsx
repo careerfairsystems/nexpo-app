@@ -9,13 +9,13 @@ import {
 import Colors from "../../../constants/Colors";
 
 import { API } from "../../../api";
-import { bookedEvent, Event } from "../../../api/events";
+import { bookedEvent, Event } from "../../../api/Events";
 import {
   CreateTicketDto,
   getTicketForEvent,
   removeTicket,
   Ticket,
-} from "../../../api/tickets";
+} from "../../../api/Tickets";
 
 import { View } from "../../../components/Themed";
 import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator";

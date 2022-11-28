@@ -2,7 +2,7 @@ import { StyleSheet, Image } from 'react-native';
 
 import { Text, View } from '../Themed';
 
-import { PublicCompanyDto } from '../../api/companies'
+import { PublicCompanyDto } from '../../api/Companies'
 import Colors from '../../constants/Colors';
 
 

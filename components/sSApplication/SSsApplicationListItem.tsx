@@ -1,10 +1,10 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { SSApplicationDto } from '../../api/sSApplications';
+import { SSApplicationDto } from '../../api/Applications';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
-import { Programme } from '../../api/students';
+import { Programme } from '../../api/Students';
 
 type ListedApplicationProps = {
   application: SSApplicationDto;

@@ -5,14 +5,14 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { API } from '../../api'
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { Student } from '../../api/students';
+import { Student } from '../../api/Students';
 import StudentProfile from '../../components/profileScreen/StudentProfile';
 import Colors from '../../constants/Colors';
-import { SSApplication } from '../../api/sSApplications';
+import { SSApplication } from '../../api/Applications';
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText } from '../../components/StyledText';
 import UserProfile from '../../components/profileScreen/UserProfile';
-import { User } from '../../api/users';
+import { User } from '../../api/Users';
 import { CardWithHeader } from '../../components/sSApplication/SSApplicationMsg';
 
 export type SSsStudentInfoProps = {
@@ -27,7 +27,7 @@ export default function SSsStudentInfo({ studentId }: SSsStudentInfoProps) {
 
   async function getAppAndStudent() {
     const sdnt = await API.students.getStudent(studentId);
-    const app = await API.sSApplications.getApplicationForStudent(sdnt.id);
+    const app = await API.applications.getApplicationForStudent(sdnt.id);
     const user = await API.users.getUser(sdnt.userId);
     setApplication(app ?? null);
     setStudent(sdnt);

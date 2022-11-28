@@ -8,7 +8,7 @@ import Colors from "../../constants/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { EventStackParamlist } from "./EventsNavigator";
 import ScreenActivityIndicator from "../../components/ScreenActivityIndicator";
-import { Ticket } from "../../api/tickets";
+import { Ticket } from "../../api/Tickets";
 
 interface ScanResult{
   type: string,
