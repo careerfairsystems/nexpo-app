@@ -9,7 +9,8 @@ import * as React from 'react';
 
 import Colors from 'constants/Colors';
 
-import { getMe, Role, User } from 'api/Users';
+import { getMe, User } from 'api/Users';
+import { Role } from "api/Role";
 
 import { API } from 'api';
 import ScreenActivityIndicator from 'components/ScreenActivityIndicator';

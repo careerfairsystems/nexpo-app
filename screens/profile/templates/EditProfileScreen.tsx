@@ -5,7 +5,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import Colors from 'constants/Colors';
 
 import { API } from 'api'
-import { Role, UpdateUserDto, User } from 'api/Users';
+import { UpdateUserDto, User } from 'api/Users';
+import { Role } from "api/Role";
 import { Company, UpdateCompanySelfDto } from 'api/Companies';
 import { ProfileStackParamList } from "../ProfileNavigator";
 
