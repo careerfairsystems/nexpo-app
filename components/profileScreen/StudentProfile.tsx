@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Text } from '../Themed';
-import { StyleSheet } from 'react-native';
-import Colors from '../../constants/Colors';
-import { Guild, Student } from '../../api/students';
+import { Linking, Pressable, StyleSheet } from 'react-native';
+import Colors from 'constants/Colors';
+import { Programme, Student } from 'api/Students';
+import { ArkadButton } from '../Buttons';
+import { ArkadText } from '../StyledText';
 
 type StudentProfileProps = {
   student: Student;
@@ -11,20 +13,31 @@ type StudentProfileProps = {
 export default function StudentProfile({ student }: StudentProfileProps) {
   return <>
     <View style={styles.container}>
-      <Text style={styles.label}>Guild</Text>
-      <Text style={styles.text}>{student.guild ? `${Guild[student.guild]}-Guild` : '\u2013'}</Text>
+      <Text style={styles.label}>Programme</Text>
+      <Text style={styles.text}>{student.programme ? `${Programme[student.programme].replace("_", " ").replace("_", " ").replace("_", " ").replace("_", " ")}` : '\u2013'}</Text>
 
       <Text style={styles.label}>Year</Text>
       <Text style={styles.text}>{student.year ? student.year : '\u2013'}</Text>
 
       <Text style={styles.label}>Master</Text>
       <Text style={styles.text}>{student.masterTitle ? student.masterTitle : '\u2013'}</Text>
-
-      <Text style={styles.label}>LinkedIn</Text>
-      <Text style={styles.text}>{student.linkedIn ? student.linkedIn : '\u2013'}</Text>
+      
+      {(student.linkedIn !== "" && student.linkedIn !== null) && OpenURLButton(student.linkedIn)}
     </View>
   </>;
 }
+const OpenURLButton = ( url: string ) => {
+  const handlePress = useCallback(async () => {
+      await Linking.openURL(url);
+
+  }, [url]);
+
+  return (
+    <ArkadButton onPress={handlePress} >
+      <ArkadText text={"Open linkedIn profile"}/>
+    </ArkadButton>
+    );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -33,12 +46,19 @@ const styles = StyleSheet.create({
   },
   label: {
     marginTop: 8,
-    fontSize: 12,
-    fontFamily: 'montserrat',
+    fontSize: 14,
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   text: {
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
+    
+  },
+  url: {
+    fontFamily: 'main-font-bold',
+    color: Colors.lightBlue,
+    textDecorationLine: 'underline',
+    textAlign: 'center',
   },
 });

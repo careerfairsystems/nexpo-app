@@ -1,23 +1,25 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
+import { View } from 'components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from '../../api';
-import { SSTimeslot } from '../../api/studentsessions';
-import { TimeslotList } from '../../components/studentSessionList/SSList';
-import SSCompInfo from '../../components/studentSessionList/SSCompInfo';
-import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
-import { ArkadButton } from '../../components/Buttons';
-import { ArkadText } from '../../components/StyledText';
-import { PublicCompanyDto } from '../../api/companies/Companies';
+import { API } from 'api';
+import { SSTimeslot } from 'api/StudentSessions';
+import { TimeslotList } from 'components/studentSessionList/SSList';
+import SSCompInfo from 'components/studentSessionList/SSCompInfo';
+import { SSsStackParamlist } from "./SSsStudentNavigator";
+import { ArkadButton } from 'components/Buttons';
+import { ArkadText, NoButton } from 'components/StyledText';
+import { PublicCompanyDto } from 'api/Companies';
 import { FlatList } from 'react-native-gesture-handler';
-import { getMe, Role, User } from '../../api/users/Users';
-import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { ApplicationAcceptedDto, SSApplication } from '../../api/sSApplications';
-import { Student } from '../../api/students';
+import { getMe, User } from 'api/Users';
+import { Role } from "api/Role";
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { ApplicationAcceptedDto } from 'api/Applications';
+import { Student } from 'api/Students';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
+import Colors from 'constants/Colors';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<
@@ -32,7 +34,7 @@ type SSsNavigation = {
 };
 
 export default function SSsListScreen({navigation, route}: SSsNavigation) {
-  const companyId = route.params.companyId;
+  const id = route.params.companyId;
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [ssTimeslots, setTimeslots] = React.useState<SSTimeslot[] | null>(null);
   const [company, setCompany] = React.useState< PublicCompanyDto | null>(null);
@@ -41,10 +43,10 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   const [accepted, setAccepted] = React.useState< ApplicationAcceptedDto | null>(null);
 
   const getTimeslotsAndCompany = async () => {
-    const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(companyId);
-    const company = await API.companies.getCompany(companyId);
+    const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(id);
+    const company = await API.companies.getCompany(id);
     const user = await getMe();
-    const acc = user.role === Role.Student ? await API.sSApplications.getApplicationAccepted(companyId): null;
+    const acc = user.role === Role.Student ? await API.applications.getApplicationAccepted(id): null;
     const stdnt = user.role === Role.Student ? await API.students.getMe(): null;
     setStudent(stdnt);
     setAccepted(acc);
@@ -53,13 +55,14 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
     setTimeslots(ssTimeslots);
   }
 
-  const openSSDetails = (timeslotId: number) => {
-    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsDetailsScreen',{timeslotId}) : 
+  const openSSDetails = (id: number) => {
+    user?.role === Role.CompanyRepresentative || accepted?.accepted ? navigation.navigate('SSsSwitchScreen',{id: id, screen : "DetailsScreen"}) : 
     alert('You must first send an application and get it accepted to be able to book a time');
   }
 
   const openSSsApplicaion = () => {
-    navigation.navigate(user?.role === Role.Student ? 'SSsApplicationScreen' : 'SSsApplicationsListScreen', {companyId});
+    const screen = user?.role == Role.Student ? "application" : "applicationList"
+    navigation.navigate('SSsSwitchScreen', {id: id, screen: screen});
   }
 
   useFocusEffect(useCallback(() => {
@@ -69,11 +72,7 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
   }, []));
 
   if (isLoading || company == null || user == null) {
-    return(
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    )
+    return <ScreenActivityIndicator />
   }
   
   return (
@@ -83,15 +82,17 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
         renderItem={null}
         ListHeaderComponent={
           <>
-            <SSCompInfo 
+            {user.role === Role.Student && <SSCompInfo 
               company={company}
-            />
-            {!accepted?.accepted && <ArkadButton 
+            />}
+            {!accepted?.accepted ? <ArkadButton 
               style={styles.button} 
               onPress={ () => openSSsApplicaion()}
             >
               <ArkadText text= {user.role === Role.CompanyRepresentative ? " See applications!" : "Apply here!"}/>
-            </ArkadButton>}     
+            </ArkadButton>:
+            <NoButton style={styles.accepted} text={'You have been accepted! \n Book a timeslot below.'}/>
+            }     
           </>
         } 
         ListFooterComponent={  
@@ -110,6 +111,13 @@ export default function SSsListScreen({navigation, route}: SSsNavigation) {
 }
 
 const styles = StyleSheet.create({
+  accepted: {
+    color: Colors.lightGreen,
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 10,
+  },
   container: {
     alignItems: 'center'
   },

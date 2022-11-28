@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { SSApplication, SSApplicationDto } from '../../api/sSApplications';
-import Colors from '../../constants/Colors';
+import { SSApplicationDto } from 'api/Applications';
+import Colors from 'constants/Colors';
 import { SSListItem } from './SSsApplicationListItem';
 
 type ApplicationsListProps = {
@@ -40,13 +40,12 @@ export function ApplicationsList ({ applications, onPress }: ApplicationsListPro
 }
 const styles = StyleSheet.create({
   ssBox: {
-    width: width * 0.85,
-    height: height * 0.12,
+    width: width * 0.95,
   },
   text: {
     paddingTop: 40,
-    fontFamily: 'montserrat',
-    fontSize: 20,
+    fontFamily: 'main-font-bold',
+    fontSize: 24,
     color: Colors.darkBlue,
   },
 });

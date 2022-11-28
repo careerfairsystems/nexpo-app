@@ -1,22 +1,23 @@
 import React from 'react';
 import { Text, Dimensions, StyleSheet, View } from 'react-native';
 
-import Colors from '../../constants/Colors';
+import Colors from 'constants/Colors';
 
 const { width } = Dimensions.get('window')
 
 type ApplicationsMsgProps = {
+  header: string;
   msg: string;
 }
 
-export function ApplicationsMsg ({msg}: ApplicationsMsgProps) {
+export function CardWithHeader ({header, msg}: ApplicationsMsgProps) {
   return (
     <View style={styles.motivationBox}> 
       <View style={styles.headerBox}>
-        <Text style={styles.headerText}> Student motivation </Text>
+        <Text style={styles.headerText}>{header}</Text>
       </View>
       <View style={styles.msgBox}>
-        <Text style={styles.motivationText}> {msg} </Text>
+        <Text style={styles.motivationText}>{msg}</Text>
       </View>
     </View>
   )
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    width: width * 0.85,
+    width: width * 0.75,
     borderWidth: 2,
     borderColor: Colors.darkBlue,
     borderRadius: 10,
@@ -44,14 +45,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     padding: 15,
-    fontFamily: 'montserrat',
-    fontSize: 16,
+    fontFamily: 'main-font-bold',
+    fontSize: 22,
     color: Colors.white,
   },
   motivationText: {
     padding: 10,
-    fontFamily: 'montserrat',
-    fontSize: 14,
+    fontFamily: 'main-font',
+    fontSize: 19,
     color: Colors.darkBlue,
   },
 });

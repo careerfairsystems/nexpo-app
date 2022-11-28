@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image, Linking } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 
 import { Text, View } from '../Themed';
 
-import { PublicCompanyDto } from '../../api/companies'
-import { API } from '../../api';
-import ScreenActivityIndicator from '../ScreenActivityIndicator';
-import { ScrollView } from 'react-native-gesture-handler';
-import Colors from '../../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
+import { PublicCompanyDto } from 'api/Companies'
+import Colors from 'constants/Colors';
+
 
 type CompanyDetailsScreenProps= {
   company: PublicCompanyDto;
@@ -60,8 +56,8 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 24,
     paddingBottom: 8,
-    fontSize: 24,
-    fontFamily: 'montserrat',
+    fontSize: 32,
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   contactInfoContainer: {
@@ -72,23 +68,23 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   contactInfoText: {
-    fontSize: 14,
+    fontSize: 18,
     paddingLeft: 8,
-    fontFamily: 'montserrat',
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   descHeader: {
     alignSelf: 'center',
     textDecorationLine: 'underline',
     paddingTop: 16,
-    fontSize: 18,
-    fontFamily: 'montserrat',
+    fontSize: 22,
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
   desc: {
     paddingTop: 6,
-    fontSize: 14,
-    fontFamily: 'montserrat',
+    fontSize: 18,
+    fontFamily: 'main-font-bold',
     color: Colors.darkBlue,
   },
 });

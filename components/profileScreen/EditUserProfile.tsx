@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { UpdateUserDto, User } from "../../api/users";
+import { UpdateUserDto, User } from "api/Users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { Platform, StyleSheet } from "react-native";
-import Colors from "../../constants/Colors";
+import { Linking, Platform, StyleSheet } from "react-native";
+import Colors from "constants/Colors";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/EditProfileScreen";
+import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
-import { API } from "../../api";
+import { API } from "api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from 'expo-file-system'
 
 type EditUserProfileProps = {
   user: User;
@@ -23,14 +25,17 @@ export default function EditUserProfile({
   setUpdateUserDto,
   setEditStatus,
 }: EditUserProfileProps) {
-  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(
-    user.profilePictureUrl
+  const [hasProfilePicture, setHasProfilePicture] = useState<boolean | null>(
+    user.hasProfilePicture
   );
   const [firstName, setFirstName] = useState<string | null>(user.firstName);
   const [lastName, setLastName] = useState<string | null>(user.lastName);
   const [phoneNr, setPhoneNr] = useState<string | null>(user.phoneNr);
   const [foodPreferences, setFoodPreferences] = useState<string | null>(
     user.foodPreferences
+  );
+  const [hasCv, setCvURL] = useState<boolean| null> (
+    user.hasCv
   );
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
@@ -53,7 +58,6 @@ export default function EditUserProfile({
         message: null,
       });
     }
-
     const dto = {
       firstName,
       lastName,
@@ -73,47 +77,116 @@ export default function EditUserProfile({
           "We need camera roll permissions to upload a new profile picture"
         );
         return;
-      }
-    }
-
+      } 
+    } 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-      base64: true,
+      aspect: [1, 1]
     });
+    if (result.cancelled) return
+    const fileInfo = await FileSystem.getInfoAsync(result.uri)
+    if (result.type != 'image') {
+      alert("Only images allowed")
+      return
+    }
+    if (fileInfo.size ? fileInfo.size > 4000000: false) {
+      alert("Maximum filesize is 1Mb")
+      return
+    }
 
-    if (!result.cancelled) {
-      const dto = await API.files.updateProfilePicture(
-        result.base64 ? result.base64 : result.uri
-      );
-      setProfilePictureUrl(dto.url);
+    await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg").catch(e => {console.log(e)});
+    setHasProfilePicture(true);
+    alert("save profile to see profile picture");
+    
+  };
+  
+  const removeProfilePicture = async () => {
+    if (hasProfilePicture == false) {
+      alert("You have no profile picture")
+    } else{
+      await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
+      setHasProfilePicture(false);
+      alert("save profile to remove profile picture");
     }
   };
+  const setCV = async () => {
+    let resultFile = await DocumentPicker.getDocumentAsync({});
+    if (resultFile.type == "success" ) {
+      if(resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
+        const r = resultFile.uri
+        console.log(JSON.stringify(r))
+        try {
+          const res = await API.s3bucket.postToS3(r, user.id.toString(), ".pdf")
+        
+          alert("CV uploaded")
+          setCvURL(true)
+        } catch (error) {
+          console.log(error)
+          alert("Something went wrong")
+        }
+      } else {
+        alert("File needs to be in PDF format and must be smaller than 2Mb")
+      }
+    }
+}
 
-  const removeProfilePicture = async () => {
-    await API.files.removeProfilePicture();
-    setProfilePictureUrl(null);
-  };
+  const deleteCV = async () => {
+    try {
+      const dto = await API.s3bucket.deleteOnS3(user.id.toString() , ".pdf")
+      alert("CV deleted")
+      if (dto.valueOf() == true) {
+        setCvURL(false)
+      }
+    } catch (error) {
+      console.log(error)
+      setCvURL(false)
+      alert("CV deleted")
+    }
+  }
+
+  const downloadCV = async () => {
+    const Uri = await API.s3bucket.getFromS3(user.id.toString(), ".pdf")
+    Linking.canOpenURL(Uri).then(() => {
+      return Linking.openURL(Uri);
+    });
+  }
 
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <ProfilePicture url={profilePictureUrl} />
+        <ProfilePicture url={user.profilePictureUrl}
+        />   
+        
         <ArkadButton onPress={setProfilePicture}>
-          {profilePictureUrl ? (
+          {hasProfilePicture ? (
             <ArkadText text="Change profile picture" />
           ) : (
             <ArkadText text="Set profile picture" />
           )}
         </ArkadButton>
-        {profilePictureUrl && (
+        {hasProfilePicture && (
           <ArkadButton onPress={removeProfilePicture}>
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
+          
         )}
-
+        <ArkadButton onPress={setCV}>
+          {hasCv ? (
+            <ArkadText text="Update CV" />
+            ) : (
+            <ArkadText text="Upload CV" />
+          )}
+        </ArkadButton>
+        {hasCv &&
+          <ArkadButton onPress={deleteCV} style={styles.hasCv}>
+            <ArkadText text="Delete CV" />
+          </ArkadButton>
+        }
+        {hasCv &&
+        <ArkadButton onPress ={downloadCV}><ArkadText text="Download CV" /></ArkadButton>
+        } 
+        
         <Text>First name</Text>
         <TextInput
           style={styles.textInput}
@@ -169,11 +242,13 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
   },
+  hasCv: {
+    backgroundColor: Colors.darkRed
+  },
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 24,
-    fontFamily: "montserrat",
+    fontSize: 32,
     color: Colors.darkBlue,
   },
   textInput: {

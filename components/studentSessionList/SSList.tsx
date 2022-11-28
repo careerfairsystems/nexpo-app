@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
-import { Student } from '../../api/students';
+import { Student } from 'api/Students';
 
-import { SSTimeslot } from '../../api/studentsessions';
-import Colors from '../../constants/Colors';
+import { SSTimeslot } from 'api/StudentSessions';
+import Colors from 'constants/Colors';
 import { SSListItem } from './SSsListItem';
 
 type TimeslotListProps = {
@@ -46,13 +46,13 @@ export function TimeslotList ({ timeslots, onPress, student }: TimeslotListProps
 }
 const styles = StyleSheet.create({
   ssBox: {
-    width: width * 0.85,
-    height: height * 0.09,
+    width: width * 0.950,
+    marginVertical: 4,
   },
   text: {
     paddingTop: 40,
-    fontFamily: 'montserrat',
-    fontSize: 20,
+    fontFamily: 'main-font-bold',
+    fontSize: 24,
     color: Colors.darkBlue,
   },
 });

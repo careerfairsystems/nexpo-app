@@ -6,13 +6,14 @@ type ProfilePictureProps = {
 }
 
 export default function ProfilePicture({ url }: ProfilePictureProps) {
-  return <>
+  return (
     <Image 
-        source={ url ? {uri: url} : require('../assets/images/icon.png')}
-        defaultSource={require('../assets/images/icon.png')}
-        style={styles.image}
+      source={ url ? {uri: url + "?" + new Date()} : require('../assets/images/icon.png')}
+      defaultSource={require('../assets/images/icon.png')}
+      style={styles.image}
+    
     />
-  </>;
+  );
 }
 
 const styles = StyleSheet.create({

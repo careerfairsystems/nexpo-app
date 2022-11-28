@@ -3,20 +3,17 @@ import { ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API } from '../../api'
-import { SSsStackParamlist } from "../../navigation/SSsStudentNavigator";
-
-import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { View } from '../../components/Themed';
-import { Student } from '../../api/students';
-import StudentProfile from '../../components/profileScreen/StudentProfile';
-import Colors from '../../constants/Colors';
-import { SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
-import { ArkadButton } from '../../components/Buttons';
-import { ArkadText } from '../../components/StyledText';
-import UserProfile from '../../components/profileScreen/UserProfile';
-import { User } from '../../api/users';
-import { ApplicationsMsg } from '../../components/sSApplication/SSApplicationMsg';
+import { API } from 'api'
+import { SSsStackParamlist } from "./SSsCRepNavigator"
+import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
+import { Student } from 'api/Students';
+import Colors from 'constants/Colors';
+import { SSApplication, UpdateApplicationDto } from 'api/Applications';
+import { ArkadButton } from 'components/Buttons';
+import { ArkadText, NoButton } from 'components/StyledText';
+import { User } from 'api/Users';
+import { View } from 'components/Themed';
+import SSsStudentInfo from 'components/studentSessionList/SSsStudentInfo';
 
 export type SSsApplicationDetailsScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, 'SSsApplicationDetailsScreen'>
@@ -36,7 +33,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   const [loading, setLoading] = useState<boolean>(false);
 
   async function getAppAndStudent() {
-    const app = await API.sSApplications.getApplication(applicationId);
+    const app = await API.applications.getApplication(applicationId);
     const sdnt = await API.students.getStudent(app.studentId);
     const user = await API.users.getUser(sdnt.userId);
     setApplication(app);
@@ -45,13 +42,13 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   }
   async function accept() {
     setLoading(true);
-    await API.sSApplications.changeApplication(applicationId, {status: 1} as UpdateApplicationDto)
+    await API.applications.changeApplication(applicationId, {status: 1} as UpdateApplicationDto)
     await getAppAndStudent();
     setLoading(false);
   }
   async function reject() {
     setLoading(true);
-    await API.sSApplications.changeApplication(applicationId, {status: 2} as UpdateApplicationDto)
+    await API.applications.changeApplication(applicationId, {status: 2} as UpdateApplicationDto)
     await getAppAndStudent();
     setLoading(false);
   }
@@ -63,21 +60,19 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   }, []);
   
   if (loading || !student || !user || !application) {
-    return (
-      <View style={styles.container}>
-        <ScreenActivityIndicator />
-      </View>
-    );
+    return <ScreenActivityIndicator />
   }
+
+  
+  
   
   return (
     <ScrollView style={styles.container}>
-      <UserProfile user={user as NonNullable<User>} />
-      <StudentProfile student={student as NonNullable<Student>} />
-      <ApplicationsMsg msg={application.motivation} />
-      { application.status === 1 && <ArkadText text={ "Accepted!" } style={styles.acceptedText}/>}
+      <SSsStudentInfo studentId={student.id} />
+      <View style={styles.buttons}>
+      { application.status === 1 && <NoButton text={ "Accepted!" } style={styles.acceptedText}/>}
       {application.status !== 1 &&
-      <>
+        <>
         <ArkadButton style={styles.accepted} onPress={ accept }>
           <ArkadText text={'Accept application'}/>
         </ArkadButton>
@@ -86,8 +81,9 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
           <ArkadText text={'Reject Application '}/>
         </ArkadButton>
         }
-      </>
+        </>
       }
+      </View>
     </ScrollView>
   );
 }
@@ -99,16 +95,18 @@ const styles = StyleSheet.create({
   notAccepted: {
     backgroundColor: Colors.darkRed,
   },
+  buttons: {
+    paddingBottom: 30,
+    width: '80%',
+    justifyContent:'center',
+    alignSelf: 'center',
+  },
   acceptedText:{
     alignSelf: 'center',
     marginBottom: 20,
-    fontSize: 16,
-    padding: 20,
-    borderRadius: 5,
     width: '50%',
-    backgroundColor: Colors.lightGreen,
-    color: Colors.white,
-    fontFamily: 'montserrat',
+    backgroundColor: Colors.darkBlue,
+    borderRadius: 5,
   },
   container: {
     display: 'flex',
@@ -120,7 +118,7 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     width: '100%',
     textAlign: 'left',
-    fontSize: 20,
+    fontSize: 24,
     color: Colors.darkBlue,
   },
   eventList: {
