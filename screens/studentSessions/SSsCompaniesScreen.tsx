@@ -6,11 +6,11 @@ import { View } from '../../components/Themed';
 import Colors from '../../constants/Colors';
 import { ArkadText } from '../../components/StyledText';
 import { API } from '../../api';
-import { PublicCompanyDto } from '../../api/companies';
+import { PublicCompanyDto } from '../../api/Companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
 import { SSsStackParamlist } from "./SSsStudentNavigator";
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { User } from '../../api/users';
+import { User } from '../../api/Users';
 
 type SSsNavigation = {
   navigation: StackNavigationProp<

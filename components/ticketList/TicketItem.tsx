@@ -1,5 +1,5 @@
-import { Ticket } from "../../api/tickets";
-import { Event } from '../../api/events/Events';
+import { Ticket } from "../../api/Tickets";
+import { Event } from '../../api/Events';
 
 export type TicketItem = {
   ticket: Ticket;

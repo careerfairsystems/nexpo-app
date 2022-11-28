@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { Event } from '../../api/events';
+import { Event } from '../../api/Events';
 import Colors from '../../constants/Colors';
 import { EventListItem } from './EventListItem';
 

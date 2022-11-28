@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UpdateUserDto, User } from "../../api/users";
+import { UpdateUserDto, User } from "../../api/Users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
 import { Linking, Platform, StyleSheet } from "react-native";

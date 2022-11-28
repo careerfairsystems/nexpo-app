@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Industry, Locations, Position, PublicCompanyDto } from '../../api/companies';
+import { Industry, Locations, Position, PublicCompanyDto } from '../../api/Companies';
 import Colors from '../../constants/Colors';
 import { ArkadButton } from '../Buttons';
 import { ArkadText } from '../StyledText';
-import { Programme } from '../../api/students';
+import { Programme } from '../../api/Students';
 import { CategoriesDropdown } from './CategoriesDroppdown';
 import { INDUSTRIES, LOCATIONS, POSITIONS, PROGRAMS } from './DroppdownItems';
 import { companyLocations } from './CompanyLocationsMap';

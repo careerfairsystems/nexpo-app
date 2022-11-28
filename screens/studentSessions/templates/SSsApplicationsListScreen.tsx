@@ -7,7 +7,7 @@ import { API } from '../../../api';
 import { ApplicationsList } from '../../../components/sSApplication/SSApplicationList';
 import { SSsStackParamlist } from "../SSsCRepNavigator";
 import ScreenActivityIndicator from '../../../components/ScreenActivityIndicator';
-import { SSApplicationDto } from '../../../api/sSApplications';
+import { SSApplicationDto } from '../../../api/Applications';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { ArkadText } from '../../../components/StyledText';
@@ -19,7 +19,7 @@ export default function SSsApplicationsListScreen(navigation: StackNavigationPro
   
   const getApplications = async () => {
     setLoading(true);
-    const applications = await API.sSApplications.getApplications();
+    const applications = await API.applications.getApplications();
     setApplications(applications);
     setLoading(false);
   }

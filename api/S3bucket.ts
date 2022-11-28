@@ -1,4 +1,4 @@
-import { deleteAuth, getAuth, postAuthFile } from "../http/_HttpHelpers"
+import { deleteAuth, getAuth, postAuthFile } from "./_HttpHelpers"
 
 export interface FileCreatedDto {
     url: string;

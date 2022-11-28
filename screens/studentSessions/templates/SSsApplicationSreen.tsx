@@ -4,14 +4,14 @@ import { ScrollView, StyleSheet, TextInput } from "react-native";
 import Colors from "../../../constants/Colors";
 
 import { API } from "../../../api";
-import { } from "../../../api/studentsessions";
+import { } from "../../../api/StudentSessions";
 
 import { View } from "../../../components/Themed";
 import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator";
 import { ArkadButton } from "../../../components/Buttons";
 import { ArkadText } from "../../../components/StyledText";
 import { CardWithHeader } from "../../../components/sSApplication/SSApplicationMsg";
-import { PublicCompanyDto } from "../../../api/companies";
+import { PublicCompanyDto } from "../../../api/Companies";
 
 type SSsApplicationScreenParams = {
   companyId: number;
@@ -28,7 +28,7 @@ export default function SSsApplicationScreen({companyId} : SSsApplicationScreenP
       alert("Message cannot be empty");
     } else {
       setLoading(true);
-      await API.sSApplications.sendApplication(companyId, msg);
+      await API.applications.sendApplication(companyId, msg);
       alert("Application to " + company?.name + " sent");
       setLoading(false);
     }

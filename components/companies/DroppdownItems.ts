@@ -1,5 +1,5 @@
-import { Industry, Locations, Position } from "../../api/companies";
-import { Programme } from "../../api/students";
+import { Industry, Locations, Position } from "../../api/Companies";
+import { Programme } from "../../api/Students";
 
 export const POSITIONS = [
   { label: "Thesis", value: Position.Thesis },

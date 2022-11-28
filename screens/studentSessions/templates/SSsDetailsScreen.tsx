@@ -8,16 +8,16 @@ import {
 import Colors from "../../../constants/Colors";
 
 import { API } from "../../../api";
-import { SSTimeslot, unbookTimeslot, } from "../../../api/studentsessions";
+import { SSTimeslot, unbookTimeslot, } from "../../../api/StudentSessions";
 
 import { View } from "../../../components/Themed";
 import ScreenActivityIndicator from "../../../components/ScreenActivityIndicator";
 import { ArkadButton } from "../../../components/Buttons";
 import { ArkadText, NoButton } from "../../../components/StyledText";
-import { Role, User } from "../../../api/users";
-import { ApplicationAcceptedDto } from "../../../api/sSApplications";
-import { Student } from "../../../api/students";
-import { PublicCompanyDto } from "../../../api/companies";
+import { Role, User } from "../../../api/Users";
+import { ApplicationAcceptedDto } from "../../../api/Applications";
+import { Student } from "../../../api/Students";
+import { PublicCompanyDto } from "../../../api/Companies";
 import SSsStudentInfo from "../../../components/studentSessionList/SSsStudentInfo";
 
 type SSsDetailsScreenParams = {
@@ -38,7 +38,7 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
     const usr = await API.users.getMe();
     const company = await API.companies.getCompany(timeslot.companyId);
     const student = usr.role === Role.Student ? await API.students.getMe(): null;
-    const acc = usr.role === Role.Student ? await API.sSApplications.getApplicationAccepted(timeslot.companyId) : null;
+    const acc = usr.role === Role.Student ? await API.applications.getApplicationAccepted(timeslot.companyId) : null;
     setTimeslot(timeslot);
     setUser(usr);
     setCompany(company);

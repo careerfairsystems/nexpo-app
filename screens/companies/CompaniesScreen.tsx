@@ -4,7 +4,7 @@ import { Animated, FlatList, LayoutAnimation, StyleSheet, TextInput } from 'reac
 import { StackNavigationProp } from '@react-navigation/stack';
 import { View } from '../../components/Themed';
 import { API } from '../../api';
-import { PublicCompanyDto } from '../../api/companies';
+import { PublicCompanyDto } from '../../api/Companies';
 import { CompanyListItem } from '../../components/companies/CompanyListItem';
 import { CompanyStackParamList } from "./CompaniesNavigator";
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';

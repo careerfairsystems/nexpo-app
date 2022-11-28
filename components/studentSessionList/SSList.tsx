@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, Dimensions, FlatList, StyleSheet, View } from 'react-native';
-import { Student } from '../../api/students';
+import { Student } from '../../api/Students';
 
-import { SSTimeslot } from '../../api/studentsessions';
+import { SSTimeslot } from '../../api/StudentSessions';
 import Colors from '../../constants/Colors';
 import { SSListItem } from './SSsListItem';
 

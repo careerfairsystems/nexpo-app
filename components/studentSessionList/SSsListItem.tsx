@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
-import { SSTimeslot } from '../../api/studentsessions';
+import { SSTimeslot } from '../../api/StudentSessions';
 import { ArkadText } from '../StyledText';
 import Colors from '../../constants/Colors';
 import { API } from '../../api';

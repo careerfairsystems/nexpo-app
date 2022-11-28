@@ -1,6 +1,6 @@
-import { getAuth, putAuth } from '../http/_HttpHelpers';
-import { Programme } from '../students';
-import { User } from '../users';
+import { getAuth, putAuth } from './_HttpHelpers';
+import { Programme } from './Students';
+import { User } from './Users';
 
 export enum Degree {
   Bachelor, Master, PhD

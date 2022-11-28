@@ -1,4 +1,4 @@
-import { getAuth, putAuth } from '../http/_HttpHelpers'; 
+import { getAuth, putAuth } from './_HttpHelpers'; 
 
 export enum Programme {
   Fire_engineer,

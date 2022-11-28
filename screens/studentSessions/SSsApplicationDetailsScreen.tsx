@@ -6,12 +6,12 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { API } from '../../api'
 import { SSsStackParamlist } from "./SSsCRepNavigator"
 import ScreenActivityIndicator from '../../components/ScreenActivityIndicator';
-import { Student } from '../../api/students';
+import { Student } from '../../api/Students';
 import Colors from '../../constants/Colors';
-import { SSApplication, UpdateApplicationDto } from '../../api/sSApplications';
+import { SSApplication, UpdateApplicationDto } from '../../api/Applications';
 import { ArkadButton } from '../../components/Buttons';
 import { ArkadText, NoButton } from '../../components/StyledText';
-import { User } from '../../api/users';
+import { User } from '../../api/Users';
 import { View } from '../../components/Themed';
 import SSsStudentInfo from '../../components/studentSessionList/SSsStudentInfo';
 
@@ -33,7 +33,7 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   const [loading, setLoading] = useState<boolean>(false);
 
   async function getAppAndStudent() {
-    const app = await API.sSApplications.getApplication(applicationId);
+    const app = await API.applications.getApplication(applicationId);
     const sdnt = await API.students.getStudent(app.studentId);
     const user = await API.users.getUser(sdnt.userId);
     setApplication(app);
@@ -42,13 +42,13 @@ export default function SSsApplicationDetailsScreen({ navigation, route}: SSsApp
   }
   async function accept() {
     setLoading(true);
-    await API.sSApplications.changeApplication(applicationId, {status: 1} as UpdateApplicationDto)
+    await API.applications.changeApplication(applicationId, {status: 1} as UpdateApplicationDto)
     await getAppAndStudent();
     setLoading(false);
   }
   async function reject() {
     setLoading(true);
-    await API.sSApplications.changeApplication(applicationId, {status: 2} as UpdateApplicationDto)
+    await API.applications.changeApplication(applicationId, {status: 2} as UpdateApplicationDto)
     await getAppAndStudent();
     setLoading(false);
   }
