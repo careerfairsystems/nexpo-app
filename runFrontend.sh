@@ -8,7 +8,7 @@ checkInstalled() {
 }
 
 show_help() {
-    echo "Usage: ./runFrondEnd [OPTIONS]"
+    echo "Usage: ./runFrondend.sh [OPTIONS]"
     echo "Script for running the frontend"
     echo ""
     echo "Options:"
