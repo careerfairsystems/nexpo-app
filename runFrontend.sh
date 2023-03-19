@@ -1,4 +1,15 @@
-rm -rf node_modules 
+checkInstalled() {
+    if ! [ -x "$(command -v $@)" ]; then
+        echo "Error: $@ is not installed." >&2
+        exit 1
+    else
+        echo "$@ is installed"
+    fi
+}
+
+checkInstalled npm
+
+sudo rm -rf node_modules 
 npm install
 npm install -g sharp-cli@^2.1.0
 export NODE_OPTIONS=--openssl-legacy-provider 
