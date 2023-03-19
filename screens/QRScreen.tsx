@@ -1,5 +1,5 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { AirbnbRating } from 'react-native-ratings';
+//import { AirbnbRating } from 'react-native-ratings';
 import React, { useEffect, useState } from "react";
 import { TextInput, StyleSheet, Text, Button, View, Dimensions, Platform } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -85,13 +85,7 @@ export default function QRScreen({ navigation }: QRScreenProps) {
       <View style={styles.container}>
         <ArkadText text={"Student ID: " + studentID.toString()} style={styles.id} />
 
-        <AirbnbRating
-          count={5}
-          defaultRating={3}
-          size={32}
-          selectedColor={Colors.lightBlue}
-          reviews={[]}
-          onFinishRating={(rating: number) => setRating(rating)} />
+        
         
         <ArkadText text={"Comments"} style={styles.header} />
 
