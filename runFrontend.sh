@@ -34,7 +34,7 @@ while getopts ":h:n:c:s" opt; do
         ;;
     c|recli)
         # Install sharp-cli  
-        npm install -g sharp-cli@^2.1.0
+        sudo npm install -g sharp-cli@^2.1.0
         ;;
     s|ressl)  
         # Lägg till vid problem med ssl. (opensslErrorStack)
