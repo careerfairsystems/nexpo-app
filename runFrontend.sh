@@ -31,6 +31,7 @@ while getopts ":h:n:c:s" opt; do
         # Reinstall node_modules
         sudo rm -rf node_modules 
         npm install
+        exit 0
         ;;
     c|recli)
         # Install sharp-cli  
