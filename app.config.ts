@@ -1,5 +1,5 @@
 export default {
-  name: 'Arkad',
+  name: 'ARKAD',
   slug: 'nexpo-app',
   version: '1.0.4',
   orientation: 'portrait',
