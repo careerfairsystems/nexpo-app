@@ -1,12 +1,13 @@
-import * as Auth from './auth';
-import * as Companies from './companies';
-import * as Events from './events';
-import * as Tickets from './tickets';
-import * as Users from './users';
-import * as SignUp from './signup';
-import * as Files from './files';
-import * as CompanyConnections from './companyconnections';
-import * as Students from './students';
+import * as Auth from './Auth';
+import * as Companies from './Companies';
+import * as Events from './Events';
+import * as Tickets from './Tickets';
+import * as Users from './Users';
+import * as SignUp from './SignUp';
+import * as Students from './Students';
+import * as StudentSessions from './StudentSessions';
+import * as Applications from './Applications';
+import * as S3bucket from './S3bucket'
 
 export class API {
   static auth = Auth
@@ -15,7 +16,8 @@ export class API {
   static tickets = Tickets
   static users = Users
   static signup = SignUp
-  static files = Files
-  static companyconnections = CompanyConnections
   static students = Students
+  static studentSessions = StudentSessions
+  static applications = Applications
+  static s3bucket = S3bucket
 }

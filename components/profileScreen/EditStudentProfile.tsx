@@ -1,12 +1,14 @@
-import React from "react";
-import { UpdateStudentDto, Student, Guild } from "../../api/students";
+import React, { useState } from "react";
+import { UpdateStudentDto, Student, Programme } from "api/Students";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/EditProfileScreen";
+import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { Picker } from "@react-native-picker/picker";
-import Colors from "../../constants/Colors";
+import Colors from "constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { CategoriesDropdown } from "../companies/CategoriesDroppdown";
+import { PROGRAMS } from "../companies/DroppdownItems";
 
 type EditStudentProfileProps = {
   student: Student;
@@ -19,45 +21,56 @@ export default function EditStudentProfile({
   setUpdateStudentDto,
   setEditStatus,
 }: EditStudentProfileProps) {
-  const [guild, setGuild] = React.useState<Guild | null>(student.guild);
   const [year, setYear] = React.useState<number | null>(student.year);
   const [masterTitle, setMasterTitle] = React.useState<string | null>(
     student.masterTitle
   );
-  const [linkedIn, setLinkedIn] = React.useState<string | null>(
-    student.linkedIn
+  const [linkedIn, setLinkedIn] = React.useState<string>(
+    student.linkedIn === null ? "" : student.linkedIn
   );
+  const [programmes, setProgrammes] = useState(PROGRAMS);
+  const [programmeOpen, programmeSetOpen] = useState(false);
+  const [programme, setProgramme] = useState<Programme | null>(student.programme);
 
   React.useEffect(() => {
     const dto = {
-      guild,
+      programme,
       year,
       masterTitle,
       linkedIn,
     };
     setUpdateStudentDto(dto);
-  }, [guild, linkedIn, masterTitle, year]);
+  }, [programme, linkedIn, masterTitle, year]);
+
+  const _setLinkedIn = (text: string) => {
+    setLinkedIn(text);
+    if (text.length > 0 && !text.startsWith("https://www.linkedin.com/in/")) {
+      setEditStatus({
+        ok: false,
+        message: "LinkedIn Needs to start with: https://www.linkedin.com/in/",
+      });
+    } else {
+      setEditStatus({ ok: true, message: null });
+    }
+  };
+
 
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <Text>Guild</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={guild}
-          onValueChange={(value, index) => {
-            if (index === 0) setGuild(null);
-            else setGuild(Number(value));
-          }}
-        >
-          <Picker.Item label="Select your guild" />
-          {Object.keys(Guild)
-            .map(Number)
-            .filter((key) => !isNaN(key))
-            .map((guild) => (
-              <Picker.Item label={Guild[guild]} value={guild} />
-            ))}
-        </Picker>
+        <Text>Programme</Text>
+        <View style={styles.picker}>
+          <CategoriesDropdown
+            title="Desired program"
+            items={programmes}
+            setOpen={programmeSetOpen}
+            setValue={setProgramme}
+            open={programmeOpen}
+            value={programme} 
+            setItems={setProgrammes}
+            categories={true}
+            single={true}/>
+        </View>
 
         <Text>Year</Text>
         <Picker
@@ -87,7 +100,8 @@ export default function EditStudentProfile({
         <TextInput
           style={styles.textInput}
           value={linkedIn ? linkedIn : ""}
-          onChangeText={setLinkedIn}
+          onChangeText={_setLinkedIn}
+          placeholder="https://www.linkedin.com/in/..."
         />
       </View>
     </KeyboardAwareScrollView>
@@ -100,12 +114,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   picker: {
-    width: "80%",
+    width: "85%",
     maxWidth: 400,
     padding: 10,
     borderRadius: 3,
     borderColor: Colors.gray,
-    fontFamily: "montserrat",
     margin: 12,
   },
   textInput: {
