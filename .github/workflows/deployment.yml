@@ -1,0 +1,39 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  web-deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: expo build:web
+
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.WEB_DEPLOY_SSH_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          REMOTE_HOST: ${{ secrets.WEB_DEPLOY_REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.WEB_DEPLOY_REMOTE_USER }}
+          SOURCE: "web-build/"
+          TARGET: ${{ secrets.WEB_DEPLOY_REMOTE_TARGET }}

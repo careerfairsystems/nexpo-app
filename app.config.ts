@@ -1,5 +1,5 @@
 export default {
-  name: 'Arkad',
+  name: 'ARKAD',
   slug: 'nexpo-app',
   version: '1.2.6',
   orientation: 'portrait',
@@ -41,9 +41,9 @@ export default {
   extra: {
     isDev: process.env.NODE_ENV === 'development',
     isProd: process.env.NODE_ENV !== 'development',
-    //backendUrl: process.env.NODE_ENV === 'development' ? (process.env.BACKEND_URL ? process.env.BACKEND_URL : 'https://nexpo.arkadtlth.se/api') : 'https://nexpo.arkadtlth.se/api',
-    // backendUrl: 'http://localhost/api',
-    backendUrl: 'https://nexpo.arkadtlth.se/api',
-  },
+    //backendUrl: process.env.NODE_ENV === 'development' ? (process.env.BACKEND_URL ? process.env.BACKEND_URL : 'http://localhost:5000/api') : 'https://nexpo.arkadtlth.se/api',
+    backendUrl: 'http://localhost:5000/api'
+    // backendUrl: 'https://nexpo.arkadtlth.se/api',
+  }
 }
 
