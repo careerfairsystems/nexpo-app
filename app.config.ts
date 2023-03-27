@@ -1,7 +1,7 @@
 export default {
   name: 'ARKAD',
   slug: 'nexpo-app',
-  version: '1.2.6',
+  version: '1.0.4',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   scheme: 'myapp',
@@ -9,7 +9,7 @@ export default {
   splash: {
     image: './assets/images/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#F66628',
+    backgroundColor: '#ffffff',
   },
   updates: {
     fallbackToCacheTimeout: 0
@@ -19,7 +19,7 @@ export default {
   ],
   ios: {
     bundleIdentifier: "se.arkadtlth.nexpo",
-    buildNumber: '1.2.6',
+    buildNumber: '1.0.4',
     supportsTablet: true,
     infoPlist: {
       NSCameraUsageDescription: 'Camera access is needed for the QR-code scanning functionality',
@@ -28,12 +28,12 @@ export default {
   },
   android: {
     package: 'se.arkadtlth.nexpo',
-    versionCode: 14,
+    versionCode: 4,
     adaptiveIcon: {
-      foregroundImage: './assets/images/android_icon.png',
-      backgroundColor: '#F66628',
+      foregroundImage: './assets/images/adaptive-icon.png',
+      backgroundColor: '#022B5C',
     },
-    permissions: ['CAMERA'],
+    permissions: [ 'CAMERA' ],
   },
   web: {
     favicon: './assets/images/favicon.png'
@@ -43,7 +43,6 @@ export default {
     isProd: process.env.NODE_ENV !== 'development',
     //backendUrl: process.env.NODE_ENV === 'development' ? (process.env.BACKEND_URL ? process.env.BACKEND_URL : 'http://localhost:5000/api') : 'https://nexpo.arkadtlth.se/api',
     backendUrl: 'http://localhost:5000/api'
-    // backendUrl: 'https://nexpo.arkadtlth.se/api',
+
   }
 }
-

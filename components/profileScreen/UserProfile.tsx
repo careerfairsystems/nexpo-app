@@ -1,10 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { User } from 'api/Users';
+import { User } from '../../api/users';
 import ProfilePicture from '../ProfilePicture';
 import { View, Text } from '../Themed';
 import { StyleSheet } from 'react-native';
-import Colors from 'constants/Colors';
+import Colors from '../../constants/Colors';
 
 type UserProfileProps = {
   user: User;
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 32,
-    fontFamily: 'main-font-bold',
+    fontSize: 24,
+    fontFamily: 'montserrat',
     color: Colors.darkBlue,
   },
   contactInfoContainer: {
@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   contactInfoText: {
-    fontSize: 18,
+    fontSize: 14,
     paddingLeft: 8,
-    fontFamily: 'main-font-bold',
+    fontFamily: 'montserrat',
     color: Colors.darkBlue,
   }
 });

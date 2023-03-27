@@ -7,7 +7,7 @@
 import * as Linking from 'expo-linking';
 
 export default {
-  prefixes: [Linking.createURL('/')],
+  prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
       LoginScreen: 'login',
@@ -26,22 +26,7 @@ export default {
           Events: {
             screens: {
               EventListScreen: 'events',
-              EventSwitchScreen: 'events/:screen/:id',
-              QRScreen: 'events/qr/:id',
-            },
-          },
-          SSsStudent: {
-            screens: {
-              SSsCompaniesScreen: 'studentSessions',
-              SSsListScreen: 'studentSessions/:companyId',
-              SSsSwitchScreen: 'studentSessions/:screen/:id',
-            },
-          },
-          SSsCRep: {
-            screens: {
-              SSsListScreen: 'company/studentSessions/:companyId',
-              SSsSwitchScreen: 'company/studentSessions/:screen/:id',
-              SSsApplicationDetailsScreen : 'company/studentSessions/application-details/:applicationId',
+              EventDetailsScreen: 'events/:id',
             },
           },
           Map: {
@@ -53,7 +38,8 @@ export default {
           Profile: {
             screens: {
               ProfileScreen: 'profile',
-              ProfileSwitchScreen: 'profile/:screen/:id',
+              EditProfileScreen: 'profile/edit',
+              TicketsScreen: 'event/tickets/',
             },
           },
         },

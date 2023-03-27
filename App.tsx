@@ -1,21 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import ScreenActivityIndicator from './components/ScreenActivityIndicator';
 
 import useCachedResources from './hooks/useCachedResources';
+import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme();
 
   if (!isLoadingComplete) {
-    return <ScreenActivityIndicator/>;
+    return null;
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation />
-        <StatusBar style='dark' />
+        <Navigation colorScheme={colorScheme} />
+        <StatusBar />
       </SafeAreaProvider>
     );
   }

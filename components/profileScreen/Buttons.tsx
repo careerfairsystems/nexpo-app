@@ -2,7 +2,7 @@ import React from "react"
 import { ArkadText } from "../StyledText"
 import { StyleSheet } from 'react-native';
 import { ArkadButton } from "../Buttons";
-import Colors from "constants/Colors";
+import Colors from "../../constants/Colors";
 
 type EditProfileParams = {
   editingProfile: boolean,
@@ -12,7 +12,7 @@ type EditProfileParams = {
 export const EditProfileButton = ({ editingProfile, onPress }: EditProfileParams) =>
   <ArkadButton
     onPress={onPress}
-    style={editingProfile ? styles.editing : styles.buttonContainer1}>
+    style={editingProfile ? styles.editing : styles.buttonContainer}>
     <ArkadText
       text={editingProfile ? 'Save' : 'Edit profile'}
       style={styles.logoutText} />
@@ -23,12 +23,17 @@ type ButtonPressParams = {
 }
 
 export const LogoutButton = ({ onPress }: ButtonPressParams) => 
-  <ArkadButton onPress={onPress} style={styles.buttonContainer2}>
+  <ArkadButton onPress={onPress} style={styles.buttonContainer}>
     <ArkadText text='Logout' style={styles.logoutText} />
   </ArkadButton>
 
+export const TicketsButton = ({ onPress }: ButtonPressParams) => 
+  <ArkadButton onPress={onPress} style={styles.buttonContainer}>
+    <ArkadText text='My tickets' style={styles.logoutText} />
+  </ArkadButton>
+
 export const ScanQRButton = ({ onPress }: ButtonPressParams) => 
-  <ArkadButton onPress={onPress} style={styles.buttonContainer1}>
+  <ArkadButton onPress={onPress} style={styles.buttonContainer}>
     <ArkadText text='Scan QR' style={styles.logoutText} />
   </ArkadButton> 
 
@@ -37,18 +42,11 @@ const styles = StyleSheet.create({
     padding: '1%',
     alignItems: 'center',
   },
-  buttonContainer1: {
+  buttonContainer: {
     alignSelf: 'center',
     padding: '4%',
     marginBottom: '2%',
-    width: '45%',
-  },
-  buttonContainer2: {
-    alignSelf: 'center',
-    padding: '4%',
-    marginBottom: '2%',
-    width: '45%',
-    backgroundColor: Colors.darkBlue,
+    width: '85%',
   },
   editing: {
     alignSelf: 'center',

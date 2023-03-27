@@ -3,34 +3,26 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer, DefaultTheme, Theme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { ColorSchemeName } from 'react-native';
+import LoginScreen from '../screens/LoginScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
-import { AuthContext } from 'components/AuthContext';
+import { AuthContext } from '../components/AuthContext';
 
-import { API } from 'api';
-import { AuthNavigator } from '../screens/auth/AuthNavigator';
-import Colors from 'constants/Colors';
+import { API } from '../api';
+import FinalizeSignUpScreen from '../screens/FinalizeSignUpScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 
 
-export default function Navigation() {
+export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const [signedIn, setSignedIn] = React.useState<boolean>(false);
-
-  const theme: Theme = {
-    dark: false,
-    colors: {
-      primary: DefaultTheme.colors.primary,
-      background: Colors.white,
-      card: DefaultTheme.colors.card,
-      text: DefaultTheme.colors.text,
-      border: DefaultTheme.colors.border,
-      notification: DefaultTheme.colors.notification,
-    }
-  }
 
   const authContext = {
     signIn: () => {
@@ -55,7 +47,7 @@ export default function Navigation() {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer
         linking={LinkingConfiguration}
-        theme={theme}>
+        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           { signedIn
             ? <RootNavigator />
             : <AuthNavigator />
@@ -79,4 +71,26 @@ function RootNavigator() {
   );
 }
 
-
+export type AuthStackParamList = {
+  LoginScreen: undefined;
+  SignUpScreen: undefined;
+  FinalizeSignUpScreen: {
+    token: string;
+  };
+  ForgotPasswordScreen: undefined;
+  ResetPasswordScreen: {
+    token: string;
+  };
+}
+const AuthStack = createStackNavigator<AuthStackParamList>();
+function AuthNavigator() {
+  return (
+    <AuthStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginScreen">
+      <AuthStack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'Login' }}/>
+      <AuthStack.Screen name="SignUpScreen" component={SignUpScreen} options={{ title: 'Sign up' }} />
+      <AuthStack.Screen name="FinalizeSignUpScreen" component={FinalizeSignUpScreen} options={{ title: 'Finalize signup' }} />
+      <AuthStack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} options={{ title: 'Forgot password' }} />
+      <AuthStack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} options={{ title: 'Reset password' }} />
+    </AuthStack.Navigator>
+  );
+}

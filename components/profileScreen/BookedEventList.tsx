@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
-import { Event } from 'api/Events';
+import { Event } from '../../api/events';
 import { EventListItem } from '../eventList/EventListItem';
 
 type BookedEventListProps = {
@@ -22,6 +22,7 @@ export const BookedEventList = ({ bookedEvents, onPress }: BookedEventListProps)
         <View style={styles.item}>
           <EventListItem
             event={event} 
+            booked={bookedEvents != null && bookedEvents.includes(event)}
             itemStyle={{width: windowWidth * 0.6}}
             onPress={() => onPress(event.id)} />
         </View>
@@ -32,11 +33,10 @@ export const BookedEventList = ({ bookedEvents, onPress }: BookedEventListProps)
 
   const styles = StyleSheet.create({
     container: {
-      height: 180,
-      alignItems: 'center',
+      height: 200,
     },
     item: {
-      height: 150,
+      height: 180,
       alignItems: 'center',
       justifyContent: 'flex-start',
     }

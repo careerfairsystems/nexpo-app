@@ -1,9 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Company } from 'api/Companies';
+import { Company } from '../../api/companies';
 import { View, Text } from '../Themed';
 import { Linking, StyleSheet } from 'react-native';
-import Colors from 'constants/Colors';
+import Colors from '../../constants/Colors';
 import { Image } from 'react-native';
 import { ArkadText } from '../StyledText';
 
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 32,
-    fontFamily: 'main-font-bold',
+    fontSize: 24,
+    fontFamily: 'montserrat',
     color: Colors.darkBlue,
   },
   contactInfoContainer: {
@@ -85,15 +85,15 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   contactInfoText: {
-    fontSize: 18,
+    fontSize: 14,
     paddingLeft: 8,
-    fontFamily: 'main-font-bold',
+    fontFamily: 'montserrat',
     color: Colors.darkBlue,
   },
   header: {
-    fontFamily: 'main-font-bold',
+    fontFamily: 'montserrat',
     color: Colors.darkBlue,
-    fontSize: 14,
+    fontSize: 12,
     marginTop: 12,
     marginBottom: 4,
   },

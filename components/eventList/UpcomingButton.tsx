@@ -1,8 +1,7 @@
 import React from 'react';
 import { Dimensions, Pressable, StyleSheet } from 'react-native';
-import Colors from 'constants/Colors';
-import { Text, View } from 'components/Themed';
-import { ArkadButton } from '../Buttons';
+import Colors from '../../constants/Colors';
+import { Text, View } from '../../components/Themed';
 
 type buttonProps = {
   showAllEvents: boolean;
@@ -14,11 +13,18 @@ const { width, height } = Dimensions.get('window')
 export function UpcomingButton ({showAllEvents, onPress}: buttonProps) {
   return (
     <View style={styles.eventBox}>
-      <ArkadButton
-        style={styles.button}
-        onPress={onPress}>
-        <Text style={styles.text}>{showAllEvents ? "Hide old events" : "Show old events"}</Text>
-      </ArkadButton>
+      {showAllEvents 
+        ? <Pressable
+            style={[styles.button, styles.yellowBack]}
+            onPress={onPress}>
+            <Text style={styles.text}>Hide old events</Text>
+          </Pressable>
+        : <Pressable
+            style={[styles.button, styles.greenBack]}
+            onPress={onPress}>
+            <Text style={styles.text}>Show old events</Text>
+          </Pressable>
+      }
     </View>
   )
   
@@ -27,21 +33,28 @@ export function UpcomingButton ({showAllEvents, onPress}: buttonProps) {
 
 const styles = StyleSheet.create({
   eventBox: {
+    width: width,
     alignItems: 'center',
+    borderBottomColor: Colors.black,
+    borderBottomWidth: 1,
   },
   button: {
+    width: width * 0.9,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    borderRadius: 4,
+    padding: 12,
     margin: 8,
+  },
+  yellowBack: {
+    backgroundColor: Colors.darkYellow,
   },
   greenBack: {
     backgroundColor: Colors.lightGreen,
   },
   text: {
-    fontFamily: 'main-font-bold',
-    fontSize: 20,
+    fontFamily: 'montserrat',
+    fontSize: 16,
     color: Colors.white
   }
 });

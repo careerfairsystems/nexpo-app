@@ -1,10 +1,12 @@
-import React from "react";
-import { Company, UpdateCompanySelfDto } from "api/Companies";
+import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect } from "react";
+import { Company, UpdateCompanySelfDto } from "../../api/companies";
+import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
-import Colors from "constants/Colors";
+import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
+import { EditStatus } from "../../screens/EditProfileScreen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type EditCompanyProfileProps = {
@@ -78,7 +80,8 @@ const styles = StyleSheet.create({
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 32,
+    fontSize: 24,
+    fontFamily: "montserrat",
     color: Colors.darkBlue,
   },
   textInput: {
@@ -86,7 +89,6 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   descriptionInput: {
-    height: 180,
-    textAlignVertical: "top",
+    height: 200,
   },
 });

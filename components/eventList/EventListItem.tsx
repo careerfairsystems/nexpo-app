@@ -1,29 +1,40 @@
 import React from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
-import { bookedEvent, Event } from 'api/Events';
+import { bookedEvent, Event } from '../../api/events';
 import { ArkadText } from '../StyledText';
-import Colors from 'constants/Colors';
-import { API } from 'api';
+import Colors from '../../constants/Colors';
+import { API } from '../../api';
 
 type ListedEventItemProps = {
   event: Event;
+  booked: boolean;
   itemStyle: ViewStyle;
   onPress: () => void;
 }
 
-export const EventListItem = ({ event, itemStyle, onPress }: ListedEventItemProps) => 
+export const EventListItem = ({ event, booked, itemStyle, onPress }: ListedEventItemProps) => 
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
     <View style={styles.headerContainer}>
       <ArkadText style={styles.eventName} text={event.name}/>
-      <ArkadText 
-        style={styles.eventTime}
-        text={API.events.formatTime(event.date, event.start, event.end)} />
     </View>
 
     <View style={styles.footerContainer}>
+      <ArkadText 
+        style={styles.eventTime}
+        text={API.events.formatTime(event.date, event.start, event.end)} />
+
       {/* Color of box changes depending on status */}
-      <View style={[
+      {booked 
+      ? <View 
+        style={[
+          styles.eventBookedContainer, 
+          {backgroundColor: Colors.lightGreen} ]}>
+        <ArkadText 
+          style={styles.eventBookedText}
+          text="Booked" />
+      </View>
+      : <View style={[
         styles.eventBookedContainer, 
         event.capacity == event.ticketCount 
           ? {backgroundColor:Colors.darkRed}
@@ -34,6 +45,7 @@ export const EventListItem = ({ event, itemStyle, onPress }: ListedEventItemProp
           style={styles.eventBookedText}
           text={event.ticketCount + "/" + event.capacity} />
       </View>
+      }
     </View>
   </Pressable>
 
@@ -52,7 +64,7 @@ const styles = StyleSheet.create({
   },
   eventName: {
     flex: 1,
-    fontSize: 22,
+    fontSize: 16,
     textAlign: 'left',
     color: Colors.white,
   },
@@ -66,20 +78,20 @@ const styles = StyleSheet.create({
   },
   eventTime: {
     paddingBottom: 6,
-    fontSize: 16,
-    textAlign: 'left',
+    fontSize: 14,
+    textAlign: 'right',
     color: Colors.white,
   },
   eventBookedContainer: {
-    padding: 2,
+    paddingTop: 4,
     alignSelf: 'flex-end',
     borderRadius: 10,
   },
   eventBookedText: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     paddingVertical: 4,
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     color: Colors.white,
   },
 })

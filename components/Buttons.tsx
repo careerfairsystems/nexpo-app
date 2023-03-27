@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import Colors from 'constants/Colors';
+import Colors from '../constants/Colors';
 
 interface buttonProps {
   children?: React.ReactNode;
@@ -17,8 +17,8 @@ export function ArkadButton(props: buttonProps) {
 const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
-    backgroundColor: Colors.orange,
-    borderRadius: 55,
+    backgroundColor: Colors.darkBlue,
+    borderRadius: 4,
     padding: 20,
     margin: 12,
   },
