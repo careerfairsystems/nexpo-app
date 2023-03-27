@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { View } from 'components/Themed';
 import Colors from 'constants/Colors';
 import { ArkadText } from 'components/StyledText';
-import { API } from 'api';
+import { API } from "api/API";
 import { PublicCompanyDto } from 'api/Companies';
 import { CompanyListItem } from 'components/companies/CompanyListItem';
 import { SSsStackParamlist } from "./SSsStudentNavigator";

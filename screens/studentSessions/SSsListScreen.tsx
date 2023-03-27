@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import { View } from 'components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from 'api';
+import { API } from "api/API";
 import { SSTimeslot } from 'api/StudentSessions';
 import { TimeslotList } from 'components/studentSessionList/SSList';
 import SSCompInfo from 'components/studentSessionList/SSCompInfo';

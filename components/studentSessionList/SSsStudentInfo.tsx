@@ -3,7 +3,7 @@ import { Linking, ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API } from 'api'
+import { API } from "api/API";
 import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
 import { Student } from 'api/Students';
 import StudentProfile from 'components/profileScreen/StudentProfile';

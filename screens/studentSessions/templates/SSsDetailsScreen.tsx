@@ -7,7 +7,7 @@ import {
 
 import Colors from "constants/Colors";
 
-import { API } from "api";
+import { API } from "api/API";
 import { SSTimeslot, unbookTimeslot, } from "api/StudentSessions";
 
 import { View } from "components/Themed";

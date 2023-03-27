@@ -10,7 +10,7 @@ import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
 import { ScanQRButton } from 'components/profileScreen/Buttons';
 import { useCallback } from 'react';
 import { TicketDto } from 'api/Tickets';
-import { API } from 'api';
+import { API } from "api/API";
 import { StudentTicketList } from 'components/ticketList/studentTicketList';
 import { ArkadText } from 'components/StyledText';
 import Colors from 'constants/Colors';

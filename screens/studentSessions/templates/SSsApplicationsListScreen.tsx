@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import { View } from 'components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from 'api';
+import { API } from "api/API";
 import { ApplicationsList } from 'components/sSApplication/SSApplicationList';
 import { SSsStackParamlist } from "../SSsCRepNavigator";
 import ScreenActivityIndicator from 'components/ScreenActivityIndicator';

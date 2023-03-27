@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import { View } from 'components/Themed';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { API } from 'api';
+import { API } from "api/API";
 import { Event } from 'api/Events';
 import { EventList } from 'components/eventList/EventList';
 import { EventStackParamlist } from "./EventsNavigator";

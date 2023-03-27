@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Colors from 'constants/Colors';
 
-import { API } from 'api'
+import { API } from "api/API";
 import { UpdateUserDto, User } from 'api/Users';
 import { Role } from "api/Role";
 import { Company, UpdateCompanySelfDto } from 'api/Companies';

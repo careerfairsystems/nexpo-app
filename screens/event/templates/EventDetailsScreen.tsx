@@ -8,7 +8,7 @@ import {
 
 import Colors from "constants/Colors";
 
-import { API } from "api";
+import { API } from "api/API";
 import { bookedEvent, Event } from "api/Events";
 import {
   CreateTicketDto,

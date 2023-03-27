@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, TextInput } from "react-native";
 
 import Colors from "constants/Colors";
 
-import { API } from "api";
+import { API } from "api/API";
 import { } from "api/StudentSessions";
 
 import { View } from "components/Themed";

@@ -4,7 +4,7 @@ import { StyleSheet, Image, Linking } from 'react-native';
 import { Text, View } from 'components/Themed';
 
 import { Locations, PublicCompanyDto } from 'api/Companies'
-import { API } from 'api';
+import { API } from "api/API";
 import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
 import { ScrollView } from 'react-native-gesture-handler';
 import Colors from 'constants/Colors';

@@ -12,7 +12,7 @@ import Colors from 'constants/Colors';
 import { getMe, User } from 'api/Users';
 import { Role } from "api/Role";
 
-import { API } from 'api';
+import { API } from "api/API";
 import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
 import { useContext } from 'react';
 import { AuthContext } from 'components/AuthContext';

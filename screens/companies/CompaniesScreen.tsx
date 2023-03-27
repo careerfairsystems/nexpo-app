@@ -3,7 +3,7 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import { Animated, FlatList, LayoutAnimation, StyleSheet, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { View } from 'components/Themed';
-import { API } from 'api';
+import { API } from "api/API";
 import { PublicCompanyDto } from 'api/Companies';
 import { CompanyListItem } from 'components/companies/CompanyListItem';
 import { CompanyStackParamList } from "./CompaniesNavigator";

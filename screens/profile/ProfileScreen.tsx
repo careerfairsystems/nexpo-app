@@ -3,7 +3,7 @@ import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API } from 'api'
+import { API } from "api/API";
 import { User } from 'api/Users';
 import { Role } from "api/Role";
 import { Event } from 'api/Events';

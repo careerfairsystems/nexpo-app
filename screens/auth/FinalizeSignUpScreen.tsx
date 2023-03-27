@@ -9,7 +9,7 @@ import { ArkadText } from 'components/StyledText';
 
 import { AuthStackParamList } from "./AuthNavigator";
 
-import { API } from 'api'
+import { API } from "api/API";
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type FinalizeSignUpScreenParams = {

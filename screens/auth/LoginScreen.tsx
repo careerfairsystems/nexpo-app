@@ -7,7 +7,7 @@ import { TextInput } from 'components/TextInput';
 import { ArkadButton } from 'components/Buttons';
 import { ArkadText } from 'components/StyledText';
 
-import { API } from 'api'
+import { API } from "api/API";
 import { AuthContext } from 'components/AuthContext';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from "./AuthNavigator";
