@@ -26,7 +26,7 @@ export default function CompanyProfile({ company }: CompanyProfileProps) {
       <Text style={styles.nameLabel}>{company.name}</Text>
 
       <View style={styles.contactInfoContainer}>
-        <Ionicons name="link" size={16} color={Colors.darkBlue} />
+        <Ionicons name="link" size={16} color={Colors.arkadNavy} />
         <Text 
           style={styles.contactInfoText}
           onPress={() => { if (company.website) { Linking.openURL(company.website) }}}>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     fontSize: 32,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   contactInfoContainer: {
     display: 'flex',
@@ -88,11 +88,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 8,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   header: {
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     fontSize: 14,
     marginTop: 12,
     marginBottom: 4,

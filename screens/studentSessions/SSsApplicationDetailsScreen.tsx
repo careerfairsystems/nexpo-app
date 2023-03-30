@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 20,
     width: '50%',
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     borderRadius: 5,
   },
   container: {
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'left',
     fontSize: 24,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   eventList: {
     paddingTop: '2%',

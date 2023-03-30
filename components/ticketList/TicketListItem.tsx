@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     padding: 16,
     borderRadius: 16,
   },

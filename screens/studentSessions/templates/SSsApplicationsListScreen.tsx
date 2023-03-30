@@ -40,10 +40,10 @@ export default function SSsApplicationsListScreen(navigation: StackNavigationPro
   return (
     <View style={styles.container}>
       <View style={styles.statsContainer}>
-        <ArkadText  style={{...styles.statsText, color: Colors.darkYellow}} text={`${applications?.filter((application) => application.status === 0).length}`}/>
-        <ArkadText  style={{...styles.statsText, color: Colors.darkBlue}} text={`/`}/>
+        <ArkadText  style={{...styles.statsText, color: Colors.arkadTurkos}} text={`${applications?.filter((application) => application.status === 0).length}`}/>
+        <ArkadText  style={{...styles.statsText, color: Colors.arkadNavy}} text={`/`}/>
         <ArkadText  style={{...styles.statsText, color: Colors.lightGreen}} text={`${applications?.filter((application) => application.status === 1).length}`}/>
-        <ArkadText  style={{...styles.statsText, color: Colors.darkBlue}} text={`/`}/>
+        <ArkadText  style={{...styles.statsText, color: Colors.arkadNavy}} text={`/`}/>
         <ArkadText  style={{...styles.statsText, color: Colors.darkRed}} text={`${applications?.filter((application) => application.status === 2).length}`}/>
       </View>
       <ApplicationsList

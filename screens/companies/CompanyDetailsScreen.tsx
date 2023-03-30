@@ -59,7 +59,7 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
           <Text style={styles.title}>{company?.name}</Text>
 
           <View style={styles.contactInfoContainer}>
-            <Ionicons name="link" size={16} color={Colors.darkBlue} />
+            <Ionicons name="link" size={16} color={Colors.arkadNavy} />
             <Text 
               style={styles.contactInfoText}
               onPress={() => { if (company.website) { Linking.openURL(company.website) }}}>
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     fontSize: 32,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   contactInfoContainer: {
     display: 'flex',
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 8,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   descHeader: {
     alignSelf: 'center',
@@ -127,12 +127,13 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     fontSize: 18,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   desc: {
     paddingTop: 6,
     fontSize: 16,
-    fontFamily: 'secoundary-font',
-    color: Colors.darkBlue,
+    fontFamily: 'secondary-font',
+    fontVariant: 'SemiLight',
+    color: Colors.arkadNavy,
   },
 });

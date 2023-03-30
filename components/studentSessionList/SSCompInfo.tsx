@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     fontSize: 32,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   contactInfoContainer: {
     display: 'flex',
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 8,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   descHeader: {
     alignSelf: 'center',
@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     fontSize: 22,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   desc: {
     paddingTop: 6,
     fontSize: 18,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
 });
 

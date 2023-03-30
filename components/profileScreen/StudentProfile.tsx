@@ -48,16 +48,16 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 14,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   text: {
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     
   },
   url: {
     fontFamily: 'main-font-bold',
-    color: Colors.lightBlue,
+    color: Colors.arkadTurkos,
     textDecorationLine: 'underline',
     textAlign: 'center',
   },

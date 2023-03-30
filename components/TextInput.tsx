@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 2,
     borderRadius: 7,
-    borderColor: Colors.darkBlue,
+    borderColor: Colors.arkadNavy,
     paddingVertical: 12,
     paddingHorizontal: 16,
     fontSize: 18,

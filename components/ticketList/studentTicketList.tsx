@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     fontFamily: 'main-font-bold',
     fontSize: 24,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
 });

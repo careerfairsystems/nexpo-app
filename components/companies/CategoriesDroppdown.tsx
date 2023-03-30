@@ -37,17 +37,17 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       listParentContainerStyle={props.categories ? styles.listParentContainer: null}
       listParentLabelStyle={props.categories ? {color: Colors.white}: null}
       placeholderStyle={{ 
-        color: Colors.darkBlue,
+        color: Colors.arkadNavy,
         fontSize: 20,
         fontFamily: 'main-font-bold'}}
       selectedItemContainerStyle={{
-        //backgroundColor: Colors.lightBlue,
+        //backgroundColor: Colors.arkadTurkos,
       }}
       selectedItemLabelStyle={{
-        color: Colors.lightBlue,
+        color: Colors.arkadTurkos,
       }}
       listItemLabelStyle={{
-        color: Colors.darkBlue,
+        color: Colors.arkadNavy,
         fontSize: 20,
         fontFamily: 'main-font-bold',
       }}
@@ -57,7 +57,7 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       mode = 'BADGE'
       listMode="MODAL"
       badgeDotStyle={{
-        backgroundColor: Colors.darkBlue,
+        backgroundColor: Colors.arkadNavy,
       }}
       onClose={props.filterCompanies ? props.filterCompanies : () => {}}
       CloseIconComponent={() => <Ionicons name='checkmark' style={styles.checkmark} />}
@@ -68,12 +68,12 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
 const styles = StyleSheet.create({
   modalTitle: {
     fontWeight: "bold",
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     fontFamily: 'main-font-bold',
     fontSize: 32
   },
   listParentContainer: {
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     height: 40,
   },
   closeButton: {
@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   dropdown: {
-    borderColor: Colors.darkBlue,
+    borderColor: Colors.arkadNavy,
     borderWidth: 2,
   },
   container: {
-    borderColor: Colors.darkBlue,
+    borderColor: Colors.arkadNavy,
     borderWidth: 0.5,
     height: 60,
   },
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   tickIcon: {
-    color: Colors.lightBlue,
+    color: Colors.arkadTurkos,
     fontSize: 32,
   }
   

@@ -17,15 +17,15 @@ export default function UserProfile({ user }: UserProfileProps) {
       <Text style={styles.nameLabel}>{`${user.firstName} ${user.lastName}`}</Text>
 
       <View style={styles.contactInfoContainer}>
-        <Ionicons name="mail" size={16} color={Colors.darkBlue} />
+        <Ionicons name="mail" size={16} color={Colors.arkadNavy} />
         <Text style={styles.contactInfoText}>{user.email}</Text>
       </View>
       <View style={styles.contactInfoContainer}>
-        <Ionicons name="call" size={16} color={Colors.darkBlue} />
+        <Ionicons name="call" size={16} color={Colors.arkadNavy} />
         <Text style={styles.contactInfoText}>{ user.phoneNr ? user.phoneNr : '\u2013'}</Text>
       </View>
       <View style={styles.contactInfoContainer}>
-        <Ionicons name="pizza" size={16} color={Colors.darkBlue} />
+        <Ionicons name="pizza" size={16} color={Colors.arkadNavy} />
         <Text style={styles.contactInfoText}>{ user.foodPreferences ? user.foodPreferences : '\u2013'}</Text>
       </View>
     </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     fontSize: 32,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   contactInfoContainer: {
     display: 'flex',
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 8,
     fontFamily: 'main-font-bold',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   }
 });
