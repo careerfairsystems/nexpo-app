@@ -12,7 +12,7 @@ type ListedTimeslotProps = {
 export const StudentTicketListItem = ({ name, isConsumed }: ListedTimeslotProps) => 
   <View style={[
     styles.container, 
-    {backgroundColor: isConsumed ? Colors.lightGreen : Colors.darkBlue}
+    {backgroundColor: isConsumed ? Colors.lightGreen : Colors.arkadNavy}
     ]}>
     <View style = {styles.smallContainer}>
       <ArkadText 

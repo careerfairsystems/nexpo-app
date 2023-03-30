@@ -21,7 +21,7 @@ export const SSListItem = ({ timeslot, booked, bookedByMe, onPress }: ListedTime
     {booked ? 
     <View style={[
         styles.timeslotBookedContainer, 
-        bookedByMe ? {backgroundColor: Colors.lightBlue} : {backgroundColor: Colors.darkRed} ]}>
+        bookedByMe ? {backgroundColor: Colors.arkadTurkos} : {backgroundColor: Colors.darkRed} ]}>
       <ArkadText 
         style={styles.timeslotBookedText}
         text={bookedByMe ? "Yours!" : "Booked"} />
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     padding: 16,
     borderRadius: 16,
   },

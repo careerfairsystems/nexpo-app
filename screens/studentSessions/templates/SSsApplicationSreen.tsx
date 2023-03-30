@@ -80,18 +80,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 10,
     marginBottom: 0,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   smallHeader: {
     fontSize: 18,
     fontWeight: "bold",
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   companyMotivation: {
     fontSize: 20,
     textAlign: "center",
     margin: 10,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     fontFamily: "main-font"
   },
   scrollView: {
@@ -107,9 +107,9 @@ const styles = StyleSheet.create({
   input: {
     textAlign: 'left',
     textAlignVertical: 'top',
-    borderColor: Colors.darkBlue,
+    borderColor: Colors.arkadNavy,
     borderWidth: 3,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     padding: 10,
     height: 180,
     borderRadius: 7,

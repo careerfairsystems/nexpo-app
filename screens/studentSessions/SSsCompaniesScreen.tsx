@@ -76,11 +76,11 @@ const styles = StyleSheet.create({
   title: {
     paddingBottom: 5,
     fontSize: 50,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   text: {
     fontSize: 16,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   titleContainer: {
     paddingTop: 10,

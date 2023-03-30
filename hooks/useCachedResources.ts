@@ -15,7 +15,7 @@ export default function useCachedResources() {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          "secoundary-font": require('../assets/fonts/BAHNSCHRIFT.ttf'),
+          "secondary-font": require('../assets/fonts/BAHNSCHRIFT.ttf'),
           "main-font-bold": require('../assets/fonts/MyriadProBoldCondensed.ttf'),
           "main-font": require('../assets/fonts/MyriadProCondensed.ttf'),
         });
