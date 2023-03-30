@@ -13,7 +13,7 @@ import { ProfileStackParamList } from "./ProfileNavigator";
 import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
 import { View } from 'components/Themed';
 import { AuthContext } from 'components/AuthContext';
-import { EditProfileButton, LogoutButton } from 'components/profileScreen/Buttons';
+import { EditProfileButton, LogoutButton, LoginButton } from 'components/profileScreen/Buttons';
 import UserProfile from 'components/profileScreen/UserProfile';
 import { Student } from 'api/Students';
 import StudentProfile from 'components/profileScreen/StudentProfile';
@@ -36,6 +36,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const authContext = useContext(AuthContext);
   const isFocused = useIsFocused();
+  const isSignedIn = false; // TODO: check if signed in
 
   async function getUser() {
     const user = await API.users.getMe();
@@ -60,6 +61,10 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     await API.auth.logout();
     authContext.signOut();
   };
+
+  async function login() {
+    navigation.navigate('LoginScreen');
+  }
 
   useFocusEffect(useCallback(() => {
     setLoading(true);
@@ -90,7 +95,10 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       </View>
       <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
       <View style= {styles.logout}>
-        <LogoutButton onPress={logout} />
+        {isSignedIn
+          ? <LogoutButton onPress={logout} />
+          : <LoginButton onPress={login} />
+        }
       </View>
     </ScrollView>
   </>;

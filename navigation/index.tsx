@@ -56,10 +56,7 @@ export default function Navigation() {
       <NavigationContainer
         linking={LinkingConfiguration}
         theme={theme}>
-          { signedIn
-            ? <RootNavigator />
-            : <AuthNavigator />
-          }
+          <RootNavigator />
       </NavigationContainer>
     </AuthContext.Provider>
   );

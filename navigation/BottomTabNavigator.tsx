@@ -64,56 +64,67 @@ export default function BottomTabNavigator() {
     authContext.signOut();
   };
 
-  if(isLoading || !user) {
+  if (isLoading) {
+    return <ScreenActivityIndicator />;
+  } else {
     return (
-      <ScreenActivityIndicator />
-    )
+      <BottomTab.Navigator
+        initialRouteName="Events"
+        tabBarOptions={{ activeTintColor: Colors.darkBlue }}
+      >
+        <BottomTab.Screen
+          name="Companies"
+          component={CompaniesNavigator}
+          options={{
+            tabBarIcon: ({ color }) => (<TabBarIonicon name="briefcase-outline" color={color} />), ...HeaderStyles,
+          }}
+        />
+        <BottomTab.Screen
+          name="Maps"
+          component={MapNavigator}
+          options={{
+            tabBarIcon: ({ color }) => (<TabBarIonicon name="map" color={color} />), ...HeaderStyles,
+          }}
+        />
+        <BottomTab.Screen
+          name="Events"
+          component={EventsNavigator}
+          options={{
+            tabBarIcon: ({ color }) => (<TabBarMaterialIcon name="event" color={color} />), ...HeaderStyles,
+          }}
+        />
+        {user && (user.role !== Role.CompanyRepresentative ? (
+          <BottomTab.Screen
+            name="SSsStudent"
+            component={SSsStudentNavigator}
+            options={{
+              title: "Student Sessions",
+              tabBarIcon: ({ color }) => (<TabBarMaterialIcon name="forum" color={color} />), ...HeaderStyles,
+            }}
+          />
+        ) : (
+          companyId && (
+            <BottomTab.Screen
+              name="SSsCRep"
+              component={SSsCRepNavigator}
+              options={{
+                title: "Student Sessions",
+                tabBarIcon: ({ color }) => (<TabBarMaterialIcon name="forum" color={color} />), ...HeaderStyles,
+              }}
+              initialParams={{ companyId: companyId }}
+            />
+          )
+        ))}
+        <BottomTab.Screen
+          name="Profile"
+          component={ProfileNavigator}
+          options={{
+            tabBarIcon: ({ color }) => (<TabBarIonicon name="person" color={color} />), ...HeaderStyles,
+          }}
+        />
+      </BottomTab.Navigator>
+    );
   }
-  return (
-    <BottomTab.Navigator
-      initialRouteName="Events"
-      tabBarOptions={{ activeTintColor: Colors.arkadNavy }}>
-      <BottomTab.Screen
-        name="Companies"
-        component={CompaniesNavigator}
-        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />, ...HeaderStyles }}
-      />
-      {<BottomTab.Screen
-        name="Maps"
-        component={MapNavigator}
-        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />, ...HeaderStyles}}
-      />}
-      <BottomTab.Screen
-        name="Events"
-        component={EventsNavigator}
-        options={{ tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />, ...HeaderStyles}}
-      />
-      {user.role !== Role.CompanyRepresentative ?
-      <BottomTab.Screen
-        name="SSsStudent"
-        component={SSsStudentNavigator}
-        options={{
-          title: 'Student Sessions',
-          tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />, ...HeaderStyles
-        }}
-      /> : companyId &&
-      <BottomTab.Screen
-        name="SSsCRep"
-        component={SSsCRepNavigator}
-        options={{
-          title: 'Student Sessions',
-          tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />, ...HeaderStyles
-        }}
-        initialParams={{companyId: companyId}}
-      />
-      }
-      <BottomTab.Screen
-        name="Profile"
-        component={ProfileNavigator}
-        options={{ tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />, ...HeaderStyles}}
-      />
-    </BottomTab.Navigator>
-  );
 }
 
 // You can explore the built-in icon families and icons on the web at:
