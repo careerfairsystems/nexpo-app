@@ -17,7 +17,7 @@ export function ArkadButton(props: buttonProps) {
 const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
-    backgroundColor: Colors.orange,
+    backgroundColor: Colors.arkadOrange,
     borderRadius: 55,
     padding: 20,
     margin: 12,

@@ -72,7 +72,7 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Events"
-      tabBarOptions={{ activeTintColor: Colors.darkBlue }}>
+      tabBarOptions={{ activeTintColor: Colors.arkadNavy }}>
       <BottomTab.Screen
         name="Companies"
         component={CompaniesNavigator}

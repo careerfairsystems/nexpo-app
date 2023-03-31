@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 12,
     width: '90%',
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
   },
   container: {
     flex: 1,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     width: "90%",
     marginTop: 20,
     height: 100,
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     justifyContent: "center",
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   qrHeader: {
     marginTop: 24,
     fontSize: 32,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     marginBottom: 8,
   },
   qrContainer: {

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     borderRadius: 16,
     borderWidth: 4,
-    borderColor: Colors.darkBlue
+    borderColor: Colors.arkadNavy
   },
   row: {
     flex: 1,
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     padding: 0,
     marginHorizontal: 4,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
 })

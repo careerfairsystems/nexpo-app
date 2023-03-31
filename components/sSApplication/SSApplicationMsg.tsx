@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: width * 0.75,
     borderWidth: 2,
-    borderColor: Colors.darkBlue,
+    borderColor: Colors.arkadNavy,
     borderRadius: 10,
     overflow: 'hidden',
     margin: 20,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   headerBox: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
   },
   msgBox: {
     backgroundColor: Colors.white,
@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
     padding: 10,
     fontFamily: 'main-font',
     fontSize: 19,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
 });

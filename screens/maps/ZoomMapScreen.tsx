@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   mapName: {
     paddingTop: 50,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     marginBottom: '-20%',
     fontSize: 32,
   },
