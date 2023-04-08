@@ -168,7 +168,7 @@ export default function EventDetailsScreen(id: number) {
             >
               <ArkadText text="De-register from event" style={styles.title} />
             </ArkadButton>}
-            <ArkadText text={`Last date to de-register to this event is: ${eventStopSellingDate()}`} style={{color: Colors.darkBlue}}/>
+            <ArkadText text={`Last date to de-register to this event is: ${eventStopSellingDate()}`} style={{color: Colors.arkadNavy}}/>
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={[styles.qrContainer, {backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white}]}
@@ -182,7 +182,7 @@ export default function EventDetailsScreen(id: number) {
             <ArkadButton onPress={createTicket} style={styles.bookButton}>
               <ArkadText text="Register to event" style={styles.title} />
             </ArkadButton>
-            <ArkadText text={`Last date to register to this event is: ${eventStopSellingDate()}`} style={{color: Colors.darkBlue}}/>
+            <ArkadText text={`Last date to register to this event is: ${eventStopSellingDate()}`} style={{color: Colors.arkadNavy}}/>
           </>
         )}
       </View>
@@ -216,7 +216,7 @@ export default function EventDetailsScreen(id: number) {
 
 const styles = StyleSheet.create({
   ticketTitle: {
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     fontSize: 26,
     marginBottom: 10,
   },
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   consumedText: {
     alignSelf: "center",
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     marginTop: 40,
     marginBottom: 20,
     fontSize: 20,
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     width: "90%",
     marginTop: 20,
     height: 100,
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     justifyContent: "center",
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   qrHeader: {
     marginTop: 24,
     fontSize: 30,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     marginBottom: 8,
   },
   qrContainer: {

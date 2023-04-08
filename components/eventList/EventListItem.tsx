@@ -27,7 +27,7 @@ export const EventListItem = ({ event, itemStyle, onPress }: ListedEventItemProp
         styles.eventBookedContainer, 
         event.capacity == event.ticketCount 
           ? {backgroundColor:Colors.darkRed}
-          : {backgroundColor:Colors.darkYellow}
+          : {backgroundColor:Colors.arkadTurkos}
         ]}
       >
         <ArkadText 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     padding: 16,
     borderRadius: 16,
   },

@@ -38,18 +38,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: Colors.darkBlue,
+    borderColor: Colors.arkadNavy,
     backgroundColor: 'transparent',
     marginLeft: 12,
   },
   text: {
     fontSize: 14,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     marginLeft: 12,
   },
 
   checkboxChecked: {
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
   },
 
   checkboxContainer: {

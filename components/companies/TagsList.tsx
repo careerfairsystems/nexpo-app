@@ -14,14 +14,14 @@ export const TagsList = ({ company }: TagsListProps) => {
   const industryTags = allIndustries.map((industry: Industry) => {
     return {
       text: Industry[industry],
-      color: Colors.orange,
+      color: Colors.arkadOrange,
     }
   }); 
   const allPositions = company.positions ?? [];
   const positionTags = allPositions.map((position: Position) => {
     return {
       text: Position[position],
-      color: Colors.lightBlue,
+      color: Colors.arkadTurkos,
     }
   });
 

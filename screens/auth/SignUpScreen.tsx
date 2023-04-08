@@ -90,7 +90,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
 const styles = StyleSheet.create({
   checkbox: {
     fontSize: 18,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     marginLeft: 12,
   },
   checkboxError: {
@@ -127,6 +127,6 @@ const styles = StyleSheet.create({
   loginText: {
     textAlign: 'center',
     textDecorationLine: 'underline',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   }
 });

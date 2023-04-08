@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   signUpText: {
     textAlign: 'center',
     textDecorationLine: 'underline',
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   loginButton: {
     width: '45%',

@@ -7,6 +7,6 @@ export const HeaderStyles = {
   headerTitleStyle: {
     fontFamily: 'main-font-bold',
     fontSize: 32,
-    color: Colors.lightBlue,
+    color: Colors.arkadTurkos,
   },
 }

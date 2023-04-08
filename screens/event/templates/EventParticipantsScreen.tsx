@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   title: {
     justifyContent: "center",
     fontSize: 24,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   titleContainer: {
     width: "90%",

@@ -38,7 +38,7 @@ export const SSListItem = ({ application, onPress }: ListedApplicationProps) =>
         styles.applicationStatusContainer, 
         application.status === 2
           ? {backgroundColor:Colors.darkRed}
-          : {backgroundColor:Colors.darkYellow}
+          : {backgroundColor:Colors.arkadTurkos}
         ]}
       >
         <ArkadText 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
     padding: 16,
     borderRadius: 16,
   },

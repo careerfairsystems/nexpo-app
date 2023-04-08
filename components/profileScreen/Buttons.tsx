@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     padding: '4%',
     marginBottom: '2%',
     width: '45%',
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.arkadNavy,
   },
   editing: {
     alignSelf: 'center',

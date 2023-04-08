@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     fontSize: 24,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
     justifyContent: 'center',
   },
   eventList: {

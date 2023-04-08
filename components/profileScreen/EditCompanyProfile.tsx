@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 16,
     fontSize: 32,
-    color: Colors.darkBlue,
+    color: Colors.arkadNavy,
   },
   textInput: {
     width: "80%",
