@@ -27,11 +27,6 @@ export const LogoutButton = ({ onPress }: ButtonPressParams) =>
     <ArkadText text='Logout' style={styles.logoutText} />
   </ArkadButton>
 
-export const LoginButton = ({ onPress }: ButtonPressParams) =>
-  <ArkadButton onPress={onPress} style={styles.buttonContainer2}>
-    <ArkadText text='Login' style={styles.logoutText} />
-  </ArkadButton>
-
 export const ScanQRButton = ({ onPress }: ButtonPressParams) => 
   <ArkadButton onPress={onPress} style={styles.buttonContainer1}>
     <ArkadText text='Scan QR' style={styles.logoutText} />
