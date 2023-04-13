@@ -60,6 +60,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   async function logout() {
     await API.auth.logout();
     authContext.signOut();
+    window.location.reload();
   };
 
   useFocusEffect(useCallback(() => {
