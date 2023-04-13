@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: rm -rf node_modules && yarn install --frozen-lockfile
 
+      - name: Check dependencies
+        run: yarn check
+
       # We don't have any meaningful at the moment so only typecheck for now
       - name: Run type-check
       #  run: npm test
