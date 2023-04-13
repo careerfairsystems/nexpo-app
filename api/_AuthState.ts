@@ -44,6 +44,7 @@ export const getUserRole = async (): Promise<Role> => {
     case 'Administrator': return Role.Administrator;
     case 'Student': return Role.Student;
     case 'CompanyRepresentative': return Role.CompanyRepresentative;
+    case 'Volunteer': return Role.Volunteer;
     default: throw new Error(`Role of name "${roleName}" could not be parsed`);
   }
 }
