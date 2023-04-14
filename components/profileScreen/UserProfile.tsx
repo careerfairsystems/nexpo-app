@@ -5,6 +5,7 @@ import ProfilePicture from '../ProfilePicture';
 import { View, Text } from '../Themed';
 import { StyleSheet } from 'react-native';
 import Colors from 'constants/Colors';
+import { Role } from 'api/Role';
 
 type UserProfileProps = {
   user: User;
@@ -15,6 +16,9 @@ export default function UserProfile({ user }: UserProfileProps) {
     <View style={styles.container}>
       <ProfilePicture url={user.profilePictureUrl} />
       <Text style={styles.nameLabel}>{`${user.firstName} ${user.lastName}`}</Text>
+      <Text style={styles.accountTypeText}>
+        {Role[user.role]}
+      </Text>
 
       <View style={styles.contactInfoContainer}>
         <Ionicons name="mail" size={16} color={Colors.arkadNavy} />
@@ -56,5 +60,10 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     fontFamily: 'main-font-bold',
     color: Colors.arkadNavy,
+  },
+  accountTypeText: {
+    fontFamily: 'main-font',
+    color: Colors.arkadNavy,
+    fontSize: 16
   }
 });

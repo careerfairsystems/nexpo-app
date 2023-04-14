@@ -24,10 +24,16 @@ jobs:
       # Set up node
       - uses: actions/setup-node@v2
 
+      - name: Check yarn version
+        run: yarn --version
+
       - name: Install dependencies
-        run: npm ci
+        run: rm -rf node_modules && yarn install --frozen-lockfile
+
+      - name: Check dependencies
+        run: yarn check
 
       # We don't have any meaningful at the moment so only typecheck for now
-      - name: Run tests
+      - name: Run type-check
       #  run: npm test
-        run: npm run typecheck
+        run: yarn typecheck

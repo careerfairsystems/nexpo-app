@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     fontSize: 16,
     fontFamily: 'secondary-font',
-    fontVariant: 'SemiLight',
     color: Colors.arkadNavy,
   },
 });

@@ -45,6 +45,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
     }
     else {
       authContext.signIn();
+      window.location.reload();
     }
   }
 
