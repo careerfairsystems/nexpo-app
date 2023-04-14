@@ -22,6 +22,7 @@ import Colors from 'constants/Colors';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { BookedEventList } from 'components/profileScreen/BookedEventList';
 import { ArkadText } from 'components/StyledText';
+import { AuthNavigator } from 'screens/auth/AuthNavigator';
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
@@ -32,7 +33,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   const [user, setUser] = useState<User | null>(null);
   const [company, setCompany] = useState<Company | null>(null);
   const [student, setStudent] = useState<Student | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const authContext = useContext(AuthContext);
   const isFocused = useIsFocused();
@@ -59,6 +60,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   async function logout() {
     await API.auth.logout();
     authContext.signOut();
+    window.location.reload();
   };
 
   useFocusEffect(useCallback(() => {
@@ -69,31 +71,31 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   }, [isFocused]));
 
   
-  if (loading || !user) {
+  if (isLoading || !user) {
     return <ScreenActivityIndicator />
-  }
-  
-  return <>
-    <ScrollView style={styles.container}>
-      <UserProfile user={user as NonNullable<User>} />
-      { student && <StudentProfile student={student} />}
-      { company && <CompanyProfile company={company} />}
-      <ArkadText text={"Tickets to Events:"} style={styles.header}/>
-      <View style={styles.eventList}> 
-        {!bookedEvents 
-          ? <ActivityIndicator />
-          : bookedEvents.length !== 0 &&
-             <BookedEventList
-                bookedEvents={bookedEvents}
-                onPress={id => navigation.navigate('ProfileSwitchScreen', { screen: "details", id: id })} />
-        }
-      </View>
-      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
-      <View style= {styles.logout}>
-        <LogoutButton onPress={logout} />
-      </View>
-    </ScrollView>
-  </>;
+  } else {
+    return <>
+      <ScrollView style={styles.container}>
+        <UserProfile user={user as NonNullable<User>} />
+        { student && <StudentProfile student={student} />}
+        { company && <CompanyProfile company={company} />}
+        <ArkadText text={"Tickets to Events:"} style={styles.header}/>
+        <View style={styles.eventList}> 
+          {!bookedEvents 
+            ? <ActivityIndicator />
+            : bookedEvents.length !== 0 &&
+              <BookedEventList
+                  bookedEvents={bookedEvents}
+                  onPress={id => navigation.navigate('ProfileSwitchScreen', { screen: "details", id: id })} />
+          }
+        </View>
+        <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
+        <View style= {styles.logout}>
+          <LogoutButton onPress={logout} />
+        </View>
+      </ScrollView>
+    </>;
+  }  
 }
 
 const styles = StyleSheet.create({
