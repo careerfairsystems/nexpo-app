@@ -62,6 +62,8 @@ Currently there are some tests online on Github Actions which tests if packages 
 
 ## Useable scripts
 
+Note: There exist BAT scripts for this also for Windows users. They do the same thing as the scripts below.
+
 #### runFrontend.sh
 
 This script can be used as a helping hand for running the project. With this script you can reinstall `node_modules` if your packages are out of sync, install `sharp-cli` which is a image processing module and add SSL if this is a issue you're facing. There is a help command available if that is needed (`./runFrontend.sh --help`). If no flag is used when running the script you will simply check if yarn is installed and run the app.
