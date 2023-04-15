@@ -17,7 +17,7 @@ The app is built using the React Native framework and is using the Expo which is
 - [Node.js](https://nodejs.org/en/download/) (currently running on v.16.14.0)
 - Expo CLI
 - yarn
-- (optional) Expo (Go) mobile app (on [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en&gl=US) or [IOS](https://apps.apple.com/us/app/expo-go/id982107779))
+- (optional) Expo Go mobile app (on [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en&gl=US) or [IOS](https://apps.apple.com/us/app/expo-go/id982107779))
 
 ## How to setup a build environment
 
@@ -36,6 +36,8 @@ Here's how to setup the environment:
 
 With every dependency correctly installed to start the app run `yarn run start`. You will notice when the app have been correctly initialized. However, in order to access and view everything in the app you need to have the nexpo-app backend up and running correctly. For information regarding the backend please visit [nexpo-backend-nova](https://github.com/careerfairsystems/nexpo-backend-nova).
 
+You can test your app immediately in the browser. There is also support for testing the app on your mobile phone, please see the next section.
+
 ## Expo Go
 
 Expo Go is a mobile app that allows you to preview and test the mobile apps developed with Expo. Expo is a development tool that makes it easier to build React Native apps by providing a set of pre-configured templates and a suite of developer tools. Expo Go is available for both iOS and Android devices and can be downloaded from the App Store or Google Play.
@@ -43,3 +45,15 @@ Expo Go is a mobile app that allows you to preview and test the mobile apps deve
 Once you have developed a mobile app using Expo, you can use Expo Go to test and preview the app on your mobile device without having to go through the process of building and publishing the app to the app store. With Expo Go, you can easily see how your app will look and function on a real device, test different features, and make adjustments to your code in real-time.
 
 Expo Go also allows you to share your app with others by generating a QR code that others can scan to access your app. In order for this application to be available in Expo Go you need a Expo version installed on the project for version 46, 47 or 48. Also, your phone and computer need to be connected to the same network in order for this to work. There is a known issue that it's difficult to test Expo Go on school networks (or public ones).
+
+## If something goes wrong
+
+As this project have alot of dependencies (which have their dependencies) it is quite easy to make a mistake when installing packages or auto-updating the dependencies or packages. Please do not auto-update anything and do it manually. The project is very sensitive. One package worth keeping an eye on is the `webpack-dev-server` as this is a development server that allows you to test and develop your web applications. If this package doesn't work everything will crash.
+
+Otherwise it is usually quite easy to spot errors or issues on the frontend as they appear in the console (if testing in the browser) or in the CLI.
+
+## Useable scripts
+
+#### runFrontend.sh
+
+#### test_actions.sh
