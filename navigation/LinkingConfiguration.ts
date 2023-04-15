@@ -10,11 +10,6 @@ export default {
   prefixes: [Linking.createURL('/')],
   config: {
     screens: {
-      LoginScreen: 'login',
-      SignUpScreen: 'signup',
-      FinalizeSignUpScreen: 'finalize_signup/:token',
-      ForgotPasswordScreen: 'forgot_password',
-      ResetPasswordScreen: 'reset_password/:token',
       Root: {
         screens: {
           Companies: {
@@ -54,6 +49,15 @@ export default {
             screens: {
               ProfileScreen: 'profile',
               ProfileSwitchScreen: 'profile/:screen/:id',
+            },
+          },
+          Login: {
+            screens: {
+              LoginScreen: 'login',
+              SignUpScreen: 'signup',
+              FinalizeSignUpScreen: 'finalize_signup/:token',
+              ForgotPasswordScreen: 'forgot_password',
+              ResetPasswordScreen: 'reset_password/:token',
             },
           },
         },

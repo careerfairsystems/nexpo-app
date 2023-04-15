@@ -13,7 +13,6 @@ import LinkingConfiguration from './LinkingConfiguration';
 import { AuthContext } from 'components/AuthContext';
 
 import { API } from 'api/API';
-import { AuthNavigator } from '../screens/auth/AuthNavigator';
 import Colors from 'constants/Colors';
 
 
