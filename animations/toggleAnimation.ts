@@ -7,12 +7,12 @@ export const toggleAnimation = {
     type: LayoutAnimation.Types.easeInEaseOut,
     property: LayoutAnimation.Properties.opacity,
   },
-  update:{
+  update: {
     duration: 300,
     property: LayoutAnimation.Properties.opacity,
     type: LayoutAnimation.Types.easeInEaseOut,
   },
-  delete:{
+  delete: {
     duration: 200,
     property: LayoutAnimation.Properties.opacity,
     type: LayoutAnimation.Types.easeInEaseOut,

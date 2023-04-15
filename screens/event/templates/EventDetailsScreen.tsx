@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, Modal, Pressable, ScrollView, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import {
-  Ionicons,
-  MaterialIcons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+  Dimensions,
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Colors from "constants/Colors";
 
 import { API } from "api/API";
 import { bookedEvent, Event } from "api/Events";
-import {
-  CreateTicketDto,
-  getTicketForEvent,
-  removeTicket,
-  Ticket,
-} from "api/Tickets";
+import { CreateTicketDto, getTicketForEvent, removeTicket, Ticket } from "api/Tickets";
 
 import { View } from "components/Themed";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
@@ -25,7 +23,6 @@ import QRCode from "react-native-qrcode-svg";
 import { format, subDays } from "date-fns";
 
 export default function EventDetailsScreen(id: number) {
-
   const [event, setEvent] = useState<Event | null>(null);
   const [registered, setRegistered] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -33,11 +30,11 @@ export default function EventDetailsScreen(id: number) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const eventStopSellingDate = () => {
-    if(!event?.start) return("N/A");
+    if (!event?.start) return "N/A";
     const eventTime = new Date(event.date);
     const stopSellingDate = subDays(eventTime, 2);
     return format(stopSellingDate, "d LLL") + " - " + event.start;
-  }
+  };
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
     setEvent(event);
@@ -92,9 +89,7 @@ export default function EventDetailsScreen(id: number) {
 
     const success = await removeTicket(ticket.id);
     if (success) {
-      alert(
-        "Successfully de-registered from " + event?.name + " " + event?.date
-      );
+      alert("Successfully de-registered from " + event?.name + " " + event?.date);
       getEvent();
     } else {
       alert("Could not de-register from " + event?.name + " " + event?.date);
@@ -115,7 +110,7 @@ export default function EventDetailsScreen(id: number) {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        <QrModal/>
+        <QrModal />
         <View style={styles.titleContainer}>
           <ArkadText text={event.name} style={styles.title} />
         </View>
@@ -133,11 +128,7 @@ export default function EventDetailsScreen(id: number) {
               <ArkadText text={event.location} style={styles.headerText} />
             </View>
             <View style={styles.leftItem}>
-              <MaterialCommunityIcons
-                name="microphone"
-                size={16}
-                color="black"
-              />
+              <MaterialCommunityIcons name="microphone" size={16} color="black" />
               <ArkadText text={event.host} style={styles.headerText} />
             </View>
           </View>
@@ -161,28 +152,39 @@ export default function EventDetailsScreen(id: number) {
 
         {ticket && registered ? (
           <>
-            {ticket.isConsumed ? <NoButton text="Ticket consumed!" style={styles.consumedText}/>
-            :<ArkadButton
-              onPress={() => deregister()}
-              style={styles.bookedButton}
-            >
-              <ArkadText text="De-register from event" style={styles.title} />
-            </ArkadButton>}
-            <ArkadText text={`Last date to de-register to this event is: ${eventStopSellingDate()}`} style={{color: Colors.arkadNavy}}/>
+            {ticket.isConsumed ? (
+              <NoButton text="Ticket consumed!" style={styles.consumedText} />
+            ) : (
+              <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
+                <ArkadText text="De-register from event" style={styles.title} />
+              </ArkadButton>
+            )}
+            <ArkadText
+              text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
+              style={{ color: Colors.arkadNavy }}
+            />
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
-              style={[styles.qrContainer, {backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white}]}
+              style={[
+                styles.qrContainer,
+                { backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white },
+              ]}
               onPress={() => setModalVisible(true)}
             >
               <QRCode size={160} value={ticket.code} />
             </Pressable>
           </>
-        ) : event.capacity === event.ticketCount ? <NoButton text="No tickets Left :-(" style={styles.consumedText}/> 
-        : (<>
+        ) : event.capacity === event.ticketCount ? (
+          <NoButton text="No tickets Left :-(" style={styles.consumedText} />
+        ) : (
+          <>
             <ArkadButton onPress={createTicket} style={styles.bookButton}>
               <ArkadText text="Register to event" style={styles.title} />
             </ArkadButton>
-            <ArkadText text={`Last date to register to this event is: ${eventStopSellingDate()}`} style={{color: Colors.arkadNavy}}/>
+            <ArkadText
+              text={`Last date to register to this event is: ${eventStopSellingDate()}`}
+              style={{ color: Colors.arkadNavy }}
+            />
           </>
         )}
       </View>
@@ -190,27 +192,34 @@ export default function EventDetailsScreen(id: number) {
   );
 
   function QrModal() {
-    return (<Modal
-      animationType="none"
-      transparent={true}
-      visible={modalVisible}
-      style={{backgroundColor: "transparent"}}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      } }
-    >
-      <View style={styles.centeredView}>
-        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-          <View style={styles.modalOverlay} />
-        </TouchableWithoutFeedback>
-        <View style={[styles.qrModalContainer, {backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white}]}>
-          {ticket && <QRCode size={Dimensions.get('window').width * 0.75} value={ticket.code} />}
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={modalVisible}
+        style={{ backgroundColor: "transparent" }}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+            <View style={styles.modalOverlay} />
+          </TouchableWithoutFeedback>
+          <View
+            style={[
+              styles.qrModalContainer,
+              { backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white },
+            ]}
+          >
+            {ticket && <QRCode size={Dimensions.get("window").width * 0.75} value={ticket.code} />}
+          </View>
+          <ArkadButton onPress={() => setModalVisible(!modalVisible)}>
+            <ArkadText text={"Close"} />
+          </ArkadButton>
         </View>
-        <ArkadButton onPress={() => setModalVisible(!modalVisible)}>
-          <ArkadText text={"Close"} />
-        </ArkadButton>
-      </View>
-    </Modal>)
+      </Modal>
+    );
   }
 }
 
@@ -232,7 +241,7 @@ const styles = StyleSheet.create({
     padding: 22,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 12,
-    width: '90%',
+    width: "90%",
   },
   container: {
     flex: 1,

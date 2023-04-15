@@ -1,10 +1,9 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
+import { createStackNavigator } from "@react-navigation/stack";
+import * as React from "react";
 import MapScreen from "./MapScreen";
-import ZoomMapScreen from './ZoomMapScreen';
-import { Map } from 'components/maps/MapProps';
-import { HeaderStyles } from 'components/HeaderStyles';
-
+import ZoomMapScreen from "./ZoomMapScreen";
+import { Map } from "components/maps/MapProps";
+import { HeaderStyles } from "components/HeaderStyles";
 
 export type MapStackParamList = {
   MapScreen: undefined;
@@ -19,11 +18,13 @@ export function MapNavigator() {
       <MapStack.Screen
         name="MapScreen"
         component={MapScreen}
-        options={{ title: 'Maps', headerTitle: 'Maps', ...HeaderStyles }} />
+        options={{ title: "Maps", headerTitle: "Maps", ...HeaderStyles }}
+      />
       <MapStack.Screen
         name="ZoomMapScreen"
         component={ZoomMapScreen}
-        options={{ title: 'Map', headerTitle: 'Maps', ...HeaderStyles }} />
+        options={{ title: "Map", headerTitle: "Maps", ...HeaderStyles }}
+      />
     </MapStack.Navigator>
   );
 }

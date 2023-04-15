@@ -1,16 +1,16 @@
-import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { ArkadText } from '../StyledText';
-import { mapNavigation } from '../../screens/maps/MapScreen';
-import { ArkadButton } from '../Buttons';
-import { Ionicons } from '@expo/vector-icons';
-import Colors from 'constants/Colors';
+import React from "react";
+import { Image, StyleSheet } from "react-native";
+import { ArkadText } from "../StyledText";
+import { mapNavigation } from "../../screens/maps/MapScreen";
+import { ArkadButton } from "../Buttons";
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "constants/Colors";
 
-export function MapPreview ({ navigation, map}: mapNavigation) {
-  const myMap = { map }
+export function MapPreview({ navigation, map }: mapNavigation) {
+  const myMap = { map };
 
   function openMap() {
-    navigation.navigate('ZoomMapScreen', myMap);
+    navigation.navigate("ZoomMapScreen", myMap);
   }
 
   return (
@@ -19,7 +19,7 @@ export function MapPreview ({ navigation, map}: mapNavigation) {
       {/*<Image source={map.props.source} style={styles.img} />*/}
       <Ionicons name="map" size={32} color={Colors.arkadTurkos} />
     </ArkadButton>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -30,9 +30,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.arkadNavy,
     borderRadius: 10,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   previewText: {
     paddingBottom: 10,
@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
   img: {
     width: 120,
     height: 100,
-    resizeMode: 'center'
-  }
-})
+    resizeMode: "center",
+  },
+});

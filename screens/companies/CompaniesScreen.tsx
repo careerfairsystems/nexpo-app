@@ -1,26 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { AntDesign, Entypo } from '@expo/vector-icons'; 
-import { Animated, FlatList, LayoutAnimation, StyleSheet, TextInput } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { View } from 'components/Themed';
+import React, { useEffect, useRef, useState } from "react";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import { Animated, FlatList, LayoutAnimation, StyleSheet, TextInput } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { View } from "components/Themed";
 import { API } from "api/API";
-import { PublicCompanyDto } from 'api/Companies';
-import { CompanyListItem } from 'components/companies/CompanyListItem';
+import { PublicCompanyDto } from "api/Companies";
+import { CompanyListItem } from "components/companies/CompanyListItem";
 import { CompanyStackParamList } from "./CompaniesNavigator";
-import ScreenActivityIndicator from 'components/ScreenActivityIndicator';
-import Colors from 'constants/Colors';
-import CompaniesModal from 'components/companies/CompaniesModal';
-import { ArkadButton } from 'components/Buttons';
-import { toggleAnimation } from '../../animations/toggleAnimation';
+import ScreenActivityIndicator from "components/ScreenActivityIndicator";
+import Colors from "constants/Colors";
+import CompaniesModal from "components/companies/CompaniesModal";
+import { ArkadButton } from "components/Buttons";
+import { toggleAnimation } from "../../animations/toggleAnimation";
 
 type companiesNavigation = {
-  navigation: StackNavigationProp<
-    CompanyStackParamList,
-    'CompaniesScreen'
-  >
+  navigation: StackNavigationProp<CompanyStackParamList, "CompaniesScreen">;
 };
 
-export default function CompaniesScreen({navigation}: companiesNavigation) {
+export default function CompaniesScreen({ navigation }: companiesNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
   const [filteredCompanies, setFilteredCompanies] = useState<PublicCompanyDto[] | null>(null);
@@ -41,18 +38,18 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
     setFilteredCompanies(companies);
     setCompanies(companies);
     setLoading(false);
-  }
+  };
 
   const openCompanyDetails = (id: number) => {
-    navigation.navigate('CompanyDetailsScreen', { id });
-  }
+    navigation.navigate("CompanyDetailsScreen", { id });
+  };
 
   useEffect(() => {
     getCompanies();
   }, []);
 
   if (isLoading) {
-    return (<ScreenActivityIndicator />)
+    return <ScreenActivityIndicator />;
   }
 
   return (
@@ -65,29 +62,31 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
           placeholder={"Search for a company..."}
           placeholderTextColor={Colors.lightGray}
         />
-        <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()} >
-          {modalVisible ? <Entypo name="chevron-thin-up" size={24} color="white" />
-          : <AntDesign name="filter" size={24} color="white" />}
+        <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()}>
+          {modalVisible ? (
+            <Entypo name="chevron-thin-up" size={24} color="white" />
+          ) : (
+            <AntDesign name="filter" size={24} color="white" />
+          )}
           {isFiltered && <View style={styles.filterBadge} />}
-        </ArkadButton>  
+        </ArkadButton>
       </View>
-        <CompaniesModal
-          companies={companies ? companies : []}
-          setFilteredCompanies={setFilteredCompanies}
-          setIsFiltered={setIsFiltered}
-          isVisable={modalVisible}
-        />
+      <CompaniesModal
+        companies={companies ? companies : []}
+        setFilteredCompanies={setFilteredCompanies}
+        setIsFiltered={setIsFiltered}
+        isVisable={modalVisible}
+      />
       <FlatList
-        style={styles.list}  
+        style={styles.list}
         nestedScrollEnabled={true}
-        onScrollBeginDrag ={modalVisible ? () => toggleFilter() : () => {}}
+        onScrollBeginDrag={modalVisible ? () => toggleFilter() : () => {}}
         data={API.companies.filterData(text, filteredCompanies)}
         keyExtractor={({ id }) => id.toString()}
-        renderItem={({ item: company }) =>
-          <CompanyListItem
-            company={company}
-            onPress={() => openCompanyDetails(company.id)} />
-        } />
+        renderItem={({ item: company }) => (
+          <CompanyListItem company={company} onPress={() => openCompanyDetails(company.id)} />
+        )}
+      />
     </View>
   );
 }
@@ -95,11 +94,11 @@ export default function CompaniesScreen({navigation}: companiesNavigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   list: {
-    width: '100%',
+    width: "100%",
   },
   input: {
     borderColor: Colors.arkadNavy,
@@ -109,17 +108,17 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     marginRight: 12,
     fontSize: 20,
-    fontFamily: 'main-font-bold',
+    fontFamily: "main-font-bold",
     paddingHorizontal: 10,
     flexGrow: 1,
   },
   filterbutton: {
     height: 45,
-    padding: 10, 
-    margin: 0
+    padding: 10,
+    margin: 0,
   },
   filterBadge: {
-    position: 'absolute',
+    position: "absolute",
     top: -1,
     left: -1,
     backgroundColor: Colors.arkadTurkos,
@@ -128,10 +127,10 @@ const styles = StyleSheet.create({
     height: 15,
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '90%',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    width: "90%",
+    justifyContent: "space-between",
     paddingTop: 5,
     marginBottom: 16,
     zIndex: 1,

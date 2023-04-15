@@ -30,7 +30,7 @@
 //   const [scanned, setScanned] = useState<boolean>(false);
 //   const [loading, setLoading] = useState<boolean>(false);
 //   const [ticket, setTicket] = useState<Ticket | null>(null);
-  
+
 //   async function getPermission() {
 //     // No support for the QR scanner on web yet
 //     if (Platform.OS === 'web') return;
@@ -87,13 +87,13 @@
 //       {loading && <ActivityIndicator />}
 //       {scanned && !loading &&
 //       <View style={styles.container}>
-//         {ticket && ticket.eventId === id && ticket.isConsumed === false ? 
+//         {ticket && ticket.eventId === id && ticket.isConsumed === false ?
 //           <NoButton text={`Ticket for ${ticket.event.name} consumed!`} style={styles.success} /> :
 //           ticket && ticket.eventId === id ? <NoButton text={`ERR: Ticket already scanned`} style={styles.fail} />:
 //           ticket ? <NoButton text={`ERR: Ticket is not for this event\n its for ${ticket.event.name}`} style={styles.fail} /> :
 //           <NoButton text={`ERR: Ticket not found`} style={styles.fail} />
 //         }
-//         <ArkadButton 
+//         <ArkadButton
 //           onPress={() => {setScanned(false); setTicket(null);}}
 //           style={styles.button}>
 //           <ArkadText text={"Click to scan again"} style={styles.scanAgain}/>
@@ -124,7 +124,7 @@
 //     marginTop: 100,
 //     marginBottom: 0,
 //   },
-//   scanAgain: { 
+//   scanAgain: {
 //     color: Colors.white,
 //     fontSize: 32
 //   },
@@ -135,4 +135,4 @@
 //   permissionButton: {
 //     marginTop: 50,
 //   }
-// }); 
+// });

@@ -1,14 +1,14 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
-import { HeaderStyles } from 'components/HeaderStyles';
-import ProfileScreen from './ProfileScreen';
-import ProfileSwitchScreen from './ProfileSwitchScreen';
+import { createStackNavigator } from "@react-navigation/stack";
+import * as React from "react";
+import { HeaderStyles } from "components/HeaderStyles";
+import ProfileScreen from "./ProfileScreen";
+import ProfileSwitchScreen from "./ProfileSwitchScreen";
 
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
   EditProfileScreen: undefined;
   ProfileSwitchScreen: {
-    screen: string 
+    screen: string;
     id: number;
   };
 };
@@ -19,11 +19,13 @@ export function ProfileNavigator() {
       <ProfileStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ title: 'Profile', headerTitle: 'Profile', ...HeaderStyles }} />
+        options={{ title: "Profile", headerTitle: "Profile", ...HeaderStyles }}
+      />
       <ProfileStack.Screen
         name="ProfileSwitchScreen"
         component={ProfileSwitchScreen}
-        options={{ headerTitle: 'Profile', ...HeaderStyles }} />
+        options={{ headerTitle: "Profile", ...HeaderStyles }}
+      />
     </ProfileStack.Navigator>
   );
 }

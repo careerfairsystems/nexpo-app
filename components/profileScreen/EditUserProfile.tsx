@@ -12,7 +12,7 @@ import { API } from "api/API";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from "expo-file-system";
 
 type EditUserProfileProps = {
   user: User;
@@ -31,12 +31,8 @@ export default function EditUserProfile({
   const [firstName, setFirstName] = useState<string | null>(user.firstName);
   const [lastName, setLastName] = useState<string | null>(user.lastName);
   const [phoneNr, setPhoneNr] = useState<string | null>(user.phoneNr);
-  const [foodPreferences, setFoodPreferences] = useState<string | null>(
-    user.foodPreferences
-  );
-  const [hasCv, setCvURL] = useState<boolean| null> (
-    user.hasCv
-  );
+  const [foodPreferences, setFoodPreferences] = useState<string | null>(user.foodPreferences);
+  const [hasCv, setCvURL] = useState<boolean | null>(user.hasCv);
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
 
@@ -70,41 +66,39 @@ export default function EditUserProfile({
 
   const setProfilePicture = async () => {
     if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert(
-          "We need camera roll permissions to upload a new profile picture"
-        );
+        alert("We need camera roll permissions to upload a new profile picture");
         return;
-      } 
-    } 
+      }
+    }
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1]
+      aspect: [1, 1],
     });
-    if (result.cancelled) return
-    const fileInfo = await FileSystem.getInfoAsync(result.uri)
-    if (result.type != 'image') {
-      alert("Only images allowed")
-      return
+    if (result.cancelled) return;
+    const fileInfo = await FileSystem.getInfoAsync(result.uri);
+    if (result.type != "image") {
+      alert("Only images allowed");
+      return;
     }
-    if (fileInfo.size ? fileInfo.size > 4000000: false) {
-      alert("Maximum filesize is 1Mb")
-      return
+    if (fileInfo.size ? fileInfo.size > 4000000 : false) {
+      alert("Maximum filesize is 1Mb");
+      return;
     }
 
-    await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg").catch(e => {console.log(e)});
+    await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg").catch((e) => {
+      console.log(e);
+    });
     setHasProfilePicture(true);
     alert("save profile to see profile picture");
-    
   };
-  
+
   const removeProfilePicture = async () => {
     if (hasProfilePicture == false) {
-      alert("You have no profile picture")
-    } else{
+      alert("You have no profile picture");
+    } else {
       await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
       setHasProfilePicture(false);
       alert("save profile to remove profile picture");
@@ -112,52 +106,54 @@ export default function EditUserProfile({
   };
   const setCV = async () => {
     let resultFile = await DocumentPicker.getDocumentAsync({});
-    if (resultFile.type == "success" ) {
-      if(resultFile.mimeType == "application/pdf"  && (resultFile.size ? resultFile.size < 2000000 : false)) {
-        const r = resultFile.uri
-        console.log(JSON.stringify(r))
+    if (resultFile.type == "success") {
+      if (
+        resultFile.mimeType == "application/pdf" &&
+        (resultFile.size ? resultFile.size < 2000000 : false)
+      ) {
+        const r = resultFile.uri;
+        console.log(JSON.stringify(r));
         try {
-          const res = await API.s3bucket.postToS3(r, user.id.toString(), ".pdf")
-        
-          alert("CV uploaded")
-          setCvURL(true)
+          const res = await API.s3bucket.postToS3(r, user.id.toString(), ".pdf");
+
+          alert("CV uploaded");
+          setCvURL(true);
         } catch (error) {
-          console.log(error)
-          alert("Something went wrong")
+          console.log(error);
+          alert("Something went wrong");
         }
       } else {
-        alert("File needs to be in PDF format and must be smaller than 2Mb")
+        alert("File needs to be in PDF format and must be smaller than 2Mb");
       }
     }
-}
+  };
 
   const deleteCV = async () => {
     try {
-      const dto = await API.s3bucket.deleteOnS3(user.id.toString() , ".pdf")
-      alert("CV deleted")
+      const dto = await API.s3bucket.deleteOnS3(user.id.toString(), ".pdf");
+      alert("CV deleted");
       if (dto.valueOf() == true) {
-        setCvURL(false)
+        setCvURL(false);
       }
     } catch (error) {
-      console.log(error)
-      setCvURL(false)
-      alert("CV deleted")
+      console.log(error);
+      setCvURL(false);
+      alert("CV deleted");
     }
-  }
+  };
 
   const downloadCV = async () => {
-    const Uri = await API.s3bucket.getFromS3(user.id.toString(), ".pdf")
+    const Uri = await API.s3bucket.getFromS3(user.id.toString(), ".pdf");
     Linking.canOpenURL(Uri).then(() => {
       return Linking.openURL(Uri);
     });
-  }
+  };
 
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <ProfilePicture url={user.profilePictureUrl}
-        />   
-        
+        <ProfilePicture url={user.profilePictureUrl} />
+
         <ArkadButton onPress={setProfilePicture}>
           {hasProfilePicture ? (
             <ArkadText text="Change profile picture" />
@@ -169,24 +165,21 @@ export default function EditUserProfile({
           <ArkadButton onPress={removeProfilePicture}>
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
-          
         )}
         <ArkadButton onPress={setCV}>
-          {hasCv ? (
-            <ArkadText text="Update CV" />
-            ) : (
-            <ArkadText text="Upload CV" />
-          )}
+          {hasCv ? <ArkadText text="Update CV" /> : <ArkadText text="Upload CV" />}
         </ArkadButton>
-        {hasCv &&
+        {hasCv && (
           <ArkadButton onPress={deleteCV} style={styles.hasCv}>
             <ArkadText text="Delete CV" />
           </ArkadButton>
-        }
-        {hasCv &&
-        <ArkadButton onPress ={downloadCV}><ArkadText text="Download CV" /></ArkadButton>
-        } 
-        
+        )}
+        {hasCv && (
+          <ArkadButton onPress={downloadCV}>
+            <ArkadText text="Download CV" />
+          </ArkadButton>
+        )}
+
         <Text>First name</Text>
         <TextInput
           style={styles.textInput}
@@ -243,7 +236,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   hasCv: {
-    backgroundColor: Colors.darkRed
+    backgroundColor: Colors.darkRed,
   },
   nameLabel: {
     paddingTop: 8,

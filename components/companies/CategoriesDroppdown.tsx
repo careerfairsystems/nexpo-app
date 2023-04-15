@@ -12,14 +12,14 @@ type categoriesDropdownProps = {
   items: any;
   setItems: (value: any) => void;
   filterCompanies?: () => void;
-  title : string;
+  title: string;
   onChangeValue?: () => void;
   categories: boolean;
   single?: boolean;
-}
+};
 
 export function CategoriesDropdown(props: categoriesDropdownProps) {
-  return(
+  return (
     <DropDownPicker
       style={styles.dropdown}
       multiple={props.single ? false : true}
@@ -34,43 +34,46 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       modalTitle={props.title}
       modalTitleStyle={styles.modalTitle}
       categorySelectable={!props.categories}
-      listParentContainerStyle={props.categories ? styles.listParentContainer: null}
-      listParentLabelStyle={props.categories ? {color: Colors.white}: null}
-      placeholderStyle={{ 
+      listParentContainerStyle={props.categories ? styles.listParentContainer : null}
+      listParentLabelStyle={props.categories ? { color: Colors.white } : null}
+      placeholderStyle={{
         color: Colors.arkadNavy,
         fontSize: 20,
-        fontFamily: 'main-font-bold'}}
-      selectedItemContainerStyle={{
-        //backgroundColor: Colors.arkadTurkos,
+        fontFamily: "main-font-bold",
       }}
+      selectedItemContainerStyle={
+        {
+          //backgroundColor: Colors.arkadTurkos,
+        }
+      }
       selectedItemLabelStyle={{
         color: Colors.arkadTurkos,
       }}
       listItemLabelStyle={{
         color: Colors.arkadNavy,
         fontSize: 20,
-        fontFamily: 'main-font-bold',
+        fontFamily: "main-font-bold",
       }}
       closeIconContainerStyle={styles.closeButton}
       listItemContainerStyle={styles.container}
       showArrowIcon={false}
-      mode = 'BADGE'
+      mode="BADGE"
       listMode="MODAL"
       badgeDotStyle={{
         backgroundColor: Colors.arkadNavy,
       }}
       onClose={props.filterCompanies ? props.filterCompanies : () => {}}
-      CloseIconComponent={() => <Ionicons name='checkmark' style={styles.checkmark} />}
-      TickIconComponent={() => <Ionicons name='checkmark' style={styles.tickIcon} />}
+      CloseIconComponent={() => <Ionicons name="checkmark" style={styles.checkmark} />}
+      TickIconComponent={() => <Ionicons name="checkmark" style={styles.tickIcon} />}
     />
-  )
+  );
 }
 const styles = StyleSheet.create({
   modalTitle: {
     fontWeight: "bold",
     color: Colors.arkadNavy,
-    fontFamily: 'main-font-bold',
-    fontSize: 32
+    fontFamily: "main-font-bold",
+    fontSize: 32,
   },
   listParentContainer: {
     backgroundColor: Colors.arkadNavy,
@@ -98,6 +101,5 @@ const styles = StyleSheet.create({
   tickIcon: {
     color: Colors.arkadTurkos,
     fontSize: 32,
-  }
-  
+  },
 });

@@ -44,11 +44,11 @@ export default function BottomTabNavigator() {
   const authContext = useContext(AuthContext);
 
   const getSignedInStatus = async () => {
-    setLoading(true)
+    setLoading(true);
     const status = await API.auth.isAuthenticated();
     setSignedIn(status);
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   const getUser = async () => {
     try {
@@ -71,7 +71,6 @@ export default function BottomTabNavigator() {
     }
   }, [isSignedIn]);
 
-
   async function logout() {
     await API.auth.logout();
     authContext.signOut();
@@ -89,66 +88,72 @@ export default function BottomTabNavigator() {
           name="Companies"
           component={CompaniesNavigator}
           options={{
-            tabBarIcon: ({ color }) => (<TabBarIonicon name="briefcase-outline" color={color} />), ...HeaderStyles,
+            tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
+            ...HeaderStyles,
           }}
         />
         <BottomTab.Screen
           name="Maps"
           component={MapNavigator}
           options={{
-            tabBarIcon: ({ color }) => (<TabBarIonicon name="map" color={color} />), ...HeaderStyles,
+            tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
+            ...HeaderStyles,
           }}
         />
-        {user && 
+        {user && (
           <BottomTab.Screen
-          name="Events"
-          component={EventsNavigator}
-          options={{
-            tabBarIcon: ({ color }) => (<TabBarMaterialIcon name="event" color={color} />), ...HeaderStyles,
-          }}
-          />
-        }
-        {user && (user.role !== Role.CompanyRepresentative ? (
-          <BottomTab.Screen
-            name="SSsStudent"
-            component={SSsStudentNavigator}
+            name="Events"
+            component={EventsNavigator}
             options={{
-              title: "Student Sessions",
-              tabBarIcon: ({ color }) => (<TabBarMaterialIcon name="forum" color={color} />), ...HeaderStyles,
+              tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
+              ...HeaderStyles,
             }}
           />
-        ) : (
-          companyId && (
+        )}
+        {user &&
+          (user.role !== Role.CompanyRepresentative ? (
             <BottomTab.Screen
-              name="SSsCRep"
-              component={SSsCRepNavigator}
+              name="SSsStudent"
+              component={SSsStudentNavigator}
               options={{
                 title: "Student Sessions",
-                tabBarIcon: ({ color }) => (<TabBarMaterialIcon name="forum" color={color} />), ...HeaderStyles,
+                tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+                ...HeaderStyles,
               }}
-              initialParams={{ companyId: companyId }}
             />
-          )
-        ))}
+          ) : (
+            companyId && (
+              <BottomTab.Screen
+                name="SSsCRep"
+                component={SSsCRepNavigator}
+                options={{
+                  title: "Student Sessions",
+                  tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+                  ...HeaderStyles,
+                }}
+                initialParams={{ companyId: companyId }}
+              />
+            )
+          ))}
         {isSignedIn ? (
           <BottomTab.Screen
             name="Profile"
             component={ProfileNavigator}
             options={{
-              tabBarIcon: ({ color }) => (<TabBarIonicon name="person" color={color} />), ...HeaderStyles,
+              tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
+              ...HeaderStyles,
             }}
           />
-
         ) : (
           <BottomTab.Screen
             name="Login"
             component={AuthNavigator}
             options={{
-              tabBarIcon: ({ color }) => (<TabBarIonicon name="person" color={color} />), ...HeaderStyles,
+              tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
+              ...HeaderStyles,
             }}
           />
-        )
-        }
+        )}
       </BottomTab.Navigator>
     );
   }

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Pressable, StyleSheet, TextStyle, View } from 'react-native';
-import {Ionicons} from "@expo/vector-icons";
-import { ArkadText } from './StyledText';
-import Colors from 'constants/Colors';
+import React, { useState } from "react";
+import { Pressable, StyleSheet, TextStyle, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { ArkadText } from "./StyledText";
+import Colors from "constants/Colors";
 
 interface checkboxProps {
   onPress: (value: boolean) => void;
@@ -19,13 +19,11 @@ export function Checkbox({ onPress, text, style }: checkboxProps) {
   }
 
   return (
-    <Pressable
-    onPress={onCheckmarkPress}
-    style={styles.checkboxContainer}>
+    <Pressable onPress={onCheckmarkPress} style={styles.checkboxContainer}>
       <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
-      {checked && <Ionicons name="checkmark" size={20} style={styles.checkmark}/>}
+        {checked && <Ionicons name="checkmark" size={20} style={styles.checkmark} />}
       </View>
-      <ArkadText style={style ? style : styles.text} text={text}/>
+      <ArkadText style={style ? style : styles.text} text={text} />
     </Pressable>
   );
 }
@@ -34,12 +32,12 @@ const styles = StyleSheet.create({
   checkboxBase: {
     width: 24,
     height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 4,
     borderWidth: 2,
     borderColor: Colors.arkadNavy,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     marginLeft: 12,
   },
   text: {
@@ -53,12 +51,12 @@ const styles = StyleSheet.create({
   },
 
   checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
-  
+
   checkmark: {
     color: Colors.white,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
 });

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import Colors from 'constants/Colors';
+import * as React from "react";
+import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
+import Colors from "constants/Colors";
 
 interface buttonProps {
   children?: React.ReactNode;
@@ -9,14 +9,16 @@ interface buttonProps {
 }
 
 export function ArkadButton(props: buttonProps) {
-  return (<Pressable style={[styles.button, props.style]} onPress={props.onPress}>
-    {props.children}
-  </Pressable>)
+  return (
+    <Pressable style={[styles.button, props.style]} onPress={props.onPress}>
+      {props.children}
+    </Pressable>
+  );
 }
 
 const styles = StyleSheet.create({
   button: {
-    justifyContent: 'center',
+    justifyContent: "center",
     backgroundColor: Colors.arkadOrange,
     borderRadius: 55,
     padding: 20,

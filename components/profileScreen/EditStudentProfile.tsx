@@ -22,9 +22,7 @@ export default function EditStudentProfile({
   setEditStatus,
 }: EditStudentProfileProps) {
   const [year, setYear] = React.useState<number | null>(student.year);
-  const [masterTitle, setMasterTitle] = React.useState<string | null>(
-    student.masterTitle
-  );
+  const [masterTitle, setMasterTitle] = React.useState<string | null>(student.masterTitle);
   const [linkedIn, setLinkedIn] = React.useState<string>(
     student.linkedIn === null ? "" : student.linkedIn
   );
@@ -54,7 +52,6 @@ export default function EditStudentProfile({
     }
   };
 
-
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -66,10 +63,11 @@ export default function EditStudentProfile({
             setOpen={programmeSetOpen}
             setValue={setProgramme}
             open={programmeOpen}
-            value={programme} 
+            value={programme}
             setItems={setProgrammes}
             categories={true}
-            single={true}/>
+            single={true}
+          />
         </View>
 
         <Text>Year</Text>

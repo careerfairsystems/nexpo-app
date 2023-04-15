@@ -1,5 +1,5 @@
-import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import React from "react";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 export default function ScreenActivityIndicator() {
   return (
@@ -12,7 +12,7 @@ export default function ScreenActivityIndicator() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-})
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

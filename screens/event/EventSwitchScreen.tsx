@@ -4,10 +4,7 @@ import EventDetailsScreen from "./templates/EventDetailsScreen";
 import EventParticipantsScreen from "./templates/EventParticipantsScreen";
 
 type ProfileSwitchScreenParams = {
-  navigation: StackNavigationProp<
-      EventStackParamlist,
-      'EventSwitchScreen'
-    >;
+  navigation: StackNavigationProp<EventStackParamlist, "EventSwitchScreen">;
   route: {
     params: {
       id: number;
@@ -17,9 +14,13 @@ type ProfileSwitchScreenParams = {
 };
 
 export default function EventSwitchScreen({ navigation, route }: ProfileSwitchScreenParams) {
-  const { id,  screen } = route.params;
+  const { id, screen } = route.params;
   switch (screen) {
-    case 'participatians':{ return (EventParticipantsScreen(navigation, id)); }
-    default: { return (EventDetailsScreen(id)); }
+    case "participatians": {
+      return EventParticipantsScreen(navigation, id);
+    }
+    default: {
+      return EventDetailsScreen(id);
+    }
   }
 }

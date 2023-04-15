@@ -18,9 +18,7 @@ export default function EditCompanyProfile({
   setUpdateCompanyDto,
   setEditStatus,
 }: EditCompanyProfileProps) {
-  const [description, setDescription] = React.useState<string | null>(
-    company.description
-  );
+  const [description, setDescription] = React.useState<string | null>(company.description);
   const [website, setWebsite] = React.useState<string | null>(company.website);
 
   React.useEffect(() => {

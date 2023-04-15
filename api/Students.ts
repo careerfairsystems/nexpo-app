@@ -1,4 +1,4 @@
-import { getAuth, putAuth } from './_HttpHelpers'; 
+import { getAuth, putAuth } from "./_HttpHelpers";
 
 export enum Programme {
   Fire_engineer,
@@ -21,7 +21,7 @@ export enum Programme {
   Land_surveying,
   Computer_Software_engineering,
   Engineering_Physics,
-  Construction_and_road
+  Construction_and_road,
 }
 
 export interface Student {
@@ -50,7 +50,7 @@ export const getStudent = async (studentId: number): Promise<Student> => {
   const json = await response.json();
   const student = json as Student;
   return student;
-}
+};
 
 /**
  * Update a specific student. Requires Administrator role
@@ -60,24 +60,24 @@ export const updateStudent = async (studentId: number, dto: UpdateStudentDto): P
   const json = await response.json();
   const student = json as Student;
   return student;
-}
+};
 
 /**
  * Get the currently signed in student
  */
 export const getMe = async (): Promise<Student> => {
-  const response = await getAuth('/students/me');
+  const response = await getAuth("/students/me");
   const json = await response.json();
   const student = json as Student;
   return student;
-}
+};
 
 /**
  * Update the signed in student
  */
 export const updateMe = async (dto: UpdateStudentDto): Promise<Student> => {
-  const response = await putAuth('/students/me', dto);
+  const response = await putAuth("/students/me", dto);
   const json = await response.json();
   const student = json as Student;
   return student;
-}
+};
