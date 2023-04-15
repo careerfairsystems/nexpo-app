@@ -20,7 +20,7 @@ show_help() {
     echo ""
 }
 
-checkInstalled npm
+checkInstalled yarn
 
 while getopts ":h:n:c:s" opt; do
     case $opt in
