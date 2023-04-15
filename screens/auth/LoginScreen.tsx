@@ -38,7 +38,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
 
     setLoading(false);
     if (success.status === 400) {
-      alert('wrong email or password');
+      alert('Wrong email or password');
     }
     else if (!success.ok) {
       alert('Login not successful');

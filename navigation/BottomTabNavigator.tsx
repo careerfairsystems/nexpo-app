@@ -29,7 +29,7 @@ export type BottomTabParamList = {
   Companies: undefined;
   Maps: undefined;
   Profile: undefined;
-  SignIn: undefined;
+  Login: undefined;
   SSsStudent: undefined;
   SSsCRep: { companyId: number };
   Events: undefined;
@@ -141,7 +141,7 @@ export default function BottomTabNavigator() {
 
         ) : (
           <BottomTab.Screen
-            name="SignIn"
+            name="Login"
             component={AuthNavigator}
             options={{
               tabBarIcon: ({ color }) => (<TabBarIonicon name="person" color={color} />), ...HeaderStyles,

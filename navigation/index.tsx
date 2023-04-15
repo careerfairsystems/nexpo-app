@@ -56,8 +56,23 @@ export default function Navigation() {
       <NavigationContainer
         linking={LinkingConfiguration}
         theme={theme}>
-          <BottomTabNavigator />
+          <RootNavigator />
       </NavigationContainer>
     </AuthContext.Provider>
+  );
+}
+
+export type RootStackParamList = {
+  Root: undefined;
+  NotFound: undefined;
+}
+
+const RootStack = createStackNavigator<RootStackParamList>();
+function RootNavigator() {
+  return (
+    <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Root" >
+      <RootStack.Screen name="Root" component={BottomTabNavigator} />
+      <RootStack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    </RootStack.Navigator>
   );
 }
