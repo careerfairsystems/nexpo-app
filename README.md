@@ -12,6 +12,10 @@ nexpo-app is the frontend and the graphical interface for the application at ARK
 
 The app is built using the React Native framework and is using the Expo which is a framework for React Native to build mobile applications for Android and iOS.
 
+## Overall Architecture
+
+TBD
+
 ## Required dependencies
 
 - [Node.js](https://nodejs.org/en/download/) (currently running on v.16.14.0)
@@ -52,8 +56,23 @@ As this project have alot of dependencies (which have their dependencies) it is 
 
 Otherwise it is usually quite easy to spot errors or issues on the frontend as they appear in the console (if testing in the browser) or in the CLI.
 
+##### Github Actions
+
+Currently there are some tests online on Github Actions which tests if packages and dependencies are installed correctly and if there exist some typechecks. This is also controlled through the `test_actions.sh` script explained further down.
+
 ## Useable scripts
 
 #### runFrontend.sh
 
+This script can be used as a helping hand for running the project. With this script you can reinstall `node_modules` if your packages are out of sync, install `sharp-cli` which is a image processing module and add SSL if this is a issue you're facing. There is a help command available if that is needed (`./runFrontend.sh --help`). If no flag is used when running the script you will simply check if yarn is installed and run the app.
+
 #### test_actions.sh
+
+This script helps the developer with testing the dependencies and packages but also tpyechecks before pushing up new code. This script have four tests available which are the same as the Github Actions one, so if your code passes this scripts test it will pass the Github Actions tests which will give you a green mark for good work.
+
+The tests are the following:
+
+* Checks if yarn is installed in a lazy way
+* Removes `node_modules` and re-installs it
+* Checks if all dependencies are correct and no dependency is missing or incompatible
+* Typechecks the project
