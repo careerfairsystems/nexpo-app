@@ -1,12 +1,6 @@
 # Instruktioner:
 # Första gången: Kör denna fil
-# Sedan: Kör endast npm run start
-
-checkInstalled() {
-    if ! [ -x "$(command -v $@)" ]; then
-        echo "Error: $@ is not installed." >&2
-    fi
-}
+# Sedan: Kör endast yarn run start
 
 show_help() {
     echo "Usage: ./runFrondend.sh [OPTIONS]"
@@ -31,12 +25,12 @@ while getopts ":h:n:c:s" opt; do
     n|renode)
         # Reinstall node_modules
         sudo rm -rf node_modules 
-        npm install
+        yarn install
         exit 0
         ;;
     c|recli)
         # Install sharp-cli  
-        sudo npm install -g sharp-cli@^2.1.0
+        sudo yarn add sharp-cli@^2.1.0 --global
         ;;
     s|ressl)  
         # Lägg till vid problem med ssl. (opensslErrorStack)
@@ -46,4 +40,4 @@ while getopts ":h:n:c:s" opt; do
     esac
 done
 
-npm run start
+yarn run start
