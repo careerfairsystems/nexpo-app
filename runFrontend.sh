@@ -2,6 +2,12 @@
 # Första gången: Kör denna fil
 # Sedan: Kör endast yarn run start
 
+checkInstalled() {
+    if ! [ -x "$(command -v $@)" ]; then
+        echo "Error: $@ is not installed." >&2
+    fi
+}
+
 show_help() {
     echo "Usage: ./runFrondend.sh [OPTIONS]"
     echo "Script for running the frontend"
