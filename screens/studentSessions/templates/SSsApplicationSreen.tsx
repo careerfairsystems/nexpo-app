@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, TextInput } from "react-native";
 import Colors from "constants/Colors";
 
 import { API } from "api/API";
-import { } from "api/StudentSessions";
+import {} from "api/StudentSessions";
 
 import { View } from "components/Themed";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
@@ -17,14 +17,13 @@ type SSsApplicationScreenParams = {
   companyId: number;
 };
 
-export default function SSsApplicationScreen({companyId} : SSsApplicationScreenParams) {
-
+export default function SSsApplicationScreen({ companyId }: SSsApplicationScreenParams) {
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
 
   const sendApplication = async () => {
-    if(msg === "") {
+    if (msg === "") {
       alert("Message cannot be empty");
     } else {
       setLoading(true);
@@ -50,21 +49,29 @@ export default function SSsApplicationScreen({companyId} : SSsApplicationScreenP
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        {company?.studentSessionMotivation && <>
-        <ArkadText style={styles.header} text={`from ${company.name}:`}/>
-        <ArkadText style={styles.companyMotivation} text={company.studentSessionMotivation}/>
-        </>}
-        <ArkadText text="Motivation for the company:" style={styles.smallHeader}/>
+        {company?.studentSessionMotivation && (
+          <>
+            <ArkadText style={styles.header} text={`from ${company.name}:`} />
+            <ArkadText style={styles.companyMotivation} text={company.studentSessionMotivation} />
+          </>
+        )}
+        <ArkadText text="Motivation for the company:" style={styles.smallHeader} />
         <TextInput
           multiline
           style={styles.input}
           onChangeText={setMsg}
           value={msg}
-          placeholder={"Hey! \nMy name is X and I'm curious about your Y position. \nCurrently I'm studying Z which I believe would be useful because of W. \nI have previous experience in H, from projects such as M,B,J."}
+          placeholder={
+            "Hey! \nMy name is X and I'm curious about your Y position. \nCurrently I'm studying Z which I believe would be useful because of W. \nI have previous experience in H, from projects such as M,B,J."
+          }
         />
-        <CardWithHeader msg={'The company will see your entire profile! Make sure to add CV and/or Linkedin-link in your profile for better chances of getting approved!' +
-         '\n \nWhen accepted, you will receive an e-mail telling you to book a session.'
-         } header={"Remember!"} />
+        <CardWithHeader
+          msg={
+            "The company will see your entire profile! Make sure to add CV and/or Linkedin-link in your profile for better chances of getting approved!" +
+            "\n \nWhen accepted, you will receive an e-mail telling you to book a session."
+          }
+          header={"Remember!"}
+        />
         <ArkadButton onPress={sendApplication}>
           <ArkadText text="Send application" />
         </ArkadButton>
@@ -92,7 +99,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 10,
     color: Colors.arkadNavy,
-    fontFamily: "main-font"
+    fontFamily: "main-font",
   },
   scrollView: {
     backgroundColor: Colors.white,
@@ -105,8 +112,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   input: {
-    textAlign: 'left',
-    textAlignVertical: 'top',
+    textAlign: "left",
+    textAlignVertical: "top",
     borderColor: Colors.arkadNavy,
     borderWidth: 3,
     color: Colors.arkadNavy,
@@ -115,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     margin: 10,
     fontSize: 18,
-    fontFamily: 'main-font-bold',
-    paddingHorizontal: 10
+    fontFamily: "main-font-bold",
+    paddingHorizontal: 10,
   },
 });

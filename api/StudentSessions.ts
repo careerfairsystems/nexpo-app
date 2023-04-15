@@ -21,13 +21,13 @@ export const bookTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
   const json = await response.json();
   const timeslot = json as SSTimeslot;
   return timeslot;
-}
+};
 export const unbookTimeslot = async (timeslotId: number): Promise<SSTimeslot> => {
   const response = await putAuth(`/timeslots/unbook/${timeslotId}`, {});
   const json = await response.json();
   const timeslot = json as SSTimeslot;
   return timeslot;
-}
+};
 export const getTimeslotsByCompanyId = async (companyId: number): Promise<SSTimeslot[]> => {
   const response = await getAuth(`/timeslots/company/${companyId}`);
   const json = await response.json();
@@ -43,8 +43,8 @@ export const getCompaniesWithTimeslots = async (): Promise<PublicCompanyDto[]> =
 
 export function formatTime(start: Date, end: Date): string {
   try {
-    const st = new Date(start + "+01:00")
-    const en = new Date(end + "+01:00")
+    const st = new Date(start + "+01:00");
+    const en = new Date(end + "+01:00");
     const startString = format(st, "HH:mm");
     const endString = format(en, "HH:mm");
     const clock: string = `${startString} - ${endString}`;

@@ -1,21 +1,20 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
+import { createStackNavigator } from "@react-navigation/stack";
+import * as React from "react";
 import EventListScreen from "./EventListScreen";
 //import QRScreen from './QRScreen';
-import EventSwitchScreen from './EventSwitchScreen';
-import { HeaderStyles } from 'components/HeaderStyles';
-
+import EventSwitchScreen from "./EventSwitchScreen";
+import { HeaderStyles } from "components/HeaderStyles";
 
 export type EventStackParamlist = {
   EventListScreen: undefined;
   EventSwitchScreen: {
     id: number;
     screen: string;
-  }
+  };
   QRScreen: {
     id: number;
-  }
-}
+  };
+};
 const EventStack = createStackNavigator<EventStackParamlist>();
 export function EventsNavigator() {
   return (
@@ -23,12 +22,12 @@ export function EventsNavigator() {
       <EventStack.Screen
         name="EventListScreen"
         component={EventListScreen}
-        options={{ title: 'Events', headerTitle: 'Events', ...HeaderStyles }}
+        options={{ title: "Events", headerTitle: "Events", ...HeaderStyles }}
       />
       <EventStack.Screen
         name="EventSwitchScreen"
         component={EventSwitchScreen}
-        options={{ title: 'Event', headerTitle: 'Events', ...HeaderStyles }}
+        options={{ title: "Event", headerTitle: "Events", ...HeaderStyles }}
       />
       {/* <EventStack.Screen
         name="QRScreen"

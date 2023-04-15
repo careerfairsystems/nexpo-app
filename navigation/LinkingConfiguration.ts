@@ -4,65 +4,66 @@
  * https://reactnavigation.org/docs/configuring-links
  */
 
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
 
 export default {
-  prefixes: [Linking.createURL('/')],
+  prefixes: [Linking.createURL("/")],
   config: {
     screens: {
       Root: {
         screens: {
           Companies: {
             screens: {
-              CompaniesScreen: 'companies',
-              CompanyDetailsScreen: 'companies/:id',
+              CompaniesScreen: "companies",
+              CompanyDetailsScreen: "companies/:id",
             },
           },
           Events: {
             screens: {
-              EventListScreen: 'events',
-              EventSwitchScreen: 'events/:screen/:id',
-              QRScreen: 'events/qr/:id',
+              EventListScreen: "events",
+              EventSwitchScreen: "events/:screen/:id",
+              QRScreen: "events/qr/:id",
             },
           },
           SSsStudent: {
             screens: {
-              SSsCompaniesScreen: 'studentSessions',
-              SSsListScreen: 'studentSessions/:companyId',
-              SSsSwitchScreen: 'studentSessions/:screen/:id',
+              SSsCompaniesScreen: "studentSessions",
+              SSsListScreen: "studentSessions/:companyId",
+              SSsSwitchScreen: "studentSessions/:screen/:id",
             },
           },
           SSsCRep: {
             screens: {
-              SSsListScreen: 'company/studentSessions/:companyId',
-              SSsSwitchScreen: 'company/studentSessions/:screen/:id',
-              SSsApplicationDetailsScreen : 'company/studentSessions/application-details/:applicationId',
+              SSsListScreen: "company/studentSessions/:companyId",
+              SSsSwitchScreen: "company/studentSessions/:screen/:id",
+              SSsApplicationDetailsScreen:
+                "company/studentSessions/application-details/:applicationId",
             },
           },
           Map: {
             screens: {
-              MapScreen: 'maps',
-              ZoomMapScreen: 'maps/:map.name',
-            }
+              MapScreen: "maps",
+              ZoomMapScreen: "maps/:map.name",
+            },
           },
           Profile: {
             screens: {
-              ProfileScreen: 'profile',
-              ProfileSwitchScreen: 'profile/:screen/:id',
+              ProfileScreen: "profile",
+              ProfileSwitchScreen: "profile/:screen/:id",
             },
           },
           Login: {
             screens: {
-              LoginScreen: 'login',
-              SignUpScreen: 'signup',
-              FinalizeSignUpScreen: 'finalize_signup/:token',
-              ForgotPasswordScreen: 'forgot_password',
-              ResetPasswordScreen: 'reset_password/:token',
+              LoginScreen: "login",
+              SignUpScreen: "signup",
+              FinalizeSignUpScreen: "finalize_signup/:token",
+              ForgotPasswordScreen: "forgot_password",
+              ResetPasswordScreen: "reset_password/:token",
             },
           },
         },
       },
-      NotFound: '*',
+      NotFound: "*",
     },
   },
 };

@@ -3,12 +3,8 @@ import EventDetailsScreen from "../event/templates/EventDetailsScreen";
 import { ProfileStackParamList } from "./ProfileNavigator";
 import EditProfileScreen from "./templates/EditProfileScreen";
 
-
 type ProfileSwitchScreenParams = {
-  navigation: StackNavigationProp<
-      ProfileStackParamList,
-      'ProfileSwitchScreen'
-    >;
+  navigation: StackNavigationProp<ProfileStackParamList, "ProfileSwitchScreen">;
   route: {
     params: {
       screen: string;
@@ -20,7 +16,11 @@ type ProfileSwitchScreenParams = {
 export default function ProfileSwitchScreen({ navigation, route }: ProfileSwitchScreenParams) {
   const { screen, id } = route.params;
   switch (screen) {
-    case 'details':{ return (EventDetailsScreen(id)); }
-    default: { return (<EditProfileScreen navigation={navigation}></EditProfileScreen>); }
+    case "details": {
+      return EventDetailsScreen(id);
+    }
+    default: {
+      return <EditProfileScreen navigation={navigation}></EditProfileScreen>;
+    }
   }
 }

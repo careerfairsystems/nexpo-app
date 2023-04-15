@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Colors from "constants/Colors";
 
 import { API } from "api/API";
-import { SSTimeslot, unbookTimeslot, } from "api/StudentSessions";
+import { SSTimeslot, unbookTimeslot } from "api/StudentSessions";
 
 import { View } from "components/Themed";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
@@ -24,8 +21,7 @@ import SSsStudentInfo from "components/studentSessionList/SSsStudentInfo";
 type SSsDetailsScreenParams = {
   timeslotId: number;
 };
-export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
-  
+export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams) {
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>();
@@ -33,13 +29,15 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
   const [accepted, setAccepted] = useState<ApplicationAcceptedDto | null>(null);
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
 
-
   const getData = async () => {
     const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     const usr = await API.users.getMe();
     const company = await API.companies.getCompany(timeslot.companyId);
-    const student = usr.role === Role.Student ? await API.students.getMe(): null;
-    const acc = usr.role === Role.Student ? await API.applications.getApplicationAccepted(timeslot.companyId) : null;
+    const student = usr.role === Role.Student ? await API.students.getMe() : null;
+    const acc =
+      usr.role === Role.Student
+        ? await API.applications.getApplicationAccepted(timeslot.companyId)
+        : null;
     setTimeslot(timeslot);
     setUser(usr);
     setCompany(company);
@@ -58,17 +56,23 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
       alert("Timeslot is already booked");
       return;
     }
-    if (accepted.booked){
+    if (accepted.booked) {
       alert("You have already booked a timeslot");
       return;
     }
     setLoading(true);
     const ts = await API.studentSessions.bookTimeslot(timeslot.id);
     if (ts.id != undefined) {
-      alert("Registered to student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
+      alert(
+        "Registered to student session " +
+          API.studentSessions.formatTime(timeslot.start, timeslot.end)
+      );
       getTimeslot();
     } else {
-      alert("Could not register to student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
+      alert(
+        "Could not register to student session " +
+          API.studentSessions.formatTime(timeslot.start, timeslot.end)
+      );
       getTimeslot();
     }
     setLoading(false);
@@ -81,7 +85,10 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
     }
 
     if (timeslot.studentId == null) {
-      alert("You are not booked to student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
+      alert(
+        "You are not booked to student session " +
+          API.studentSessions.formatTime(timeslot.start, timeslot.end)
+      );
       return;
     }
 
@@ -89,11 +96,15 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
 
     if (success) {
       alert(
-        "Successfully de-registered from student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end)
+        "Successfully de-registered from student session " +
+          API.studentSessions.formatTime(timeslot.start, timeslot.end)
       );
       getTimeslot();
     } else {
-      alert("Could not de-register from student session " + API.studentSessions.formatTime(timeslot.start, timeslot.end));
+      alert(
+        "Could not de-register from student session " +
+          API.studentSessions.formatTime(timeslot.start, timeslot.end)
+      );
     }
     setLoading(false);
   }
@@ -104,7 +115,13 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
     setLoading(false);
   }, []);
 
-  if (loading || !timeslot || !company || !user || ((!accepted || !student) && user.role === Role.Student)) {
+  if (
+    loading ||
+    !timeslot ||
+    !company ||
+    !user ||
+    ((!accepted || !student) && user.role === Role.Student)
+  ) {
     return <ScreenActivityIndicator />;
   }
 
@@ -128,11 +145,7 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
               <ArkadText text={timeslot.location} style={styles.headerText} />
             </View>
             <View style={styles.leftItem}>
-              <MaterialCommunityIcons
-                name="microphone"
-                size={16}
-                color="black"
-              />
+              <MaterialCommunityIcons name="microphone" size={16} color="black" />
               <ArkadText text={company.name} style={styles.headerText} />
             </View>
           </View>
@@ -146,20 +159,22 @@ export default function SSsDetailsScreen({timeslotId}: SSsDetailsScreenParams) {
             </View>
           </View>
         </View>
-          { user.role === Role.Student && timeslot.studentId === student?.id ? (
-            <ArkadButton
-              onPress={deregister}
-              style={styles.deregisterButton}
-            >
-              <ArkadText text="De-register from timeslot" style={styles.title} />
-            </ArkadButton>
-          ) : user.role === Role.Student && timeslot.studentId === null ? (
-            <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
-              <ArkadText text="Register to timeslot" style={styles.title} />
-            </ArkadButton>
-          ): timeslot.studentId ? <SSsStudentInfo studentId={timeslot.studentId}/> :
-          <NoButton text="When a student has booked this timeslot you can see their information here" style={styles.acceptedText} />
-          }
+        {user.role === Role.Student && timeslot.studentId === student?.id ? (
+          <ArkadButton onPress={deregister} style={styles.deregisterButton}>
+            <ArkadText text="De-register from timeslot" style={styles.title} />
+          </ArkadButton>
+        ) : user.role === Role.Student && timeslot.studentId === null ? (
+          <ArkadButton onPress={bookTimeslot} style={styles.bookButton}>
+            <ArkadText text="Register to timeslot" style={styles.title} />
+          </ArkadButton>
+        ) : timeslot.studentId ? (
+          <SSsStudentInfo studentId={timeslot.studentId} />
+        ) : (
+          <NoButton
+            text="When a student has booked this timeslot you can see their information here"
+            style={styles.acceptedText}
+          />
+        )}
       </View>
     </ScrollView>
   );
@@ -169,14 +184,14 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.white,
   },
-  acceptedText:{
-    alignSelf: 'center',
+  acceptedText: {
+    alignSelf: "center",
     marginTop: 40,
     fontSize: 18,
     padding: 22,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 12,
-    width: '90%',
+    width: "90%",
     backgroundColor: Colors.arkadNavy,
   },
   container: {

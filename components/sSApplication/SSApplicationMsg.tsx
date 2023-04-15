@@ -1,18 +1,18 @@
-import React from 'react';
-import { Text, Dimensions, StyleSheet, View } from 'react-native';
+import React from "react";
+import { Text, Dimensions, StyleSheet, View } from "react-native";
 
-import Colors from 'constants/Colors';
+import Colors from "constants/Colors";
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 type ApplicationsMsgProps = {
   header: string;
   msg: string;
-}
+};
 
-export function CardWithHeader ({header, msg}: ApplicationsMsgProps) {
+export function CardWithHeader({ header, msg }: ApplicationsMsgProps) {
   return (
-    <View style={styles.motivationBox}> 
+    <View style={styles.motivationBox}>
       <View style={styles.headerBox}>
         <Text style={styles.headerText}>{header}</Text>
       </View>
@@ -20,24 +20,23 @@ export function CardWithHeader ({header, msg}: ApplicationsMsgProps) {
         <Text style={styles.motivationText}>{msg}</Text>
       </View>
     </View>
-  )
-  
+  );
 }
 const styles = StyleSheet.create({
   motivationBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignSelf: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignSelf: "center",
     width: width * 0.75,
     borderWidth: 2,
     borderColor: Colors.arkadNavy,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
     margin: 20,
   },
   headerBox: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: Colors.arkadNavy,
   },
   msgBox: {
@@ -45,13 +44,13 @@ const styles = StyleSheet.create({
   },
   headerText: {
     padding: 15,
-    fontFamily: 'main-font-bold',
+    fontFamily: "main-font-bold",
     fontSize: 22,
     color: Colors.white,
   },
   motivationText: {
     padding: 10,
-    fontFamily: 'main-font',
+    fontFamily: "main-font",
     fontSize: 19,
     color: Colors.arkadNavy,
   },
