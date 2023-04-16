@@ -13,8 +13,8 @@ nexpo-app is the frontend and the graphical interface for the application at ARK
 The app is built using the React Native framework and is using the Expo which is a framework for React Native to build mobile applications for Android and iOS.
 
 ## Overall Architecture
-
-TBD
+![UML](./assets/ARKAD-nexpoapp.png)
+Esentially this repository have many parts which is affected by the API where all the information is coming from. Our API is sending requests to the backend to fetch information from the database. The API got several parts containing e.g. company lists, authentication for users, user information, tickets for registered users etc. Every part of the API got their dedicated screens in the application which is where the information from the backend is shown on the screen using the graphical interface.  
 
 ## Required dependencies
 
