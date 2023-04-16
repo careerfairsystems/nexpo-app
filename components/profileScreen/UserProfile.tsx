@@ -17,7 +17,11 @@ export default function UserProfile({ user }: UserProfileProps) {
       <View style={styles.container}>
         <ProfilePicture url={user.profilePictureUrl} />
         <Text style={styles.nameLabel}>{`${user.firstName} ${user.lastName}`}</Text>
-        <Text style={styles.accountTypeText}>{Role[user.role]}</Text>
+        {
+          Role[user.role] === "Volunteer" ? 
+            <Text style={styles.accountTypeText}>ARKAD Volunteer</Text> :
+            <Text style={styles.accountTypeText}>{Role[user.role]}</Text>
+        }
 
         <View style={styles.contactInfoContainer}>
           <Ionicons name="mail" size={16} color={Colors.arkadNavy} />
@@ -66,6 +70,6 @@ const styles = StyleSheet.create({
   accountTypeText: {
     fontFamily: "main-font",
     color: Colors.arkadNavy,
-    fontSize: 16,
+    fontSize: 20,
   },
 });
