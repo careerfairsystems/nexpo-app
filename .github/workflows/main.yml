@@ -28,7 +28,7 @@ jobs:
         run: yarn --version
 
       - name: Install dependencies
-        run: rm -rf node_modules && yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Check dependencies
         run: yarn check

@@ -14,7 +14,9 @@ The app is built using the React Native framework and is using the Expo which is
 
 ## Overall Architecture
 ![UML](./assets/ARKAD-nexpoapp.png)
-Esentially this repository have many parts which is affected by the API where all the information is coming from. Our API is sending requests to the backend to fetch information from the database. The API got several parts containing e.g. company lists, authentication for users, user information, tickets for registered users etc. Every part of the API got their dedicated screens in the application which is where the information from the backend is shown on the screen using the graphical interface.  
+Esentially this repository have many parts which is affected by the API where all the information is coming from. Our API is sending requests to the backend to fetch information from the database. The API got several parts containing e.g. company lists, authentication for users, user information, tickets for registered users etc. Every part of the API got their dedicated screens in the application which is where the information from the backend is shown on the screen using the graphical interface.
+
+
 
 ## Required dependencies
 
@@ -75,6 +77,6 @@ This script helps the developer with testing the dependencies and packages but a
 The tests are the following:
 
 * Checks if yarn is installed in a lazy way
-* Removes `node_modules` and re-installs it
+* Reinstalls packages
 * Checks if all dependencies are correct and no dependency is missing or incompatible
 * Typechecks the project
