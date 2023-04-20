@@ -6,16 +6,16 @@ import AdminScreen from './AdminScreen';
 export type AdminStackParamList = {
     AdminScreen: undefined;
 };
-const MapStack = createStackNavigator<AdminStackParamList>();
+const AdminStack = createStackNavigator<AdminStackParamList>();
 
 export function AdminNavigator() {
     return (
-        <MapStack.Navigator>
-            <MapStack.Screen
+        <AdminStack.Navigator>
+            <AdminStack.Screen
                 name="AdminScreen"
                 component={AdminScreen}
                 options={{ title: 'Admin', headerTitle: 'Admin', ...HeaderStyles }}
             />
-        </MapStack.Navigator>
+        </AdminStack.Navigator>
     );
 }
