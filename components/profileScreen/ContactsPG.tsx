@@ -23,13 +23,28 @@ export default function Contacts() {
 			<ArkadText text={"Contacts"} style={styles.header} />
 			{contacts?.reverse().map((contact) => (
 				<View key={contact.id} style={styles.contactContainer}>
-					<ArkadText text={contact.roleInArkad} style={styles.role} />
-					<ArkadText
-						text={contact.firstName + " " + contact.lastName}
-						style={styles.text}
-					/>
-					<ArkadText text={contact.email} style={styles.text} />
-					<ArkadText text={contact.phoneNumber} style={styles.text} />
+					<View style={styles.textContainer}>
+						<View style={styles.textColumnContainer}>
+							<ArkadText
+								text={contact.roleInArkad}
+								style={styles.role}
+							/>
+							<ArkadText
+								text={
+									contact.firstName + " " + contact.lastName
+								}
+								style={styles.name}
+							/>
+							<ArkadText
+								text={contact.email}
+								style={styles.text}
+							/>
+							<ArkadText
+								text={contact.phoneNumber}
+								style={styles.text}
+							/>
+						</View>
+					</View>
 				</View>
 			))}
 		</ScrollView>
@@ -53,6 +68,10 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		paddingTop: 10,
 	},
+	name: {
+		color: Colors.arkadNavy,
+		fontSize: 18,
+	},
 	text: {
 		color: Colors.arkadNavy,
 		fontSize: 18,
@@ -60,7 +79,16 @@ const styles = StyleSheet.create({
 	contactContainer: {
 		flex: 1,
 		alignItems: "center",
+	},
+	textContainer: {
+		width: "100%",
+		paddingHorizontal: 20,
+		alignItems: "center",
 		justifyContent: "center",
-		textAlign: "left",
+	},
+	textColumnContainer: {
+		flex: 1,
+		alignItems: "flex-start",
+		justifyContent: "center",
 	},
 });
