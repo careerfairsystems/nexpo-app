@@ -28,7 +28,7 @@ import { HeaderStyles } from "components/HeaderStyles";
 export type BottomTabParamList = {
   Companies: undefined;
   Maps: undefined;
-  Profile: undefined;
+  You: undefined;
   Login: undefined;
   SSsStudent: undefined;
   SSsCRep: { companyId: number };
@@ -137,7 +137,7 @@ export default function BottomTabNavigator() {
           ))}
         {isSignedIn ? (
           <BottomTab.Screen
-            name="Profile"
+            name="You"
             component={ProfileNavigator}
             options={{
               tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
