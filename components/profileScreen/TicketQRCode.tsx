@@ -39,7 +39,7 @@ export default function TicketQRCode({
             <ArkadText text={title} style={styles.ticketHeader} />
             <QRCode
               size={Dimensions.get("window").width * 0.25}
-              value={ticket?.id.toString()}
+              value={ticket?.code.toString()}
             />
           </View>
         </View>
