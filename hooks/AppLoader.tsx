@@ -4,6 +4,10 @@ import * as Font from "expo-font";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import * as React from "react";
 import { Animated, View, StyleSheet, Text, Image } from 'react-native';
+import { useSharedValue } from "react-native-reanimated";
+
+ExpoSplashScreen.preventAutoHideAsync().catch(() => {
+});
 
 async function loadResourcesAndDataAsync() {
   try {
@@ -25,14 +29,16 @@ interface Props {
   children?: React.ReactNode;
 }
 
+
 export default function AppLoader({children}: Props) {
   const animation = React.useMemo(() => new Animated.Value(0), []);
   const [isAppReady, setAppReady] = React.useState(false);
   const [isSplashAnimationComplete, setAnimationComplete] = React.useState(false);
-
+  const font = "main-font-bold";
+  
   React.useEffect(() => {
     // Once everything is loaded, run animation
-    if (isAppReady) {
+    if (isAppReady && Font.isLoaded(font)) {
       Animated.timing(animation, {
         toValue: 1,
         duration: 1000,
@@ -41,21 +47,29 @@ export default function AppLoader({children}: Props) {
     }
   }, [isAppReady])
 
-  const onImageLoaded = React.useCallback(async () => {
+  const onImageLoaded = async () => {
     try {
       // Load data
       await loadResourcesAndDataAsync();
-      // Hide static splash screen
+      // Hide static splash screen  
       await ExpoSplashScreen.hideAsync();
     } catch (e) {
-      // Handle errors
+      console.warn(e);
     } finally {
       setAppReady(true);
     }
-  }, []);
+  };
+  
+  const animationStyles = {
+    opacity: animation
+  }
+
+  const fontStyles = {
+    fontFamily: font
+  }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       {isAppReady && children}
       {!isSplashAnimationComplete && (
         <View
@@ -68,38 +82,24 @@ export default function AppLoader({children}: Props) {
           ]}
         >
           <Animated.View
-            style={{
-              width: "100%",
-              height: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-              opacity: animation
-            }}
+            style={[styles.animatedContainer, animationStyles]}
           >
             <Image
-              style={{
-                width: "100%",
-                height: "100%",
-                resizeMode: "contain",
-              }}
+              style={styles.logo}
               source={require("../assets/images/splash.png")}
               onLoadEnd={onImageLoaded}
               fadeDuration={0}
             />
 
-            <Text
-              style={{
-                position: "absolute",
-                alignSelf: "center",
-                fontFamily: "main-font",
-                color: Colors.white,
-                fontSize: 20
-              }}
-              numberOfLines={1}
-              adjustsFontSizeToFit
-            >
-              Welcome to ARKAD
-            </Text>
+            {Font.isLoaded(font) && (
+              <Text
+                style={[styles.title, fontStyles]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
+                Welcome to ARKAD
+              </Text>
+            )}
           </Animated.View>
 
         </View>
@@ -107,3 +107,26 @@ export default function AppLoader({children}: Props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  animatedContainer: {
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logo: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+  title: {
+    position: "absolute",
+    alignSelf: "center",
+    color: Colors.white,
+    fontSize: 30
+  }
+})
