@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -8,12 +8,13 @@ import { User } from "api/Users";
 import { Role } from "api/Role";
 import { Event } from "api/Events";
 import { Company } from "api/Companies";
+import { getAllTickets, Ticket, getTicketType } from "api/Tickets";
 import { ProfileStackParamList } from "./ProfileNavigator";
 
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { View } from "components/Themed";
 import { AuthContext } from "components/AuthContext";
-import { EditProfileButton, LogoutButton } from "components/profileScreen/Buttons";
+import { EditProfileButton, LogoutButton, ShowLunchTicketButton } from "components/profileScreen/Buttons";
 import UserProfile from "components/profileScreen/UserProfile";
 import { Student } from "api/Students";
 import StudentProfile from "components/profileScreen/StudentProfile";
@@ -22,7 +23,7 @@ import Colors from "constants/Colors";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { BookedEventList } from "components/profileScreen/BookedEventList";
 import { ArkadText } from "components/StyledText";
-import { AuthNavigator } from "screens/auth/AuthNavigator";
+import TicketQRCode from "../../components/profileScreen/TicketQRCode";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -34,6 +35,8 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   const [student, setStudent] = useState<Student | null>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
+  const [showLunchTicket, setShowLunchTicket] = useState<boolean>(false);
+  const [lunchTicket, setLunchTicket] = useState<Ticket | null>(null);
   const authContext = useContext(AuthContext);
   const isFocused = useIsFocused();
 
@@ -56,6 +59,15 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     setBookedEvents(bookedEvents);
   }
 
+  const getLunchTicket = async () => {
+    const apiResponse = await getAllTickets();
+    const tickets = apiResponse as Ticket[];
+    const types = await Promise.all(tickets.map((t) => getTicketType(t.id)));
+
+    // indexOf will return -1 if the lunch type is not present in the list
+    if (types.indexOf(1) !== -1) setLunchTicket(tickets[types.indexOf(1)]);
+  };
+
   async function logout() {
     await API.auth.logout();
     authContext.signOut();
@@ -67,6 +79,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       setLoading(true);
       getUser();
       getRegisteredEvents();
+      getLunchTicket();
       setLoading(false);
     }, [isFocused])
   );
@@ -99,6 +112,17 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             editingProfile={false}
             onPress={() => navigation.navigate("ProfileSwitchScreen", { screen: "edit", id: 0 })}
           />
+          {(user.role === Role.Student || user.role === Role.Volunteer) && (
+            <View style={lunchTicket ? styles.enabled : styles.disabled}>
+              <ShowLunchTicketButton onPress={() => setShowLunchTicket(true)} />
+              <TicketQRCode
+                modalVisible={showLunchTicket}
+                setModalVisible={setShowLunchTicket}
+                title="Lunch"
+                ticket={lunchTicket}
+              />
+            </View>
+          )}
           <View style={styles.logout}>
             <LogoutButton onPress={logout} />
           </View>
@@ -127,5 +151,9 @@ const styles = StyleSheet.create({
   logout: {
     paddingBottom: "10%",
     backgroundColor: Colors.white,
+  },
+  enabled: {},
+  disabled: {
+    opacity: 0.5,
   },
 });
