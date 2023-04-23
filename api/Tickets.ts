@@ -102,3 +102,13 @@ export const getAllTicketsForEvent = async (eventId: number): Promise<TicketDto[
   const tickets = json as TicketDto[];
   return tickets;
 };
+
+/**
+ * Get the type of a ticket by ticket id
+ */
+export const getTicketType = async (id: number): Promise<number> => {
+  const response = await getAuth(`/tickets/${id}/type`);
+  const json = await response.json();
+  const type = json as number;
+  return type;
+};
