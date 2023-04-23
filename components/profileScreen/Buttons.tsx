@@ -1,4 +1,3 @@
-import React from "react";
 import { ArkadText } from "../StyledText";
 import { StyleSheet } from "react-native";
 import { ArkadButton } from "../Buttons";
@@ -31,6 +30,12 @@ export const ScanQRButton = ({ onPress }: ButtonPressParams) => (
   </ArkadButton>
 );
 
+export const ShowLunchTicketButton = ({ onPress }: ButtonPressParams) => (
+  <ArkadButton onPress={onPress} style={styles.showLunchTicketContainer}>
+    <ArkadText text={"Show lunch ticket"} />
+  </ArkadButton>
+);
+
 const styles = StyleSheet.create({
   logoutText: {
     padding: "1%",
@@ -55,5 +60,11 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
     width: "85%",
     backgroundColor: Colors.lightGreen,
+  },
+  showLunchTicketContainer: {
+    alignSelf: "center",
+    padding: "4%",
+    marginBottom: "2%",
+    width: "45%",
   },
 });
