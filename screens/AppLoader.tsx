@@ -4,31 +4,13 @@ import * as Font from "expo-font";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import * as React from "react";
 import { Animated, View, StyleSheet, Text, Image } from 'react-native';
-import { useSharedValue } from "react-native-reanimated";
 
 ExpoSplashScreen.preventAutoHideAsync().catch(() => {
 });
 
-async function loadResourcesAndDataAsync() {
-  try {
-    // Load fonts
-    await Font.loadAsync({
-      ...Ionicons.font,
-      "secondary-font": require("../assets/fonts/BAHNSCHRIFT.ttf"),
-      "main-font-bold": require("../assets/fonts/MyriadProBoldCondensed.ttf"),
-      "main-font": require("../assets/fonts/MyriadProCondensed.ttf"),
-    });
-  } catch (e) {
-    // We might want to provide this error information to an error reporting service
-    console.warn(e);
-    // FIX ger error i expo
-  }
-}
-
 interface Props {
   children?: React.ReactNode;
 }
-
 
 export default function AppLoader({children}: Props) {
   const animation = React.useMemo(() => new Animated.Value(0), []);
@@ -45,12 +27,31 @@ export default function AppLoader({children}: Props) {
         useNativeDriver: true,
       }).start(() => setTimeout(() => setAnimationComplete(true), 1000));
     }
-  }, [isAppReady])
+  }, [isAppReady]);
+
+  React.useEffect(() => {
+    // Load data
+    async function loadResourcesAndDataAsync() {
+      try {
+        // Load fonts
+        await Font.loadAsync({
+          ...Ionicons.font,
+          "secondary-font": require("../assets/fonts/BAHNSCHRIFT.ttf"),
+          "main-font-bold": require("../assets/fonts/MyriadProBoldCondensed.ttf"),
+          "main-font": require("../assets/fonts/MyriadProCondensed.ttf"),
+        });
+      } catch (e) {
+        // We might want to provide this error information to an error reporting service
+        console.warn(e);
+        // FIX ger error i expo
+      }
+    }
+
+    loadResourcesAndDataAsync();
+  }, []);
 
   const onImageLoaded = async () => {
     try {
-      // Load data
-      await loadResourcesAndDataAsync();
       // Hide static splash screen  
       await ExpoSplashScreen.hideAsync();
     } catch (e) {
@@ -101,7 +102,6 @@ export default function AppLoader({children}: Props) {
               </Text>
             )}
           </Animated.View>
-
         </View>
       )}
     </View>
@@ -129,4 +129,4 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 30
   }
-})
+});

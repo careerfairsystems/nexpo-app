@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import AppLoader from "./hooks/AppLoader";
+import AppLoader from "./screens/AppLoader";
 import Navigation from "./navigation";
 
 export default function App() {
