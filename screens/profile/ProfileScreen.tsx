@@ -112,7 +112,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             editingProfile={false}
             onPress={() => navigation.navigate("ProfileSwitchScreen", { screen: "edit", id: 0 })}
           />
-          {(user.role === Role.Student || user.role === Role.Volunteer) && (
+          { !company && (
             <View style={lunchTicket ? styles.enabled : styles.disabled}>
               <ShowLunchTicketButton onPress={() => setShowLunchTicket(true)} />
               <TicketQRCode
