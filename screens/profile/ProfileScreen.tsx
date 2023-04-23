@@ -22,7 +22,7 @@ import CompanyProfile from "components/profileScreen/CompanyProfile";
 import Colors from "constants/Colors";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { BookedEventList } from "components/profileScreen/BookedEventList";
-import { ArkadText } from "components/StyledText";
+import { ArkadText, NoButton } from "components/StyledText";
 import TicketQRCode from "../../components/profileScreen/TicketQRCode";
 
 export type ProfileScreenParams = {
@@ -113,7 +113,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             onPress={() => navigation.navigate("ProfileSwitchScreen", { screen: "edit", id: 0 })}
           />
           { !company && (
-            <View style={lunchTicket ? styles.enabled : styles.disabled}>
+            <View style={(lunchTicket && !lunchTicket.isConsumed) ? styles.enabled : styles.disabled}>
               <ShowLunchTicketButton onPress={() => setShowLunchTicket(true)} />
               <TicketQRCode
                 modalVisible={showLunchTicket}
