@@ -46,11 +46,11 @@ export default {
               ZoomMapScreen: "maps/:map.name",
             },
           },
-          Profile: {
-            screens: {
-              ProfileScreen: "profile",
-              ProfileSwitchScreen: "profile/:screen/:id",
-            },
+          You: { 
+            screens: { 
+              ProfileScreen: "profile", 
+              ProfileSwitchScreen: "profile/:screen/:id", 
+            }, 
           },
           Login: {
             screens: {
