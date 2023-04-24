@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { View, Text } from "../Themed";
 import Colors from "constants/Colors";
-import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { ArkadText } from "components/StyledText";
 import { API } from "api/API";
 import { Contact } from "api/Contacts";
@@ -33,7 +33,7 @@ export default function Contacts() {
 								text={
 									contact.firstName + " " + contact.lastName
 								}
-								style={styles.name}
+								style={styles.text}
 							/>
 							<ArkadText
 								text={contact.email}
@@ -67,10 +67,6 @@ const styles = StyleSheet.create({
 		color: Colors.arkadOrange,
 		fontSize: 24,
 		paddingTop: 10,
-	},
-	name: {
-		color: Colors.arkadNavy,
-		fontSize: 18,
 	},
 	text: {
 		color: Colors.arkadNavy,
