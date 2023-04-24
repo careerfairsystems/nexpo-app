@@ -120,7 +120,9 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   } else {
     return (
       <>
-        {!(user.role === Role.Student) ? (
+        {!(
+          user.role === Role.Student || user.role === Role.CompanyRepresentative
+        ) ? (
           <ProfileTabViewer profile={userProfile} contacts={Contacts} />
         ) : (
           userProfile()
