@@ -24,7 +24,6 @@ import { CompaniesNavigator } from "../screens/companies/CompaniesNavigator";
 import { SSsStudentNavigator } from "../screens/studentSessions/SSsStudentNavigator";
 import { SSsCRepNavigator } from "../screens/studentSessions/SSsCRepNavigator";
 import { HeaderStyles } from "components/HeaderStyles";
-import { AdminNavigator } from "screens/admin/AdminNavigator";
 
 export type BottomTabParamList = {
   Companies: undefined;
@@ -34,7 +33,6 @@ export type BottomTabParamList = {
   SSsStudent: undefined;
   SSsCRep: { companyId: number };
   Events: undefined;
-  Admin: undefined;
 };
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -152,16 +150,6 @@ export default function BottomTabNavigator() {
             component={AuthNavigator}
             options={{
               tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
-              ...HeaderStyles,
-            }}
-          />
-        )}
-        {user && (user.role === Role.Administrator) && (
-          <BottomTab.Screen
-            name="Admin"
-            component={AdminNavigator}
-            options={{
-              tabBarIcon: ({ color }) => <TabBarMaterialIcon name="admin-panel-settings" color={color} />,
               ...HeaderStyles,
             }}
           />

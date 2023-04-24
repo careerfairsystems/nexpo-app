@@ -4,12 +4,7 @@ import { useState } from "react";
 import { TextInput, View, StyleSheet, Modal } from "react-native";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { AdminStackParamList } from "./AdminNavigator";
 
-type adminNavigation = {
-	navigation: StackNavigationProp<AdminStackParamList, "AdminScreen">;
-};
 
 const comittees = [
 	"Economics & Sustainability",
@@ -20,15 +15,15 @@ const comittees = [
 	"Information Technology",
 ];
 
-export default function AdminScreen({ navigation }: adminNavigation) {
+export default function AdminTab() {
 	const [text, onChangeText] = useState("");
 	const [modalVisible, setModalVisible] = useState(false);
-	const [checkedState, setCheckedState] = useState(
+	const [checkboxState, setCheckBoxState] = useState(
 		new Array(comittees.length).fill(false)
 	);
 
 	const handleCheckState = (position: number) => {
-    setCheckedState(checkedState.map((item, index) => (index === position ? !item : item)));    
+    setCheckBoxState(checkboxState.map((item, index) => (index === position ? !item : item)));    
 	};
 
 	const send = () => {
@@ -73,7 +68,7 @@ export default function AdminScreen({ navigation }: adminNavigation) {
 				<View style={styles.centeredView}>
 					{comittees.map((item, index) => 
             <Checkbox key={item}
-              checked={checkedState[index]}
+              checked={checkboxState[index]}
               onChange={() => handleCheckState(index)}
               text={item}
             />
