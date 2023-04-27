@@ -35,7 +35,7 @@ export default function AdminTab() {
 		<View style={styles.container}>
 			<SelectComitteeModal />
 			<TextInput
-				style={styles.input}
+				style={styles.textInput}
 				onChangeText={onChangeText}
 				value={text}
 				placeholder={"Message to send..."}
@@ -66,15 +66,17 @@ export default function AdminTab() {
 					setModalVisible(!modalVisible);
 				}}
 			>
-				<View style={styles.centeredView}>
-					{comittees.map((item, index) => 
-            <Checkbox key={item}
-              checked={checkboxState[index]}
-              onChange={() => handleCheckState(index)}
-              text={item}
-            />
-					)}
-					<ArkadButton onPress={() => setModalVisible(!modalVisible)}>
+				<View style={styles.modalHeader}>
+					<View style={styles.centeredView}>
+						{comittees.map((item, index) => 
+							<Checkbox key={item}
+							checked={checkboxState[index]}
+							onChange={() => handleCheckState(index)}
+							text={item}
+							/>
+						)}
+					</View>
+					<ArkadButton style={styles.buttonContainer1} onPress={() => setModalVisible(!modalVisible)}>
 						<ArkadText text={"Save"} />
 					</ArkadButton>
 				</View>
@@ -84,39 +86,24 @@ export default function AdminTab() {
 }
 
 type CheckboxProps = {checked: boolean, onChange: () => void, text: string}
-const Checkbox = ({checked, onChange, text}: CheckboxProps) => {
-  return (
-    <View style={styles.checkboxView}>
-      <label>
-        <input 
-          type="checkbox" 
-          checked={checked} 
-          onChange={onChange} 
-          key={text}
-          style={{
-            width: 25, 
-            height: 25, 
-            borderColor: Colors.arkadNavy, 
-            marginRight: 10,
-         }}
-        />
-        {text}
-      </label>
-    </View>
-  );
-}
 
-// Alternative checkbox. The modal flickers when using this one. Not ideal.
-/* const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
+const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
   <Pressable onPress={onChange} style={styles.checkboxContainer}>
       <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
         {checked && <Ionicons name="checkmark" size={20} style={styles.checkmark} />}
       </View>
       <ArkadText style={styles.checkboxText} text={text} />
     </Pressable>
-) */
+)
 
 const styles = StyleSheet.create({
+
+  modalHeader: {
+	flex: 1,
+	flexDirection: "column",
+	justifyContent: "center",
+	alignItems: "center",
+  },
 
   checkboxBase: {
     width: 24,
@@ -130,9 +117,10 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   checkboxText: {
-    fontSize: 14,
+    fontSize: 40,
     color: Colors.arkadNavy,
     marginLeft: 12,
+	marginBottom: 10,
   },
 
   checkboxChecked: {
@@ -153,9 +141,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 	},
-	input: {
+	textInput: {
 		height: "40%",
 		margin: 12,
+		marginTop: "10%",
 		borderColor: Colors.arkadNavy,
 		color: Colors.arkadNavy,
 		borderRadius: 7,
@@ -186,7 +175,6 @@ const styles = StyleSheet.create({
 	centeredView: {
 		flex: 1,
 		justifyContent: "center",
-		alignItems: "center",
 		backgroundColor: "transparent",
 	},
   checkboxView: {
