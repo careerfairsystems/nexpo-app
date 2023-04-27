@@ -1,9 +1,10 @@
 import Colors from "constants/Colors";
 import React from "react";
 import { useState } from "react";
-import { TextInput, View, StyleSheet, Modal } from "react-native";
+import { TextInput, View, StyleSheet, Modal, Pressable } from "react-native";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
+import { Ionicons } from "@expo/vector-icons";
 
 
 const comittees = [
@@ -105,7 +106,49 @@ const Checkbox = ({checked, onChange, text}: CheckboxProps) => {
   );
 }
 
+// Alternative checkbox. The modal flickers when using this one. Not ideal.
+/* const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
+  <Pressable onPress={onChange} style={styles.checkboxContainer}>
+      <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
+        {checked && <Ionicons name="checkmark" size={20} style={styles.checkmark} />}
+      </View>
+      <ArkadText style={styles.checkboxText} text={text} />
+    </Pressable>
+) */
+
 const styles = StyleSheet.create({
+
+  checkboxBase: {
+    width: 24,
+    height: 24,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: Colors.arkadNavy,
+    backgroundColor: "transparent",
+    marginLeft: 12,
+  },
+  checkboxText: {
+    fontSize: 14,
+    color: Colors.arkadNavy,
+    marginLeft: 12,
+  },
+
+  checkboxChecked: {
+    backgroundColor: Colors.arkadNavy,
+  },
+
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  checkmark: {
+    color: Colors.white,
+    alignSelf: "center",
+  },
+
 	container: {
 		flex: 1,
 		alignItems: "center",
