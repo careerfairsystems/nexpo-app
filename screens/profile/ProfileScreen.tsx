@@ -123,7 +123,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     return (
       <>
         {user.role === Role.Administrator && <ProfileTabViewer profile={userProfile} contacts={Contacts} admin={AdminTab}/>}
-        {user.role === Role.Volunteer && <ProfileTabViewer profile={userProfile} contacts={Contacts} admin={() => <></>}/>}
+        {user.role === Role.Volunteer && <ProfileTabViewer profile={userProfile} contacts={Contacts}/>}
         {user.role === Role.Student || user.role === Role.CompanyRepresentative && userProfile()}
       </>
     );
