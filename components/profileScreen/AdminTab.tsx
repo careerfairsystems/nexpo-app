@@ -26,6 +26,9 @@ export default function AdminTab() {
 	const handleCheckState = (position: number) => {
     setCheckBoxState(checkboxState.map((item, index) => (index === position ? !item : item)));    
 	};
+  const selectAll = () => {
+    setCheckBoxState(checkboxState.map(() => true));
+  }
 
 	const send = () => {
 		console.log(text);
@@ -67,6 +70,9 @@ export default function AdminTab() {
 				}}
 			>
 				<View style={styles.modalHeader}>
+          <ArkadButton style={styles.selectAll} onPress={selectAll}>
+						<ArkadText text={"Select all"} />
+					</ArkadButton>
 					<View style={styles.centeredView}>
 						{comittees.map((item, index) => 
 							<Checkbox key={item}
@@ -76,7 +82,7 @@ export default function AdminTab() {
 							/>
 						)}
 					</View>
-					<ArkadButton style={styles.buttonContainer1} onPress={() => setModalVisible(!modalVisible)}>
+					<ArkadButton style={styles.buttonContainer1} onPress={() => setModalVisible(false)}>
 						<ArkadText text={"Save"} />
 					</ArkadButton>
 				</View>
@@ -90,7 +96,7 @@ type CheckboxProps = {checked: boolean, onChange: () => void, text: string}
 const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
   <Pressable onPress={onChange} style={styles.checkboxContainer}>
       <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
-        {checked && <Ionicons name="checkmark" size={20} style={styles.checkmark} />}
+        {checked && <Ionicons name="checkmark" size={30} style={styles.checkmark} />}
       </View>
       <ArkadText style={styles.checkboxText} text={text} />
     </Pressable>
@@ -126,6 +132,12 @@ const styles = StyleSheet.create({
 	justifyContent: "center",
 	alignItems: "center",
   },
+  selectAll: {
+    alignSelf: "flex-start",
+    marginLeft: 20,
+    marginBottom: 10,
+    backgroundColor: Colors.arkadNavy,
+  },
 
   checkboxBase: {
     width: 24,
@@ -139,10 +151,10 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   checkboxText: {
-    fontSize: 40,
+    fontSize: 25,
     color: Colors.arkadNavy,
     marginLeft: 12,
-	marginBottom: 10,
+	  marginBottom: 10,
   },
 
   checkboxChecked: {
@@ -183,7 +195,7 @@ const styles = StyleSheet.create({
 	buttonContainer1: {
 		alignSelf: "center",
 		padding: "4%",
-		marginBottom: "2%",
+		marginBottom: "4%",
 		width: "45%",
 		backgroundColor: Colors.arkadOrange,
 	},

@@ -13,10 +13,7 @@ import { ProfileStackParamList } from "./ProfileNavigator";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { View } from "components/Themed";
 import { AuthContext } from "components/AuthContext";
-import {
-  EditProfileButton,
-  LogoutButton,
-} from "components/profileScreen/Buttons";
+import { EditProfileButton, LogoutButton } from "components/profileScreen/Buttons";
 import UserProfile from "components/profileScreen/UserProfile";
 import { Student } from "api/Students";
 import StudentProfile from "components/profileScreen/StudentProfile";
