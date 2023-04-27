@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ArkadText } from "../StyledText";
 import Colors from "constants/Colors";
@@ -14,14 +14,14 @@ type ListedMessageItemProps = {
 
 export const MessageListItem = ({ message, itemStyle, onPress }: ListedMessageItemProps) => (
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
-    <View style={{flex: 1}}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
       <ArkadText style={styles.messageTitle} text={message.title} />
       <ArkadText style={styles.messageContent} text={message.content} />
       <ArkadText
         style={styles.messageTime}
-        text={API.messages.formatTime(message.date, message.time)}
+        text={API.messages.formatTime(message.date, message.time) + " from " + message.sender}
       />
-    </View>
+    </ScrollView>
   </Pressable>
 );
 
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   messageContent: {
       paddingBottom: 6,
       fontSize: 16,
-      textAlign: "center",
+      textAlign: "left",
       color: Colors.white,
   },
   container: {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   messageTitle: {
     flex: 1,
     fontSize: 22,
-    textAlign: "left",
+    textAlign: "center",
     color: Colors.white,
   },
 });
