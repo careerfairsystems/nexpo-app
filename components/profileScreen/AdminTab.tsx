@@ -96,6 +96,28 @@ const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
     </Pressable>
 )
 
+/* const Checkbox = ({checked, onChange, text}: CheckboxProps) => {
+  return (
+    <View style={styles.checkboxView}>
+      <label>
+        <input 
+          type="checkbox" 
+          checked={checked} 
+          onChange={onChange} 
+          key={text}
+          style={{
+            width: 25, 
+            height: 25, 
+            borderColor: Colors.arkadNavy, 
+            marginRight: 10,
+         }}
+        />
+        {text}
+      </label>
+    </View>
+  );
+} */
+
 const styles = StyleSheet.create({
 
   modalHeader: {

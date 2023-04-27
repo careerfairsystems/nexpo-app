@@ -28,6 +28,7 @@ import { ArkadText } from "components/StyledText";
 import ProfileTabViewer from "./ProfileTabViewer";
 import Contacts from "components/profileScreen/ContactsPG";
 import AdminTab from "components/profileScreen/AdminTab";
+import VolunteerTab from "components/profileScreen/VolunteerTab";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -123,7 +124,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     return (
       <>
         {user.role === Role.Administrator && <ProfileTabViewer profile={userProfile} contacts={Contacts} admin={AdminTab}/>}
-        {user.role === Role.Volunteer && <ProfileTabViewer profile={userProfile} contacts={Contacts}/>}
+        {user.role === Role.Volunteer && <ProfileTabViewer profile={userProfile} contacts={Contacts} volunteer={VolunteerTab}/>}
         {user.role === Role.Student || user.role === Role.CompanyRepresentative && userProfile()}
       </>
     );

@@ -4,7 +4,7 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { StyleSheet } from "react-native";
 import Colors from "constants/Colors";
 
-function ProfileTabViewer(props: { profile: any; contacts: any; admin?: any }) {
+function ProfileTabViewer(props: { profile: any; contacts: any; admin?: any, volunteer?: any }) {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
@@ -16,6 +16,7 @@ function ProfileTabViewer(props: { profile: any; contacts: any; admin?: any }) {
   ]) : React.useState([
     { key: "first", title: "Profile" },
     { key: "second", title: "Contact List" },
+    { key: "third", title: "Messages" },
   ])
 
   const renderScene = props.admin ? SceneMap({
@@ -25,6 +26,7 @@ function ProfileTabViewer(props: { profile: any; contacts: any; admin?: any }) {
   }) : SceneMap({
     first: props.profile,
     second: props.contacts,
+    third: props.volunteer,
   })
 
   const renderTabBar = (props: any) => (
