@@ -7,7 +7,6 @@ export default {
   scheme: "myapp",
   //userInterfaceStyle: 'automatic',
   splash: {
-    image: "./assets/images/splash.png",
     resizeMode: "contain",
     backgroundColor: "#F66628",
   },
