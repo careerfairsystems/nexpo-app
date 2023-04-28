@@ -16,6 +16,14 @@ export interface Ticket {
   userId: number;
 }
 
+// It is important that these numbers match with
+// what the backend gives us so we set these manually
+export enum TicketType {
+  CompanyEvent = 0,
+  Lunch = 1,
+  Banquet = 2
+}
+
 export interface TicketDto {
   userFirstName: string;
   userLastName: string;
@@ -102,3 +110,35 @@ export const getAllTicketsForEvent = async (eventId: number): Promise<TicketDto[
   const tickets = json as TicketDto[];
   return tickets;
 };
+
+
+/**
+ * Get the type of a ticket by ticket id
+ * @param ticketId attribute id of type ticket
+ * @returns The TicketType type of the target
+ * ticket
+ */
+export const getTypeOfTicket = async (ticketId: number): Promise<TicketType> => {
+  const response = await getAuth(`/tickets/${ticketId}/type`);
+  const json = await response.json();
+  const type = json as TicketType;
+
+  return type;
+} 
+
+/**
+ * Get the first available ticket with type ticketType
+ * @param ticketType TicketType to search for
+ * @returns Ticket object of first found ticket
+ * if exists, else null
+ */
+export const getFirstTicketWithType = async(ticketType: TicketType): Promise<Ticket | null> => {
+  const tickets = await getAllTickets();
+  const types = await Promise.all(tickets.map((t) => getTypeOfTicket(t.id)));
+  const indexOfMatching = types.indexOf(ticketType);
+
+  if (indexOfMatching !== -1)
+    return tickets[indexOfMatching];
+
+  return null;
+}
