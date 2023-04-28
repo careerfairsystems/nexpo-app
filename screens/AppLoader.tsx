@@ -3,29 +3,29 @@ import Colors from "constants/Colors";
 import * as Font from "expo-font";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import * as React from "react";
-import { Animated, View, StyleSheet, Text, Image } from 'react-native';
+import { Animated, View, StyleSheet, Text, Image } from "react-native";
 
-ExpoSplashScreen.preventAutoHideAsync().catch(() => {
-});
+ExpoSplashScreen.preventAutoHideAsync().catch(() => {});
 
 interface Props {
   children?: React.ReactNode;
 }
 
-export default function AppLoader({children}: Props) {
+export default function AppLoader({ children }: Props) {
   const animation = React.useMemo(() => new Animated.Value(0), []);
   const [isAppReady, setAppReady] = React.useState(false);
-  const [isSplashAnimationComplete, setAnimationComplete] = React.useState(false);
+  const [isSplashAnimationComplete, setAnimationComplete] =
+    React.useState(false);
   const font = "main-font-bold";
-  
+
   React.useEffect(() => {
     // Once everything is loaded, run animation
     if (isAppReady && Font.isLoaded(font)) {
       Animated.timing(animation, {
         toValue: 1,
-        duration: 1000,
+        duration: 1500,
         useNativeDriver: true,
-      }).start(() => setTimeout(() => setAnimationComplete(true), 1000));
+      }).start(() => setTimeout(() => setAnimationComplete(true), 1500));
     }
   }, [isAppReady]);
 
@@ -52,7 +52,7 @@ export default function AppLoader({children}: Props) {
 
   const onImageLoaded = async () => {
     try {
-      // Hide static splash screen  
+      // Hide static splash screen
       await ExpoSplashScreen.hideAsync();
     } catch (e) {
       console.warn(e);
@@ -60,14 +60,14 @@ export default function AppLoader({children}: Props) {
       setAppReady(true);
     }
   };
-  
+
   const animationStyles = {
-    opacity: animation
-  }
+    opacity: animation,
+  };
 
   const fontStyles = {
-    fontFamily: font
-  }
+    fontFamily: font,
+  };
 
   return (
     <View style={styles.container}>
@@ -82,15 +82,15 @@ export default function AppLoader({children}: Props) {
             },
           ]}
         >
-          <Animated.View
-            style={[styles.animatedContainer, animationStyles]}
-          >
+          <Animated.View style={[styles.animatedContainer, animationStyles]}>
             <Image
               style={styles.logo}
               source={require("../assets/images/splash.png")}
               onLoadEnd={onImageLoaded}
               fadeDuration={0}
             />
+
+            <br />
 
             {Font.isLoaded(font) && (
               <Text
@@ -110,7 +110,7 @@ export default function AppLoader({children}: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   animatedContainer: {
     width: "100%",
@@ -127,6 +127,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     color: Colors.white,
-    fontSize: 30
-  }
+    fontSize: 30,
+  },
 });
