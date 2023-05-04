@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     height: height * 0.24,
   },
   messageBoxPressed: {
+    flexBasis: "fit-content",
     width: width * 0.95,
     height: height * 0.60,
   },
