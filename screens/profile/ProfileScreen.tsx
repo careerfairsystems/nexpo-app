@@ -75,7 +75,6 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   );
 
   const userProfile = () => {
-  const userProfile = () => {
     return (
       <ScrollView style={styles.container}>
         <UserProfile user={user as NonNullable<User>} />
