@@ -19,7 +19,9 @@ export type SSsStackParamlist = {
 const SSsStack = createStackNavigator<SSsStackParamlist>();
 export function SSsStudentNavigator() {
   return (
-    <SSsStack.Navigator>
+    <SSsStack.Navigator
+      screenOptions={{ animationEnabled: true }}
+    >
       <SSsStack.Screen
         name="SSsCompaniesScreen"
         component={SSsCompaniesScreen}

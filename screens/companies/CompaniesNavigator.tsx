@@ -14,7 +14,9 @@ export type CompanyStackParamList = {
 const CompanyStack = createStackNavigator<CompanyStackParamList>();
 export function CompaniesNavigator() {
   return (
-    <CompanyStack.Navigator>
+    <CompanyStack.Navigator 
+        screenOptions={{ animationEnabled: true }}
+    >
       <CompanyStack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}

@@ -19,7 +19,9 @@ export type EventStackParamlist = {
 const EventStack = createStackNavigator<EventStackParamlist>();
 export function EventsNavigator() {
   return (
-    <EventStack.Navigator>
+    <EventStack.Navigator
+      screenOptions={{ animationEnabled: true }}
+    >
       <EventStack.Screen
         name="EventListScreen"
         component={EventListScreen}

@@ -28,7 +28,9 @@ export type SSsCRepNavigatorParams = {
 export function SSsCRepNavigator({ route }: SSsCRepNavigatorParams) {
   const companyId = route.params.companyId;
   return (
-    <SSsStack.Navigator>
+    <SSsStack.Navigator
+      screenOptions={{ animationEnabled: true }}
+    >
       <SSsStack.Screen
         name="SSsListScreen"
         component={SSsListScreen}
