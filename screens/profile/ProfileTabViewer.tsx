@@ -39,7 +39,7 @@ function ProfileTabViewer(props: { profile: any; contacts: any; messages: any; a
       labelStyle={{
         fontWeight: "bold",
         fontFamily: "main-font",
-        fontSize: 20,
+        fontSize: 16,
       }}
     />
   );

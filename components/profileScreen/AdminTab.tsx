@@ -5,6 +5,7 @@ import { TextInput, View, StyleSheet, Modal, Pressable } from "react-native";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
 import { Ionicons } from "@expo/vector-icons";
+import { Message, sendMessage } from "api/Messages";
 
 
 const comittees = [
@@ -17,7 +18,8 @@ const comittees = [
 ];
 
 export default function AdminTab() {
-	const [text, onChangeText] = useState("");
+	const [title, setTitle] = useState("");
+	const [text, setText] = useState("");
 	const [modalVisible, setModalVisible] = useState(false);
 	const [checkboxState, setCheckBoxState] = useState(
 		new Array(comittees.length).fill(false)
@@ -31,15 +33,42 @@ export default function AdminTab() {
   }
 
 	const send = () => {
-		console.log(text);
+
+    const today = new Date();
+    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes();
+
+    const message: Message = {
+      id: 1010,
+      title: title,
+      content: text,
+      date: date,
+      time: time,
+      receiver: "TODO",
+      sender: "TODO",
+    }
+
+    sendMessage(message);
+
+    console.log("Sending message: " );
+    console.log(text);
 	};
 
 	return (
 		<View style={styles.container}>
 			<SelectComitteeModal />
 			<TextInput
+        style={styles.titleInput}
+				onChangeText={setTitle}
+				value={title}
+				placeholder={"Title..."}
+				placeholderTextColor={Colors.lightGray}
+				multiline={false}
+        textAlign="center"
+			/>
+			<TextInput
 				style={styles.textInput}
-				onChangeText={onChangeText}
+				onChangeText={setText}
 				value={text}
 				placeholder={"Message to send..."}
 				placeholderTextColor={Colors.lightGray}
@@ -138,7 +167,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: Colors.arkadNavy,
   },
-
   checkboxBase: {
     width: 24,
     height: 24,
@@ -156,29 +184,24 @@ const styles = StyleSheet.create({
     marginLeft: 12,
 	  marginBottom: 10,
   },
-
   checkboxChecked: {
     backgroundColor: Colors.arkadNavy,
   },
-
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
-
   checkmark: {
     color: Colors.white,
     alignSelf: "center",
   },
-
 	container: {
 		flex: 1,
 		alignItems: "center",
 	},
 	textInput: {
-		height: "40%",
+		height: "60",
 		margin: 12,
-		marginTop: "10%",
 		borderColor: Colors.arkadNavy,
 		color: Colors.arkadNavy,
 		borderRadius: 7,
@@ -188,6 +211,18 @@ const styles = StyleSheet.create({
 		padding: 10,
 		width: "80%",
 	},
+  titleInput: {
+    height: "20",
+    marginTop: "10%",
+    borderColor: Colors.arkadNavy,
+    color: Colors.arkadNavy,
+    borderRadius: 7,
+    borderWidth: 2,
+    fontSize: 20,
+    fontFamily: "main-font-bold",
+    padding: 10,
+    width: "80%",
+  },
 	buttonText: {
 		padding: "1%",
 		alignItems: "center",
