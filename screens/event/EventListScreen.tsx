@@ -12,8 +12,7 @@ import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { Role } from "api/Role";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import Toast from 'react-native-toast-message';
-
+import Toast from "react-native-toast-message";
 
 type EventsNavigation = {
   navigation: StackNavigationProp<EventStackParamlist, "EventListScreen">;
@@ -24,7 +23,9 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   const [events, setEvents] = React.useState<Event[] | null>(null);
   const [role, setRole] = React.useState<Role | null>(null);
 
-  const [upcomingEvents, setUpcomingEvents] = React.useState<Event[] | null>(null);
+  const [upcomingEvents, setUpcomingEvents] = React.useState<Event[] | null>(
+    null
+  );
   const [showAllEvents, setShowAllEvents] = React.useState<boolean>(false);
 
   const getEvents = async () => {
@@ -35,7 +36,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
       const role = await API.auth.getUserRole();
       setRole(role);
     }
-    
+
     setEvents(events);
     setUpcomingEvents(API.events.getUpcomingEvents(events));
     setLoading(false);
@@ -45,17 +46,19 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     setShowAllEvents(!showAllEvents);
   }
 
-
   const openEventDetails = (id: number) => {
     if (role === null) {
       Toast.show({
-        type: 'info',
-        text1: 'Log in to see event details.'
+        type: "info",
+        text1: "Please login to see event details.",
       });
       return;
     }
     if (role === Role.Administrator) {
-      navigation.navigate("EventSwitchScreen", { id: id, screen: "participatians" });
+      navigation.navigate("EventSwitchScreen", {
+        id: id,
+        screen: "participatians",
+      });
     } else {
       navigation.navigate("EventSwitchScreen", { id: id, screen: "details" });
     }
@@ -75,7 +78,10 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     <View style={styles.container}>
       <View style={styles.container}>
         <UpcomingButton showAllEvents={showAllEvents} onPress={switchEvents} />
-        <EventList events={showAllEvents ? events : upcomingEvents} onPress={openEventDetails} />
+        <EventList
+          events={showAllEvents ? events : upcomingEvents}
+          onPress={openEventDetails}
+        />
       </View>
     </View>
   );
