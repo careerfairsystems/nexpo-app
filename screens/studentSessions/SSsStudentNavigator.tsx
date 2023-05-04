@@ -4,6 +4,7 @@ import { HeaderStyles } from "components/HeaderStyles";
 import SSsCompaniesScreen from "./SSsCompaniesScreen";
 import SSsListScreen from "./SSsListScreen";
 import SSsSwitchScreen from "./SSsSwitchScreen";
+import { Image } from "react-native";
 
 export type SSsStackParamlist = {
   SSsCompaniesScreen: undefined;
@@ -22,7 +23,22 @@ export function SSsStudentNavigator() {
       <SSsStack.Screen
         name="SSsCompaniesScreen"
         component={SSsCompaniesScreen}
-        options={{ title: "Student Sessions", headerTitle: "Student Sessions", ...HeaderStyles }}
+        options={{
+          title: "Student Sessions",
+          headerTitle: "Student Sessions",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
+          ...HeaderStyles,
+        }}
       />
       <SSsStack.Screen
         name="SSsListScreen"
@@ -30,13 +46,28 @@ export function SSsStudentNavigator() {
         options={{
           title: "Student Sessions List",
           headerTitle: "Student Sessions",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
           ...HeaderStyles,
         }}
       />
       <SSsStack.Screen
         name="SSsSwitchScreen"
         component={SSsSwitchScreen}
-        options={{ title: "Studentsession", headerTitle: "Student Sessions", ...HeaderStyles }}
+        options={{
+          title: "Studentsession",
+          headerTitle: "Student Sessions",
+          ...HeaderStyles,
+        }}
       />
     </SSsStack.Navigator>
   );

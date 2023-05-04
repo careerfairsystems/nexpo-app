@@ -4,6 +4,7 @@ import MapScreen from "./MapScreen";
 import ZoomMapScreen from "./ZoomMapScreen";
 import { Map } from "components/maps/MapProps";
 import { HeaderStyles } from "components/HeaderStyles";
+import { Image } from "react-native";
 
 export type MapStackParamList = {
   MapScreen: undefined;
@@ -18,12 +19,42 @@ export function MapNavigator() {
       <MapStack.Screen
         name="MapScreen"
         component={MapScreen}
-        options={{ title: "Maps", headerTitle: "Maps", ...HeaderStyles }}
+        options={{
+          title: "Maps",
+          headerTitle: "Maps",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
+          ...HeaderStyles,
+        }}
       />
       <MapStack.Screen
         name="ZoomMapScreen"
         component={ZoomMapScreen}
-        options={{ title: "Map", headerTitle: "Maps", ...HeaderStyles }}
+        options={{
+          title: "Map",
+          headerTitle: "Maps",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
+          ...HeaderStyles,
+        }}
       />
     </MapStack.Navigator>
   );

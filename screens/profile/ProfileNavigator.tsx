@@ -3,6 +3,7 @@ import * as React from "react";
 import { HeaderStyles } from "components/HeaderStyles";
 import ProfileScreen from "./ProfileScreen";
 import ProfileSwitchScreen from "./ProfileSwitchScreen";
+import { Image } from "react-native";
 
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
@@ -19,12 +20,41 @@ export function ProfileNavigator() {
       <ProfileStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ title: "Profile", headerTitle: "Profile", ...HeaderStyles }}
+        options={{
+          title: "Profile",
+          headerTitle: "Profile",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
+          ...HeaderStyles,
+        }}
       />
       <ProfileStack.Screen
         name="ProfileSwitchScreen"
         component={ProfileSwitchScreen}
-        options={{ headerTitle: "Profile", ...HeaderStyles }}
+        options={{
+          headerTitle: "Profile",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
+          ...HeaderStyles,
+        }}
       />
     </ProfileStack.Navigator>
   );
