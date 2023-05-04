@@ -81,12 +81,14 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         <UserProfile user={user as NonNullable<User>} />
         {student && <StudentProfile student={student} />}
         {company && <CompanyProfile company={company} />}
-        <ArkadText text={"Tickets to Events:"} style={styles.header} />
         <View style={styles.eventList}>
-          {!bookedEvents ? (
+          {
+          !bookedEvents ? (
             <ActivityIndicator />
           ) : (
             bookedEvents.length !== 0 && (
+              <>
+              <ArkadText text={"Tickets to Events:"} style={styles.header} />
               <BookedEventList
                 bookedEvents={bookedEvents}
                 onPress={(id) =>
@@ -96,8 +98,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
                   })
                 }
               />
-            )
-          )}
+          </>))}
         </View>
         <EditProfileButton
           editingProfile={false}
