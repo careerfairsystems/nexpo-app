@@ -61,6 +61,11 @@ export default {
               ResetPasswordScreen: "reset_password/:token",
             },
           },
+          Admin: {
+            screens: {
+              AdminScreen: "admin",
+            },
+          },
         },
       },
       NotFound: "*",
