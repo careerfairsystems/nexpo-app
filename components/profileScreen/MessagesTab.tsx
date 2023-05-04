@@ -9,7 +9,7 @@ import { Message } from "api/Messages";
 
 const { width, height } = Dimensions.get("window");
 
-export default function VolunteerTab() {
+export default function MessagesTab() {
 
   // Temporary solution until API is ready
   const messages: Message[] = [MockMessage1, MockMessage2]
