@@ -15,7 +15,7 @@ const CompanyStack = createStackNavigator<CompanyStackParamList>();
 export function CompaniesNavigator() {
   return (
     <CompanyStack.Navigator 
-        screenOptions={{ animationEnabled: true }}
+      screenOptions={{ animationEnabled: true }}
     >
       <CompanyStack.Screen
         name="CompaniesScreen"

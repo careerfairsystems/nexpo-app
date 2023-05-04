@@ -16,7 +16,9 @@ export type ProfileStackParamList = {
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
 export function ProfileNavigator() {
   return (
-    <ProfileStack.Navigator>
+    <ProfileStack.Navigator
+      screenOptions={{ animationEnabled: true }}
+    >
       <ProfileStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
