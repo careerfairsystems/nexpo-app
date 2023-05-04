@@ -12,6 +12,8 @@ import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { Role } from "api/Role";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import Toast from 'react-native-toast-message';
+
 
 type EventsNavigation = {
   navigation: StackNavigationProp<EventStackParamlist, "EventListScreen">;
@@ -28,8 +30,12 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   const getEvents = async () => {
     setLoading(true);
     const events = await API.events.getAllEvents();
-    const role = await API.auth.getUserRole();
-    setRole(role);
+    const isSignedIn = await API.auth.isAuthenticated();
+    if (isSignedIn) {
+      const role = await API.auth.getUserRole();
+      setRole(role);
+    }
+    
     setEvents(events);
     setUpcomingEvents(API.events.getUpcomingEvents(events));
     setLoading(false);
@@ -39,7 +45,15 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     setShowAllEvents(!showAllEvents);
   }
 
+
   const openEventDetails = (id: number) => {
+    if (role === null) {
+      Toast.show({
+        type: 'info',
+        text1: 'Log in to see event details.'
+      });
+      return;
+    }
     if (role === Role.Administrator) {
       navigation.navigate("EventSwitchScreen", { id: id, screen: "participatians" });
     } else {

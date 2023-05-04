@@ -100,7 +100,7 @@ export default function BottomTabNavigator() {
             ...HeaderStyles,
           }}
         />
-        {user && (
+        {(
           <BottomTab.Screen
             name="Events"
             component={EventsNavigator}
