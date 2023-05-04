@@ -32,7 +32,7 @@ export default function UserProfile({ user }: UserProfileProps) {
           <Text style={styles.contactInfoText}>{user.phoneNr ? user.phoneNr : "\u2013"}</Text>
         </View>
         <View style={styles.contactInfoContainer}>
-          <Ionicons name="pizza" size={16} color={Colors.arkadNavy} />
+          <Ionicons name="restaurant" size={16} color={Colors.arkadNavy} />
           <Text style={styles.contactInfoText}>
             {user.foodPreferences ? user.foodPreferences : "\u2013"}
           </Text>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   nameLabel: {
     paddingTop: 8,
-    paddingBottom: 16,
+    //paddingBottom: 8,
     fontSize: 32,
     fontFamily: "main-font-bold",
     color: Colors.arkadNavy,
@@ -62,14 +62,15 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   contactInfoText: {
-    fontSize: 18,
+    fontSize: 20,
     paddingLeft: 8,
     fontFamily: "main-font-bold",
     color: Colors.arkadNavy,
   },
   accountTypeText: {
-    fontFamily: "main-font",
+    paddingBottom: 16,
+    fontFamily: "main-font-bold",
     color: Colors.arkadNavy,
-    fontSize: 20,
+    fontSize: 24,
   },
 });
