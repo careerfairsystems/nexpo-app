@@ -41,6 +41,7 @@ function ProfileTabViewer(props: { profile: any; contacts: any; messages: any; a
         fontFamily: "main-font",
         fontSize: 16,
       }}
+      scrollEnabled={true}
     />
   );
 
