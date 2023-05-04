@@ -30,7 +30,6 @@ export default function MessagesTab() {
   }
 
   const onPress = (id: number) => {
-    console.log("Pressed message with id: " + id);
     setMessagePressed(messagePressed.map((value) => value[0] === id ? [value[0], !value[1]] : value));
   }
 
