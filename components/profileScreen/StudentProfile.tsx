@@ -55,11 +55,13 @@ const styles = StyleSheet.create({
   },
   label: {
     marginTop: 8,
-    fontSize: 14,
+    fontSize: 20,
     fontFamily: "main-font-bold",
     color: Colors.arkadNavy,
   },
   text: {
+
+    fontSize: 18,
     fontFamily: "main-font-bold",
     color: Colors.arkadNavy,
   },
