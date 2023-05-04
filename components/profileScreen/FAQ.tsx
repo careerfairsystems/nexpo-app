@@ -2,6 +2,7 @@ import { ArkadText } from "components/StyledText";
 import { ScrollView, StyleSheet, View } from "react-native";
 import React from "react";
 import Colors from "constants/Colors";
+import Expandable from "./Expandable";
 
 export default function FAQ() {
     const [questions, setQuestions] = React.useState<Mock[]>();
@@ -24,7 +25,7 @@ export default function FAQ() {
         answer: string;
     }
 
-    function MockData() {
+    async function MockData() {
         // Local mock data
         const mock : Mock[] = new Array();
         mock.push({
@@ -46,15 +47,13 @@ export default function FAQ() {
         setQuestions(mock);
     }
 
-    // Skapa dropdown objekt (med hjälp av dropdockpicker?)
     return (
         <ScrollView style={styles.container}>
             <ArkadText text={"Frequently Asked Questions"} style={styles.title}></ArkadText>
             {questions?.map((data) => {
-                {console.log(data.question)}
-                <View key={data.id} style={styles.containerQuestion}>
-                    <ArkadText text={data.question} style={styles.title}></ArkadText>
-                </View>
+                return (
+                    <Expandable key={data.id} title={data.question} desc={data.answer}></Expandable>
+                );
             })}
         </ScrollView>
     );
@@ -63,20 +62,11 @@ export default function FAQ() {
 const styles = StyleSheet.create({
     container: {
 		paddingVertical: 24,
-		backgroundColor: Colors.arkadNavy,
+		backgroundColor: Colors.white,
 	},
-    containerQuestion: {
-        flex: 1,
-        padding: 20,
-		alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "200px",
-        backgroundColor: Colors.arkadGreen
-    },
     title: {
         fontFamily: "main-font-bold",
         fontSize: 30,
-        color: Colors.white
+        color: Colors.arkadNavy
     }
 })
