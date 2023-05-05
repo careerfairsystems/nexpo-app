@@ -1,36 +1,18 @@
 import Colors from "constants/Colors";
 import React from "react";
 import { useState } from "react";
-import { TextInput, View, StyleSheet, Modal, Pressable, FlatList, Dimensions } from "react-native";
-import { MessageListItem } from "./MessageListItem";
+import { StyleSheet, FlatList } from "react-native";
 import { ArkadText } from "components/StyledText";
 import { Message } from "api/Messages";
-
-
-const { width, height } = Dimensions.get("window");
+import MessageListItem from "./MessageListItem";
 
 export default function MessagesTab() {
 
   // Temporary solution until API is ready
   const messages: Message[] = [MockMessage1, MockMessage2]
-  const [messagePressed, setMessagePressed] = useState<[number, boolean][]>(
-    messages.map((message) => [message.id, false])
-  );
 
   const getMessagees = () => {
     // Do some API call here
-  }
-
-  const isPressed = (id: number) => {
-    const messageIsPressed = messagePressed.find((value) => value[0] === id)
-    if (messageIsPressed === undefined) {
-      return false
-    }
-    return messageIsPressed[1]
-  }
-
-  const onPress = (id: number) => {
-    setMessagePressed(messagePressed.map((value) => value[0] === id ? [value[0], !value[1]] : value));
   }
 
 	if (messages.length === 0) {
@@ -42,11 +24,9 @@ export default function MessagesTab() {
     <FlatList
       showsVerticalScrollIndicator={false}
       data={messages}
-      keyExtractor={message => message.id.toString()}
+      keyExtractor={message => message.title}
       renderItem={({ item: message }) => (
-        <View style={isPressed(message.id) ? styles.messageBoxPressed : styles.messageBoxNotPressed}>
-            <MessageListItem message={message} itemStyle={{}} onPress={() => onPress(message.id)} />
-        </View>
+          <MessageListItem message={message} />
       )}
     />
   );
@@ -54,7 +34,6 @@ export default function MessagesTab() {
 
 
 const MockMessage1 = {
-  id: 1001,
   title: "Large mock message",
   content: `This is a mock message \n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam ultrices sagittis orci a scelerisque purus semper eget. Tellus pellentesque eu tincidunt tortor aliquam. Diam volutpat commodo sed egestas egestas fringilla phasellus faucibus. Sit amet nisl suscipit adipiscing. Ac turpis egestas integer eget aliquet nibh praesent tristique. Imperdiet nulla malesuada pellentesque elit eget gravida cum sociis. Ullamcorper malesuada proin libero nunc consequat interdum varius sit amet. Arcu bibendum at varius vel pharetra vel turpis nunc. Non sodales neque sodales ut etiam sit amet. Est velit egestas dui id ornare.
   
@@ -67,7 +46,6 @@ const MockMessage1 = {
   sender: "Jesse Pinkman",
 }
 const MockMessage2 = {
-  id: 1002,
   title: "Small mock message",
   content: "This is a small mock message \n bye!",
   date: "2023-04-27",
@@ -77,15 +55,6 @@ const MockMessage2 = {
 }
 
 const styles = StyleSheet.create({
-  messageBoxNotPressed: {
-    width: width * 0.95,
-    height: height * 0.24,
-  },
-  messageBoxPressed: {
-    flexBasis: "fit-content",
-    width: width * 0.95,
-    height: height * 0.60,
-  },
   text: {
     paddingTop: 40,
     fontFamily: "main-font-bold",

@@ -1,5 +1,5 @@
-import React from "react";
-import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import React, { useState } from "react";
+import { Dimensions, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ArkadText } from "../StyledText";
 import Colors from "constants/Colors";
@@ -8,22 +8,32 @@ import { API } from "api/API";
 
 type ListedMessageItemProps = {
   message: Message;
-  itemStyle: ViewStyle;
-  onPress: () => void;
 };
 
-export const MessageListItem = ({ message, itemStyle, onPress }: ListedMessageItemProps) => (
-  <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
-    <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
-      <ArkadText style={styles.messageTitle} text={message.title} />
-      <ArkadText style={styles.messageContent} text={message.content} />
-      <ArkadText
-        style={styles.messageTime}
-        text={API.messages.formatTime(message.date, message.time) + " from " + message.sender}
-      />
-    </ScrollView>
-  </Pressable>
-);
+const { width, height } = Dimensions.get("window");
+
+export default function MessageListItem({ message }: ListedMessageItemProps) {
+  const [messagePressed, setMessagePressed] = useState<boolean>(false);
+
+  const onPress = () => {
+    setMessagePressed(!messagePressed);
+  }
+
+  return (
+    <View style={messagePressed ? styles.messageBoxPressed : styles.messageBoxNotPressed}>
+      <Pressable onPress={onPress} style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
+          <ArkadText style={styles.messageTitle} text={message.title} />
+          <ArkadText style={styles.messageContent} text={message.content} />
+          <ArkadText
+            style={styles.messageTime}
+            text={API.messages.formatTime(message.date, message.time) + " from " + message.sender}
+          />
+        </ScrollView>
+      </Pressable>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   messageTime: {
@@ -37,6 +47,15 @@ const styles = StyleSheet.create({
       fontSize: 16,
       textAlign: "left",
       color: Colors.white,
+  },
+  messageBoxNotPressed: {
+    width: width * 0.95,
+    height: height * 0.24,
+  },
+  messageBoxPressed: {
+    flexBasis: "fit-content",
+    width: width * 0.95,
+    height: height * 0.60,
   },
   container: {
     flex: 1,

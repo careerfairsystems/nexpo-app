@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import { postAuth } from "./_HttpHelpers";
 
 export interface Message {
-  id: number;
   title: string;
   content: string;
   date: string;
