@@ -39,7 +39,6 @@ export default function AdminTab() {
     const time = today.getHours() + ":" + today.getMinutes();
 
     const message: Message = {
-      id: 1010,
       title: title,
       content: text,
       date: date,
@@ -129,29 +128,7 @@ const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
       </View>
       <ArkadText style={styles.checkboxText} text={text} />
     </Pressable>
-)
-
-/* const Checkbox = ({checked, onChange, text}: CheckboxProps) => {
-  return (
-    <View style={styles.checkboxView}>
-      <label>
-        <input 
-          type="checkbox" 
-          checked={checked} 
-          onChange={onChange} 
-          key={text}
-          style={{
-            width: 25, 
-            height: 25, 
-            borderColor: Colors.arkadNavy, 
-            marginRight: 10,
-         }}
-        />
-        {text}
-      </label>
-    </View>
-  );
-} */
+);
 
 const styles = StyleSheet.create({
 
