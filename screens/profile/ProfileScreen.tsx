@@ -139,8 +139,9 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             messages={MessagesTab}
           />
         )}
-        {user.role === Role.Student ||
-          (user.role === Role.CompanyRepresentative && userProfile())}
+        {(user.role === Role.Student ||
+          user.role === Role.CompanyRepresentative) &&
+          userProfile()}
       </>
     );
   }
