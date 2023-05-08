@@ -90,8 +90,6 @@ export default function AppLoader({ children }: Props) {
               fadeDuration={0}
             />
 
-            <br />
-
             {Font.isLoaded(font) && (
               <Text
                 style={[styles.title, fontStyles]}
