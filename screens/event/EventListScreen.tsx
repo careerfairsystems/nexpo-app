@@ -37,6 +37,19 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
       setRole(role);
     }
 
+    // Filter out Banquet and Lunch events as they shouldn't be shown in the event list
+    for (let i = 0; i < events.length; i++) {
+      if (
+        events[i].name.toLowerCase().includes("lunch") ||
+        events[i].name.toLowerCase().includes("banquet")
+      ) {
+        if (events[i].name.toLowerCase().includes("lecture")) {
+          continue;
+        }
+        delete events[i];
+      }
+    }
+
     setEvents(events);
     setUpcomingEvents(API.events.getUpcomingEvents(events));
     setLoading(false);
