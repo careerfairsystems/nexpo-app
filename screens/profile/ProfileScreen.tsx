@@ -13,7 +13,10 @@ import { ProfileStackParamList } from "./ProfileNavigator";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { View } from "components/Themed";
 import { AuthContext } from "components/AuthContext";
-import { EditProfileButton, LogoutButton } from "components/profileScreen/Buttons";
+import {
+  EditProfileButton,
+  LogoutButton,
+} from "components/profileScreen/Buttons";
 import UserProfile from "components/profileScreen/UserProfile";
 import { Student } from "api/Students";
 import StudentProfile from "components/profileScreen/StudentProfile";
@@ -80,21 +83,23 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         <UserProfile user={user as NonNullable<User>} />
         {student && <StudentProfile student={student} />}
         {company && <CompanyProfile company={company} />}
-        <ArkadText text={"Tickets to Events:"} style={styles.header} />
         <View style={styles.eventList}>
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
             bookedEvents.length !== 0 && (
-              <BookedEventList
-                bookedEvents={bookedEvents}
-                onPress={(id) =>
-                  navigation.navigate("ProfileSwitchScreen", {
-                    screen: "details",
-                    id: id,
-                  })
-                }
-              />
+              <>
+                <ArkadText text={"Tickets to Events:"} style={styles.header} />
+                <BookedEventList
+                  bookedEvents={bookedEvents}
+                  onPress={(id) =>
+                    navigation.navigate("ProfileSwitchScreen", {
+                      screen: "details",
+                      id: id,
+                    })
+                  }
+                />
+              </>
             )
           )}
         </View>
@@ -119,9 +124,23 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   } else {
     return (
       <>
-        {user.role === Role.Administrator && <ProfileTabViewer profile={userProfile} contacts={Contacts} messages={MessagesTab} admin={AdminTab}/>}
-        {user.role === Role.Volunteer && <ProfileTabViewer profile={userProfile} contacts={Contacts} messages={MessagesTab}/>}
-        {user.role === Role.Student || user.role === Role.CompanyRepresentative && userProfile()}
+        {user.role === Role.Administrator && (
+          <ProfileTabViewer
+            profile={userProfile}
+            contacts={Contacts}
+            messages={MessagesTab}
+            admin={AdminTab}
+          />
+        )}
+        {user.role === Role.Volunteer && (
+          <ProfileTabViewer
+            profile={userProfile}
+            contacts={Contacts}
+            messages={MessagesTab}
+          />
+        )}
+        {user.role === Role.Student ||
+          (user.role === Role.CompanyRepresentative && userProfile())}
       </>
     );
   }
