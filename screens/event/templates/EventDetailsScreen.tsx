@@ -43,7 +43,6 @@ export default function EventDetailsScreen(id: number) {
     if (reg) {
       const ticket = await getTicketForEvent(event);
       setTicket(ticket);
-      console.log(ticket?.event.type);
     }
   };
 
