@@ -106,7 +106,6 @@ export default function EventDetailsScreen(id: number) {
   if (loading || !event) {
     return <ScreenActivityIndicator />;
   }
-
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
@@ -149,20 +148,26 @@ export default function EventDetailsScreen(id: number) {
         <View style={styles.descriptionContainer}>
           <ArkadText text={event.description} style={styles.description} />
         </View>
-
+        {/* ticket.eventType !== EventType.Lunch && ticket.event.eventType !== EventType.Banquet */}
         {ticket && registered ? (
           <>
             {ticket.isConsumed ? (
               <NoButton text="Ticket consumed!" style={styles.consumedText} />
             ) : (
-              <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
+              (ticket.event.type !== 1 && ticket.event.type !== 2) ? (
+                <View>
+             <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
                 <ArkadText text="De-register from event" style={styles.title} />
               </ArkadButton>
-            )}
+
             <ArkadText
-              text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
-              style={{ color: Colors.arkadNavy }}
-            />
+            text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
+            style={{ color: Colors.arkadNavy }}
+          />
+          </View>
+              ) : null
+            )}
+            
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={[
@@ -228,6 +233,7 @@ const styles = StyleSheet.create({
     color: Colors.arkadNavy,
     fontSize: 26,
     marginBottom: 10,
+    paddingTop: "2rem"
   },
   scrollView: {
     backgroundColor: Colors.white,
@@ -298,7 +304,7 @@ const styles = StyleSheet.create({
   description: {
     color: Colors.black,
     fontSize: 18,
-    textAlign: "left",
+    textAlign: "left"
   },
   bookButton: {
     width: "90%",
@@ -329,6 +335,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 16,
     backgroundColor: Colors.white,
+
   },
   modalOverlay: {
     flex: 1,
