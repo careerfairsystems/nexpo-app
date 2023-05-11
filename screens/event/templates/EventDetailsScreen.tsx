@@ -155,7 +155,7 @@ export default function EventDetailsScreen(id: number) {
               <NoButton text="Ticket consumed!" style={styles.consumedText} />
             ) : (
               (ticket.event.type !== 1 && ticket.event.type !== 2) ? (
-                <div>
+                <View>
              <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
                 <ArkadText text="De-register from event" style={styles.title} />
               </ArkadButton>
@@ -164,7 +164,7 @@ export default function EventDetailsScreen(id: number) {
             text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
             style={{ color: Colors.arkadNavy }}
           />
-          </div>
+          </View>
               ) : null
             )}
             
@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     color: Colors.arkadNavy,
     fontSize: 26,
     marginBottom: 10,
+    paddingTop: "2rem"
   },
   scrollView: {
     backgroundColor: Colors.white,
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
   description: {
     color: Colors.black,
     fontSize: 18,
-    textAlign: "left",
+    textAlign: "left"
   },
   bookButton: {
     width: "90%",
@@ -334,6 +335,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 16,
     backgroundColor: Colors.white,
+
   },
   modalOverlay: {
     flex: 1,
