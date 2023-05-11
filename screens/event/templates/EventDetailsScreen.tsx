@@ -43,6 +43,7 @@ export default function EventDetailsScreen(id: number) {
     if (reg) {
       const ticket = await getTicketForEvent(event);
       setTicket(ticket);
+      console.log(ticket?.event.type);
     }
   };
 
@@ -106,7 +107,6 @@ export default function EventDetailsScreen(id: number) {
   if (loading || !event) {
     return <ScreenActivityIndicator />;
   }
-
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
@@ -149,20 +149,26 @@ export default function EventDetailsScreen(id: number) {
         <View style={styles.descriptionContainer}>
           <ArkadText text={event.description} style={styles.description} />
         </View>
-
+        {/* ticket.eventType !== EventType.Lunch && ticket.event.eventType !== EventType.Banquet */}
         {ticket && registered ? (
           <>
             {ticket.isConsumed ? (
               <NoButton text="Ticket consumed!" style={styles.consumedText} />
             ) : (
-              <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
+              (ticket.event.type !== 1 && ticket.event.type !== 2) ? (
+                <div>
+             <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
                 <ArkadText text="De-register from event" style={styles.title} />
               </ArkadButton>
-            )}
+
             <ArkadText
-              text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
-              style={{ color: Colors.arkadNavy }}
-            />
+            text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
+            style={{ color: Colors.arkadNavy }}
+          />
+          </div>
+              ) : null
+            )}
+            
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={[

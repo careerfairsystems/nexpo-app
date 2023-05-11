@@ -7,6 +7,7 @@ export interface Event {
   name: string;
   description: string;
   date: string;
+  type: int;
   start: string;
   end: string;
   location: string;
