@@ -1,11 +1,12 @@
 import Colors from "constants/Colors";
 import React from "react";
 import { useState } from "react";
-import { TextInput, View, StyleSheet, Modal, Pressable } from "react-native";
+import { TextInput, View, StyleSheet, Modal, Pressable, ScrollView } from "react-native";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
 import { Ionicons } from "@expo/vector-icons";
 import { Message, sendMessage } from "api/Messages";
+import { set } from "date-fns";
 
 
 const comittees = [
@@ -24,6 +25,7 @@ export default function AdminTab() {
 	const [checkboxState, setCheckBoxState] = useState(
 		new Array(comittees.length).fill(false)
 	);
+  const [userName, setUserName] = useState("");
 
 	const handleCheckState = (position: number) => {
     setCheckBoxState(checkboxState.map((item, index) => (index === position ? !item : item)));    
@@ -54,8 +56,9 @@ export default function AdminTab() {
 	};
 
 	return (
-		<View style={styles.container}>
+		<ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}} contentContainerStyle={{alignItems: "center"}}>
 			<SelectComitteeModal />
+      <ArkadText text="Send mass message" style={{fontSize: 40, color: "black", marginTop: 10}} />
 			<TextInput
         style={styles.titleInput}
 				onChangeText={setTitle}
@@ -75,16 +78,36 @@ export default function AdminTab() {
 				textAlignVertical="top"
 				numberOfLines={10}
 			/>
-			<ArkadButton onPress={send} style={styles.buttonContainer1}>
-				<ArkadText text="Send" style={styles.buttonText} />
-			</ArkadButton>
-			<ArkadButton
-				onPress={() => setModalVisible(true)}
-				style={styles.buttonContainer2}
-			>
-				<ArkadText text="Select committee" style={styles.buttonText} />
-			</ArkadButton>
-		</View>
+      <ArkadButton onPress={send} style={styles.buttonContainer1}>
+        <ArkadText text="Send" style={styles.buttonText} />
+      </ArkadButton>
+      <ArkadButton
+        onPress={() => setModalVisible(true)}
+        style={styles.buttonContainer2}
+      >
+        <ArkadText text="Select committee" style={styles.buttonText} />
+      </ArkadButton>
+
+      <ArkadText text="Change user role" style={{fontSize: 40, color: "black", marginTop: 10}} />
+      <View style={{flexDirection: "row"}}>
+        <TextInput
+          style={styles.userNameInput}
+          onChangeText={setUserName}
+          value={userName}
+          placeholder={"Username..."}
+          placeholderTextColor={Colors.lightGray}
+          multiline={false}
+          textAlign="left"
+        />
+        <ArkadButton onPress={() => console.log("change button pressed")} style={styles.buttonContainer1}>
+          <ArkadText text="Change" style={styles.buttonText} />
+        </ArkadButton>
+      </View>
+      <View style={{flexDirection: "row", marginBottom: 10}}>
+        <ArkadText text="Change to: " style={{fontSize: 20, color: "black", marginTop: 10}} />
+        {/* some dropdown selector */}
+      </View>
+		</ScrollView>
 	);
 
 	function SelectComitteeModal() {
@@ -172,10 +195,6 @@ const styles = StyleSheet.create({
     color: Colors.white,
     alignSelf: "center",
   },
-	container: {
-		flex: 1,
-		alignItems: "center",
-	},
 	textInput: {
 		height: "60",
 		margin: 12,
@@ -200,24 +219,36 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "80%",
   },
+  userNameInput: {
+    height: "20",
+    marginTop: "10%",
+    borderColor: Colors.arkadNavy,
+    color: Colors.arkadNavy,
+    borderRadius: 7,
+    borderWidth: 2,
+    fontSize: 20,
+    fontFamily: "main-font-bold",
+    padding: 10,
+    width: "40%",
+  },
 	buttonText: {
 		padding: "1%",
 		alignItems: "center",
+    fontSize: 18,
 	},
 	buttonContainer1: {
-		alignSelf: "center",
-		padding: "4%",
-		marginBottom: "4%",
-		width: "45%",
-		backgroundColor: Colors.arkadOrange,
-	},
-	buttonContainer2: {
-		alignSelf: "center",
-		padding: "4%",
-		marginBottom: "2%",
-		width: "45%",
-		backgroundColor: Colors.arkadNavy,
-	},
+    alignSelf: "center",
+    padding: "4%",
+    marginBottom: "2%",
+    width: "45%",
+  },
+  buttonContainer2: {
+    alignSelf: "center",
+    padding: "4%",
+    marginBottom: "2%",
+    width: "45%",
+    backgroundColor: Colors.arkadNavy,
+  },
 	centeredView: {
 		flex: 1,
 		justifyContent: "center",
