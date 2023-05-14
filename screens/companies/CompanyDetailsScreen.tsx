@@ -20,7 +20,9 @@ type CompanyDetailsScreenParams = {
   };
 };
 
-export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenParams) {
+export default function CompanyDetailsScreen({
+  route,
+}: CompanyDetailsScreenParams) {
   const { id } = route.params;
 
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
@@ -50,7 +52,9 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
           <View style={styles.logoContainer}>
             <Image
               source={
-                company.logoUrl ? { uri: company.logoUrl } : require("../../assets/images/icon.png")
+                company.logoUrl
+                  ? { uri: company.logoUrl }
+                  : require("../../assets/images/icon.png")
               }
               defaultSource={require("../../assets/images/icon.png")}
               style={styles.logo}
@@ -62,28 +66,36 @@ export default function CompanyDetailsScreen({ route }: CompanyDetailsScreenPara
           <View style={styles.contactInfoContainer}>
             <Ionicons name="link" size={16} color={Colors.arkadNavy} />
             <Text
-              style={styles.contactInfoText}
+              style={styles.linkText}
               onPress={() => {
                 if (company.website) {
                   Linking.openURL(company.website);
                 }
               }}
             >
-              {company.website ? company.website.replace(/^https?:\/\//, "") : "\u2013"}
+              {company.website
+                ? company.website.replace(/^https?:\/\//, "")
+                : "No website available"}
             </Text>
           </View>
           <View style={styles.contactInfoContainer}>
             <Ionicons name="map" size={18} color="black" />
             <ArkadText
-              text={(Locations[companyLocations[company.id]] ?? "No data").replace("_", " ")}
+              text={(
+                Locations[companyLocations[company.id]] ?? "No data"
+              ).replace("_", " ")}
               style={styles.contactInfoText}
             />
           </View>
 
           <Text style={styles.descHeader}>About us</Text>
-          <Text style={styles.desc}>{company.description ? company.description : "\u2013"}</Text>
+          <Text style={styles.desc}>
+            {company.description ? company.description : "\u2013"}
+          </Text>
           <Text style={styles.descHeader}>Did you know?</Text>
-          <Text style={styles.desc}>{company.didYouKnow ? company.didYouKnow : "\u2013"}</Text>
+          <Text style={styles.desc}>
+            {company.didYouKnow ? company.didYouKnow : "\u2013"}
+          </Text>
         </View>
       </ScrollView>
     </View>
@@ -129,6 +141,13 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     fontFamily: "main-font-bold",
     color: Colors.arkadNavy,
+  },
+  linkText: {
+    fontSize: 18,
+    paddingLeft: 8,
+    fontFamily: "main-font-bold",
+    color: Colors.arkadNavy,
+    textDecorationLine: "underline",
   },
   descHeader: {
     alignSelf: "center",
