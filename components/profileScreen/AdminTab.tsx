@@ -1,38 +1,28 @@
-import Colors from "constants/Colors";
 import React from "react";
+import Colors from "constants/Colors";
 import { useState } from "react";
 import { TextInput, View, StyleSheet, Modal, Pressable, ScrollView } from "react-native";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
-import { Ionicons } from "@expo/vector-icons";
 import { Message, sendMessage } from "api/Messages";
-import { set } from "date-fns";
-
-
-const comittees = [
-	"Economics & Sustainability",
-	"Business Relations",
-	"Marketing & Public Relations",
-	"Event & Recruitment",
-	"Fair & Logistics",
-	"Information Technology",
-];
+import { COMMITTEES, ROLES } from "./DroppdownItems";
+import { Committee } from "api/Committee";
+import { Role } from "api/Role";
+import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
 
 export default function AdminTab() {
 	const [title, setTitle] = useState("");
 	const [text, setText] = useState("");
-	const [modalVisible, setModalVisible] = useState(false);
-	const [checkboxState, setCheckBoxState] = useState(
-		new Array(comittees.length).fill(false)
-	);
-  const [userName, setUserName] = useState("");
 
-	const handleCheckState = (position: number) => {
-    setCheckBoxState(checkboxState.map((item, index) => (index === position ? !item : item)));    
-	};
-  const selectAll = () => {
-    setCheckBoxState(checkboxState.map(() => true));
-  }
+  const [committees, setCommittees] = useState(COMMITTEES);
+  const [committeeValue, setCommitteeValue] = useState<Committee[]>([]);
+	const [committeeModal, setCommitteeModal] = useState(false);
+
+  const [roles, setRoles] = useState(ROLES);
+  const [roleValue, setRoleValue] = useState<Role[]>([]);
+  const [roleModal, setRoleModal] = useState(false);
+
+  const [userName, setUserName] = useState("");
 
 	const send = () => {
 
@@ -57,8 +47,22 @@ export default function AdminTab() {
 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}} contentContainerStyle={{alignItems: "center"}}>
-			<SelectComitteeModal />
       <ArkadText text="Send mass message" style={{fontSize: 40, color: "black", marginTop: 10}} />
+      <View style={styles.centeredViewCommittee}>
+        <View style={styles.modalView}>
+          <CategoriesDropdown
+            title="Select committee"
+            items={committees}
+            setOpen={setCommitteeModal}
+            setValue={setCommitteeValue}
+            open={committeeModal}
+            value={committeeValue}
+            setItems={setCommittees}
+            categories={false}
+            single={false}
+          />
+        </View>
+      </View>
 			<TextInput
         style={styles.titleInput}
 				onChangeText={setTitle}
@@ -81,119 +85,48 @@ export default function AdminTab() {
       <ArkadButton onPress={send} style={styles.buttonContainer1}>
         <ArkadText text="Send" style={styles.buttonText} />
       </ArkadButton>
-      <ArkadButton
-        onPress={() => setModalVisible(true)}
-        style={styles.buttonContainer2}
-      >
-        <ArkadText text="Select committee" style={styles.buttonText} />
-      </ArkadButton>
 
       <ArkadText text="Change user role" style={{fontSize: 40, color: "black", marginTop: 10}} />
-      <View style={{flexDirection: "row"}}>
-        <TextInput
-          style={styles.userNameInput}
-          onChangeText={setUserName}
-          value={userName}
-          placeholder={"Username..."}
-          placeholderTextColor={Colors.lightGray}
-          multiline={false}
-          textAlign="left"
-        />
+      <TextInput
+        style={styles.userNameInput}
+        onChangeText={setUserName}
+        value={userName}
+        placeholder={"Username..."}
+        placeholderTextColor={Colors.lightGray}
+        multiline={false}
+        textAlign="left"
+      />
+      {/* TODO: fix styling */}
+      <View style={{flexDirection: "row", width: "100%"}}>
         <ArkadButton onPress={() => console.log("change button pressed")} style={styles.buttonContainer1}>
           <ArkadText text="Change" style={styles.buttonText} />
         </ArkadButton>
-      </View>
-      <View style={{flexDirection: "row", marginBottom: 10}}>
-        <ArkadText text="Change to: " style={{fontSize: 20, color: "black", marginTop: 10}} />
-        {/* some dropdown selector */}
+        <View style={styles.centeredViewRoles}>
+          <View style={styles.modalView}>
+            <CategoriesDropdown
+              title="Change role to..."
+              items={roles}
+              setOpen={setRoleModal}
+              setValue={setRoleValue}
+              open={roleModal}
+              value={roleValue}
+              setItems={setRoles}
+              categories={false}
+              single={true}
+            />
+          </View>
+        </View>
       </View>
 		</ScrollView>
 	);
-
-	function SelectComitteeModal() {
-		return (
-			<Modal
-				animationType="none"
-				transparent={false}
-				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			>
-				<View style={styles.modalHeader}>
-          <ArkadButton style={styles.selectAll} onPress={selectAll}>
-						<ArkadText text={"Select all"} />
-					</ArkadButton>
-					<View style={styles.centeredView}>
-						{comittees.map((item, index) => 
-							<Checkbox key={item}
-							checked={checkboxState[index]}
-							onChange={() => handleCheckState(index)}
-							text={item}
-							/>
-						)}
-					</View>
-					<ArkadButton style={styles.buttonContainer1} onPress={() => setModalVisible(false)}>
-						<ArkadText text={"Save"} />
-					</ArkadButton>
-				</View>
-			</Modal>
-		);
-	}
 }
 
-type CheckboxProps = {checked: boolean, onChange: () => void, text: string}
-
-const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
-  <Pressable onPress={onChange} style={styles.checkboxContainer}>
-      <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
-        {checked && <Ionicons name="checkmark" size={30} style={styles.checkmark} />}
-      </View>
-      <ArkadText style={styles.checkboxText} text={text} />
-    </Pressable>
-);
-
 const styles = StyleSheet.create({
-
-  modalHeader: {
-	flex: 1,
-	flexDirection: "column",
-	justifyContent: "center",
-	alignItems: "center",
-  },
-  selectAll: {
-    alignSelf: "flex-start",
-    marginLeft: 20,
-    marginBottom: 10,
-    backgroundColor: Colors.arkadNavy,
-  },
-  checkboxBase: {
-    width: 24,
-    height: 24,
-    justifyContent: "center",
+  modalView: {
+    marginBottom: 12,
+    borderRadius: 20,
+    padding: 0,
     alignItems: "center",
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: Colors.arkadNavy,
-    backgroundColor: "transparent",
-    marginLeft: 12,
-  },
-  checkboxText: {
-    fontSize: 25,
-    color: Colors.arkadNavy,
-    marginLeft: 12,
-	  marginBottom: 10,
-  },
-  checkboxChecked: {
-    backgroundColor: Colors.arkadNavy,
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  checkmark: {
-    color: Colors.white,
-    alignSelf: "center",
   },
 	textInput: {
 		height: "60",
@@ -205,11 +138,10 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontFamily: "main-font-bold",
 		padding: 10,
-		width: "80%",
+		width: "90%",
 	},
   titleInput: {
     height: "20",
-    marginTop: "10%",
     borderColor: Colors.arkadNavy,
     color: Colors.arkadNavy,
     borderRadius: 7,
@@ -217,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "main-font-bold",
     padding: 10,
-    width: "80%",
+    width: "90%",
   },
   userNameInput: {
     height: "20",
@@ -242,23 +174,22 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
     width: "45%",
   },
-  buttonContainer2: {
-    alignSelf: "center",
-    padding: "4%",
-    marginBottom: "2%",
-    width: "45%",
-    backgroundColor: Colors.arkadNavy,
+	centeredViewCommittee: {
+    justifyContent: "flex-start",
+    borderWidth: 0,
+    borderColor: Colors.lightGray,
+    borderRadius: 15,
+    padding: 0,
+    margin: 0,
+    width: "90%",
   },
-	centeredView: {
-		flex: 1,
-		justifyContent: "center",
-		backgroundColor: "transparent",
-	},
-  checkboxView: {
-    fontSize: 40,
-    justifyContent: "center",
-    textAlign: "right",
-    fontFamily: "main-font-bold",
-    color: Colors.black,
+	centeredViewRoles: {
+    justifyContent: "flex-start",
+    borderWidth: 0,
+    borderColor: Colors.lightGray,
+    borderRadius: 15,
+    padding: 0,
+    margin: 0,
+    width: "40%",
   },
 });
