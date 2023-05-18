@@ -33,7 +33,7 @@ const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
         {checked && <Ionicons name="checkmark" size={30} style={styles.checkmark} />}
       </View>
       <ArkadText style={styles.checkboxText} text={text} />
-    </Pressable>
+  </Pressable>
 );
 
 export default function EditCompanyProfile({
@@ -79,9 +79,9 @@ export default function EditCompanyProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <Text style={styles.nameLabel}>{company.name}</Text>
+        <ArkadText text={company.name} style={styles.nameLabel}/>
 
-        <Text>About us</Text>
+        <ArkadText text={"About us"} style={styles.header}/>
         <TextInput
           style={[styles.textInput, styles.descriptionInput]}
           multiline
@@ -90,7 +90,7 @@ export default function EditCompanyProfile({
           onChangeText={setDescription}
         />
 
-        <Text>Website</Text>
+        <ArkadText text={"Website"} style={styles.header}/>
         <TextInput
           style={styles.textInput}
           value={website ? website : ""}
@@ -98,7 +98,7 @@ export default function EditCompanyProfile({
           onChangeText={setWebsite}
         />
 
-        <Text>Fair days</Text>
+        <ArkadText text={"Fair days"} style={styles.header}/>
         <Checkbox 
           checked={daysAtArkad.includes(days.day1)} 
           onChange={()=>handlecheckboxChange(days.day1)} 
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 32,
+    fontSize: 35,
     color: Colors.arkadNavy,
   },
   textInput: {
@@ -134,12 +134,12 @@ const styles = StyleSheet.create({
     height: 180,
     textAlignVertical: "top",
   },
-  checkboxView: {
-    fontSize: 40,
-    justifyContent: "center",
-    textAlign: "right",
+  header: {
     fontFamily: "main-font-bold",
-    color: Colors.black,
+    color: Colors.arkadNavy,
+    fontSize: 22,
+    marginTop: 12,
+    marginBottom: 4,
   },
   checkboxBase: {
     width: 24,
@@ -151,12 +151,15 @@ const styles = StyleSheet.create({
     borderColor: Colors.arkadNavy,
     backgroundColor: "transparent",
     marginLeft: 12,
+    marginTop: 5,
+    padding: 12,
   },
   checkboxText: {
-    fontSize: 25,
+    fontSize: 18,
     color: Colors.arkadNavy,
-    marginLeft: 12,
-	  marginBottom: 10,
+    align: "center",
+    margin: 6,
+    padding: 2,
   },
   checkboxChecked: {
     backgroundColor: Colors.arkadNavy,
