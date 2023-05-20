@@ -15,7 +15,6 @@ import { Role } from "api/Role";
 import { API } from "api/API";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { useContext } from "react";
-import { AuthContext } from "components/AuthContext";
 import { MapNavigator } from "../screens/maps/MapNavigator";
 import { ProfileNavigator } from "../screens/profile/ProfileNavigator";
 import { AuthNavigator } from "screens/auth/AuthNavigator";
@@ -24,6 +23,7 @@ import { CompaniesNavigator } from "../screens/companies/CompaniesNavigator";
 import { SSsStudentNavigator } from "../screens/studentSessions/SSsStudentNavigator";
 import { SSsCRepNavigator } from "../screens/studentSessions/SSsCRepNavigator";
 import { HeaderStyles } from "components/HeaderStyles";
+import { AuthContext, AuthDispatchContext } from "components/AuthContextProvider";
 
 export type BottomTabParamList = {
   Companies: undefined;
@@ -37,18 +37,11 @@ export type BottomTabParamList = {
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
-  const [isLoading, setLoading] = React.useState<boolean>(true);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
   const [companyId, setCompanyId] = React.useState<number | null>(null);
-  const [isSignedIn, setSignedIn] = React.useState<boolean>(false);
   const [user, setUser] = React.useState<User | null>(null);
-  const authContext = useContext(AuthContext);
-
-  const getSignedInStatus = async () => {
-    setLoading(true);
-    const status = await API.auth.isAuthenticated();
-    setSignedIn(status);
-    setLoading(false);
-  };
+  const isSignedIn = useContext(AuthContext);
+  const setSignedIn = useContext(AuthDispatchContext);
 
   const getUser = async () => {
     try {
@@ -65,96 +58,98 @@ export default function BottomTabNavigator() {
   };
 
   React.useEffect(() => {
-    getSignedInStatus();
     if (isSignedIn) {
       getUser();
+    } else {
+      setUser(null);
+      setCompanyId(null);
     }
   }, [isSignedIn]);
 
   async function logout() {
     await API.auth.logout();
-    authContext.signOut();
+    setSignedIn(false);
   }
 
   if (isLoading) {
     return <ScreenActivityIndicator />;
   } else {
     return (
-      <BottomTab.Navigator
-        initialRouteName="Events"
-        tabBarOptions={{ activeTintColor: Colors.arkadNavy }}
-      >
-        <BottomTab.Screen
-          name="Companies"
-          component={CompaniesNavigator}
-          options={{
-            tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
-            ...HeaderStyles,
-          }}
-        />
-        <BottomTab.Screen
-          name="Maps"
-          component={MapNavigator}
-          options={{
-            tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
-            ...HeaderStyles,
-          }}
-        />
-        {(
+        <BottomTab.Navigator
+          initialRouteName="Events"
+          tabBarOptions={{ activeTintColor: Colors.arkadNavy }}
+        >
           <BottomTab.Screen
-            name="Events"
-            component={EventsNavigator}
+            name="Companies"
+            component={CompaniesNavigator}
             options={{
-              tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
+              tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
               ...HeaderStyles,
             }}
           />
-        )}
-        {user &&
-          (user.role !== Role.CompanyRepresentative ? (
+          <BottomTab.Screen
+            name="Maps"
+            component={MapNavigator}
+            options={{
+              tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
+              ...HeaderStyles,
+            }}
+          />
+          {(
             <BottomTab.Screen
-              name="SSsStudent"
-              component={SSsStudentNavigator}
+              name="Events"
+              component={EventsNavigator}
               options={{
-                title: "Student Sessions",
-                tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+                tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
                 ...HeaderStyles,
               }}
             />
-          ) : (
-            companyId && (
+          )}
+          {user &&
+            (user.role !== Role.CompanyRepresentative ? (
               <BottomTab.Screen
-                name="SSsCRep"
-                component={SSsCRepNavigator}
+                name="SSsStudent"
+                component={SSsStudentNavigator}
                 options={{
                   title: "Student Sessions",
                   tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
                   ...HeaderStyles,
                 }}
-                initialParams={{ companyId: companyId }}
               />
-            )
-          ))}
-        {isSignedIn ? (
-          <BottomTab.Screen
-            name="You"
-            component={ProfileNavigator}
-            options={{
-              tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
-              ...HeaderStyles,
-            }}
-          />
-        ) : (
-          <BottomTab.Screen
-            name="Login"
-            component={AuthNavigator}
-            options={{
-              tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
-              ...HeaderStyles,
-            }}
-          />
-        )}
-      </BottomTab.Navigator>
+            ) : (
+              companyId && (
+                <BottomTab.Screen
+                  name="SSsCRep"
+                  component={SSsCRepNavigator}
+                  options={{
+                    title: "Student Sessions",
+                    tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+                    ...HeaderStyles,
+                  }}
+                  initialParams={{ companyId: companyId }}
+                />
+              )
+            ))}
+          {isSignedIn ? (
+            <BottomTab.Screen
+              name="You"
+              component={ProfileNavigator}
+              options={{
+                tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
+                ...HeaderStyles,
+              }}
+            />
+          ) : (
+            <BottomTab.Screen
+              name="Login"
+              component={AuthNavigator}
+              options={{
+                tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
+                ...HeaderStyles,
+              }}
+            />
+          )}
+        </BottomTab.Navigator>
     );
   }
 }

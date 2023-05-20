@@ -10,13 +10,11 @@ import * as React from "react";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { AuthContext } from "components/AuthContext";
 
-import { API } from "api/API";
 import Colors from "constants/Colors";
+import { AuthContextProvider } from "components/AuthContextProvider";
 
 export default function Navigation() {
-  const [signedIn, setSignedIn] = React.useState<boolean>(false);
 
   const theme: Theme = {
     dark: false,
@@ -30,31 +28,12 @@ export default function Navigation() {
     },
   };
 
-  const authContext = {
-    signIn: () => {
-      setSignedIn(true);
-    },
-    signOut: () => {
-      setSignedIn(false);
-    },
-  };
-
-  // Set initial state if already signed in
-  React.useEffect(() => {
-    const bootstrap = async () => {
-      const authenticated = await API.auth.isAuthenticated();
-      setSignedIn(authenticated);
-    };
-
-    bootstrap();
-  }, []);
-
   return (
-    <AuthContext.Provider value={authContext}>
+    <AuthContextProvider>
       <NavigationContainer linking={LinkingConfiguration} theme={theme}>
         <RootNavigator />
       </NavigationContainer>
-    </AuthContext.Provider>
+    </AuthContextProvider>
   );
 }
 
