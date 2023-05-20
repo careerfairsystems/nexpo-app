@@ -7,136 +7,156 @@ import { ArkadText } from "components/StyledText";
 import { Ionicons } from "@expo/vector-icons";
 import { Message, sendMessage } from "api/Messages";
 
-
 const comittees = [
-	"Economics & Sustainability",
-	"Business Relations",
-	"Marketing & Public Relations",
-	"Event & Recruitment",
-	"Fair & Logistics",
-	"Information Technology",
+  "Economics & Sustainability",
+  "Business Relations",
+  "Marketing & Public Relations",
+  "Event & Recruitment",
+  "Fair & Logistics",
+  "Information Technology",
 ];
 
 export default function AdminTab() {
-	const [title, setTitle] = useState("");
-	const [text, setText] = useState("");
-	const [modalVisible, setModalVisible] = useState(false);
-	const [checkboxState, setCheckBoxState] = useState(
-		new Array(comittees.length).fill(false)
-	);
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [checkboxState, setCheckBoxState] = useState(
+    new Array(comittees.length).fill(false)
+  );
 
-	const handleCheckState = (position: number) => {
-    setCheckBoxState(checkboxState.map((item, index) => (index === position ? !item : item)));    
-	};
+  const handleCheckState = (position: number) => {
+    setCheckBoxState(
+      checkboxState.map((item, index) => (index === position ? !item : item))
+    );
+  };
   const selectAll = () => {
     setCheckBoxState(checkboxState.map(() => true));
-  }
+  };
 
-	const send = () => {
-
+  const send = async () => {
     const today = new Date();
-    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
     const time = today.getHours() + ":" + today.getMinutes();
+
+    // const message: Message = {
+    //   title: title,
+    //   content: text,
+    //   date: date,
+    //   time: time,
+    //   receiver: "TODO",
+    //   sender: "TODO",
+    // }
 
     const message: Message = {
       title: title,
-      content: text,
+      message: text,
       date: date,
-      time: time,
-      receiver: "TODO",
-      sender: "TODO",
-    }
+    };
 
-    sendMessage(message);
+    const response = await sendMessage(message);
 
-    console.log("Sending message: " );
-    console.log(text);
-	};
+    setTimeout(() => {
+      console.log(response);
+    }, 5000);
 
-	return (
-		<View style={styles.container}>
-			<SelectComitteeModal />
-			<TextInput
+    console.log("Sending message, respose: ", response);
+    console.log("Message: ", message);
+  };
+
+  return (
+    <View style={styles.container}>
+      <SelectComitteeModal />
+      <TextInput
         style={styles.titleInput}
-				onChangeText={setTitle}
-				value={title}
-				placeholder={"Title..."}
-				placeholderTextColor={Colors.lightGray}
-				multiline={false}
+        onChangeText={setTitle}
+        value={title}
+        placeholder={"Title..."}
+        placeholderTextColor={Colors.lightGray}
+        multiline={false}
         textAlign="center"
-			/>
-			<TextInput
-				style={styles.textInput}
-				onChangeText={setText}
-				value={text}
-				placeholder={"Message to send..."}
-				placeholderTextColor={Colors.lightGray}
-				multiline={true}
-				textAlignVertical="top"
-				numberOfLines={10}
-			/>
-			<ArkadButton onPress={send} style={styles.buttonContainer1}>
-				<ArkadText text="Send" style={styles.buttonText} />
-			</ArkadButton>
-			<ArkadButton
-				onPress={() => setModalVisible(true)}
-				style={styles.buttonContainer2}
-			>
-				<ArkadText text="Select committee" style={styles.buttonText} />
-			</ArkadButton>
-		</View>
-	);
+      />
+      <TextInput
+        style={styles.textInput}
+        onChangeText={setText}
+        value={text}
+        placeholder={"Message to send..."}
+        placeholderTextColor={Colors.lightGray}
+        multiline={true}
+        textAlignVertical="top"
+        numberOfLines={10}
+      />
+      <ArkadButton onPress={send} style={styles.buttonContainer1}>
+        <ArkadText text="Send" style={styles.buttonText} />
+      </ArkadButton>
+      <ArkadButton
+        onPress={() => setModalVisible(true)}
+        style={styles.buttonContainer2}
+      >
+        <ArkadText text="Select committee" style={styles.buttonText} />
+      </ArkadButton>
+    </View>
+  );
 
-	function SelectComitteeModal() {
-		return (
-			<Modal
-				animationType="none"
-				transparent={false}
-				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			>
-				<View style={styles.modalHeader}>
+  function SelectComitteeModal() {
+    return (
+      <Modal
+        animationType="none"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalHeader}>
           <ArkadButton style={styles.selectAll} onPress={selectAll}>
-						<ArkadText text={"Select all"} />
-					</ArkadButton>
-					<View style={styles.centeredView}>
-						{comittees.map((item, index) => 
-							<Checkbox key={item}
-							checked={checkboxState[index]}
-							onChange={() => handleCheckState(index)}
-							text={item}
-							/>
-						)}
-					</View>
-					<ArkadButton style={styles.buttonContainer1} onPress={() => setModalVisible(false)}>
-						<ArkadText text={"Save"} />
-					</ArkadButton>
-				</View>
-			</Modal>
-		);
-	}
+            <ArkadText text={"Select all"} />
+          </ArkadButton>
+          <View style={styles.centeredView}>
+            {comittees.map((item, index) => (
+              <Checkbox
+                key={item}
+                checked={checkboxState[index]}
+                onChange={() => handleCheckState(index)}
+                text={item}
+              />
+            ))}
+          </View>
+          <ArkadButton
+            style={styles.buttonContainer1}
+            onPress={() => setModalVisible(false)}
+          >
+            <ArkadText text={"Save"} />
+          </ArkadButton>
+        </View>
+      </Modal>
+    );
+  }
 }
 
-type CheckboxProps = {checked: boolean, onChange: () => void, text: string}
+type CheckboxProps = { checked: boolean; onChange: () => void; text: string };
 
-const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
+const Checkbox = ({ checked, onChange, text }: CheckboxProps) => (
   <Pressable onPress={onChange} style={styles.checkboxContainer}>
-      <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
-        {checked && <Ionicons name="checkmark" size={30} style={styles.checkmark} />}
-      </View>
-      <ArkadText style={styles.checkboxText} text={text} />
-    </Pressable>
+    <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
+      {checked && (
+        <Ionicons name="checkmark" size={30} style={styles.checkmark} />
+      )}
+    </View>
+    <ArkadText style={styles.checkboxText} text={text} />
+  </Pressable>
 );
 
 const styles = StyleSheet.create({
-
   modalHeader: {
-	flex: 1,
-	flexDirection: "column",
-	justifyContent: "center",
-	alignItems: "center",
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   selectAll: {
     alignSelf: "flex-start",
@@ -159,7 +179,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: Colors.arkadNavy,
     marginLeft: 12,
-	  marginBottom: 10,
+    marginBottom: 10,
   },
   checkboxChecked: {
     backgroundColor: Colors.arkadNavy,
@@ -172,22 +192,22 @@ const styles = StyleSheet.create({
     color: Colors.white,
     alignSelf: "center",
   },
-	container: {
-		flex: 1,
-		alignItems: "center",
-	},
-	textInput: {
-		height: "60",
-		margin: 12,
-		borderColor: Colors.arkadNavy,
-		color: Colors.arkadNavy,
-		borderRadius: 7,
-		borderWidth: 2,
-		fontSize: 20,
-		fontFamily: "main-font-bold",
-		padding: 10,
-		width: "80%",
-	},
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
+  textInput: {
+    height: "60",
+    margin: 12,
+    borderColor: Colors.arkadNavy,
+    color: Colors.arkadNavy,
+    borderRadius: 7,
+    borderWidth: 2,
+    fontSize: 20,
+    fontFamily: "main-font-bold",
+    padding: 10,
+    width: "80%",
+  },
   titleInput: {
     height: "20",
     marginTop: "10%",
@@ -200,29 +220,29 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "80%",
   },
-	buttonText: {
-		padding: "1%",
-		alignItems: "center",
-	},
-	buttonContainer1: {
-		alignSelf: "center",
-		padding: "4%",
-		marginBottom: "4%",
-		width: "45%",
-		backgroundColor: Colors.arkadOrange,
-	},
-	buttonContainer2: {
-		alignSelf: "center",
-		padding: "4%",
-		marginBottom: "2%",
-		width: "45%",
-		backgroundColor: Colors.arkadNavy,
-	},
-	centeredView: {
-		flex: 1,
-		justifyContent: "center",
-		backgroundColor: "transparent",
-	},
+  buttonText: {
+    padding: "1%",
+    alignItems: "center",
+  },
+  buttonContainer1: {
+    alignSelf: "center",
+    padding: "4%",
+    marginBottom: "4%",
+    width: "45%",
+    backgroundColor: Colors.arkadOrange,
+  },
+  buttonContainer2: {
+    alignSelf: "center",
+    padding: "4%",
+    marginBottom: "2%",
+    width: "45%",
+    backgroundColor: Colors.arkadNavy,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
   checkboxView: {
     fontSize: 40,
     justifyContent: "center",

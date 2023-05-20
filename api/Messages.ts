@@ -1,18 +1,32 @@
 import { format } from "date-fns";
-import { postAuth } from "./_HttpHelpers";
+import { getAuth, putAuth } from "./_HttpHelpers";
 
-export interface Message {
+// export interface Message {
+//   title: string;
+//   content: string;
+//   date: string;
+//   time: string;
+//   receiver: string;
+//   sender: string;
+// }
+
+export interface Message { // Currently used as backend DTO is nit updated to the following above
   title: string;
-  content: string;
+  message: string;
   date: string;
-  time: string;
-  receiver: string;
-  sender: string;
 }
 
 export const sendMessage = async (message: Message) => {
-  await postAuth("/messages", message);
+  const response = await putAuth("/notification", message);
+  return response;
 };
+
+export const getMessages = async () => {
+  const response = await getAuth("/notification");
+  const json = await response.json();
+  const messages = json as Message[];
+  return messages;
+}
 
 export function formatTime(date: string, time: string): string {
   if (date == "") {
