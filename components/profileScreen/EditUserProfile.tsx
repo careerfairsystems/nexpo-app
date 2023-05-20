@@ -31,7 +31,9 @@ export default function EditUserProfile({
   const [firstName, setFirstName] = useState<string | null>(user.firstName);
   const [lastName, setLastName] = useState<string | null>(user.lastName);
   const [phoneNr, setPhoneNr] = useState<string | null>(user.phoneNr);
-  const [foodPreferences, setFoodPreferences] = useState<string | null>(user.foodPreferences);
+  const [foodPreferences, setFoodPreferences] = useState<string | null>(
+    user.foodPreferences
+  );
   const [hasCv, setCvURL] = useState<boolean | null>(user.hasCv);
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
@@ -66,9 +68,12 @@ export default function EditUserProfile({
 
   const setProfilePicture = async () => {
     if (Platform.OS !== "web") {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert("We need camera roll permissions to upload a new profile picture");
+        alert(
+          "We need camera roll permissions to upload a new profile picture"
+        );
         return;
       }
     }
@@ -77,22 +82,30 @@ export default function EditUserProfile({
       allowsEditing: true,
       aspect: [1, 1],
     });
-    if (result.cancelled) return;
-    const fileInfo = await FileSystem.getInfoAsync(result.uri);
-    if (result.type != "image") {
-      alert("Only images allowed");
-      return;
-    }
-    if (fileInfo.size ? fileInfo.size > 4000000 : false) {
-      alert("Maximum filesize is 1Mb");
+
+    if (result.canceled) {
       return;
     }
 
-    await API.s3bucket.postToS3(result.uri, user.id.toString(), ".jpg").catch((e) => {
-      console.log(e);
-    });
+    const fileInfo = await FileSystem.getInfoAsync(result.assets[0]["uri"]);
+
+    if (!result.assets[0].uri.includes("data:image")) {
+      alert("Only images allowed");
+      return;
+    }
+
+    if (fileInfo.size ? fileInfo.size > 4000000 : false) {
+      alert("Maximum filesize is 4 Mb");
+      return;
+    }
+
+    await API.s3bucket
+      .postToS3(result.assets[0]["uri"], user.id.toString(), ".jpg")
+      .catch((e) => {
+        console.log(e);
+      });
     setHasProfilePicture(true);
-    alert("save profile to see profile picture");
+    alert("Save profile to see the new profile picture");
   };
 
   const removeProfilePicture = async () => {
@@ -101,7 +114,7 @@ export default function EditUserProfile({
     } else {
       await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
       setHasProfilePicture(false);
-      alert("save profile to remove profile picture");
+      alert("Save profile to remove your profile picture");
     }
   };
   const setCV = async () => {
@@ -114,7 +127,11 @@ export default function EditUserProfile({
         const r = resultFile.uri;
         console.log(JSON.stringify(r));
         try {
-          const res = await API.s3bucket.postToS3(r, user.id.toString(), ".pdf");
+          const res = await API.s3bucket.postToS3(
+            r,
+            user.id.toString(),
+            ".pdf"
+          );
 
           alert("CV uploaded");
           setCvURL(true);
@@ -167,7 +184,11 @@ export default function EditUserProfile({
           </ArkadButton>
         )}
         <ArkadButton onPress={setCV}>
-          {hasCv ? <ArkadText text="Update CV" /> : <ArkadText text="Upload CV" />}
+          {hasCv ? (
+            <ArkadText text="Update CV" />
+          ) : (
+            <ArkadText text="Upload CV" />
+          )}
         </ArkadButton>
         {hasCv && (
           <ArkadButton onPress={deleteCV} style={styles.hasCv}>
