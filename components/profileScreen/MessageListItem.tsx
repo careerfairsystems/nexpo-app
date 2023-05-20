@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Dimensions, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  Dimensions,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import { ArkadText } from "../StyledText";
 import Colors from "constants/Colors";
@@ -17,36 +24,40 @@ export default function MessageListItem({ message }: ListedMessageItemProps) {
 
   const onPress = () => {
     setMessagePressed(!messagePressed);
-  }
+  };
 
   return (
-    <View style={messagePressed ? styles.messageBoxPressed : styles.messageBoxNotPressed}>
+    <View
+      style={
+        messagePressed ? styles.messageBoxPressed : styles.messageBoxNotPressed
+      }
+    >
       <Pressable onPress={onPress} style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
           <ArkadText style={styles.messageTitle} text={message.title} />
-          <ArkadText style={styles.messageContent} text={message.content} />
-          <ArkadText
+          <ArkadText style={styles.messageContent} text={message.message} />
+          {/* <ArkadText
             style={styles.messageTime}
             text={API.messages.formatTime(message.date, message.time) + " from " + message.sender}
-          />
+          /> */}
         </ScrollView>
       </Pressable>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   messageTime: {
-      paddingBottom: 6,
-      fontSize: 16,
-      textAlign: "left",
-      color: Colors.white,
+    paddingBottom: 6,
+    fontSize: 16,
+    textAlign: "left",
+    color: Colors.white,
   },
   messageContent: {
-      paddingBottom: 6,
-      fontSize: 16,
-      textAlign: "left",
-      color: Colors.white,
+    paddingBottom: 6,
+    fontSize: 16,
+    textAlign: "left",
+    color: Colors.white,
   },
   messageBoxNotPressed: {
     width: width * 0.95,
@@ -55,7 +66,7 @@ const styles = StyleSheet.create({
   messageBoxPressed: {
     flexBasis: "fit-content",
     width: width * 0.95,
-    height: height * 0.60,
+    height: height * 0.6,
   },
   container: {
     flex: 1,
