@@ -1,4 +1,4 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import * as React from "react";
 import MapScreen from "./MapScreen";
 import ZoomMapScreen from "./ZoomMapScreen";
@@ -15,7 +15,12 @@ export type MapStackParamList = {
 const MapStack = createStackNavigator<MapStackParamList>();
 export function MapNavigator() {
   return (
-    <MapStack.Navigator>
+    <MapStack.Navigator
+      screenOptions={{ 
+        ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: true,
+        gestureEnabled: true }}
+    >
       <MapStack.Screen
         name="MapScreen"
         component={MapScreen}

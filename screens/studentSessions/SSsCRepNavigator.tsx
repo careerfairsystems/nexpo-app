@@ -1,4 +1,4 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import * as React from "react";
 import SSsListScreen from "./SSsListScreen";
 import SSsApplicationDetailsScreen from "./SSsApplicationDetailsScreen";
@@ -29,7 +29,10 @@ export function SSsCRepNavigator({ route }: SSsCRepNavigatorParams) {
   const companyId = route.params.companyId;
   return (
     <SSsStack.Navigator
-      screenOptions={{ animationEnabled: true }}
+      screenOptions={{ 
+        ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: true,
+        gestureEnabled: true }}
     >
       <SSsStack.Screen
         name="SSsListScreen"

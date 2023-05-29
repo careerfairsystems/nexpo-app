@@ -1,4 +1,4 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { TransitionPresets, createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { HeaderStyles } from "components/HeaderStyles";
 import SSsCompaniesScreen from "./SSsCompaniesScreen";
@@ -20,7 +20,10 @@ const SSsStack = createStackNavigator<SSsStackParamlist>();
 export function SSsStudentNavigator() {
   return (
     <SSsStack.Navigator
-      screenOptions={{ animationEnabled: true }}
+      screenOptions={{ 
+        ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: true,
+        gestureEnabled: true }}
     >
       <SSsStack.Screen
         name="SSsCompaniesScreen"
