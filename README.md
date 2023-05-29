@@ -35,7 +35,7 @@ Here's how to setup the environment:
 1. Clone the nexpo-app repository.
 2. Open the terminal in the nexpo-app directory.
 3. Run the command `yarn install`
-4. Install Expo CLI by running `yarn install expo-cli --global`
+4. Install Expo CLI by running `yarn global add expo-cli`
 5. Select the backend to use by setting the environment variable `BACKEND_URL` to the api endpoint to use. If none is set, the public development server will be used. In powershell, this is done by running `$env:BACKEND_URL='http://localhost/api'`, in BASH (Mac and Linux) this is done by running `BACKEND_URL='http://localhost/api'`. If you use the normal command prompt on Windows, switch to powershell or if you really want to use it, run: `set BACKEND_URL=http://localhost/api`
 
 ## Starting the project
