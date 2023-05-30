@@ -60,6 +60,8 @@ To make the backend (nexpo-backend-nova) to actually work on Expo Go you need to
 - Go into the nexpo-backend-nova directory
 - Change in `launchSettings.json` the `applicationUrl` to `http://YOUR-IP-ADDRESS:5000`
 - Change in `appsettings.Development.json` the `Issuer, Audience & BaseUrl` variables where you switch out `localhost` to `YOUR-IP-ADDRESS`. Note that `BaseUrl` need the `:5000` port in order to work
+- Turn on the backend
+- Turn on the frontend and scan the QR code with the Expo Go application
 
 Also, when testing the applciation with Expo Go you need to go into [AppLoader.tsx](screens/AppLoader.tsx) and comment out the following lines:
 ```
