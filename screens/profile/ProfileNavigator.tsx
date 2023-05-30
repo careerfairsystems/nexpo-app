@@ -1,4 +1,4 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import * as React from "react";
 import { HeaderStyles } from "components/HeaderStyles";
 import ProfileScreen from "./ProfileScreen";
@@ -16,7 +16,12 @@ export type ProfileStackParamList = {
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
 export function ProfileNavigator() {
   return (
-    <ProfileStack.Navigator>
+    <ProfileStack.Navigator
+      screenOptions={{ 
+        ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: true,
+        gestureEnabled: true }}
+    >
       <ProfileStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}

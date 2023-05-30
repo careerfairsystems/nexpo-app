@@ -1,4 +1,4 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import * as React from "react";
 import { HeaderStyles } from "components/HeaderStyles";
 import CompaniesScreen from "./CompaniesScreen";
@@ -14,7 +14,12 @@ export type CompanyStackParamList = {
 const CompanyStack = createStackNavigator<CompanyStackParamList>();
 export function CompaniesNavigator() {
   return (
-    <CompanyStack.Navigator>
+    <CompanyStack.Navigator 
+      screenOptions={{ 
+        ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: true,
+        gestureEnabled: true }}
+    >
       <CompanyStack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}

@@ -1,4 +1,4 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import * as React from "react";
 import EventListScreen from "./EventListScreen";
 //import QRScreen from './QRScreen';
@@ -19,7 +19,12 @@ export type EventStackParamlist = {
 const EventStack = createStackNavigator<EventStackParamlist>();
 export function EventsNavigator() {
   return (
-    <EventStack.Navigator>
+    <EventStack.Navigator
+      screenOptions={{ 
+        ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: true,
+        gestureEnabled: true }}
+    >
       <EventStack.Screen
         name="EventListScreen"
         component={EventListScreen}
