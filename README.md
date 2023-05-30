@@ -52,6 +52,23 @@ Once you have developed a mobile app using Expo, you can use Expo Go to test and
 
 Expo Go also allows you to share your app with others by generating a QR code that others can scan to access your app. In order for this application to be available in Expo Go you need a Expo version installed on the project for version 46, 47 or 48. Also, your phone and computer need to be connected to the same network in order for this to work. There is a known issue that it's difficult to test Expo Go on school networks (or public ones).
 
+In order to use Expo Go you need to do the following:
+To make the backend (nexpo-backend-nova) to actually work on Expo Go you need to change the routing of information as your phone doesn't understand what localhost is. Change the following:
+- Be on the same Wi-Fi/Network on phone and computer (Eduroam network doesn't work).
+- Fetch the IP address of the network (the IPv4 192.X.X.X usually works)
+- Go into nexpo-app and the file called `app.config.ts` and change `backendUrl` to `http://YOUR-IP-ADDRESS:5000/api`
+- Go into the nexpo-backend-nova directory
+- Change in `launchSettings.json` the `applicationUrl` to `http://YOUR-IP-ADDRESS:5000`
+- Change in `appsettings.Development.json` the `Issuer, Audience & BaseUrl` variables where you switch out `localhost` to `YOUR-IP-ADDRESS`. Note that `BaseUrl` need the `:5000` port in order to work
+
+Also, when testing the applciation with Expo Go you need to go into [AppLoader.tsx](screens/AppLoader.tsx) and comment out the following lines:
+```
+  if (__DEV__) {
+    return <View style={styles.container}>{children}</View>;
+  }
+```
+This is because for some reason when accessing the application in Expo Go when in development causes Expo Go to be stuck in the splash screen. These lines of code is mostly used during development as when you save and reload the frontend it will always start the splash screen which causes waiting time to check your progress of your code.
+
 ## If something goes wrong
 
 As this project have alot of dependencies (which have their dependencies) it is quite easy to make a mistake when installing packages or auto-updating the dependencies or packages. Please do not auto-update anything and do it manually. The project is very sensitive. One package worth keeping an eye on is the `webpack-dev-server` as this is a development server that allows you to test and develop your web applications. If this package doesn't work everything will crash.
