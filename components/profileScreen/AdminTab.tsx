@@ -49,19 +49,17 @@ export default function AdminTab() {
 		<ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}} contentContainerStyle={{alignItems: "center"}}>
       <ArkadText text="Send mass message" style={{fontSize: 40, color: "black", marginTop: 10}} />
       <View style={styles.centeredViewCommittee}>
-        <View style={styles.modalView}>
-          <CategoriesDropdown
-            title="Select committee"
-            items={committees}
-            setOpen={setCommitteeModal}
-            setValue={setCommitteeValue}
-            open={committeeModal}
-            value={committeeValue}
-            setItems={setCommittees}
-            categories={false}
-            single={false}
-          />
-        </View>
+        <CategoriesDropdown
+          title="Select committee"
+          items={committees}
+          setOpen={setCommitteeModal}
+          setValue={setCommitteeValue}
+          open={committeeModal}
+          value={committeeValue}
+          setItems={setCommittees}
+          categories={false}
+          single={false}
+        />
       </View>
 			<TextInput
         style={styles.titleInput}
@@ -86,7 +84,20 @@ export default function AdminTab() {
         <ArkadText text="Send" style={styles.buttonText} />
       </ArkadButton>
 
-      <ArkadText text="Change user role" style={{fontSize: 40, color: "black", marginTop: 10}} />
+      <ArkadText text="Change user role" style={{fontSize: 40, color: "black", marginTop: "10%", marginBottom: 12,}} />
+      <View style={styles.centeredViewRoles}>
+        <CategoriesDropdown
+          title="Change role to..."
+          items={roles}
+          setOpen={setRoleModal}
+          setValue={setRoleValue}
+          open={roleModal}
+          value={roleValue}
+          setItems={setRoles}
+          categories={false}
+          single={true}
+        />
+      </View>
       <TextInput
         style={styles.userNameInput}
         onChangeText={setUserName}
@@ -96,41 +107,18 @@ export default function AdminTab() {
         multiline={false}
         textAlign="left"
       />
-      {/* TODO: fix styling */}
-      <View style={{flexDirection: "row", width: "100%"}}>
-        <ArkadButton onPress={() => console.log("change button pressed")} style={styles.buttonContainer1}>
-          <ArkadText text="Change" style={styles.buttonText} />
-        </ArkadButton>
-        <View style={styles.centeredViewRoles}>
-          <View style={styles.modalView}>
-            <CategoriesDropdown
-              title="Change role to..."
-              items={roles}
-              setOpen={setRoleModal}
-              setValue={setRoleValue}
-              open={roleModal}
-              value={roleValue}
-              setItems={setRoles}
-              categories={false}
-              single={true}
-            />
-          </View>
-        </View>
-      </View>
+      <ArkadButton onPress={() => console.log("change button pressed")} style={styles.buttonContainer1}>
+        <ArkadText text="Change" style={styles.buttonText} />
+      </ArkadButton>
+      
 		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
-  modalView: {
-    marginBottom: 12,
-    borderRadius: 20,
-    padding: 0,
-    alignItems: "center",
-  },
 	textInput: {
 		height: "60",
-		margin: 12,
+		margin: 0,
 		borderColor: Colors.arkadNavy,
 		color: Colors.arkadNavy,
 		borderRadius: 7,
@@ -149,11 +137,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "main-font-bold",
     padding: 10,
+    margin: 0,
+    marginBottom: 12,
     width: "90%",
   },
   userNameInput: {
     height: "20",
-    marginTop: "10%",
+    margin: 0,
     borderColor: Colors.arkadNavy,
     color: Colors.arkadNavy,
     borderRadius: 7,
@@ -181,6 +171,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 0,
     margin: 0,
+    marginBottom: 12,
+    alignItems: "center",
     width: "90%",
   },
 	centeredViewRoles: {
@@ -190,6 +182,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 0,
     margin: 0,
+    marginBottom: 12,
     width: "40%",
   },
 });
