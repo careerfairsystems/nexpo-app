@@ -11,6 +11,14 @@ type CompanyProfileProps = {
   company: Company;
 };
 
+function showDays(days : string[]){
+  return(
+    <View>
+      {days.sort().map((day) => <Text key={day} style={styles.daysText}>{day.slice(0, day.indexOf('T'))}</Text>)}
+    </View>
+  );
+}
+
 export default function CompanyProfile({ company }: CompanyProfileProps) {
   return (
     <>
@@ -59,6 +67,7 @@ export default function CompanyProfile({ company }: CompanyProfileProps) {
         >
           {company.hostEmail ? company.hostEmail : "\u2013"}
         </Text>
+        
         <ArkadText text="Host Phone" style={styles.header} />
         <Text
           style={styles.contactInfoText}
@@ -69,6 +78,13 @@ export default function CompanyProfile({ company }: CompanyProfileProps) {
           }}
         >
           {company.hostPhone ? company.hostPhone : "\u2013"}
+        </Text>
+
+        <ArkadText text="Days at ARKAD" style={styles.header} />
+        <Text
+          style={styles.contactInfoText}
+        >
+          {company.daysAtArkad.length !== 0 ? showDays(company.daysAtArkad) : "\u2013"}
         </Text>
       </View>
     </>
@@ -116,5 +132,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 12,
     marginBottom: 4,
+  },
+  daysText: {
+    fontSize: 14,
+    padding: 1,
+    margin: 1,
+    fontFamily: "main-font-bold",
+    color: Colors.arkadNavy,
   },
 });

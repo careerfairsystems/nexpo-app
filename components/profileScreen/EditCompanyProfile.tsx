@@ -8,7 +8,7 @@ import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
 import { ArkadText } from "components/StyledText";
-//import { Checkbox } from "components/Checkbox";
+import {ArkadCheckbox} from "components/ArkadCheckbox";
 
 type EditCompanyProfileProps = {
   company: Company;
@@ -16,25 +16,11 @@ type EditCompanyProfileProps = {
   setEditStatus: (status: EditStatus) => void;
 };
 
-type CheckboxProps = {
-  checked: boolean; 
-  onChange: () => void;
-  text: string;
-};
-
 enum days {
   day1 = "2023-11-14T00:00:00",
   day2 = "2023-11-15T00:00:00",
 };
 
-const Checkbox = ({checked, onChange, text}: CheckboxProps) => (
-  <Pressable onPress={onChange} style={styles.checkboxContainer}>
-      <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
-        {checked && <Ionicons name="checkmark" size={30} style={styles.checkmark} />}
-      </View>
-      <ArkadText style={styles.checkboxText} text={text} />
-  </Pressable>
-);
 
 export default function EditCompanyProfile({
   company,
@@ -46,8 +32,6 @@ export default function EditCompanyProfile({
   const [daysAtArkad, setDaysAtArkad] = React.useState<string[]>(company.daysAtArkad);
 
   const handlecheckboxChange = (value: string) => {
-    // TODO
-    console.log(daysAtArkad);
     if (daysAtArkad.includes(value)) {
       setDaysAtArkad(daysAtArkad.filter((day) => day !== value));
     } else {
@@ -99,11 +83,11 @@ export default function EditCompanyProfile({
         />
 
         <ArkadText text={"Fair days"} style={styles.header}/>
-        <Checkbox 
+        <ArkadCheckbox 
           checked={daysAtArkad.includes(days.day1)} 
           onChange={()=>handlecheckboxChange(days.day1)} 
           text="Day 1"/>
-        <Checkbox 
+        <ArkadCheckbox 
           checked={daysAtArkad.includes(days.day2)} 
           onChange={()=>handlecheckboxChange(days.day2)} 
           text="Day 2"
@@ -140,36 +124,5 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginTop: 12,
     marginBottom: 4,
-  },
-  checkboxBase: {
-    width: 24,
-    height: 24,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: Colors.arkadNavy,
-    backgroundColor: "transparent",
-    marginLeft: 12,
-    marginTop: 5,
-    padding: 12,
-  },
-  checkboxText: {
-    fontSize: 18,
-    color: Colors.arkadNavy,
-    align: "center",
-    margin: 6,
-    padding: 2,
-  },
-  checkboxChecked: {
-    backgroundColor: Colors.arkadNavy,
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  checkmark: {
-    color: Colors.white,
-    alignSelf: "center",
   },
 });

@@ -200,8 +200,8 @@ export default function EditUserProfile({
             <ArkadText text="Download CV" />
           </ArkadButton>
         )}
-
-        <Text>First name</Text>
+        
+        <ArkadText style={styles.header} text="First name"/>
         <TextInput
           style={styles.textInput}
           value={firstName ? firstName : ""}
@@ -209,7 +209,7 @@ export default function EditUserProfile({
           onChangeText={setFirstName}
         />
 
-        <Text>Last name</Text>
+        <ArkadText style={styles.header} text="Last name"/>
         <TextInput
           style={styles.textInput}
           value={lastName ? lastName : ""}
@@ -217,7 +217,7 @@ export default function EditUserProfile({
           onChangeText={setLastName}
         />
 
-        <Text>Phone number</Text>
+        <ArkadText style={styles.header} text="Phone number"/>
         <TextInput
           style={styles.textInput}
           value={phoneNr ? phoneNr : ""}
@@ -225,7 +225,7 @@ export default function EditUserProfile({
           onChangeText={setPhoneNr}
         />
 
-        <Text>Food preferences</Text>
+        <ArkadText style={styles.header} text="Food preferences"/>
         <TextInput
           style={styles.textInput}
           value={foodPreferences ? foodPreferences : ""}
@@ -233,7 +233,7 @@ export default function EditUserProfile({
           onChangeText={setFoodPreferences}
         />
 
-        <Text>Password</Text>
+        <ArkadText style={styles.header} text="Password"/>
         <TextInput
           style={styles.textInput}
           secureTextEntry
@@ -264,6 +264,13 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     fontSize: 32,
     color: Colors.arkadNavy,
+  },
+  header: {
+    fontFamily: "main-font-bold",
+    color: Colors.arkadNavy,
+    fontSize: 22,
+    marginTop: 12,
+    marginBottom: 4,
   },
   textInput: {
     width: "80%",
