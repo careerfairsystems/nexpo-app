@@ -51,7 +51,6 @@ export function CompaniesNavigator() {
         options={{
           title: "Company Details",
           headerTitle: "Companies",
-          headerTintColor: Colors.arkadNavy,
           headerRight: () => (
             <Image
               source={require("../../assets/images/arkad_logo_inverted.png")}

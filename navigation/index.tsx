@@ -28,7 +28,7 @@ export default function Navigation() {
       primary: DefaultTheme.colors.primary,
       background: Colors.white,
       card: DefaultTheme.colors.card,
-      text: DefaultTheme.colors.text,
+      text: Colors.white,
       border: Colors.arkadNavy,
       notification: DefaultTheme.colors.notification,
     },
