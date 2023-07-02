@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import Colors from "constants/Colors";
 import { StyleSheet } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
+import DropDownPicker, { ThemeNameType } from "react-native-dropdown-picker";
 
 type categoriesDropdownProps = {
   open: boolean;
@@ -23,6 +23,7 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
     <DropDownPicker
       style={styles.dropdown}
       multiple={props.single ? false : true}
+      theme="DARK"
       open={props.open}
       value={props.value}
       items={props.items}
@@ -43,16 +44,11 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
         fontSize: 20,
         fontFamily: "main-font-bold",
       }}
-      selectedItemContainerStyle={
-        {
-          //backgroundColor: Colors.arkadTurkos,
-        }
-      }
       selectedItemLabelStyle={{
         color: Colors.arkadTurkos,
       }}
       listItemLabelStyle={{
-        color: Colors.arkadNavy,
+        color: Colors.white,
         fontSize: 20,
         fontFamily: "main-font-bold",
       }}
@@ -77,12 +73,13 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
 const styles = StyleSheet.create({
   modalTitle: {
     fontWeight: "bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
     fontFamily: "main-font-bold",
     fontSize: 32,
+    // backgroundColor: Colors.arkadNavy,
   },
   listParentContainer: {
-    backgroundColor: Colors.arkadNavy,
+    // backgroundColor: Colors.arkadNavy,
     height: 40,
   },
   closeButton: {
@@ -92,14 +89,20 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   dropdown: {
-    borderColor: Colors.arkadNavy,
+    borderColor: Colors.white,
     backgroundColor: Colors.arkadNavy,
     borderWidth: 2,
+    color: Colors.white,
   },
   container: {
-    borderColor: Colors.arkadNavy,
+    borderColor: Colors.white,
+    borderLeftColor: Colors.arkadNavy,
+    borderRightColor: Colors.arkadNavy,
+    textShadowColor: Colors.white,
     borderWidth: 0.5,
     height: 60,
+    // backgroundColor: Colors.arkadNavy,
+    color: Colors.white,
   },
   checkmark: {
     color: Colors.white,
