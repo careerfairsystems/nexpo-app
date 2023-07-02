@@ -7,6 +7,7 @@ import { HeaderStyles } from "components/HeaderStyles";
 import CompaniesScreen from "./CompaniesScreen";
 import CompanyDetailsScreen from "./CompanyDetailsScreen";
 import { Image } from "react-native";
+import Colors from "constants/Colors";
 
 export type CompanyStackParamList = {
   CompaniesScreen: undefined;
@@ -50,6 +51,7 @@ export function CompaniesNavigator() {
         options={{
           title: "Company Details",
           headerTitle: "Companies",
+          headerTintColor: Colors.arkadNavy,
           headerRight: () => (
             <Image
               source={require("../../assets/images/arkad_logo_inverted.png")}

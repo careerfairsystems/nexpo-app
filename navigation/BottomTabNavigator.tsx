@@ -82,13 +82,26 @@ export default function BottomTabNavigator() {
     return (
       <BottomTab.Navigator
         initialRouteName="Events"
-        tabBarOptions={{ activeTintColor: Colors.arkadNavy }}
+        tabBarOptions={{
+          activeTintColor: Colors.white,
+          inactiveTintColor: Colors.arkadTurkos,
+          activeBackgroundColor: Colors.arkadNavy,
+          inactiveBackgroundColor: Colors.arkadNavy,
+          style: {
+            borderTopColor: Colors.arkadNavy,
+          },
+        }}
       >
         <BottomTab.Screen
           name="Companies"
           component={CompaniesNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <TabBarIonicon
+                name="briefcase-outline"
+                color={Colors.arkadTurkos}
+              />
+            ),
             ...HeaderStyles,
           }}
         />
@@ -96,20 +109,24 @@ export default function BottomTabNavigator() {
           name="Maps"
           component={MapNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
+            tabBarIcon: ({ color }) => (
+              <TabBarIonicon name="map" color={Colors.arkadTurkos} />
+            ),
             ...HeaderStyles,
           }}
         />
-        {(
+        {
           <BottomTab.Screen
             name="Events"
             component={EventsNavigator}
             options={{
-              tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
+              tabBarIcon: ({ color }) => (
+                <TabBarMaterialIcon name="event" color={Colors.arkadTurkos} />
+              ),
               ...HeaderStyles,
             }}
           />
-        )}
+        }
         {user &&
           (user.role !== Role.CompanyRepresentative ? (
             <BottomTab.Screen
@@ -117,7 +134,9 @@ export default function BottomTabNavigator() {
               component={SSsStudentNavigator}
               options={{
                 title: "Student Sessions",
-                tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+                tabBarIcon: ({ color }) => (
+                  <TabBarMaterialIcon name="forum" color={Colors.arkadTurkos} />
+                ),
                 ...HeaderStyles,
               }}
             />
@@ -128,7 +147,12 @@ export default function BottomTabNavigator() {
                 component={SSsCRepNavigator}
                 options={{
                   title: "Student Sessions",
-                  tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+                  tabBarIcon: ({ color }) => (
+                    <TabBarMaterialIcon
+                      name="forum"
+                      color={Colors.arkadTurkos}
+                    />
+                  ),
                   ...HeaderStyles,
                 }}
                 initialParams={{ companyId: companyId }}
@@ -140,7 +164,9 @@ export default function BottomTabNavigator() {
             name="You"
             component={ProfileNavigator}
             options={{
-              tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
+              tabBarIcon: ({ color }) => (
+                <TabBarIonicon name="person" color={Colors.arkadTurkos} />
+              ),
               ...HeaderStyles,
             }}
           />
@@ -149,7 +175,9 @@ export default function BottomTabNavigator() {
             name="Login"
             component={AuthNavigator}
             options={{
-              tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
+              tabBarIcon: ({ color }) => (
+                <TabBarIonicon name="person" color={Colors.arkadTurkos} />
+              ),
               ...HeaderStyles,
             }}
           />

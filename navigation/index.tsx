@@ -3,7 +3,11 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer, DefaultTheme, Theme } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  Theme,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 
@@ -25,7 +29,7 @@ export default function Navigation() {
       background: Colors.white,
       card: DefaultTheme.colors.card,
       text: DefaultTheme.colors.text,
-      border: DefaultTheme.colors.border,
+      border: Colors.arkadNavy,
       notification: DefaultTheme.colors.notification,
     },
   };
@@ -66,9 +70,16 @@ export type RootStackParamList = {
 const RootStack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Root">
+    <RootStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Root"
+    >
       <RootStack.Screen name="Root" component={BottomTabNavigator} />
-      <RootStack.Screen name="NotFound" component={NotFoundScreen} options={{ title: "Oops!" }} />
+      <RootStack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: "Oops!" }}
+      />
     </RootStack.Navigator>
   );
 }

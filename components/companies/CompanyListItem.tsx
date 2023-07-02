@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
     paddingTop: 12,
     borderRadius: 16,
     borderWidth: 4,
-    borderColor: Colors.arkadNavy,
+    borderColor: Colors.white,
   },
   row: {
     flex: 1,
@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     padding: 0,
     marginHorizontal: 4,
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
 });

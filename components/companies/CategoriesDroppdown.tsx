@@ -34,10 +34,12 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
       modalTitle={props.title}
       modalTitleStyle={styles.modalTitle}
       categorySelectable={!props.categories}
-      listParentContainerStyle={props.categories ? styles.listParentContainer : null}
+      listParentContainerStyle={
+        props.categories ? styles.listParentContainer : null
+      }
       listParentLabelStyle={props.categories ? { color: Colors.white } : null}
       placeholderStyle={{
-        color: Colors.arkadNavy,
+        color: Colors.white,
         fontSize: 20,
         fontFamily: "main-font-bold",
       }}
@@ -63,8 +65,12 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
         backgroundColor: Colors.arkadNavy,
       }}
       onClose={props.filterCompanies ? props.filterCompanies : () => {}}
-      CloseIconComponent={() => <Ionicons name="checkmark" style={styles.checkmark} />}
-      TickIconComponent={() => <Ionicons name="checkmark" style={styles.tickIcon} />}
+      CloseIconComponent={() => (
+        <Ionicons name="checkmark" style={styles.checkmark} />
+      )}
+      TickIconComponent={() => (
+        <Ionicons name="checkmark" style={styles.tickIcon} />
+      )}
     />
   );
 }
@@ -87,6 +93,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     borderColor: Colors.arkadNavy,
+    backgroundColor: Colors.arkadNavy,
     borderWidth: 2,
   },
   container: {

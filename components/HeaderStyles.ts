@@ -2,11 +2,12 @@ import Colors from "constants/Colors";
 
 export const HeaderStyles = {
   headerStyle: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
   headerTitleStyle: {
     fontFamily: "main-font-bold",
     fontSize: 32,
-    color: Colors.arkadNavy,
+    color: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
 };
