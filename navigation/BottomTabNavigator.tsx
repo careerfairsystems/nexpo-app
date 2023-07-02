@@ -88,7 +88,7 @@ export default function BottomTabNavigator() {
           activeBackgroundColor: Colors.arkadNavy,
           inactiveBackgroundColor: Colors.arkadNavy,
           style: {
-            borderTopColor: Colors.arkadNavy,
+            borderTopColor: "#003366",
           },
         }}
       >
