@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Image, ActivityIndicator, StyleSheet, Pressable, Linking, ScrollView } from "react-native";
+import {
+  Image,
+  ActivityIndicator,
+  StyleSheet,
+  Pressable,
+  Linking,
+  ScrollView,
+} from "react-native";
 
 import { View } from "components/Themed";
 import { TextInput } from "components/TextInput";
@@ -40,7 +47,9 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
     setLoading(false);
 
     if (success.ok) {
-      alert("Account created, check your email for a link to finalize it before you can use it");
+      alert(
+        "Account created, check your email for a link to finalize it before you can use it"
+      );
       navigation.navigate("LoginScreen");
     } else if (success.status === 409) {
       alert("Email already in use");
@@ -56,9 +65,16 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
       style={{ flex: 1 }}
       contentContainerStyle={styles.container}
     >
-      <Image style={styles.logo} source={require("../../assets/images/arkad_logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/arkad_logo_inverted.png")}
+      />
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Email" keyboardType="email-address" onChangeText={setEmail} />
+        <TextInput
+          placeholder="Email"
+          keyboardType="email-address"
+          onChangeText={setEmail}
+        />
         <TextInput placeholder="First Name" onChangeText={setFirstName} />
         <TextInput placeholder="Last Name" onChangeText={setLastName} />
         <Checkbox
@@ -68,7 +84,9 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
         />
         <Pressable
           style={styles.policyContainer}
-          onPress={() => Linking.openURL("https://www.arkadtlth.se/privacypolicy")}
+          onPress={() =>
+            Linking.openURL("https://www.arkadtlth.se/privacypolicy")
+          }
         >
           <ArkadText style={styles.loginText} text={"See privacy policy"} />
         </Pressable>
@@ -79,8 +97,14 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
             <ArkadText text="Sign Up" style={{}} />
           </ArkadButton>
         )}
-        <Pressable style={styles.loginContainer} onPress={() => navigation.navigate("LoginScreen")}>
-          <ArkadText style={styles.loginText} text={"Already have an account? Login here!"} />
+        <Pressable
+          style={styles.loginContainer}
+          onPress={() => navigation.navigate("LoginScreen")}
+        >
+          <ArkadText
+            style={styles.loginText}
+            text={"Already have an account? Login here!"}
+          />
         </Pressable>
       </View>
     </ScrollView>

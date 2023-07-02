@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Image, ActivityIndicator, StyleSheet, Pressable, ScrollView } from "react-native";
+import {
+  Image,
+  ActivityIndicator,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 
 import { View } from "components/Themed";
 import { TextInput } from "components/TextInput";
@@ -50,7 +56,10 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
       style={{ flex: 1 }}
       contentContainerStyle={styles.container}
     >
-      <Image style={styles.logo} source={require("../../assets/images/arkad_logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/arkad_logo_inverted.png")}
+      />
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -75,7 +84,10 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           style={styles.signUpContainer}
           onPress={() => navigation.navigate("SignUpScreen")}
         >
-          <ArkadText style={styles.signUpText} text={"Don't have an account? Sign up here!"} />
+          <ArkadText
+            style={styles.signUpText}
+            text={"Don't have an account? Sign up here!"}
+          />
         </Pressable>
         <Pressable
           style={styles.signUpContainer}
