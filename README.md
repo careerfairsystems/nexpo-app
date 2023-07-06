@@ -63,7 +63,7 @@ To make the backend (nexpo-backend-nova) to actually work on Expo Go you need to
 - Turn on the backend
 - Turn on the frontend and scan the QR code with the Expo Go application
 
-Also, when testing the applciation with Expo Go you need to go into [AppLoader.tsx](screens/AppLoader.tsx) and comment out the following lines:
+Also, when testing the application with Expo Go you need to go into [AppLoader.tsx](screens/AppLoader.tsx) and comment out the following lines:
 ```
   if (__DEV__) {
     return <View style={styles.container}>{children}</View>;
