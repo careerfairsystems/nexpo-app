@@ -25,7 +25,7 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
     <View style={styles.container}>
       <ImageViewer
         imageUrls={images}
-        backgroundColor={Colors.white}
+        backgroundColor={Colors.arkadNavy}
       ></ImageViewer>
     </View>
   );
