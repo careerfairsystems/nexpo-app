@@ -23,7 +23,10 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
   const images = map.props.images;
   return (
     <View style={styles.container}>
-      <ImageViewer imageUrls={images} backgroundColor={Colors.white}></ImageViewer>
+      <ImageViewer
+        imageUrls={images}
+        backgroundColor={Colors.white}
+      ></ImageViewer>
     </View>
   );
 }
@@ -31,10 +34,11 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.arkadNavy,
   },
   mapName: {
     paddingTop: 50,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     marginBottom: "-20%",
     fontSize: 32,
   },
