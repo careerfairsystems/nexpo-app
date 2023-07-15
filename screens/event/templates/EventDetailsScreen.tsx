@@ -347,7 +347,6 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   description: {
-    color: Colors.black,
     fontSize: 18,
     textAlign: "left",
     color: Colors.white,
