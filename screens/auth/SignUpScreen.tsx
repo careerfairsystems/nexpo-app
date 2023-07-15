@@ -74,9 +74,18 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
           placeholder="Email"
           keyboardType="email-address"
           onChangeText={setEmail}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
-        <TextInput placeholder="First Name" onChangeText={setFirstName} />
-        <TextInput placeholder="Last Name" onChangeText={setLastName} />
+        <TextInput
+          placeholder="First Name"
+          onChangeText={setFirstName}
+          style={{ borderColor: Colors.white, color: Colors.white }}
+        />
+        <TextInput
+          placeholder="Last Name"
+          onChangeText={setLastName}
+          style={{ borderColor: Colors.white, color: Colors.white }}
+        />
         <Checkbox
           text="I accept Arkads privacy policy"
           onPress={(value) => setCheckboxState(!value)}
@@ -114,7 +123,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
 const styles = StyleSheet.create({
   checkbox: {
     fontSize: 18,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     marginLeft: 12,
   },
   checkboxError: {
@@ -151,6 +160,6 @@ const styles = StyleSheet.create({
   loginText: {
     textAlign: "center",
     textDecorationLine: "underline",
-    color: Colors.arkadNavy,
+    color: Colors.arkadTurkos,
   },
 });
