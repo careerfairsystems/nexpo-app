@@ -66,12 +66,14 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           keyboardType="email-address"
           onChangeText={setEmail}
           onSubmitEditing={login}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
         <TextInput
           placeholder="Password"
           secureTextEntry
           onChangeText={setPassword}
           onSubmitEditing={login}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
         {loading ? (
           <ActivityIndicator />
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
   signUpText: {
     textAlign: "center",
     textDecorationLine: "underline",
-    color: Colors.arkadNavy,
+    color: Colors.arkadTurkos,
   },
   loginButton: {
     width: "45%",
