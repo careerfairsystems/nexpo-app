@@ -45,6 +45,10 @@ export default function AdminTab() {
     console.log(text);
 	};
 
+  const changeUserRole = () => {
+    console.log("Changing user role: " + userName);
+  };
+
 	return (
 		<ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}} contentContainerStyle={{alignItems: "center"}}>
       <ArkadText text="Send mass message" style={{fontSize: 40, color: "black", marginTop: 10}} />
@@ -107,7 +111,7 @@ export default function AdminTab() {
         multiline={false}
         textAlign="left"
       />
-      <ArkadButton onPress={() => console.log("change button pressed")} style={styles.buttonContainer1}>
+      <ArkadButton onPress={changeUserRole} style={styles.buttonContainer1}>
         <ArkadText text="Change" style={styles.buttonText} />
       </ArkadButton>
       
