@@ -151,13 +151,13 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     paddingVertical: 24,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
   header: {
     width: "100%",
     textAlign: "center",
     fontSize: 24,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     justifyContent: "center",
   },
   eventList: {
@@ -165,6 +165,6 @@ const styles = StyleSheet.create({
   },
   logout: {
     paddingBottom: "10%",
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
 });

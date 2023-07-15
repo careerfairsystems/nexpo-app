@@ -16,23 +16,27 @@ export default function UserProfile({ user }: UserProfileProps) {
     <>
       <View style={styles.container}>
         <ProfilePicture url={user.profilePictureUrl} />
-        <Text style={styles.nameLabel}>{`${user.firstName} ${user.lastName}`}</Text>
-        {
-          Role[user.role] === "Volunteer" ? 
-            <Text style={styles.accountTypeText}>ARKAD Volunteer</Text> :
-            <Text style={styles.accountTypeText}>{Role[user.role]}</Text>
-        }
+        <Text
+          style={styles.nameLabel}
+        >{`${user.firstName} ${user.lastName}`}</Text>
+        {Role[user.role] === "Volunteer" ? (
+          <Text style={styles.accountTypeText}>ARKAD Volunteer</Text>
+        ) : (
+          <Text style={styles.accountTypeText}>{Role[user.role]}</Text>
+        )}
 
         <View style={styles.contactInfoContainer}>
-          <Ionicons name="mail" size={16} color={Colors.arkadNavy} />
+          <Ionicons name="mail" size={16} color={Colors.white} />
           <Text style={styles.contactInfoText}>{user.email}</Text>
         </View>
         <View style={styles.contactInfoContainer}>
-          <Ionicons name="call" size={16} color={Colors.arkadNavy} />
-          <Text style={styles.contactInfoText}>{user.phoneNr ? user.phoneNr : "\u2013"}</Text>
+          <Ionicons name="call" size={16} color={Colors.white} />
+          <Text style={styles.contactInfoText}>
+            {user.phoneNr ? user.phoneNr : "\u2013"}
+          </Text>
         </View>
         <View style={styles.contactInfoContainer}>
-          <Ionicons name="restaurant" size={16} color={Colors.arkadNavy} />
+          <Ionicons name="restaurant" size={16} color={Colors.white} />
           <Text style={styles.contactInfoText}>
             {user.foodPreferences ? user.foodPreferences : "\u2013"}
           </Text>
@@ -46,13 +50,13 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   nameLabel: {
     paddingTop: 8,
-    //paddingBottom: 8,
     fontSize: 32,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   contactInfoContainer: {
     display: "flex",
@@ -65,12 +69,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 8,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   accountTypeText: {
     paddingBottom: 16,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
     fontSize: 24,
   },
 });

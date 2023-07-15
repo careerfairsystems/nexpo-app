@@ -26,12 +26,18 @@ export default function StudentProfile({ student }: StudentProfileProps) {
         </Text>
 
         <Text style={styles.label}>Year</Text>
-        <Text style={styles.text}>{student.year ? student.year : "\u2013"}</Text>
+        <Text style={styles.text}>
+          {student.year ? student.year : "\u2013"}
+        </Text>
 
         <Text style={styles.label}>Master</Text>
-        <Text style={styles.text}>{student.masterTitle ? student.masterTitle : "\u2013"}</Text>
+        <Text style={styles.text}>
+          {student.masterTitle ? student.masterTitle : "\u2013"}
+        </Text>
 
-        {student.linkedIn !== "" && student.linkedIn !== null && OpenURLButton(student.linkedIn)}
+        {student.linkedIn !== "" &&
+          student.linkedIn !== null &&
+          OpenURLButton(student.linkedIn)}
       </View>
     </>
   );
@@ -52,18 +58,18 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   label: {
     marginTop: 8,
     fontSize: 20,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   text: {
-
     fontSize: 18,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   url: {
     fontFamily: "main-font-bold",
