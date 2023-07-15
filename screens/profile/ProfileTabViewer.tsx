@@ -45,12 +45,11 @@ function ProfileTabViewer(props: {
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
-      indicatorStyle={{ backgroundColor: Colors.arkadOrange }}
-      style={{ backgroundColor: Colors.arkadNavy }}
+      indicatorStyle={{ backgroundColor: Colors.arkadTurkos }}
+      style={{ backgroundColor: Colors.arkadOrange, color: Colors.white }}
       labelStyle={{
-        fontWeight: "bold",
-        fontFamily: "main-font",
-        fontSize: 16,
+        fontFamily: "main-font-bold",
+        fontSize: 20,
       }}
       scrollEnabled={true}
     />
