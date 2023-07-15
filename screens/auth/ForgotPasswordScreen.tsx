@@ -10,6 +10,7 @@ import { ArkadText } from "components/StyledText";
 import { API } from "api/API";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "./AuthNavigator";
+import Colors from "constants/Colors";
 
 type ForgotPasswordScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "ForgotPasswordScreen">;
@@ -56,6 +57,7 @@ export default function ForgotPasswordScreen({
           keyboardType="email-address"
           onChangeText={setEmail}
           onSubmitEditing={forgotPassword}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
         {loading ? (
           <ActivityIndicator />
