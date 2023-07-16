@@ -3,56 +3,28 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import React from "react";
 import Colors from "constants/Colors";
 import Expandable from "./Expandable";
+import { API } from "api/API";
+import { FAQs } from "api/FAQs";
 
 export default function FAQ() {
-    const [questions, setQuestions] = React.useState<Mock[]>();
+    const [questions, setQuestions] = React.useState<FAQs[]>();
 
     React.useEffect(() => {
-        fetchData();
+        fetch_faq();
     }, []);
 
-    async function fetchData() {
-        /*
-            Fetch data from API
-            Waiting for mock data
-        */
-       MockData();
+    async function fetch_faq() {
+        const faq = await API.faqs.faq();
+        setQuestions(faq);
     }
 
-    interface Mock {
-        id: number;
-        question: string;
-        answer: string;
-    }
-
-    async function MockData() {
-        // Local mock data
-        const mock : Mock[] = new Array();
-        mock.push({
-            id: 0,
-            question: "blir det kul?",
-            answer: "ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja ja"
-        } as Mock);
-        mock.push({
-            id: 1,
-            question: "finns det gratis mat?",
-            answer: "yes"
-        } as Mock);
-        mock.push({
-            id: 2,
-            question: "1",
-            answer: "one"
-        } as Mock)
-
-        setQuestions(mock);
-    }
-
+    // Currently backend only provides the question
     return (
         <ScrollView style={styles.container}>
             <ArkadText text={"Frequently Asked Questions"} style={styles.title}></ArkadText>
-            {questions?.map((data) => {
+            {questions?.reverse().map((data) => {
                 return (
-                    <Expandable key={data.id} title={data.question} desc={data.answer}></Expandable>
+                    <Expandable key={data.id} title={data.question} desc={data.question}/>
                 );
             })}
         </ScrollView>
@@ -67,6 +39,7 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: "main-font-bold",
         fontSize: 30,
-        color: Colors.arkadNavy
+        color: Colors.arkadNavy,
+        paddingBottom: 24
     }
 })
