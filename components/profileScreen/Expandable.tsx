@@ -65,9 +65,12 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         backgroundColor: Colors.arkadOrange,
-        justifyContent: "center"
+        justifyContent: "center",
+        borderBottomColor: Colors.arkadNavy,
+        borderBottomWidth: 2
     },
     title: {
+        padding: 5,
         fontFamily: "main-font-bold",
         fontSize: 30
     },
