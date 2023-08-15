@@ -3,6 +3,7 @@ import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { RootStackParamList } from "../navigation/index";
+import Colors from "constants/Colors";
 
 export default function NotFoundScreen({
   navigation,
@@ -10,7 +11,10 @@ export default function NotFoundScreen({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>This screen doesn't exist.</Text>
-      <TouchableOpacity onPress={() => navigation.replace("Root")} style={styles.link}>
+      <TouchableOpacity
+        onPress={() => navigation.replace("Root")}
+        style={styles.link}
+      >
         <Text style={styles.linkText}>Go to home screen!</Text>
       </TouchableOpacity>
     </View>
@@ -23,10 +27,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+    backgroundColor: Colors.arkadNavy,
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
+    color: Colors.white,
   },
   link: {
     marginTop: 15,
@@ -34,6 +40,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 22,
-    color: "#2e78b7",
+    color: Colors.arkadOrange,
   },
 });

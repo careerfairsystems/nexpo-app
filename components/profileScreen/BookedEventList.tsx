@@ -11,10 +11,19 @@ type BookedEventListProps = {
 
 const windowWidth = Dimensions.get("window").width;
 
-export const BookedEventList = ({ bookedEvents, onPress }: BookedEventListProps) => (
-  <View style={styles.container}>
+export const BookedEventList = ({
+  bookedEvents,
+  onPress,
+}: BookedEventListProps) => (
+  <View
+    style={
+      bookedEvents
+        ? { height: 180 * bookedEvents?.length, alignItems: "center" }
+        : { height: 180, alignItems: "center" }
+    }
+  >
     <FlatList
-      horizontal={true}
+      horizontal={false}
       showsHorizontalScrollIndicator={false}
       data={bookedEvents}
       keyExtractor={({ id }) => id.toString()}

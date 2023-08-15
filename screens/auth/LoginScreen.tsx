@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Image, ActivityIndicator, StyleSheet, Pressable, ScrollView } from "react-native";
+import {
+  Image,
+  ActivityIndicator,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 
 import { View } from "components/Themed";
 import { TextInput } from "components/TextInput";
@@ -49,19 +55,24 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
       style={{ flex: 1 }}
       contentContainerStyle={styles.container}
     >
-      <Image style={styles.logo} source={require("../../assets/images/arkad_logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/arkad_logo_inverted.png")}
+      />
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
           onChangeText={setEmail}
           onSubmitEditing={login}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
         <TextInput
           placeholder="Password"
           secureTextEntry
           onChangeText={setPassword}
           onSubmitEditing={login}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
         {loading ? (
           <ActivityIndicator />
@@ -74,7 +85,10 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           style={styles.signUpContainer}
           onPress={() => navigation.navigate("SignUpScreen")}
         >
-          <ArkadText style={styles.signUpText} text={"Don't have an account? Sign up here!"} />
+          <ArkadText
+            style={styles.signUpText}
+            text={"Don't have an account? Sign up here!"}
+          />
         </Pressable>
         <Pressable
           style={styles.signUpContainer}
@@ -113,7 +127,7 @@ const styles = StyleSheet.create({
   signUpText: {
     textAlign: "center",
     textDecorationLine: "underline",
-    color: Colors.arkadNavy,
+    color: Colors.arkadTurkos,
   },
   loginButton: {
     width: "45%",

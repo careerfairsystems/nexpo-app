@@ -7,31 +7,28 @@ import { Message } from "api/Messages";
 import MessageListItem from "./MessageListItem";
 
 export default function MessagesTab() {
-
   // Temporary solution until API is ready
-  const messages: Message[] = [MockMessage1, MockMessage2]
+  const messages: Message[] = [MockMessage1, MockMessage2];
 
   const getMessagees = () => {
     // Do some API call here
-  }
+  };
 
-	if (messages.length === 0) {
-		return (
-      <ArkadText text={"No messages"} style={styles.text}></ArkadText>
-    );
-	}
+  if (messages.length === 0) {
+    return <ArkadText text={"No messages"} style={styles.text}></ArkadText>;
+  }
   return (
     <FlatList
+      style={{
+        backgroundColor: Colors.arkadNavy,
+      }}
       showsVerticalScrollIndicator={false}
       data={messages}
-      keyExtractor={message => message.title}
-      renderItem={({ item: message }) => (
-          <MessageListItem message={message} />
-      )}
+      keyExtractor={(message) => message.title}
+      renderItem={({ item: message }) => <MessageListItem message={message} />}
     />
   );
 }
-
 
 const MockMessage1 = {
   title: "Large mock message",
@@ -44,7 +41,7 @@ const MockMessage1 = {
   time: "10:00",
   receiver: "Everyone",
   sender: "Jesse Pinkman",
-}
+};
 const MockMessage2 = {
   title: "Small mock message",
   content: "This is a small mock message \n bye!",
@@ -52,13 +49,13 @@ const MockMessage2 = {
   time: "23:59",
   receiver: "Everyone",
   sender: "Walter White",
-}
+};
 
 const styles = StyleSheet.create({
   text: {
     paddingTop: 40,
     fontFamily: "main-font-bold",
     fontSize: 32,
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
 });

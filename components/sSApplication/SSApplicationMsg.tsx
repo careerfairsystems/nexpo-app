@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: width * 0.75,
     borderWidth: 2,
-    borderColor: Colors.arkadNavy,
+    borderColor: Colors.arkadOrange,
     borderRadius: 10,
     overflow: "hidden",
     margin: 20,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   headerBox: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.arkadOrange,
   },
   msgBox: {
     backgroundColor: Colors.white,

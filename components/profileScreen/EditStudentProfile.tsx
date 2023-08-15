@@ -22,13 +22,17 @@ export default function EditStudentProfile({
   setEditStatus,
 }: EditStudentProfileProps) {
   const [year, setYear] = React.useState<number | null>(student.year);
-  const [masterTitle, setMasterTitle] = React.useState<string | null>(student.masterTitle);
+  const [masterTitle, setMasterTitle] = React.useState<string | null>(
+    student.masterTitle
+  );
   const [linkedIn, setLinkedIn] = React.useState<string>(
     student.linkedIn === null ? "" : student.linkedIn
   );
   const [programmes, setProgrammes] = useState(PROGRAMS);
   const [programmeOpen, programmeSetOpen] = useState(false);
-  const [programme, setProgramme] = useState<Programme | null>(student.programme);
+  const [programme, setProgramme] = useState<Programme | null>(
+    student.programme
+  );
 
   React.useEffect(() => {
     const dto = {
@@ -55,7 +59,16 @@ export default function EditStudentProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <Text>Programme</Text>
+        <Text
+          style={{
+            color: Colors.white,
+            fontFamily: "main-font",
+            fontSize: 20,
+            paddingTop: 5,
+          }}
+        >
+          Programme
+        </Text>
         <View style={styles.picker}>
           <CategoriesDropdown
             title="Desired program"
@@ -70,7 +83,16 @@ export default function EditStudentProfile({
           />
         </View>
 
-        <Text>Year</Text>
+        <Text
+          style={{
+            color: Colors.white,
+            fontFamily: "main-font",
+            fontSize: 20,
+            paddingTop: 5,
+          }}
+        >
+          Year
+        </Text>
         <Picker
           style={styles.picker}
           selectedValue={year}
@@ -87,14 +109,32 @@ export default function EditStudentProfile({
           <Picker.Item label="5" value={5} />
         </Picker>
 
-        <Text>Master Title</Text>
+        <Text
+          style={{
+            color: Colors.white,
+            fontFamily: "main-font",
+            fontSize: 20,
+            paddingTop: 5,
+          }}
+        >
+          Master Title
+        </Text>
         <TextInput
           style={styles.textInput}
           value={masterTitle ? masterTitle : ""}
           onChangeText={setMasterTitle}
         />
 
-        <Text>LinkedIn</Text>
+        <Text
+          style={{
+            color: Colors.white,
+            fontFamily: "main-font",
+            fontSize: 20,
+            paddingTop: 5,
+          }}
+        >
+          LinkedIn
+        </Text>
         <TextInput
           style={styles.textInput}
           value={linkedIn ? linkedIn : ""}
@@ -110,17 +150,22 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   picker: {
     width: "85%",
     maxWidth: 400,
     padding: 10,
-    borderRadius: 3,
-    borderColor: Colors.gray,
+    borderRadius: 4,
+    borderColor: Colors.white,
     margin: 12,
+    backgroundColor: Colors.arkadNavy,
+    color: Colors.white,
   },
   textInput: {
     width: "80%",
     maxWidth: 400,
+    borderColor: Colors.white,
+    color: Colors.white,
   },
 });

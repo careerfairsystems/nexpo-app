@@ -1,4 +1,7 @@
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import * as React from "react";
 import { HeaderStyles } from "components/HeaderStyles";
 import ProfileScreen from "./ProfileScreen";
@@ -17,10 +20,11 @@ const ProfileStack = createStackNavigator<ProfileStackParamList>();
 export function ProfileNavigator() {
   return (
     <ProfileStack.Navigator
-      screenOptions={{ 
+      screenOptions={{
         ...TransitionPresets.SlideFromRightIOS,
         animationEnabled: true,
-        gestureEnabled: true }}
+        gestureEnabled: true,
+      }}
     >
       <ProfileStack.Screen
         name="ProfileScreen"
@@ -30,7 +34,7 @@ export function ProfileNavigator() {
           headerTitle: "Profile",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,
@@ -49,7 +53,7 @@ export function ProfileNavigator() {
           headerTitle: "Profile",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,

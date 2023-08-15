@@ -1,9 +1,13 @@
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import * as React from "react";
 import { HeaderStyles } from "components/HeaderStyles";
 import CompaniesScreen from "./CompaniesScreen";
 import CompanyDetailsScreen from "./CompanyDetailsScreen";
 import { Image } from "react-native";
+import Colors from "constants/Colors";
 
 export type CompanyStackParamList = {
   CompaniesScreen: undefined;
@@ -14,11 +18,12 @@ export type CompanyStackParamList = {
 const CompanyStack = createStackNavigator<CompanyStackParamList>();
 export function CompaniesNavigator() {
   return (
-    <CompanyStack.Navigator 
-      screenOptions={{ 
+    <CompanyStack.Navigator
+      screenOptions={{
         ...TransitionPresets.SlideFromRightIOS,
         animationEnabled: true,
-        gestureEnabled: true }}
+        gestureEnabled: true,
+      }}
     >
       <CompanyStack.Screen
         name="CompaniesScreen"
@@ -28,7 +33,7 @@ export function CompaniesNavigator() {
           headerTitle: "Companies",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,
@@ -48,7 +53,7 @@ export function CompaniesNavigator() {
           headerTitle: "Companies",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,

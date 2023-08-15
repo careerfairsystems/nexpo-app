@@ -88,7 +88,7 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
               <ArkadButton style={styles.button} onPress={() => openSSsApplicaion()}>
                 <ArkadText
                   text={
-                    user.role === Role.CompanyRepresentative ? " See applications!" : "Apply here!"
+                    user.role === Role.CompanyRepresentative ? "See applications!" : "Apply here!"
                   }
                 />
               </ArkadButton>
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   button: {
     width: "60%",

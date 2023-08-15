@@ -138,9 +138,10 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             messages={MessagesTab}
           />
         )}
-        {(user.role === Role.Student ||
-          user.role === Role.CompanyRepresentative) &&
-          userProfile()}
+        {user.role === Role.CompanyRepresentative && (
+          <ProfileTabViewer profile={userProfile} contacts={Contacts} />
+        )}
+        {user.role === Role.Student && userProfile()}
       </>
     );
   }
@@ -150,13 +151,13 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     paddingVertical: 24,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
   header: {
     width: "100%",
     textAlign: "center",
     fontSize: 24,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     justifyContent: "center",
   },
   eventList: {
@@ -164,6 +165,6 @@ const styles = StyleSheet.create({
   },
   logout: {
     paddingBottom: "10%",
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
 });

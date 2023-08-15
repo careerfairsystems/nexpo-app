@@ -15,7 +15,9 @@ export function UpcomingButton({ showAllEvents, onPress }: buttonProps) {
   return (
     <View style={styles.eventBox}>
       <ArkadButton style={styles.button} onPress={onPress}>
-        <Text style={styles.text}>{showAllEvents ? "Hide old events" : "Show old events"}</Text>
+        <Text style={styles.text}>
+          {showAllEvents ? "Hide old events" : "Show old events"}
+        </Text>
       </ArkadButton>
     </View>
   );
@@ -24,6 +26,7 @@ export function UpcomingButton({ showAllEvents, onPress }: buttonProps) {
 const styles = StyleSheet.create({
   eventBox: {
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   button: {
     justifyContent: "center",
