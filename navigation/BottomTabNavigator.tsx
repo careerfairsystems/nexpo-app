@@ -110,8 +110,8 @@ export default function BottomTabNavigator() {
         />
         {
           <BottomTab.Screen
-            name="Maps"
-            component={MapNavigator}
+            name="Events"
+            component={EventsNavigator}
             options={{
               tabBarIcon: ({ focused }) => {     
                 return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Events 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Events 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
@@ -123,8 +123,8 @@ export default function BottomTabNavigator() {
         {user &&
           (user.role !== Role.CompanyRepresentative ? (
             <BottomTab.Screen
-              name="Events"
-              component={EventsNavigator}
+              name="SSsStudent"
+              component={SSsStudentNavigator}
               options={{
                 title: "Student Sessions",
                 tabBarIcon: ({ focused }) => {     
@@ -133,12 +133,11 @@ export default function BottomTabNavigator() {
                 ...HeaderStyles,
               }}
             />
-          )}
-          {user &&
-            (user.role !== Role.CompanyRepresentative ? (
+          ) : (
+            companyId && (
               <BottomTab.Screen
-                name="SSsStudent"
-                component={SSsStudentNavigator}
+                name="SSsCRep"
+                component={SSsCRepNavigator}
                 options={{
                   title: "Student Sessions",
                   tabBarIcon: ({ focused }) => {     
@@ -146,19 +145,8 @@ export default function BottomTabNavigator() {
                 },
                   ...HeaderStyles,
                 }}
+                initialParams={{ companyId: companyId }}
               />
-            ) : (
-              companyId && (
-                <BottomTab.Screen
-                  name="SSsCRep"
-                  component={SSsCRepNavigator}
-                  options={{
-                    title: "Student Sessions",
-                    tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
-                    ...HeaderStyles,
-                  }}
-                  initialParams={{ companyId: companyId }}
-                />
             )
           ))}
         {isSignedIn ? (
