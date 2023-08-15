@@ -277,6 +277,13 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: Colors.arkadNavy,
   },
+  header: {
+    fontFamily: "main-font-bold",
+    color: Colors.arkadNavy,
+    fontSize: 22,
+    marginTop: 12,
+    marginBottom: 4,
+  },
   textInput: {
     width: "80%",
     maxWidth: 400,

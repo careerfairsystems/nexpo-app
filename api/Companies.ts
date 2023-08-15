@@ -57,6 +57,7 @@ export interface PublicCompanyDto {
   didYouKnow: string | null;
   website: string | null;
   logoUrl: string | null;
+  daysAtArkad: string[];
   desiredDegress: Degree[] | null;
   desiredProgramme: Programme[] | null;
   positions: Position[] | null;
@@ -75,6 +76,7 @@ export interface UpdateCompanySelfDto {
   description?: string | null;
   didyouknow?: string | null;
   website?: string | null;
+  daysAtArkad?: string[];
 }
 
 export interface UpdateCompanyDto extends UpdateCompanySelfDto {
