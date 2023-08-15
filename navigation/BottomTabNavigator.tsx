@@ -5,6 +5,7 @@
 
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Image } from "react-native";
 import * as React from "react";
 
 import Colors from "constants/Colors";
@@ -96,12 +97,9 @@ export default function BottomTabNavigator() {
           name="Companies"
           component={CompaniesNavigator}
           options={{
-            tabBarIcon: ({ color }) => (
-              <TabBarIonicon
-                name="briefcase-outline"
-                color={Colors.arkadTurkos}
-              />
-            ),
+            tabBarIcon: ({ focused }) => {     
+              return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Business 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Business 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+          },
             ...HeaderStyles,
           }}
         />
@@ -109,9 +107,9 @@ export default function BottomTabNavigator() {
           name="Maps"
           component={MapNavigator}
           options={{
-            tabBarIcon: ({ color }) => (
-              <TabBarIonicon name="map" color={Colors.arkadTurkos} />
-            ),
+            tabBarIcon: ({ focused }) => {     
+              return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Maps 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Maps 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+          },
             ...HeaderStyles,
           }}
         />
@@ -120,9 +118,9 @@ export default function BottomTabNavigator() {
             name="Events"
             component={EventsNavigator}
             options={{
-              tabBarIcon: ({ color }) => (
-                <TabBarMaterialIcon name="event" color={Colors.arkadTurkos} />
-              ),
+              tabBarIcon: ({ focused }) => {     
+                return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Events 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Events 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+              },
               ...HeaderStyles,
             }}
           />
@@ -134,9 +132,9 @@ export default function BottomTabNavigator() {
               component={SSsStudentNavigator}
               options={{
                 title: "Student Sessions",
-                tabBarIcon: ({ color }) => (
-                  <TabBarMaterialIcon name="forum" color={Colors.arkadTurkos} />
-                ),
+                tabBarIcon: ({ focused }) => {     
+                  return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+              },
                 ...HeaderStyles,
               }}
             />
@@ -147,12 +145,9 @@ export default function BottomTabNavigator() {
                 component={SSsCRepNavigator}
                 options={{
                   title: "Student Sessions",
-                  tabBarIcon: ({ color }) => (
-                    <TabBarMaterialIcon
-                      name="forum"
-                      color={Colors.arkadTurkos}
-                    />
-                  ),
+                  tabBarIcon: ({ focused }) => {     
+                    return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+                },
                   ...HeaderStyles,
                 }}
                 initialParams={{ companyId: companyId }}
@@ -163,23 +158,21 @@ export default function BottomTabNavigator() {
           <BottomTab.Screen
             name="You"
             component={ProfileNavigator}
-            options={{
-              tabBarIcon: ({ color }) => (
-                <TabBarIonicon name="person" color={Colors.arkadTurkos} />
-              ),
-              ...HeaderStyles,
-            }}
+            options={({ }) => ({
+              tabBarIcon: ({ focused }) => {     
+                  return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+              },
+            })}
           />
         ) : (
           <BottomTab.Screen
             name="Login"
             component={AuthNavigator}
-            options={{
-              tabBarIcon: ({ color }) => (
-                <TabBarIonicon name="person" color={Colors.arkadTurkos} />
-              ),
-              ...HeaderStyles,
-            }}
+            options={({ }) => ({
+              tabBarIcon: ({ focused }) => {     
+                return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+            },
+            })}
           />
         )}
       </BottomTab.Navigator>
