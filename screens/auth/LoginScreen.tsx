@@ -14,10 +14,10 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
 
 import { API } from "api/API";
-import { AuthContext } from "components/AuthContext";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "./AuthNavigator";
 import Colors from "constants/Colors";
+import { AuthDispatchContext } from "components/AuthContextProvider";
 
 type LoginScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "LoginScreen">;
@@ -27,7 +27,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const authContext = React.useContext(AuthContext);
+  const setSignedIn = React.useContext(AuthDispatchContext);
 
   const login = async () => {
     // We get errors when unmounting for some reason, this might be a solution:
@@ -44,8 +44,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
     } else if (!success.ok) {
       alert("Login not successful");
     } else {
-      authContext.signIn();
-      window.location.reload();
+      setSignedIn(true);
     }
   };
 

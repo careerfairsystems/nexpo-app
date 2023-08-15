@@ -16,7 +16,6 @@ import { Role } from "api/Role";
 import { API } from "api/API";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { useContext } from "react";
-import { AuthContext } from "components/AuthContext";
 import { MapNavigator } from "../screens/maps/MapNavigator";
 import { ProfileNavigator } from "../screens/profile/ProfileNavigator";
 import { AuthNavigator } from "screens/auth/AuthNavigator";
@@ -25,6 +24,7 @@ import { CompaniesNavigator } from "../screens/companies/CompaniesNavigator";
 import { SSsStudentNavigator } from "../screens/studentSessions/SSsStudentNavigator";
 import { SSsCRepNavigator } from "../screens/studentSessions/SSsCRepNavigator";
 import { HeaderStyles } from "components/HeaderStyles";
+import { AuthContext, AuthDispatchContext } from "components/AuthContextProvider";
 
 export type BottomTabParamList = {
   Companies: undefined;
@@ -38,18 +38,11 @@ export type BottomTabParamList = {
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
-  const [isLoading, setLoading] = React.useState<boolean>(true);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
   const [companyId, setCompanyId] = React.useState<number | null>(null);
-  const [isSignedIn, setSignedIn] = React.useState<boolean>(false);
   const [user, setUser] = React.useState<User | null>(null);
-  const authContext = useContext(AuthContext);
-
-  const getSignedInStatus = async () => {
-    setLoading(true);
-    const status = await API.auth.isAuthenticated();
-    setSignedIn(status);
-    setLoading(false);
-  };
+  const isSignedIn = useContext(AuthContext);
+  const setSignedIn = useContext(AuthDispatchContext);
 
   const getUser = async () => {
     try {
@@ -66,15 +59,17 @@ export default function BottomTabNavigator() {
   };
 
   React.useEffect(() => {
-    getSignedInStatus();
     if (isSignedIn) {
       getUser();
+    } else {
+      setUser(null);
+      setCompanyId(null);
     }
   }, [isSignedIn]);
 
   async function logout() {
     await API.auth.logout();
-    authContext.signOut();
+    setSignedIn(false);
   }
 
   if (isLoading) {
