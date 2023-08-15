@@ -26,7 +26,7 @@ export default function Navigation() {
     dark: false,
     colors: {
       primary: DefaultTheme.colors.primary,
-      background: Colors.white,
+      background: Colors.arkadNavy,
       card: DefaultTheme.colors.card,
       text: Colors.white,
       border: Colors.arkadNavy,
