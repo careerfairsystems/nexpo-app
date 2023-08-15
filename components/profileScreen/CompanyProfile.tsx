@@ -12,6 +12,7 @@ type CompanyProfileProps = {
 };
 
 function showDays(days : string[]){
+  console.log(days)
   return(
     <View>
       {days.sort().map((day) => <Text key={day} style={styles.daysText}>{day.slice(0, day.indexOf('T'))}</Text>)}
@@ -138,10 +139,10 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   daysText: {
-    fontSize: 14,
+    fontSize: 17,
     padding: 1,
     margin: 1,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
 });

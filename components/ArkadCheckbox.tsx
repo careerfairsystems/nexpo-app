@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: Colors.arkadNavy,
+    borderColor: Colors.white,
     backgroundColor: "transparent",
     marginLeft: 12,
     marginTop: 5,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   checkboxText: {
     fontSize: 18,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     align: "center",
     margin: 6,
     padding: 2,
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 10
   },
   checkmark: {
     color: Colors.white,

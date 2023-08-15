@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
     fontSize: 22,
     marginTop: 12,
     marginBottom: 4,
