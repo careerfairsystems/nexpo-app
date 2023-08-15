@@ -1,7 +1,7 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SSsStackParamlist } from "./SSsCRepNavigator";
 import SSsApplicationsListScreen from "./templates/SSsApplicationsListScreen";
-import SSsApplicationScreen from "./templates/SSsApplicationSreen";
+import SSsApplicationScreen from "./templates/SSsApplicationScreen";
 import SSsDetailsScreen from "./templates/SSsDetailsScreen";
 
 type SSsSwitchScreenParams = {

@@ -13,7 +13,12 @@ type ListedTimeslotProps = {
   onPress: () => void;
 };
 
-export const SSListItem = ({ timeslot, booked, bookedByMe, onPress }: ListedTimeslotProps) => (
+export const SSListItem = ({
+  timeslot,
+  booked,
+  bookedByMe,
+  onPress,
+}: ListedTimeslotProps) => (
   <Pressable onPress={onPress} style={styles.container}>
     <ArkadText
       style={styles.timeslotTime}
@@ -28,10 +33,18 @@ export const SSListItem = ({ timeslot, booked, bookedByMe, onPress }: ListedTime
             : { backgroundColor: Colors.darkRed },
         ]}
       >
-        <ArkadText style={styles.timeslotBookedText} text={bookedByMe ? "Yours!" : "Booked"} />
+        <ArkadText
+          style={styles.timeslotBookedText}
+          text={bookedByMe ? "Yours!" : "Booked"}
+        />
       </View>
     ) : (
-      <View style={[styles.timeslotBookedContainer, { backgroundColor: Colors.lightGreen }]}>
+      <View
+        style={[
+          styles.timeslotBookedContainer,
+          { backgroundColor: Colors.lightGreen },
+        ]}
+      >
         <ArkadText style={styles.timeslotBookedText} text={"Available"} />
       </View>
     )}

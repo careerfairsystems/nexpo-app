@@ -64,7 +64,7 @@ export default function CompanyDetailsScreen({
           <Text style={styles.title}>{company?.name}</Text>
 
           <View style={styles.contactInfoContainer}>
-            <Ionicons name="link" size={16} color={Colors.arkadNavy} />
+            <Ionicons name="link" size={16} color={Colors.white} />
             <Text
               style={styles.linkText}
               onPress={() => {
@@ -79,7 +79,7 @@ export default function CompanyDetailsScreen({
             </Text>
           </View>
           <View style={styles.contactInfoContainer}>
-            <Ionicons name="map" size={18} color="black" />
+            <Ionicons name="map" size={18} color="white" />
             <ArkadText
               text={(
                 Locations[companyLocations[company.id]] ?? "No data"
@@ -105,12 +105,14 @@ export default function CompanyDetailsScreen({
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
+    backgroundColor: Colors.arkadNavy,
   },
   container: {
     display: "flex",
     flex: 1,
     padding: "8%",
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   logoContainer: {
     paddingTop: 20,
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     fontSize: 32,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   contactInfoContainer: {
     display: "flex",
@@ -140,13 +142,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 8,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   linkText: {
     fontSize: 18,
     paddingLeft: 8,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.arkadTurkos,
     textDecorationLine: "underline",
   },
   descHeader: {
@@ -155,12 +157,12 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     fontSize: 18,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.arkadTurkos,
   },
   desc: {
     paddingTop: 6,
     fontSize: 16,
     fontFamily: "secondary-font",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
 });

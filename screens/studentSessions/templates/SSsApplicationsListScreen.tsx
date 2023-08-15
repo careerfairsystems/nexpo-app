@@ -48,14 +48,14 @@ export default function SSsApplicationsListScreen(
           style={{ ...styles.statsText, color: Colors.arkadTurkos }}
           text={`${applications?.filter((application) => application.status === 0).length}`}
         />
-        <ArkadText style={{ ...styles.statsText, color: Colors.arkadNavy }} text={`/`} />
+        <ArkadText style={{ ...styles.statsText }} text={`/`} />
         <ArkadText
           style={{ ...styles.statsText, color: Colors.lightGreen }}
           text={`${applications?.filter((application) => application.status === 1).length}`}
         />
-        <ArkadText style={{ ...styles.statsText, color: Colors.arkadNavy }} text={`/`} />
+        <ArkadText style={{ ...styles.statsText }} text={`/`} />
         <ArkadText
-          style={{ ...styles.statsText, color: Colors.darkRed }}
+          style={{ ...styles.statsText, color: Colors.lightRed }}
           text={`${applications?.filter((application) => application.status === 2).length}`}
         />
       </View>
@@ -71,11 +71,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
     marginTop: 10,
+    borderWidth: 2,
+    borderRadius: 17,
+    borderColor: Colors.white,
+    backgroundColor: Colors.arkadNavy
   },
   statsText: {
     fontSize: 24,
     fontWeight: "bold",
     marginHorizontal: 5,
+    color: Colors.white
   },
   container: {
     flex: 1,

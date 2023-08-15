@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AntDesign, Entypo } from "@expo/vector-icons";
-import { Animated, FlatList, LayoutAnimation, StyleSheet, TextInput } from "react-native";
+import {
+  Animated,
+  FlatList,
+  LayoutAnimation,
+  StyleSheet,
+  TextInput,
+} from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { View } from "components/Themed";
 import { API } from "api/API";
@@ -20,7 +26,9 @@ type companiesNavigation = {
 export default function CompaniesScreen({ navigation }: companiesNavigation) {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [companies, setCompanies] = useState<PublicCompanyDto[] | null>(null);
-  const [filteredCompanies, setFilteredCompanies] = useState<PublicCompanyDto[] | null>(null);
+  const [filteredCompanies, setFilteredCompanies] = useState<
+    PublicCompanyDto[] | null
+  >(null);
   const [text, onChangeText] = React.useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -84,7 +92,10 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         data={API.companies.filterData(text, filteredCompanies)}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) => (
-          <CompanyListItem company={company} onPress={() => openCompanyDetails(company.id)} />
+          <CompanyListItem
+            company={company}
+            onPress={() => openCompanyDetails(company.id)}
+          />
         )}
       />
     </View>
@@ -96,14 +107,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   list: {
     width: "100%",
   },
   input: {
-    borderColor: Colors.arkadNavy,
+    borderColor: Colors.white,
     borderWidth: 2,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     height: 48,
     borderRadius: 7,
     marginRight: 12,
@@ -134,6 +146,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     marginBottom: 16,
     zIndex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
 });

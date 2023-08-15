@@ -57,7 +57,10 @@ export default function EventParticipantsScreen(
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <ArkadText text={`All participants for the event\n ${event?.name}`} style={styles.title} />
+        <ArkadText
+          text={`All participants for the event\n ${event?.name}`}
+          style={styles.title}
+        />
       </View>
       <ScanQRButton onPress={() => navigation.navigate("QRScreen", { id })} />
       <StudentTicketList tickets={tickets} />
@@ -68,14 +71,23 @@ const styles = StyleSheet.create({
   title: {
     justifyContent: "center",
     fontSize: 24,
-    color: Colors.arkadNavy,
+    color: Colors.white,
+    backgroundColor: Colors.arkadTurkos,
+    borderRadius: 14,
+    borderWidth: 4,
+    borderColor: Colors.arkadTurkos,
   },
   titleContainer: {
     width: "90%",
     height: 80,
     justifyContent: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   container: {
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
+    borderRadius: 14,
+    borderWidth: 4,
+    borderColor: Colors.white,
   },
 });

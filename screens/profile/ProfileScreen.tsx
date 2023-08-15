@@ -12,7 +12,6 @@ import { ProfileStackParamList } from "./ProfileNavigator";
 
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { View } from "components/Themed";
-import { AuthContext } from "components/AuthContext";
 import {
   EditProfileButton,
   LogoutButton,
@@ -29,6 +28,7 @@ import ProfileTabViewer from "./ProfileTabViewer";
 import Contacts from "components/profileScreen/ContactsPG";
 import AdminTab from "components/profileScreen/AdminTab";
 import MessagesTab from "components/profileScreen/MessagesTab";
+import { AuthDispatchContext } from "components/AuthContextProvider";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -40,7 +40,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   const [student, setStudent] = useState<Student | null>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
-  const authContext = useContext(AuthContext);
+  const setSignedIn = useContext(AuthDispatchContext);
   const isFocused = useIsFocused();
 
   async function getUser() {
@@ -64,8 +64,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
 
   async function logout() {
     await API.auth.logout();
-    authContext.signOut();
-    window.location.reload();
+    setSignedIn(false);
   }
 
   useFocusEffect(
@@ -139,9 +138,10 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             messages={MessagesTab}
           />
         )}
-        {(user.role === Role.Student ||
-          user.role === Role.CompanyRepresentative) &&
-          userProfile()}
+        {user.role === Role.CompanyRepresentative && (
+          <ProfileTabViewer profile={userProfile} contacts={Contacts} />
+        )}
+        {user.role === Role.Student && userProfile()}
       </>
     );
   }
@@ -151,13 +151,13 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     paddingVertical: 24,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
   header: {
     width: "100%",
     textAlign: "center",
     fontSize: 24,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     justifyContent: "center",
   },
   eventList: {
@@ -165,6 +165,6 @@ const styles = StyleSheet.create({
   },
   logout: {
     paddingBottom: "10%",
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
 });

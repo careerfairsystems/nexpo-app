@@ -9,7 +9,10 @@ type ListedTimeslotProps = {
   isConsumed: boolean;
 };
 
-export const StudentTicketListItem = ({ name, isConsumed }: ListedTimeslotProps) => (
+export const StudentTicketListItem = ({
+  name,
+  isConsumed,
+}: ListedTimeslotProps) => (
   <View
     style={[
       styles.container,
@@ -20,7 +23,9 @@ export const StudentTicketListItem = ({ name, isConsumed }: ListedTimeslotProps)
       <ArkadText style={styles.timeslotTimeText} text={name} />
     </View>
     {/* Below showing if isConsumed */}
-    {isConsumed && <ArkadText style={styles.timeslotTimeText} text={"Scanned!"} />}
+    {isConsumed && (
+      <ArkadText style={styles.timeslotTimeText} text={"Scanned!"} />
+    )}
   </View>
 );
 
@@ -32,6 +37,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     padding: 10,
     borderRadius: 16,
+    borderColor: Colors.white,
+    borderWidth: 2,
   },
   timeslotTimeText: {
     paddingTop: 4,

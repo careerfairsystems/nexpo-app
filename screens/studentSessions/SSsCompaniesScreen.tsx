@@ -74,11 +74,11 @@ const styles = StyleSheet.create({
   title: {
     paddingBottom: 5,
     fontSize: 50,
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   text: {
     fontSize: 16,
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   titleContainer: {
     paddingTop: 10,
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: Colors.arkadNavy
   },
   list: {
     width: "100%",

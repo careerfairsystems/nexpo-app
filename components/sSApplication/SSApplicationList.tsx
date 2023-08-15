@@ -39,11 +39,15 @@ export function ApplicationsList({ applications, onPress }: ApplicationsListProp
 const styles = StyleSheet.create({
   ssBox: {
     width: width * 0.95,
+    borderColor: Colors.white,
+    borderWidth: 3,
+    borderRadius: 17,
+    marginTop: 10
   },
   text: {
     paddingTop: 40,
     fontFamily: "main-font-bold",
     fontSize: 24,
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
 });

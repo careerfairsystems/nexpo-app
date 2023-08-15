@@ -25,6 +25,7 @@ export function MapPreview({ navigation, map }: mapNavigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.arkadNavy,
   },
   previewContainer: {
     flex: 1,

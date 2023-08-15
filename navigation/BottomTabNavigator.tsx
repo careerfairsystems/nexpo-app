@@ -5,6 +5,7 @@
 
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Image } from "react-native";
 import * as React from "react";
 
 import Colors from "constants/Colors";
@@ -15,7 +16,6 @@ import { Role } from "api/Role";
 import { API } from "api/API";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { useContext } from "react";
-import { AuthContext } from "components/AuthContext";
 import { MapNavigator } from "../screens/maps/MapNavigator";
 import { ProfileNavigator } from "../screens/profile/ProfileNavigator";
 import { AuthNavigator } from "screens/auth/AuthNavigator";
@@ -24,6 +24,7 @@ import { CompaniesNavigator } from "../screens/companies/CompaniesNavigator";
 import { SSsStudentNavigator } from "../screens/studentSessions/SSsStudentNavigator";
 import { SSsCRepNavigator } from "../screens/studentSessions/SSsCRepNavigator";
 import { HeaderStyles } from "components/HeaderStyles";
+import { AuthContext, AuthDispatchContext } from "components/AuthContextProvider";
 
 export type BottomTabParamList = {
   Companies: undefined;
@@ -37,18 +38,11 @@ export type BottomTabParamList = {
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
-  const [isLoading, setLoading] = React.useState<boolean>(true);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
   const [companyId, setCompanyId] = React.useState<number | null>(null);
-  const [isSignedIn, setSignedIn] = React.useState<boolean>(false);
   const [user, setUser] = React.useState<User | null>(null);
-  const authContext = useContext(AuthContext);
-
-  const getSignedInStatus = async () => {
-    setLoading(true);
-    const status = await API.auth.isAuthenticated();
-    setSignedIn(status);
-    setLoading(false);
-  };
+  const isSignedIn = useContext(AuthContext);
+  const setSignedIn = useContext(AuthDispatchContext);
 
   const getUser = async () => {
     try {
@@ -65,15 +59,17 @@ export default function BottomTabNavigator() {
   };
 
   React.useEffect(() => {
-    getSignedInStatus();
     if (isSignedIn) {
       getUser();
+    } else {
+      setUser(null);
+      setCompanyId(null);
     }
   }, [isSignedIn]);
 
   async function logout() {
     await API.auth.logout();
-    authContext.signOut();
+    setSignedIn(false);
   }
 
   if (isLoading) {
@@ -82,13 +78,23 @@ export default function BottomTabNavigator() {
     return (
       <BottomTab.Navigator
         initialRouteName="Events"
-        tabBarOptions={{ activeTintColor: Colors.arkadNavy }}
+        tabBarOptions={{
+          activeTintColor: Colors.white,
+          inactiveTintColor: Colors.arkadTurkos,
+          activeBackgroundColor: Colors.arkadNavy,
+          inactiveBackgroundColor: Colors.arkadNavy,
+          style: {
+            borderTopColor: "#003366",
+          },
+        }}
       >
         <BottomTab.Screen
           name="Companies"
           component={CompaniesNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIonicon name="briefcase-outline" color={color} />,
+            tabBarIcon: ({ focused }) => {     
+              return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Business 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Business 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+          },
             ...HeaderStyles,
           }}
         />
@@ -96,20 +102,24 @@ export default function BottomTabNavigator() {
           name="Maps"
           component={MapNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIonicon name="map" color={color} />,
+            tabBarIcon: ({ focused }) => {     
+              return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Maps 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Maps 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+          },
             ...HeaderStyles,
           }}
         />
-        {(
+        {
           <BottomTab.Screen
             name="Events"
             component={EventsNavigator}
             options={{
-              tabBarIcon: ({ color }) => <TabBarMaterialIcon name="event" color={color} />,
+              tabBarIcon: ({ focused }) => {     
+                return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Events 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Events 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+              },
               ...HeaderStyles,
             }}
           />
-        )}
+        }
         {user &&
           (user.role !== Role.CompanyRepresentative ? (
             <BottomTab.Screen
@@ -117,7 +127,9 @@ export default function BottomTabNavigator() {
               component={SSsStudentNavigator}
               options={{
                 title: "Student Sessions",
-                tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+                tabBarIcon: ({ focused }) => {     
+                  return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+              },
                 ...HeaderStyles,
               }}
             />
@@ -128,7 +140,9 @@ export default function BottomTabNavigator() {
                 component={SSsCRepNavigator}
                 options={{
                   title: "Student Sessions",
-                  tabBarIcon: ({ color }) => <TabBarMaterialIcon name="forum" color={color} />,
+                  tabBarIcon: ({ focused }) => {     
+                    return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+                },
                   ...HeaderStyles,
                 }}
                 initialParams={{ companyId: companyId }}
@@ -139,19 +153,21 @@ export default function BottomTabNavigator() {
           <BottomTab.Screen
             name="You"
             component={ProfileNavigator}
-            options={{
-              tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
-              ...HeaderStyles,
-            }}
+            options={({ }) => ({
+              tabBarIcon: ({ focused }) => {     
+                  return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+              },
+            })}
           />
         ) : (
           <BottomTab.Screen
             name="Login"
             component={AuthNavigator}
-            options={{
-              tabBarIcon: ({ color }) => <TabBarIonicon name="person" color={color} />,
-              ...HeaderStyles,
-            }}
+            options={({ }) => ({
+              tabBarIcon: ({ focused }) => {     
+                return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+            },
+            })}
           />
         )}
       </BottomTab.Navigator>

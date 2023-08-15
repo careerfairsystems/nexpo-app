@@ -27,7 +27,9 @@ export default function EditCompanyProfile({
   setUpdateCompanyDto,
   setEditStatus,
 }: EditCompanyProfileProps) {
-  const [description, setDescription] = React.useState<string | null>(company.description);
+  const [description, setDescription] = React.useState<string | null>(
+    company.description
+  );
   const [website, setWebsite] = React.useState<string | null>(company.website);
   const [daysAtArkad, setDaysAtArkad] = React.useState<string[]>(company.daysAtArkad);
 
@@ -65,7 +67,16 @@ export default function EditCompanyProfile({
       <View style={styles.container}>
         <ArkadText text={company.name} style={styles.nameLabel}/>
 
-        <ArkadText text={"About us"} style={styles.header}/>
+        <Text
+          style={{
+            color: Colors.white,
+            fontFamily: "main-font",
+            fontSize: 20,
+            paddingTop: 5,
+          }}
+        >
+          About us
+        </Text>
         <TextInput
           style={[styles.textInput, styles.descriptionInput]}
           multiline
@@ -74,7 +85,16 @@ export default function EditCompanyProfile({
           onChangeText={setDescription}
         />
 
-        <ArkadText text={"Website"} style={styles.header}/>
+        <Text
+          style={{
+            color: Colors.white,
+            fontFamily: "main-font",
+            fontSize: 20,
+            paddingTop: 5,
+          }}
+        >
+          Website
+        </Text>
         <TextInput
           style={styles.textInput}
           value={website ? website : ""}
@@ -107,12 +127,14 @@ const styles = StyleSheet.create({
   nameLabel: {
     paddingTop: 8,
     paddingBottom: 16,
-    fontSize: 35,
-    color: Colors.arkadNavy,
+    fontSize: 32,
+    color: Colors.white,
   },
   textInput: {
     width: "80%",
     maxWidth: 400,
+    borderColor: Colors.white,
+    color: Colors.white,
   },
   descriptionInput: {
     height: 180,

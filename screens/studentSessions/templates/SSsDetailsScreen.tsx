@@ -134,24 +134,24 @@ export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams)
         <View style={styles.headerContainer}>
           <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
             <View style={styles.leftItem}>
-              <Ionicons name="calendar" size={16} color="black" />
+              <Ionicons name="calendar" size={16} color="white" />
               <ArkadText
                 text={API.studentSessions.formatTime(timeslot.start, timeslot.end)}
                 style={styles.headerText}
               />
             </View>
             <View style={styles.leftItem}>
-              <Ionicons name="map" size={16} color="black" />
+              <Ionicons name="map" size={16} color="white" />
               <ArkadText text={timeslot.location} style={styles.headerText} />
             </View>
             <View style={styles.leftItem}>
-              <MaterialCommunityIcons name="microphone" size={16} color="black" />
+              <MaterialCommunityIcons name="microphone" size={16} color="white" />
               <ArkadText text={company.name} style={styles.headerText} />
             </View>
           </View>
           <View style={[styles.subHeaderContainer, { flex: 0.3 }]}>
             <View style={styles.rightItem}>
-              <Ionicons name="people" size={16} color="black" />
+              <Ionicons name="people" size={16} color="white" />
               <ArkadText
                 text={timeslot.studentId ? "Booked" : "Available"}
                 style={styles.headerText}
@@ -182,31 +182,33 @@ export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams)
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
   acceptedText: {
     alignSelf: "center",
     marginTop: 40,
     fontSize: 18,
     padding: 22,
-    borderBottomRightRadius: 12,
-    borderBottomLeftRadius: 12,
+    borderRadius: 17,
     width: "90%",
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.arkadOrange,
+    marginBottom: 20
   },
   container: {
     flex: 1,
     width: "100%",
     alignSelf: "center",
     alignItems: "center",
+    borderColor: Colors.white,
+    borderWidth: 3,
+    borderRadius: 17
   },
   titleContainer: {
     width: "90%",
     marginTop: 20,
     height: 100,
-    backgroundColor: Colors.arkadNavy,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    backgroundColor: Colors.arkadTurkos,
+    borderRadius: 17,
     justifyContent: "center",
   },
   title: {
@@ -237,7 +239,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 16,
     paddingHorizontal: 8,
     textAlign: "left",
@@ -247,7 +249,7 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   description: {
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 18,
     textAlign: "left",
   },

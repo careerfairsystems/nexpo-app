@@ -44,11 +44,14 @@ const styles = StyleSheet.create({
   ssBox: {
     width: width * 0.95,
     marginVertical: 4,
+    borderColor: Colors.white,
+    borderRadius: 16,
+    borderWidth: 4,
   },
   text: {
     paddingTop: 40,
     fontFamily: "main-font-bold",
     fontSize: 24,
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
 });
