@@ -75,6 +75,17 @@ export function SSsStudentNavigator() {
         options={{
           title: "Studentsession",
           headerTitle: "Student Sessions",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo_inverted.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
           ...HeaderStyles,
         }}
       />
