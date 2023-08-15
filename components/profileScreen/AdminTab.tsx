@@ -24,10 +24,14 @@ export default function AdminTab() {
 
   const [userName, setUserName] = useState("");
 
-	const send = () => {
-
+  const send = () => {
     const today = new Date();
-    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
     const time = today.getHours() + ":" + today.getMinutes();
 
     const message: Message = {
@@ -37,21 +41,21 @@ export default function AdminTab() {
       time: time,
       receiver: "TODO",
       sender: "TODO",
-    }
+    };
 
     sendMessage(message);
 
-    console.log("Sending message: " );
+    console.log("Sending message: ");
     console.log(text);
-	};
+  };
 
   const changeUserRole = () => {
     console.log("Changing user role: " + userName);
   };
 
 	return (
-		<ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}} contentContainerStyle={{alignItems: "center"}}>
-      <ArkadText text="Send mass message" style={{fontSize: 40, color: "black", marginTop: 10}} />
+		<ScrollView showsVerticalScrollIndicator={false} style={{flex: 1, backgroundColor: Colors.arkadNavy}} contentContainerStyle={{alignItems: "center"}}>
+      <ArkadText text="Send mass message" style={{fontSize: 40, color: Colors.white, marginTop: 10, marginBottom: 10}} />
       <View style={styles.centeredViewCommittee}>
         <CategoriesDropdown
           title="Select committee"
@@ -67,11 +71,11 @@ export default function AdminTab() {
       </View>
 			<TextInput
         style={styles.titleInput}
-				onChangeText={setTitle}
-				value={title}
-				placeholder={"Title..."}
-				placeholderTextColor={Colors.lightGray}
-				multiline={false}
+        onChangeText={setTitle}
+        value={title}
+        placeholder={"Title..."}
+        placeholderTextColor={Colors.lightGray}
+        multiline={false}
         textAlign="center"
 			/>
 			<TextInput
@@ -88,7 +92,7 @@ export default function AdminTab() {
         <ArkadText text="Send" style={styles.buttonText} />
       </ArkadButton>
 
-      <ArkadText text="Change user role" style={{fontSize: 40, color: "black", marginTop: "10%", marginBottom: 12,}} />
+      <ArkadText text="Change user role" style={{fontSize: 40, color: "white", marginTop: "10%", marginBottom: 12,}} />
       <View style={styles.centeredViewRoles}>
         <CategoriesDropdown
           title="Change role to..."
@@ -123,19 +127,20 @@ const styles = StyleSheet.create({
 	textInput: {
 		height: "60",
 		margin: 0,
-		borderColor: Colors.arkadNavy,
-		color: Colors.arkadNavy,
+		borderColor: Colors.white,
+		color: Colors.white,
 		borderRadius: 7,
 		borderWidth: 2,
 		fontSize: 20,
 		fontFamily: "main-font-bold",
 		padding: 10,
 		width: "90%",
+    backgroundColor: Colors.arkadNavy
 	},
   titleInput: {
     height: "20",
-    borderColor: Colors.arkadNavy,
-    color: Colors.arkadNavy,
+    borderColor: Colors.white,
+    color: Colors.white,
     borderRadius: 7,
     borderWidth: 2,
     fontSize: 20,
@@ -144,12 +149,13 @@ const styles = StyleSheet.create({
     margin: 0,
     marginBottom: 12,
     width: "90%",
+    backgroundColor: Colors.arkadNavy
   },
   userNameInput: {
     height: "20",
     margin: 0,
-    borderColor: Colors.arkadNavy,
-    color: Colors.arkadNavy,
+    borderColor: Colors.white,
+    color: Colors.white,
     borderRadius: 7,
     borderWidth: 2,
     fontSize: 20,

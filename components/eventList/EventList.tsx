@@ -24,7 +24,11 @@ export function EventList({ events, onPress }: EventListProps) {
       keyExtractor={({ id }) => id.toString()}
       renderItem={({ item: event }) => (
         <View style={styles.eventBox}>
-          <EventListItem event={event} itemStyle={{}} onPress={() => onPress(event.id)} />
+          <EventListItem
+            event={event}
+            itemStyle={{}}
+            onPress={() => onPress(event.id)}
+          />
         </View>
       )}
     />
@@ -34,11 +38,12 @@ const styles = StyleSheet.create({
   eventBox: {
     width: width * 0.95,
     height: height * 0.24,
+    backgroundColor: Colors.arkadNavy,
   },
   text: {
     paddingTop: 40,
     fontFamily: "main-font-bold",
     fontSize: 32,
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
 });

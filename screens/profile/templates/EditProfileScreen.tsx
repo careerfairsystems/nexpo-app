@@ -26,22 +26,31 @@ type EditProfileScreenProps = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileSwitchScreen">;
 };
 
-export default function EditProfileScreen({ navigation }: EditProfileScreenProps) {
+export default function EditProfileScreen({
+  navigation,
+}: EditProfileScreenProps) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [user, setUser] = useState<User | null>(null);
-  const [updateUserDto, setUpdateUserDto] = useState<UpdateUserDto | null>(null);
-  const [userEditStatus, setUserEditStatus] = useState<EditStatus>({ ok: true, message: null });
+  const [updateUserDto, setUpdateUserDto] = useState<UpdateUserDto | null>(
+    null
+  );
+  const [userEditStatus, setUserEditStatus] = useState<EditStatus>({
+    ok: true,
+    message: null,
+  });
 
   const [student, setStudent] = useState<Student | null>(null);
-  const [updateStudentDto, setUpdateStudentDto] = useState<UpdateStudentDto | null>(null);
+  const [updateStudentDto, setUpdateStudentDto] =
+    useState<UpdateStudentDto | null>(null);
   const [studentEditStatus, setStudentEditStatus] = useState<EditStatus>({
     ok: true,
     message: null,
   });
 
   const [company, setCompany] = useState<Company | null>(null);
-  const [updateCompanyDto, setUpdateCompanyDto] = useState<UpdateCompanySelfDto | null>(null);
+  const [updateCompanyDto, setUpdateCompanyDto] =
+    useState<UpdateCompanySelfDto | null>(null);
   const [companyEditStatus, setCompanyEditStatus] = useState<EditStatus>({
     ok: true,
     message: null,
@@ -146,6 +155,6 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     paddingVertical: 24,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
 });

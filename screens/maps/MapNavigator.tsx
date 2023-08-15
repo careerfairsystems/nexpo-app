@@ -1,4 +1,7 @@
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import * as React from "react";
 import MapScreen from "./MapScreen";
 import ZoomMapScreen from "./ZoomMapScreen";
@@ -16,10 +19,11 @@ const MapStack = createStackNavigator<MapStackParamList>();
 export function MapNavigator() {
   return (
     <MapStack.Navigator
-      screenOptions={{ 
+      screenOptions={{
         ...TransitionPresets.SlideFromRightIOS,
         animationEnabled: true,
-        gestureEnabled: true }}
+        gestureEnabled: true,
+      }}
     >
       <MapStack.Screen
         name="MapScreen"
@@ -29,7 +33,7 @@ export function MapNavigator() {
           headerTitle: "Maps",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,
@@ -49,7 +53,7 @@ export function MapNavigator() {
           headerTitle: "Maps",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,

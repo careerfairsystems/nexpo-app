@@ -10,12 +10,15 @@ import { ArkadText } from "components/StyledText";
 import { API } from "api/API";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "./AuthNavigator";
+import Colors from "constants/Colors";
 
 type ForgotPasswordScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "ForgotPasswordScreen">;
 };
 
-export default function ForgotPasswordScreen({ navigation }: ForgotPasswordScreenParams) {
+export default function ForgotPasswordScreen({
+  navigation,
+}: ForgotPasswordScreenParams) {
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -44,13 +47,17 @@ export default function ForgotPasswordScreen({ navigation }: ForgotPasswordScree
       style={{ flex: 1 }}
       contentContainerStyle={styles.container}
     >
-      <Image style={styles.logo} source={require("../../assets/images/arkad_logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/arkad_logo_inverted.png")}
+      />
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
           onChangeText={setEmail}
           onSubmitEditing={forgotPassword}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
         {loading ? (
           <ActivityIndicator />
@@ -59,7 +66,10 @@ export default function ForgotPasswordScreen({ navigation }: ForgotPasswordScree
             <ArkadText text="Submit" style={{}} />
           </ArkadButton>
         )}
-        <ArkadButton onPress={() => navigation.navigate("LoginScreen")} style={{}}>
+        <ArkadButton
+          onPress={() => navigation.navigate("LoginScreen")}
+          style={{}}
+        >
           <ArkadText text="Back" style={{}} />
         </ArkadButton>
       </View>

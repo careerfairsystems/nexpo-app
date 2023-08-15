@@ -1,4 +1,7 @@
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import * as React from "react";
 import EventListScreen from "./EventListScreen";
 //import QRScreen from './QRScreen';
@@ -20,10 +23,11 @@ const EventStack = createStackNavigator<EventStackParamlist>();
 export function EventsNavigator() {
   return (
     <EventStack.Navigator
-      screenOptions={{ 
+      screenOptions={{
         ...TransitionPresets.SlideFromRightIOS,
         animationEnabled: true,
-        gestureEnabled: true }}
+        gestureEnabled: true,
+      }}
     >
       <EventStack.Screen
         name="EventListScreen"
@@ -33,7 +37,7 @@ export function EventsNavigator() {
           headerTitle: "Events",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,
@@ -53,7 +57,7 @@ export function EventsNavigator() {
           headerTitle: "Events",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,

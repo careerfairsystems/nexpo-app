@@ -84,7 +84,7 @@ export default function AppLoader({ children }: Props) {
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor: Colors.arkadOrange,
+              backgroundColor: Colors.arkadNavy,
             },
           ]}
         >

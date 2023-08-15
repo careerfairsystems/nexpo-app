@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Image, ActivityIndicator, StyleSheet, Pressable, ScrollView } from "react-native";
+import {
+  Image,
+  ActivityIndicator,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 
 import { View } from "components/Themed";
 import { TextInput } from "components/TextInput";
@@ -8,10 +14,10 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
 
 import { API } from "api/API";
-import { AuthContext } from "components/AuthContext";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "./AuthNavigator";
 import Colors from "constants/Colors";
+import { AuthDispatchContext } from "components/AuthContextProvider";
 
 type LoginScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "LoginScreen">;
@@ -21,7 +27,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const authContext = React.useContext(AuthContext);
+  const setSignedIn = React.useContext(AuthDispatchContext);
 
   const login = async () => {
     // We get errors when unmounting for some reason, this might be a solution:
@@ -38,8 +44,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
     } else if (!success.ok) {
       alert("Login not successful");
     } else {
-      authContext.signIn();
-      window.location.reload();
+      setSignedIn(true);
     }
   };
 
@@ -50,19 +55,24 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
       style={{ flex: 1 }}
       contentContainerStyle={styles.container}
     >
-      <Image style={styles.logo} source={require("../../assets/images/arkad_logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/arkad_logo_inverted.png")}
+      />
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
           onChangeText={setEmail}
           onSubmitEditing={login}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
         <TextInput
           placeholder="Password"
           secureTextEntry
           onChangeText={setPassword}
           onSubmitEditing={login}
+          style={{ borderColor: Colors.white, color: Colors.white }}
         />
         {loading ? (
           <ActivityIndicator />
@@ -75,7 +85,10 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           style={styles.signUpContainer}
           onPress={() => navigation.navigate("SignUpScreen")}
         >
-          <ArkadText style={styles.signUpText} text={"Don't have an account? Sign up here!"} />
+          <ArkadText
+            style={styles.signUpText}
+            text={"Don't have an account? Sign up here!"}
+          />
         </Pressable>
         <Pressable
           style={styles.signUpContainer}
@@ -114,7 +127,7 @@ const styles = StyleSheet.create({
   signUpText: {
     textAlign: "center",
     textDecorationLine: "underline",
-    color: Colors.arkadNavy,
+    color: Colors.arkadTurkos,
   },
   loginButton: {
     width: "45%",

@@ -9,9 +9,18 @@ type EditProfileParams = {
   onPress: () => void;
 };
 
-export const EditProfileButton = ({ editingProfile, onPress }: EditProfileParams) => (
-  <ArkadButton onPress={onPress} style={editingProfile ? styles.editing : styles.buttonContainer1}>
-    <ArkadText text={editingProfile ? "Save" : "Edit profile"} style={styles.logoutText} />
+export const EditProfileButton = ({
+  editingProfile,
+  onPress,
+}: EditProfileParams) => (
+  <ArkadButton
+    onPress={onPress}
+    style={editingProfile ? styles.editing : styles.buttonContainer1}
+  >
+    <ArkadText
+      text={editingProfile ? "Save" : "Edit profile"}
+      style={styles.logoutText}
+    />
   </ArkadButton>
 );
 
@@ -47,7 +56,7 @@ const styles = StyleSheet.create({
     padding: "4%",
     marginBottom: "2%",
     width: "45%",
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.arkadTurkos,
   },
   editing: {
     alignSelf: "center",

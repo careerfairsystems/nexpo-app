@@ -18,7 +18,9 @@ export default function EditCompanyProfile({
   setUpdateCompanyDto,
   setEditStatus,
 }: EditCompanyProfileProps) {
-  const [description, setDescription] = React.useState<string | null>(company.description);
+  const [description, setDescription] = React.useState<string | null>(
+    company.description
+  );
   const [website, setWebsite] = React.useState<string | null>(company.website);
 
   React.useEffect(() => {
@@ -46,7 +48,16 @@ export default function EditCompanyProfile({
       <View style={styles.container}>
         <Text style={styles.nameLabel}>{company.name}</Text>
 
-        <Text>About us</Text>
+        <Text
+          style={{
+            color: Colors.white,
+            fontFamily: "main-font",
+            fontSize: 20,
+            paddingTop: 5,
+          }}
+        >
+          About us
+        </Text>
         <TextInput
           style={[styles.textInput, styles.descriptionInput]}
           multiline
@@ -55,7 +66,16 @@ export default function EditCompanyProfile({
           onChangeText={setDescription}
         />
 
-        <Text>Website</Text>
+        <Text
+          style={{
+            color: Colors.white,
+            fontFamily: "main-font",
+            fontSize: 20,
+            paddingTop: 5,
+          }}
+        >
+          Website
+        </Text>
         <TextInput
           style={styles.textInput}
           value={website ? website : ""}
@@ -77,11 +97,13 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 16,
     fontSize: 32,
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   textInput: {
     width: "80%",
     maxWidth: 400,
+    borderColor: Colors.white,
+    color: Colors.white,
   },
   descriptionInput: {
     height: 180,

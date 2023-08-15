@@ -20,7 +20,10 @@ type ResetPasswordScreenParams = {
   };
 };
 
-export default function ResetPasswordScreen({ navigation, route }: ResetPasswordScreenParams) {
+export default function ResetPasswordScreen({
+  navigation,
+  route,
+}: ResetPasswordScreenParams) {
   const { token } = route.params;
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
@@ -54,9 +57,16 @@ export default function ResetPasswordScreen({ navigation, route }: ResetPassword
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("../../assets/images/arkad_logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/arkad_logo_inverted.png")}
+      />
       <View style={styles.inputContainer}>
-        <TextInput placeholder="New password" secureTextEntry onChangeText={setPassword} />
+        <TextInput
+          placeholder="New password"
+          secureTextEntry
+          onChangeText={setPassword}
+        />
         <TextInput
           placeholder="Repeat password"
           secureTextEntry
