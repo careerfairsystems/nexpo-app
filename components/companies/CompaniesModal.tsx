@@ -61,27 +61,34 @@ export default function CompaniesModal({
     if (positionValue.length > 0) {
       filteredCompanies = filteredCompanies.filter((company) =>
         company.positions
-          ? company.positions.some((position) => positionValue.includes(position))
+          ? company.positions.some((position) =>
+              positionValue.includes(position)
+            )
           : false
       );
     }
     if (industryValue.length > 0) {
       filteredCompanies = filteredCompanies.filter((company) =>
         company.industries
-          ? company.industries.some((industry) => industryValue.includes(industry))
+          ? company.industries.some((industry) =>
+              industryValue.includes(industry)
+            )
           : false
       );
     }
     if (programmeValue.length > 0) {
       filteredCompanies = filteredCompanies.filter((company) =>
         company.desiredProgramme
-          ? company.desiredProgramme.some((programme) => programmeValue.includes(programme))
+          ? company.desiredProgramme.some((programme) =>
+              programmeValue.includes(programme)
+            )
           : false
       );
     }
     if (locationValue.length > 0) {
       filteredCompanies = filteredCompanies.filter(
-        (company) => locationValue.includes(companyLocations[company.id]) ?? false
+        (company) =>
+          locationValue.includes(companyLocations[company.id]) ?? false
       );
     }
     setFilteredCompanies(filteredCompanies);

@@ -1,5 +1,6 @@
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import * as React from "react";
+import { Image } from "react-native";
 import SSsListScreen from "./SSsListScreen";
 import SSsApplicationDetailsScreen from "./SSsApplicationDetailsScreen";
 import SSsSwitchScreen from "./SSsSwitchScreen";
@@ -40,6 +41,17 @@ export function SSsCRepNavigator({ route }: SSsCRepNavigatorParams) {
         options={{
           title: "Student Sessions List",
           headerTitle: "Student Sessions",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo_inverted.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
           ...HeaderStyles,
         }}
         initialParams={{ companyId }}
@@ -47,7 +59,7 @@ export function SSsCRepNavigator({ route }: SSsCRepNavigatorParams) {
       <SSsStack.Screen
         name="SSsSwitchScreen"
         component={SSsSwitchScreen}
-        options={{ title: "Studentsession", headerTitle: "Student Sessions", ...HeaderStyles }}
+        options={{ title: "Studentsession", headerTitle: "Student Sessions",  ...HeaderStyles }}
       />
       <SSsStack.Screen
         name="SSsApplicationDetailsScreen"

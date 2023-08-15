@@ -1,4 +1,7 @@
-import { TransitionPresets, createStackNavigator } from "@react-navigation/stack";
+import {
+  TransitionPresets,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import * as React from "react";
 import { HeaderStyles } from "components/HeaderStyles";
 import SSsCompaniesScreen from "./SSsCompaniesScreen";
@@ -20,10 +23,11 @@ const SSsStack = createStackNavigator<SSsStackParamlist>();
 export function SSsStudentNavigator() {
   return (
     <SSsStack.Navigator
-      screenOptions={{ 
+      screenOptions={{
         ...TransitionPresets.SlideFromRightIOS,
         animationEnabled: true,
-        gestureEnabled: true }}
+        gestureEnabled: true,
+      }}
     >
       <SSsStack.Screen
         name="SSsCompaniesScreen"
@@ -33,7 +37,7 @@ export function SSsStudentNavigator() {
           headerTitle: "Student Sessions",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,
@@ -53,7 +57,7 @@ export function SSsStudentNavigator() {
           headerTitle: "Student Sessions",
           headerRight: () => (
             <Image
-              source={require("../../assets/images/arkad_logo.png")}
+              source={require("../../assets/images/arkad_logo_inverted.png")}
               style={{
                 marginRight: 10,
                 width: 60,
@@ -71,6 +75,17 @@ export function SSsStudentNavigator() {
         options={{
           title: "Studentsession",
           headerTitle: "Student Sessions",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo_inverted.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
           ...HeaderStyles,
         }}
       />

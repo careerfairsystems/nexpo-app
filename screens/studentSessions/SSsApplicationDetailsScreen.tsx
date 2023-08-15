@@ -104,13 +104,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     width: "50%",
-    backgroundColor: Colors.arkadNavy,
-    borderRadius: 5,
+    backgroundColor: Colors.lightGreen,
+    borderRadius: 14,
   },
   container: {
     display: "flex",
     paddingVertical: 24,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
   header: {
     paddingTop: "10%",
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "left",
     fontSize: 24,
-    color: Colors.arkadNavy,
+    color: Colors.arkadOrange,
   },
   eventList: {
     paddingTop: "2%",

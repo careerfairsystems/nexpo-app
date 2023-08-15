@@ -21,7 +21,10 @@ type FinalizeSignUpScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "FinalizeSignUpScreen">;
 };
 
-export default function FinalizeSignUpScreen({ route, navigation }: FinalizeSignUpScreenParams) {
+export default function FinalizeSignUpScreen({
+  route,
+  navigation,
+}: FinalizeSignUpScreenParams) {
   const token = decodeURIComponent(route.params.token);
 
   const [password, setPassword] = useState<string>("");
@@ -45,7 +48,9 @@ export default function FinalizeSignUpScreen({ route, navigation }: FinalizeSign
     setLoading(false);
 
     if (success) {
-      alert("Account is now created fully. You will now be redirected to the signin page");
+      alert(
+        "Account is now created fully. You will now be redirected to the signin page"
+      );
       navigation.navigate("LoginScreen");
     } else {
       alert("Something went wrong, maybe the token expired");
@@ -54,9 +59,16 @@ export default function FinalizeSignUpScreen({ route, navigation }: FinalizeSign
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("../../assets/images/arkad_logo.png")} />
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/arkad_logo_inverted.png")}
+      />
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Password" secureTextEntry onChangeText={setPassword} />
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          onChangeText={setPassword}
+        />
         <TextInput
           placeholder="Confirm password"
           secureTextEntry
@@ -65,7 +77,10 @@ export default function FinalizeSignUpScreen({ route, navigation }: FinalizeSign
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <ArkadButton onPress={finalizeSignUp} style={{ width: "45%", alignSelf: "center" }}>
+          <ArkadButton
+            onPress={finalizeSignUp}
+            style={{ width: "45%", alignSelf: "center" }}
+          >
             <ArkadText text="Save" style={{}} />
           </ArkadButton>
         )}

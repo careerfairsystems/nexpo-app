@@ -7,13 +7,22 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 import Colors from "constants/Colors";
 
 import { API } from "api/API";
 import { bookedEvent, Event } from "api/Events";
-import { CreateTicketDto, getTicketForEvent, removeTicket, Ticket } from "api/Tickets";
+import {
+  CreateTicketDto,
+  getTicketForEvent,
+  removeTicket,
+  Ticket,
+} from "api/Tickets";
 
 import { View } from "components/Themed";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
@@ -89,7 +98,9 @@ export default function EventDetailsScreen(id: number) {
 
     const success = await removeTicket(ticket.id);
     if (success) {
-      alert("Successfully de-registered from " + event?.name + " " + event?.date);
+      alert(
+        "Successfully de-registered from " + event?.name + " " + event?.date
+      );
       getEvent();
     } else {
       alert("Could not de-register from " + event?.name + " " + event?.date);
@@ -116,31 +127,35 @@ export default function EventDetailsScreen(id: number) {
         <View style={styles.headerContainer}>
           <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
             <View style={styles.leftItem}>
-              <Ionicons name="calendar" size={16} color="black" />
+              <Ionicons name="calendar" size={16} color="white" />
               <ArkadText
                 text={API.events.formatTime(event.date, event.start, event.end)}
                 style={styles.headerText}
               />
             </View>
             <View style={styles.leftItem}>
-              <Ionicons name="map" size={16} color="black" />
+              <Ionicons name="map" size={16} color="white" />
               <ArkadText text={event.location} style={styles.headerText} />
             </View>
             <View style={styles.leftItem}>
-              <MaterialCommunityIcons name="microphone" size={16} color="black" />
+              <MaterialCommunityIcons
+                name="microphone"
+                size={16}
+                color="white"
+              />
               <ArkadText text={event.host} style={styles.headerText} />
             </View>
           </View>
           <View style={[styles.subHeaderContainer, { flex: 0.3 }]}>
             <View style={styles.rightItem}>
-              <Ionicons name="people" size={16} color="black" />
+              <Ionicons name="people" size={16} color="white" />
               <ArkadText
                 text={event.ticketCount + "/" + event.capacity}
                 style={styles.headerText}
               />
             </View>
             <View style={styles.rightItem}>
-              <MaterialIcons name="language" size={16} color="black" />
+              <MaterialIcons name="language" size={16} color="white" />
               <ArkadText text={event.language} style={styles.headerText} />
             </View>
           </View>
@@ -153,26 +168,35 @@ export default function EventDetailsScreen(id: number) {
           <>
             {ticket.isConsumed ? (
               <NoButton text="Ticket consumed!" style={styles.consumedText} />
-            ) : (
-              (ticket.event.type !== 1 && ticket.event.type !== 2) ? (
-                <View>
-             <ArkadButton onPress={() => deregister()} style={styles.bookedButton}>
-                <ArkadText text="De-register from event" style={styles.title} />
-              </ArkadButton>
+            ) : ticket.event.type !== 1 && ticket.event.type !== 2 ? (
+              <View>
+                <ArkadButton
+                  onPress={() => deregister()}
+                  style={styles.bookedButton}
+                >
+                  <ArkadText
+                    text="De-register from event"
+                    style={styles.title}
+                  />
+                </ArkadButton>
 
-            <ArkadText
-            text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
-            style={{ color: Colors.arkadNavy }}
-          />
-          </View>
-              ) : null
-            )}
-            
+                <ArkadText
+                  text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
+                  style={{ color: Colors.arkadNavy }}
+                />
+              </View>
+            ) : null}
+
             <ArkadText text="Your ticket" style={styles.ticketTitle} />
             <Pressable
               style={[
                 styles.qrContainer,
-                { backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white },
+                {
+                  backgroundColor: Colors.white,
+                  borderColor: Colors.arkadTurkos,
+                  borderWidth: 4,
+                  borderRadius: 14,
+                },
               ]}
               onPress={() => setModalVisible(true)}
             >
@@ -214,10 +238,19 @@ export default function EventDetailsScreen(id: number) {
           <View
             style={[
               styles.qrModalContainer,
-              { backgroundColor: ticket?.isConsumed ? Colors.darkRed : Colors.white },
+              {
+                backgroundColor: ticket?.isConsumed
+                  ? Colors.darkRed
+                  : Colors.white,
+              },
             ]}
           >
-            {ticket && <QRCode size={Dimensions.get("window").width * 0.75} value={ticket.code} />}
+            {ticket && (
+              <QRCode
+                size={Dimensions.get("window").width * 0.75}
+                value={ticket.code}
+              />
+            )}
           </View>
           <ArkadButton onPress={() => setModalVisible(!modalVisible)}>
             <ArkadText text={"Close"} />
@@ -233,14 +266,17 @@ const styles = StyleSheet.create({
     color: Colors.arkadNavy,
     fontSize: 26,
     marginBottom: 10,
-    paddingTop: "2rem"
+    paddingTop: "2rem",
   },
   scrollView: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
   consumedText: {
     alignSelf: "center",
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.darkRed,
+    borderRadius: 14,
+    borderWidth: 4,
+    borderColor: Colors.darkRed,
     marginTop: 40,
     marginBottom: 20,
     fontSize: 20,
@@ -254,25 +290,34 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
+    borderColor: Colors.white,
+    borderWidth: 4,
+    borderRadius: 14,
   },
   titleContainer: {
     width: "90%",
     marginTop: 20,
     height: 100,
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.arkadTurkos,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     justifyContent: "center",
+    borderColor: Colors.arkadTurkos,
+    borderWidth: 4,
+    borderRadius: 14,
   },
   title: {
     justifyContent: "center",
     fontSize: 24,
+    color: Colors.white,
   },
   headerContainer: {
     width: "90%",
     marginTop: 24,
     flexDirection: "row",
     alignContent: "center",
+    backgroundColor: Colors.arkadNavy,
   },
   subHeaderContainer: {
     flex: 1,
@@ -292,7 +337,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 16,
     paddingHorizontal: 8,
     textAlign: "left",
@@ -302,9 +347,9 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   description: {
-    color: Colors.black,
     fontSize: 18,
-    textAlign: "left"
+    textAlign: "left",
+    color: Colors.white,
   },
   bookButton: {
     width: "90%",
@@ -321,12 +366,12 @@ const styles = StyleSheet.create({
   qrHeader: {
     marginTop: 24,
     fontSize: 30,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     marginBottom: 8,
   },
   qrContainer: {
     borderWidth: 3,
-    borderColor: Colors.lightGray,
+    borderColor: Colors.arkadTurkos,
     borderRadius: 5,
     padding: 16,
     marginBottom: 60,
@@ -334,8 +379,7 @@ const styles = StyleSheet.create({
   qrModalContainer: {
     borderRadius: 5,
     padding: 16,
-    backgroundColor: Colors.white,
-
+    backgroundColor: Colors.arkadNavy,
   },
   modalOverlay: {
     flex: 1,

@@ -20,9 +20,19 @@ export default function MapScreen({ navigation }: mapNavigation) {
   }
   return (
     <View style={styles.container}>
-      <ImageBackground resizeMode="contain" source={imageSource} style={styles.image}>
-        <ArkadButton style={styles.karbutton} onPress={() => openMap(KarhusetMap)} />
-        <ArkadButton style={styles.studiebutton} onPress={() => openMap(SC1Map)} />
+      <ImageBackground
+        resizeMode="contain"
+        source={imageSource}
+        style={styles.image}
+      >
+        <ArkadButton
+          style={styles.karbutton}
+          onPress={() => openMap(KarhusetMap)}
+        />
+        <ArkadButton
+          style={styles.studiebutton}
+          onPress={() => openMap(SC1Map)}
+        />
         <ArkadButton style={styles.ebutton} onPress={() => openMap(EMap)} />
         <ArkadButton style={styles.etext} onPress={() => openMap(EMap)} />
       </ImageBackground>
@@ -40,6 +50,7 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
 
   image: {

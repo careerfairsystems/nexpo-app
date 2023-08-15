@@ -12,7 +12,11 @@ type ListedEventItemProps = {
   onPress: () => void;
 };
 
-export const EventListItem = ({ event, itemStyle, onPress }: ListedEventItemProps) => (
+export const EventListItem = ({
+  event,
+  itemStyle,
+  onPress,
+}: ListedEventItemProps) => (
   <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
     <View style={styles.headerContainer}>
       <ArkadText style={styles.eventName} text={event.name} />
@@ -32,7 +36,10 @@ export const EventListItem = ({ event, itemStyle, onPress }: ListedEventItemProp
             : { backgroundColor: Colors.arkadTurkos },
         ]}
       >
-        <ArkadText style={styles.eventBookedText} text={event.ticketCount + "/" + event.capacity} />
+        <ArkadText
+          style={styles.eventBookedText}
+          text={event.ticketCount + "/" + event.capacity}
+        />
       </View>
     </View>
   </Pressable>
@@ -40,6 +47,7 @@ export const EventListItem = ({ event, itemStyle, onPress }: ListedEventItemProp
 
 const styles = StyleSheet.create({
   container: {
+    borderColor: Colors.white,
     flex: 1,
     justifyContent: "flex-start",
     marginTop: 10,
@@ -47,6 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
     padding: 16,
     borderRadius: 16,
+    borderWidth: 4,
   },
   headerContainer: {
     flex: 1,

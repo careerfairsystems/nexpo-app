@@ -7,7 +7,7 @@ import Colors from "constants/Colors";
 function ProfileTabViewer(props: {
   profile: any;
   contacts: any;
-  messages: any;
+  messages?: any;
   admin?: any;
 }) {
   const layout = useWindowDimensions();
@@ -21,10 +21,15 @@ function ProfileTabViewer(props: {
         { key: "third", title: "Messages" },
         { key: "fourth", title: "Admin" },
       ])
-    : React.useState([
+    : props.messages
+    ? React.useState([
         { key: "first", title: "Profile" },
         { key: "second", title: "Contact List" },
         { key: "third", title: "Messages" },
+      ])
+    : React.useState([
+        { key: "first", title: "Profile" },
+        { key: "second", title: "Contact List" },
       ]);
 
   const renderScene = props.admin
@@ -34,10 +39,15 @@ function ProfileTabViewer(props: {
         third: props.messages,
         fourth: props.admin,
       })
-    : SceneMap({
+    : props.messages
+    ? SceneMap({
         first: props.profile,
         second: props.contacts,
         third: props.messages,
+      })
+    : SceneMap({
+        first: props.profile,
+        second: props.contacts,
       });
 
   useEffect(() => {});
@@ -45,12 +55,11 @@ function ProfileTabViewer(props: {
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
-      indicatorStyle={{ backgroundColor: Colors.arkadOrange }}
-      style={{ backgroundColor: Colors.arkadNavy }}
+      indicatorStyle={{ backgroundColor: Colors.arkadTurkos }}
+      style={{ backgroundColor: Colors.arkadOrange, color: Colors.white }}
       labelStyle={{
-        fontWeight: "bold",
-        fontFamily: "main-font",
-        fontSize: 16,
+        fontFamily: "main-font-bold",
+        fontSize: 20,
       }}
       scrollEnabled={true}
     />

@@ -13,6 +13,7 @@ import { Role } from "api/Role";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import Toast from "react-native-toast-message";
+import Colors from "constants/Colors";
 
 type EventsNavigation = {
   navigation: StackNavigationProp<EventStackParamlist, "EventListScreen">;
@@ -104,5 +105,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: Colors.arkadNavy,
   },
 });

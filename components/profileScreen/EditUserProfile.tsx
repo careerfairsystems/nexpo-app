@@ -179,15 +179,24 @@ export default function EditUserProfile({
           )}
         </ArkadButton>
         {hasProfilePicture && (
-          <ArkadButton onPress={removeProfilePicture}>
+          <ArkadButton onPress={removeProfilePicture} style={styles.hasCv}>
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
         )}
-        <ArkadButton onPress={setCV}>
+        <ArkadButton
+          onPress={setCV}
+          style={{ backgroundColor: Colors.arkadTurkos }}
+        >
           {hasCv ? (
-            <ArkadText text="Update CV" />
+            <ArkadText
+              text="Update CV"
+              style={{ backgroundColor: Colors.arkadTurkos }}
+            />
           ) : (
-            <ArkadText text="Upload CV" />
+            <ArkadText
+              text="Upload CV"
+              style={{ backgroundColor: Colors.arkadTurkos }}
+            />
           )}
         </ArkadButton>
         {hasCv && (
@@ -196,12 +205,15 @@ export default function EditUserProfile({
           </ArkadButton>
         )}
         {hasCv && (
-          <ArkadButton onPress={downloadCV}>
+          <ArkadButton
+            onPress={downloadCV}
+            style={{ backgroundColor: Colors.arkadTurkos }}
+          >
             <ArkadText text="Download CV" />
           </ArkadButton>
         )}
 
-        <Text>First name</Text>
+        <Text style={styles.inputLabel}>First name</Text>
         <TextInput
           style={styles.textInput}
           value={firstName ? firstName : ""}
@@ -209,7 +221,7 @@ export default function EditUserProfile({
           onChangeText={setFirstName}
         />
 
-        <Text>Last name</Text>
+        <Text style={styles.inputLabel}>Last name</Text>
         <TextInput
           style={styles.textInput}
           value={lastName ? lastName : ""}
@@ -217,7 +229,7 @@ export default function EditUserProfile({
           onChangeText={setLastName}
         />
 
-        <Text>Phone number</Text>
+        <Text style={styles.inputLabel}>Phone number</Text>
         <TextInput
           style={styles.textInput}
           value={phoneNr ? phoneNr : ""}
@@ -225,15 +237,15 @@ export default function EditUserProfile({
           onChangeText={setPhoneNr}
         />
 
-        <Text>Food preferences</Text>
+        <Text style={styles.inputLabel}>Food preferences</Text>
         <TextInput
           style={styles.textInput}
           value={foodPreferences ? foodPreferences : ""}
-          placeholder="Vegetarian.."
+          placeholder="Vegetarian"
           onChangeText={setFoodPreferences}
         />
 
-        <Text>Password</Text>
+        <Text style={styles.inputLabel}>Password</Text>
         <TextInput
           style={styles.textInput}
           secureTextEntry
@@ -268,5 +280,14 @@ const styles = StyleSheet.create({
   textInput: {
     width: "80%",
     maxWidth: 400,
+    borderColor: Colors.white,
+    color: Colors.white,
+    placeholderTextColor: Colors.lightGray,
+  },
+  inputLabel: {
+    color: Colors.white,
+    paddingTop: 5,
+    fontFamily: "main-font",
+    fontSize: 20,
   },
 });

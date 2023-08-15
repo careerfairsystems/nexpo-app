@@ -18,7 +18,9 @@ export default function CompanyProfile({ company }: CompanyProfileProps) {
         <View style={styles.logoContainer}>
           <Image
             source={
-              company.logoUrl ? { uri: company.logoUrl } : require("../../assets/images/icon.png")
+              company.logoUrl
+                ? { uri: company.logoUrl }
+                : require("../../assets/images/icon.png")
             }
             defaultSource={require("../../assets/images/icon.png")}
             style={styles.logo}
@@ -47,7 +49,9 @@ export default function CompanyProfile({ company }: CompanyProfileProps) {
         </Text>
 
         <ArkadText text="Host Name" style={styles.header} />
-        <Text style={styles.contactInfoText}>{company.hostName ? company.hostName : "\u2013"}</Text>
+        <Text style={styles.contactInfoText}>
+          {company.hostName ? company.hostName : "\u2013"}
+        </Text>
         <ArkadText text="Host Email" style={styles.header} />
         <Text
           style={styles.contactInfoText}
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     fontSize: 32,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   contactInfoContainer: {
     display: "flex",
@@ -108,12 +112,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 8,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   header: {
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
-    fontSize: 14,
+    color: Colors.white,
+    fontSize: 22,
     marginTop: 12,
     marginBottom: 4,
   },
