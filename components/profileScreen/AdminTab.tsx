@@ -1,37 +1,28 @@
-import Colors from "constants/Colors";
 import React from "react";
+import Colors from "constants/Colors";
 import { useState } from "react";
-import { TextInput, View, StyleSheet, Modal, Pressable } from "react-native";
+import { TextInput, View, StyleSheet, Modal, Pressable, ScrollView } from "react-native";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
-import { Ionicons } from "@expo/vector-icons";
 import { Message, sendMessage } from "api/Messages";
-
-const comittees = [
-  "Economics & Sustainability",
-  "Business Relations",
-  "Marketing & Public Relations",
-  "Event & Recruitment",
-  "Fair & Logistics",
-  "Information Technology",
-];
+import { COMMITTEES, ROLES } from "./DroppdownItems";
+import { Committee } from "api/Committee";
+import { Role } from "api/Role";
+import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
 
 export default function AdminTab() {
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [checkboxState, setCheckBoxState] = useState(
-    new Array(comittees.length).fill(false)
-  );
+	const [title, setTitle] = useState("");
+	const [text, setText] = useState("");
 
-  const handleCheckState = (position: number) => {
-    setCheckBoxState(
-      checkboxState.map((item, index) => (index === position ? !item : item))
-    );
-  };
-  const selectAll = () => {
-    setCheckBoxState(checkboxState.map(() => true));
-  };
+  const [committees, setCommittees] = useState(COMMITTEES);
+  const [committeeValue, setCommitteeValue] = useState<Committee[]>([]);
+	const [committeeModal, setCommitteeModal] = useState(false);
+
+  const [roles, setRoles] = useState(ROLES);
+  const [roleValue, setRoleValue] = useState<Role[]>([]);
+  const [roleModal, setRoleModal] = useState(false);
+
+  const [userName, setUserName] = useState("");
 
   const send = () => {
     const today = new Date();
@@ -58,10 +49,27 @@ export default function AdminTab() {
     console.log(text);
   };
 
-  return (
-    <View style={styles.container}>
-      <SelectComitteeModal />
-      <TextInput
+  const changeUserRole = () => {
+    console.log("Changing user role: " + userName);
+  };
+
+	return (
+		<ScrollView showsVerticalScrollIndicator={false} style={{flex: 1, backgroundColor: Colors.arkadNavy}} contentContainerStyle={{alignItems: "center"}}>
+      <ArkadText text="Send mass message" style={{fontSize: 40, color: Colors.white, marginTop: 10, marginBottom: 10}} />
+      <View style={styles.centeredViewCommittee}>
+        <CategoriesDropdown
+          title="Select committee"
+          items={committees}
+          setOpen={setCommitteeModal}
+          setValue={setCommitteeValue}
+          open={committeeModal}
+          value={committeeValue}
+          setItems={setCommittees}
+          categories={false}
+          single={false}
+        />
+      </View>
+			<TextInput
         style={styles.titleInput}
         onChangeText={setTitle}
         value={title}
@@ -69,144 +77,68 @@ export default function AdminTab() {
         placeholderTextColor={Colors.lightGray}
         multiline={false}
         textAlign="center"
-      />
-      <TextInput
-        style={styles.textInput}
-        onChangeText={setText}
-        value={text}
-        placeholder={"Message to send..."}
-        placeholderTextColor={Colors.lightGray}
-        multiline={true}
-        textAlignVertical="top"
-        numberOfLines={10}
-      />
-      <ArkadButton
-        onPress={() => setModalVisible(true)}
-        style={styles.buttonContainer2}
-      >
-        <ArkadText text="Select committee" style={styles.buttonText} />
-      </ArkadButton>
+			/>
+			<TextInput
+				style={styles.textInput}
+				onChangeText={setText}
+				value={text}
+				placeholder={"Message to send..."}
+				placeholderTextColor={Colors.lightGray}
+				multiline={true}
+				textAlignVertical="top"
+				numberOfLines={10}
+			/>
       <ArkadButton onPress={send} style={styles.buttonContainer1}>
         <ArkadText text="Send" style={styles.buttonText} />
       </ArkadButton>
-    </View>
-  );
 
-  function SelectComitteeModal() {
-    return (
-      <Modal
-        animationType="none"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.modalHeader}>
-          <ArkadButton style={styles.selectAll} onPress={selectAll}>
-            <ArkadText text={"Select all"} />
-          </ArkadButton>
-          <View style={styles.centeredView}>
-            {comittees.map((item, index) => (
-              <Checkbox
-                key={item}
-                checked={checkboxState[index]}
-                onChange={() => handleCheckState(index)}
-                text={item}
-              />
-            ))}
-          </View>
-          <ArkadButton
-            style={styles.buttonContainer1}
-            onPress={() => setModalVisible(false)}
-          >
-            <ArkadText text={"Save"} />
-          </ArkadButton>
-        </View>
-      </Modal>
-    );
-  }
+      <ArkadText text="Change user role" style={{fontSize: 40, color: "white", marginTop: "10%", marginBottom: 12,}} />
+      <View style={styles.centeredViewRoles}>
+        <CategoriesDropdown
+          title="Change role to..."
+          items={roles}
+          setOpen={setRoleModal}
+          setValue={setRoleValue}
+          open={roleModal}
+          value={roleValue}
+          setItems={setRoles}
+          categories={false}
+          single={true}
+        />
+      </View>
+      <TextInput
+        style={styles.userNameInput}
+        onChangeText={setUserName}
+        value={userName}
+        placeholder={"Username..."}
+        placeholderTextColor={Colors.lightGray}
+        multiline={false}
+        textAlign="left"
+      />
+      <ArkadButton onPress={changeUserRole} style={styles.buttonContainer1}>
+        <ArkadText text="Change" style={styles.buttonText} />
+      </ArkadButton>
+      
+		</ScrollView>
+	);
 }
 
-type CheckboxProps = { checked: boolean; onChange: () => void; text: string };
-
-const Checkbox = ({ checked, onChange, text }: CheckboxProps) => (
-  <Pressable onPress={onChange} style={styles.checkboxContainer}>
-    <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
-      {checked && (
-        <Ionicons name="checkmark" size={30} style={styles.checkmark} />
-      )}
-    </View>
-    <ArkadText style={styles.checkboxText} text={text} />
-  </Pressable>
-);
-
 const styles = StyleSheet.create({
-  modalHeader: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Colors.arkadNavy,
-  },
-  selectAll: {
-    alignSelf: "flex-start",
-    marginLeft: 20,
-    marginBottom: 10,
-    backgroundColor: Colors.arkadTurkos,
-  },
-  checkboxBase: {
-    width: 24,
-    height: 24,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: Colors.arkadTurkos,
-    backgroundColor: "transparent",
-    marginLeft: 12,
-    marginBottom: 12,
-    color: Colors.white,
-  },
-  checkboxText: {
-    fontSize: 25,
-    color: Colors.white,
-    marginLeft: 12,
-    marginBottom: 10,
-  },
-  checkboxChecked: {
-    backgroundColor: Colors.arkadNavy,
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    color: Colors.white,
-  },
-  checkmark: {
-    color: Colors.white,
-    alignSelf: "center",
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: Colors.arkadNavy,
-  },
-  textInput: {
-    height: "60",
-    margin: 12,
-    borderColor: Colors.white,
-    color: Colors.white,
-    borderRadius: 7,
-    borderWidth: 2,
-    fontSize: 20,
-    fontFamily: "main-font-bold",
-    padding: 10,
-    width: "80%",
-    backgroundColor: Colors.arkadNavy,
-  },
+	textInput: {
+		height: "60",
+		margin: 0,
+		borderColor: Colors.white,
+		color: Colors.white,
+		borderRadius: 7,
+		borderWidth: 2,
+		fontSize: 20,
+		fontFamily: "main-font-bold",
+		padding: 10,
+		width: "90%",
+    backgroundColor: Colors.arkadNavy
+	},
   titleInput: {
     height: "20",
-    marginTop: "10%",
     borderColor: Colors.white,
     color: Colors.white,
     borderRadius: 7,
@@ -214,38 +146,53 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "main-font-bold",
     padding: 10,
-    width: "80%",
-    backgroundColor: Colors.arkadNavy,
+    margin: 0,
+    marginBottom: 12,
+    width: "90%",
+    backgroundColor: Colors.arkadNavy
   },
-  buttonText: {
-    padding: "1%",
-    alignItems: "center",
+  userNameInput: {
+    height: "20",
+    margin: 0,
+    borderColor: Colors.white,
+    color: Colors.white,
+    borderRadius: 7,
+    borderWidth: 2,
+    fontSize: 20,
+    fontFamily: "main-font-bold",
+    padding: 10,
+    width: "40%",
   },
-  buttonContainer1: {
-    alignSelf: "center",
-    padding: "4%",
-    marginBottom: "4%",
-    width: "45%",
-    backgroundColor: Colors.arkadOrange,
-  },
-  buttonContainer2: {
+	buttonText: {
+		padding: "1%",
+		alignItems: "center",
+    fontSize: 18,
+	},
+	buttonContainer1: {
     alignSelf: "center",
     padding: "4%",
     marginBottom: "2%",
     width: "45%",
-    backgroundColor: Colors.arkadTurkos,
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "transparent",
-    color: Colors.white,
+	centeredViewCommittee: {
+    justifyContent: "flex-start",
+    borderWidth: 0,
+    borderColor: Colors.lightGray,
+    borderRadius: 15,
+    padding: 0,
+    margin: 0,
+    marginBottom: 12,
+    alignItems: "center",
+    width: "90%",
   },
-  checkboxView: {
-    fontSize: 40,
-    justifyContent: "center",
-    textAlign: "right",
-    fontFamily: "main-font-bold",
-    color: Colors.white,
+	centeredViewRoles: {
+    justifyContent: "flex-start",
+    borderWidth: 0,
+    borderColor: Colors.lightGray,
+    borderRadius: 15,
+    padding: 0,
+    margin: 0,
+    marginBottom: 12,
+    width: "40%",
   },
 });
