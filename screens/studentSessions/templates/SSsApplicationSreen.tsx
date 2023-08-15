@@ -92,17 +92,17 @@ const styles = StyleSheet.create({
   smallHeader: {
     fontSize: 18,
     fontWeight: "bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   companyMotivation: {
     fontSize: 20,
     textAlign: "center",
     margin: 10,
-    color: Colors.arkadNavy,
+    color: Colors.white,
     fontFamily: "main-font",
   },
   scrollView: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadNavy,
   },
   container: {
     flex: 1,
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
   input: {
     textAlign: "left",
     textAlignVertical: "top",
-    borderColor: Colors.arkadNavy,
+    borderColor: Colors.arkadOrange,
+    backgroundColor: Colors.white,
     borderWidth: 3,
     color: Colors.arkadNavy,
     padding: 10,
