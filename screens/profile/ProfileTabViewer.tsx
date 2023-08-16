@@ -5,32 +5,41 @@ import { StyleSheet } from "react-native";
 import Colors from "constants/Colors";
 
 function ProfileTabViewer(props: {
-  profile: any;
-  contacts: any;
+  profile?: any;
+  contacts?: any;
   messages?: any;
   admin?: any;
+  question?: any;
 }) {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
 
-  const [routes] = props.admin
+  const [routes] = props.admin // Admin
     ? React.useState([
         { key: "first", title: "Profile" },
         { key: "second", title: "Contact List" },
         { key: "third", title: "Messages" },
         { key: "fourth", title: "Admin" },
+        { key: "fifth", title: "Questions" }
       ])
-    : props.messages
+    : props.messages // Volunteer
     ? React.useState([
         { key: "first", title: "Profile" },
         { key: "second", title: "Contact List" },
         { key: "third", title: "Messages" },
+        { key: "fourth", title: "Questions" }
       ])
-    : React.useState([
+    : Object.keys(props).length === 2 // Student
+    ? React.useState([
         { key: "first", title: "Profile" },
-        { key: "second", title: "Contact List" },
-      ]);
+        { key: "second", title: "Questions" },
+      ])
+    : React.useState([ // Company representative
+      { key: "first", title: "Profile" },
+      { key: "second", title: "Contact List" },
+      { key: "third", title: "Questions" }
+    ]);
 
   const renderScene = props.admin
     ? SceneMap({
@@ -38,17 +47,25 @@ function ProfileTabViewer(props: {
         second: props.contacts,
         third: props.messages,
         fourth: props.admin,
+        fifth: props.question
       })
     : props.messages
     ? SceneMap({
         first: props.profile,
         second: props.contacts,
         third: props.messages,
+        fourth: props.question
+      })
+    : Object.keys(props).length === 2 
+    ? SceneMap({
+        first: props.profile,
+        second: props.question
       })
     : SceneMap({
-        first: props.profile,
-        second: props.contacts,
-      });
+      first: props.profile,
+      second: props.contacts,
+      third: props.question
+    });
 
   useEffect(() => {});
 
@@ -64,6 +81,7 @@ function ProfileTabViewer(props: {
       scrollEnabled={true}
     />
   );
+
 
   return (
     <TabView

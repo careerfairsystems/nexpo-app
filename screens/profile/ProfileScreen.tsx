@@ -28,6 +28,7 @@ import ProfileTabViewer from "./ProfileTabViewer";
 import Contacts from "components/profileScreen/ContactsPG";
 import AdminTab from "components/profileScreen/AdminTab";
 import MessagesTab from "components/profileScreen/MessagesTab";
+import QuestionTab from "components/profileScreen/QuestionTab";
 import { AuthDispatchContext } from "components/AuthContextProvider";
 
 export type ProfileScreenParams = {
@@ -129,6 +130,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             contacts={Contacts}
             messages={MessagesTab}
             admin={AdminTab}
+            question={QuestionTab}
           />
         )}
         {user.role === Role.Volunteer && (
@@ -136,12 +138,13 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             profile={userProfile}
             contacts={Contacts}
             messages={MessagesTab}
+            question={QuestionTab}
           />
         )}
         {user.role === Role.CompanyRepresentative && (
-          <ProfileTabViewer profile={userProfile} contacts={Contacts} />
+          <ProfileTabViewer profile={userProfile} contacts={Contacts} question={QuestionTab} />
         )}
-        {user.role === Role.Student && userProfile()}
+        {user.role === Role.Student && (<ProfileTabViewer profile={userProfile} question={QuestionTab} />)}
       </>
     );
   }
