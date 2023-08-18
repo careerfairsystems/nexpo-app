@@ -64,7 +64,6 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
 
   function switchQRMode() {
     setQRMode(!QRMode);
-    console.log(QRMode)
   }
 
   const openEventDetails = (id: number) => {
