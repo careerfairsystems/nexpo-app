@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import Colors from "constants/Colors";
 import { ScrollView, StyleSheet, TextInput, Linking } from "react-native";
-import { ArkadText } from "components/StyledText";;
+import { ArkadText } from "components/StyledText";
 import { ArkadButton } from "components/Buttons";
+import { getMe } from "api/Users";
 
 export default function QuestionTab() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-
-  const sendEmail = () => {
+  
+  const sendEmail = async () => {
+    const user = await getMe();
     const recipient = ['plarkad+29zvgxoon7cl0wrxm5tb@boards.trello.com']; // List of recipient email addresses
     const subject = title;
-    const body = text;
+    
+    const sender = "From: " + user.email;
+    const body = "Please do not remove the From and Message tags!\n\n" + sender + "\Message: " + text;
 
     const emailUrl = `mailto:${recipient}?subject=${encodeURIComponent(
         subject
