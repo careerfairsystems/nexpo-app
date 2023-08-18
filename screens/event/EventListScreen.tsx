@@ -1,13 +1,14 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 
-import { View } from "components/Themed";
+import { Text, View } from "components/Themed";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { API } from "api/API";
 import { Event } from "api/Events";
 import { EventList } from "components/eventList/EventList";
 import { EventStackParamlist } from "./EventsNavigator";
 import { UpcomingButton } from "components/eventList/UpcomingButton";
+import { AdministratorButton } from "components/eventList/AdministratorButton";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { Role } from "api/Role";
 import { useFocusEffect } from "@react-navigation/native";
@@ -28,6 +29,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     null
   );
   const [showAllEvents, setShowAllEvents] = React.useState<boolean>(false);
+  const [QRMode, setQRMode] = React.useState<boolean>(true);
 
   const getEvents = async () => {
     setLoading(true);
@@ -60,6 +62,11 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     setShowAllEvents(!showAllEvents);
   }
 
+  function switchQRMode() {
+    setQRMode(!QRMode);
+    console.log(QRMode)
+  }
+
   const openEventDetails = (id: number) => {
     if (role === null) {
       Toast.show({
@@ -68,7 +75,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
       });
       return;
     }
-    if (role === Role.Administrator) {
+    if (role === Role.Administrator && QRMode) {
       navigation.navigate("EventSwitchScreen", {
         id: id,
         screen: "participatians",
@@ -92,6 +99,8 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     <View style={styles.container}>
       <View style={styles.container}>
         <UpcomingButton showAllEvents={showAllEvents} onPress={switchEvents} />
+        {/* Admin button for QR Mode */}
+        <AdministratorButton QRMode={QRMode} switchQRMode={switchQRMode}/>
         <EventList
           events={showAllEvents ? events : upcomingEvents}
           onPress={openEventDetails}
