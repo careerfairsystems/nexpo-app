@@ -109,7 +109,7 @@ export default function CompaniesModal({
           setItems={setProgrammes}
           filterCompanies={filterCompanies}
           onChangeValue={setSetFilteredCompanies}
-          categories={true}
+          categories={false}
         />
       </View>
       <View style={styles.modalView}>
