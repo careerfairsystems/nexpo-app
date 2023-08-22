@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
     desc: {
         padding: 10,
-        fontFamily: "main-font"
+        fontFamily: "main-font",
     },
     icon: {
         position: "absolute",

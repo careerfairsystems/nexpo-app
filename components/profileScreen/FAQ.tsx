@@ -34,12 +34,12 @@ export default function FAQ() {
 const styles = StyleSheet.create({
     container: {
 		paddingVertical: 24,
-		backgroundColor: Colors.white,
+		backgroundColor: Colors.arkadNavy,
 	},
     title: {
         fontFamily: "main-font-bold",
         fontSize: 30,
-        color: Colors.arkadNavy,
+        color: Colors.white,
         paddingBottom: 24
     }
 })
