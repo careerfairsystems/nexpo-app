@@ -18,7 +18,7 @@ export const EditProfileButton = ({
     style={editingProfile ? styles.editing : styles.buttonContainer1}
   >
     <ArkadText
-      text={editingProfile ? "Save" : "Edit profile"}
+      text={editingProfile ? "Save" : "Edit Profile"}
       style={styles.logoutText}
     />
   </ArkadButton>
