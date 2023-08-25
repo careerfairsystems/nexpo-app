@@ -6,6 +6,9 @@ import {
   ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
+  Switch,
+  Text,  
+
 } from "react-native";
 import {
   Ionicons,
@@ -30,6 +33,7 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText, NoButton } from "components/StyledText";
 import QRCode from "react-native-qrcode-svg";
 import { format, subDays } from "date-fns";
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function EventDetailsScreen(id: number) {
   const [event, setEvent] = useState<Event | null>(null);
@@ -37,6 +41,25 @@ export default function EventDetailsScreen(id: number) {
   const [loading, setLoading] = useState<boolean>(true);
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [wantTakeaway, setWantTakeaway] = useState(false);
+  const initialTimeValue = '12:00:00';
+  const [selectedTime, setSelectedTime] = useState(initialTimeValue);
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+
+
+
+  const timeOptions = [
+    { label: '11:00', value: '11:00:00' },
+    { label: '11:15', value: '11:15:00' },
+    { label: '12:00', value: '12:00:00' },
+    { label: '13:00', value: '13:00:00' },
+    ];
+    
+    
+    const handleTimeChange = (value: string) => {
+    setSelectedTime(value);
+    };    
 
   const eventStopSellingDate = () => {
     if (!event?.start) return "N/A";
@@ -65,6 +88,7 @@ export default function EventDetailsScreen(id: number) {
     const ticketRequest: CreateTicketDto = {
       eventId: event.id,
       photoOk: true,
+      wantTakeaway: wantTakeaway,
     };
 
     const ticket = await API.tickets.createTicket(ticketRequest);
@@ -163,6 +187,26 @@ export default function EventDetailsScreen(id: number) {
         <View style={styles.descriptionContainer}>
           <ArkadText text={event.description} style={styles.description} />
         </View>
+        {ticket && registered && ticket.event.type === 1 && (
+          <View style={styles.takeawayContainer}>
+            <ArkadText text="Takeaway " style={styles.title} />
+            <Switch
+              value={wantTakeaway}
+              onValueChange={(value) => setWantTakeaway(value)}
+            />
+          </View>
+        )}
+        {wantTakeaway && (
+          <View>
+            <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
+            <RNPickerSelect
+              items={timeOptions}
+              onValueChange={(value) => handleTimeChange(value)}
+              value={selectedTime}
+            />
+          </View>
+        )}
+
         {/* ticket.eventType !== EventType.Lunch && ticket.event.eventType !== EventType.Banquet */}
         {ticket && registered ? (
           <>
@@ -396,4 +440,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
   },
+
+  takeawayContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: Colors.arkadOrange,
+    borderRadius: 10,
+  },
+
+  timePickerLabel: {
+  flex: 1,
+  fontSize: 16,
+  fontWeight: "bold",
+  color: "white",
+  padding: 10,
+  },  
 });

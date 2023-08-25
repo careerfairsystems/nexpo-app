@@ -4,6 +4,7 @@ import { Event } from "./Events";
 export interface CreateTicketDto {
   eventId: number;
   photoOk: boolean;
+  wantTakeaway: boolean;
 }
 
 export interface Ticket {
