@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dimensions,
   Modal,
@@ -8,7 +8,6 @@ import {
   TouchableWithoutFeedback,
   Switch,
   Text,  
-
 } from "react-native";
 import {
   Ionicons,
@@ -33,7 +32,10 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText, NoButton } from "components/StyledText";
 import QRCode from "react-native-qrcode-svg";
 import { format, subDays } from "date-fns";
-import RNPickerSelect from 'react-native-picker-select';
+import { Picker } from "@react-native-picker/picker";
+
+
+
 
 export default function EventDetailsScreen(id: number) {
   const [event, setEvent] = useState<Event | null>(null);
@@ -45,11 +47,9 @@ export default function EventDetailsScreen(id: number) {
   const [wantTakeaway, setWantTakeaway] = useState(false);
   const initialTimeValue = '12:00:00';
   const [selectedTime, setSelectedTime] = useState(initialTimeValue);
-  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
 
-
-  const timeOptions = [
+  const lunchTimes = [
     { label: '11:00', value: '11:00:00' },
     { label: '11:15', value: '11:15:00' },
     { label: '12:00', value: '12:00:00' },
@@ -198,13 +198,21 @@ export default function EventDetailsScreen(id: number) {
         )}
         {wantTakeaway && (
           <View>
-            <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
-            <RNPickerSelect
-              items={timeOptions}
-              onValueChange={(value) => handleTimeChange(value)}
-              value={selectedTime}
-            />
-          </View>
+          <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedTime}
+            onValueChange={(value) => handleTimeChange(value)}
+          >
+            {lunchTimes.map((timeOption, index) => (
+              <Picker.Item
+                key={index}
+                label={timeOption.label}
+                value={timeOption.value}
+              />
+            ))}
+          </Picker>
+        </View>
         )}
 
         {/* ticket.eventType !== EventType.Lunch && ticket.event.eventType !== EventType.Banquet */}
@@ -459,4 +467,14 @@ const styles = StyleSheet.create({
   color: "white",
   padding: 10,
   },  
+  picker: {
+    width: "85%",
+    maxWidth: 400,
+    padding: 10,
+    borderRadius: 4,
+    borderColor: Colors.white,
+    margin: 12,
+    backgroundColor: Colors.arkadNavy,
+    color: Colors.white,
+  },
 });
