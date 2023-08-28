@@ -6,6 +6,8 @@ import {
   ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
+  Switch,
+  Text,
 } from "react-native";
 import {
   Ionicons,
@@ -30,6 +32,7 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText, NoButton } from "components/StyledText";
 import QRCode from "react-native-qrcode-svg";
 import { format, subDays } from "date-fns";
+import { Picker } from "@react-native-picker/picker";
 
 export default function EventDetailsScreen(id: number) {
   const [event, setEvent] = useState<Event | null>(null);
@@ -37,6 +40,22 @@ export default function EventDetailsScreen(id: number) {
   const [loading, setLoading] = useState<boolean>(true);
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [wantTakeaway, setWantTakeaway] = useState(false);
+  let initialTimeValue = "12:00:00";
+  const [selectedTime, setSelectedTime] = useState("");
+  const [update, setUpdate] = useState(true);
+
+  const lunchTimes = [
+    { label: "11:00", value: "11:00:00" },
+    { label: "11:15", value: "11:15:00" },
+    { label: "12:00", value: "12:00:00" },
+    { label: "13:00", value: "13:00:00" },
+  ];
+
+  const handleTimeChange = (value: string) => {
+    setSelectedTime(value);
+  };
 
   const eventStopSellingDate = () => {
     if (!event?.start) return "N/A";
@@ -52,6 +71,7 @@ export default function EventDetailsScreen(id: number) {
     if (reg) {
       const ticket = await getTicketForEvent(event);
       setTicket(ticket);
+      // setWantTakeaway(ticket?.wantTakeaway); Take this back when backend sends back correct DTO
     }
   };
 
@@ -65,12 +85,27 @@ export default function EventDetailsScreen(id: number) {
     const ticketRequest: CreateTicketDto = {
       eventId: event.id,
       photoOk: true,
+      wantTakeaway: wantTakeaway,
+      takeawayTime: selectedTime,
     };
 
     const ticket = await API.tickets.createTicket(ticketRequest);
 
     if (ticket) {
-      alert("Registered to " + event?.name + " " + event?.date);
+      if (update) {
+        let eventTime = event?.date;
+        const dateTime = eventTime.split(" ");
+        alert(
+          "Registered to " +
+            event?.name +
+            " " +
+            dateTime[0] +
+            "\nTakeaway at " +
+            selectedTime
+        );
+      } else {
+        alert("Registered to " + event?.name + " " + event?.date);
+      }
       alert(
         "If you have any allergies or food preferences, please update your profile to contain it."
       );
@@ -107,6 +142,11 @@ export default function EventDetailsScreen(id: number) {
     }
     setLoading(false);
   }
+
+  const updateTicket = () => {
+    setUpdate(!update);
+    createTicket();
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -163,6 +203,49 @@ export default function EventDetailsScreen(id: number) {
         <View style={styles.descriptionContainer}>
           <ArkadText text={event.description} style={styles.description} />
         </View>
+        {ticket && registered && ticket.event.type === 1 && (
+          <View style={styles.takeawayContainer}>
+            <ArkadText text="Takeaway " style={styles.title} />
+            <Switch
+              value={wantTakeaway}
+              onValueChange={(value) => setWantTakeaway(value)}
+            />
+          </View>
+        )}
+        {wantTakeaway && (
+          <View>
+            <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedTime}
+              onValueChange={(value) => handleTimeChange(value)}
+            >
+              {lunchTimes.map((timeOption, index) => (
+                <Picker.Item
+                  key={index}
+                  label={timeOption.label}
+                  value={timeOption.value}
+                />
+              ))}
+            </Picker>
+            {update ? (
+              <ArkadButton
+                onPress={updateTicket}
+                style={styles.updateTicketButton}
+              >
+                <ArkadText text="Update ticket" />
+              </ArkadButton>
+            ) : (
+              <ArkadButton
+                style={styles.updatedTicketButton}
+                onPress={() => ""}
+              >
+                <ArkadText text="Ticket updated" />
+              </ArkadButton>
+            )}
+          </View>
+        )}
+
         {/* ticket.eventType !== EventType.Lunch && ticket.event.eventType !== EventType.Banquet */}
         {ticket && registered ? (
           <>
@@ -395,5 +478,46 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "transparent",
+  },
+
+  takeawayContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: Colors.arkadOrange,
+    borderRadius: 10,
+  },
+
+  timePickerLabel: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+    padding: 10,
+  },
+  picker: {
+    width: "85%",
+    maxWidth: 400,
+    padding: 10,
+    borderRadius: 4,
+    borderColor: Colors.white,
+    margin: 12,
+    backgroundColor: Colors.arkadNavy,
+    color: Colors.white,
+  },
+  updateTicketButton: {
+    backgroundColor: Colors.arkadOrange,
+    width: "90%",
+    marginBottom: 20,
+    color: Colors.white,
+  },
+  updatedTicketButton: {
+    backgroundColor: Colors.arkadGreen,
+    width: "90%",
+    marginBottom: 20,
+    color: Colors.white,
   },
 });
