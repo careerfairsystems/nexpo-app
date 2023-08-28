@@ -5,6 +5,7 @@ export interface CreateTicketDto {
   eventId: number;
   photoOk: boolean;
   wantTakeaway: boolean;
+  takeawayTime: string;
 }
 
 export interface Ticket {

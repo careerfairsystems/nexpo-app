@@ -42,8 +42,9 @@ export default function EventDetailsScreen(id: number) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [wantTakeaway, setWantTakeaway] = useState(false);
-  const initialTimeValue = "12:00:00";
-  const [selectedTime, setSelectedTime] = useState(initialTimeValue);
+  let initialTimeValue = "12:00:00";
+  const [selectedTime, setSelectedTime] = useState("");
+  const [update, setUpdate] = useState(true);
 
   const lunchTimes = [
     { label: "11:00", value: "11:00:00" },
@@ -70,6 +71,7 @@ export default function EventDetailsScreen(id: number) {
     if (reg) {
       const ticket = await getTicketForEvent(event);
       setTicket(ticket);
+      console.log(ticket.takeawayTime);
     }
   };
 
@@ -84,12 +86,26 @@ export default function EventDetailsScreen(id: number) {
       eventId: event.id,
       photoOk: true,
       wantTakeaway: wantTakeaway,
+      takeawayTime: selectedTime,
     };
 
     const ticket = await API.tickets.createTicket(ticketRequest);
 
     if (ticket) {
-      alert("Registered to " + event?.name + " " + event?.date);
+      if (update) {
+        let eventTime = event?.date;
+        const dateTime = eventTime.split(" ");
+        alert(
+          "Registered to " +
+            event?.name +
+            " " +
+            dateTime[0] +
+            "\nTakeaway at " +
+            selectedTime
+        );
+      } else {
+        alert("Registered to " + event?.name + " " + event?.date);
+      }
       alert(
         "If you have any allergies or food preferences, please update your profile to contain it."
       );
@@ -126,6 +142,11 @@ export default function EventDetailsScreen(id: number) {
     }
     setLoading(false);
   }
+
+  const updateTicket = () => {
+    setUpdate(!update);
+    createTicket();
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -207,6 +228,18 @@ export default function EventDetailsScreen(id: number) {
                 />
               ))}
             </Picker>
+            {update ? (
+              <ArkadButton
+                onPress={updateTicket}
+                style={styles.updateTicketButton}
+              >
+                <ArkadText text="Update ticket" />
+              </ArkadButton>
+            ) : (
+              <ArkadButton style={styles.updatedTicketButton}>
+                <ArkadText text="Ticket updated" />
+              </ArkadButton>
+            )}
           </View>
         )}
 
@@ -470,6 +503,18 @@ const styles = StyleSheet.create({
     borderColor: Colors.white,
     margin: 12,
     backgroundColor: Colors.arkadNavy,
+    color: Colors.white,
+  },
+  updateTicketButton: {
+    backgroundColor: Colors.arkadOrange,
+    width: "90%",
+    marginBottom: 20,
+    color: Colors.white,
+  },
+  updatedTicketButton: {
+    backgroundColor: Colors.arkadGreen,
+    width: "90%",
+    marginBottom: 20,
     color: Colors.white,
   },
 });
