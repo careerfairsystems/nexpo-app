@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Modal,
@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Switch,
-  Text,  
+  Text,
 } from "react-native";
 import {
   Ionicons,
@@ -34,9 +34,6 @@ import QRCode from "react-native-qrcode-svg";
 import { format, subDays } from "date-fns";
 import { Picker } from "@react-native-picker/picker";
 
-
-
-
 export default function EventDetailsScreen(id: number) {
   const [event, setEvent] = useState<Event | null>(null);
   const [registered, setRegistered] = useState<boolean>(false);
@@ -45,21 +42,19 @@ export default function EventDetailsScreen(id: number) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [wantTakeaway, setWantTakeaway] = useState(false);
-  const initialTimeValue = '12:00:00';
+  const initialTimeValue = "12:00:00";
   const [selectedTime, setSelectedTime] = useState(initialTimeValue);
 
-
   const lunchTimes = [
-    { label: '11:00', value: '11:00:00' },
-    { label: '11:15', value: '11:15:00' },
-    { label: '12:00', value: '12:00:00' },
-    { label: '13:00', value: '13:00:00' },
-    ];
-    
-    
-    const handleTimeChange = (value: string) => {
+    { label: "11:00", value: "11:00:00" },
+    { label: "11:15", value: "11:15:00" },
+    { label: "12:00", value: "12:00:00" },
+    { label: "13:00", value: "13:00:00" },
+  ];
+
+  const handleTimeChange = (value: string) => {
     setSelectedTime(value);
-    };    
+  };
 
   const eventStopSellingDate = () => {
     if (!event?.start) return "N/A";
@@ -198,21 +193,21 @@ export default function EventDetailsScreen(id: number) {
         )}
         {wantTakeaway && (
           <View>
-          <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedTime}
-            onValueChange={(value) => handleTimeChange(value)}
-          >
-            {lunchTimes.map((timeOption, index) => (
-              <Picker.Item
-                key={index}
-                label={timeOption.label}
-                value={timeOption.value}
-              />
-            ))}
-          </Picker>
-        </View>
+            <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedTime}
+              onValueChange={(value) => handleTimeChange(value)}
+            >
+              {lunchTimes.map((timeOption, index) => (
+                <Picker.Item
+                  key={index}
+                  label={timeOption.label}
+                  value={timeOption.value}
+                />
+              ))}
+            </Picker>
+          </View>
         )}
 
         {/* ticket.eventType !== EventType.Lunch && ticket.event.eventType !== EventType.Banquet */}
@@ -461,12 +456,12 @@ const styles = StyleSheet.create({
   },
 
   timePickerLabel: {
-  flex: 1,
-  fontSize: 16,
-  fontWeight: "bold",
-  color: "white",
-  padding: 10,
-  },  
+    flex: 1,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+    padding: 10,
+  },
   picker: {
     width: "85%",
     maxWidth: 400,
