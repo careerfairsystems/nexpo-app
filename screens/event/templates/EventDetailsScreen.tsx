@@ -71,8 +71,7 @@ export default function EventDetailsScreen(id: number) {
     if (reg) {
       const ticket = await getTicketForEvent(event);
       setTicket(ticket);
-      setWantTakeaway(ticket.wantTakeaway);
-      console.log(ticket.takeawayTime);
+      // setWantTakeaway(ticket?.wantTakeaway); Take this back when backend sends back correct DTO
     }
   };
 
@@ -237,7 +236,10 @@ export default function EventDetailsScreen(id: number) {
                 <ArkadText text="Update ticket" />
               </ArkadButton>
             ) : (
-              <ArkadButton style={styles.updatedTicketButton}>
+              <ArkadButton
+                style={styles.updatedTicketButton}
+                onPress={() => ""}
+              >
                 <ArkadText text="Ticket updated" />
               </ArkadButton>
             )}
