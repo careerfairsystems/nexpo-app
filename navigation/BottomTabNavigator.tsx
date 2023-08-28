@@ -24,7 +24,10 @@ import { CompaniesNavigator } from "../screens/companies/CompaniesNavigator";
 import { SSsStudentNavigator } from "../screens/studentSessions/SSsStudentNavigator";
 import { SSsCRepNavigator } from "../screens/studentSessions/SSsCRepNavigator";
 import { HeaderStyles } from "components/HeaderStyles";
-import { AuthContext, AuthDispatchContext } from "components/AuthContextProvider";
+import {
+  AuthContext,
+  AuthDispatchContext,
+} from "components/AuthContextProvider";
 
 export type BottomTabParamList = {
   Companies: undefined;
@@ -92,9 +95,18 @@ export default function BottomTabNavigator() {
           name="Companies"
           component={CompaniesNavigator}
           options={{
-            tabBarIcon: ({ focused }) => {     
-              return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Business 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Business 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
-          },
+            tabBarIcon: ({ focused }) => {
+              return (
+                <Image
+                  source={
+                    focused
+                      ? require("../assets/images/BottomNavigatorIconPackage/Business 2W.png")
+                      : require("../assets/images/BottomNavigatorIconPackage/Business 2B.png")
+                  }
+                  style={{ width: 30, height: 30, marginBottom: -3 }}
+                />
+              );
+            },
             ...HeaderStyles,
           }}
         />
@@ -102,9 +114,18 @@ export default function BottomTabNavigator() {
           name="Maps"
           component={MapNavigator}
           options={{
-            tabBarIcon: ({ focused }) => {     
-              return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Maps 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Maps 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
-          },
+            tabBarIcon: ({ focused }) => {
+              return (
+                <Image
+                  source={
+                    focused
+                      ? require("../assets/images/BottomNavigatorIconPackage/Maps 2W.png")
+                      : require("../assets/images/BottomNavigatorIconPackage/Maps 2B.png")
+                  }
+                  style={{ width: 30, height: 30, marginBottom: -3 }}
+                />
+              );
+            },
             ...HeaderStyles,
           }}
         />
@@ -113,8 +134,17 @@ export default function BottomTabNavigator() {
             name="Events"
             component={EventsNavigator}
             options={{
-              tabBarIcon: ({ focused }) => {     
-                return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Events 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Events 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+              tabBarIcon: ({ focused }) => {
+                return (
+                  <Image
+                    source={
+                      focused
+                        ? require("../assets/images/BottomNavigatorIconPackage/Events 2W.png")
+                        : require("../assets/images/BottomNavigatorIconPackage/Events 2B.png")
+                    }
+                    style={{ width: 30, height: 30, marginBottom: -3 }}
+                  />
+                );
               },
               ...HeaderStyles,
             }}
@@ -127,9 +157,18 @@ export default function BottomTabNavigator() {
               component={SSsStudentNavigator}
               options={{
                 title: "Student Sessions",
-                tabBarIcon: ({ focused }) => {     
-                  return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
-              },
+                tabBarIcon: ({ focused }) => {
+                  return (
+                    <Image
+                      source={
+                        focused
+                          ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png")
+                          : require("../assets/images/BottomNavigatorIconPackage/Student sessions 2B.png")
+                      }
+                      style={{ width: 30, height: 30, marginBottom: -3 }}
+                    />
+                  );
+                },
                 ...HeaderStyles,
               }}
             />
@@ -140,9 +179,18 @@ export default function BottomTabNavigator() {
                 component={SSsCRepNavigator}
                 options={{
                   title: "Student Sessions",
-                  tabBarIcon: ({ focused }) => {     
-                    return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
-                },
+                  tabBarIcon: ({ focused }) => {
+                    return (
+                      <Image
+                        source={
+                          focused
+                            ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png")
+                            : require("../assets/images/BottomNavigatorIconPackage/Student sessions 2B.png")
+                        }
+                        style={{ width: 30, height: 30, marginBottom: -3 }}
+                      />
+                    );
+                  },
                   ...HeaderStyles,
                 }}
                 initialParams={{ companyId: companyId }}
@@ -153,9 +201,18 @@ export default function BottomTabNavigator() {
           <BottomTab.Screen
             name="You"
             component={ProfileNavigator}
-            options={({ }) => ({
-              tabBarIcon: ({ focused }) => {     
-                  return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
+            options={({}) => ({
+              tabBarIcon: ({ focused }) => {
+                return (
+                  <Image
+                    source={
+                      focused
+                        ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png")
+                        : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")
+                    }
+                    style={{ width: 30, height: 30, marginBottom: -3 }}
+                  />
+                );
               },
             })}
           />
@@ -163,10 +220,19 @@ export default function BottomTabNavigator() {
           <BottomTab.Screen
             name="Login"
             component={AuthNavigator}
-            options={({ }) => ({
-              tabBarIcon: ({ focused }) => {     
-                return <Image source={focused ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png") : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")} style={{ width: 30, height: 30, marginBottom: -3 }}/>;
-            },
+            options={({}) => ({
+              tabBarIcon: ({ focused }) => {
+                return (
+                  <Image
+                    source={
+                      focused
+                        ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png")
+                        : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")
+                    }
+                    style={{ width: 30, height: 30, marginBottom: -3 }}
+                  />
+                );
+              },
             })}
           />
         )}
