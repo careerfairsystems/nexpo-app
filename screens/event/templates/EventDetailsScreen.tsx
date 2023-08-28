@@ -71,6 +71,7 @@ export default function EventDetailsScreen(id: number) {
     if (reg) {
       const ticket = await getTicketForEvent(event);
       setTicket(ticket);
+      setWantTakeaway(ticket.wantTakeaway);
       console.log(ticket.takeawayTime);
     }
   };
