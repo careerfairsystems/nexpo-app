@@ -47,12 +47,12 @@ export const EventListItem = ({
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: Colors.white,
+    borderColor: Colors.arkadOrange,
     flex: 1,
     justifyContent: "flex-start",
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.white,
     padding: 16,
     borderRadius: 16,
     borderWidth: 4,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 22,
     textAlign: "left",
-    color: Colors.white,
+    color: Colors.arkadNavy,
   },
   footerContainer: {
     flex: 1,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
     fontSize: 16,
     textAlign: "left",
-    color: Colors.white,
+    color: Colors.arkadNavy,
   },
   eventBookedContainer: {
     padding: 2,
