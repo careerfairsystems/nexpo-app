@@ -10,6 +10,7 @@ import * as StudentSessions from "./StudentSessions";
 import * as Applications from "./Applications";
 import * as S3bucket from "./S3bucket";
 import * as Contacts from "./Contacts";
+import * as SSO from "./SSO";
 
 export class API {
   static auth = Auth;
@@ -24,4 +25,5 @@ export class API {
   static applications = Applications;
   static s3bucket = S3bucket;
   static contacts = Contacts;
+  static sso = SSO;
 }

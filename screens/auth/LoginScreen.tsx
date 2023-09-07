@@ -19,6 +19,8 @@ import { AuthStackParamList } from "./AuthNavigator";
 import Colors from "constants/Colors";
 import { AuthDispatchContext } from "components/AuthContextProvider";
 
+import SSO from "components/SSO";
+
 type LoginScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "LoginScreen">;
 };
@@ -28,8 +30,13 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const setSignedIn = React.useContext(AuthDispatchContext);
+  const [loginEmail, setLoginEmail] = useState<boolean>(false);
 
   const login = async () => {
+    if (!loginEmail) {
+      setLoginEmail(true);
+      return;
+    }
     // We get errors when unmounting for some reason, this might be a solution:
     // https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
     // but I am not too sure of the call stack in this async call, it should be fine as the unmount is the last call
@@ -60,20 +67,25 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
         source={require("../../assets/images/arkad_logo_inverted.png")}
       />
       <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          keyboardType="email-address"
-          onChangeText={setEmail}
-          onSubmitEditing={login}
-          style={{ borderColor: Colors.white, color: Colors.white }}
-        />
-        <TextInput
-          placeholder="Password"
-          secureTextEntry
-          onChangeText={setPassword}
-          onSubmitEditing={login}
-          style={{ borderColor: Colors.white, color: Colors.white }}
-        />
+        <SSO/>
+        {loginEmail && (
+          <View>
+            <TextInput
+              placeholder="Email"
+              keyboardType="email-address"
+              onChangeText={setEmail}
+              onSubmitEditing={login}
+              style={{ borderColor: Colors.white, color: Colors.white }}
+            />
+            <TextInput
+              placeholder="Password"
+              secureTextEntry
+              onChangeText={setPassword}
+              onSubmitEditing={login}
+              style={{ borderColor: Colors.white, color: Colors.white }}
+            />
+          </View>
+        )}
         {loading ? (
           <ActivityIndicator />
         ) : (
