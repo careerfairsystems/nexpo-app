@@ -163,7 +163,7 @@ export default function BottomTabNavigator() {
                       source={
                         focused
                           ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png")
-                          : require("../assets/images/BottomNavigatorIconPackage/Student sessions 2B.png")
+                          : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")
                       }
                       style={{ width: 30, height: 30, marginBottom: -3 }}
                     />
@@ -185,7 +185,7 @@ export default function BottomTabNavigator() {
                         source={
                           focused
                             ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png")
-                            : require("../assets/images/BottomNavigatorIconPackage/Student sessions 2B.png")
+                            : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")
                         }
                         style={{ width: 30, height: 30, marginBottom: -3 }}
                       />
