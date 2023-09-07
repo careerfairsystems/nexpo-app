@@ -3,6 +3,7 @@ import { getAuth } from "./_HttpHelpers";
 export interface FAQs {
 	id: number;
 	question: string;
+	answer: string;
 }
 
 export const faq = async (): Promise<FAQs[]> => {

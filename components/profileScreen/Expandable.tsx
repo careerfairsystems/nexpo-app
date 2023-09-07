@@ -54,7 +54,7 @@ export default function Expandable(props: any) {
                 <AntDesign name={expanded ? "up" : "down"} size={24} color="black" style={styles.icon}/>
             </TouchableOpacity>
             <Animated.View style={[styles.descContainer, {height: maxHeightSet ? height : 'auto'}]} onLayout={(event) => {_setMaxHeight(event)}}>
-                <ArkadText text={"Låååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååång text"} style={styles.desc}></ArkadText>
+                <ArkadText text={props.desc} style={styles.desc}></ArkadText>
             </Animated.View>
         </View>
     )
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     },
     descContainer: {
         width: "100%",
-        backgroundColor: Colors.arkadNavy
+        backgroundColor: Colors.arkadNavy,
+        overflow: "hidden"
     },
     desc: {
         padding: 10,

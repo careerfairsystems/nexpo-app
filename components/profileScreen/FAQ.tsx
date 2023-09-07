@@ -24,7 +24,7 @@ export default function FAQ() {
             <ArkadText text={"Frequently Asked Questions"} style={styles.title}></ArkadText>
             {questions?.reverse().map((data) => {
                 return (
-                    <Expandable key={data.id} title={data.question} desc={data.question}/>
+                    <Expandable key={data.id} title={data.question} desc={data.answer}/>
                 );
             })}
         </ScrollView>
