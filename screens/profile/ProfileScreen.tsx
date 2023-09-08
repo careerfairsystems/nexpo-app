@@ -30,6 +30,7 @@ import AdminTab from "components/profileScreen/AdminTab";
 import MessagesTab from "components/profileScreen/MessagesTab";
 import QuestionTab from "components/profileScreen/QuestionTab";
 import { AuthDispatchContext } from "components/AuthContextProvider";
+import { TicketType } from "api/Tickets";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -84,6 +85,24 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         {student && <StudentProfile student={student} />}
         {company && <CompanyProfile company={company} />}
         <View style={styles.eventList}>
+        {!bookedEvents? (
+            <ActivityIndicator />
+          ) : (
+            bookedEvents.length !== 0 && (
+              <>
+                <ArkadText text={"Lunch tickets:"} style={styles.header} />
+                <BookedEventList
+                  bookedEvents={bookedEvents.filter(event => event.type==TicketType.Lunch)}
+                  onPress={(id) =>
+                    navigation.navigate("ProfileSwitchScreen", {
+                      screen: "details",
+                      id: id,
+                    })
+                  }
+                />
+              </>
+            )
+          )}
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
