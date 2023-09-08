@@ -17,6 +17,22 @@ export const login = async (email: string, password: string): Promise<Response> 
   return result;
 };
 
+export const SSOLogin = async (jwt: string | null): Promise<boolean> => {
+  if (jwt) {
+    await AuthState.setJwt(jwt);
+  } else {
+    return false;
+  }
+
+  const user = await getMe();
+  if (user) {
+    await AuthState.setUserRole(user.role);
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const isAuthenticated = (): Promise<boolean> => {
   return AuthState.isAuthenticated();
 };

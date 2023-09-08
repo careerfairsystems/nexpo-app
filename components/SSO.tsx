@@ -3,11 +3,15 @@ import { ArkadButton } from "./Buttons";
 import { ArkadText } from "./StyledText";
 import * as Linking from "expo-linking";
 import { API } from "api/API";
+import React from "react";
+import { AuthDispatchContext } from "./AuthContextProvider";
 
 export default function SSO() {
+  const setSignedIn = React.useContext(AuthDispatchContext);
+
   const sso = () => {
     console.log("Attempting to do SSO stuff");
-    API.sso.InitiateSSO();
+    API.sso.InitiateSSO(setSignedIn);
   };
 
   return (
