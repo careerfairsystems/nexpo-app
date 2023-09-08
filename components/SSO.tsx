@@ -8,21 +8,19 @@ export default function SSO() {
   const sso = () => {
     console.log("Attempting to do SSO stuff");
     API.sso.InitiateSSO();
-  }
+  };
 
   return (
     <ArkadButton onPress={sso} style={styles.button}>
-      <ArkadText text="Sign in with SSO" style={styles.text}/>
+      <ArkadText text="Sign in with SSO" style={styles.text} />
     </ArkadButton>
-)
+  );
 }
 
 const styles = StyleSheet.create({
   button: {
-      width: "45%",
-      alignSelf: "center"
+    width: "50%",
+    alignSelf: "center",
   },
-  text: {
-
-  }
+  text: {},
 });

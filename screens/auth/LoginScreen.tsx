@@ -67,7 +67,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
         source={require("../../assets/images/arkad_logo_inverted.png")}
       />
       <View style={styles.inputContainer}>
-        <SSO/>
+        <SSO />
         {loginEmail && (
           <View>
             <TextInput
@@ -90,7 +90,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           <ActivityIndicator />
         ) : (
           <ArkadButton onPress={login} style={styles.loginButton}>
-            <ArkadText text="Sign In" style={{}} />
+            <ArkadText text="Sign in with Account" style={{}} />
           </ArkadButton>
         )}
         <Pressable
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     color: Colors.arkadTurkos,
   },
   loginButton: {
-    width: "45%",
+    width: "50%",
     alignSelf: "center",
   },
 });
