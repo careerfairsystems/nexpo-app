@@ -41,6 +41,7 @@
     "expo-status-bar": "~1.4.4",
     "expo-web-browser": "~12.1.1",
     "fbjs": "^3.0.4",
+    "firebase": "^10.3.1",
     "patch-package": "^7.0.0",
     "postinstall-postinstall": "^2.1.0",
     "react": "18.2.0",
