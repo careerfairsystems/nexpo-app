@@ -61,6 +61,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
 
   async function getRegisteredEvents() {
     const bookedEvents = await API.events.getBookedNotScannedEvents();
+    console.log(bookedEvents);
     setBookedEvents(bookedEvents);
   }
 
@@ -85,14 +86,16 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         {student && <StudentProfile student={student} />}
         {company && <CompanyProfile company={company} />}
         <View style={styles.eventList}>
-        {!bookedEvents? (
+          {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
             bookedEvents.length !== 0 && (
               <>
-                <ArkadText text={"Lunch tickets:"} style={styles.header} />
+                <ArkadText text={"Tickets to Events:"} style={styles.header} />
                 <BookedEventList
-                  bookedEvents={bookedEvents.filter(event => event.type==TicketType.Lunch)}
+                  bookedEvents={bookedEvents.filter(
+                    (event) => event.type == TicketType.CompanyEvent
+                  )}
                   onPress={(id) =>
                     navigation.navigate("ProfileSwitchScreen", {
                       screen: "details",
@@ -106,11 +109,35 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            bookedEvents.length !== 0 && (
+            bookedEvents.length !== 0 &&
+            user?.role !== Role.Student && (
               <>
-                <ArkadText text={"Tickets to Events:"} style={styles.header} />
+                <ArkadText text={"Lunch tickets:"} style={styles.header} />
                 <BookedEventList
-                  bookedEvents={bookedEvents}
+                  bookedEvents={bookedEvents.filter(
+                    (event) => event.type == TicketType.Lunch
+                  )}
+                  onPress={(id) =>
+                    navigation.navigate("ProfileSwitchScreen", {
+                      screen: "details",
+                      id: id,
+                    })
+                  }
+                />
+              </>
+            )
+          )}
+          {!bookedEvents ? (
+            <ActivityIndicator />
+          ) : (
+            bookedEvents.length !== 0 &&
+            user?.role !== Role.Student && (
+              <>
+                <ArkadText text={"Banquet tickets:"} style={styles.header} />
+                <BookedEventList
+                  bookedEvents={bookedEvents.filter(
+                    (event) => event.type == TicketType.Banquet
+                  )}
                   onPress={(id) =>
                     navigation.navigate("ProfileSwitchScreen", {
                       screen: "details",
@@ -161,9 +188,15 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           />
         )}
         {user.role === Role.CompanyRepresentative && (
-          <ProfileTabViewer profile={userProfile} contacts={Contacts} question={QuestionTab} />
+          <ProfileTabViewer
+            profile={userProfile}
+            contacts={Contacts}
+            question={QuestionTab}
+          />
         )}
-        {user.role === Role.Student && (<ProfileTabViewer profile={userProfile} question={QuestionTab} />)}
+        {user.role === Role.Student && (
+          <ProfileTabViewer profile={userProfile} question={QuestionTab} />
+        )}
       </>
     );
   }
