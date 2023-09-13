@@ -32,6 +32,7 @@ import QuestionTab from "components/profileScreen/QuestionTab";
 import { AuthDispatchContext } from "components/AuthContextProvider";
 import { TicketType } from "api/Tickets";
 import { set } from "date-fns";
+import FaqTab from "components/profileScreen/FAQ";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -185,6 +186,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             messages={MessagesTab}
             admin={AdminTab}
             question={QuestionTab}
+            faq={FaqTab}
           />
         )}
         {user.role === Role.Volunteer && (
@@ -192,6 +194,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             profile={userProfile}
             contacts={Contacts}
             messages={MessagesTab}
+            faq={FaqTab}
             question={QuestionTab}
           />
         )}

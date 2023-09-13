@@ -12,7 +12,9 @@ type CompanyListItemProps = {
 };
 
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => (
-  <View style={styles.container}>
+  <View
+    style={company.name === "Accenture" ? styles.accenture : styles.container}
+  >
     <Pressable onPress={onPress}>
       <View style={styles.row}>
         <ArkadText text={company.name} style={styles.companyName} />
@@ -38,11 +40,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.white,
     paddingTop: 12,
     borderRadius: 16,
     borderWidth: 4,
-    borderColor: Colors.white,
+    borderColor: Colors.arkadOrange,
   },
   row: {
     flex: 1,
@@ -61,6 +63,18 @@ const styles = StyleSheet.create({
     textAlign: "left",
     padding: 0,
     marginHorizontal: 4,
-    color: Colors.white,
+    color: Colors.arkadNavy,
+  },
+  accenture: {
+    flex: 1,
+    justifyContent: "flex-start",
+    width: "90%",
+    alignSelf: "center",
+    marginTop: 0,
+    marginHorizontal: 10,
+    backgroundColor: Colors.white,
+    borderRadius: 16,
+    borderWidth: 10,
+    borderColor: Colors.accenture,
   },
 });
