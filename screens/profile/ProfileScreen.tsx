@@ -31,6 +31,7 @@ import MessagesTab from "components/profileScreen/MessagesTab";
 import QuestionTab from "components/profileScreen/QuestionTab";
 import { AuthDispatchContext } from "components/AuthContextProvider";
 import { TicketType } from "api/Tickets";
+import { set } from "date-fns";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -44,6 +45,10 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const setSignedIn = useContext(AuthDispatchContext);
   const isFocused = useIsFocused();
+
+  const [eventticket, setEventticket] = useState<Event[] | null>(null);
+  const [lunchticket, setLunchticket] = useState<Event[] | null>(null);
+  const [banquetticket, setBanquetticket] = useState<Event[] | null>(null);
 
   async function getUser() {
     const user = await API.users.getMe();
@@ -62,6 +67,16 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   async function getRegisteredEvents() {
     const bookedEvents = await API.events.getBookedNotScannedEvents();
     setBookedEvents(bookedEvents);
+
+    setEventticket(
+      bookedEvents.filter((event) => event.type == TicketType.CompanyEvent)
+    );
+    setLunchticket(
+      bookedEvents.filter((event) => event.type == TicketType.Lunch)
+    );
+    setBanquetticket(
+      bookedEvents.filter((event) => event.type == TicketType.Banquet)
+    );
   }
 
   async function logout() {
@@ -88,13 +103,11 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            bookedEvents.length !== 0 && (
+            eventticket?.length !== 0 && (
               <>
                 <ArkadText text={"Tickets to Events:"} style={styles.header} />
                 <BookedEventList
-                  bookedEvents={bookedEvents.filter(
-                    (event) => event.type == TicketType.CompanyEvent
-                  )}
+                  bookedEvents={eventticket}
                   onPress={(id) =>
                     navigation.navigate("ProfileSwitchScreen", {
                       screen: "details",
@@ -108,14 +121,12 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            bookedEvents.length !== 0 &&
+            lunchticket?.length !== 0 &&
             user?.role !== Role.Student && (
               <>
                 <ArkadText text={"Lunch tickets:"} style={styles.header} />
                 <BookedEventList
-                  bookedEvents={bookedEvents.filter(
-                    (event) => event.type == TicketType.Lunch
-                  )}
+                  bookedEvents={lunchticket}
                   onPress={(id) =>
                     navigation.navigate("ProfileSwitchScreen", {
                       screen: "details",
@@ -129,14 +140,12 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            bookedEvents.length !== 0 &&
+            banquetticket?.length !== 0 &&
             user?.role !== Role.Student && (
               <>
                 <ArkadText text={"Banquet tickets:"} style={styles.header} />
                 <BookedEventList
-                  bookedEvents={bookedEvents.filter(
-                    (event) => event.type == TicketType.Banquet
-                  )}
+                  bookedEvents={banquetticket}
                   onPress={(id) =>
                     navigation.navigate("ProfileSwitchScreen", {
                       screen: "details",
