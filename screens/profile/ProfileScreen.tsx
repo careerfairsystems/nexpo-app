@@ -61,7 +61,6 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
 
   async function getRegisteredEvents() {
     const bookedEvents = await API.events.getBookedNotScannedEvents();
-    console.log(bookedEvents);
     setBookedEvents(bookedEvents);
   }
 
