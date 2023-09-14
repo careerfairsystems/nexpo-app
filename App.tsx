@@ -8,6 +8,8 @@ import Toast from "react-native-toast-message";
 import messaging from "@react-native-firebase/messaging";
 import { useEffect } from "react";
 import { Alert, AppRegistry } from "react-native";
+import { API } from "api/API";
+import { RegisterUserDTO } from "api/Firebase";
 
 // Good article about FCM:
 // https://medium.com/@arashfallahi1989/how-to-integrate-firebase-push-notification-in-react-native-expo-bd5cc694f181
@@ -19,13 +21,13 @@ export default function App() {
   });
   AppRegistry.registerComponent("app", () => App);
 
-  // messaging()
-  // .subscribeToTopic('weather')
-  // .then(() => console.log('Subscribed to topic!'));
+  messaging()
+    .subscribeToTopic("weather")
+    .then(() => console.log("Subscribed to topic!"));
 
-  // messaging()
-  // .unsubscribeFromTopic('weather')
-  // .then(() => console.log('Unsubscribed fom the topic!'));
+  messaging()
+    .unsubscribeFromTopic("weather")
+    .then(() => console.log("Unsubscribed fom the topic!"));
 
   useEffect(() => {
     async function requestUserPermission() {
@@ -41,6 +43,13 @@ export default function App() {
         const fcmToken = await messaging().getToken();
         if (fcmToken) {
           console.log("Your Firebase Cloud Messaging token is:", fcmToken);
+          const register: RegisterUserDTO = {
+            token: fcmToken,
+            topic: "all",
+          };
+
+          const response = API.firebase.registerFirebase(register);
+          console.log("Firebase: ", response);
         } else {
           console.log("Failed to get FCM token");
         }
