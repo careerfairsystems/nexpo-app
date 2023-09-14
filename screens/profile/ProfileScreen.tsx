@@ -145,9 +145,15 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           />
         )}
         {user.role === Role.CompanyRepresentative && (
-          <ProfileTabViewer profile={userProfile} contacts={Contacts} question={QuestionTab} />
+          <ProfileTabViewer
+            profile={userProfile}
+            contacts={Contacts}
+            question={QuestionTab}
+          />
         )}
-        {user.role === Role.Student && (<ProfileTabViewer profile={userProfile} question={QuestionTab} />)}
+        {user.role === Role.Student && (
+          <ProfileTabViewer profile={userProfile} question={QuestionTab} />
+        )}
       </>
     );
   }

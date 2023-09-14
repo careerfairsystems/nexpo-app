@@ -1,17 +1,14 @@
 import { format } from "date-fns";
-import { postAuth } from "./_HttpHelpers";
+import { putAuth } from "./_HttpHelpers";
 
 export interface Message {
   title: string;
-  content: string;
-  date: string;
-  time: string;
-  receiver: string;
-  sender: string;
+  message: string;
+  topic: string;
 }
 
-export const sendMessage = async (message: Message) => {
-  await postAuth("/messages", message);
+export const sendNotification = async (message: Message) => {
+  await putAuth("/notification", message);
 };
 
 export function formatTime(date: string, time: string): string {

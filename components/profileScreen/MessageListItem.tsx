@@ -11,7 +11,6 @@ import {
 import { ArkadText } from "../StyledText";
 import Colors from "constants/Colors";
 import { Message } from "api/Messages";
-import { API } from "api/API";
 
 type ListedMessageItemProps = {
   message: Message;
@@ -35,15 +34,7 @@ export default function MessageListItem({ message }: ListedMessageItemProps) {
       <Pressable onPress={onPress} style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
           <ArkadText style={styles.messageTitle} text={message.title} />
-          <ArkadText style={styles.messageContent} text={message.content} />
-          <ArkadText
-            style={styles.messageTime}
-            text={
-              API.messages.formatTime(message.date, message.time) +
-              " from " +
-              message.sender
-            }
-          />
+          <ArkadText style={styles.messageContent} text={message.message} />
         </ScrollView>
       </Pressable>
     </View>
