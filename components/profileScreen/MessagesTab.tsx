@@ -1,20 +1,33 @@
 import Colors from "constants/Colors";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { ArkadText } from "components/StyledText";
 import { Message } from "api/Messages";
 import MessageListItem from "./MessageListItem";
+import { API } from "api/API";
+import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 
 export default function MessagesTab() {
-  // Temporary solution until API is ready
-  const messages: Message[] = [MockMessage1, MockMessage2];
+  const [messages, setMessages] = useState<Message[] | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(true);
 
-  const getMessagees = () => {
-    // Do some API call here
+  const getMessagees = async () => {
+    setLoading(true);
+    const notifications = await API.messages.getNotifications();
+    setMessages(notifications);
+    setLoading(false);
   };
 
-  if (messages.length === 0) {
+  useEffect(() => {
+    getMessagees();
+  }, []);
+
+  if (isLoading) {
+    return <ScreenActivityIndicator />;
+  }
+
+  if (messages?.length === 0) {
     return <ArkadText text={"No messages"} style={styles.text}></ArkadText>;
   }
   return (
