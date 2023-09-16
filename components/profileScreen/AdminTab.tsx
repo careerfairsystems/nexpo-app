@@ -14,7 +14,7 @@ import { ArkadText } from "components/StyledText";
 import { Message, sendNotification } from "api/Messages";
 import { COMMITTEES, ROLES } from "./DroppdownItems";
 import { Committee } from "api/Committee";
-import { Role } from "api/Role";
+import { Role, updateRole } from "api/Role";
 import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
 import { API } from "api/API";
 import { User, getUser } from "api/Users";
@@ -28,7 +28,7 @@ export default function AdminTab() {
   const [committeeModal, setCommitteeModal] = useState(false);
 
   const [roles, setRoles] = useState(ROLES);
-  const [roleValue, setRoleValue] = useState<Role[]>([]);
+  const [roleValue, setRoleValue] = useState<Role | null>(null);
   const [roleModal, setRoleModal] = useState(false);
 
   const [userName, setUserName] = useState("");
@@ -77,6 +77,7 @@ export default function AdminTab() {
 
   const changeUserRole = () => {
     console.log("Changing user role: " + userName);
+    updateRole(userName, roleValue);
   };
 
   return (
