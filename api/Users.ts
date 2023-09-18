@@ -24,6 +24,7 @@ export interface UpdateUserDto {
   password?: string | null;
   hasCv?: boolean | null;
   profilePictureUrl?: string | null;
+  role?: Role | null;
 }
 
 /**
