@@ -32,7 +32,7 @@ export const updateRole = async (userName: string, role: Role | null): Promise<U
   }
 
   // Catch Admin trying to change a role without specifying which role
-  if (!role)
+  if (role === null)
     return null;
 
   const response = await putAuth(`/role/${userId}`, dto);
