@@ -30,6 +30,9 @@ import AdminTab from "components/profileScreen/AdminTab";
 import MessagesTab from "components/profileScreen/MessagesTab";
 import QuestionTab from "components/profileScreen/QuestionTab";
 import { AuthDispatchContext } from "components/AuthContextProvider";
+import { TicketType } from "api/Tickets";
+import { set } from "date-fns";
+import FaqTab from "components/profileScreen/FAQ";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -43,6 +46,10 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const setSignedIn = useContext(AuthDispatchContext);
   const isFocused = useIsFocused();
+
+  const [eventticket, setEventticket] = useState<Event[] | null>(null);
+  const [lunchticket, setLunchticket] = useState<Event[] | null>(null);
+  const [banquetticket, setBanquetticket] = useState<Event[] | null>(null);
 
   async function getUser() {
     const user = await API.users.getMe();
@@ -61,6 +68,16 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   async function getRegisteredEvents() {
     const bookedEvents = await API.events.getBookedNotScannedEvents();
     setBookedEvents(bookedEvents);
+
+    setEventticket(
+      bookedEvents.filter((event) => event.type == TicketType.CompanyEvent)
+    );
+    setLunchticket(
+      bookedEvents.filter((event) => event.type == TicketType.Lunch)
+    );
+    setBanquetticket(
+      bookedEvents.filter((event) => event.type == TicketType.Banquet)
+    );
   }
 
   async function logout() {
@@ -87,11 +104,49 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            bookedEvents.length !== 0 && (
+            eventticket?.length !== 0 && (
               <>
                 <ArkadText text={"Tickets to Events:"} style={styles.header} />
                 <BookedEventList
-                  bookedEvents={bookedEvents}
+                  bookedEvents={eventticket}
+                  onPress={(id) =>
+                    navigation.navigate("ProfileSwitchScreen", {
+                      screen: "details",
+                      id: id,
+                    })
+                  }
+                />
+              </>
+            )
+          )}
+          {!bookedEvents ? (
+            <ActivityIndicator />
+          ) : (
+            lunchticket?.length !== 0 &&
+            user?.role !== Role.Student && (
+              <>
+                <ArkadText text={"Lunch tickets:"} style={styles.header} />
+                <BookedEventList
+                  bookedEvents={lunchticket}
+                  onPress={(id) =>
+                    navigation.navigate("ProfileSwitchScreen", {
+                      screen: "details",
+                      id: id,
+                    })
+                  }
+                />
+              </>
+            )
+          )}
+          {!bookedEvents ? (
+            <ActivityIndicator />
+          ) : (
+            banquetticket?.length !== 0 &&
+            user?.role !== Role.Student && (
+              <>
+                <ArkadText text={"Banquet tickets:"} style={styles.header} />
+                <BookedEventList
+                  bookedEvents={banquetticket}
                   onPress={(id) =>
                     navigation.navigate("ProfileSwitchScreen", {
                       screen: "details",
@@ -131,6 +186,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             messages={MessagesTab}
             admin={AdminTab}
             question={QuestionTab}
+            faq={FaqTab}
           />
         )}
         {user.role === Role.Volunteer && (
@@ -138,13 +194,20 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             profile={userProfile}
             contacts={Contacts}
             messages={MessagesTab}
+            faq={FaqTab}
             question={QuestionTab}
           />
         )}
         {user.role === Role.CompanyRepresentative && (
-          <ProfileTabViewer profile={userProfile} contacts={Contacts} question={QuestionTab} />
+          <ProfileTabViewer
+            profile={userProfile}
+            contacts={Contacts}
+            question={QuestionTab}
+          />
         )}
-        {user.role === Role.Student && (<ProfileTabViewer profile={userProfile} question={QuestionTab} />)}
+        {user.role === Role.Student && (
+          <ProfileTabViewer profile={userProfile} question={QuestionTab} />
+        )}
       </>
     );
   }

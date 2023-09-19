@@ -4,11 +4,12 @@ import {
   Animated,
   FlatList,
   LayoutAnimation,
+  Linking,
   StyleSheet,
   TextInput,
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { View } from "components/Themed";
+import { View, Text } from "components/Themed";
 import { API } from "api/API";
 import { PublicCompanyDto } from "api/Companies";
 import { CompanyListItem } from "components/companies/CompanyListItem";
@@ -18,6 +19,7 @@ import Colors from "constants/Colors";
 import CompaniesModal from "components/companies/CompaniesModal";
 import { ArkadButton } from "components/Buttons";
 import { toggleAnimation } from "../../animations/toggleAnimation";
+import { ArkadText } from "components/StyledText";
 
 type companiesNavigation = {
   navigation: StackNavigationProp<CompanyStackParamList, "CompaniesScreen">;
@@ -60,6 +62,23 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
     return <ScreenActivityIndicator />;
   }
 
+  const sortCompanies = (
+    companies: PublicCompanyDto[] | null
+  ): PublicCompanyDto[] | null => {
+    if (companies === null) {
+      return null;
+    }
+    return companies.sort((a, b) => {
+      if (a.name === "Accenture") return -1;
+      if (b.name === "Accenture") return 1;
+      return 0;
+    });
+  };
+
+  const sortedCompanies = sortCompanies(
+    API.companies.filterData(text, filteredCompanies)
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -85,18 +104,42 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         setIsFiltered={setIsFiltered}
         isVisable={modalVisible}
       />
+      {companies?.find((company) => company.name === "Accenture") ? (
+        <ArkadText text={"Corporation Partner"} style={styles.accenture} />
+      ) : null}
       <FlatList
         style={styles.list}
         nestedScrollEnabled={true}
         onScrollBeginDrag={modalVisible ? () => toggleFilter() : () => {}}
-        data={API.companies.filterData(text, filteredCompanies)}
+        data={sortedCompanies}
         keyExtractor={({ id }) => id.toString()}
-        renderItem={({ item: company }) => (
-          <CompanyListItem
-            company={company}
-            onPress={() => openCompanyDetails(company.id)}
-          />
-        )}
+        renderItem={({ item: company }) => {
+          if (company.name === "Accenture") {
+            return (
+              <View>
+                <CompanyListItem
+                  company={company}
+                  onPress={() => openCompanyDetails(company.id)}
+                />
+                <ArkadButton
+                  onPress={() =>
+                    Linking.openURL("https://www.accenture.com/se-en")
+                  }
+                  style={styles.accentureButton}
+                >
+                  <Text style={styles.accentureText}>Link to Accenture</Text>
+                </ArkadButton>
+              </View>
+            );
+          } else {
+            return (
+              <CompanyListItem
+                company={company}
+                onPress={() => openCompanyDetails(company.id)}
+              />
+            );
+          }
+        }}
       />
     </View>
   );
@@ -147,5 +190,27 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     zIndex: 1,
     backgroundColor: Colors.arkadNavy,
+  },
+  accenture: {
+    marginTop: 20,
+    paddingBottom: 8,
+    fontSize: 32,
+    fontFamily: "main-font-bold",
+    color: Colors.white,
+  },
+  accentureButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    margin: 8,
+    marginBottom: 30,
+    width: "20%",
+  },
+  accentureText: {
+    fontFamily: "main-font-bold",
+    fontSize: 20,
+    color: Colors.white,
   },
 });

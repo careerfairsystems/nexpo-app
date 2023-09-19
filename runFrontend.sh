@@ -18,6 +18,7 @@ show_help() {
     echo "-c, --recli    Install sharp-cli"
     echo "-s, --ressl    Add ssl"
     echo ""
+    echo ""
 }
 
 checkInstalled yarn

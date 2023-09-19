@@ -11,5 +11,9 @@ npm-debug.*
 web-build/
 .vscode
 
+#FCM
+google-services.json
+GoogleService-Info.plist
+
 # macOS
 .DS_Store

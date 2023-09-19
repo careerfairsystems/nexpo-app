@@ -11,6 +11,8 @@ import * as Applications from "./Applications";
 import * as S3bucket from "./S3bucket";
 import * as Contacts from "./Contacts";
 import * as SSO from "./SSO";
+import * as FAQs from "./FAQs";
+import * as Firebase from "./Firebase";
 
 export class API {
   static auth = Auth;
@@ -26,4 +28,6 @@ export class API {
   static s3bucket = S3bucket;
   static contacts = Contacts;
   static sso = SSO;
+  static faqs = FAQs;
+  static firebase = Firebase;
 }

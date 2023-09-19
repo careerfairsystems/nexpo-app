@@ -10,6 +10,7 @@ function ProfileTabViewer(props: {
   messages?: any;
   admin?: any;
   question?: any;
+  faq?: any;
 }) {
   const layout = useWindowDimensions();
 
@@ -21,14 +22,16 @@ function ProfileTabViewer(props: {
         { key: "second", title: "Contact List" },
         { key: "third", title: "Messages" },
         { key: "fourth", title: "Admin" },
-        { key: "fifth", title: "Questions" }
+        { key: "fifth", title: "Questions" },
+        { key: "sixth", title: "FAQ" }
       ])
     : props.messages // Volunteer
     ? React.useState([
         { key: "first", title: "Profile" },
         { key: "second", title: "Contact List" },
         { key: "third", title: "Messages" },
-        { key: "fourth", title: "Questions" }
+        { key: "fourth", title: "Questions" },
+        { key: "fifth", title: "FAQ"}
       ])
     : Object.keys(props).length === 2 // Student
     ? React.useState([
@@ -47,14 +50,16 @@ function ProfileTabViewer(props: {
         second: props.contacts,
         third: props.messages,
         fourth: props.admin,
-        fifth: props.question
+        fifth: props.question,
+        sixth: props.faq
       })
     : props.messages
     ? SceneMap({
         first: props.profile,
         second: props.contacts,
         third: props.messages,
-        fourth: props.question
+        fourth: props.question,
+        fifth: props.faq
       })
     : Object.keys(props).length === 2 
     ? SceneMap({

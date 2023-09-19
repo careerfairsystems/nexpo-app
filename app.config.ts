@@ -16,16 +16,22 @@ export default {
   assetBundlePatterns: ["**/*"],
   ios: {
     bundleIdentifier: "se.arkadtlth.nexpo",
+    googleServicesFile: "./GoogleService-Info.plist",
     buildNumber: "1.2.6",
     supportsTablet: true,
     infoPlist: {
       NSCameraUsageDescription: "Camera access is needed for the QR-code scanning functionality",
       NSPhotoLibraryUsageDescription:
         "Photo library access is needed to choose a profile picture to upload",
+      UIBackgroundModes: [
+        "fetch",
+        "remote-notification"
+      ],
     },
   },
   android: {
     package: "se.arkadtlth.nexpo",
+    googleServicesFile: "./google-services.json",
     versionCode: 14,
     adaptiveIcon: {
       foregroundImage: "./assets/images/android_icon.png",
@@ -33,6 +39,9 @@ export default {
     },
     permissions: ["CAMERA"],
   },
+  plugins: [
+    "@react-native-firebase/app"
+  ],
   web: {
     favicon: "./assets/images/favicon.png",
   },
