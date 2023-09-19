@@ -58,7 +58,7 @@ export default function App() {
 
     requestUserPermission();
 
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
       Alert.alert("A new FCM message arrived!");
       console.log(JSON.stringify(remoteMessage));
     });
