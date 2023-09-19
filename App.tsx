@@ -16,7 +16,7 @@ import { RegisterUserDTO } from "api/Firebase";
 
 export default function App() {
   // Register background handler
-  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
     console.log("Message handled in the background!", remoteMessage);
   });
   AppRegistry.registerComponent("app", () => App);
