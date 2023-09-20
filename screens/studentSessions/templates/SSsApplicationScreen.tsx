@@ -12,19 +12,23 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
 import { CardWithHeader } from "components/sSApplication/SSApplicationMsg";
 import { PublicCompanyDto } from "api/Companies";
+import { getMe } from "api/Users";
 
 type SSsApplicationScreenParams = {
   companyId: number;
 };
 
-export default function SSsApplicationScreen({ companyId }: SSsApplicationScreenParams) {
+export default function SSsApplicationScreen({
+  companyId,
+}: SSsApplicationScreenParams) {
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
+  const [user, setUser] = React.useState<User | null>(null);
 
   const sendApplication = async () => {
-    if (msg === "") {
-      alert("Message cannot be empty");
+    if (!user.hasCv) {
+      alert("You must add a CV to your profile to apply for a session");
     } else {
       setLoading(true);
       await API.applications.sendApplication(companyId, msg);
@@ -36,9 +40,16 @@ export default function SSsApplicationScreen({ companyId }: SSsApplicationScreen
     const company = await API.companies.getCompany(companyId);
     setCompany(company);
   };
+
+  const getUser = async () => {
+    const usr = await getMe();
+    setUser(usr);
+  };
+
   useEffect(() => {
     setLoading(true);
     getCompany();
+    getUser();
     setLoading(false);
   }, []);
 
@@ -52,10 +63,16 @@ export default function SSsApplicationScreen({ companyId }: SSsApplicationScreen
         {company?.studentSessionMotivation && (
           <>
             <ArkadText style={styles.header} text={`from ${company.name}:`} />
-            <ArkadText style={styles.companyMotivation} text={company.studentSessionMotivation} />
+            <ArkadText
+              style={styles.companyMotivation}
+              text={company.studentSessionMotivation}
+            />
           </>
         )}
-        <ArkadText text="Motivation for the company:" style={styles.smallHeader} />
+        <ArkadText
+          text="Motivation for the company:"
+          style={styles.smallHeader}
+        />
         <TextInput
           multiline
           style={styles.input}
@@ -67,8 +84,8 @@ export default function SSsApplicationScreen({ companyId }: SSsApplicationScreen
         />
         <CardWithHeader
           msg={
-            "The company will see your entire profile! Make sure to add CV and/or Linkedin-link in your profile for better chances of getting approved!" +
-            "\n \nWhen accepted, you will receive an e-mail telling you to book a session."
+            "Your complete profile, including your Curriculum Vitae (CV), will be thoroughly reviewed by the company. To enhance your application, it is mandatory to upload your CV to your profile. Additionally, you may include a LinkedIn profile link for a more comprehensive evaluation.\n\n" +
+            "Upon successful acceptance, you will be notified via email with instructions to proceed with booking your session."
           }
           header={"Remember!"}
         />
@@ -117,7 +134,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.arkadOrange,
     backgroundColor: Colors.white,
     borderWidth: 3,
-    color: Colors.arkadNavy,
+    color: "#A9A9AC",
     padding: 10,
     height: 180,
     borderRadius: 7,
