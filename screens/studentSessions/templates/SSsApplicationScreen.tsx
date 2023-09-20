@@ -12,7 +12,7 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
 import { CardWithHeader } from "components/sSApplication/SSApplicationMsg";
 import { PublicCompanyDto } from "api/Companies";
-import { getMe } from "api/Users";
+import { getMe, User } from "api/Users";
 
 type SSsApplicationScreenParams = {
   companyId: number;
@@ -84,7 +84,7 @@ export default function SSsApplicationScreen({
         />
         <CardWithHeader
           msg={
-            "Your complete profile, including your Curriculum Vitae (CV), will be thoroughly reviewed by the company. To enhance your application, it is mandatory to upload your CV to your profile. Additionally, you may include a LinkedIn profile link for a more comprehensive evaluation.\n\n" +
+            "Your complete profile, including your CV, will be thoroughly reviewed by the company. To enhance your application, it is mandatory to upload your CV to your profile to apply for a session. Additionally, you may include a LinkedIn profile link for a more comprehensive evaluation.\n\n" +
             "Upon successful acceptance, you will be notified via email with instructions to proceed with booking your session."
           }
           header={"Remember!"}
