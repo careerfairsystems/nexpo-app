@@ -20,6 +20,7 @@ import Colors from "constants/Colors";
 import { AuthDispatchContext } from "components/AuthContextProvider";
 
 import SSO from "components/SSO";
+import Toast from "react-native-toast-message";
 
 type LoginScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "LoginScreen">;
@@ -47,9 +48,17 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
 
     setLoading(false);
     if (success.status === 400) {
-      alert("Wrong email or password");
+      Toast.show({
+        type: "error",
+        text1: "Wrong email or password",
+        visibilityTime: 2000,
+      });
     } else if (!success.ok) {
-      alert("Login not successful");
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong, please try again",
+        visibilityTime: 2000,
+      });
     } else {
       setSignedIn(true);
     }
