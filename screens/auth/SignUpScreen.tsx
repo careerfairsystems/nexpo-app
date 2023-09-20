@@ -19,6 +19,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "./AuthNavigator";
 import Colors from "constants/Colors";
 import { Checkbox } from "components/Checkbox";
+import Toast from "react-native-toast-message";
 
 type SignUpScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "SignUpScreen">;
@@ -35,7 +36,10 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
   const signUp = async () => {
     if (!checkboxState) {
       setInvalidSignUp(true);
-      alert("You must accept ARKADs Privacy policy to sign up");
+      Toast.show({
+        type: "error",
+        text1: "You must accept ARKADs Privacy policy to sign up",
+      });
       return;
     }
     setLoading(true);
@@ -47,14 +51,25 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
     setLoading(false);
 
     if (success.ok) {
-      alert(
-        "Account created, check your email for a link to finalize it before you can use it"
-      );
+      Toast.show({
+        type: "success",
+        text1: "Account created",
+        text2:
+          "Check your email for a link to finalize it before you can use it",
+      });
       navigation.navigate("LoginScreen");
     } else if (success.status === 409) {
-      alert("Email already in use");
+      Toast.show({
+        type: "error",
+        text1: "Email already in use",
+        text2: "Please use another email",
+      });
     } else {
-      alert("Something went wrong, please try again");
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please try again",
+      });
     }
   };
 
