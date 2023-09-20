@@ -35,7 +35,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
   const signUp = async () => {
     if (!checkboxState) {
       setInvalidSignUp(true);
-      alert("You must accept Arkads Privacy policy to sign up");
+      alert("You must accept ARKADs Privacy policy to sign up");
       return;
     }
     setLoading(true);
