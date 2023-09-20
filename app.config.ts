@@ -17,7 +17,9 @@ export default {
   "expo": { 
     ios: {
     bundleIdentifier: "se.arkadtlth.nexpo",
+
     googleServicesFile: "./GoogleService-Info.plist",
+
     target: 'nexpoapp',
     buildNumber: "2.0.0",
     supportsTablet: true,
@@ -52,6 +54,10 @@ export default {
     isProd: process.env.NODE_ENV !== "development",
     backendUrl: 'https://nexpo.arkadtlth.se/api',
     //backendUrl: "http://localhost:5000/api",
+    "eas": {
+      target: 'nexpoapp',
+      "projectId": "736e5c8b-3245-43fc-9803-293e803f584e"
+     }
+    }
   }
-  },
 };
