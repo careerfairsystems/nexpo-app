@@ -27,7 +27,7 @@ export default function SSsApplicationScreen({
   const [user, setUser] = React.useState<User | null>(null);
 
   const sendApplication = async () => {
-    if (!user.hasCv) {
+    if (!user?.hasCv) {
       alert("You must add a CV to your profile to apply for a session");
     } else {
       setLoading(true);
