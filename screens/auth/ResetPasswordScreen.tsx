@@ -10,6 +10,7 @@ import { ArkadText } from "components/StyledText";
 import { API } from "api/API";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "./AuthNavigator";
+import Toast from "react-native-toast-message";
 
 type ResetPasswordScreenParams = {
   navigation: StackNavigationProp<AuthStackParamList, "ResetPasswordScreen">;
@@ -31,12 +32,20 @@ export default function ResetPasswordScreen({
 
   const resetPassword = async () => {
     if (password.length < 8) {
-      alert("Password is too weak, please choose a stronger one");
+      Toast.show({
+        type: "error",
+        text1: "Password is too weak",
+        text2: "Please choose a stronger one",
+      });
       return;
     }
 
     if (password !== repeatPassword) {
-      alert("Passwords does not match");
+      Toast.show({
+        type: "error",
+        text1: "Passwords does not match",
+        text2: "Please make sure they are the same",
+      });
       return;
     }
 
@@ -48,7 +57,11 @@ export default function ResetPasswordScreen({
     setLoading(false);
 
     if (!success) {
-      alert("Something went wrong, please try again later");
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please try again later",
+      });
     } else {
       alert("Success, the new password is set. Redirecting to the login page.");
       navigation.navigate("LoginScreen");
