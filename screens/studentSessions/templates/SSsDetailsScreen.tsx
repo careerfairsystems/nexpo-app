@@ -17,11 +17,14 @@ import { ApplicationAcceptedDto } from "api/Applications";
 import { Student } from "api/Students";
 import { PublicCompanyDto } from "api/Companies";
 import SSsStudentInfo from "components/studentSessionList/SSsStudentInfo";
+import Toast from "react-native-toast-message";
 
 type SSsDetailsScreenParams = {
   timeslotId: number;
 };
-export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams) {
+export default function SSsDetailsScreen({
+  timeslotId,
+}: SSsDetailsScreenParams) {
   const [timeslot, setTimeslot] = useState<SSTimeslot | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>();
@@ -33,7 +36,8 @@ export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams)
     const timeslot = await API.studentSessions.getTimeslot(timeslotId);
     const usr = await API.users.getMe();
     const company = await API.companies.getCompany(timeslot.companyId);
-    const student = usr.role === Role.Student ? await API.students.getMe() : null;
+    const student =
+      usr.role === Role.Student ? await API.students.getMe() : null;
     const acc =
       usr.role === Role.Student
         ? await API.applications.getApplicationAccepted(timeslot.companyId)
@@ -49,30 +53,44 @@ export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams)
     setTimeslot(timeslot);
   };
   const bookTimeslot = async () => {
-    if (timeslot?.id == undefined || user?.id == undefined || accepted?.accepted == undefined) {
+    if (
+      timeslot?.id == undefined ||
+      user?.id == undefined ||
+      accepted?.accepted == undefined
+    ) {
       return;
     }
     if (timeslot.studentId != null) {
-      alert("Timeslot is already booked");
+      Toast.show({
+        text1: "Timeslot is already booked",
+        text2: "You can not book a timeslot that is already booked",
+        type: "error",
+      });
       return;
     }
     if (accepted.booked) {
-      alert("You have already booked a timeslot");
+      Toast.show({
+        text1: "You have already booked a timeslot",
+        text2: "You can only book one timeslot",
+        type: "info",
+      });
       return;
     }
     setLoading(true);
     const ts = await API.studentSessions.bookTimeslot(timeslot.id);
     if (ts.id != undefined) {
-      alert(
-        "Registered to student session " +
-          API.studentSessions.formatTime(timeslot.start, timeslot.end)
-      );
+      Toast.show({
+        text1: "Registered to student session",
+        text2: API.studentSessions.formatTime(timeslot.start, timeslot.end),
+        type: "success",
+      });
       getTimeslot();
     } else {
-      alert(
-        "Could not register to student session " +
-          API.studentSessions.formatTime(timeslot.start, timeslot.end)
-      );
+      Toast.show({
+        text1: "Could not register to student session",
+        text2: API.studentSessions.formatTime(timeslot.start, timeslot.end),
+        type: "error",
+      });
       getTimeslot();
     }
     setLoading(false);
@@ -85,26 +103,29 @@ export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams)
     }
 
     if (timeslot.studentId == null) {
-      alert(
-        "You are not booked to student session " +
-          API.studentSessions.formatTime(timeslot.start, timeslot.end)
-      );
+      Toast.show({
+        text1: "Timeslot is not booked",
+        text2: "You can not de-register from a timeslot that is not booked",
+        type: "error",
+      });
       return;
     }
 
     const success = await unbookTimeslot(timeslot.id);
 
     if (success) {
-      alert(
-        "Successfully de-registered from student session " +
-          API.studentSessions.formatTime(timeslot.start, timeslot.end)
-      );
+      Toast.show({
+        text1: "Successfully de-registered from student session",
+        text2: API.studentSessions.formatTime(timeslot.start, timeslot.end),
+        type: "success",
+      });
       getTimeslot();
     } else {
-      alert(
-        "Could not de-register from student session " +
-          API.studentSessions.formatTime(timeslot.start, timeslot.end)
-      );
+      Toast.show({
+        text1: "Could not de-register from student session",
+        text2: API.studentSessions.formatTime(timeslot.start, timeslot.end),
+        type: "error",
+      });
     }
     setLoading(false);
   }
@@ -129,14 +150,20 @@ export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams)
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <ArkadText text={`${company.name} student session`} style={styles.title} />
+          <ArkadText
+            text={`${company.name} student session`}
+            style={styles.title}
+          />
         </View>
         <View style={styles.headerContainer}>
           <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
             <View style={styles.leftItem}>
               <Ionicons name="calendar" size={16} color="white" />
               <ArkadText
-                text={API.studentSessions.formatTime(timeslot.start, timeslot.end)}
+                text={API.studentSessions.formatTime(
+                  timeslot.start,
+                  timeslot.end
+                )}
                 style={styles.headerText}
               />
             </View>
@@ -145,7 +172,11 @@ export default function SSsDetailsScreen({ timeslotId }: SSsDetailsScreenParams)
               <ArkadText text={timeslot.location} style={styles.headerText} />
             </View>
             <View style={styles.leftItem}>
-              <MaterialCommunityIcons name="microphone" size={16} color="white" />
+              <MaterialCommunityIcons
+                name="microphone"
+                size={16}
+                color="white"
+              />
               <ArkadText text={company.name} style={styles.headerText} />
             </View>
           </View>
@@ -192,7 +223,7 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     width: "90%",
     backgroundColor: Colors.arkadOrange,
-    marginBottom: 20
+    marginBottom: 20,
   },
   container: {
     flex: 1,
@@ -201,7 +232,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: Colors.white,
     borderWidth: 3,
-    borderRadius: 17
+    borderRadius: 17,
   },
   titleContainer: {
     width: "90%",
