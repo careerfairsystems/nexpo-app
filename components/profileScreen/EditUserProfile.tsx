@@ -118,6 +118,7 @@ export default function EditUserProfile({
       type: "success",
       text2:
         "Profile picture uploaded. Save profile to see the new profile picture",
+      visibilityTime: 4000,
     });
   };
 
@@ -133,6 +134,7 @@ export default function EditUserProfile({
       Toast.show({
         type: "success",
         text2: "Profile picture deleted. Save profile to see the changes",
+        visibilityTime: 3000,
       });
     }
   };
@@ -166,6 +168,7 @@ export default function EditUserProfile({
           type: "error",
           text1: "Error",
           text2: "File needs to be in PDF format and must be smaller than 2 Mb",
+          visibilityTime: 4000,
         });
       }
     }
