@@ -70,7 +70,7 @@ export default function SSsApplicationScreen({
           </>
         )}
         <ArkadText
-          text="Motivation for the company:"
+          text="Recommended: Motivation for the company:"
           style={styles.smallHeader}
         />
         <TextInput
