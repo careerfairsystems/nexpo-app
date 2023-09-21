@@ -44,7 +44,8 @@ export default function EditUserProfile({
     if (password && password.length < 8) {
       setEditStatus({
         ok: false,
-        message: "Password is not strong enough",
+        message:
+          "Password is not strong enough. You need at least 9 characters",
       });
     } else if (password && password !== repeatPassword) {
       setEditStatus({
