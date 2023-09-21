@@ -33,6 +33,7 @@ import { ArkadText, NoButton } from "components/StyledText";
 import QRCode from "react-native-qrcode-svg";
 import { format, subDays } from "date-fns";
 import { Picker } from "@react-native-picker/picker";
+import Toast from "react-native-toast-message";
 
 export default function EventDetailsScreen(id: number) {
   const [event, setEvent] = useState<Event | null>(null);
@@ -107,7 +108,7 @@ export default function EventDetailsScreen(id: number) {
         alert("Registered to " + event?.name + " " + event?.date);
       }
       alert(
-        "If you have any allergies or food preferences, please update your profile to contain it."
+        "If you have any allergies or food preferences, please update your profile accordingly."
       );
 
       getEvent();
@@ -127,18 +128,22 @@ export default function EventDetailsScreen(id: number) {
 
     const ticket: Ticket | null = await getTicketForEvent(event);
     if (ticket == null) {
-      alert("You are not booked to " + event?.name + " " + event?.date);
+      Toast.show({
+        type: "error",
+        text1: "You are not booked to the event: " + event?.name,",
+        visibilityTime: 200,
+      })
       return;
     }
 
     const success = await removeTicket(ticket.id);
     if (success) {
       alert(
-        "Successfully de-registered from " + event?.name + " " + event?.date
+        "Successfully de-registered from: " + event?.name
       );
       getEvent();
     } else {
-      alert("Could not de-register from " + event?.name + " " + event?.date);
+      alert("Could not de-register from :" + event?.name);
     }
     setLoading(false);
   }
