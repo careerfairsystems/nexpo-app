@@ -1,7 +1,7 @@
 export default {
   name: "Arkad",
   slug: "nexpo-app",
-  version: "1.2.6",
+  version: "2.0.0",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
   scheme: "myapp",
@@ -14,10 +14,14 @@ export default {
     fallbackToCacheTimeout: 0,
   },
   assetBundlePatterns: ["**/*"],
-  ios: {
+  "expo": { 
+    ios: {
     bundleIdentifier: "se.arkadtlth.nexpo",
+
     googleServicesFile: "./GoogleService-Info.plist",
-    buildNumber: "1.2.6",
+
+    target: 'nexpoapp',
+    buildNumber: "2.0.0",
     supportsTablet: true,
     infoPlist: {
       NSCameraUsageDescription: "Camera access is needed for the QR-code scanning functionality",
@@ -50,5 +54,10 @@ export default {
     isProd: process.env.NODE_ENV !== "development",
     backendUrl: 'https://nexpo.arkadtlth.se/api',
     //backendUrl: "http://localhost:5000/api",
-  },
+    "eas": {
+      target: 'nexpoapp',
+      "projectId": "736e5c8b-3245-43fc-9803-293e803f584e"
+     }
+    }
+  }
 };

@@ -13,6 +13,7 @@ import { ArkadText } from "components/StyledText";
 import { CardWithHeader } from "components/sSApplication/SSApplicationMsg";
 import { PublicCompanyDto } from "api/Companies";
 import Toast from "react-native-toast-message";
+import { getMe, User } from "api/Users";
 
 type SSsApplicationScreenParams = {
   companyId: number;
@@ -24,13 +25,13 @@ export default function SSsApplicationScreen({
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
+  const [user, setUser] = React.useState<User | null>(null);
 
   const sendApplication = async () => {
-    if (msg === "") {
+    if (!user?.hasCv) {
       Toast.show({
         type: "error",
-        text1: "Message cannot be empty",
-        visibilityTime: 2000,
+        text1: "You must add a CV to your profile to apply for a session",
       });
     } else {
       setLoading(true);
@@ -47,9 +48,16 @@ export default function SSsApplicationScreen({
     const company = await API.companies.getCompany(companyId);
     setCompany(company);
   };
+
+  const getUser = async () => {
+    const usr = await getMe();
+    setUser(usr);
+  };
+
   useEffect(() => {
     setLoading(true);
     getCompany();
+    getUser();
     setLoading(false);
   }, []);
 
@@ -70,7 +78,7 @@ export default function SSsApplicationScreen({
           </>
         )}
         <ArkadText
-          text="Motivation for the company:"
+          text="Recommended: Motivation for the company:"
           style={styles.smallHeader}
         />
         <TextInput
@@ -84,8 +92,8 @@ export default function SSsApplicationScreen({
         />
         <CardWithHeader
           msg={
-            "The company will see your entire profile! Make sure to add CV and/or Linkedin-link in your profile for better chances of getting approved!" +
-            "\n \nWhen accepted, you will receive an e-mail telling you to book a session."
+            "Your complete profile, including your CV, will be thoroughly reviewed by the company. To enhance your application, it is mandatory to upload your CV to your profile to apply for a session. Additionally, you may include a LinkedIn profile link for a more comprehensive evaluation.\n\n" +
+            "Upon successful acceptance, you will be notified via email with instructions to proceed with booking your session."
           }
           header={"Remember!"}
         />
@@ -134,7 +142,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.arkadOrange,
     backgroundColor: Colors.white,
     borderWidth: 3,
-    color: Colors.arkadNavy,
+    color: "#A9A9AC",
     padding: 10,
     height: 180,
     borderRadius: 7,
