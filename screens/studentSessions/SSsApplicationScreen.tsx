@@ -12,6 +12,7 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
 import { CardWithHeader } from "components/sSApplication/SSApplicationMsg";
 import { PublicCompanyDto } from "api/Companies";
+import Toast from "react-native-toast-message";
 import { getMe, User } from "api/Users";
 
 type SSsApplicationScreenParams = {
@@ -28,11 +29,18 @@ export default function SSsApplicationScreen({
 
   const sendApplication = async () => {
     if (!user?.hasCv) {
-      alert("You must add a CV to your profile to apply for a session");
+      Toast.show({
+        type: "error",
+        text1: "You must add a CV to your profile to apply for a session",
+      });
     } else {
       setLoading(true);
       await API.applications.sendApplication(companyId, msg);
-      alert("Application to " + company?.name + " sent");
+      Toast.show({
+        type: "success",
+        text1: "Application to " + company?.name + " sent",
+        visibilityTime: 2500,
+      });
       setLoading(false);
     }
   };

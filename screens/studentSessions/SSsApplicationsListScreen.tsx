@@ -5,7 +5,7 @@ import { View } from "components/Themed";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { API } from "api/API";
 import { ApplicationsList } from "components/sSApplication/SSApplicationList";
-import { SSsStackParamlist } from "../SSsCRepNavigator";
+import { SSsStackParamlist } from "./SSsCRepNavigator";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { SSApplicationDto } from "api/Applications";
 import { useFocusEffect } from "@react-navigation/native";
@@ -17,7 +17,9 @@ export default function SSsApplicationsListScreen(
   navigation: StackNavigationProp<SSsStackParamlist, "SSsSwitchScreen">
 ) {
   const [isLoading, setLoading] = React.useState<boolean>(true);
-  const [applications, setApplications] = React.useState<SSApplicationDto[] | null>(null);
+  const [applications, setApplications] = React.useState<
+    SSApplicationDto[] | null
+  >(null);
 
   const getApplications = async () => {
     setLoading(true);
@@ -46,20 +48,32 @@ export default function SSsApplicationsListScreen(
       <View style={styles.statsContainer}>
         <ArkadText
           style={{ ...styles.statsText, color: Colors.arkadTurkos }}
-          text={`${applications?.filter((application) => application.status === 0).length}`}
+          text={`${
+            applications?.filter((application) => application.status === 0)
+              .length
+          }`}
         />
         <ArkadText style={{ ...styles.statsText }} text={`/`} />
         <ArkadText
           style={{ ...styles.statsText, color: Colors.lightGreen }}
-          text={`${applications?.filter((application) => application.status === 1).length}`}
+          text={`${
+            applications?.filter((application) => application.status === 1)
+              .length
+          }`}
         />
         <ArkadText style={{ ...styles.statsText }} text={`/`} />
         <ArkadText
           style={{ ...styles.statsText, color: Colors.lightRed }}
-          text={`${applications?.filter((application) => application.status === 2).length}`}
+          text={`${
+            applications?.filter((application) => application.status === 2)
+              .length
+          }`}
         />
       </View>
-      <ApplicationsList applications={applications} onPress={openApplicationDetails} />
+      <ApplicationsList
+        applications={applications}
+        onPress={openApplicationDetails}
+      />
     </View>
   );
 }
@@ -74,13 +88,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 17,
     borderColor: Colors.white,
-    backgroundColor: Colors.arkadNavy
+    backgroundColor: Colors.arkadNavy,
   },
   statsText: {
     fontSize: 24,
     fontWeight: "bold",
     marginHorizontal: 5,
-    color: Colors.white
+    color: Colors.white,
   },
   container: {
     flex: 1,

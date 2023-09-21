@@ -20,6 +20,7 @@ import { Student } from "api/Students";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import Colors from "constants/Colors";
+import Toast from "react-native-toast-message";
 
 type SSsNavigation = {
   navigation: StackNavigationProp<SSsStackParamlist, "SSsListScreen">;
@@ -37,15 +38,20 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
   const [company, setCompany] = React.useState<PublicCompanyDto | null>(null);
   const [user, setUser] = React.useState<User | null>(null);
   const [student, setStudent] = React.useState<Student | null>(null);
-  const [accepted, setAccepted] = React.useState<ApplicationAcceptedDto | null>(null);
+  const [accepted, setAccepted] = React.useState<ApplicationAcceptedDto | null>(
+    null
+  );
 
   const getTimeslotsAndCompany = async () => {
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(id);
     const company = await API.companies.getCompany(id);
     const user = await getMe();
     const acc =
-      user.role === Role.Student ? await API.applications.getApplicationAccepted(id) : null;
-    const stdnt = user.role === Role.Student ? await API.students.getMe() : null;
+      user.role === Role.Student
+        ? await API.applications.getApplicationAccepted(id)
+        : null;
+    const stdnt =
+      user.role === Role.Student ? await API.students.getMe() : null;
     setStudent(stdnt);
     setAccepted(acc);
     setUser(user);
@@ -55,12 +61,21 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
 
   const openSSDetails = (id: number) => {
     user?.role === Role.CompanyRepresentative || accepted?.accepted
-      ? navigation.navigate("SSsSwitchScreen", { id: id, screen: "DetailsScreen" })
-      : alert("You must first send an application and get it accepted to be able to book a time");
+      ? navigation.navigate("SSsSwitchScreen", {
+          id: id,
+          screen: "DetailsScreen",
+        })
+      : Toast.show({
+          type: "info",
+          text1:
+            "You must first send an application and get it accepted to be able to book a time",
+          visibilityTime: 4500,
+        });
   };
 
   const openSSsApplicaion = () => {
-    const screen = user?.role == Role.Student ? "application" : "applicationList";
+    const screen =
+      user?.role == Role.Student ? "application" : "applicationList";
     navigation.navigate("SSsSwitchScreen", { id: id, screen: screen });
   };
 
@@ -85,10 +100,15 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
           <>
             {user.role === Role.Student && <SSCompInfo company={company} />}
             {!accepted?.accepted ? (
-              <ArkadButton style={styles.button} onPress={() => openSSsApplicaion()}>
+              <ArkadButton
+                style={styles.button}
+                onPress={() => openSSsApplicaion()}
+              >
                 <ArkadText
                   text={
-                    user.role === Role.CompanyRepresentative ? "See applications!" : "Apply here!"
+                    user.role === Role.CompanyRepresentative
+                      ? "See applications!"
+                      : "Apply here!"
                   }
                 />
               </ArkadButton>
@@ -102,7 +122,11 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
         }
         ListFooterComponent={
           <View style={styles.container}>
-            <TimeslotList timeslots={ssTimeslots} student={student} onPress={openSSDetails} />
+            <TimeslotList
+              timeslots={ssTimeslots}
+              student={student}
+              onPress={openSSDetails}
+            />
           </View>
         }
       ></FlatList>

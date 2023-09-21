@@ -5,7 +5,7 @@ import { View, Text } from "../Themed";
 import { Linking, Platform, StyleSheet } from "react-native";
 import Colors from "constants/Colors";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
+import { EditStatus } from "../../screens/profile/EditProfileScreen";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
 import { API } from "api/API";
@@ -13,6 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
+import Toast from "react-native-toast-message";
 
 type EditUserProfileProps = {
   user: User;
@@ -43,7 +44,8 @@ export default function EditUserProfile({
     if (password && password.length < 8) {
       setEditStatus({
         ok: false,
-        message: "Password is not strong enough",
+        message:
+          "Password is not strong enough. You need at least 9 characters",
       });
     } else if (password && password !== repeatPassword) {
       setEditStatus({
@@ -90,12 +92,20 @@ export default function EditUserProfile({
     const fileInfo = await FileSystem.getInfoAsync(result.assets[0]["uri"]);
 
     if (!result.assets[0].uri.includes("data:image")) {
-      alert("Only images allowed");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "You must select an image",
+      });
       return;
     }
 
     if (fileInfo.size ? fileInfo.size > 4000000 : false) {
-      alert("Maximum filesize is 4 Mb");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Maximum file size of 4 Mb exceeded",
+      });
       return;
     }
 
@@ -105,16 +115,28 @@ export default function EditUserProfile({
         console.log(e);
       });
     setHasProfilePicture(true);
-    alert("Save profile to see the new profile picture");
+    Toast.show({
+      type: "success",
+      text2:
+        "Profile picture uploaded. Save profile to see the new profile picture",
+      visibilityTime: 4000,
+    });
   };
 
   const removeProfilePicture = async () => {
     if (hasProfilePicture == false) {
-      alert("You have no profile picture");
+      Toast.show({
+        type: "error",
+        text1: "You have no profile picture",
+      });
     } else {
       await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
       setHasProfilePicture(false);
-      alert("Save profile to remove your profile picture");
+      Toast.show({
+        type: "success",
+        text2: "Profile picture deleted. Save profile to see the changes",
+        visibilityTime: 3000,
+      });
     }
   };
   const setCV = async () => {
@@ -133,14 +155,22 @@ export default function EditUserProfile({
             ".pdf"
           );
 
-          alert("CV uploaded");
+          Toast.show({
+            type: "success",
+            text2: "CV uploaded",
+          });
           setCvURL(true);
         } catch (error) {
           console.log(error);
           alert("Something went wrong");
         }
       } else {
-        alert("File needs to be in PDF format and must be smaller than 2Mb");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "File needs to be in PDF format and must be smaller than 2 Mb",
+          visibilityTime: 4000,
+        });
       }
     }
   };
@@ -148,14 +178,21 @@ export default function EditUserProfile({
   const deleteCV = async () => {
     try {
       const dto = await API.s3bucket.deleteOnS3(user.id.toString(), ".pdf");
-      alert("CV deleted");
+      Toast.show({
+        type: "success",
+        text2: "CV deleted",
+      });
       if (dto.valueOf() == true) {
         setCvURL(false);
       }
     } catch (error) {
       console.log(error);
       setCvURL(false);
-      alert("CV deleted");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Something went wrong",
+      });
     }
   };
 

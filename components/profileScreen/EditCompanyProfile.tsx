@@ -4,11 +4,11 @@ import { View, Text } from "../Themed";
 import { Pressable, StyleSheet } from "react-native";
 import Colors from "constants/Colors";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/profile/templates/EditProfileScreen";
+import { EditStatus } from "../../screens/profile/EditProfileScreen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
 import { ArkadText } from "components/StyledText";
-import {ArkadCheckbox} from "components/ArkadCheckbox";
+import { ArkadCheckbox } from "components/ArkadCheckbox";
 
 type EditCompanyProfileProps = {
   company: Company;
@@ -19,8 +19,7 @@ type EditCompanyProfileProps = {
 enum days {
   day1 = "2023-11-14T00:00:00",
   day2 = "2023-11-15T00:00:00",
-};
-
+}
 
 export default function EditCompanyProfile({
   company,
@@ -31,7 +30,9 @@ export default function EditCompanyProfile({
     company.description
   );
   const [website, setWebsite] = React.useState<string | null>(company.website);
-  const [daysAtArkad, setDaysAtArkad] = React.useState<string[]>(company.daysAtArkad);
+  const [daysAtArkad, setDaysAtArkad] = React.useState<string[]>(
+    company.daysAtArkad
+  );
 
   const handlecheckboxChange = (value: string) => {
     if (daysAtArkad.includes(value)) {
@@ -65,7 +66,7 @@ export default function EditCompanyProfile({
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <ArkadText text={company.name} style={styles.nameLabel}/>
+        <ArkadText text={company.name} style={styles.nameLabel} />
 
         <Text
           style={{
@@ -102,17 +103,17 @@ export default function EditCompanyProfile({
           onChangeText={setWebsite}
         />
 
-        <ArkadText text={"Fair days"} style={styles.header}/>
-        <ArkadCheckbox 
-          checked={daysAtArkad.includes(days.day1)} 
-          onChange={()=>handlecheckboxChange(days.day1)} 
-          text="Day 1"/>
-        <ArkadCheckbox 
-          checked={daysAtArkad.includes(days.day2)} 
-          onChange={()=>handlecheckboxChange(days.day2)} 
+        <ArkadText text={"Fair days"} style={styles.header} />
+        <ArkadCheckbox
+          checked={daysAtArkad.includes(days.day1)}
+          onChange={() => handlecheckboxChange(days.day1)}
+          text="Day 1"
+        />
+        <ArkadCheckbox
+          checked={daysAtArkad.includes(days.day2)}
+          onChange={() => handlecheckboxChange(days.day2)}
           text="Day 2"
         />
-
       </View>
     </KeyboardAwareScrollView>
   );
