@@ -12,7 +12,6 @@ type CompanyProfileProps = {
 };
 
 function showDays(days : string[]){
-  console.log(days)
   return(
     <View>
       {days.sort().map((day) => <Text key={day} style={styles.daysText}>{day.slice(0, day.indexOf('T'))}</Text>)}
