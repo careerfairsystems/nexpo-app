@@ -130,17 +130,15 @@ export default function EventDetailsScreen(id: number) {
     if (ticket == null) {
       Toast.show({
         type: "error",
-        text1: "You are not booked to the event: " + event?.name,",
+        text1: "You are not booked to the event: " + event?.name,
         visibilityTime: 200,
-      })
+      });
       return;
     }
 
     const success = await removeTicket(ticket.id);
     if (success) {
-      alert(
-        "Successfully de-registered from: " + event?.name
-      );
+      alert("Successfully de-registered from: " + event?.name);
       getEvent();
     } else {
       alert("Could not de-register from :" + event?.name);
