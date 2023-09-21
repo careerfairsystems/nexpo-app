@@ -12,23 +12,34 @@ import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
 import { CardWithHeader } from "components/sSApplication/SSApplicationMsg";
 import { PublicCompanyDto } from "api/Companies";
+import Toast from "react-native-toast-message";
 
 type SSsApplicationScreenParams = {
   companyId: number;
 };
 
-export default function SSsApplicationScreen({ companyId }: SSsApplicationScreenParams) {
+export default function SSsApplicationScreen({
+  companyId,
+}: SSsApplicationScreenParams) {
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
 
   const sendApplication = async () => {
     if (msg === "") {
-      alert("Message cannot be empty");
+      Toast.show({
+        type: "error",
+        text1: "Message cannot be empty",
+        visibilityTime: 2000,
+      });
     } else {
       setLoading(true);
       await API.applications.sendApplication(companyId, msg);
-      alert("Application to " + company?.name + " sent");
+      Toast.show({
+        type: "success",
+        text1: "Application to " + company?.name + " sent",
+        visibilityTime: 2500,
+      });
       setLoading(false);
     }
   };
@@ -52,10 +63,16 @@ export default function SSsApplicationScreen({ companyId }: SSsApplicationScreen
         {company?.studentSessionMotivation && (
           <>
             <ArkadText style={styles.header} text={`from ${company.name}:`} />
-            <ArkadText style={styles.companyMotivation} text={company.studentSessionMotivation} />
+            <ArkadText
+              style={styles.companyMotivation}
+              text={company.studentSessionMotivation}
+            />
           </>
         )}
-        <ArkadText text="Motivation for the company:" style={styles.smallHeader} />
+        <ArkadText
+          text="Motivation for the company:"
+          style={styles.smallHeader}
+        />
         <TextInput
           multiline
           style={styles.input}
