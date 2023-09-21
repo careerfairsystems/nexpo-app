@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { View } from "components/Themed";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { EventStackParamlist } from "../EventsNavigator";
+import { EventStackParamlist } from "./EventsNavigator";
 import { Event } from "api/Events";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { ScanQRButton } from "components/profileScreen/Buttons";

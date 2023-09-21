@@ -8,7 +8,7 @@ import { API } from "api/API";
 import { UpdateUserDto, User } from "api/Users";
 import { Role } from "api/Role";
 import { Company, UpdateCompanySelfDto } from "api/Companies";
-import { ProfileStackParamList } from "../ProfileNavigator";
+import { ProfileStackParamList } from "./ProfileNavigator";
 
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { ArkadText } from "components/StyledText";

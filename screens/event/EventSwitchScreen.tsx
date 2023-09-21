@@ -1,7 +1,7 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { EventStackParamlist } from "./EventsNavigator";
-import EventDetailsScreen from "./templates/EventDetailsScreen";
-import EventParticipantsScreen from "./templates/EventParticipantsScreen";
+import EventDetailsScreen from "./EventDetailsScreen";
+import EventParticipantsScreen from "./EventParticipantsScreen";
 
 type ProfileSwitchScreenParams = {
   navigation: StackNavigationProp<EventStackParamlist, "EventSwitchScreen">;
@@ -13,7 +13,10 @@ type ProfileSwitchScreenParams = {
   };
 };
 
-export default function EventSwitchScreen({ navigation, route }: ProfileSwitchScreenParams) {
+export default function EventSwitchScreen({
+  navigation,
+  route,
+}: ProfileSwitchScreenParams) {
   const { id, screen } = route.params;
   switch (screen) {
     case "participatians": {

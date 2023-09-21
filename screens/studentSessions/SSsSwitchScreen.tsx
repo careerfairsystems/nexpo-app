@@ -1,8 +1,8 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SSsStackParamlist } from "./SSsCRepNavigator";
-import SSsApplicationsListScreen from "./templates/SSsApplicationsListScreen";
-import SSsApplicationScreen from "./templates/SSsApplicationScreen";
-import SSsDetailsScreen from "./templates/SSsDetailsScreen";
+import SSsApplicationsListScreen from "./SSsApplicationsListScreen";
+import SSsApplicationScreen from "./SSsApplicationScreen";
+import SSsDetailsScreen from "./SSsDetailsScreen";
 
 type SSsSwitchScreenParams = {
   navigation: StackNavigationProp<SSsStackParamlist, "SSsSwitchScreen">;
@@ -14,7 +14,10 @@ type SSsSwitchScreenParams = {
   };
 };
 
-export default function SSsSwitchScreen({ navigation, route }: SSsSwitchScreenParams) {
+export default function SSsSwitchScreen({
+  navigation,
+  route,
+}: SSsSwitchScreenParams) {
   const { id, screen } = route.params;
   switch (screen) {
     case "applicationList": {
