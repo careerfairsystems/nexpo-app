@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     color: Colors.arkadTurkos,
   },
   loginButton: {
-    width: "50%",
+    width: "65%",
     alignSelf: "center",
   },
 });

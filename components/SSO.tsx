@@ -23,7 +23,7 @@ export default function SSO() {
 
 const styles = StyleSheet.create({
   button: {
-    width: "50%",
+    width: "65%",
     alignSelf: "center",
   },
   text: {},
