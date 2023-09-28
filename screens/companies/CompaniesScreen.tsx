@@ -104,9 +104,6 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         setIsFiltered={setIsFiltered}
         isVisable={modalVisible}
       />
-      {companies?.find((company) => company.name === "Accenture") ? (
-        <ArkadText text={"Corporation Partner"} style={styles.accenture} />
-      ) : null}
       <FlatList
         style={styles.list}
         nestedScrollEnabled={true}
@@ -117,6 +114,10 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
           if (company.name === "Accenture") {
             return (
               <View>
+                <ArkadText
+                  text={"Corporation Partner"}
+                  style={styles.accenture}
+                />
                 <CompanyListItem
                   company={company}
                   onPress={() => openCompanyDetails(company.id)}
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     margin: 8,
     marginBottom: 30,
-    width: "20%",
+    width: "50%",
   },
   accentureText: {
     fontFamily: "main-font-bold",
