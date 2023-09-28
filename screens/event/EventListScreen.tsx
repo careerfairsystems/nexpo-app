@@ -58,10 +58,6 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   };
 
   function switchEvents() {
-    console.log(events);
-    for (let i = 0; events && i < events.length; i++) {
-      console.log(events[i]);
-    }
     setShowAllEvents(!showAllEvents);
   }
 
