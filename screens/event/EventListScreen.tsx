@@ -33,7 +33,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
 
   const getEvents = async () => {
     setLoading(true);
-    const events = await API.events.getAllEvents();
+    let events = await API.events.getAllEvents();
     const isSignedIn = await API.auth.isAuthenticated();
     if (isSignedIn) {
       const role = await API.auth.getUserRole();
@@ -41,17 +41,16 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     }
 
     // Filter out Banquet and Lunch events as they shouldn't be shown in the event list
-    for (let i = 0; i < events.length; i++) {
-      if (
-        events[i].name.toLowerCase().includes("lunch") ||
-        events[i].name.toLowerCase().includes("banquet")
-      ) {
-        if (events[i].name.toLowerCase().includes("lecture")) {
-          continue;
+    events = events.filter((event) => {
+      const nameLower = event.name.toLowerCase();
+      if (nameLower.includes("lunch") || nameLower.includes("banquet")) {
+        if (nameLower.includes("lecture")) {
+          return true;
         }
-        delete events[i];
+        return false;
       }
-    }
+      return true;
+    });
 
     setEvents(events);
     setUpcomingEvents(API.events.getUpcomingEvents(events));
@@ -59,6 +58,10 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   };
 
   function switchEvents() {
+    console.log(events);
+    for (let i = 0; events && i < events.length; i++) {
+      console.log(events[i]);
+    }
     setShowAllEvents(!showAllEvents);
   }
 
