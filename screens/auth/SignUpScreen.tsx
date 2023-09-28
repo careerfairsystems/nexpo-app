@@ -102,7 +102,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
           style={{ borderColor: Colors.white, color: Colors.white }}
         />
         <Checkbox
-          text="I accept Arkads privacy policy"
+          text="I accept ARKADs privacy policy"
           onPress={(value) => setCheckboxState(!value)}
           style={invalidSignUp ? styles.checkboxError : styles.checkbox}
         />
