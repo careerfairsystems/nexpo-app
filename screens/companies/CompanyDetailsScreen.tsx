@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Image, Linking } from "react-native";
+import { StyleSheet, Image, Linking, TouchableOpacity } from "react-native";
 
 import { Text, View } from "components/Themed";
 
@@ -12,6 +12,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { ArkadText } from "components/StyledText";
 import { companyLocations } from "components/companies/CompanyLocationsMap";
 
+import { EMap, KarhusetMap, Map, SC1Map } from "components/maps/MapProps";
+
 type CompanyDetailsScreenParams = {
   route: {
     params: {
@@ -22,7 +24,8 @@ type CompanyDetailsScreenParams = {
 
 export default function CompanyDetailsScreen({
   route,
-}: CompanyDetailsScreenParams) {
+  navigation,
+}: CompanyDetailsScreenParams & { navigation: any }) {
   const { id } = route.params;
 
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
@@ -44,6 +47,16 @@ export default function CompanyDetailsScreen({
   if (loading || company == null) {
     return <ScreenActivityIndicator />;
   }
+
+  type MapObjectMapping = {
+    [key: number]: Map;
+  };
+
+  const id_to_map_object: MapObjectMapping = {
+    2: KarhusetMap,
+    0: SC1Map,
+    1: EMap,
+  };
 
   return (
     <View style={styles.outerContainer}>
@@ -78,15 +91,24 @@ export default function CompanyDetailsScreen({
                 : "No website available"}
             </Text>
           </View>
-          <View style={styles.contactInfoContainer}>
-            <Ionicons name="map" size={18} color="white" />
-            <ArkadText
-              text={(
-                Locations[companyLocations[company.id]] ?? "No data"
-              ).replace("_", " ")}
-              style={styles.contactInfoText}
-            />
-          </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              const map = id_to_map_object[companyLocations[company.id]];
+              console.log(map);
+              navigation.navigate("ZoomMapScreen", { map });
+            }}
+          >
+            <View style={styles.contactInfoContainer}>
+              <Ionicons name="map" size={18} color="white" />
+              <ArkadText
+                text={(
+                  Locations[companyLocations[company.id]] ?? "No data"
+                ).replace("_", " ")}
+                style={styles.contactInfoText}
+              />
+            </View>
+          </TouchableOpacity>
 
           <Text style={styles.descHeader}>About us</Text>
           <Text style={styles.desc}>
@@ -143,6 +165,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     fontFamily: "main-font-bold",
     color: Colors.white,
+    textDecorationLine: "underline",
   },
   linkText: {
     fontSize: 18,
@@ -153,7 +176,6 @@ const styles = StyleSheet.create({
   },
   descHeader: {
     alignSelf: "center",
-    textDecorationLine: "underline",
     paddingTop: 16,
     fontSize: 18,
     fontFamily: "main-font-bold",

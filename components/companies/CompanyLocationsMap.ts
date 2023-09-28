@@ -6,7 +6,7 @@ export const companyLocations: MyMapLikeType = {
   // E_Building: 1
   // Union_Building: 2
   // Tent: 3
-  // 125 står ej på messsan
+  // 125 står ej på mässsan
   145: 1,
   128: 0,
   126: 0,
