@@ -25,6 +25,8 @@ export const InitiateSSO = async (setSignedIn: (value: boolean) => void): Promis
 
         if (success) {
           setSignedIn(true);
+        } else {
+          setSignedIn(false);
         }
 
         // Close the WebSocket connection
@@ -39,6 +41,7 @@ export const InitiateSSO = async (setSignedIn: (value: boolean) => void): Promis
       // An error occurred
       console.log(e);
       reject(e);
+      setSignedIn(false);
     };
 
     ws.onclose = (e) => {
