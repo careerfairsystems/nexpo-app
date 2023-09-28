@@ -99,7 +99,9 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
       <View style={styles.container}>
         <UpcomingButton showAllEvents={showAllEvents} onPress={switchEvents} />
         {/* Admin button for QR Mode */}
-        <AdministratorButton QRMode={QRMode} switchQRMode={switchQRMode} />
+        {role === Role.Administrator && (
+          <AdministratorButton QRMode={QRMode} switchQRMode={switchQRMode} />
+        )}
         <EventList
           events={showAllEvents ? events : upcomingEvents}
           onPress={openEventDetails}
