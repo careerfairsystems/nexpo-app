@@ -15,55 +15,58 @@ import { RegisterUserDTO } from "api/Firebase";
 // https://medium.com/@arashfallahi1989/how-to-integrate-firebase-push-notification-in-react-native-expo-bd5cc694f181
 
 export default function App() {
-  // Register background handler
-  messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
-    console.log("Message handled in the background!", remoteMessage);
-  });
-  AppRegistry.registerComponent("app", () => App);
 
-  messaging()
-    .subscribeToTopic("weather")
-    .then(() => console.log("Subscribed to topic!"));
-
-  messaging()
-    .unsubscribeFromTopic("weather")
-    .then(() => console.log("Unsubscribed fom the topic!"));
-
-  useEffect(() => {
-    async function requestUserPermission() {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-      if (enabled) {
-        console.log("Authorization status:", authStatus);
-
-        // Get the token
-        const fcmToken = await messaging().getToken();
-        if (fcmToken) {
-          console.log("Your Firebase Cloud Messaging token is:", fcmToken);
-          const register: RegisterUserDTO = {
-            token: fcmToken,
-            topic: "all",
-          };
-
-          const response = API.firebase.registerFirebase(register);
-          console.log("Firebase: ", response);
-        } else {
-          console.log("Failed to get FCM token");
+  if(!__DEV__) {
+    // Register background handler
+    messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
+      console.log("Message handled in the background!", remoteMessage);
+    });
+    AppRegistry.registerComponent("app", () => App);
+  
+    messaging()
+      .subscribeToTopic("weather")
+      .then(() => console.log("Subscribed to topic!"));
+  
+    messaging()
+      .unsubscribeFromTopic("weather")
+      .then(() => console.log("Unsubscribed fom the topic!"));
+  
+    useEffect(() => {
+      async function requestUserPermission() {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+        if (enabled) {
+          console.log("Authorization status:", authStatus);
+  
+          // Get the token
+          const fcmToken = await messaging().getToken();
+          if (fcmToken) {
+            console.log("Your Firebase Cloud Messaging token is:", fcmToken);
+            const register: RegisterUserDTO = {
+              token: fcmToken,
+              topic: "all",
+            };
+  
+            const response = API.firebase.registerFirebase(register);
+            console.log("Firebase: ", response);
+          } else {
+            console.log("Failed to get FCM token");
+          }
         }
       }
-    }
-
-    requestUserPermission();
-
-    const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
-      Alert.alert("A new FCM message arrived!");
-      console.log(JSON.stringify(remoteMessage));
-    });
-    return unsubscribe;
-  }, []);
+  
+      requestUserPermission();
+  
+      const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
+        Alert.alert("A new FCM message arrived!");
+        console.log(JSON.stringify(remoteMessage));
+      });
+      return unsubscribe;
+    }, []);
+  }
 
   return (
     <AppLoader>
