@@ -78,7 +78,7 @@ export default function EditStudentProfile({
             open={programmeOpen}
             value={programme}
             setItems={setProgrammes}
-            categories={true}
+            categories={false}
             single={true}
           />
         </View>
