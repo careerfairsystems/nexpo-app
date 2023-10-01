@@ -179,6 +179,27 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   } else {
     return (
       <>
+    <ScrollView style={styles.container}>
+      <UserProfile user={user as NonNullable<User>} />
+      { student && <StudentProfile student={student} />}
+      { company && <CompanyProfile company={company} />}
+      <ArkadText text={"Tickets to Events:"} style={styles.header}/>
+      <View style={styles.eventList}> 
+        {!bookedEvents 
+          ? <ActivityIndicator />
+          : bookedEvents.length !== 0 &&
+             <BookedEventList
+                bookedEvents={bookedEvents}
+                onPress={id => navigation.navigate('ProfileSwitchScreen', { screen: "details", id: id })} />
+        }
+      </View>
+      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
+      <View style= {styles.logout}>
+        <LogoutButton onPress={logout} />
+      </View>
+    </ScrollView>
+      </>);
+      {/* <>
         {user.role === Role.Administrator && (
           <ProfileTabViewer
             profile={userProfile}
@@ -208,8 +229,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         {user.role === Role.Student && (
           <ProfileTabViewer profile={userProfile} question={QuestionTab} />
         )}
-      </>
-    );
+      </> */}
   }
 }
 
