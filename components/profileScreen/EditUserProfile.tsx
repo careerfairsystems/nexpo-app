@@ -96,6 +96,7 @@ export default function EditUserProfile({
         type: "error",
         text1: "Error",
         text2: "You must select an image",
+        visibilityTime: 5000,
       });
       return;
     }
@@ -105,6 +106,7 @@ export default function EditUserProfile({
         type: "error",
         text1: "Error",
         text2: "Maximum file size of 4 Mb exceeded",
+        visibilityTime: 5000,
       });
       return;
     }
@@ -119,7 +121,7 @@ export default function EditUserProfile({
       type: "success",
       text2:
         "Profile picture uploaded. Save profile to see the new profile picture",
-      visibilityTime: 4000,
+      visibilityTime: 5000,
     });
   };
 
@@ -128,6 +130,7 @@ export default function EditUserProfile({
       Toast.show({
         type: "error",
         text1: "You have no profile picture",
+        visibilityTime: 5000,
       });
     } else {
       await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
@@ -135,7 +138,7 @@ export default function EditUserProfile({
       Toast.show({
         type: "success",
         text2: "Profile picture deleted. Save profile to see the changes",
-        visibilityTime: 3000,
+        visibilityTime: 5000,
       });
     }
   };
@@ -169,7 +172,7 @@ export default function EditUserProfile({
           type: "error",
           text1: "Error",
           text2: "File needs to be in PDF format and must be smaller than 2 Mb",
-          visibilityTime: 4000,
+          visibilityTime: 5000,
         });
       }
     }
@@ -181,6 +184,7 @@ export default function EditUserProfile({
       Toast.show({
         type: "success",
         text2: "CV deleted",
+        visibilityTime: 5000,
       });
       if (dto.valueOf() == true) {
         setCvURL(false);
@@ -192,6 +196,7 @@ export default function EditUserProfile({
         type: "error",
         text1: "Error",
         text2: "Something went wrong",
+        visibilityTime: 5000,
       });
     }
   };

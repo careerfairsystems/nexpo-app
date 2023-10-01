@@ -70,6 +70,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
       Toast.show({
         type: "info",
         text1: "Please login to see event details.",
+        visibilityTime: 5000,
       });
       return;
     }

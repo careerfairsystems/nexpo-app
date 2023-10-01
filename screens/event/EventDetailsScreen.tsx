@@ -131,7 +131,7 @@ export default function EventDetailsScreen(id: number) {
       Toast.show({
         type: "error",
         text1: "You are not booked to the event: " + event?.name,
-        visibilityTime: 200,
+        visibilityTime: 5000,
       });
       return;
     }

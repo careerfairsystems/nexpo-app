@@ -69,7 +69,7 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
           type: "info",
           text1:
             "You must first send an application and get it accepted to be able to book a time",
-          visibilityTime: 4500,
+          visibilityTime: 5000,
         });
   };
 

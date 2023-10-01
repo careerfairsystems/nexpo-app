@@ -36,6 +36,7 @@ export default function ResetPasswordScreen({
         type: "error",
         text1: "Password is too weak",
         text2: "Please choose a stronger one",
+        visibilityTime: 5000,
       });
       return;
     }
@@ -45,6 +46,7 @@ export default function ResetPasswordScreen({
         type: "error",
         text1: "Passwords does not match",
         text2: "Please make sure they are the same",
+        visibilityTime: 5000,
       });
       return;
     }
@@ -61,6 +63,7 @@ export default function ResetPasswordScreen({
         type: "error",
         text1: "Something went wrong",
         text2: "Please try again later",
+        visibilityTime: 5000,
       });
     } else {
       alert("Success, the new password is set. Redirecting to the login page.");

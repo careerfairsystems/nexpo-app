@@ -51,13 +51,13 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
       Toast.show({
         type: "error",
         text1: "Wrong email or password",
-        visibilityTime: 2000,
+        visibilityTime: 5000,
       });
     } else if (!success.ok) {
       Toast.show({
         type: "error",
         text1: "Something went wrong, please try again",
-        visibilityTime: 2000,
+        visibilityTime: 5000,
       });
     } else {
       setSignedIn(true);

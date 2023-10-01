@@ -39,6 +39,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
       Toast.show({
         type: "error",
         text1: "You must accept ARKADs Privacy policy to sign up",
+        visibilityTime: 5000,
       });
       return;
     }
@@ -56,6 +57,7 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
         text1: "Account created",
         text2:
           "Check your email for a link to finalize it before you can use it",
+        visibilityTime: 5000,
       });
       navigation.navigate("LoginScreen");
     } else if (success.status === 409) {
@@ -63,12 +65,14 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
         type: "error",
         text1: "Email already in use",
         text2: "Please use another email",
+        visibilityTime: 5000,
       });
     } else {
       Toast.show({
         type: "error",
         text1: "Something went wrong",
         text2: "Please try again",
+        visibilityTime: 5000,
       });
     }
   };

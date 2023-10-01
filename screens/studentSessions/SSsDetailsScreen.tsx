@@ -65,6 +65,7 @@ export default function SSsDetailsScreen({
         text1: "Timeslot is already booked",
         text2: "You can not book a timeslot that is already booked",
         type: "error",
+        visibilityTime: 5000,
       });
       return;
     }
@@ -73,6 +74,7 @@ export default function SSsDetailsScreen({
         text1: "You have already booked a timeslot",
         text2: "You can only book one timeslot",
         type: "info",
+        visibilityTime: 5000,
       });
       return;
     }
@@ -83,6 +85,7 @@ export default function SSsDetailsScreen({
         text1: "Registered to student session",
         text2: API.studentSessions.formatTime(timeslot.start, timeslot.end),
         type: "success",
+        visibilityTime: 5000,
       });
       getTimeslot();
     } else {
@@ -90,6 +93,7 @@ export default function SSsDetailsScreen({
         text1: "Could not register to student session",
         text2: API.studentSessions.formatTime(timeslot.start, timeslot.end),
         type: "error",
+        visibilityTime: 5000,
       });
       getTimeslot();
     }
@@ -107,6 +111,7 @@ export default function SSsDetailsScreen({
         text1: "Timeslot is not booked",
         text2: "You can not de-register from a timeslot that is not booked",
         type: "error",
+        visibilityTime: 5000,
       });
       return;
     }
@@ -118,6 +123,7 @@ export default function SSsDetailsScreen({
         text1: "Successfully de-registered from student session",
         text2: API.studentSessions.formatTime(timeslot.start, timeslot.end),
         type: "success",
+        visibilityTime: 5000,
       });
       getTimeslot();
     } else {
@@ -125,6 +131,7 @@ export default function SSsDetailsScreen({
         text1: "Could not de-register from student session",
         text2: API.studentSessions.formatTime(timeslot.start, timeslot.end),
         type: "error",
+        visibilityTime: 5000,
       });
     }
     setLoading(false);

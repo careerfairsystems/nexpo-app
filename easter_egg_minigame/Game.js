@@ -94,6 +94,7 @@ export default function Game() {
                 Toast.show({
                     type: "error",
                     text1: "Game over!",
+                    visibilityTime: 5000,
                     });
                 setIsGameRunning(false);
                 return;

@@ -32,6 +32,7 @@ export default function SSsApplicationScreen({
       Toast.show({
         type: "error",
         text1: "You must add a CV to your profile to apply for a session",
+        visibilityTime: 5000,
       });
     } else {
       setLoading(true);
@@ -39,7 +40,7 @@ export default function SSsApplicationScreen({
       Toast.show({
         type: "success",
         text1: "Application to " + company?.name + " sent",
-        visibilityTime: 2500,
+        visibilityTime: 5000,
       });
       setLoading(false);
     }
