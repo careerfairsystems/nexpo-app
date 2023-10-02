@@ -1,0 +1,20 @@
+{
+  "cli": {
+    "version": ">= 5.2.0"
+  },
+  "build": {
+    "production": {
+      "env": {
+        "ANDROID_HOME": "/Users/victormikkelsen/Library/Android/sdk"
+      },
+      "developmentClient": false,
+      "distribution": "store"
+    },
+    "preview": {
+      "distribution": "internal"
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
