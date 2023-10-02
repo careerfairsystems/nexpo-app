@@ -4,7 +4,7 @@ export default {
   version: "2.0.0",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
-  scheme: "myapp",
+  scheme: "se.arkadtlth.nexpo",
   //userInterfaceStyle: 'automatic',
   splash: {
     resizeMode: "contain",
@@ -19,7 +19,7 @@ export default {
     bundleIdentifier: "se.arkadtlth.nexpo",
 
     googleServicesFile: "./GoogleService-Info.plist",
-
+    scheme: "se.arkadtlth.nexpo",
     target: 'nexpoapp',
     buildNumber: "2.0.0",
     supportsTablet: true,
@@ -36,7 +36,12 @@ export default {
   android: {
     package: "se.arkadtlth.nexpo",
     googleServicesFile: "./google-services.json",
-    versionCode: 14,
+    buildNumber: "2.0.0",
+    "env": {
+      "ANDROID_HOME": "/Users/victormikkelsen/Library/Android/sdk"
+    },
+    versionCode: 26,
+    scheme: "se.arkadtlth.nexpo",
     adaptiveIcon: {
       foregroundImage: "./assets/images/android_icon.png",
       backgroundColor: "#F66628",
@@ -50,8 +55,8 @@ export default {
     favicon: "./assets/images/favicon.png",
   },
   extra: {
-    isDev: process.env.NODE_ENV === "development",
-    isProd: process.env.NODE_ENV !== "development",
+    isDev: process.env.NODE_ENV === "false",
+    isProd: process.env.NODE_ENV !== "true",
     backendUrl: 'https://nexpo.arkadtlth.se/api',
     //backendUrl: "http://localhost:5000/api",
     "eas": {
