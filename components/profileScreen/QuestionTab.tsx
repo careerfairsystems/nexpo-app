@@ -11,7 +11,7 @@ export default function QuestionTab() {
 
   const sendEmail = async () => {
     const user = await getMe();
-    const recipient = ["plarkad+29zvgxoon7cl0wrxm5tb@boards.trello.com"]; // List of recipient email addresses
+    const recipient = ["company.arkad@tlth.se"]; // List of recipient email addresses
     const subject = title;
 
     const sender = "From: " + user.email;
