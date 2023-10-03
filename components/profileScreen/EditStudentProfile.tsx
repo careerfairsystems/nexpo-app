@@ -69,7 +69,7 @@ export default function EditStudentProfile({
         >
           Programme
         </Text>
-        <View style={styles.picker}>
+        <View style={styles.programmepicker}>
           <CategoriesDropdown
             title="Desired program"
             items={programmes}
@@ -153,14 +153,29 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   picker: {
-    width: "85%",
+    width: "80%",
     maxWidth: 400,
     padding: 10,
-    borderRadius: 4,
+    borderRadius: 7,
+    borderWidth: 2,
     borderColor: Colors.white,
     margin: 12,
     backgroundColor: Colors.arkadNavy,
     color: Colors.white,
+  },
+  programmepicker: {
+    width: "80%",
+    maxWidth: 433,
+    padding: 10,
+    borderColor: Colors.white,
+    margin: 12,
+    backgroundColor: Colors.arkadNavy,
+    color: Colors.white,
+    fontFamily: "main-font-bold",
+    borderRadius: 7,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    fontSize: 18,
   },
   textInput: {
     width: "80%",
