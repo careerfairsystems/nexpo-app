@@ -31,7 +31,7 @@ export interface ApplicationAcceptedDto {
 }
 export const getApplications = async (): Promise<SSApplicationDto[]> => {
   const response = await getAuth(`/applications/my/company`);
-  const json = await response.json();
+  const json = await response?.json();
   const Applications = json as SSApplicationDto[];
   return Applications;
 };
@@ -39,19 +39,19 @@ export const getApplicationAccepted = async (
   companyId: number
 ): Promise<ApplicationAcceptedDto> => {
   const response = await getAuth(`/applications/accepted/${companyId}`);
-  const json = await response.json();
+  const json = await response?.json();
   const accepted = json as ApplicationAcceptedDto;
   return accepted;
 };
 export const getStudentApplications = async (): Promise<SSApplication[]> => {
   const response = await getAuth(`/applications/my/student`);
-  const json = await response.json();
+  const json = await response?.json();
   const Applications = json as SSApplication[];
   return Applications;
 };
 export const getApplication = async (applicationId: number): Promise<SSApplication> => {
   const response = await getAuth(`/applications/${applicationId}`);
-  const json = await response.json();
+  const json = await response?.json();
   const Applications = json as SSApplication;
   return Applications;
 };
@@ -69,7 +69,7 @@ export const getApplicationForStudent = async (
   studentId: number
 ): Promise<SSApplication | undefined> => {
   const response = await getAuth(`/applications/my/company`);
-  const json = await response.json();
+  const json = await response?.json();
   const applications = json as SSApplication[];
   const application = applications.find(
     (application: SSApplication) => application.studentId === studentId

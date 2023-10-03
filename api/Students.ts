@@ -47,7 +47,7 @@ export interface UpdateStudentDto {
  */
 export const getStudent = async (studentId: number): Promise<Student> => {
   const response = await getAuth(`/students/${studentId}`);
-  const json = await response.json();
+  const json = await response?.json();
   const student = json as Student;
   return student;
 };
@@ -57,7 +57,7 @@ export const getStudent = async (studentId: number): Promise<Student> => {
  */
 export const updateStudent = async (studentId: number, dto: UpdateStudentDto): Promise<Student> => {
   const response = await putAuth(`/students/${studentId}`, dto);
-  const json = await response.json();
+  const json = await response?.json();
   const student = json as Student;
   return student;
 };
@@ -67,7 +67,7 @@ export const updateStudent = async (studentId: number, dto: UpdateStudentDto): P
  */
 export const getMe = async (): Promise<Student> => {
   const response = await getAuth("/students/me");
-  const json = await response.json();
+  const json = await response?.json();
   const student = json as Student;
   return student;
 };
@@ -77,7 +77,7 @@ export const getMe = async (): Promise<Student> => {
  */
 export const updateMe = async (dto: UpdateStudentDto): Promise<Student> => {
   const response = await putAuth("/students/me", dto);
-  const json = await response.json();
+  const json = await response?.json();
   const student = json as Student;
   return student;
 };

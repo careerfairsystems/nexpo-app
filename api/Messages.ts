@@ -13,7 +13,7 @@ export const sendNotification = async (message: Message) => {
 
 export const getNotifications = async (): Promise<Message[]> => {
   const response = await getAuth('/notification');
-  const json = await response.json();
+  const json = await response?.json();
   const messages = json as Message[];
   return messages;
 };
