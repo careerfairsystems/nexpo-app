@@ -5,6 +5,19 @@ import * as FileSystem from "expo-file-system";
 const backendUrl: string = Constants.manifest?.extra?.backendUrl;
 
 /**
+ * Check status code on response object before returning and gracefully
+ * exit if code is not 2xx
+ * @param response fetch response object
+ * @returns response if 2xx status, undefined otherwise
+ */
+const statusCodeCallback = (response: Response): Response | undefined => {
+  if (response.ok)
+    return response;
+
+  console.error(`Something went wrong, status: ${response.statusText} (${response.status})`)
+}
+
+/**
  * Return the full url to a api endpoint
  * @param endpoint the endpoint to reach
  */
@@ -21,7 +34,7 @@ export const get = (endpoint: string) => {
     headers: {
       Accept: "application/json",
     },
-  });
+  }).then(statusCodeCallback);
 };
 
 /**
@@ -37,7 +50,7 @@ export const post = (endpoint: string, body: any) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
-  });
+  }).then(statusCodeCallback);
 };
 
 /**
@@ -55,7 +68,7 @@ export const getAuth = async (endpoint: string) => {
       Accept: "application/json",
       Authorization: `Bearer ${jwt}`,
     },
-  });
+  }).then(statusCodeCallback);
 };
 
 /**
@@ -77,7 +90,7 @@ export const putAuth = async (endpoint: string, body: any) => {
       Authorization: `Bearer ${jwt}`,
     },
     body: JSON.stringify(body),
-  });
+  }).then(statusCodeCallback);
 };
 
 /**
@@ -99,7 +112,7 @@ export const postAuth = async (endpoint: string, body: any) => {
       Authorization: `Bearer ${jwt}`,
     },
     body: JSON.stringify(body),
-  });
+  }).then(statusCodeCallback);
 };
 
 /**
@@ -140,5 +153,5 @@ export const deleteAuth = async (endpoint: string) => {
       Accept: "application/json",
       Authorization: `Bearer ${jwt}`,
     },
-  });
+  }).then(statusCodeCallback);
 };
