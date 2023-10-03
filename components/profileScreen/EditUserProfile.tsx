@@ -69,29 +69,26 @@ export default function EditUserProfile({
   }, [firstName, lastName, phoneNr, password, repeatPassword, foodPreferences]);
 
   const setProfilePicture = async () => {
-    if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert(
-          "We need camera roll permissions to upload a new profile picture"
-        );
-        return;
-      }
+    const { status } =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert(
+        "We need camera roll permissions to upload a new profile picture"
+      );
+      return;
     }
+    
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
+      aspect: [1, 1]
     });
 
-    if (result.canceled) {
-      return;
-    }
+    if (result.cancelled) return
 
-    const fileInfo = await FileSystem.getInfoAsync(result.assets[0]["uri"]);
+    const fileInfo = await FileSystem.getInfoAsync(result.uri)
 
-    if (!result.assets[0].uri.includes("data:image")) {
+    if (result.type != 'image') {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -112,7 +109,7 @@ export default function EditUserProfile({
     }
 
     await API.s3bucket
-      .postToS3(result.assets[0]["uri"], user.id.toString(), ".jpg")
+      .postToS3(result.uri, user.id.toString(), ".jpg")
       .catch((e) => {
         console.log(e);
       });
