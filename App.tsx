@@ -11,9 +11,9 @@ import { Alert, AppRegistry } from "react-native";
 import { API } from "api/API";
 import { RegisterUserDTO } from "api/Firebase";
 
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
 
-const prefix = Linking.createURL('/');
+const prefix = Linking.createURL("/");
 
 // Good article about FCM:
 // https://medium.com/@arashfallahi1989/how-to-integrate-firebase-push-notification-in-react-native-expo-bd5cc694f181

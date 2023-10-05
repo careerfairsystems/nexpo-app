@@ -179,7 +179,41 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   } else {
     return (
       <>
-    <ScrollView style={styles.container}>
+        <>
+          {user.role === Role.Administrator && (
+            <ProfileTabViewer profile={userProfile} />
+          )}
+          {/* {user.role === Role.Administrator && (
+            <ProfileTabViewer
+              profile={userProfile}
+              contacts={Contacts}
+              messages={MessagesTab}
+              admin={AdminTab}
+              question={QuestionTab}
+              faq={FaqTab}
+            />
+          )}
+          {user.role === Role.Volunteer && (
+            <ProfileTabViewer
+              profile={userProfile}
+              contacts={Contacts}
+              messages={MessagesTab}
+              faq={FaqTab}
+              question={QuestionTab}
+            />
+          )}
+          {user.role === Role.CompanyRepresentative && (
+            <ProfileTabViewer
+              profile={userProfile}
+              contacts={Contacts}
+              question={QuestionTab}
+            />
+          )}
+          {user.role === Role.Student && (
+            <ProfileTabViewer profile={userProfile} question={QuestionTab} />
+          )} */}
+        </>
+        {/* <ScrollView style={styles.container}>
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
       { company && <CompanyProfile company={company} />}
@@ -197,39 +231,9 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <View style= {styles.logout}>
         <LogoutButton onPress={logout} />
       </View>
-    </ScrollView>
-      </>);
-      {/* <>
-        {user.role === Role.Administrator && (
-          <ProfileTabViewer
-            profile={userProfile}
-            contacts={Contacts}
-            messages={MessagesTab}
-            admin={AdminTab}
-            question={QuestionTab}
-            faq={FaqTab}
-          />
-        )}
-        {user.role === Role.Volunteer && (
-          <ProfileTabViewer
-            profile={userProfile}
-            contacts={Contacts}
-            messages={MessagesTab}
-            faq={FaqTab}
-            question={QuestionTab}
-          />
-        )}
-        {user.role === Role.CompanyRepresentative && (
-          <ProfileTabViewer
-            profile={userProfile}
-            contacts={Contacts}
-            question={QuestionTab}
-          />
-        )}
-        {user.role === Role.Student && (
-          <ProfileTabViewer profile={userProfile} question={QuestionTab} />
-        )}
-      </> */}
+    </ScrollView> */}
+      </>
+    );
   }
 }
 
