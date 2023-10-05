@@ -17,3 +17,6 @@ GoogleService-Info.plist
 
 # macOS
 .DS_Store
+
+# Android
+android/
