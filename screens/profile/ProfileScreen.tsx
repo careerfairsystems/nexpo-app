@@ -184,6 +184,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
               profile={userProfile} 
               contacts={Contacts}
               messages={MessagesTab}
+              question={QuestionTab}
               faq={FaqTab}
             />
           )}
