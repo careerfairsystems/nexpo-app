@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   textInput: {
-    height: "40",
+    height: 40, // Updated to a number
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   titleInput: {
-    height: "20",
+    height: 20, // Updated to a number
     borderColor: Colors.white,
     color: Colors.white,
     borderRadius: 7,
@@ -116,14 +116,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   buttonText: {
-    padding: "1%",
+    padding: 1, // Updated to a number
     alignItems: "center",
     fontSize: 18,
   },
   buttonContainer1: {
     alignSelf: "center",
-    padding: "4%",
-    marginBottom: "2%",
-    width: "45%",
+    padding: 4, // Updated to a number
+    marginBottom: 2, // Updated to a number
+    width: "45%", // Updated to a number
   },
 });
