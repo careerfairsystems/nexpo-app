@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "rgba(255,255,255,0.8)",
+    backgroundColor: Colors.arkadNavy,
   },
   success: {
     backgroundColor: Colors.lightGreen,

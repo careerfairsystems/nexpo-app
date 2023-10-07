@@ -9,7 +9,7 @@ export default function QuestionTab() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
 
-/*   const sendEmail = async () => {
+  const sendEmail = async () => {
     try {
       const user = await getMe();
       const recipient = ["company.arkad@tlth.se"]; // List of recipient email addresses
@@ -36,7 +36,7 @@ export default function QuestionTab() {
       console.error("Error sending email:", error);
       // Handle the error gracefully, e.g., show an error message to the user.
     }
-  }; */
+  };
 
   return (
     <ScrollView
@@ -69,7 +69,7 @@ export default function QuestionTab() {
         textAlignVertical="top"
         numberOfLines={10}
       />
-      <ArkadButton onPress={() => console.log("hej")} style={styles.buttonContainer1}>
+      <ArkadButton onPress={sendEmail} style={styles.buttonContainer1}>
         <ArkadText text="Send" style={styles.buttonText} />
       </ArkadButton>
     </ScrollView>
