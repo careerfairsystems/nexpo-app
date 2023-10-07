@@ -4,7 +4,7 @@ import {
 } from "@react-navigation/stack";
 import * as React from "react";
 import EventListScreen from "./EventListScreen";
-//import QRScreen from './QRScreen';
+import QRScreen from './QRScreen';
 import EventSwitchScreen from "./EventSwitchScreen";
 import { HeaderStyles } from "components/HeaderStyles";
 import { Image } from "react-native";
@@ -69,11 +69,11 @@ export function EventsNavigator() {
           ...HeaderStyles,
         }}
       />
-      {/* <EventStack.Screen
+      <EventStack.Screen
         name="QRScreen"
         component={QRScreen}
         options={{ title: 'QR Scan', headerTitle: 'QR Scan', ...HeaderStyles }}
-      /> */}
+      />
     </EventStack.Navigator>
   );
 }
