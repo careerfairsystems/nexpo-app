@@ -182,9 +182,6 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {user.role === Role.Administrator && (
             <ProfileTabViewer 
               profile={userProfile} 
-              contacts={Contacts}
-              messages={MessagesTab}
-              question={QuestionTab}
             />
           )}
           {/* {user.role === Role.Administrator && (
