@@ -180,10 +180,19 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     return (
       <>
           {user.role === Role.Administrator && (
+            <ProfileTabViewer 
+              profile={userProfile} 
+              contacts={Contacts}
+              messages={MessagesTab}
+              question={QuestionTab}
+            />
+          )}
+          {/* {user.role === Role.Administrator && (
             <ProfileTabViewer
               profile={userProfile}
               contacts={Contacts}
               messages={MessagesTab}
+              admin={AdminTab}
               question={QuestionTab}
               faq={FaqTab}
             />
@@ -206,7 +215,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           )}
           {user.role === Role.Student && (
             <ProfileTabViewer profile={userProfile} question={QuestionTab} />
-          )}
+          )} */}
         {/* <ScrollView style={styles.container}>
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
