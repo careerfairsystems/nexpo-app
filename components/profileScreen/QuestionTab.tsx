@@ -57,7 +57,7 @@ export default function QuestionTab() {
         placeholder={"Title..."}
         placeholderTextColor={Colors.lightGray}
         multiline={false}
-        textAlign="center"
+        textAlign="left"
       />
       <TextInput
         style={styles.textInput}
@@ -68,6 +68,7 @@ export default function QuestionTab() {
         multiline={true}
         textAlignVertical="top"
         numberOfLines={10}
+        textAlign="left"
       />
       <ArkadButton onPress={sendEmail} style={styles.buttonContainer1}>
         <ArkadText text="Send" style={styles.buttonText} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Colors from "constants/Colors";
 import { useState } from "react";
 import {
@@ -40,7 +40,10 @@ export default function AdminTab() {
     setUser(user);
   }
 
-  getSenderUser();
+  useEffect(() => {
+    getSenderUser();
+  }, []); // Empty dependency array ensures it runs only once after the component mounts
+  
 
   const send = () => {
     const today = new Date();
@@ -73,11 +76,19 @@ export default function AdminTab() {
 
     console.log("Sending message: ");
     console.log(messageToSend);
+
+    setText("");
+    setTitle("");
+    setCommitteeValue([]);
+    alert("Message sent!");
   };
 
   const changeUserRole = () => {
     console.log("Changing user role: " + userName);
     updateRole(userName, roleValue);
+    if (userName) {
+      setUserName("");
+    }
   };
 
   return (
@@ -136,7 +147,7 @@ export default function AdminTab() {
         style={{
           fontSize: 40,
           color: "white",
-          marginTop: "10%",
+          marginTop: "5%",
           marginBottom: 12,
         }}
       />
@@ -171,7 +182,7 @@ export default function AdminTab() {
 
 const styles = StyleSheet.create({
   textInput: {
-    height: "60",
+    height: "20%",
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
@@ -184,7 +195,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   titleInput: {
-    height: "20",
+    height: "5%",
     borderColor: Colors.white,
     color: Colors.white,
     borderRadius: 7,
@@ -198,7 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   userNameInput: {
-    height: "20",
+    height: "5%",
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
@@ -207,7 +218,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "main-font-bold",
     padding: 10,
-    width: "40%",
+    width: "90%",
   },
   buttonText: {
     padding: "1%",
@@ -239,6 +250,6 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
     marginBottom: 12,
-    width: "40%",
+    width: "90%",
   },
 });

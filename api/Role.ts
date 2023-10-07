@@ -39,5 +39,7 @@ export const updateRole = async (userName: string, role: Role | null): Promise<U
   const json = await response.json();
   const user = json as User;
 
+  alert("Role update successful!")
+
   return user;
 }
