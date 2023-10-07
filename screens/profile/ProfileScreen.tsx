@@ -182,6 +182,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {user.role === Role.Administrator && (
             <ProfileTabViewer 
               question={QuestionTab}
+              faq={FaqTab}
             />
           )}
           {/* {user.role === Role.Administrator && (

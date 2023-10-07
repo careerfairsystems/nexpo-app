@@ -18,6 +18,7 @@ function ProfileTabViewer(props: {
 
   const [routes] = React.useState([
     { key: "fourth", title: "Questions"},
+    { key: "fifth", title: "FAQ" },
   ]);
 
   // const [routes] = props.admin // Admin
@@ -44,6 +45,7 @@ function ProfileTabViewer(props: {
 
   const renderScene = SceneMap({
     fourth: props.question,
+    fifth: props.faq,
   });
 
   // const renderScene = props.admin

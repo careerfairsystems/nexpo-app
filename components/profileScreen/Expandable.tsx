@@ -11,25 +11,23 @@ export default function Expandable(props: any) {
     const [maxHeightSet, setMaxHeightSet] = React.useState(false);
     const [maxHeight, setMaxHeight] = React.useState(0);
     
-    const animatinDuration = 200;
+    const animationDuration = 200;
 
     const toggleDropdown = () => {
         if (expanded) {
             Animated.timing(animatedHeight, {
                 toValue: 0,
-                duration: animatinDuration,
+                duration: animationDuration,
                 useNativeDriver: true
-            }).start();
-
-            setTimeout(() => {
+            }).start(() => {
                 setExpanded(!expanded);
-            }, animatinDuration);
+            });
         } else {
             setExpanded(!expanded);
 
             Animated.timing(animatedHeight, {
                 toValue: 100,
-                duration: animatinDuration,
+                duration: animationDuration,
                 useNativeDriver: true
             }).start();
         }
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
     title: {
         padding: 5,
         fontFamily: "main-font-bold",
-        fontSize: 30
+        fontSize: 22
     },
     descContainer: {
         width: "100%",
@@ -87,4 +85,4 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 10
     }
-}) 
+})

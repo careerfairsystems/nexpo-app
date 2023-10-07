@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   textInput: {
-    height: 40, // Updated to a number
+    height: "40%", // Updated to a number
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   titleInput: {
-    height: 20, // Updated to a number
+    height: "10%", // Updated to a number
     borderColor: Colors.white,
     color: Colors.white,
     borderRadius: 7,
