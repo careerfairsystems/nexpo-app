@@ -185,6 +185,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
               profile={userProfile} 
               contacts={Contacts}
               messages={MessagesTab}
+              admin={AdminTab}
             />
           )}
           {/* {user.role === Role.Administrator && (

@@ -20,6 +20,7 @@ function ProfileTabViewer(props: {
     { key: "first", title: "Profile" },
     { key: "second", title: "Contact List" },
     { key: "third", title: "Messages" },
+    { key: "fourth", title: "Admin"}
   ]);
 
   // const [routes] = props.admin // Admin
@@ -48,6 +49,7 @@ function ProfileTabViewer(props: {
     first: props.profile,
     second: props.contacts,
     third: props.messages,
+    fourth: props.admin,
   });
 
   // const renderScene = props.admin
