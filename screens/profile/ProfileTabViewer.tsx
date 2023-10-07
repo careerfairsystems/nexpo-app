@@ -16,7 +16,10 @@ function ProfileTabViewer(props: {
 
   const [index, setIndex] = React.useState(0);
 
-  const [routes] = React.useState([{ key: "first", title: "Profile" }]);
+  const [routes] = React.useState([
+    { key: "first", title: "Profile" },
+    { key: "second", title: "Contact List" },
+  ]);
 
   // const [routes] = props.admin // Admin
   //   ? React.useState([{ key: "first", title: "Profile" }])
@@ -42,6 +45,7 @@ function ProfileTabViewer(props: {
 
   const renderScene = SceneMap({
     first: props.profile,
+    second: props.contacts,
   });
 
   // const renderScene = props.admin
