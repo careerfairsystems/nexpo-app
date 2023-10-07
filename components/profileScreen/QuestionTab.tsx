@@ -10,27 +10,32 @@ export default function QuestionTab() {
   const [text, setText] = useState("");
 
   const sendEmail = async () => {
-    const user = await getMe();
-    const recipient = ["company.arkad@tlth.se"]; // List of recipient email addresses
-    const subject = title;
+    try {
+      const user = await getMe();
+      const recipient = ["company.arkad@tlth.se"]; // List of recipient email addresses
+      const subject = title;
 
-    const sender = "From: " + user.email;
-    const body =
-      "Please do not remove the From and Message tags!\n\n" +
-      sender +
-      "Message: " +
-      text;
+      const sender = "From: " + user.email;
+      const body =
+        "Please do not remove the From and Message tags!\n\n" +
+        sender +
+        "\nMessage: " +
+        text;
 
-    const emailUrl = `mailto:${recipient}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+      const emailUrl = `mailto:${recipient}?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
 
-    Linking.openURL(emailUrl)
-      .then(() => console.log("Email opened"))
-      .catch((error) => console.error("Error opening email:", error));
+      Linking.openURL(emailUrl)
+        .then(() => console.log("Email opened"))
+        .catch((error) => console.error("Error opening email:", error));
 
-    setText("");
-    setTitle("");
+      setText("");
+      setTitle("");
+    } catch (error) {
+      console.error("Error sending email:", error);
+      // Handle the error gracefully, e.g., show an error message to the user.
+    }
   };
 
   return (
@@ -84,7 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   textInput: {
-    height: "60",
+    height: "40",
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
