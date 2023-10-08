@@ -47,23 +47,19 @@ export default function AdminTab() {
 
   const send = () => {
     const today = new Date();
-    const date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes();
-
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Ensure two digits for the month
+    const day = today.getDate().toString().padStart(2, '0'); // Ensure two digits for the day
+    const hours = today.getHours().toString().padStart(2, '0'); // Ensure two digits for the hours
+    const minutes = today.getMinutes().toString().padStart(2, '0'); // Ensure two digits for the minutes
+    
     const messageToSend: Message = {
       title: title,
       message:
         text +
         "\n\n" +
         "Received: " +
-        date +
-        " " +
-        time +
+        year + "-" + month + "-" + day + " " + hours + ":" + minutes +
         "\n" +
         "Sent by: " +
         user?.firstName +
@@ -71,6 +67,7 @@ export default function AdminTab() {
         user?.lastName,
       topic: "arkad",
     };
+    
 
     sendNotification(messageToSend);
 
@@ -106,7 +103,7 @@ export default function AdminTab() {
           marginBottom: 10,
         }}
       />
-      <View style={styles.centeredViewCommittee}>
+{/*       <View style={styles.centeredViewCommittee}>
         <CategoriesDropdown
           title="Select committee"
           items={committees}
@@ -118,7 +115,7 @@ export default function AdminTab() {
           categories={false}
           single={false}
         />
-      </View>
+      </View> */}
       <TextInput
         style={styles.titleInput}
         onChangeText={setTitle}
@@ -126,7 +123,7 @@ export default function AdminTab() {
         placeholder={"Title..."}
         placeholderTextColor={Colors.lightGray}
         multiline={false}
-        textAlign="center"
+        textAlign="left"
       />
       <TextInput
         style={styles.textInput}
@@ -168,7 +165,7 @@ export default function AdminTab() {
         style={styles.userNameInput}
         onChangeText={setUserName}
         value={userName}
-        placeholder={"Username..."}
+        placeholder={"E-mail..."}
         placeholderTextColor={Colors.lightGray}
         multiline={false}
         textAlign="left"

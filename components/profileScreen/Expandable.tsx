@@ -42,7 +42,7 @@ export default function Expandable(props: any) {
 
     const height = animatedHeight.interpolate({
         inputRange: [0, 100],
-        outputRange: [0, maxHeight]
+        outputRange: [0, 50]
     });
 
     return (
