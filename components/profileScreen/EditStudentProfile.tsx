@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     padding: 10,
     borderRadius: 7,
-    borderWidth: 2,
+    borderWidth: 5,
     borderColor: Colors.white,
     margin: 12,
     backgroundColor: Colors.arkadNavy,

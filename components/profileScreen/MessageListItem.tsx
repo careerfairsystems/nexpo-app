@@ -19,7 +19,7 @@ type ListedMessageItemProps = {
 const { width, height } = Dimensions.get("window");
 
 export default function MessageListItem({ message }: ListedMessageItemProps) {
-  const [messagePressed, setMessagePressed] = useState<boolean>(false);
+  const [messagePressed, setMessagePressed] = useState<boolean>(true);
 
   const onPress = () => {
     setMessagePressed(!messagePressed);

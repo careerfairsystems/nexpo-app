@@ -36,7 +36,7 @@ export default function MessagesTab() {
         backgroundColor: Colors.arkadNavy,
       }}
       showsVerticalScrollIndicator={false}
-      data={messages}
+      data={messages?.reverse()}
       keyExtractor={(message) => message.title}
       renderItem={({ item: message }) => <MessageListItem message={message} />}
     />
