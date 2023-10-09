@@ -179,35 +179,35 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   } else {
     return (
       <>
-          {user.role === Role.Administrator && (
-            <ProfileTabViewer
-              profile={userProfile}
-              contacts={Contacts}
-              messages={MessagesTab}
-              admin={AdminTab}
-              question={QuestionTab}
-              faq={FaqTab}
-            />
-          )}
-          {user.role === Role.Volunteer && (
-            <ProfileTabViewer
-              profile={userProfile}
-              contacts={Contacts}
-              messages={MessagesTab}
-              faq={FaqTab}
-              question={QuestionTab}
-            />
-          )}
-          {user.role === Role.CompanyRepresentative && (
-            <ProfileTabViewer
-              profile={userProfile}
-              contacts={Contacts}
-              question={QuestionTab}
-            />
-          )}
-          {user.role === Role.Student && (
-            <ProfileTabViewer profile={userProfile} question={QuestionTab} />
-          )}
+        {user.role === Role.Administrator && (
+          <ProfileTabViewer
+            profile={userProfile}
+            contacts={Contacts}
+            messages={MessagesTab}
+            admin={AdminTab}
+            question={QuestionTab}
+            faq={FaqTab}
+          />
+        )}
+        {user.role === Role.Volunteer && (
+          <ProfileTabViewer
+            profile={userProfile}
+            contacts={Contacts}
+            messages={MessagesTab}
+            faq={FaqTab}
+            question={QuestionTab}
+          />
+        )}
+        {user.role === Role.CompanyRepresentative && (
+          <ProfileTabViewer
+            profile={userProfile}
+            contacts={Contacts}
+            question={QuestionTab}
+          />
+        )}
+        {user.role === Role.Student && (
+          <ProfileTabViewer profile={userProfile} question={QuestionTab} />
+        )}
         {/* <ScrollView style={styles.container}>
       <UserProfile user={user as NonNullable<User>} />
       { student && <StudentProfile student={student} />}
