@@ -7,39 +7,42 @@ import { API } from "api/API";
 import { FAQs } from "api/FAQs";
 
 export default function FAQ() {
-    const [questions, setQuestions] = React.useState<FAQs[]>();
+  const [questions, setQuestions] = React.useState<FAQs[]>();
 
-    React.useEffect(() => {
-        fetch_faq();
-    }, []);
+  React.useEffect(() => {
+    fetch_faq();
+  }, []);
 
-    async function fetch_faq() {
-        const faq = await API.faqs.faq();
-        setQuestions(faq);
-    }
+  async function fetch_faq() {
+    const faq = await API.faqs.faq();
+    setQuestions(faq);
+  }
 
-    // Currently backend only provides the question
-    return (
-        <ScrollView style={styles.container}>
-            <ArkadText text={"Frequently Asked Questions"} style={styles.title}></ArkadText>
-            {questions?.reverse().map((data) => {
-                return (
-                    <Expandable key={data.id} title={data.question} desc={data.answer}/>
-                );
-            })}
-        </ScrollView>
-    );
+  // Currently backend only provides the question
+  return (
+    <ScrollView style={styles.container}>
+      <ArkadText
+        text={"Frequently Asked Questions"}
+        style={styles.title}
+      ></ArkadText>
+      {questions?.reverse().map((data) => {
+        return (
+          <Expandable key={data.id} title={data.question} desc={data.answer} />
+        );
+      })}
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-		paddingVertical: 24,
-		backgroundColor: Colors.arkadNavy,
-	},
-    title: {
-        fontFamily: "main-font-bold",
-        fontSize: 30,
-        color: Colors.white,
-        paddingBottom: 24
-    }
-})
+  container: {
+    paddingVertical: 24,
+    backgroundColor: Colors.arkadNavy,
+  },
+  title: {
+    fontFamily: "main-font-bold",
+    fontSize: 30,
+    color: Colors.white,
+    paddingBottom: 24,
+  },
+});
