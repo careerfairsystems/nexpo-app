@@ -444,13 +444,13 @@ export default function EditUserProfile({
       aspect: [1, 1],
     });
 
-    if (result.canceled) {
+    if (result.cancelled) {
       return;
     }
 
-    const fileInfo = await FileSystem.getInfoAsync(result.assets[0]["uri"]);
+    const fileInfo = await FileSystem.getInfoAsync(result.uri);
 
-    if (!result.assets[0].uri.includes("data:image")) {
+    if (!result.uri.includes("data:image")) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -469,7 +469,7 @@ export default function EditUserProfile({
     }
 
     await API.s3bucket
-      .postToS3(result.assets[0]["uri"], user.id.toString(), ".jpg")
+      .postToS3(result.uri, user.id.toString(), ".jpg")
       .catch((e) => {
         console.log(e);
       });
@@ -498,6 +498,7 @@ export default function EditUserProfile({
       });
     }
   };
+
   const setCV = async () => {
     let resultFile = await DocumentPicker.getDocumentAsync({});
     if (resultFile.type == "success") {
