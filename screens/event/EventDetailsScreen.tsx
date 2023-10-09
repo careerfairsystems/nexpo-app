@@ -24,6 +24,7 @@ import {
   getTicketForEvent,
   removeTicket,
   Ticket,
+  UpdateTicketDto,
 } from "api/Tickets";
 
 import { View } from "components/Themed";
@@ -43,9 +44,9 @@ export default function EventDetailsScreen(id: number) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [wantTakeaway, setWantTakeaway] = useState(false);
-  let initialTimeValue = "12:00:00";
-  const [selectedTime, setSelectedTime] = useState("");
-  const [update, setUpdate] = useState(true);
+  const [selectedTime, setSelectedTime] = useState(new Date());
+  const [update, setUpdate] = useState(false);
+  const [formattedSelectedTime, setFormattedSelectedTime] = useState("");
 
   const lunchTimes = [
     { label: "11:00", value: "11:00:00" },
@@ -55,7 +56,26 @@ export default function EventDetailsScreen(id: number) {
   ];
 
   const handleTimeChange = (value: string) => {
-    setSelectedTime(value);
+    const [hours, minutes, seconds] = value.split(":").map(Number);
+
+    if (!event?.date) return;
+    const date = new Date(event.date);
+
+    // Extract the year, month, and day
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+
+    // Create a new Date object with the extracted date
+    const takeAwayTime = new Date(year, month, day);
+
+    // Set the time components
+    takeAwayTime.setHours(hours); // +2 for timezone (UTC)
+    takeAwayTime.setMinutes(minutes);
+    takeAwayTime.setSeconds(seconds);
+
+    setSelectedTime(takeAwayTime);
+    setFormattedSelectedTime(value);
   };
 
   const eventStopSellingDate = () => {
@@ -64,6 +84,7 @@ export default function EventDetailsScreen(id: number) {
     const stopSellingDate = subDays(eventTime, 2);
     return format(stopSellingDate, "d LLL") + " - " + event.start;
   };
+
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
     setEvent(event);
@@ -72,7 +93,9 @@ export default function EventDetailsScreen(id: number) {
     if (reg) {
       const ticket = await getTicketForEvent(event);
       setTicket(ticket);
-      // setWantTakeaway(ticket?.wantTakeaway); Take this back when backend sends back correct DTO
+      if (ticket && ticket.takeAway) {
+        setWantTakeaway(true);
+      }
     }
   };
 
@@ -83,17 +106,36 @@ export default function EventDetailsScreen(id: number) {
       return;
     }
 
-    const ticketRequest: CreateTicketDto = {
-      eventId: event.id,
-      photoOk: true,
-      wantTakeaway: wantTakeaway,
-      takeawayTime: selectedTime,
-    };
-
-    const ticket = await API.tickets.createTicket(ticketRequest);
+    let ticketRequest: CreateTicketDto;
+    let ticketUpdate: UpdateTicketDto;
+    let temp_ticket: Ticket | null = null;
+    if (wantTakeaway && (selectedTime !== null || selectedTime !== undefined)) {
+      ticketUpdate = {
+        takeAway: wantTakeaway,
+        takeAwayTime: selectedTime,
+      };
+      temp_ticket = await API.tickets.updateTicket(
+        ticket?.id ?? 0,
+        ticketUpdate
+      );
+      const utc_time = new Date(temp_ticket?.takeAwayTime ?? "");
+      utc_time.setHours(utc_time.getHours() + 2);
+      const updatedTicket = {
+        ...temp_ticket,
+        takeAwayTime: utc_time,
+      };
+      setTicket(updatedTicket);
+    } else {
+      ticketRequest = {
+        eventId: event.id,
+        photoOk: true,
+      };
+      temp_ticket = await API.tickets.createTicket(ticketRequest);
+      setTicket(temp_ticket);
+    }
 
     if (ticket) {
-      if (update) {
+      if (!update) {
         let eventTime = event?.date;
         const dateTime = eventTime.split(" ");
         alert(
@@ -215,13 +257,37 @@ export default function EventDetailsScreen(id: number) {
             />
           </View>
         )}
+        {ticket?.takeAway && (
+          <View style={styles.takeawayContainer}>
+            <ArkadText
+              text={
+                "You have booked takeaway at: " +
+                (ticket.takeAwayTime
+                  ? (() => {
+                      const timeParts = ticket.takeAwayTime
+                        ?.toString()
+                        .split("T")[1]
+                        .split(":");
+                      const hours = (parseInt(timeParts[0]) + 2)
+                        .toString()
+                        .padStart(2, "0");
+                      const minutes = timeParts[1];
+                      const seconds = timeParts[2];
+                      return hours + ":" + minutes + ":" + seconds;
+                    })()
+                  : "")
+              }
+              style={styles.title}
+            />
+          </View>
+        )}
         {wantTakeaway && (
           <View>
             <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
             <Picker
               style={styles.picker}
-              selectedValue={selectedTime}
-              onValueChange={(value) => handleTimeChange(value)}
+              selectedValue={formattedSelectedTime}
+              onValueChange={(value) => handleTimeChange(value.toString())}
             >
               {lunchTimes.map((timeOption, index) => (
                 <Picker.Item
@@ -231,7 +297,7 @@ export default function EventDetailsScreen(id: number) {
                 />
               ))}
             </Picker>
-            {update ? (
+            {!update ? (
               <ArkadButton
                 onPress={updateTicket}
                 style={styles.updateTicketButton}
@@ -268,7 +334,7 @@ export default function EventDetailsScreen(id: number) {
 
                 <ArkadText
                   text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
-                  style={{ color: Colors.arkadNavy }}
+                  style={{ color: Colors.white }}
                 />
               </View>
             ) : null}
@@ -349,7 +415,7 @@ export default function EventDetailsScreen(id: number) {
 
 const styles = StyleSheet.create({
   ticketTitle: {
-    color: Colors.arkadNavy,
+    color: Colors.white,
     fontSize: 26,
     marginBottom: 10,
     paddingTop: "2rem",
@@ -499,7 +565,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "white",
-    padding: 10,
+    padding: 3,
+    marginTop: 30,
   },
   picker: {
     width: "85%",
