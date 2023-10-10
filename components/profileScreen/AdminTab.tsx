@@ -43,23 +43,30 @@ export default function AdminTab() {
   useEffect(() => {
     getSenderUser();
   }, []); // Empty dependency array ensures it runs only once after the component mounts
-  
 
   const send = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Ensure two digits for the month
-    const day = today.getDate().toString().padStart(2, '0'); // Ensure two digits for the day
-    const hours = today.getHours().toString().padStart(2, '0'); // Ensure two digits for the hours
-    const minutes = today.getMinutes().toString().padStart(2, '0'); // Ensure two digits for the minutes
-    
+    const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Ensure two digits for the month
+    const day = today.getDate().toString().padStart(2, "0"); // Ensure two digits for the day
+    const hours = today.getHours().toString().padStart(2, "0"); // Ensure two digits for the hours
+    const minutes = today.getMinutes().toString().padStart(2, "0"); // Ensure two digits for the minutes
+
     const messageToSend: Message = {
       title: title,
       message:
         text +
         "\n\n" +
         "Received: " +
-        year + "-" + month + "-" + day + " " + hours + ":" + minutes +
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        minutes +
         "\n" +
         "Sent by: " +
         user?.firstName +
@@ -67,7 +74,6 @@ export default function AdminTab() {
         user?.lastName,
       topic: "arkad",
     };
-    
 
     sendNotification(messageToSend);
 
@@ -103,7 +109,7 @@ export default function AdminTab() {
           marginBottom: 10,
         }}
       />
-{/*       <View style={styles.centeredViewCommittee}>
+      {/*       <View style={styles.centeredViewCommittee}>
         <CategoriesDropdown
           title="Select committee"
           items={committees}
@@ -179,7 +185,7 @@ export default function AdminTab() {
 
 const styles = StyleSheet.create({
   textInput: {
-    height: "20%",
+    height: "30%",
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
@@ -192,7 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   titleInput: {
-    height: "5%",
+    height: 48,
     borderColor: Colors.white,
     color: Colors.white,
     borderRadius: 7,
@@ -206,7 +212,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   userNameInput: {
-    height: "5%",
+    height: 48,
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
