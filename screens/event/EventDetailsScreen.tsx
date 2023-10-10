@@ -51,8 +51,16 @@ export default function EventDetailsScreen(id: number) {
   const lunchTimes = [
     { label: "11:00", value: "11:00:00" },
     { label: "11:15", value: "11:15:00" },
+    { label: "11:30", value: "11:30:00" },
+    { label: "11:45", value: "11:45:00" },
     { label: "12:00", value: "12:00:00" },
+    { label: "12:15", value: "12:15:00" },
+    { label: "12:30", value: "12:30:00" },
+    { label: "12:45", value: "12:45:00" },
     { label: "13:00", value: "13:00:00" },
+    { label: "13:15", value: "13:15:00" },
+    { label: "13:30", value: "13:30:00" },
+    { label: "13:45", value: "13:45:00" },
   ];
 
   const handleTimeChange = (value: string) => {
