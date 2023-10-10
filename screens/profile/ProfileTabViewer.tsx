@@ -16,67 +16,62 @@ function ProfileTabViewer(props: {
 
   const [index, setIndex] = React.useState(0);
 
-  const [routes] = React.useState([
-    { key: "first", title: "Admin" },
-    { key: "fourth", title: "Questions"},
-    { key: "fifth", title: "FAQ" },
-  ]);
+  const [routes] = props.admin // Admin
+    ? React.useState([
+      { key: "first", title: "Profile" },
+      { key: "second", title: "Admin" },
+      { key: "third", title: "Messages" },
+      { key: "fourth", title: "Contact List" },
+      { key: "fifth", title: "FAQ" },
+      { key: "sixth", title: "Questions" },
+    ])
+    : props.messages // Volunteer
+    ? React.useState([
+        { key: "first", title: "Profile" },
+        { key: "second", title: "Messages" },
+        { key: "third", title: "Contact List" },
+        { key: "fourth", title: "FAQ" },
+        { key: "fifth", title: "Questions" },
+      ])
+    : Object.keys(props).length === 2 // Student
+    ? React.useState([
+        { key: "first", title: "Profile" },
+        { key: "second", title: "Questions" },
+      ])
+    : React.useState([
+        // Company representative
+        { key: "first", title: "Profile" },
+        { key: "second", title: "Contact List" },
+        { key: "third", title: "Questions" },
+      ]);
 
-  // const [routes] = props.admin // Admin
-  //   ? React.useState([{ key: "first", title: "Profile" }])
-  //   : props.messages // Volunteer
-  //   ? React.useState([
-  //       { key: "first", title: "Profile" },
-  //       { key: "second", title: "Contact List" },
-  //       { key: "third", title: "Messages" },
-  //       { key: "fourth", title: "Questions" },
-  //       { key: "fifth", title: "FAQ" },
-  //     ])
-  //   : Object.keys(props).length === 2 // Student
-  //   ? React.useState([
-  //       { key: "first", title: "Profile" },
-  //       { key: "second", title: "Questions" },
-  //     ])
-  //   : React.useState([
-  //       // Company representative
-  //       { key: "first", title: "Profile" },
-  //       { key: "second", title: "Contact List" },
-  //       { key: "third", title: "Questions" },
-  //     ]);
-
-  const renderScene = SceneMap({
-    first: props.admin,
-    fourth: props.question,
-    fifth: props.faq,
-  });
-
-  // const renderScene = props.admin
-  //   ? SceneMap({
-  //       first: props.profile,
-  //       second: props.contacts,
-  //       third: props.messages,
-  //       fourth: props.admin,
-  //       fifth: props.question,
-  //       sixth: props.faq,
-  //     })
-  //   : props.messages
-  //   ? SceneMap({
-  //       first: props.profile,
-  //       second: props.contacts,
-  //       third: props.messages,
-  //       fourth: props.question,
-  //       fifth: props.faq,
-  //     })
-  //   : Object.keys(props).length === 2
-  //   ? SceneMap({
-  //       first: props.profile,
-  //       second: props.question,
-  //     })
-  //   : SceneMap({
-  //       first: props.profile,
-  //       second: props.contacts,
-  //       third: props.question,
-  //     });
+  const renderScene = props.admin
+    ? SceneMap({
+        first: props.profile,
+        second: props.admin,
+        third: props.messages,
+        fourth: props.contacts,
+        fifth: props.faq,
+        sixth: props.question,
+      })
+    : props.messages
+    ? SceneMap({
+        first: props.profile,
+        second: props.messages,
+        third: props.contacts,
+        fourth: props.faq,
+        fifth: props.question,
+      })
+    : Object.keys(props).length === 2
+    ? SceneMap({
+        first: props.profile,
+        second: props.question,
+      })
+    : SceneMap({
+        first: props.profile,
+        second: props.contacts,
+        third: props.question,
+      });
 
   useEffect(() => {});
 

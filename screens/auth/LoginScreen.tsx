@@ -76,7 +76,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
         source={require("../../assets/images/arkad_logo_inverted.png")}
       />
       <View style={styles.inputContainer}>
-        <SSO />
+        {/* <SSO /> */}
         {loginEmail && (
           <View>
             <TextInput
