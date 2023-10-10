@@ -361,7 +361,7 @@ import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "api/Users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { Linking, Platform, StyleSheet } from "react-native";
+import { Alert, Linking, Platform, StyleSheet } from "react-native";
 import Colors from "constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/EditProfileScreen";
@@ -428,6 +428,7 @@ export default function EditUserProfile({
   }, [firstName, lastName, phoneNr, password, repeatPassword, foodPreferences]);
 
   const setProfilePicture = async () => {
+    alert("starting profile picture");
     if (Platform.OS !== "web") {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -438,17 +439,24 @@ export default function EditUserProfile({
         return;
       }
     }
+    alert("chosen image");
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
     });
 
+    alert("result achieved");
+
     if (result.cancelled) {
       return;
     }
 
+    alert("result not cancelled");
+
     const fileInfo = await FileSystem.getInfoAsync(result.uri);
+
+    alert("file info gotten");
 
     if (!result.uri.includes("data:image")) {
       Toast.show({
@@ -456,6 +464,7 @@ export default function EditUserProfile({
         text1: "Error",
         text2: "You must select an image",
       });
+      alert("You must select an image");
       return;
     }
 
@@ -465,14 +474,20 @@ export default function EditUserProfile({
         text1: "Error",
         text2: "Maximum file size of 4 Mb exceeded",
       });
+      alert("Maximum file size of 4 Mb exceeded");
       return;
     }
+
+    alert("file info size ok");
 
     await API.s3bucket
       .postToS3(result.uri, user.id.toString(), ".jpg")
       .catch((e) => {
         console.log(e);
       });
+
+    alert("post to s3 done");
+
     setHasProfilePicture(true);
     Toast.show({
       type: "success",
@@ -568,7 +583,7 @@ export default function EditUserProfile({
       <View style={styles.container}>
         <ProfilePicture url={user.profilePictureUrl} />
 
-        <ArkadButton onPress={setProfilePicture}>
+        <ArkadButton onPress={setProfilePicture} style={{ width: "50%" }}>
           {hasProfilePicture ? (
             <ArkadText text="Change profile picture" />
           ) : (
@@ -576,13 +591,16 @@ export default function EditUserProfile({
           )}
         </ArkadButton>
         {hasProfilePicture && (
-          <ArkadButton onPress={removeProfilePicture} style={styles.hasCv}>
+          <ArkadButton
+            onPress={removeProfilePicture}
+            style={styles.hasCv && { width: "50%" }}
+          >
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
         )}
         <ArkadButton
           onPress={setCV}
-          style={{ backgroundColor: Colors.arkadTurkos }}
+          style={{ backgroundColor: Colors.arkadTurkos, width: "50%" }}
         >
           {hasCv ? (
             <ArkadText
@@ -597,14 +615,17 @@ export default function EditUserProfile({
           )}
         </ArkadButton>
         {hasCv && (
-          <ArkadButton onPress={deleteCV} style={styles.hasCv}>
+          <ArkadButton
+            onPress={deleteCV}
+            style={styles.hasCv && { width: "50%" }}
+          >
             <ArkadText text="Delete CV" />
           </ArkadButton>
         )}
         {hasCv && (
           <ArkadButton
             onPress={downloadCV}
-            style={{ backgroundColor: Colors.arkadTurkos }}
+            style={{ backgroundColor: Colors.arkadTurkos, width: "50%" }}
           >
             <ArkadText text="Download CV" />
           </ArkadButton>
