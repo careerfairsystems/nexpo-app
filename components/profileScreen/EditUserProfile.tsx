@@ -448,7 +448,7 @@ export default function EditUserProfile({
 
     alert("result achieved");
 
-    if (result.cancelled) {
+    if (result.canceled) {
       return;
     }
 
