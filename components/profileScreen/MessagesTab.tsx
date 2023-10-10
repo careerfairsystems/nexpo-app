@@ -29,18 +29,19 @@ export default function MessagesTab() {
 
   if (messages?.length === 0) {
     return <ArkadText text={"No messages"} style={styles.text}></ArkadText>;
+  } else {
+    return (
+      <FlatList
+        style={{
+          backgroundColor: Colors.arkadNavy,
+        }}
+        showsVerticalScrollIndicator={false}
+        data={messages?.reverse()}
+        keyExtractor={(message) => message.title}
+        renderItem={({ item: message }) => <MessageListItem message={message} />}
+      />
+    );
   }
-  return (
-    <FlatList
-      style={{
-        backgroundColor: Colors.arkadNavy,
-      }}
-      showsVerticalScrollIndicator={false}
-      data={messages?.reverse()}
-      keyExtractor={(message) => message.title}
-      renderItem={({ item: message }) => <MessageListItem message={message} />}
-    />
-  );
 }
 
 const styles = StyleSheet.create({

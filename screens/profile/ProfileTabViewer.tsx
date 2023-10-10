@@ -20,6 +20,9 @@ function ProfileTabViewer(props: {
     ? React.useState([
       { key: "first", title: "Profile" },
       { key: "second", title: "Admin" },
+      { key: "third", title: "Contact List" },
+      { key: "fourth", title: "FAQ" },
+      { key: "fifth", title: "Questions" },
     ])
     : props.messages // Volunteer
     ? React.useState([
@@ -45,6 +48,9 @@ function ProfileTabViewer(props: {
     ? SceneMap({
         first: props.profile,
         second: props.admin,
+        third: props.contacts,
+        fourth: props.faq,
+        fifth: props.question,
       })
     : props.messages
     ? SceneMap({

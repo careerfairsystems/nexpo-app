@@ -55,13 +55,15 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   messageBoxNotPressed: {
-    width: width,
+    width: width  * 0.95,
     height: height * 0.24,
+    paddingLeft: "5%"
   },
   messageBoxPressed: {
     flexBasis: "fit-content",
-    width: width,
+    width: width * 0.95,
     height: height * 0.6,
+    paddingLeft: "5%"
   },
   container: {
     flex: 1,
