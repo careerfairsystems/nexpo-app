@@ -5,6 +5,7 @@ export default {
   orientation: "portrait",
   icon: "./assets/images/icon.png",
   scheme: "se.arkadtlth.nexpo",
+  displayName: "ARKAD",
   //userInterfaceStyle: 'automatic',
   splash: {
     resizeMode: "contain",
@@ -40,7 +41,7 @@ export default {
     "env": {
       "ANDROID_HOME": "/Users/victormikkelsen/Library/Android/sdk"
     },
-    versionCode: 26,
+    versionCode: 98,
     scheme: "se.arkadtlth.nexpo",
     adaptiveIcon: {
       foregroundImage: "./assets/images/android_icon.png",
