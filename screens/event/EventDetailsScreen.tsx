@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 26,
     marginBottom: 10,
-    paddingTop: "2rem",
+    paddingTop: "5%",
   },
   scrollView: {
     backgroundColor: Colors.arkadNavy,
