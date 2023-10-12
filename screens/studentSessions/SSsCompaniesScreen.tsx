@@ -90,7 +90,7 @@ export default function SSsCompaniesScreen({ navigation }: SSsNavigation) {
       <View style={styles.titleContainerNoUser}>
         <ArkadText
           text={"Please log in to view which companies offer Student Sessions"}
-          style={styles.title}
+          style={styles.title_nologin}
         />
       </View>
     );
@@ -101,6 +101,11 @@ const styles = StyleSheet.create({
   title: {
     paddingBottom: 5,
     fontSize: 50,
+    color: Colors.white,
+  },
+  title_nologin: {
+    paddingBottom: 5,
+    fontSize: 30,
     color: Colors.white,
   },
   text: {
