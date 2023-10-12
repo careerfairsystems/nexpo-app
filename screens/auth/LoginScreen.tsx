@@ -51,7 +51,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
       Toast.show({
         type: "error",
         text1: "Wrong email or password",
-        visibilityTime: 5000, 
+        visibilityTime: 5000,
       });
     } else if (!success.ok) {
       Toast.show({
