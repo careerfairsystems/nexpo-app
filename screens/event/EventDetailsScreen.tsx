@@ -45,7 +45,7 @@ export default function EventDetailsScreen(id: number) {
 
   const [wantTakeaway, setWantTakeaway] = useState(false);
   const [selectedTime, setSelectedTime] = useState(new Date());
-  const [update, setUpdate] = useState(false);
+  const [update, setUpdate] = useState(true);
   const [formattedSelectedTime, setFormattedSelectedTime] = useState("");
 
   const lunchTimes = [
@@ -142,30 +142,27 @@ export default function EventDetailsScreen(id: number) {
       setTicket(temp_ticket);
     }
 
-    if (ticket) {
-      if (!update) {
-        let eventTime = event?.date;
-        const dateTime = eventTime.split(" ");
-        alert(
-          "Registered to " +
-            event?.name +
-            " " +
-            dateTime[0] +
-            "\nTakeaway at " +
-            selectedTime
-        );
-      } else {
-        alert("Registered to " + event?.name + " " + event?.date);
-      }
-      alert(
-        "If you have any allergies or food preferences, please update your profile accordingly."
-      );
+    console.log(ticket);
 
-      getEvent();
+    if (update && wantTakeaway) {
+      let eventTime = event?.date;
+      const dateTime = eventTime.split(" ");
+      alert(
+        "Registered to " +
+          event?.name +
+          " " +
+          dateTime[0] +
+          "\nTakeaway at " +
+          selectedTime
+      );
     } else {
-      alert("Could not register to " + event?.name + " " + event?.date);
-      getEvent();
+      alert("Registered to " + event?.name + " " + event?.date);
     }
+    alert(
+      "If you have any allergies or food preferences, please update your profile accordingly."
+    );
+
+    getEvent();
 
     setLoading(false);
   };
@@ -256,7 +253,7 @@ export default function EventDetailsScreen(id: number) {
         <View style={styles.descriptionContainer}>
           <ArkadText text={event.description} style={styles.description} />
         </View>
-        {ticket && registered && ticket.event.type === 1 && (
+        {ticket && registered && ticket?.event?.type === 1 && (
           <View style={styles.takeawayContainer}>
             <ArkadText text="Takeaway " style={styles.title} />
             <Switch
@@ -305,7 +302,7 @@ export default function EventDetailsScreen(id: number) {
                 />
               ))}
             </Picker>
-            {!update ? (
+            {update ? (
               <ArkadButton
                 onPress={updateTicket}
                 style={styles.updateTicketButton}
@@ -328,7 +325,7 @@ export default function EventDetailsScreen(id: number) {
           <>
             {ticket.isConsumed ? (
               <NoButton text="Ticket consumed!" style={styles.consumedText} />
-            ) : ticket.event.type !== 1 && ticket.event.type !== 2 ? (
+            ) : ticket?.event?.type !== 1 && ticket?.event?.type !== 2 ? (
               <View>
                 <View style={styles.buttonContainer}>
                   <ArkadButton
@@ -570,6 +567,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: Colors.arkadOrange,
     borderRadius: 10,
+    maxWidth: "90%",
   },
 
   timePickerLabel: {
