@@ -330,16 +330,17 @@ export default function EventDetailsScreen(id: number) {
               <NoButton text="Ticket consumed!" style={styles.consumedText} />
             ) : ticket.event.type !== 1 && ticket.event.type !== 2 ? (
               <View>
-                <ArkadButton
-                  onPress={() => deregister()}
-                  style={styles.bookedButton}
-                >
-                  <ArkadText
-                    text="De-register from event"
-                    style={styles.title}
-                  />
-                </ArkadButton>
-
+                <View style={styles.buttonContainer}>
+                  <ArkadButton
+                    onPress={() => deregister()}
+                    style={styles.bookedButton}
+                  >
+                    <ArkadText
+                      text="De-register from event"
+                      style={styles.title}
+                    />
+                  </ArkadButton>
+                </View>
                 <ArkadText
                   text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
                   style={{ color: Colors.white }}
@@ -522,6 +523,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
     width: "90%",
     marginBottom: 20,
+  },
+  buttonContainer: {
+    alignItems: "center", // Center the button horizontally
   },
   qrHeader: {
     marginTop: 24,
