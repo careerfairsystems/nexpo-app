@@ -56,12 +56,12 @@
 //         }}
 //       >
 //         <ArkadText text={props.title} style={styles.title}></ArkadText>
-//         <AntDesign
-//           name={expanded ? "up" : "down"}
-//           size={24}
-//           color="black"
-//           style={styles.icon}
-//         />
+// <AntDesign
+//   name={expanded ? "up" : "down"}
+//   size={24}
+//   color="black"
+//   style={styles.icon}
+// />
 //       </TouchableOpacity>
 //       <Animated.View
 //         style={[
@@ -112,6 +112,7 @@ import React, { useState } from "react";
 import { TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import { View } from "components/Themed";
 import { ArkadText } from "components/StyledText";
+import { AntDesign } from "@expo/vector-icons";
 
 interface Item {
   id: number;
@@ -134,6 +135,12 @@ const ExpandableListItem: React.FC<{ item: Item }> = ({ item }) => {
     <View style={styles.itemContainer}>
       <TouchableOpacity onPress={toggleExpand} style={styles.itemTouchable}>
         <ArkadText style={styles.itemTitle} text={item.title} />
+        <AntDesign
+          name={expanded ? "up" : "down"}
+          size={24}
+          color="black"
+          style={styles.icon}
+        />
       </TouchableOpacity>
       {expanded && <ArkadText style={styles.itemContent} text={item.content} />}
     </View>
@@ -191,6 +198,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.white,
     textAlign: "left",
+  },
+  icon: {
+    position: "absolute",
+    right: 10,
   },
 });
 
