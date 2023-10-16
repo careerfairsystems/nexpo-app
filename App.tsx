@@ -1,4 +1,5 @@
-import { StatusBar } from "expo-status-bar";
+import { StatusBar, Platform } from "react-native";
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import AppLoader from "./screens/AppLoader";
@@ -77,7 +78,7 @@ export default function App() {
     <AppLoader>
       <SafeAreaProvider>
         <Navigation />
-        <StatusBar style="dark" />
+        <ExpoStatusBar style="light" />
       </SafeAreaProvider>
 
       <Toast />
