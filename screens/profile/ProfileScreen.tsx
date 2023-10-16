@@ -33,6 +33,7 @@ import { AuthDispatchContext } from "components/AuthContextProvider";
 import { TicketType } from "api/Tickets";
 import { set } from "date-fns";
 import FaqTab from "components/profileScreen/FAQ";
+import VolunteerProfile from "components/profileScreen/VolunteerProfile";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -42,6 +43,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   const [user, setUser] = useState<User | null>(null);
   const [company, setCompany] = useState<Company | null>(null);
   const [student, setStudent] = useState<Student | null>(null);
+  const [volunteer, setVolunteer] = useState<Student | null>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const setSignedIn = useContext(AuthDispatchContext);
@@ -60,6 +62,10 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     if (user.role === Role.Student) {
       const student = await API.students.getMe();
       setStudent(student);
+    }
+    if (user.role === Role.Volunteer) {
+      const volunteer = await API.volunteers.getMe();
+      setStudent(volunteer);
     }
 
     setUser(user);
@@ -99,6 +105,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <ScrollView style={styles.container}>
         <UserProfile user={user as NonNullable<User>} />
         {student && <StudentProfile student={student} />}
+        {volunteer && <VolunteerProfile volunteer={volunteer} />}
         {company && <CompanyProfile company={company} />}
         <View style={styles.eventList}>
           {!bookedEvents ? (

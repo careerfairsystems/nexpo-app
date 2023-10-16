@@ -18,19 +18,18 @@ function ProfileTabViewer(props: {
 
   const [routes] = props.admin // Admin
     ? React.useState([
-      { key: "first", title: "Profile" },
-      { key: "second", title: "Admin" },
-      { key: "third", title: "Contact List" },
-      { key: "fourth", title: "FAQ" },
-      { key: "fifth", title: "Questions" },
-    ])
-    : props.messages // Volunteer
-    ? React.useState([
         { key: "first", title: "Profile" },
-        { key: "second", title: "Messages" },
+        { key: "second", title: "Admin" },
         { key: "third", title: "Contact List" },
         { key: "fourth", title: "FAQ" },
         { key: "fifth", title: "Questions" },
+      ])
+    : props.messages // Volunteer
+    ? React.useState([
+        { key: "first", title: "Profile" },
+        { key: "second", title: "Contact List" },
+        { key: "third", title: "FAQ" },
+        { key: "fourth", title: "Questions" },
       ])
     : Object.keys(props).length === 2 // Student
     ? React.useState([
@@ -55,10 +54,9 @@ function ProfileTabViewer(props: {
     : props.messages
     ? SceneMap({
         first: props.profile,
-        second: props.messages,
-        third: props.contacts,
-        fourth: props.faq,
-        fifth: props.question,
+        second: props.contacts,
+        third: props.faq,
+        fourth: props.question,
       })
     : Object.keys(props).length === 2
     ? SceneMap({
