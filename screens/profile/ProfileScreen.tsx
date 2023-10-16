@@ -65,7 +65,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     }
     if (user.role === Role.Volunteer) {
       const volunteer = await API.volunteers.getMe();
-      setStudent(volunteer);
+      setVolunteer(volunteer);
     }
 
     setUser(user);
