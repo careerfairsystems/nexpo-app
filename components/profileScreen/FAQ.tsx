@@ -7,39 +7,65 @@ import { API } from "api/API";
 import { FAQs } from "api/FAQs";
 
 export default function FAQ() {
-    const [questions, setQuestions] = React.useState<FAQs[]>();
+  const [questions, setQuestions] = React.useState<TransformedItem[]>();
 
-    React.useEffect(() => {
-        fetch_faq();
-    }, []);
+  React.useEffect(() => {
+    fetch_faq();
+  }, []);
 
-    async function fetch_faq() {
-        const faq = await API.faqs.faq();
-        setQuestions(faq);
-    }
+  async function fetch_faq() {
+    const faq = await API.faqs.faq();
+    const transformedFAQ = transformFAQData(faq);
+    setQuestions(transformedFAQ);
+  }
 
-    // Currently backend only provides the question
-    return (
-        <ScrollView style={styles.container}>
-            <ArkadText text={"Frequently Asked Questions"} style={styles.title}></ArkadText>
-            {questions?.reverse().map((data) => {
-                return (
-                    <Expandable key={data.id} title={data.question} desc={data.answer}/>
-                );
-            })}
-        </ScrollView>
-    );
+  interface FAQItem {
+    id: number;
+    question: string;
+    answer: string;
+  }
+
+  interface TransformedItem {
+    id: number;
+    title: string;
+    content: string;
+  }
+
+  function transformFAQData(backendData: FAQItem[]): TransformedItem[] {
+    const transformedData: TransformedItem[] = backendData.map((item) => ({
+      id: item.id,
+      title: item.question,
+      content: item.answer,
+    }));
+    return transformedData;
+  }
+
+  // Currently backend only provides the question
+  return (
+    <ScrollView style={styles.container}>
+      <ArkadText
+        text={"Frequently Asked Questions"}
+        style={styles.title}
+      ></ArkadText>
+      <Expandable data={questions || []} />
+      {/* {questions?.reverse().map((data) => {
+        return (
+          <Expandable key={data.id} title={data.question} desc={data.answer} />
+        );
+      })} */}
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-		paddingVertical: 24,
-		backgroundColor: Colors.arkadNavy,
-	},
-    title: {
-        fontFamily: "main-font-bold",
-        fontSize: 30,
-        color: Colors.white,
-        paddingBottom: 24
-    }
-})
+  container: {
+    paddingVertical: 24,
+    backgroundColor: Colors.arkadNavy,
+  },
+  title: {
+    fontFamily: "main-font-bold",
+    fontSize: 30,
+    color: Colors.white,
+    paddingBottom: 24,
+  },
+});
