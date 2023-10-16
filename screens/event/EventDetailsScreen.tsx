@@ -340,7 +340,7 @@ export default function EventDetailsScreen(id: number) {
                 </View>
                 <ArkadText
                   text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
-                  style={{ color: Colors.white }}
+                  style={{ color: Colors.arkadNavy }}
                 />
               </View>
             ) : null}
@@ -370,7 +370,7 @@ export default function EventDetailsScreen(id: number) {
             </ArkadButton>
             <ArkadText
               text={`Last date to register to this event is: ${eventStopSellingDate()}`}
-              style={{ color: Colors.arkadNavy }}
+              style={{ color: Colors.white, paddingBottom: 20 }}
             />
           </>
         )}
