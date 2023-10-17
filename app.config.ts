@@ -38,10 +38,12 @@ export default {
     package: "se.arkadtlth.nexpo",
     googleServicesFile: "./google-services.json",
     buildNumber: "2.0.0",
+    displayName: "ARKAD",
+    appName: "ARKAD",
     "env": {
       "ANDROID_HOME": "/Users/victormikkelsen/Library/Android/sdk"
     },
-    versionCode: 98,
+    versionCode: 116,
     scheme: "se.arkadtlth.nexpo",
     adaptiveIcon: {
       foregroundImage: "./assets/images/android_icon.png",
@@ -64,6 +66,15 @@ export default {
       target: 'nexpoapp',
       "projectId": "736e5c8b-3245-43fc-9803-293e803f584e"
      }
-    }
+    },
+    name: "ARKAD",
+    slug: "nexpo-app",
+    version: "1.0.0",
+    sdkVersion: "48.0.0",
+    platforms: [
+      "ios",
+      "android",
+      "web"
+    ]
   }
-};
+  };
