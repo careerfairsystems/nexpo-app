@@ -117,7 +117,11 @@ const styles = StyleSheet.create({
   logoContainer: {
     paddingTop: 20,
     height: 120,
-    width: "100%",
+    width: "90%",
+    backgroundColor: Colors.white,
+    borderColor: Colors.arkadOrange,
+    borderWidth: 4,
+    borderRadius: 10,
   },
   logo: {
     width: "100%",
