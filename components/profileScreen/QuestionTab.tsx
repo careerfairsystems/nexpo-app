@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   titleInput: {
-    height: "10%", // Updated to a number
+    height: 48, // Updated to a number
     borderColor: Colors.white,
     color: Colors.white,
     borderRadius: 7,

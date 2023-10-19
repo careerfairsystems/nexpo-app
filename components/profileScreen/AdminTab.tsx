@@ -185,7 +185,7 @@ export default function AdminTab() {
 
 const styles = StyleSheet.create({
   textInput: {
-    height: "20%",
+    height: "30%",
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   titleInput: {
-    height: "5%",
+    height: 48,
     borderColor: Colors.white,
     color: Colors.white,
     borderRadius: 7,
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   userNameInput: {
-    height: "5%",
+    height: 48,
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
