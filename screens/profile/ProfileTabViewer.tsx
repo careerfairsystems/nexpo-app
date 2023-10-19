@@ -20,16 +20,18 @@ function ProfileTabViewer(props: {
     ? React.useState([
         { key: "first", title: "Profile" },
         { key: "second", title: "Admin" },
-        { key: "third", title: "Contact List" },
-        { key: "fourth", title: "FAQ" },
-        { key: "fifth", title: "Questions" },
+        { key: "third", title: "Messages" },
+        { key: "fourth", title: "Contact List" },
+        { key: "fifth", title: "FAQ" },
+        { key: "sixth", title: "Questions" },
       ])
     : props.messages // Volunteer
     ? React.useState([
         { key: "first", title: "Profile" },
-        { key: "second", title: "Contact List" },
-        { key: "third", title: "FAQ" },
-        { key: "fourth", title: "Questions" },
+        { key: "second", title: "Messages" },
+        { key: "third", title: "Contact List" },
+        { key: "fourth", title: "FAQ" },
+        { key: "fifth", title: "Questions" },
       ])
     : Object.keys(props).length === 2 // Student
     ? React.useState([
@@ -47,16 +49,18 @@ function ProfileTabViewer(props: {
     ? SceneMap({
         first: props.profile,
         second: props.admin,
-        third: props.contacts,
-        fourth: props.faq,
-        fifth: props.question,
+        third: props.messages,
+        fourth: props.contacts,
+        fifth: props.faq,
+        sixth: props.question,
       })
     : props.messages
     ? SceneMap({
         first: props.profile,
-        second: props.contacts,
-        third: props.faq,
-        fourth: props.question,
+        second: props.messages,
+        third: props.contacts,
+        fourth: props.faq,
+        fifth: props.question,
       })
     : Object.keys(props).length === 2
     ? SceneMap({
