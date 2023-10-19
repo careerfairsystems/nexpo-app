@@ -146,13 +146,6 @@ export default function EditUserProfile({
       });
 
     alert("response: " + JSON.stringify(response));
-<<<<<<< HEAD
-
-    if (!response) {
-      return;
-    }
-=======
->>>>>>> eff39fb (Testing profilepicture)
 
     setHasProfilePicture(true);
     Toast.show({
