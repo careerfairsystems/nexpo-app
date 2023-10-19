@@ -8,7 +8,7 @@ import { Picker } from "@react-native-picker/picker";
 import Colors from "constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CategoriesDropdown } from "../companies/CategoriesDroppdown";
-import { PROGRAMS } from "../companies/DroppdownItems";
+import { PROGRAMS, YEARS } from "../companies/DroppdownItems";
 
 type EditVolunteerProfileProps = {
   volunteer: Student;
@@ -21,18 +21,22 @@ export default function EditVolunteerProfile({
   setUpdateVolunteerDto,
   setEditStatus,
 }: EditVolunteerProfileProps) {
-  const [year, setYear] = React.useState<number | null>(volunteer.year);
   const [masterTitle, setMasterTitle] = React.useState<string | null>(
     volunteer.masterTitle
   );
   const [linkedIn, setLinkedIn] = React.useState<string>(
     volunteer.linkedIn === null ? "" : volunteer.linkedIn
   );
+
   const [programmes, setProgrammes] = useState(PROGRAMS);
   const [programmeOpen, programmeSetOpen] = useState(false);
   const [programme, setProgramme] = useState<Programme | null>(
     volunteer.programme
   );
+
+  const [years, setYears] = useState(YEARS);
+  const [yearsOpen, yearsSetOpen] = useState(false);
+  const [year, setYear] = React.useState<number | null>(volunteer.year);
 
   React.useEffect(() => {
     const dto = {
@@ -93,21 +97,19 @@ export default function EditVolunteerProfile({
         >
           Year
         </Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={year}
-          onValueChange={(value, index) => {
-            if (index === 0) setYear(null);
-            else setYear(Number(value));
-          }}
-        >
-          <Picker.Item label="Select a year" />
-          <Picker.Item label="1" value={1} />
-          <Picker.Item label="2" value={2} />
-          <Picker.Item label="3" value={3} />
-          <Picker.Item label="4" value={4} />
-          <Picker.Item label="5" value={5} />
-        </Picker>
+        <View style={styles.programmepicker}>
+          <CategoriesDropdown
+            title="Year of study"
+            items={years}
+            setOpen={yearsSetOpen}
+            setValue={setYear}
+            open={yearsOpen}
+            value={year}
+            setItems={setYears}
+            categories={false}
+            single={true}
+          />
+        </View>
 
         <Text
           style={{
