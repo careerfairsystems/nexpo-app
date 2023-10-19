@@ -87,7 +87,21 @@ export default function EditUserProfile({
       aspect: [1, 1],
     });
 
-    alert("result: " + JSON.stringify(result));
+    alert("result: " + JSON.stringify(result["assets"]));
+    let uri;
+    if (
+      result &&
+      result["assets"] &&
+      result["assets"][0] &&
+      result["assets"][0]["uri"]
+    ) {
+      uri = result["assets"][0]["uri"];
+    } else {
+      alert("Error: No image found");
+      return;
+    }
+
+    console.log(uri);
 
     if (result.canceled) {
       return;
@@ -95,11 +109,11 @@ export default function EditUserProfile({
 
     alert("result not cancelled");
 
-    const fileInfo = await FileSystem.getInfoAsync(result.assets[0]["uri"]);
+    const fileInfo = await FileSystem.getInfoAsync(uri);
 
     alert("file info: " + JSON.stringify(fileInfo));
 
-    if (!result.assets[0].uri.includes("data:image")) {
+    if (!uri.includes("data:image")) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -119,10 +133,16 @@ export default function EditUserProfile({
 
     alert("file info size: " + fileInfo.size);
 
-    await API.s3bucket
-      .postToS3(result.assets[0]["uri"], user.id.toString(), ".jpg")
+    const response = await API.s3bucket
+      .postToS3(uri, user.id.toString(), ".jpg")
       .catch((e) => {
         console.log(e);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Something went wrong",
+        });
+        return;
       });
 
     alert("uploaded to s3");
