@@ -80,7 +80,7 @@ export default function EditUserProfile({
         return;
       }
     }
-    alert("chosen image");
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -107,11 +107,11 @@ export default function EditUserProfile({
       return;
     }
 
-    alert("result not cancelled");
+    // alert("result not cancelled");
 
-    const fileInfo = await FileSystem.getInfoAsync(uri);
+    // const fileInfo = await FileSystem.getInfoAsync(uri);
 
-    alert("file info: " + JSON.stringify(fileInfo));
+    // alert("file info: " + JSON.stringify(fileInfo));
 
     if (!uri.includes("data:image")) {
       Toast.show({
@@ -122,30 +122,34 @@ export default function EditUserProfile({
       return;
     }
 
-    if (fileInfo.size ? fileInfo.size > 4000000 : false) {
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: "Maximum file size of 4 Mb exceeded",
-      });
-      return;
-    }
+    // if (fileInfo.size ? fileInfo.size > 4000000 : false) {
+    //   Toast.show({
+    //     type: "error",
+    //     text1: "Error",
+    //     text2: "Maximum file size of 4 Mb exceeded",
+    //   });
+    //   return;
+    // }
 
-    alert("file info size: " + fileInfo.size);
+    // alert("file info size: " + fileInfo.size);
 
     const response = await API.s3bucket
       .postToS3(uri, user.id.toString(), ".jpg")
       .catch((e) => {
         console.log(e);
+        console.log("bror det blev knas");
         Toast.show({
           type: "error",
           text1: "Error",
           text2: "Something went wrong",
         });
-        return;
       });
 
-    alert("uploaded to s3");
+    alert("response: " + JSON.stringify(response));
+
+    if (!response) {
+      return;
+    }
 
     setHasProfilePicture(true);
     Toast.show({
