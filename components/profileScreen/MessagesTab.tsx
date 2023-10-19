@@ -38,7 +38,9 @@ export default function MessagesTab() {
         showsVerticalScrollIndicator={false}
         data={messages?.reverse()}
         keyExtractor={(message) => message.title}
-        renderItem={({ item: message }) => <ArkadText text="hejsan" />}
+        renderItem={({ item: message }) => (
+          <MessageListItem message={message} />
+        )}
       />
     );
   }
