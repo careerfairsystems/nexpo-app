@@ -42,6 +42,7 @@ export default function SSsApplicationScreen({
         text1: "Application to " + company?.name + " sent",
         visibilityTime: 5000,
       });
+      setMsg("");
       setLoading(false);
     }
   };
