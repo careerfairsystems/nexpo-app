@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "api/Users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { Linking, Platform, StyleSheet } from "react-native";
+import { Alert, Linking, Platform, StyleSheet } from "react-native";
 import Colors from "constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/EditProfileScreen";
@@ -69,6 +69,7 @@ export default function EditUserProfile({
   }, [firstName, lastName, phoneNr, password, repeatPassword, foodPreferences]);
 
   const setProfilePicture = async () => {
+    alert("starting profile picture");
     if (Platform.OS !== "web") {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -79,17 +80,24 @@ export default function EditUserProfile({
         return;
       }
     }
+    alert("chosen image");
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
     });
 
+    alert("result: " + JSON.stringify(result));
+
     if (result.canceled) {
       return;
     }
 
+    alert("result not cancelled");
+
     const fileInfo = await FileSystem.getInfoAsync(result.assets[0]["uri"]);
+
+    alert("file info: " + JSON.stringify(fileInfo));
 
     if (!result.assets[0].uri.includes("data:image")) {
       Toast.show({
@@ -109,11 +117,16 @@ export default function EditUserProfile({
       return;
     }
 
+    alert("file info size: " + fileInfo.size);
+
     await API.s3bucket
       .postToS3(result.assets[0]["uri"], user.id.toString(), ".jpg")
       .catch((e) => {
         console.log(e);
       });
+
+    alert("uploaded to s3");
+
     setHasProfilePicture(true);
     Toast.show({
       type: "success",
@@ -208,7 +221,7 @@ export default function EditUserProfile({
       <View style={styles.container}>
         <ProfilePicture url={user.profilePictureUrl} />
 
-        <ArkadButton onPress={setProfilePicture}>
+        <ArkadButton onPress={setProfilePicture} style={{ width: "50%" }}>
           {hasProfilePicture ? (
             <ArkadText text="Change profile picture" />
           ) : (
@@ -216,13 +229,16 @@ export default function EditUserProfile({
           )}
         </ArkadButton>
         {hasProfilePicture && (
-          <ArkadButton onPress={removeProfilePicture} style={styles.hasCv}>
+          <ArkadButton
+            onPress={removeProfilePicture}
+            style={styles.hasCv && { width: "50%" }}
+          >
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
         )}
         <ArkadButton
           onPress={setCV}
-          style={{ backgroundColor: Colors.arkadTurkos }}
+          style={{ backgroundColor: Colors.arkadTurkos, width: "50%" }}
         >
           {hasCv ? (
             <ArkadText
@@ -237,14 +253,17 @@ export default function EditUserProfile({
           )}
         </ArkadButton>
         {hasCv && (
-          <ArkadButton onPress={deleteCV} style={styles.hasCv}>
+          <ArkadButton
+            onPress={deleteCV}
+            style={styles.hasCv && { width: "50%" }}
+          >
             <ArkadText text="Delete CV" />
           </ArkadButton>
         )}
         {hasCv && (
           <ArkadButton
             onPress={downloadCV}
-            style={{ backgroundColor: Colors.arkadTurkos }}
+            style={{ backgroundColor: Colors.arkadTurkos, width: "50%" }}
           >
             <ArkadText text="Download CV" />
           </ArkadButton>
