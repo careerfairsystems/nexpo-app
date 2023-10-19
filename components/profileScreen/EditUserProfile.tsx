@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     borderColor: Colors.white,
     color: Colors.white,
-    placeholderTextColor: "#808080",
+    placeholderTextColor: "#606060",
   },
   inputLabel: {
     color: Colors.white,
