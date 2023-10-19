@@ -75,7 +75,9 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
 
   const openSSsApplicaion = () => {
     const screen =
-      user?.role == Role.Student ? "application" : "applicationList";
+      user?.role == Role.Student || user?.role == Role.Volunteer
+        ? "application"
+        : "applicationList";
     navigation.navigate("SSsSwitchScreen", { id: id, screen: screen });
   };
 

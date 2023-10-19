@@ -32,6 +32,10 @@ export default function Contacts() {
           <ArkadText text={contact.phoneNumber} style={styles.text} />
         </View>
       ))}
+      <ArkadText
+        text={"NAKED SPACE"}
+        style={styles.header && { color: Colors.arkadNavy }}
+      ></ArkadText>
     </ScrollView>
   );
 }
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 30,
     color: Colors.white,
-    marginBottom: 16, // Add margin to separate header from contacts
+    marginBottom: 12, // Add margin to separate header from contacts
     textAlign: "center",
   },
   role: {

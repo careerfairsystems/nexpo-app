@@ -40,7 +40,6 @@ export default function FAQ() {
     return transformedData;
   }
 
-  // Currently backend only provides the question
   return (
     <ScrollView style={styles.container}>
       <ArkadText
@@ -48,11 +47,6 @@ export default function FAQ() {
         style={styles.title}
       ></ArkadText>
       <Expandable data={questions || []} />
-      {/* {questions?.reverse().map((data) => {
-        return (
-          <Expandable key={data.id} title={data.question} desc={data.answer} />
-        );
-      })} */}
     </ScrollView>
   );
 }
