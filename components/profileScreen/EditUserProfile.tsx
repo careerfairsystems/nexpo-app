@@ -101,15 +101,13 @@ export default function EditUserProfile({
       return;
     }
 
-    console.log(uri);
+    alert("cancel?");
 
     if (result.canceled) {
       return;
     }
 
     // alert("result not cancelled");
-
-    // const fileInfo = await FileSystem.getInfoAsync(uri);
 
     // alert("file info: " + JSON.stringify(fileInfo));
 
@@ -122,6 +120,8 @@ export default function EditUserProfile({
       return;
     }
 
+    alert("omg image");
+    // const fileInfo = await FileSystem.getInfoAsync(uri);
     // if (fileInfo.size ? fileInfo.size > 4000000 : false) {
     //   Toast.show({
     //     type: "error",
@@ -132,28 +132,31 @@ export default function EditUserProfile({
     // }
 
     // alert("file info size: " + fileInfo.size);
+    try {
+      const response = await API.s3bucket.postToS3(
+        uri,
+        user.id.toString(),
+        ".jpg"
+      );
 
-    const response = await API.s3bucket
-      .postToS3(uri, user.id.toString(), ".jpg")
-      .catch((e) => {
-        console.log(e);
-        console.log("bror det blev knas");
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: "Something went wrong",
-        });
+      alert("response: " + JSON.stringify(response));
+
+      setHasProfilePicture(true);
+      Toast.show({
+        type: "success",
+        text2:
+          "Profile picture uploaded. Save profile to see the new profile picture",
+        visibilityTime: 4000,
       });
-
-    alert("response: " + JSON.stringify(response));
-
-    setHasProfilePicture(true);
-    Toast.show({
-      type: "success",
-      text2:
-        "Profile picture uploaded. Save profile to see the new profile picture",
-      visibilityTime: 4000,
-    });
+    } catch (error) {
+      console.log(error);
+      console.log("bror det blev knas");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Something went wrong",
+      });
+    }
   };
 
   const removeProfilePicture = async () => {
@@ -172,6 +175,7 @@ export default function EditUserProfile({
       });
     }
   };
+
   const setCV = async () => {
     let resultFile = await DocumentPicker.getDocumentAsync({});
     if (resultFile.type == "success") {
@@ -180,7 +184,6 @@ export default function EditUserProfile({
         (resultFile.size ? resultFile.size < 2000000 : false)
       ) {
         const r = resultFile.uri;
-        console.log(JSON.stringify(r));
         try {
           const res = await API.s3bucket.postToS3(
             r,
