@@ -127,7 +127,7 @@ export const postAuthFile = async (endpoint: string, dataUri: string) => {
     console.error("postAuthFile: Not authenticated");
   }
   try {
-    if (Platform.OS === "web") {
+    if (Platform.OS !== "web") {
       const response = FileSystem.uploadAsync(apiUrl(endpoint), dataUri, {
         fieldName: "file",
         httpMethod: "POST",

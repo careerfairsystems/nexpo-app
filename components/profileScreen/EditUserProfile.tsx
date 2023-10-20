@@ -181,7 +181,7 @@ export default function EditUserProfile({
     if (resultFile.type == "success") {
       if (
         resultFile.mimeType == "application/pdf" &&
-        (resultFile.size ? resultFile.size < 2000000 : false)
+        (resultFile.size ? resultFile.size < 5000000 : false)
       ) {
         const r = resultFile.uri;
         try {
