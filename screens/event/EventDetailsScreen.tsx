@@ -305,7 +305,7 @@ export default function EventDetailsScreen(id: number) {
                 <ArkadText text="Ticket updated" />
               </ArkadButton>
             ) : (
-              ""
+              <ArkadText text="" />
             )}
           </View>
         )}
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 26,
     marginBottom: 10,
-    paddingTop: "5%",
+    paddingTop: "2%",
   },
   scrollView: {
     backgroundColor: Colors.arkadNavy,
@@ -552,6 +552,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 15,
+    marginTop: 15,
     paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: Colors.arkadOrange,
