@@ -32,9 +32,11 @@ import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText, NoButton } from "components/StyledText";
 import QRCode from "react-native-qrcode-svg";
-import { format, subDays } from "date-fns";
+import { format, set, subDays } from "date-fns";
 import { Picker } from "@react-native-picker/picker";
 import Toast from "react-native-toast-message";
+import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
+import { LUNCHTIMES } from "components/companies/DroppdownItems";
 
 export default function EventDetailsScreen(id: number) {
   const [event, setEvent] = useState<Event | null>(null);
@@ -46,24 +48,13 @@ export default function EventDetailsScreen(id: number) {
   const [wantTakeaway, setWantTakeaway] = useState(false);
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [update, setUpdate] = useState(true);
+
+  const [lunchtimes, setLunchtimes] = useState(LUNCHTIMES);
+  const [takeawayOpen, takeawaySetOpen] = useState(false);
+  const [value, setValue] = useState("");
   const [formattedSelectedTime, setFormattedSelectedTime] = useState("");
 
-  const lunchTimes = [
-    { label: "11:00", value: "11:00:00" },
-    { label: "11:15", value: "11:15:00" },
-    { label: "11:30", value: "11:30:00" },
-    { label: "11:45", value: "11:45:00" },
-    { label: "12:00", value: "12:00:00" },
-    { label: "12:15", value: "12:15:00" },
-    { label: "12:30", value: "12:30:00" },
-    { label: "12:45", value: "12:45:00" },
-    { label: "13:00", value: "13:00:00" },
-    { label: "13:15", value: "13:15:00" },
-    { label: "13:30", value: "13:30:00" },
-    { label: "13:45", value: "13:45:00" },
-  ];
-
-  const handleTimeChange = (value: string) => {
+  const handleTimeChange = () => {
     const [hours, minutes, seconds] = value.split(":").map(Number);
 
     if (!event?.date) return;
@@ -277,8 +268,7 @@ export default function EventDetailsScreen(id: number) {
                         .toString()
                         .padStart(2, "0");
                       const minutes = timeParts[1];
-                      const seconds = timeParts[2];
-                      return hours + ":" + minutes + ":" + seconds;
+                      return hours + ":" + minutes;
                     })()
                   : "")
               }
@@ -288,39 +278,38 @@ export default function EventDetailsScreen(id: number) {
         )}
         {wantTakeaway && (
           <View>
-            <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
-            <Picker
-              style={styles.picker}
-              selectedValue={formattedSelectedTime}
-              onValueChange={(value) => handleTimeChange(value.toString())}
-            >
-              {lunchTimes.map((timeOption, index) => (
-                <Picker.Item
-                  key={index}
-                  label={timeOption.label}
-                  value={timeOption.value}
-                />
-              ))}
-            </Picker>
-            {update ? (
+            <CategoriesDropdown
+              title="Select pick-up time"
+              items={lunchtimes}
+              setOpen={takeawaySetOpen}
+              setValue={setValue}
+              open={takeawayOpen}
+              value={value}
+              setItems={setLunchtimes}
+              onChangeValue={handleTimeChange}
+              categories={false}
+              single={true}
+            />
+            {update && value ? (
               <ArkadButton
                 onPress={updateTicket}
                 style={styles.updateTicketButton}
               >
                 <ArkadText text="Update ticket" />
               </ArkadButton>
-            ) : (
+            ) : value ? (
               <ArkadButton
                 style={styles.updatedTicketButton}
                 onPress={() => ""}
               >
                 <ArkadText text="Ticket updated" />
               </ArkadButton>
+            ) : (
+              ""
             )}
           </View>
         )}
 
-        {/* ticket.eventType !== EventType.Lunch && ticket.event.eventType !== EventType.Banquet */}
         {ticket && registered ? (
           <>
             {ticket.isConsumed ? (
@@ -562,7 +551,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 20,
+    marginBottom: 15,
     paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: Colors.arkadOrange,
