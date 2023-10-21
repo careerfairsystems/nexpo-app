@@ -1,7 +1,8 @@
-import { StatusBar, Platform, SafeAreaView } from "react-native";
+import { StatusBar, Platform, SafeAreaView, BackHandler } from "react-native";
 import React, { Component, Fragment } from "react";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import VersionCheck from "react-native-version-check";
 
 import AppLoader from "./screens/AppLoader";
 import Navigation from "./navigation";
@@ -22,6 +23,35 @@ const prefix = Linking.createURL("/");
 //https://medium.com/@arashfallahi1989/how-to-integrate-firebase-push-notification-in-react-native-expo-bd5cc694f181
 
 export default function App() {
+  const checkVersion = async () => {
+    try {
+      let updateNeeded = await VersionCheck.needUpdate();
+
+      if (updateNeeded && updateNeeded.isNeeded) {
+        Alert.alert(
+          "Update Available",
+          "There is a new version of the app available. Do you want to update?",
+          [
+            {
+              text: "Cancel",
+              onPress: () => null,
+              style: "cancel",
+            },
+            {
+              text: "Update",
+              onPress: () => {
+                BackHandler.exitApp();
+                Linking.openURL(updateNeeded.storeUrl);
+              },
+            },
+          ]
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (!__DEV__) {
     // Register background handler
     messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
@@ -42,6 +72,7 @@ export default function App() {
       .then(() => console.log("Unsubscribed fom the topic!"));
 
     useEffect(() => {
+      checkVersion();
       async function requestUserPermission() {
         const authStatus = await messaging().requestPermission();
         const enabled =
