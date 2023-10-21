@@ -100,7 +100,9 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
         renderItem={null}
         ListHeaderComponent={
           <>
-            {user.role === Role.Student && <SSCompInfo company={company} />}
+            {user.role !== Role.CompanyRepresentative && (
+              <SSCompInfo company={company} />
+            )}
             {!accepted?.accepted ? (
               <ArkadButton
                 style={styles.button}
