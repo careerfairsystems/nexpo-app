@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 24,
     backgroundColor: Colors.arkadNavy,
+    paddingBottom: 24,
   },
   title: {
     fontFamily: "main-font-bold",

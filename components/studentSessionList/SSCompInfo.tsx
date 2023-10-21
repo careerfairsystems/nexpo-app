@@ -16,7 +16,9 @@ export default function SSCompInfo({ company }: CompanyDetailsScreenProps) {
         <View style={styles.logoContainer}>
           <Image
             source={
-              company.logoUrl ? { uri: company.logoUrl } : require("../../assets/images/icon.png")
+              company.logoUrl
+                ? { uri: company.logoUrl }
+                : require("../../assets/images/icon.png")
             }
             defaultSource={require("../../assets/images/icon.png")}
             style={styles.logo}
@@ -26,7 +28,9 @@ export default function SSCompInfo({ company }: CompanyDetailsScreenProps) {
         <Text style={styles.title}>{company?.name}</Text>
 
         <Text style={styles.descHeader}>About us</Text>
-        <Text style={styles.desc}>{company.description ? company.description : "\u2013"}</Text>
+        <Text style={styles.desc}>
+          {company.description ? company.description : "\u2013"}
+        </Text>
       </View>
     </View>
   );
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     fontSize: 32,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   contactInfoContainer: {
     display: "flex",
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 8,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   descHeader: {
     alignSelf: "center",
@@ -78,12 +82,12 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     fontSize: 22,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
   desc: {
     paddingTop: 6,
     fontSize: 18,
     fontFamily: "main-font-bold",
-    color: Colors.arkadNavy,
+    color: Colors.white,
   },
 });
