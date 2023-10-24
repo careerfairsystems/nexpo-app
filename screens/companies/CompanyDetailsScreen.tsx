@@ -115,13 +115,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   logoContainer: {
-    paddingTop: 20,
+    paddingTop: 10,
     height: 120,
     width: "90%",
     backgroundColor: Colors.white,
     borderColor: Colors.arkadOrange,
     borderWidth: 4,
     borderRadius: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   logo: {
     width: "100%",
