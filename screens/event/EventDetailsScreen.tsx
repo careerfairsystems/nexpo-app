@@ -593,13 +593,13 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   centeredViewPicker: {
-    display: "flex", // You need to use display: flex to enable flexbox layout
-    justifyContent: "center",
+    justifyContent: "flex-start",
     borderWidth: 0,
     borderColor: Colors.lightGray,
     borderRadius: 15,
     padding: 0,
     margin: 0,
     marginBottom: 12,
+    width: "60%"
   },
 });
