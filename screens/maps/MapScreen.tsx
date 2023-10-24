@@ -1,7 +1,7 @@
 import React from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StyleSheet, ImageBackground, Text } from "react-native";
-import { EMap, KarhusetMap, Map, SC1Map } from "components/maps/MapProps";
+import { EMap, KarhusetMap, Map, SCMap, TentMap } from "components/maps/MapProps";
 import { View } from "components/Themed";
 import { MapStackParamList } from "./MapNavigator";
 import { ArkadButton } from "components/Buttons";
@@ -31,7 +31,7 @@ export default function MapScreen({ navigation }: mapNavigation) {
         />
         <ArkadButton
           style={styles.studiebutton}
-          onPress={() => openMap(SC1Map)}
+          onPress={() => openMap(SCMap)}
         />
         <ArkadButton 
           style={styles.ebutton} 

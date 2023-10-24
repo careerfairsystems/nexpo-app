@@ -48,8 +48,27 @@ export const EMap: Map = {
     ],
   },
 };
-export const SC1Map: Map = {
+export const SCMap: Map = {
   name: "Studiecentrum first floor",
+  props: {
+    images: [
+      {
+        url: "",
+        props: {
+          source: require("../../assets/images/maps/sc1.png"),
+        },
+      },
+      {
+        url: "",
+        props: {
+          source: require("../../assets/images/maps/sc2.png"),
+        },
+      },
+    ],
+  },
+};
+export const TentMap: Map = {
+  name: "Tent",
   props: {
     images: [
       {
