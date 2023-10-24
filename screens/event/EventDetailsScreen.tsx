@@ -277,7 +277,7 @@ export default function EventDetailsScreen(id: number) {
           </View>
         )}
         {wantTakeaway && (
-          <View>
+          <View style={styles.centeredViewPicker}>
             <CategoriesDropdown
               title="Select pick-up time"
               items={lunchtimes}
@@ -579,15 +579,27 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   updateTicketButton: {
+    display: "flex", // You need to use display: flex to enable flexbox layout
+    justifyContent: "center",
     backgroundColor: Colors.arkadOrange,
-    width: "90%",
     marginBottom: 20,
     color: Colors.white,
   },
   updatedTicketButton: {
+    display: "flex", // You need to use display: flex to enable flexbox layout
+    justifyContent: "center",
     backgroundColor: Colors.arkadGreen,
-    width: "90%",
     marginBottom: 20,
     color: Colors.white,
+  },
+  centeredViewPicker: {
+    display: "flex", // You need to use display: flex to enable flexbox layout
+    justifyContent: "center",
+    borderWidth: 0,
+    borderColor: Colors.lightGray,
+    borderRadius: 15,
+    padding: 0,
+    margin: 0,
+    marginBottom: 12,
   },
 });
