@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Dimensions, Pressable, StyleSheet, View, ViewStyle, Image } from "react-native";
 
 import { bookedEvent, Event } from "api/Events";
 import { ArkadText } from "../StyledText";
@@ -24,6 +24,15 @@ export const EventListItem = ({
         style={styles.eventTime}
         text={API.events.formatTime(event.date, event.start, event.end)}
       />
+    </View>
+
+    <View style={styles.row}>
+      <Image
+          source={
+            require("../../assets/images/event.png")
+          }
+          style={styles.logo}
+        />
     </View>
 
     <View style={styles.footerContainer}>
@@ -91,5 +100,16 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 12,
     color: Colors.white,
+  },
+  logo: {
+    width: "40%",
+    height: Dimensions.get("window").height * 0.16,
+    resizeMode: "contain",
+  },
+  row: {
+    flex: 1,
+    justifyContent: "center", //Centered horizontally
+    alignItems: "center", //Centered vertically
+    flexDirection: "column",
   },
 });
