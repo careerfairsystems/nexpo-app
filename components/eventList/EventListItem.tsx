@@ -26,14 +26,16 @@ export const EventListItem = ({
       />
     </View>
 
-    <View style={styles.row}>
-      <Image
-          source={
-            require("../../assets/images/event.png")
-          }
-          style={styles.logo}
-        />
-    </View>
+    {event.type === 0 && (
+      <View style={styles.row}>
+        <Image
+            source={
+              require("../../assets/images/event.png")
+            }
+            style={styles.logo}
+          />
+      </View>
+    )}
 
     <View style={styles.footerContainer}>
       {/* Color of box changes depending on status */}
