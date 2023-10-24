@@ -20,6 +20,8 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
     return <ScreenActivityIndicator />;
   }
 
+  console.log(route, map)
+
   const images = map.props.images;
   return (
     <View style={styles.container}>
