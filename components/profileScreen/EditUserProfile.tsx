@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "api/Users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
-import { Alert, Linking, Platform, StyleSheet } from "react-native";
-import Colors from "constants/Colors";
+import { Linking, Platform, StyleSheet } from "react-native";
+import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/profile/EditProfileScreen";
+import { EditStatus } from "screens/profile/EditProfileScreen";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
-import { API } from "api/API";
+import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
@@ -40,7 +40,6 @@ export default function EditUserProfile({
   const [repeatPassword, setRepeatPassword] = useState<string>("");
 
   useEffect(() => {
-    // TODO Validate password strength with zxvcbn
     if (password && password.length < 8) {
       setEditStatus({
         ok: false,
@@ -69,7 +68,6 @@ export default function EditUserProfile({
   }, [firstName, lastName, phoneNr, password, repeatPassword, foodPreferences]);
 
   const setProfilePicture = async () => {
-    alert("starting profile picture");
     if (Platform.OS !== "web") {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -87,29 +85,17 @@ export default function EditUserProfile({
       aspect: [1, 1],
     });
 
-    alert("result: " + JSON.stringify(result["assets"]));
+    if (result.cancelled) {
+      return;
+    }
+
     let uri;
-    if (
-      result &&
-      result["assets"] &&
-      result["assets"][0] &&
-      result["assets"][0]["uri"]
-    ) {
-      uri = result["assets"][0]["uri"];
+    if (result && result.uri) {
+      uri = result.uri;
     } else {
       alert("Error: No image found");
       return;
     }
-
-    alert("cancel?");
-
-    if (result.canceled) {
-      return;
-    }
-
-    // alert("result not cancelled");
-
-    // alert("file info: " + JSON.stringify(fileInfo));
 
     if (!uri.includes("data:image")) {
       Toast.show({
@@ -120,27 +106,32 @@ export default function EditUserProfile({
       return;
     }
 
-    alert("omg image");
-    // const fileInfo = await FileSystem.getInfoAsync(uri);
-    // if (fileInfo.size ? fileInfo.size > 4000000 : false) {
-    //   Toast.show({
-    //     type: "error",
-    //     text1: "Error",
-    //     text2: "Maximum file size of 4 Mb exceeded",
-    //   });
-    //   return;
-    // }
+    if (Platform.OS !== "web") {
+      const fileInfo = await FileSystem.getInfoAsync(result.uri);
+      if (result.type != "image") {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "You must select an image",
+        });
+        return;
+      }
+      if (fileInfo.size ? fileInfo.size > 5000000 : false) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Maximum file size of 5 Mb exceeded",
+        });
+        return;
+      }
+    }
 
-    // alert("file info size: " + fileInfo.size);
     try {
       const response = await API.s3bucket.postToS3(
         uri,
         user.id.toString(),
         ".jpg"
       );
-
-      alert("response: " + JSON.stringify(response));
-
       setHasProfilePicture(true);
       Toast.show({
         type: "success",
@@ -149,8 +140,6 @@ export default function EditUserProfile({
         visibilityTime: 4000,
       });
     } catch (error) {
-      console.log(error);
-      console.log("bror det blev knas");
       Toast.show({
         type: "error",
         text1: "Error",
@@ -181,7 +170,7 @@ export default function EditUserProfile({
     if (resultFile.type == "success") {
       if (
         resultFile.mimeType == "application/pdf" &&
-        (resultFile.size ? resultFile.size < 5000000 : false)
+        (resultFile.size ? resultFile.size < 10000000 : false)
       ) {
         const r = resultFile.uri;
         try {
@@ -204,7 +193,8 @@ export default function EditUserProfile({
         Toast.show({
           type: "error",
           text1: "Error",
-          text2: "File needs to be in PDF format and must be smaller than 2 Mb",
+          text2:
+            "File needs to be in PDF format and must be smaller than 10 Mb",
           visibilityTime: 4000,
         });
       }
