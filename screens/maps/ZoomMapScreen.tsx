@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Image } from "react-native";
 import { ImageViewer } from "react-native-image-zoom-viewer";
 import { Map } from "components/maps/MapProps";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
@@ -16,19 +16,21 @@ type MapScreenParams = {
 
 export default function ZoomMapScreen({ route }: MapScreenParams) {
   const map: Map | undefined = route.params.map;
+
   if (map == undefined) {
     return <ScreenActivityIndicator />;
   }
 
-  console.log(route, map)
-
   const images = map.props.images;
+
   return (
     <View style={styles.container}>
       <ImageViewer
-        imageUrls={images}
+        imageUrls={images.map((image: Image, index: number) => ({
+          url: image.props.source,
+        }))}
         backgroundColor={Colors.arkadNavy}
-      ></ImageViewer>
+      />
     </View>
   );
 }
@@ -43,5 +45,12 @@ const styles = StyleSheet.create({
     color: Colors.white,
     marginBottom: "-20%",
     fontSize: 32,
+  },
+  image: {
+    flex: 1,
+    transform: [{ scale: 0.5 }],
+    position: "relative",
+    width: "100%",
+    height: "100%",
   },
 });
