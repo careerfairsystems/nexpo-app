@@ -1,7 +1,14 @@
 import React from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StyleSheet, ImageBackground, Text } from "react-native";
-import { EMap, KarhusetMap, Map, SCMap, TentMap, FairMap } from "components/maps/MapProps";
+import {
+  EMap,
+  KarhusetMap,
+  Map,
+  SCMap,
+  TentMap,
+  FairMap,
+} from "components/maps/MapProps";
 import { View } from "components/Themed";
 import { MapStackParamList } from "./MapNavigator";
 import { ArkadButton } from "components/Buttons";
@@ -16,7 +23,7 @@ export default function MapScreen({ navigation }: mapNavigation) {
   function openMap(map: Map) {
     navigation.navigate("ZoomMapScreen", { map });
   }
-  
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -33,13 +40,10 @@ export default function MapScreen({ navigation }: mapNavigation) {
           style={styles.studiebutton}
           onPress={() => openMap(SCMap)}
         />
-        <ArkadButton 
-          style={styles.ebutton} 
-          onPress={() => openMap(EMap)} 
-        />
-        <ArkadButton 
-          style={styles.tentbutton} 
-          onPress={() => openMap(EMap)} 
+        <ArkadButton style={styles.ebutton} onPress={() => openMap(EMap)} />
+        <ArkadButton
+          style={styles.tentbutton}
+          onPress={() => openMap(TentMap)}
         />
       </ImageBackground>
     </View>
