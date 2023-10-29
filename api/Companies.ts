@@ -13,6 +13,7 @@ export enum Locations {
   E_Building,
   Union_Building,
   Tent,
+  Career_Room,
 }
 
 export enum Position {
