@@ -85,13 +85,19 @@ export default function EditUserProfile({
       aspect: [1, 1],
     });
 
-    if (result.cancelled) {
+    if (result.canceled) {
       return;
     }
 
     let uri;
-    if (result && result.uri) {
-      uri = result.uri;
+    console.log(result);
+    if (
+      result &&
+      result["assets"] &&
+      result["assets"][0] &&
+      result["assets"][0]["uri"]
+    ) {
+      uri = result["assets"][0]["uri"];
     } else {
       alert("Error: No image found");
       return;
@@ -107,8 +113,8 @@ export default function EditUserProfile({
     }
 
     if (Platform.OS !== "web") {
-      const fileInfo = await FileSystem.getInfoAsync(result.uri);
-      if (result.type != "image") {
+      const fileInfo = await FileSystem.getInfoAsync(uri);
+      if (uri.includes("data:image")) {
         Toast.show({
           type: "error",
           text1: "Error",
@@ -116,14 +122,14 @@ export default function EditUserProfile({
         });
         return;
       }
-      if (fileInfo.size ? fileInfo.size > 5000000 : false) {
+      /*       if (fileInfo && fileInfo.size ? fileInfo.size > 5000000 : false) {
         Toast.show({
           type: "error",
           text1: "Error",
           text2: "Maximum file size of 5 Mb exceeded",
         });
         return;
-      }
+      } */
     }
 
     try {
