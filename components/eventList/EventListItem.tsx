@@ -1,5 +1,12 @@
 import React from "react";
-import { Dimensions, Pressable, StyleSheet, View, ViewStyle, Image } from "react-native";
+import {
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  View,
+  ViewStyle,
+  Image,
+} from "react-native";
 
 import { bookedEvent, Event } from "api/Events";
 import { ArkadText } from "../StyledText";
@@ -24,18 +31,15 @@ export const EventListItem = ({
         style={styles.eventTime}
         text={API.events.formatTime(event.date, event.start, event.end)}
       />
-    </View>
-
-    {event.type === 0 && (
-      <View style={styles.row}>
-        <Image
-            source={
-              require("../../assets/images/event.png")
-            }
+      {/*       {event.type === 0 && (
+        <View style={styles.row}>
+          <Image
+            source={require("../../assets/images/event.png")}
             style={styles.logo}
           />
-      </View>
-    )}
+        </View>
+      )} */}
+    </View>
 
     <View style={styles.footerContainer}>
       {/* Color of box changes depending on status */}
@@ -107,6 +111,7 @@ const styles = StyleSheet.create({
     width: "40%",
     height: Dimensions.get("window").height * 0.16,
     resizeMode: "contain",
+    position: "absolute",
   },
   row: {
     flex: 1,
