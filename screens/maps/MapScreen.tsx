@@ -13,6 +13,7 @@ import { View } from "components/Themed";
 import { MapStackParamList } from "./MapNavigator";
 import { ArkadButton } from "components/Buttons";
 import Colors from "constants/Colors";
+import { ArkadText } from "components/StyledText";
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, "MapScreen">;
@@ -26,6 +27,10 @@ export default function MapScreen({ navigation }: mapNavigation) {
 
   return (
     <View style={styles.container}>
+      <ArkadText
+        text={"Click on a building to view its map!"}
+        style={styles.title}
+      />
       <ImageBackground
         resizeMode="contain"
         source={{ uri: FairMap.props.images[0].props.source }}
@@ -122,5 +127,12 @@ const styles = StyleSheet.create({
     left: "13%",
     bottom: "29%",
     zIndex: 1000,
+  },
+  title: {
+    paddingBottom: 5,
+    fontSize: 30,
+    color: Colors.white,
+    width: "90%",
+    alignSelf: "center",
   },
 });
