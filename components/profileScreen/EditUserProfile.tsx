@@ -292,7 +292,7 @@ export default function EditUserProfile({
         <TextInput
           style={styles.textInput}
           value={firstName ? firstName : ""}
-          placeholder="John"
+          placeholder="e.g John"
           onChangeText={setFirstName}
         />
 
@@ -300,7 +300,7 @@ export default function EditUserProfile({
         <TextInput
           style={styles.textInput}
           value={lastName ? lastName : ""}
-          placeholder="Doe"
+          placeholder="e.g Doe"
           onChangeText={setLastName}
         />
 
@@ -308,7 +308,7 @@ export default function EditUserProfile({
         <TextInput
           style={styles.textInput}
           value={phoneNr ? phoneNr : ""}
-          placeholder="076-1234567"
+          placeholder="e.g 076-1234567"
           onChangeText={setPhoneNr}
         />
 
@@ -316,7 +316,7 @@ export default function EditUserProfile({
         <TextInput
           style={styles.textInput}
           value={foodPreferences ? foodPreferences : ""}
-          placeholder="Vegetarian"
+          placeholder="e.g Vegetarian"
           onChangeText={setFoodPreferences}
         />
 
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     borderColor: Colors.white,
     color: Colors.white,
-    placeholderTextColor: "#606060",
+    placeholderTextColor: "#404040",
   },
   inputLabel: {
     color: Colors.white,
