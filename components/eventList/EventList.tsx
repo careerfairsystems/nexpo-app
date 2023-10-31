@@ -18,12 +18,11 @@ export function EventList({ events, onPress }: EventListProps) {
     return <Text style={styles.text}>No upcoming events =(</Text>;
   }
 
-  const getTicketsForEvent = (event: Event) => {
-    return API.tickets.getTicketForEvent(event).then((ticket) => {
-      const id = ticket?.eventId;
-      if (id) return id;
-      return null;
-    });
+  const getTicketsForEvent = async (event: Event) => {
+    const ticket = await API.tickets.getTicketForEvent(event);
+    const id = ticket?.eventId;
+    if (id) return id;
+    return null;
   };
 
   return (
