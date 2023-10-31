@@ -129,10 +129,10 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   title: {
-    paddingBottom: 5,
     fontSize: 30,
     color: Colors.white,
     width: "90%",
     alignSelf: "center",
+    marginTop: "10%",
   },
 });
