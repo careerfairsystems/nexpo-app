@@ -24,13 +24,7 @@ export const BookedEventList = ({
   };
 
   return (
-    <View
-      style={
-        bookedEvents
-          ? { height: 180 * bookedEvents?.length, alignItems: "center" }
-          : { height: 180, alignItems: "center" }
-      }
-    >
+    <View style={{ marginBottom: "5%" }}>
       <FlatList
         horizontal={false}
         showsHorizontalScrollIndicator={false}
