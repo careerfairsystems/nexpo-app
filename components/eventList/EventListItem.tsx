@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Pressable,
@@ -12,53 +12,73 @@ import { bookedEvent, Event } from "api/Events";
 import { ArkadText } from "../StyledText";
 import Colors from "constants/Colors";
 import { API } from "api/API";
+import { Ticket } from "api/Tickets";
 
 type ListedEventItemProps = {
   event: Event;
   itemStyle: ViewStyle;
   onPress: () => void;
+  ticket_eventid: Promise<number | null>;
 };
 
 export const EventListItem = ({
   event,
   itemStyle,
   onPress,
-}: ListedEventItemProps) => (
-  <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
-    <View style={styles.headerContainer}>
-      <ArkadText style={styles.eventName} text={event.name} />
-      <ArkadText
-        style={styles.eventTime}
-        text={API.events.formatTime(event.date, event.start, event.end)}
-      />
-      {/*       {event.type === 0 && (
-        <View style={styles.row}>
-          <Image
-            source={require("../../assets/images/event.png")}
-            style={styles.logo}
+  ticket_eventid,
+}: ListedEventItemProps) => {
+  const [backgroundColor, setBackgroundColor] = useState<{
+    backgroundColor: string;
+  }>({ backgroundColor: Colors.arkadTurkos });
+
+  useEffect(() => {
+    const updateBackgroundColor = async () => {
+      try {
+        const resolvedTicketEventId = await ticket_eventid;
+
+        if (resolvedTicketEventId === event.id) {
+          setBackgroundColor({ backgroundColor: Colors.arkadGreen });
+        } else if (event.capacity === event.ticketCount) {
+          setBackgroundColor({ backgroundColor: Colors.darkRed });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    updateBackgroundColor();
+  }, [ticket_eventid, event.id, event.capacity, event.ticketCount]);
+
+  return (
+    <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
+      <View style={styles.headerContainer}>
+        <ArkadText style={styles.eventName} text={event.name} />
+        <ArkadText
+          style={styles.eventTime}
+          text={API.events.formatTime(event.date, event.start, event.end)}
+        />
+        {/*       {event.type === 0 && (
+          <View style={styles.row}>
+            <Image
+              source={require("../../assets/images/event.png")}
+              style={styles.logo}
+            />
+          </View>
+        )} */}
+      </View>
+
+      <View style={styles.footerContainer}>
+        {/* Color of box changes depending on status */}
+        <View style={[styles.eventBookedContainer, backgroundColor]}>
+          <ArkadText
+            style={styles.eventBookedText}
+            text={event.ticketCount + "/" + event.capacity}
           />
         </View>
-      )} */}
-    </View>
-
-    <View style={styles.footerContainer}>
-      {/* Color of box changes depending on status */}
-      <View
-        style={[
-          styles.eventBookedContainer,
-          event.capacity == event.ticketCount
-            ? { backgroundColor: Colors.darkRed }
-            : { backgroundColor: Colors.arkadTurkos },
-        ]}
-      >
-        <ArkadText
-          style={styles.eventBookedText}
-          text={event.ticketCount + "/" + event.capacity}
-        />
       </View>
-    </View>
-  </Pressable>
-);
+    </Pressable>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
