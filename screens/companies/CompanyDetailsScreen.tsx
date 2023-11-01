@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Image, Linking } from "react-native";
-
-import { Text, View } from "components/Themed";
-
-import { Locations, PublicCompanyDto } from "api/Companies";
-import { API } from "api/API";
-import ScreenActivityIndicator from "components/ScreenActivityIndicator";
-import { ScrollView } from "react-native-gesture-handler";
-import Colors from "constants/Colors";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { ArkadText } from "components/StyledText";
+import { Locations, PublicCompanyDto } from "api/Companies";
+import { API } from "api/API";
+import { Linking } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import ScreenActivityIndicator from "components/ScreenActivityIndicator";
+import Colors from "constants/Colors";
+import { ScrollView } from "react-native-gesture-handler";
 import { companyLocations } from "components/companies/CompanyLocationsMap";
+import { EMap, TentMap, SCMap, KarhusetMap } from "components/maps/MapProps";
 
 type CompanyDetailsScreenParams = {
   route: {
@@ -40,6 +41,8 @@ export default function CompanyDetailsScreen({
   useEffect(() => {
     getCompany();
   }, []);
+
+  const navigation = useNavigation();
 
   if (loading || company == null) {
     return <ScreenActivityIndicator />;
@@ -78,15 +81,35 @@ export default function CompanyDetailsScreen({
                 : "No website available"}
             </Text>
           </View>
-          <View style={styles.contactInfoContainer}>
+
+          <TouchableOpacity
+            style={styles.contactInfoContainer}
+            onPress={() => {
+              const position = Locations[companyLocations[company.id]]
+                ? Locations[companyLocations[company.id]].replace("_", "-")
+                : undefined;
+              if (position) {
+                const map_list = [EMap, KarhusetMap, SCMap, TentMap];
+                const position_map = map_list.find((m) =>
+                  m.name.includes(position)
+                );
+                navigation.navigate("Maps", {
+                  screen: "ZoomMapScreen",
+                  params: { map: position_map },
+                });
+              } else {
+                navigation.navigate("Maps", { screen: "MapScreen" });
+              }
+            }}
+          >
             <Ionicons name="map" size={18} color="white" />
             <ArkadText
               text={(
                 Locations[companyLocations[company.id]] ?? "No data"
-              ).replace("_", " ")}
+              ).replace("_", "-")}
               style={styles.contactInfoText}
             />
-          </View>
+          </TouchableOpacity>
 
           <Text style={styles.descHeader}>About us</Text>
           <Text style={styles.desc}>
@@ -124,7 +147,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingBottom: 10,
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
   },
   logo: {
     width: "100%",
@@ -150,6 +173,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     fontFamily: "main-font-bold",
     color: Colors.white,
+    textDecorationLine: "underline",
   },
   linkText: {
     fontSize: 18,

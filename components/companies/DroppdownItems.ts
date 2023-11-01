@@ -63,8 +63,8 @@ export const PROGRAMS = [
 
 export const LOCATIONS = [
   { label: "Studiecentrum", value: Locations.Studiecentrum },
-  { label: "Union Building", value: Locations.Union_Building },
-  { label: "E Building", value: Locations.E_Building },
+  { label: "Kårhuset", value: Locations.Kårhuset },
+  { label: "E-huset", value: Locations.E_huset },
   { label: "Tent", value: Locations.Tent },
 ];
 
