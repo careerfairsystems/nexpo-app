@@ -25,9 +25,23 @@ const prefix = Linking.createURL("/");
 export default function App() {
   const checkVersion = async () => {
     try {
-      let updateNeeded = await VersionCheck.needUpdate();
+      const currentVersion = VersionCheck.getCurrentVersion();
+      let latestVersion = "";
+      if (Platform.OS === "ios") {
+        await VersionCheck.getLatestVersion({
+          provider: "appStore",
+        }).then((res) => {
+          latestVersion = res;
+        });
+      } else if (Platform.OS === "android") {
+        await VersionCheck.getLatestVersion({
+          provider: "playStore",
+        }).then((res) => {
+          latestVersion = res;
+        });
+      }
 
-      if (updateNeeded && updateNeeded.isNeeded) {
+      if (currentVersion !== latestVersion) {
         Alert.alert(
           "Update Available",
           "There is a new version of the app available. Do you want to update?",
@@ -41,7 +55,12 @@ export default function App() {
               text: "Update",
               onPress: () => {
                 BackHandler.exitApp();
-                Linking.openURL(updateNeeded.storeUrl);
+                VersionCheck.needUpdate().then(async (res) => {
+                  console.log(res.isNeeded); // true
+                  if (res.isNeeded) {
+                    Linking.openURL(res.storeUrl); // open store if update is needed.
+                  }
+                });
               },
             },
           ]
@@ -51,6 +70,10 @@ export default function App() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    checkVersion();
+  }, []);
 
   if (!__DEV__) {
     // Register background handler
@@ -72,7 +95,6 @@ export default function App() {
       .then(() => console.log("Unsubscribed fom the topic!"));
 
     useEffect(() => {
-      checkVersion();
       async function requestUserPermission() {
         const authStatus = await messaging().requestPermission();
         const enabled =
