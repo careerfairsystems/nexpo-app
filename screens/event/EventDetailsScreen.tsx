@@ -351,7 +351,10 @@ export default function EventDetailsScreen(id: number) {
             </Pressable>
           </>
         ) : event.capacity === event.ticketCount ? (
-          <NoButton text="No tickets Left :-(" style={styles.consumedText} />
+          <NoButton
+            text="No tickets Left. Drop-in available"
+            style={styles.consumedText}
+          />
         ) : (
           <>
             <ArkadButton onPress={createTicket} style={styles.bookButton}>
@@ -600,6 +603,6 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
     marginBottom: 12,
-    width: "60%"
+    width: "60%",
   },
 });
