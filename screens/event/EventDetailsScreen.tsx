@@ -81,7 +81,9 @@ export default function EventDetailsScreen(id: number) {
     if (!event?.start) return "N/A";
     const eventTime = new Date(event.date);
     const stopSellingDate = subDays(eventTime, 2);
-    return format(stopSellingDate, "d LLL") + " - " + event.start;
+    return (
+      format(stopSellingDate, "d LLL") + " - " + event.start.substring(0, 5)
+    );
   };
 
   const getEvent = async () => {
