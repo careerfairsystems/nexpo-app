@@ -91,7 +91,7 @@ This script can be used as a helping hand for running the project. With this scr
 
 #### test_actions.sh
 
-This script helps the developer with testing the dependencies and packages but also tpyechecks before pushing up new code. This script have four tests available which are the same as the Github Actions one, so if your code passes this scripts test it will pass the Github Actions tests which will give you a green mark for good work.
+This script helps the developer with testing the dependencies and packages but also typechecks before pushing up new code. This script have four tests available which are the same as the Github Actions one, so if your code passes this scripts test it will pass the Github Actions tests which will give you a green mark for good work.
 
 The tests are the following:
 
