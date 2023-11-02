@@ -54,7 +54,7 @@ export const PROGRAMS = [
   { label: "Environmental Engineering", value: Programme.Ecological_engineering },
   { label: "Fire Protection Engineering", value: Programme.Fire_engineer },
   { label: "Industrial Design", value: Programme.Industrial_design },
-  { label: "Industrial Economics", value: Programme.Industrial_economics },
+  { label: "Industrial Engineering and Management", value: Programme.Industrial_economics },
   { label: "Land Surveying", value: Programme.Land_surveying },
   { label: "Mechanical Engineering", value: Programme.Mechanical_engineering },
   { label: "Mechanical Engineering with Technical Design", value: Programme.Mechanical_engineering_with_technical_design },
