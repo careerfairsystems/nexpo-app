@@ -18,6 +18,7 @@ import { Role, updateRole } from "api/Role";
 import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
 import { API } from "api/API";
 import { User, getUser } from "api/Users";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AdminTab() {
   const [title, setTitle] = useState("");
@@ -27,6 +28,10 @@ export default function AdminTab() {
   const [committeeValue, setCommitteeValue] = useState<Committee[]>([]);
   const [committeeModal, setCommitteeModal] = useState(false);
 
+  const [firstLunch, setFirstLunch] = useState<number>();
+  const [secondLunch, setSecondLunch] = useState<number>();
+  const [banquetEvent, setBanquet] = useState<number>();
+
   const [roles, setRoles] = useState(ROLES);
   const [roleValue, setRoleValue] = useState<Role | null>(null);
   const [roleModal, setRoleModal] = useState(false);
@@ -35,14 +40,52 @@ export default function AdminTab() {
 
   const [user, setUser] = useState<User | null>(null);
 
+  const navigation = useNavigation();
+
   async function getSenderUser() {
     const user = await API.users.getMe();
     setUser(user);
   }
 
+  async function getLunchID() {
+    const events = await API.events.getAllEvents();
+    const lunchEvents = events.filter((event) => event.type === 1);
+    setFirstLunch(lunchEvents[0]["id"]);
+    setSecondLunch(lunchEvents[1]["id"]);
+  }
+
+  async function getBanquetID() {
+    const events = await API.events.getAllEvents();
+    const banquet = events.filter((event) => event.type === 2)[0]; // First in list as "ARKAD" is the first row, alphabetical order
+    setBanquet(banquet["id"]);
+  }
+
   useEffect(() => {
     getSenderUser();
+    getLunchID();
+    getBanquetID();
   }, []); // Empty dependency array ensures it runs only once after the component mounts
+
+  const lunch_day1 = () => {
+    navigation.navigate("EventSwitchScreen", {
+      id: firstLunch,
+      screen: "participatians",
+    });
+  };
+
+  const lunch_day2 = () => {
+    navigation.navigate("EventSwitchScreen", {
+      id: secondLunch,
+      screen: "participatians",
+    });
+  };
+
+  const banquet = () => {
+    navigation.navigate("EventSwitchScreen", {
+      id: banquetEvent,
+      screen: "participatians",
+    });
+  };
 
   const send = () => {
     const today = new Date();
@@ -143,6 +186,25 @@ export default function AdminTab() {
       />
       <ArkadButton onPress={send} style={styles.buttonContainer1}>
         <ArkadText text="Send" style={styles.buttonText} />
+      </ArkadButton>
+
+      <ArkadText
+        text="Scan special tickets"
+        style={{
+          fontSize: 40,
+          color: Colors.white,
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+      />
+      <ArkadButton onPress={lunch_day1} style={styles.buttonContainer1}>
+        <ArkadText text="Lunch Day 1" style={styles.buttonText} />
+      </ArkadButton>
+      <ArkadButton onPress={lunch_day2} style={styles.buttonContainer1}>
+        <ArkadText text="Lunch Day 2" style={styles.buttonText} />
+      </ArkadButton>
+      <ArkadButton onPress={banquet} style={styles.buttonContainer1}>
+        <ArkadText text="Banquet" style={styles.buttonText} />
       </ArkadButton>
 
       <ArkadText
