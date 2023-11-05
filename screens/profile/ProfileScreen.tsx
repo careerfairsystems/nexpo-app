@@ -129,8 +129,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            lunchticket?.length !== 0 &&
-            user?.role !== Role.Student && (
+            lunchticket?.length !== 0 && (
               <>
                 <ArkadText text={"Lunch tickets:"} style={styles.header} />
                 <BookedEventList
@@ -148,8 +147,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            banquetticket?.length !== 0 &&
-            user?.role !== Role.Student && (
+            banquetticket?.length !== 0 && (
               <>
                 <ArkadText text={"Banquet tickets:"} style={styles.header} />
                 <BookedEventList
