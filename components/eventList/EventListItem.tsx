@@ -1,49 +1,84 @@
-import React from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  View,
+  ViewStyle,
+  Image,
+} from "react-native";
 
 import { bookedEvent, Event } from "api/Events";
 import { ArkadText } from "../StyledText";
 import Colors from "constants/Colors";
 import { API } from "api/API";
+import { Ticket } from "api/Tickets";
 
 type ListedEventItemProps = {
   event: Event;
   itemStyle: ViewStyle;
   onPress: () => void;
+  ticket_eventid: Promise<number | null>;
 };
 
 export const EventListItem = ({
   event,
   itemStyle,
   onPress,
-}: ListedEventItemProps) => (
-  <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
-    <View style={styles.headerContainer}>
-      <ArkadText style={styles.eventName} text={event.name} />
-      <ArkadText
-        style={styles.eventTime}
-        text={API.events.formatTime(event.date, event.start, event.end)}
-      />
-    </View>
+  ticket_eventid,
+}: ListedEventItemProps) => {
+  const [backgroundColor, setBackgroundColor] = useState<{
+    backgroundColor: string;
+  }>({ backgroundColor: Colors.arkadTurkos });
 
-    <View style={styles.footerContainer}>
-      {/* Color of box changes depending on status */}
-      <View
-        style={[
-          styles.eventBookedContainer,
-          event.capacity == event.ticketCount
-            ? { backgroundColor: Colors.darkRed }
-            : { backgroundColor: Colors.arkadTurkos },
-        ]}
-      >
+  useEffect(() => {
+    const updateBackgroundColor = async () => {
+      try {
+        const resolvedTicketEventId = await ticket_eventid;
+
+        if (resolvedTicketEventId === event.id) {
+          setBackgroundColor({ backgroundColor: Colors.arkadGreen });
+        } else if (event.capacity === event.ticketCount) {
+          setBackgroundColor({ backgroundColor: Colors.darkRed });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    updateBackgroundColor();
+  }, [ticket_eventid, event.id, event.capacity, event.ticketCount]);
+
+  return (
+    <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
+      <View style={styles.headerContainer}>
+        <ArkadText style={styles.eventName} text={event.name} />
         <ArkadText
-          style={styles.eventBookedText}
-          text={event.ticketCount + "/" + event.capacity}
+          style={styles.eventTime}
+          text={API.events.formatTime(event.date, event.start, event.end)}
         />
+        {/*       {event.type === 0 && (
+          <View style={styles.row}>
+            <Image
+              source={require("../../assets/images/event.png")}
+              style={styles.logo}
+            />
+          </View>
+        )} */}
       </View>
-    </View>
-  </Pressable>
-);
+
+      <View style={styles.footerContainer}>
+        {/* Color of box changes depending on status */}
+        <View style={[styles.eventBookedContainer, backgroundColor]}>
+          <ArkadText
+            style={styles.eventBookedText}
+            text={event.ticketCount + "/" + event.capacity}
+          />
+        </View>
+      </View>
+    </Pressable>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -91,5 +126,17 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 12,
     color: Colors.white,
+  },
+  logo: {
+    width: "40%",
+    height: Dimensions.get("window").height * 0.16,
+    resizeMode: "contain",
+    position: "absolute",
+  },
+  row: {
+    flex: 1,
+    justifyContent: "center", //Centered horizontally
+    alignItems: "center", //Centered vertically
+    flexDirection: "column",
   },
 });

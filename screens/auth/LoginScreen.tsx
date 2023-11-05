@@ -51,7 +51,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
       Toast.show({
         type: "error",
         text1: "Wrong email or password",
-        visibilityTime: 5000, 
+        visibilityTime: 5000,
       });
     } else if (!success.ok) {
       Toast.show({
@@ -76,7 +76,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
         source={require("../../assets/images/arkad_logo_inverted.png")}
       />
       <View style={styles.inputContainer}>
-        <SSO />
+        {/* <SSO /> */}
         {loginEmail && (
           <View>
             <TextInput
@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
   },
   signUpContainer: {
     marginTop: 20,
-    padding: 16,
   },
   signUpText: {
     textAlign: "center",

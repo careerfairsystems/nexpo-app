@@ -1,81 +1,63 @@
 import React, { useState } from "react";
-import {
-  Dimensions,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from "react-native";
-
-import { ArkadText } from "../StyledText";
-import Colors from "constants/Colors";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Message } from "api/Messages";
+import { ArkadText } from "components/StyledText";
+import Colors from "constants/Colors";
 
 type ListedMessageItemProps = {
   message: Message;
 };
 
-const { width, height } = Dimensions.get("window");
-
 export default function MessageListItem({ message }: ListedMessageItemProps) {
   const [messagePressed, setMessagePressed] = useState<boolean>(false);
 
-  const onPress = () => {
+  const toggleExpand = () => {
     setMessagePressed(!messagePressed);
   };
 
+  const messageBoxStyle = messagePressed
+    ? styles.messageBoxPressed
+    : styles.messageBox;
+
   return (
-    <View
-      style={
-        messagePressed ? styles.messageBoxPressed : styles.messageBoxNotPressed
-      }
-    >
-      <Pressable onPress={onPress} style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-          <ArkadText style={styles.messageTitle} text={message.title} />
+    <TouchableOpacity onPress={toggleExpand}>
+      <View style={messageBoxStyle}>
+        <ArkadText style={styles.messageTitle} text={message.title} />
+        {messagePressed ? (
           <ArkadText style={styles.messageContent} text={message.message} />
-        </ScrollView>
-      </Pressable>
-    </View>
+        ) : null}
+      </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  messageTime: {
-    paddingBottom: 6,
-    fontSize: 16,
-    textAlign: "left",
-    color: Colors.white,
-  },
-  messageContent: {
-    paddingBottom: 6,
-    fontSize: 16,
-    textAlign: "left",
-    color: Colors.white,
-  },
-  messageBoxNotPressed: {
-    width: width,
-    height: height * 0.24,
-  },
-  messageBoxPressed: {
-    flexBasis: "fit-content",
-    width: width,
-    height: height * 0.6,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "flex-start",
-    marginTop: 10,
-    marginHorizontal: 10,
+  messageBox: {
+    width: "100%",
+    marginTop: 12,
     backgroundColor: Colors.arkadTurkos,
     padding: 16,
-    borderRadius: 16,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  messageBoxPressed: {
+    width: "100%",
+    marginTop: 12,
+    backgroundColor: Colors.arkadTurkos,
+    padding: 16,
+    borderRadius: 10,
+    marginBottom: 10,
   },
   messageTitle: {
-    flex: 1,
-    fontSize: 22,
-    textAlign: "center",
+    fontSize: 18,
     color: Colors.white,
+    fontWeight: "bold",
+    textAlign: "left",
+  },
+  messageContent: {
+    fontSize: 16,
+    marginTop: 8,
+    color: Colors.white,
+    textAlign: "left",
   },
 });

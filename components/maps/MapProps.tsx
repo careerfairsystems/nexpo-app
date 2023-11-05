@@ -10,7 +10,8 @@ export const FairMap: Map = {
       {
         url: "",
         props: {
-          source: require("../../assets/images/maps/overview.png"),
+          source: "https://cvfiler.s3.eu-north-1.amazonaws.com/OVERVIEW.png",
+          defaultSource: require("../../assets/images/adaptive-icon.png"),
         },
       },
     ],
@@ -23,13 +24,15 @@ export const KarhusetMap: Map = {
       {
         url: "",
         props: {
-          source: require("../../assets/images/maps/union1.png"),
+          source: "https://cvfiler.s3.eu-north-1.amazonaws.com/UNION1.png",
+          defaultSource: require("../../assets/images/adaptive-icon.png"),
         },
       },
       {
         url: "",
         props: {
-          source: require("../../assets/images/maps/union2.png"),
+          source: "https://cvfiler.s3.eu-north-1.amazonaws.com/UNION2.png",
+          defaultSource: require("../../assets/images/adaptive-icon.png"),
         },
       },
     ],
@@ -42,26 +45,43 @@ export const EMap: Map = {
       {
         url: "",
         props: {
-          source: require("../../assets/images/maps/e.png"),
+          source: "https://cvfiler.s3.eu-north-1.amazonaws.com/EHUS.png",
+          defaultSource: require("../../assets/images/adaptive-icon.png"),
         },
       },
     ],
   },
 };
-export const SC1Map: Map = {
+export const SCMap: Map = {
   name: "Studiecentrum first floor",
   props: {
     images: [
       {
         url: "",
         props: {
-          source: require("../../assets/images/maps/sc1.png"),
+          source: "https://cvfiler.s3.eu-north-1.amazonaws.com/SC1.png",
+          defaultSource: require("../../assets/images/adaptive-icon.png"),
         },
       },
       {
         url: "",
         props: {
-          source: require("../../assets/images/maps/sc2.png"),
+          source: "https://cvfiler.s3.eu-north-1.amazonaws.com/SC2.png",
+          defaultSource: require("../../assets/images/adaptive-icon.png"),
+        },
+      },
+    ],
+  },
+};
+export const TentMap: Map = {
+  name: "Tent",
+  props: {
+    images: [
+      {
+        url: "",
+        props: {
+          source: "https://cvfiler.s3.eu-north-1.amazonaws.com/TENT.png",
+          defaultSource: require("../../assets/images/adaptive-icon.png"),
         },
       },
     ],

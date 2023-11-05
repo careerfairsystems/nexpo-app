@@ -10,9 +10,10 @@ export enum Degree {
 
 export enum Locations {
   Studiecentrum,
-  E_Building,
-  Union_Building,
+  E_huset,
+  Kårhuset,
   Tent,
+  Career_Room,
 }
 
 export enum Position {

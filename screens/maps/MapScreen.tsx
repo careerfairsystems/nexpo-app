@@ -1,11 +1,19 @@
 import React from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StyleSheet, ImageBackground, Text } from "react-native";
-import { EMap, KarhusetMap, Map, SC1Map } from "components/maps/MapProps";
+import {
+  EMap,
+  KarhusetMap,
+  Map,
+  SCMap,
+  TentMap,
+  FairMap,
+} from "components/maps/MapProps";
 import { View } from "components/Themed";
 import { MapStackParamList } from "./MapNavigator";
 import { ArkadButton } from "components/Buttons";
 import Colors from "constants/Colors";
+import { ArkadText } from "components/StyledText";
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, "MapScreen">;
@@ -13,16 +21,20 @@ export type mapNavigation = {
 };
 
 export default function MapScreen({ navigation }: mapNavigation) {
-  const imageSource = require("../../assets/images/maps/overview.png");
-
   function openMap(map: Map) {
     navigation.navigate("ZoomMapScreen", { map });
   }
+
   return (
     <View style={styles.container}>
+      <ArkadText
+        text={"Click on a building to view its map!"}
+        style={styles.title}
+      />
       <ImageBackground
         resizeMode="contain"
-        source={imageSource}
+        source={{ uri: FairMap.props.images[0].props.source }}
+        defaultSource={FairMap.props.images[0].props.defaultSource}
         style={styles.image}
       >
         <ArkadButton
@@ -31,10 +43,13 @@ export default function MapScreen({ navigation }: mapNavigation) {
         />
         <ArkadButton
           style={styles.studiebutton}
-          onPress={() => openMap(SC1Map)}
+          onPress={() => openMap(SCMap)}
         />
         <ArkadButton style={styles.ebutton} onPress={() => openMap(EMap)} />
-        <ArkadButton style={styles.etext} onPress={() => openMap(EMap)} />
+        <ArkadButton
+          style={styles.tentbutton}
+          onPress={() => openMap(TentMap)}
+        />
       </ImageBackground>
     </View>
   );
@@ -52,7 +67,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.arkadNavy,
   },
-
   image: {
     flex: 1,
     width: "100%",
@@ -62,54 +76,63 @@ const styles = StyleSheet.create({
     opacity: 1,
     position: "relative",
   },
-
   karbutton: {
+    backgroundColor: Colors.arkadTurkos,
     position: "absolute",
     width: "50%",
-    aspectRatio: 1.4,
+    aspectRatio: 2.0,
     textAlign: "center",
     opacity: 0,
     borderRadius: 100,
-    left: "32%",
-    bottom: "52%",
+    left: "11%",
+    bottom: "63%",
     margin: 0,
-    zIndex: 1001,
+    zIndex: 1000,
   },
-
   studiebutton: {
+    backgroundColor: Colors.arkadSkog,
     position: "absolute",
-    width: "60%",
-    aspectRatio: 2.2,
+    width: "40%",
+    aspectRatio: 1.7,
     opacity: 0,
     borderRadius: 100,
     textAlign: "center",
     margin: "0%",
-    left: "0%",
-    bottom: "35%",
+    left: "11%",
+    bottom: "48%",
     zIndex: 1000,
   },
-
   ebutton: {
+    backgroundColor: Colors.arkadOrange,
     position: "absolute",
-    width: "28%",
-    aspectRatio: 0.5,
+    width: "52%",
+    aspectRatio: 1.6,
     opacity: 0,
     textAlign: "center",
     margin: 0,
-    left: "59%",
-    bottom: "14%",
+    left: "47%",
+    bottom: "37%",
     borderRadius: 100,
+    zIndex: 1000,
   },
-
-  etext: {
+  tentbutton: {
+    backgroundColor: Colors.arkadNavy,
     position: "absolute",
-    width: "55%",
-    aspectRatio: 2.3,
+    width: "40%",
+    aspectRatio: 1.7,
     opacity: 0,
-    textAlign: "center",
-    margin: 0,
-    left: "18%",
-    bottom: "15%",
     borderRadius: 100,
+    textAlign: "center",
+    margin: "0%",
+    left: "13%",
+    bottom: "29%",
+    zIndex: 1000,
+  },
+  title: {
+    fontSize: 30,
+    color: Colors.white,
+    width: "90%",
+    alignSelf: "center",
+    marginTop: "10%",
   },
 });

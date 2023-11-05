@@ -13,6 +13,6 @@ export const COMMITTEES = [
 export const ROLES = [
     { label: "Administrator", value: Role.Administrator },
     { label: "Student", value: Role.Student },
-    { label: "Company Representative", value: Role.CompanyRepresentative },
+    // { label: "Company Representative", value: Role.CompanyRepresentative },
     { label: "Volunteer", value: Role.Volunteer }
 ];

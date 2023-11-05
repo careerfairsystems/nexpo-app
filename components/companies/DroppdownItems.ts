@@ -54,7 +54,7 @@ export const PROGRAMS = [
   { label: "Environmental Engineering", value: Programme.Ecological_engineering },
   { label: "Fire Protection Engineering", value: Programme.Fire_engineer },
   { label: "Industrial Design", value: Programme.Industrial_design },
-  { label: "Industrial Economics", value: Programme.Industrial_economics },
+  { label: "Industrial Engineering and Management", value: Programme.Industrial_economics },
   { label: "Land Surveying", value: Programme.Land_surveying },
   { label: "Mechanical Engineering", value: Programme.Mechanical_engineering },
   { label: "Mechanical Engineering with Technical Design", value: Programme.Mechanical_engineering_with_technical_design },
@@ -63,7 +63,30 @@ export const PROGRAMS = [
 
 export const LOCATIONS = [
   { label: "Studiecentrum", value: Locations.Studiecentrum },
-  { label: "Union Building", value: Locations.Union_Building },
-  { label: "E Building", value: Locations.E_Building },
+  { label: "Kårhuset", value: Locations.Kårhuset },
+  { label: "E-huset", value: Locations.E_huset },
   { label: "Tent", value: Locations.Tent },
+];
+
+export const YEARS = [
+  { label: "1st year", value: 1 },
+  { label: "2nd year", value: 2 },
+  { label: "3rd year", value: 3 },
+  { label: "4th year", value: 4 },
+  { label: "5th year", value: 5 },
+];
+
+export const LUNCHTIMES = [
+  { label: "11:00", value: "11:00:00" },
+  { label: "11:15", value: "11:15:00" },
+  { label: "11:30", value: "11:30:00" },
+  { label: "11:45", value: "11:45:00" },
+  { label: "12:00", value: "12:00:00" },
+  { label: "12:15", value: "12:15:00" },
+  { label: "12:30", value: "12:30:00" },
+  { label: "12:45", value: "12:45:00" },
+  { label: "13:00", value: "13:00:00" },
+  { label: "13:15", value: "13:15:00" },
+  { label: "13:30", value: "13:30:00" },
+  { label: "13:45", value: "13:45:00" },
 ];

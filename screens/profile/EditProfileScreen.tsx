@@ -17,6 +17,7 @@ import EditUserProfile from "components/profileScreen/EditUserProfile";
 import { ArkadButton } from "components/Buttons";
 import EditStudentProfile from "components/profileScreen/EditStudentProfile";
 import EditCompanyProfile from "components/profileScreen/EditCompanyProfile";
+import EditVolunteerProfile from "components/profileScreen/EditVolunteerProfile";
 
 export type EditStatus = {
   ok: boolean;
@@ -48,6 +49,14 @@ export default function EditProfileScreen({
     message: null,
   });
 
+  const [volunteer, setVolunteer] = useState<Student | null>(null);
+  const [updateVolunteerDto, setUpdateVolunteerDto] =
+    useState<UpdateStudentDto | null>(null);
+  const [volunteerEditStatus, setVolunteerEditStatus] = useState<EditStatus>({
+    ok: true,
+    message: null,
+  });
+
   const [company, setCompany] = useState<Company | null>(null);
   const [updateCompanyDto, setUpdateCompanyDto] =
     useState<UpdateCompanySelfDto | null>(null);
@@ -68,6 +77,10 @@ export default function EditProfileScreen({
       const student = await API.students.getMe();
       setStudent(student);
     }
+    if (user.role === Role.Volunteer) {
+      const volunteer = await API.volunteers.getMe();
+      setVolunteer(volunteer);
+    }
 
     setUser(user);
 
@@ -83,6 +96,10 @@ export default function EditProfileScreen({
       alert(studentEditStatus.message);
       return;
     }
+    if (!volunteerEditStatus.ok) {
+      alert(volunteerEditStatus.message);
+      return;
+    }
     if (!companyEditStatus.ok) {
       alert(companyEditStatus.message);
       return;
@@ -94,6 +111,10 @@ export default function EditProfileScreen({
     }
     if (updateStudentDto !== null) {
       const student = await API.students.updateMe(updateStudentDto);
+      setStudent(student);
+    }
+    if (updateVolunteerDto !== null) {
+      const student = await API.volunteers.updateMe(updateVolunteerDto);
       setStudent(student);
     }
     if (updateCompanyDto !== null) {
@@ -130,6 +151,13 @@ export default function EditProfileScreen({
             student={student}
             setUpdateStudentDto={setUpdateStudentDto}
             setEditStatus={setStudentEditStatus}
+          />
+        )}
+        {volunteer && (
+          <EditVolunteerProfile
+            volunteer={volunteer}
+            setUpdateVolunteerDto={setUpdateVolunteerDto}
+            setEditStatus={setVolunteerEditStatus}
           />
         )}
         {company && (

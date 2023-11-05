@@ -10,33 +10,33 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { CategoriesDropdown } from "../companies/CategoriesDroppdown";
 import { PROGRAMS, YEARS } from "../companies/DroppdownItems";
 
-type EditStudentProfileProps = {
-  student: Student;
-  setUpdateStudentDto: (dto: UpdateStudentDto) => void;
+type EditVolunteerProfileProps = {
+  volunteer: Student;
+  setUpdateVolunteerDto: (dto: UpdateStudentDto) => void;
   setEditStatus: (status: EditStatus) => void;
 };
 
-export default function EditStudentProfile({
-  student,
-  setUpdateStudentDto,
+export default function EditVolunteerProfile({
+  volunteer,
+  setUpdateVolunteerDto,
   setEditStatus,
-}: EditStudentProfileProps) {
+}: EditVolunteerProfileProps) {
   const [masterTitle, setMasterTitle] = React.useState<string | null>(
-    student.masterTitle
+    volunteer.masterTitle
   );
   const [linkedIn, setLinkedIn] = React.useState<string>(
-    student.linkedIn === null ? "" : student.linkedIn
+    volunteer.linkedIn === null ? "" : volunteer.linkedIn
   );
 
   const [programmes, setProgrammes] = useState(PROGRAMS);
   const [programmeOpen, programmeSetOpen] = useState(false);
   const [programme, setProgramme] = useState<Programme | null>(
-    student.programme
+    volunteer.programme
   );
 
   const [years, setYears] = useState(YEARS);
   const [yearsOpen, yearsSetOpen] = useState(false);
-  const [year, setYear] = React.useState<number | null>(student.year);
+  const [year, setYear] = React.useState<number | null>(volunteer.year);
 
   React.useEffect(() => {
     const dto = {
@@ -45,7 +45,7 @@ export default function EditStudentProfile({
       masterTitle,
       linkedIn,
     };
-    setUpdateStudentDto(dto);
+    setUpdateVolunteerDto(dto);
   }, [programme, linkedIn, masterTitle, year]);
 
   const _setLinkedIn = (text: string) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Colors from "constants/Colors";
 import { useState } from "react";
 import {
@@ -18,6 +18,7 @@ import { Role, updateRole } from "api/Role";
 import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
 import { API } from "api/API";
 import { User, getUser } from "api/Users";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AdminTab() {
   const [title, setTitle] = useState("");
@@ -27,6 +28,10 @@ export default function AdminTab() {
   const [committeeValue, setCommitteeValue] = useState<Committee[]>([]);
   const [committeeModal, setCommitteeModal] = useState(false);
 
+  const [firstLunch, setFirstLunch] = useState<number>();
+  const [secondLunch, setSecondLunch] = useState<number>();
+  const [banquetEvent, setBanquet] = useState<number>();
+
   const [roles, setRoles] = useState(ROLES);
   const [roleValue, setRoleValue] = useState<Role | null>(null);
   const [roleModal, setRoleModal] = useState(false);
@@ -35,22 +40,60 @@ export default function AdminTab() {
 
   const [user, setUser] = useState<User | null>(null);
 
+  const navigation = useNavigation();
+
   async function getSenderUser() {
     const user = await API.users.getMe();
     setUser(user);
   }
 
-  getSenderUser();
+  async function getLunchID() {
+    const events = await API.events.getAllEvents();
+    const lunchEvents = events.filter((event) => event.type === 1);
+    setFirstLunch(lunchEvents[0]["id"]);
+    setSecondLunch(lunchEvents[1]["id"]);
+  }
+
+  async function getBanquetID() {
+    const events = await API.events.getAllEvents();
+    const banquet = events.filter((event) => event.type === 2)[0]; // First in list as "ARKAD" is the first row, alphabetical order
+    setBanquet(banquet["id"]);
+  }
+
+  useEffect(() => {
+    getSenderUser();
+    getLunchID();
+    getBanquetID();
+  }, []); // Empty dependency array ensures it runs only once after the component mounts
+
+  const lunch_day1 = () => {
+    navigation.navigate("EventSwitchScreen", {
+      id: firstLunch,
+      screen: "participatians",
+    });
+  };
+
+  const lunch_day2 = () => {
+    navigation.navigate("EventSwitchScreen", {
+      id: secondLunch,
+      screen: "participatians",
+    });
+  };
+
+  const banquet = () => {
+    navigation.navigate("EventSwitchScreen", {
+      id: banquetEvent,
+      screen: "participatians",
+    });
+  };
 
   const send = () => {
     const today = new Date();
-    const date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Ensure two digits for the month
+    const day = today.getDate().toString().padStart(2, "0"); // Ensure two digits for the day
+    const hours = today.getHours().toString().padStart(2, "0"); // Ensure two digits for the hours
+    const minutes = today.getMinutes().toString().padStart(2, "0"); // Ensure two digits for the minutes
 
     const messageToSend: Message = {
       title: title,
@@ -58,9 +101,15 @@ export default function AdminTab() {
         text +
         "\n\n" +
         "Received: " +
-        date +
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
         " " +
-        time +
+        hours +
+        ":" +
+        minutes +
         "\n" +
         "Sent by: " +
         user?.firstName +
@@ -73,11 +122,19 @@ export default function AdminTab() {
 
     console.log("Sending message: ");
     console.log(messageToSend);
+
+    setText("");
+    setTitle("");
+    setCommitteeValue([]);
+    alert("Message sent!");
   };
 
   const changeUserRole = () => {
     console.log("Changing user role: " + userName);
     updateRole(userName, roleValue);
+    if (userName) {
+      setUserName("");
+    }
   };
 
   return (
@@ -95,7 +152,7 @@ export default function AdminTab() {
           marginBottom: 10,
         }}
       />
-      <View style={styles.centeredViewCommittee}>
+      {/*       <View style={styles.centeredViewCommittee}>
         <CategoriesDropdown
           title="Select committee"
           items={committees}
@@ -107,7 +164,7 @@ export default function AdminTab() {
           categories={false}
           single={false}
         />
-      </View>
+      </View> */}
       <TextInput
         style={styles.titleInput}
         onChangeText={setTitle}
@@ -115,7 +172,7 @@ export default function AdminTab() {
         placeholder={"Title..."}
         placeholderTextColor={Colors.lightGray}
         multiline={false}
-        textAlign="center"
+        textAlign="left"
       />
       <TextInput
         style={styles.textInput}
@@ -132,11 +189,30 @@ export default function AdminTab() {
       </ArkadButton>
 
       <ArkadText
+        text="Scan special tickets"
+        style={{
+          fontSize: 40,
+          color: Colors.white,
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+      />
+      <ArkadButton onPress={lunch_day1} style={styles.buttonContainer1}>
+        <ArkadText text="Lunch Day 1" style={styles.buttonText} />
+      </ArkadButton>
+      <ArkadButton onPress={lunch_day2} style={styles.buttonContainer1}>
+        <ArkadText text="Lunch Day 2" style={styles.buttonText} />
+      </ArkadButton>
+      <ArkadButton onPress={banquet} style={styles.buttonContainer1}>
+        <ArkadText text="Banquet" style={styles.buttonText} />
+      </ArkadButton>
+
+      <ArkadText
         text="Change user role"
         style={{
           fontSize: 40,
           color: "white",
-          marginTop: "10%",
+          marginTop: "5%",
           marginBottom: 12,
         }}
       />
@@ -157,7 +233,7 @@ export default function AdminTab() {
         style={styles.userNameInput}
         onChangeText={setUserName}
         value={userName}
-        placeholder={"Username..."}
+        placeholder={"E-mail..."}
         placeholderTextColor={Colors.lightGray}
         multiline={false}
         textAlign="left"
@@ -171,7 +247,7 @@ export default function AdminTab() {
 
 const styles = StyleSheet.create({
   textInput: {
-    height: "60",
+    height: "30%",
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
@@ -184,7 +260,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   titleInput: {
-    height: "20",
+    height: 48,
     borderColor: Colors.white,
     color: Colors.white,
     borderRadius: 7,
@@ -198,7 +274,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   userNameInput: {
-    height: "20",
+    height: 48,
     margin: 0,
     borderColor: Colors.white,
     color: Colors.white,
@@ -207,7 +283,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "main-font-bold",
     padding: 10,
-    width: "40%",
+    width: "90%",
   },
   buttonText: {
     padding: "1%",
@@ -239,6 +315,6 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
     marginBottom: 12,
-    width: "40%",
+    width: "90%",
   },
 });
