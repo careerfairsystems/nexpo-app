@@ -1,11 +1,13 @@
-import { post } from "./_HttpHelpers";
+import { post, postAuth } from "./_HttpHelpers";
 
 export type RegisterUserDTO = {
-  token: string;
-  topic: string;
+  Token: string;
+  Topic: string;
 };
 
 export const registerFirebase = async (dto: RegisterUserDTO): Promise<Response> => {
-  const response = await post("/register", dto);
+  // Corrected the endpoint to include the notifications path
+  const response = await postAuth("/notification/register", dto);
   return response;
 };
+

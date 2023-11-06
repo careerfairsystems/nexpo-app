@@ -87,7 +87,7 @@ export default function AdminTab() {
     });
   };
 
-  const send = () => {
+  const send = async () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Ensure two digits for the month
@@ -115,18 +115,21 @@ export default function AdminTab() {
         user?.firstName +
         " " +
         user?.lastName,
-      topic: "arkad",
+      topic: "Volunteer",
     };
 
     sendNotification(messageToSend);
 
+
     console.log("Sending message: ");
     console.log(messageToSend);
+
+    
 
     setText("");
     setTitle("");
     setCommitteeValue([]);
-    alert("Message sent!");
+    alert("Success!");
   };
 
   const changeUserRole = () => {
