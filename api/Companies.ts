@@ -44,7 +44,7 @@ export enum Industry {
   Media,
   Industry,
   NuclearPower,
-  LifeScience,
+  Life_Science,
   MedicalTechniques,
   PropertyInfrastructure,
   Research,
