@@ -43,7 +43,7 @@ export const PROGRAMS = [
   { label: "Biomedical Engineering", value: Programme.Biomedical_Engineering },
   { label: "Chemical Engineering", value: Programme.Chemical_Engineering },
   { label: "Civil Engineering", value: Programme.Civil_Engineering },
-  { label: "Computer Science and Engineering", value: Programme.Computer_Science_Engeineering },
+  { label: "Computer Science and Engineering", value: Programme.Computer_Science_Engineering },
   { label: "Construction and Architecture", value: Programme.Construction_and_Architecture },
   { label: "Construction and Railway Construction", value: Programme.Construction_and_Railway_Construction },
   { label: "Traffic and Road", value: Programme.Road_and_Traffic_Technology },
