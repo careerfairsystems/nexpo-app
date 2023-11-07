@@ -19,7 +19,7 @@ export enum Programme {
   Engineering_Mathematics,
   Biomedical_Engineering,
   Surveying,
-  Computer_Science_Engeineering,
+  Computer_Science_Engineering,
   Engineering_Physics,
   Road_and_Traffic_Technology,
   Automation,
