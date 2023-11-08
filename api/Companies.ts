@@ -25,30 +25,52 @@ export enum Position {
   PartTime,
 }
 
+// This is the original enum, but it is not used in the frontend due to backend issues.
+// Frontend Manager: Please see the testament for more information.
+// export enum Industry {
+//   ElectricityEnergyPower,
+//   Environment,
+//   BankingFinance,
+//   Union,
+//   Investment,
+//   Insurance,
+//   Recruitment,
+//   Construction,
+//   Architecture,
+//   GraphicDesign,
+//   DataIT,
+//   FinanceConsultancy,
+//   Telecommunication,
+//   Consulting,
+//   Management,
+//   Media,
+//   Industry,
+//   NuclearPower,
+//   Life_Science,
+//   MedicalTechniques,
+//   PropertyInfrastructure,
+//   Research,
+//   Coaching,
+// }
+
 export enum Industry {
-  ElectricityEnergyPower,
   Environment,
   BankingFinance,
   Union,
   Investment,
   Insurance,
-  Recruitment,
   Construction,
   Architecture,
   GraphicDesign,
   DataIT,
-  FinanceConsultancy,
   Telecommunication,
   Consulting,
   Management,
   Media,
   Industry,
   NuclearPower,
-  Life_Science,
   MedicalTechniques,
-  PropertyInfrastructure,
   Research,
-  Coaching,
 }
 
 export interface PublicCompanyDto {
