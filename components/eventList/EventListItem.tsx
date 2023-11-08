@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: "left",
     color: Colors.arkadNavy,
+    marginBottom: 10,
   },
   footerContainer: {
     flex: 1,
