@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { StyleSheet, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Image, ActivityIndicator } from "react-native";
 import { ImageViewer } from "react-native-image-zoom-viewer";
 import { Map } from "components/maps/MapProps";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { View } from "components/Themed";
 import Colors from "constants/Colors";
+import { ArkadText } from "components/StyledText";
 
 type MapScreenParams = {
   route: {
@@ -16,6 +17,27 @@ type MapScreenParams = {
 
 export default function ZoomMapScreen({ route }: MapScreenParams) {
   const map: Map | undefined = route.params.map;
+  const [isLoading, setIsLoading] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(false);
+
+    const imageUrls =
+      map?.props.images.map((image: Image) => image.props.source) || [];
+
+    Promise.all(
+      imageUrls.map((imageUrl: string) => {
+        return Image.prefetch(imageUrl);
+      })
+    )
+      .then(() => {
+        setImagesLoaded(true);
+      })
+      .catch((error) => {
+        console.error("Image loading error:", error);
+      });
+  }, [map]);
 
   if (map == undefined) {
     return <ScreenActivityIndicator />;
@@ -25,12 +47,20 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
 
   return (
     <View style={styles.container}>
-      <ImageViewer
-        imageUrls={images.map((image: Image, index: number) => ({
-          url: image.props.source,
-        }))}
-        backgroundColor={Colors.arkadNavy}
-      />
+      {(isLoading || !imagesLoaded) && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.white} />
+          <ArkadText style={styles.mapName} text="Loading image ..." />
+        </View>
+      )}
+      {!isLoading && imagesLoaded && (
+        <ImageViewer
+          imageUrls={images.map((image: Image, index: number) => ({
+            url: image.props.source,
+          }))}
+          backgroundColor={Colors.arkadNavy}
+        />
+      )}
     </View>
   );
 }
@@ -41,9 +71,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   mapName: {
-    paddingTop: 50,
+    paddingTop: 15,
     color: Colors.white,
-    marginBottom: "-20%",
     fontSize: 32,
   },
   image: {
@@ -52,5 +81,15 @@ const styles = StyleSheet.create({
     position: "relative",
     width: "100%",
     height: "100%",
+  },
+  overlay: {
+    flex: 1,
+    fontSize: 50,
+    backgroundColor: Colors.white,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
