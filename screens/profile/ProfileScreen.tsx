@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -29,6 +29,7 @@ import Contacts from "components/profileScreen/ContactsPG";
 import AdminTab from "components/profileScreen/AdminTab";
 import MessagesTab from "components/profileScreen/MessagesTab";
 import QuestionTab from "components/profileScreen/QuestionTab";
+import VisitorTab from "components/profileScreen/VisitorTab";
 import { AuthDispatchContext } from "components/AuthContextProvider";
 import { TicketType } from "api/Tickets";
 import { set } from "date-fns";
@@ -213,6 +214,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             admin={AdminTab}
             question={QuestionTab}
             faq={FaqTab}
+            visitor={VisitorTab}
           />
         )}
         {user.role === Role.Volunteer && (

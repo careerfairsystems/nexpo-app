@@ -11,6 +11,7 @@ function ProfileTabViewer(props: {
   admin?: any;
   question?: any;
   faq?: any;
+  visitor?: any;
 }) {
   const layout = useWindowDimensions();
 
@@ -21,9 +22,10 @@ function ProfileTabViewer(props: {
         { key: "first", title: "Profile" },
         { key: "second", title: "Admin" },
         { key: "third", title: "Messages" },
-        { key: "fourth", title: "Contact List" },
-        { key: "fifth", title: "FAQ" },
-        { key: "sixth", title: "Questions" },
+        { key: "fourth", title: "Visitors" },
+        { key: "fifth", title: "Contact List" },
+        { key: "sixth", title: "FAQ" },
+        { key: "seventh", title: "Questions" },
       ])
     : props.messages // Volunteer
     ? React.useState([
@@ -50,9 +52,10 @@ function ProfileTabViewer(props: {
         first: props.profile,
         second: props.admin,
         third: props.messages,
-        fourth: props.contacts,
-        fifth: props.faq,
-        sixth: props.question,
+        fourth: props.visitor,
+        fifth: props.contacts,
+        sixth: props.faq,
+        seventh: props.question,
       })
     : props.messages
     ? SceneMap({
