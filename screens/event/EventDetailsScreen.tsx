@@ -397,6 +397,21 @@ export default function EventDetailsScreen(id: number) {
               },
             ]}
           >
+            {event?.date && event?.start && event?.end && (
+              <ArkadText
+                text={API.events.formatTime(
+                  event?.date,
+                  event?.start,
+                  event?.end
+                )}
+                style={
+                  styles.ticketTitle && {
+                    color: ticket?.isConsumed ? Colors.white : Colors.arkadNavy,
+                    fontSize: 30,
+                  }
+                }
+              />
+            )}
             {ticket && (
               <QRCode
                 size={Dimensions.get("window").width * 0.75}
