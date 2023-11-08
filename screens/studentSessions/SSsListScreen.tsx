@@ -41,6 +41,7 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
   const [accepted, setAccepted] = React.useState<ApplicationAcceptedDto | null>(
     null
   );
+  const [toggleMap, setToggleMap] = React.useState<boolean>(false);
 
   const getTimeslotsAndCompany = async () => {
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(id);
@@ -122,6 +123,18 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
                 text={"You have been accepted! \n Book a timeslot below."}
               />
             )}
+            {accepted?.accepted && (
+              <ArkadButton
+                onPress={() => {
+                  setToggleMap(!toggleMap);
+                }}
+                style={styles.map}
+              >
+                <ArkadText
+                  text={toggleMap ? "Hide map" : "See map for Student Sessions"}
+                />
+              </ArkadButton>
+            )}
           </>
         }
         ListFooterComponent={
@@ -153,5 +166,13 @@ const styles = StyleSheet.create({
   button: {
     width: "60%",
     alignSelf: "center",
+    backgroundColor: Colors.arkadOrange,
+    borderRadius: 55,
+    justifyContent: "center",
+  },
+  map: {
+    width: "65%",
+    alignSelf: "center",
+    marginBottom: 10,
   },
 });
