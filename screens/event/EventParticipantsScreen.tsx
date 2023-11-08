@@ -38,7 +38,6 @@ export default function EventParticipantsScreen(
     const tkts = await API.tickets.getAllTicketsForEvent(id);
     setTickets(tkts);
 
-    console.log(tkts.slice(0, 2)[0]["ticket"]["isConsumed"]);
     let consumed = 0;
     const total = tkts.length;
     tkts.forEach((item, index) => {
@@ -102,6 +101,7 @@ const styles = StyleSheet.create({
     height: 80,
     justifyContent: "center",
     backgroundColor: Colors.arkadNavy,
+    marginTop: 10,
   },
   container: {
     alignItems: "center",
