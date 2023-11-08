@@ -120,11 +120,8 @@ export default function AdminTab() {
 
     sendNotification(messageToSend);
 
-
     console.log("Sending message: ");
     console.log(messageToSend);
-
-    
 
     setText("");
     setTitle("");
@@ -241,7 +238,7 @@ export default function AdminTab() {
         multiline={false}
         textAlign="left"
       />
-      <ArkadButton onPress={changeUserRole} style={styles.buttonContainer1}>
+      <ArkadButton onPress={changeUserRole} style={styles.buttonContainer2}>
         <ArkadText text="Change" style={styles.buttonText} />
       </ArkadButton>
     </ScrollView>
@@ -297,6 +294,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: "4%",
     marginBottom: "2%",
+    width: "45%",
+  },
+  buttonContainer2: {
+    alignSelf: "center",
+    padding: "4%",
+    marginBottom: "10%",
     width: "45%",
   },
   centeredViewCommittee: {
