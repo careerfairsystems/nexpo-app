@@ -50,7 +50,7 @@ export default function ZoomMapScreen({ route }: MapScreenParams) {
       {(isLoading || !imagesLoaded) && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Colors.white} />
-          <ArkadText style={styles.mapName} text="Loading image ..." />
+          <ArkadText style={styles.mapName} text="Loading map ..." />
         </View>
       )}
       {!isLoading && imagesLoaded && (
