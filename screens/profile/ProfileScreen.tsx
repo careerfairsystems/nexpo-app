@@ -1,5 +1,10 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Linking,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 
@@ -30,11 +35,12 @@ import AdminTab from "components/profileScreen/AdminTab";
 import MessagesTab from "components/profileScreen/MessagesTab";
 import QuestionTab from "components/profileScreen/QuestionTab";
 import VisitorTab from "components/profileScreen/VisitorTab";
+import FaqTab from "components/profileScreen/FAQ";
 import { AuthDispatchContext } from "components/AuthContextProvider";
 import { TicketType } from "api/Tickets";
 import { set } from "date-fns";
-import FaqTab from "components/profileScreen/FAQ";
 import VolunteerProfile from "components/profileScreen/VolunteerProfile";
+import { ArkadButton } from "components/Buttons";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -108,6 +114,24 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         {student && <StudentProfile student={student} />}
         {volunteer && <VolunteerProfile volunteer={volunteer} />}
         {company && <CompanyProfile company={company} />}
+        {(user?.role === Role.Administrator ||
+          user?.role === Role.Volunteer) && (
+          <ArkadButton
+            onPress={() => {
+              Linking.openURL(
+                "https://cvfiler.s3.eu-north-1.amazonaws.com/hostguide.pdf"
+              );
+            }}
+            style={{
+              alignSelf: "center",
+              padding: "4%",
+              marginBottom: "2%",
+              width: "45%",
+            }}
+          >
+            <ArkadText text={"Host Guide"} />
+          </ArkadButton>
+        )}
         <View style={styles.eventList}>
           {!bookedEvents ? (
             <ActivityIndicator />
