@@ -49,7 +49,7 @@ export default function MapScreen({ navigation }: mapNavigation) {
         {isImageLoaded ? null : (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={Colors.white} />
-            <ArkadText text="Loading..." style={styles.loadingText} />
+            <ArkadText text="Loading map ..." style={styles.loadingText} />
           </View>
         )}
         <ArkadButton
