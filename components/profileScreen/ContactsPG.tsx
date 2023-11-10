@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text } from "../Themed";
 import Colors from "constants/Colors";
 import { ScrollView, StyleSheet } from "react-native";
-import { ArkadText } from "components/StyledText";
+import { ArkadText, SelectableArkadText } from "components/StyledText";
 import { API } from "api/API";
 import { Contact } from "api/Contacts";
 
@@ -29,7 +29,7 @@ export default function Contacts() {
             style={styles.text}
           />
           <ArkadText text={contact.email} style={styles.text} />
-          <ArkadText text={contact.phoneNumber} style={styles.text} />
+          <SelectableArkadText text={contact.phoneNumber} style={styles.text} />
         </View>
       ))}
       <ArkadText
