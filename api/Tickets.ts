@@ -61,10 +61,10 @@ export async function getTicketForEvent(event: Event): Promise<Ticket | null> {
  */
 export const createTicket = async (TicketRequest: CreateTicketDto): Promise<Ticket> => {
   const response = await postAuth("/tickets", TicketRequest);
-  if (response.status === 403) {
+  if (response?.status === 403) {
     alert("Registration is closed for this event");
   }
-  const json = await response.json();
+  const json = await response?.json();
   const ticket = json as Ticket;
   return ticket;
 };
@@ -74,7 +74,7 @@ export const createTicket = async (TicketRequest: CreateTicketDto): Promise<Tick
  */
 export const removeTicket = async (ticketId: number): Promise<boolean> => {
   const response = await deleteAuth(`/tickets/${ticketId}`);
-  return response.ok;
+  return response !== undefined;
 };
 
 /**
@@ -82,7 +82,7 @@ export const removeTicket = async (ticketId: number): Promise<boolean> => {
  */
 export const getAllTickets = async (): Promise<Ticket[]> => {
   const response = await getAuth("/tickets");
-  const json = await response.json();
+  const json = await response?.json();
   const tickets = json as Ticket[];
   return tickets;
 };
@@ -92,7 +92,7 @@ export const getAllTickets = async (): Promise<Ticket[]> => {
  */
 export const getTicket = async (code: string): Promise<Ticket> => {
   const response = await getAuth(`/tickets/${code}`);
-  const json = await response.json();
+  const json = await response?.json();
   const ticket = json as Ticket;
   return ticket;
 };
@@ -102,7 +102,7 @@ export const getTicket = async (code: string): Promise<Ticket> => {
  */
 export const updateTicket = async (id: number, dto: UpdateTicketDto): Promise<Ticket> => {
   const response = await putAuth(`/tickets/${id}`, dto);
-  const json = await response.json();
+  const json = await response?.json();
   const ticket = json as Ticket;
   return ticket;
 };
@@ -112,7 +112,7 @@ export const updateTicket = async (id: number, dto: UpdateTicketDto): Promise<Ti
  */
 export const getAllTicketsForEvent = async (eventId: number): Promise<TicketDto[]> => {
   const response = await getAuth(`/events/${eventId}/tickets`);
-  const json = await response.json();
+  const json = await response?.json();
   const tickets = json as TicketDto[];
   return tickets;
 };
@@ -126,7 +126,7 @@ export const getAllTicketsForEvent = async (eventId: number): Promise<TicketDto[
  */
 export const getTypeOfTicket = async (ticketId: number): Promise<TicketType> => {
   const response = await getAuth(`/tickets/${ticketId}/type`);
-  const json = await response.json();
+  const json = await response?.json();
   const type = json as TicketType;
 
   return type;

@@ -15,10 +15,10 @@ export const postToS3 = async (
 
 export const deleteOnS3 = async (userId: string, fileType: string): Promise<boolean> => {
   const response = await deleteAuth(`/awss3/${userId + fileType}`);
-  return response.ok;
+  return response !== undefined;
 };
 
 export const getFromS3 = async (userId: string, fileType: string): Promise<string> => {
   const response = await getAuth(`/awss3/${userId + fileType}`);
-  return response.url;
+  return response ? response.url : "";
 };
