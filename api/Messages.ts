@@ -10,7 +10,7 @@ export interface Message {
 export const sendNotification = async (message: Message) => {
   try {
     const response = await putAuth("/notification", message);
-    if (!response.ok) {
+    if (response === undefined || !response.ok) {
       throw new Error('Server responded with an error: ' + response.status);
     }
     // Log the full response body for debugging
