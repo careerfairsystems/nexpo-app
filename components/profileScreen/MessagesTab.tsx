@@ -1,18 +1,17 @@
-import Colors from "constants/Colors";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { ArkadText } from "components/StyledText";
 import { Message } from "api/Messages";
 import MessageListItem from "./MessageListItem";
 import { API } from "api/API";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
+import Colors from "constants/Colors";
 
 export default function MessagesTab() {
-  const [messages, setMessages] = useState<Message[] | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]); // Initialize as an empty array
   const [isLoading, setLoading] = useState<boolean>(true);
 
-  const getMessagees = async () => {
+  const getMessages = async () => {
     setLoading(true);
     const notifications = await API.messages.getNotifications();
     setMessages(notifications);
@@ -20,28 +19,33 @@ export default function MessagesTab() {
   };
 
   useEffect(() => {
-    getMessagees();
+    getMessages();
   }, []);
+
 
   if (isLoading) {
     return <ScreenActivityIndicator />;
   }
 
-  if (messages?.length === 0) {
+  if (messages.length === 0) { // Change to messages.length
     return <ArkadText text={"No messages"} style={styles.text}></ArkadText>;
+  } else {
+    return (
+      <FlatList
+        style={{
+          backgroundColor: Colors.arkadNavy,
+        }}
+        showsVerticalScrollIndicator={false}
+        data={messages.reverse()} // No need to use '?'
+        keyExtractor={(message) => message.title}
+        renderItem={({ item: message }) => (
+          <MessageListItem message={message} />
+        )}
+      />
+    );
   }
-  return (
-    <FlatList
-      style={{
-        backgroundColor: Colors.arkadNavy,
-      }}
-      showsVerticalScrollIndicator={false}
-      data={messages}
-      keyExtractor={(message) => message.title}
-      renderItem={({ item: message }) => <MessageListItem message={message} />}
-    />
-  );
 }
+
 
 const styles = StyleSheet.create({
   text: {

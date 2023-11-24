@@ -1,5 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import { useCallback, useContext, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Linking,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 
@@ -29,10 +34,13 @@ import Contacts from "components/profileScreen/ContactsPG";
 import AdminTab from "components/profileScreen/AdminTab";
 import MessagesTab from "components/profileScreen/MessagesTab";
 import QuestionTab from "components/profileScreen/QuestionTab";
+import VisitorTab from "components/profileScreen/VisitorTab";
+import FaqTab from "components/profileScreen/FAQ";
 import { AuthDispatchContext } from "components/AuthContextProvider";
 import { TicketType } from "api/Tickets";
 import { set } from "date-fns";
-import FaqTab from "components/profileScreen/FAQ";
+import VolunteerProfile from "components/profileScreen/VolunteerProfile";
+import { ArkadButton } from "components/Buttons";
 
 export type ProfileScreenParams = {
   navigation: StackNavigationProp<ProfileStackParamList, "ProfileScreen">;
@@ -42,6 +50,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
   const [user, setUser] = useState<User | null>(null);
   const [company, setCompany] = useState<Company | null>(null);
   const [student, setStudent] = useState<Student | null>(null);
+  const [volunteer, setVolunteer] = useState<Student | null>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [bookedEvents, setBookedEvents] = useState<Event[] | null>(null);
   const setSignedIn = useContext(AuthDispatchContext);
@@ -60,6 +69,10 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     if (user.role === Role.Student) {
       const student = await API.students.getMe();
       setStudent(student);
+    }
+    if (user.role === Role.Volunteer) {
+      const volunteer = await API.volunteers.getMe();
+      setVolunteer(volunteer);
     }
 
     setUser(user);
@@ -99,7 +112,26 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
       <ScrollView style={styles.container}>
         <UserProfile user={user as NonNullable<User>} />
         {student && <StudentProfile student={student} />}
+        {volunteer && <VolunteerProfile volunteer={volunteer} />}
         {company && <CompanyProfile company={company} />}
+        {(user?.role === Role.Administrator ||
+          user?.role === Role.Volunteer) && (
+          <ArkadButton
+            onPress={() => {
+              Linking.openURL(
+                "https://cvfiler.s3.eu-north-1.amazonaws.com/hostguide.pdf"
+              );
+            }}
+            style={{
+              alignSelf: "center",
+              padding: "4%",
+              marginBottom: "2%",
+              width: "45%",
+            }}
+          >
+            <ArkadText text={"Host Guide"} />
+          </ArkadButton>
+        )}
         <View style={styles.eventList}>
           {!bookedEvents ? (
             <ActivityIndicator />
@@ -122,8 +154,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            lunchticket?.length !== 0 &&
-            user?.role !== Role.Student && (
+            lunchticket?.length !== 0 && (
               <>
                 <ArkadText text={"Lunch tickets:"} style={styles.header} />
                 <BookedEventList
@@ -141,8 +172,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
           {!bookedEvents ? (
             <ActivityIndicator />
           ) : (
-            banquetticket?.length !== 0 &&
-            user?.role !== Role.Student && (
+            banquetticket?.length !== 0 && (
               <>
                 <ArkadText text={"Banquet tickets:"} style={styles.header} />
                 <BookedEventList
@@ -178,28 +208,28 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
     return <ScreenActivityIndicator />;
   } else {
     return (
+      //   <>
+      // <ScrollView style={styles.container}>
+      //   <UserProfile user={user as NonNullable<User>} />
+      //   { student && <StudentProfile student={student} />}
+      //   { company && <CompanyProfile company={company} />}
+      //   <ArkadText text={"Tickets to Events:"} style={styles.header}/>
+      //   <View style={styles.eventList}>
+      //     {!bookedEvents
+      //       ? <ActivityIndicator />
+      //       : bookedEvents.length !== 0 &&
+      //          <BookedEventList
+      //             bookedEvents={bookedEvents}
+      //             onPress={id => navigation.navigate('ProfileSwitchScreen', { screen: "details", id: id })} />
+      //     }
+      //   </View>
+      //   <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
+      //   <View style= {styles.logout}>
+      //     <LogoutButton onPress={logout} />
+      //   </View>
+      // </ScrollView>
+      //   </>);
       <>
-    <ScrollView style={styles.container}>
-      <UserProfile user={user as NonNullable<User>} />
-      { student && <StudentProfile student={student} />}
-      { company && <CompanyProfile company={company} />}
-      <ArkadText text={"Tickets to Events:"} style={styles.header}/>
-      <View style={styles.eventList}> 
-        {!bookedEvents 
-          ? <ActivityIndicator />
-          : bookedEvents.length !== 0 &&
-             <BookedEventList
-                bookedEvents={bookedEvents}
-                onPress={id => navigation.navigate('ProfileSwitchScreen', { screen: "details", id: id })} />
-        }
-      </View>
-      <EditProfileButton editingProfile={false} onPress={() => navigation.navigate('ProfileSwitchScreen', { screen: "edit", id: 0 })} />
-      <View style= {styles.logout}>
-        <LogoutButton onPress={logout} />
-      </View>
-    </ScrollView>
-      </>);
-      {/* <>
         {user.role === Role.Administrator && (
           <ProfileTabViewer
             profile={userProfile}
@@ -208,6 +238,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
             admin={AdminTab}
             question={QuestionTab}
             faq={FaqTab}
+            visitor={VisitorTab}
           />
         )}
         {user.role === Role.Volunteer && (
@@ -229,7 +260,8 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
         {user.role === Role.Student && (
           <ProfileTabViewer profile={userProfile} question={QuestionTab} />
         )}
-      </> */}
+      </>
+    );
   }
 }
 

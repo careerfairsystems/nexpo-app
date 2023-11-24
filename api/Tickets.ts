@@ -4,8 +4,8 @@ import { Event } from "./Events";
 export interface CreateTicketDto {
   eventId: number;
   photoOk: boolean;
-  wantTakeaway: boolean;
-  takeawayTime: string;
+  takeAway?: boolean;
+  takeAwayTime?: Date;
 }
 
 export interface Ticket {
@@ -16,6 +16,8 @@ export interface Ticket {
   eventId: number;
   event: Event;
   userId: number;
+  takeAway: boolean;
+  takeAwayTime?: Date;
 }
 
 // It is important that these numbers match with
@@ -33,7 +35,9 @@ export interface TicketDto {
 }
 
 export interface UpdateTicketDto {
-  isConsumed: boolean;
+  isConsumed?: boolean;
+  takeAway?: boolean;
+  takeAwayTime?: Date;
 }
 
 /**

@@ -150,11 +150,32 @@ export default function BottomTabNavigator() {
             }}
           />
         }
-        {user &&
-          (user.role !== Role.CompanyRepresentative ? (
+        {user?.role !== Role.CompanyRepresentative ? (
+          <BottomTab.Screen
+            name="SSsStudent"
+            component={SSsStudentNavigator}
+            options={{
+              title: "Student Sessions",
+              tabBarIcon: ({ focused }) => {
+                return (
+                  <Image
+                    source={
+                      focused
+                        ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png")
+                        : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")
+                    }
+                    style={{ width: 30, height: 30, marginBottom: -3 }}
+                  />
+                );
+              },
+              ...HeaderStyles,
+            }}
+          />
+        ) : (
+          companyId && (
             <BottomTab.Screen
-              name="SSsStudent"
-              component={SSsStudentNavigator}
+              name="SSsCRep"
+              component={SSsCRepNavigator}
               options={{
                 title: "Student Sessions",
                 tabBarIcon: ({ focused }) => {
@@ -171,32 +192,10 @@ export default function BottomTabNavigator() {
                 },
                 ...HeaderStyles,
               }}
+              initialParams={{ companyId: companyId }}
             />
-          ) : (
-            companyId && (
-              <BottomTab.Screen
-                name="SSsCRep"
-                component={SSsCRepNavigator}
-                options={{
-                  title: "Student Sessions",
-                  tabBarIcon: ({ focused }) => {
-                    return (
-                      <Image
-                        source={
-                          focused
-                            ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png")
-                            : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")
-                        }
-                        style={{ width: 30, height: 30, marginBottom: -3 }}
-                      />
-                    );
-                  },
-                  ...HeaderStyles,
-                }}
-                initialParams={{ companyId: companyId }}
-              />
-            )
-          ))}
+          )
+        )}
         {isSignedIn ? (
           <BottomTab.Screen
             name="You"

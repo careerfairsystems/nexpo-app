@@ -22,12 +22,22 @@ export default function SSsCompaniesScreen({ navigation }: SSsNavigation) {
   const [user, setUser] = useState<User | null>(null);
 
   const getCompanies = async () => {
-    const companies = await API.studentSessions.getCompaniesWithTimeslots();
-    setCompanies(companies);
+    try {
+      const companies = await API.studentSessions.getCompaniesWithTimeslots();
+      setCompanies(companies);
+    } catch (error) {
+      setCompanies(null);
+    }
   };
+
   const getUser = async () => {
-    const user = await API.users.getMe();
-    setUser(user);
+    try {
+      const user = await API.users.getMe();
+      setUser(user);
+    } catch (error) {
+      // Handle the case where the user is not logged in
+      setUser(null);
+    }
   };
 
   const openCompanySSs = (companyId: number) => {
@@ -36,44 +46,66 @@ export default function SSsCompaniesScreen({ navigation }: SSsNavigation) {
 
   useEffect(() => {
     setLoading(true);
-    getCompanies();
     getUser();
+    getCompanies();
     setLoading(false);
   }, []);
 
-  if (isLoading || !user) {
+  if (isLoading) {
     return <ScreenActivityIndicator />;
   }
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        ListHeaderComponent={
-          <View style={styles.titleContainer}>
-            <ArkadText text={"Welcome to \n Student Sessions!"} style={styles.title} />
-            <ArkadText
-              text={
-                "Make sure to book a session with your favorite companies below. A student session is a 30 minute one on one meeting with a company representative. A great way to stand out in a sea of work hungry students!"
-              }
-              style={styles.text}
+  if (user) {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          ListHeaderComponent={
+            <View style={styles.titleContainer}>
+              <ArkadText
+                text={"Welcome to \n Student Sessions!"}
+                style={styles.title}
+              />
+              <ArkadText
+                text={
+                  "Make sure to book a session with your favorite companies below. A student session is a 30 minute one on one meeting with a company representative. A great way to stand out in a sea of work hungry students!"
+                }
+                style={styles.text}
+              />
+            </View>
+          }
+          style={styles.list}
+          data={companies}
+          keyExtractor={({ id }) => id.toString()}
+          renderItem={({ item: company }) => (
+            <CompanyListItem
+              company={company}
+              onPress={() => openCompanySSs(company.id)}
             />
-          </View>
-        }
-        style={styles.list}
-        data={companies}
-        keyExtractor={({ id }) => id.toString()}
-        renderItem={({ item: company }) => (
-          <CompanyListItem company={company} onPress={() => openCompanySSs(company.id)} />
-        )}
-      />
-    </View>
-  );
+          )}
+        />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.titleContainerNoUser}>
+        <ArkadText
+          text={"Please log in to view which companies offer Student Sessions"}
+          style={styles.title_nologin}
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   title: {
     paddingBottom: 5,
     fontSize: 50,
+    color: Colors.white,
+  },
+  title_nologin: {
+    paddingBottom: 5,
+    fontSize: 30,
     color: Colors.white,
   },
   text: {
@@ -86,9 +118,18 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
   },
+  titleContainerNoUser: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    width: "90%",
+    alignSelf: "center",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     flex: 1,
-    backgroundColor: Colors.arkadNavy
+    backgroundColor: Colors.arkadNavy,
   },
   list: {
     width: "100%",

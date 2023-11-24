@@ -19,11 +19,10 @@ import Colors from "constants/Colors";
 import { AuthContextProvider } from "components/AuthContextProvider";
 
 export default function Navigation() {
-
   const theme: Theme = {
     dark: false,
     colors: {
-      primary: DefaultTheme.colors.primary,
+      primary: Colors.arkadNavy,
       background: Colors.arkadNavy,
       card: DefaultTheme.colors.card,
       text: Colors.white,

@@ -24,6 +24,7 @@ import {
   getTicketForEvent,
   removeTicket,
   Ticket,
+  UpdateTicketDto,
 } from "api/Tickets";
 
 import { View } from "components/Themed";
@@ -31,9 +32,11 @@ import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText, NoButton } from "components/StyledText";
 import QRCode from "react-native-qrcode-svg";
-import { format, subDays } from "date-fns";
+import { format, set, subDays, parse } from "date-fns";
 import { Picker } from "@react-native-picker/picker";
 import Toast from "react-native-toast-message";
+import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
+import { LUNCHTIMES } from "components/companies/DroppdownItems";
 
 export default function EventDetailsScreen(id: number) {
   const [event, setEvent] = useState<Event | null>(null);
@@ -43,27 +46,48 @@ export default function EventDetailsScreen(id: number) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [wantTakeaway, setWantTakeaway] = useState(false);
-  let initialTimeValue = "12:00:00";
-  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedTime, setSelectedTime] = useState(new Date());
   const [update, setUpdate] = useState(true);
 
-  const lunchTimes = [
-    { label: "11:00", value: "11:00:00" },
-    { label: "11:15", value: "11:15:00" },
-    { label: "12:00", value: "12:00:00" },
-    { label: "13:00", value: "13:00:00" },
-  ];
+  const [currentDate, setCurrentDate] = useState("");
 
-  const handleTimeChange = (value: string) => {
-    setSelectedTime(value);
+  const [lunchtimes, setLunchtimes] = useState(LUNCHTIMES);
+  const [takeawayOpen, takeawaySetOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [formattedSelectedTime, setFormattedSelectedTime] = useState("");
+
+  const handleTimeChange = () => {
+    const [hours, minutes, seconds] = value.split(":").map(Number);
+
+    if (!event?.date) return;
+    const date = new Date(event.date);
+
+    // Extract the year, month, and day
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+
+    // Create a new Date object with the extracted date
+    const takeAwayTime = new Date(year, month, day);
+
+    // Set the time components
+    takeAwayTime.setHours(hours); // +2 for timezone (UTC)
+    takeAwayTime.setMinutes(minutes);
+    takeAwayTime.setSeconds(seconds);
+
+    setSelectedTime(takeAwayTime);
+    setFormattedSelectedTime(value);
   };
 
   const eventStopSellingDate = () => {
     if (!event?.start) return "N/A";
     const eventTime = new Date(event.date);
     const stopSellingDate = subDays(eventTime, 2);
-    return format(stopSellingDate, "d LLL") + " - " + event.start;
+    return (
+      format(stopSellingDate, "d LLL") + " - " + event.start.substring(0, 5)
+    );
   };
+
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
     setEvent(event);
@@ -72,7 +96,22 @@ export default function EventDetailsScreen(id: number) {
     if (reg) {
       const ticket = await getTicketForEvent(event);
       setTicket(ticket);
-      // setWantTakeaway(ticket?.wantTakeaway); Take this back when backend sends back correct DTO
+      if (ticket && ticket.takeAway) {
+        setWantTakeaway(true);
+      }
+    }
+  };
+
+  const getDate = async () => {
+    let month = new Date().getMonth();
+    let day = new Date().getDate();
+    let hours = new Date().getHours();
+    let minutes = new Date().getMinutes();
+    if (minutes < 10) {
+      const new_minutes = "0" + String(minutes);
+      setCurrentDate(day + "/" + month + " " + hours + ":" + new_minutes);
+    } else {
+      setCurrentDate(day + "/" + month + " " + hours + ":" + minutes);
     }
   };
 
@@ -83,39 +122,53 @@ export default function EventDetailsScreen(id: number) {
       return;
     }
 
-    const ticketRequest: CreateTicketDto = {
-      eventId: event.id,
-      photoOk: true,
-      wantTakeaway: wantTakeaway,
-      takeawayTime: selectedTime,
-    };
-
-    const ticket = await API.tickets.createTicket(ticketRequest);
-
-    if (ticket) {
-      if (update) {
-        let eventTime = event?.date;
-        const dateTime = eventTime.split(" ");
-        alert(
-          "Registered to " +
-            event?.name +
-            " " +
-            dateTime[0] +
-            "\nTakeaway at " +
-            selectedTime
-        );
-      } else {
-        alert("Registered to " + event?.name + " " + event?.date);
-      }
-      alert(
-        "If you have any allergies or food preferences, please update your profile accordingly."
+    let ticketRequest: CreateTicketDto;
+    let ticketUpdate: UpdateTicketDto;
+    let temp_ticket: Ticket | null = null;
+    if (wantTakeaway && (selectedTime !== null || selectedTime !== undefined)) {
+      ticketUpdate = {
+        takeAway: wantTakeaway,
+        takeAwayTime: selectedTime,
+      };
+      temp_ticket = await API.tickets.updateTicket(
+        ticket?.id ?? 0,
+        ticketUpdate
       );
-
-      getEvent();
+      const utc_time = new Date(temp_ticket?.takeAwayTime ?? "");
+      utc_time.setHours(utc_time.getHours() + 2);
+      const updatedTicket = {
+        ...temp_ticket,
+        takeAwayTime: utc_time,
+      };
+      setTicket(updatedTicket);
     } else {
-      alert("Could not register to " + event?.name + " " + event?.date);
-      getEvent();
+      ticketRequest = {
+        eventId: event.id,
+        photoOk: true,
+      };
+      temp_ticket = await API.tickets.createTicket(ticketRequest);
+      setTicket(temp_ticket);
     }
+
+    if (update && wantTakeaway) {
+      let eventTime = event?.date;
+      const dateTime = eventTime.split(" ");
+      alert(
+        "Registered to " +
+          event?.name +
+          " " +
+          dateTime[0] +
+          "\nTakeaway at " +
+          selectedTime
+      );
+    } else {
+      alert("Registered to " + event?.name + " " + event?.date);
+    }
+    alert(
+      "If you have any allergies or food preferences, please update your profile accordingly."
+    );
+
+    getEvent();
 
     setLoading(false);
   };
@@ -152,14 +205,70 @@ export default function EventDetailsScreen(id: number) {
   };
 
   useEffect(() => {
-    setLoading(true);
-    getEvent();
-    setLoading(false);
+    const fetchData = async () => {
+      setLoading(true);
+      await getEvent();
+      await getDate();
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
+
+  function getMonthName(monthNumber: number) {
+    const date = new Date();
+    date.setMonth(monthNumber);
+
+    return date.toLocaleString("en-US", {
+      month: "long",
+    });
+  }
+
+  const validTime = () => {
+    if (!event?.date || !event?.start || !event?.end) return false;
+    if (currentDate === "") return false;
+
+    const event_formated = API.events.formatTime(
+      event?.date,
+      event?.start,
+      event?.end
+    );
+    const event_date = event_formated.slice(0, 6);
+    const event_start = event_formated.slice(10, 15);
+    const event_end = event_formated.slice(18, 23);
+
+    const split = currentDate.split("/");
+    const month = split[1].split(" ")[0];
+    const date =
+      String(getMonthName(Number(month))).slice(0, 3) + " " + split[0];
+    const time = split[1].split(" ")[1];
+
+    let upd_event_date;
+    if (event_date[5] === " ") {
+      upd_event_date = event_date.slice(0, event_date.length - 1);
+    } else {
+      upd_event_date = event_date;
+    }
+    let dateParts = upd_event_date.split(" ");
+    dateParts[1] = String(Number(dateParts[1]) - 2);
+    upd_event_date = dateParts.join(" ");
+
+    const parseDate = (dateStr: string) => {
+      return parse(dateStr, "MMM d HH:mm", new Date());
+    };
+
+    const date1 = parseDate(upd_event_date + " " + event_start);
+    const date2 = parseDate(date + " " + time);
+
+    const isSecondDateLater = date2 < date1;
+
+    return isSecondDateLater;
+  };
 
   if (loading || !event) {
     return <ScreenActivityIndicator />;
   }
+
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
@@ -206,7 +315,7 @@ export default function EventDetailsScreen(id: number) {
         <View style={styles.descriptionContainer}>
           <ArkadText text={event.description} style={styles.description} />
         </View>
-        {ticket && registered && ticket.event.type === 1 && (
+        {ticket && registered && ticket?.event?.type === 1 && (
           <View style={styles.takeawayContainer}>
             <ArkadText text="Takeaway " style={styles.title} />
             <Switch
@@ -215,57 +324,80 @@ export default function EventDetailsScreen(id: number) {
             />
           </View>
         )}
+        {ticket?.takeAway && (
+          <View style={styles.takeawayContainer}>
+            <ArkadText
+              text={
+                "You have booked takeaway at: " +
+                (ticket.takeAwayTime
+                  ? (() => {
+                      const timeParts = ticket.takeAwayTime
+                        ?.toString()
+                        .split("T")[1]
+                        .split(":");
+                      const hours = (parseInt(timeParts[0]) + 2)
+                        .toString()
+                        .padStart(2, "0");
+                      const minutes = timeParts[1];
+                      return hours + ":" + minutes;
+                    })()
+                  : "")
+              }
+              style={styles.title}
+            />
+          </View>
+        )}
         {wantTakeaway && (
-          <View>
-            <Text style={styles.timePickerLabel}>Select Pickup Time:</Text>
-            <Picker
-              style={styles.picker}
-              selectedValue={selectedTime}
-              onValueChange={(value) => handleTimeChange(value)}
-            >
-              {lunchTimes.map((timeOption, index) => (
-                <Picker.Item
-                  key={index}
-                  label={timeOption.label}
-                  value={timeOption.value}
-                />
-              ))}
-            </Picker>
-            {update ? (
+          <View style={styles.centeredViewPicker}>
+            <CategoriesDropdown
+              title="Select pick-up time"
+              items={lunchtimes}
+              setOpen={takeawaySetOpen}
+              setValue={setValue}
+              open={takeawayOpen}
+              value={value}
+              setItems={setLunchtimes}
+              onChangeValue={handleTimeChange}
+              categories={false}
+              single={true}
+            />
+            {update && value ? (
               <ArkadButton
                 onPress={updateTicket}
                 style={styles.updateTicketButton}
               >
                 <ArkadText text="Update ticket" />
               </ArkadButton>
-            ) : (
+            ) : value ? (
               <ArkadButton
                 style={styles.updatedTicketButton}
                 onPress={() => ""}
               >
                 <ArkadText text="Ticket updated" />
               </ArkadButton>
+            ) : (
+              <ArkadText text="" />
             )}
           </View>
         )}
 
-        {/* ticket.eventType !== EventType.Lunch && ticket.event.eventType !== EventType.Banquet */}
         {ticket && registered ? (
           <>
             {ticket.isConsumed ? (
               <NoButton text="Ticket consumed!" style={styles.consumedText} />
-            ) : ticket.event.type !== 1 && ticket.event.type !== 2 ? (
+            ) : ticket?.event?.type !== 1 && ticket?.event?.type !== 2 ? (
               <View>
-                <ArkadButton
-                  onPress={() => deregister()}
-                  style={styles.bookedButton}
-                >
-                  <ArkadText
-                    text="De-register from event"
-                    style={styles.title}
-                  />
-                </ArkadButton>
-
+                <View style={styles.buttonContainer}>
+                  <ArkadButton
+                    onPress={() => deregister()}
+                    style={styles.bookedButton}
+                  >
+                    <ArkadText
+                      text="De-register from event"
+                      style={styles.title}
+                    />
+                  </ArkadButton>
+                </View>
                 <ArkadText
                   text={`Last date to de-register to this event is: ${eventStopSellingDate()}`}
                   style={{ color: Colors.arkadNavy }}
@@ -290,7 +422,15 @@ export default function EventDetailsScreen(id: number) {
             </Pressable>
           </>
         ) : event.capacity === event.ticketCount ? (
-          <NoButton text="No tickets Left :-(" style={styles.consumedText} />
+          <NoButton
+            text="No tickets Left. Drop-in available"
+            style={styles.consumedText}
+          />
+        ) : event && !validTime() ? (
+          <NoButton
+            text="Last day to register have passed"
+            style={styles.consumedText}
+          />
         ) : (
           <>
             <ArkadButton onPress={createTicket} style={styles.bookButton}>
@@ -298,7 +438,7 @@ export default function EventDetailsScreen(id: number) {
             </ArkadButton>
             <ArkadText
               text={`Last date to register to this event is: ${eventStopSellingDate()}`}
-              style={{ color: Colors.arkadNavy }}
+              style={{ color: Colors.white, paddingBottom: 20 }}
             />
           </>
         )}
@@ -331,6 +471,21 @@ export default function EventDetailsScreen(id: number) {
               },
             ]}
           >
+            {event?.date && event?.start && event?.end && (
+              <ArkadText
+                text={API.events.formatTime(
+                  event?.date,
+                  event?.start,
+                  event?.end
+                )}
+                style={
+                  styles.ticketTitle && {
+                    color: ticket?.isConsumed ? Colors.white : Colors.arkadNavy,
+                    fontSize: 30,
+                  }
+                }
+              />
+            )}
             {ticket && (
               <QRCode
                 size={Dimensions.get("window").width * 0.75}
@@ -349,10 +504,10 @@ export default function EventDetailsScreen(id: number) {
 
 const styles = StyleSheet.create({
   ticketTitle: {
-    color: Colors.arkadNavy,
+    color: Colors.white,
     fontSize: 26,
     marginBottom: 10,
-    paddingTop: "2rem",
+    paddingTop: "2%",
   },
   scrollView: {
     backgroundColor: Colors.arkadNavy,
@@ -449,6 +604,9 @@ const styles = StyleSheet.create({
     width: "90%",
     marginBottom: 20,
   },
+  buttonContainer: {
+    alignItems: "center", // Center the button horizontally
+  },
   qrHeader: {
     marginTop: 24,
     fontSize: 30,
@@ -487,11 +645,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 20,
+    marginBottom: 15,
+    marginTop: 15,
     paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: Colors.arkadOrange,
     borderRadius: 10,
+    maxWidth: "90%",
   },
 
   timePickerLabel: {
@@ -499,7 +659,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "white",
-    padding: 10,
+    padding: 3,
+    marginTop: 30,
   },
   picker: {
     width: "85%",
@@ -512,15 +673,27 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   updateTicketButton: {
+    display: "flex", // You need to use display: flex to enable flexbox layout
+    justifyContent: "center",
     backgroundColor: Colors.arkadOrange,
-    width: "90%",
     marginBottom: 20,
     color: Colors.white,
   },
   updatedTicketButton: {
+    display: "flex", // You need to use display: flex to enable flexbox layout
+    justifyContent: "center",
     backgroundColor: Colors.arkadGreen,
-    width: "90%",
     marginBottom: 20,
     color: Colors.white,
+  },
+  centeredViewPicker: {
+    justifyContent: "flex-start",
+    borderWidth: 0,
+    borderColor: Colors.lightGray,
+    borderRadius: 15,
+    padding: 0,
+    margin: 0,
+    marginBottom: 12,
+    width: "60%",
   },
 });

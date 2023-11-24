@@ -42,6 +42,7 @@ export default function SSsApplicationScreen({
         text1: "Application to " + company?.name + " sent",
         visibilityTime: 5000,
       });
+      setMsg("");
       setLoading(false);
     }
   };
@@ -84,7 +85,7 @@ export default function SSsApplicationScreen({
         />
         <TextInput
           multiline
-          style={styles.input}
+          style={[styles.input, msg ? styles.inputText : null]}
           onChangeText={setMsg}
           value={msg}
           placeholder={
@@ -143,7 +144,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.arkadOrange,
     backgroundColor: Colors.white,
     borderWidth: 3,
-    color: "#A9A9AC",
     padding: 10,
     height: 180,
     borderRadius: 7,
@@ -151,5 +151,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "main-font-bold",
     paddingHorizontal: 10,
+    color: "#A9A9AC", // Gray text color
+  },
+  inputText: {
+    color: "black", // Black text color when input is not empty
   },
 });

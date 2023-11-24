@@ -115,7 +115,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
             return (
               <View>
                 <ArkadText
-                  text={"Corporation Partner"}
+                  text={"Corporate Partner"}
                   style={styles.accenture}
                 />
                 <CompanyListItem

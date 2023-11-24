@@ -1,79 +1,82 @@
 import React, { useEffect } from "react";
-import { View, Text } from "../Themed";
-import Colors from "constants/Colors";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { ScrollView, StyleSheet } from "react-native";
-import { ArkadText } from "components/StyledText";
+import Colors from "constants/Colors";
+import { ArkadText, SelectableArkadText } from "components/StyledText";
 import { API } from "api/API";
 import { Contact } from "api/Contacts";
 
 export default function Contacts() {
-  const [contacts, setContacts] = React.useState<Contact[]>();
+  const [contacts, setContacts] = React.useState<Contact[]>([]);
 
   useEffect(() => {
-    fetch_contacts();
+    fetchContacts();
   }, []);
 
-  async function fetch_contacts() {
+  async function fetchContacts() {
     const contacts = await API.contacts.contacts();
     setContacts(contacts);
   }
 
+  const handlePhoneNumberPress = (phoneNumber: string) => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+
   return (
     <ScrollView style={styles.container}>
-      <ArkadText text={"Contacts"} style={styles.header} />
+      <ArkadText
+        text={"Click on the Phone number to access it on your phone"}
+        style={styles.header}
+      />
       {contacts?.reverse().map((contact) => (
         <View key={contact.id} style={styles.contactContainer}>
-          <View style={styles.textContainer}>
-            <View style={styles.textColumnContainer}>
-              <ArkadText text={contact.roleInArkad} style={styles.role} />
-              <ArkadText
-                text={contact.firstName + " " + contact.lastName}
-                style={styles.text}
-              />
-              <ArkadText text={contact.email} style={styles.text} />
-              <ArkadText text={contact.phoneNumber} style={styles.text} />
-            </View>
-          </View>
+          <ArkadText text={contact.roleInArkad} style={styles.role} />
+          <ArkadText
+            text={`${contact.firstName} ${contact.lastName}`}
+            style={styles.text}
+          />
+          <ArkadText text={contact.email} style={styles.text} />
+          <TouchableOpacity
+            onPress={() => handlePhoneNumberPress(contact.phoneNumber)}
+          >
+            <SelectableArkadText
+              text={contact.phoneNumber}
+              style={styles.text}
+            />
+          </TouchableOpacity>
         </View>
       ))}
+      <ArkadText
+        text={"NAKED SPACE"}
+        style={styles.header && { color: Colors.arkadNavy }}
+      ></ArkadText>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 24,
+    padding: 16,
     backgroundColor: Colors.arkadNavy,
   },
   header: {
-    width: "100%",
-    textAlign: "center",
     fontSize: 30,
     color: Colors.white,
+    marginBottom: 12,
+    textAlign: "center",
   },
   role: {
     fontWeight: "bold",
     color: Colors.arkadOrange,
-    fontSize: 24,
-    paddingTop: 12,
+    fontSize: 21,
   },
   text: {
     color: Colors.white,
     fontSize: 18,
   },
   contactContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-  textContainer: {
-    width: "100%",
-    paddingHorizontal: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  textColumnContainer: {
-    flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "center",
+    backgroundColor: Colors.arkadNavy,
+    padding: 8,
+    marginBottom: 5,
   },
 });

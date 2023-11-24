@@ -76,10 +76,8 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontFamily: "main-font-bold",
     fontSize: 32,
-    // backgroundColor: Colors.arkadNavy,
   },
   listParentContainer: {
-    // backgroundColor: Colors.arkadNavy,
     height: 40,
   },
   closeButton: {
@@ -101,7 +99,6 @@ const styles = StyleSheet.create({
     textShadowColor: Colors.white,
     borderWidth: 0.5,
     height: 60,
-    // backgroundColor: Colors.arkadNavy,
     color: Colors.white,
   },
   checkmark: {

@@ -3,12 +3,12 @@ import { UpdateUserDto, User } from "api/Users";
 import ProfilePicture from "../ProfilePicture";
 import { View, Text } from "../Themed";
 import { Linking, Platform, StyleSheet } from "react-native";
-import Colors from "constants/Colors";
+import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
-import { EditStatus } from "../../screens/profile/EditProfileScreen";
+import { EditStatus } from "screens/profile/EditProfileScreen";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
-import { API } from "api/API";
+import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
@@ -40,7 +40,6 @@ export default function EditUserProfile({
   const [repeatPassword, setRepeatPassword] = useState<string>("");
 
   useEffect(() => {
-    // TODO Validate password strength with zxvcbn
     if (password && password.length < 8) {
       setEditStatus({
         ok: false,
@@ -79,6 +78,7 @@ export default function EditUserProfile({
         return;
       }
     }
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -89,40 +89,69 @@ export default function EditUserProfile({
       return;
     }
 
-    const fileInfo = await FileSystem.getInfoAsync(result.assets[0]["uri"]);
+    let uri;
+    console.log(result);
+    if (
+      result &&
+      result["assets"] &&
+      result["assets"][0] &&
+      result["assets"][0]["uri"]
+    ) {
+      uri = result["assets"][0]["uri"];
+    } else {
+      alert("Error: No image found");
+      return;
+    }
 
-    if (!result.assets[0].uri.includes("data:image")) {
+    if (!uri.includes("data:image")) {
       Toast.show({
         type: "error",
         text1: "Error",
         text2: "You must select an image",
-        visibilityTime: 5000,
       });
       return;
     }
 
-    if (fileInfo.size ? fileInfo.size > 4000000 : false) {
+    if (Platform.OS !== "web") {
+      const fileInfo = await FileSystem.getInfoAsync(uri);
+      if (uri.includes("data:image")) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "You must select an image",
+        });
+        return;
+      }
+      /*       if (fileInfo && fileInfo.size ? fileInfo.size > 5000000 : false) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Maximum file size of 5 Mb exceeded",
+        });
+        return;
+      } */
+    }
+
+    try {
+      const response = await API.s3bucket.postToS3(
+        uri,
+        user.id.toString(),
+        ".jpg"
+      );
+      setHasProfilePicture(true);
+      Toast.show({
+        type: "success",
+        text2:
+          "Profile picture uploaded. Save profile to see the new profile picture",
+        visibilityTime: 4000,
+      });
+    } catch (error) {
       Toast.show({
         type: "error",
         text1: "Error",
-        text2: "Maximum file size of 4 Mb exceeded",
-        visibilityTime: 5000,
+        text2: "Something went wrong",
       });
-      return;
     }
-
-    await API.s3bucket
-      .postToS3(result.assets[0]["uri"], user.id.toString(), ".jpg")
-      .catch((e) => {
-        console.log(e);
-      });
-    setHasProfilePicture(true);
-    Toast.show({
-      type: "success",
-      text2:
-        "Profile picture uploaded. Save profile to see the new profile picture",
-      visibilityTime: 5000,
-    });
   };
 
   const removeProfilePicture = async () => {
@@ -130,7 +159,6 @@ export default function EditUserProfile({
       Toast.show({
         type: "error",
         text1: "You have no profile picture",
-        visibilityTime: 5000,
       });
     } else {
       await API.s3bucket.deleteOnS3(user.id.toString(), ".jpg");
@@ -138,19 +166,19 @@ export default function EditUserProfile({
       Toast.show({
         type: "success",
         text2: "Profile picture deleted. Save profile to see the changes",
-        visibilityTime: 5000,
+        visibilityTime: 3000,
       });
     }
   };
+
   const setCV = async () => {
     let resultFile = await DocumentPicker.getDocumentAsync({});
     if (resultFile.type == "success") {
       if (
         resultFile.mimeType == "application/pdf" &&
-        (resultFile.size ? resultFile.size < 2000000 : false)
+        (resultFile.size ? resultFile.size < 10000000 : false)
       ) {
         const r = resultFile.uri;
-        console.log(JSON.stringify(r));
         try {
           const res = await API.s3bucket.postToS3(
             r,
@@ -171,8 +199,9 @@ export default function EditUserProfile({
         Toast.show({
           type: "error",
           text1: "Error",
-          text2: "File needs to be in PDF format and must be smaller than 2 Mb",
-          visibilityTime: 5000,
+          text2:
+            "File needs to be in PDF format and must be smaller than 10 Mb",
+          visibilityTime: 4000,
         });
       }
     }
@@ -184,7 +213,6 @@ export default function EditUserProfile({
       Toast.show({
         type: "success",
         text2: "CV deleted",
-        visibilityTime: 5000,
       });
       if (dto.valueOf() == true) {
         setCvURL(false);
@@ -196,7 +224,6 @@ export default function EditUserProfile({
         type: "error",
         text1: "Error",
         text2: "Something went wrong",
-        visibilityTime: 5000,
       });
     }
   };
@@ -213,7 +240,7 @@ export default function EditUserProfile({
       <View style={styles.container}>
         <ProfilePicture url={user.profilePictureUrl} />
 
-        <ArkadButton onPress={setProfilePicture}>
+        <ArkadButton onPress={setProfilePicture} style={{ width: "50%" }}>
           {hasProfilePicture ? (
             <ArkadText text="Change profile picture" />
           ) : (
@@ -221,13 +248,16 @@ export default function EditUserProfile({
           )}
         </ArkadButton>
         {hasProfilePicture && (
-          <ArkadButton onPress={removeProfilePicture} style={styles.hasCv}>
+          <ArkadButton
+            onPress={removeProfilePicture}
+            style={styles.hasCv && { width: "50%" }}
+          >
             <ArkadText text="Remove profile picture" />
           </ArkadButton>
         )}
         <ArkadButton
           onPress={setCV}
-          style={{ backgroundColor: Colors.arkadTurkos }}
+          style={{ backgroundColor: Colors.arkadTurkos, width: "50%" }}
         >
           {hasCv ? (
             <ArkadText
@@ -242,14 +272,17 @@ export default function EditUserProfile({
           )}
         </ArkadButton>
         {hasCv && (
-          <ArkadButton onPress={deleteCV} style={styles.hasCv}>
+          <ArkadButton
+            onPress={deleteCV}
+            style={styles.hasCv && { width: "50%" }}
+          >
             <ArkadText text="Delete CV" />
           </ArkadButton>
         )}
         {hasCv && (
           <ArkadButton
             onPress={downloadCV}
-            style={{ backgroundColor: Colors.arkadTurkos }}
+            style={{ backgroundColor: Colors.arkadTurkos, width: "50%" }}
           >
             <ArkadText text="Download CV" />
           </ArkadButton>
@@ -259,7 +292,7 @@ export default function EditUserProfile({
         <TextInput
           style={styles.textInput}
           value={firstName ? firstName : ""}
-          placeholder="John"
+          placeholder="e.g John"
           onChangeText={setFirstName}
         />
 
@@ -267,7 +300,7 @@ export default function EditUserProfile({
         <TextInput
           style={styles.textInput}
           value={lastName ? lastName : ""}
-          placeholder="Doe"
+          placeholder="e.g Doe"
           onChangeText={setLastName}
         />
 
@@ -275,7 +308,7 @@ export default function EditUserProfile({
         <TextInput
           style={styles.textInput}
           value={phoneNr ? phoneNr : ""}
-          placeholder="076-1234567"
+          placeholder="e.g 076-1234567"
           onChangeText={setPhoneNr}
         />
 
@@ -283,7 +316,7 @@ export default function EditUserProfile({
         <TextInput
           style={styles.textInput}
           value={foodPreferences ? foodPreferences : ""}
-          placeholder="Vegetarian"
+          placeholder="e.g Vegetarian"
           onChangeText={setFoodPreferences}
         />
 
@@ -331,7 +364,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     borderColor: Colors.white,
     color: Colors.white,
-    placeholderTextColor: Colors.lightGray,
+    placeholderTextColor: "#404040",
   },
   inputLabel: {
     color: Colors.white,

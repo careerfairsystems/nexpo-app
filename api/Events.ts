@@ -21,6 +21,8 @@ export function formatTime(date: string, start: string, end: string): string {
   if (date == "") {
     return "";
   }
+  start = start.substring(0, 5);
+  end = end.substring(0, 5);
   var clock: string = start + " - " + end;
   var d: Date = new Date(date);
   try {
