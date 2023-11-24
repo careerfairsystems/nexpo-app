@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { View, Text } from "../Themed";
-import Colors from "constants/Colors";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { ScrollView, StyleSheet } from "react-native";
-import { ArkadText } from "components/StyledText";
+import Colors from "constants/Colors";
+import { ArkadText, SelectableArkadText } from "components/StyledText";
 import { API } from "api/API";
 import { Contact } from "api/Contacts";
 
@@ -18,9 +18,16 @@ export default function Contacts() {
     setContacts(contacts);
   }
 
+  const handlePhoneNumberPress = (phoneNumber: string) => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+
   return (
     <ScrollView style={styles.container}>
-      <ArkadText text={"Contacts"} style={styles.header} />
+      <ArkadText
+        text={"Click on the Phone number to access it on your phone"}
+        style={styles.header}
+      />
       {contacts?.reverse().map((contact) => (
         <View key={contact.id} style={styles.contactContainer}>
           <ArkadText text={contact.roleInArkad} style={styles.role} />
@@ -29,7 +36,14 @@ export default function Contacts() {
             style={styles.text}
           />
           <ArkadText text={contact.email} style={styles.text} />
-          <ArkadText text={contact.phoneNumber} style={styles.text} />
+          <TouchableOpacity
+            onPress={() => handlePhoneNumberPress(contact.phoneNumber)}
+          >
+            <SelectableArkadText
+              text={contact.phoneNumber}
+              style={styles.text}
+            />
+          </TouchableOpacity>
         </View>
       ))}
       <ArkadText
@@ -42,13 +56,13 @@ export default function Contacts() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16, // Adjust the padding for the container
+    padding: 16,
     backgroundColor: Colors.arkadNavy,
   },
   header: {
     fontSize: 30,
     color: Colors.white,
-    marginBottom: 12, // Add margin to separate header from contacts
+    marginBottom: 12,
     textAlign: "center",
   },
   role: {
@@ -63,6 +77,6 @@ const styles = StyleSheet.create({
   contactContainer: {
     backgroundColor: Colors.arkadNavy,
     padding: 8,
-    marginBottom: 5, // Add margin between contact containers
+    marginBottom: 5,
   },
 });

@@ -1,6 +1,5 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
-
+import { ActivityIndicator, Dimensions, Image, StyleSheet } from "react-native";
 import { View } from "components/Themed";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { API } from "api/API";
@@ -21,6 +20,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import Colors from "constants/Colors";
 import Toast from "react-native-toast-message";
+import { useWindowDimensions } from "react-native";
 
 type SSsNavigation = {
   navigation: StackNavigationProp<SSsStackParamlist, "SSsListScreen">;
@@ -41,6 +41,9 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
   const [accepted, setAccepted] = React.useState<ApplicationAcceptedDto | null>(
     null
   );
+  const [toggleMap, setToggleMap] = React.useState<boolean>(false);
+  const [isImageLoaded, setIsImageLoaded] = React.useState(false);
+  const { height, width } = useWindowDimensions();
 
   const getTimeslotsAndCompany = async () => {
     const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(id);
@@ -89,6 +92,10 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
     }, [])
   );
 
+  function handleImageLoad() {
+    setIsImageLoaded(true);
+  }
+
   if (isLoading || company == null || user == null) {
     return <ScreenActivityIndicator />;
   }
@@ -122,6 +129,43 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
                 text={"You have been accepted! \n Book a timeslot below."}
               />
             )}
+            {accepted?.accepted && (
+              <ArkadButton
+                onPress={() => {
+                  setToggleMap(!toggleMap);
+                }}
+                style={styles.map}
+              >
+                <ArkadText
+                  text={toggleMap ? "Hide map" : "See map for Student Sessions"}
+                />
+              </ArkadButton>
+            )}
+            {toggleMap && (
+              <View style={styles.container}>
+                {isImageLoaded && toggleMap ? null : (
+                  <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={Colors.white} />
+                    <ArkadText text="Loading..." style={styles.loadingText} />
+                  </View>
+                )}
+                <Image
+                  source={{
+                    uri: "https://cvfiler.s3.eu-north-1.amazonaws.com/SSMap.png",
+                  }}
+                  style={{
+                    ...styles.image,
+                    height: width * 1.2,
+                    width: width * 0.95,
+                  }}
+                  onLoad={handleImageLoad}
+                  onError={(error) => {
+                    console.error("Image loading error: ", error);
+                  }}
+                  resizeMode="contain"
+                ></Image>
+              </View>
+            )}
           </>
         }
         ListFooterComponent={
@@ -146,12 +190,35 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 10,
   },
+  image: {
+    alignSelf: "center",
+  },
   container: {
     alignItems: "center",
     backgroundColor: Colors.arkadNavy,
   },
+  loadingContainer: {
+    marginTop: "10%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "3%",
+  },
+  loadingText: {
+    paddingTop: 15,
+    color: Colors.white,
+    fontSize: 32,
+  },
   button: {
     width: "60%",
     alignSelf: "center",
+    backgroundColor: Colors.arkadOrange,
+    borderRadius: 55,
+    justifyContent: "center",
+  },
+  map: {
+    width: "65%",
+    alignSelf: "center",
+    marginBottom: 10,
   },
 });

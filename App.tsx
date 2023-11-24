@@ -73,28 +73,8 @@ export default function App() {
 
   useEffect(() => {
     checkVersion();
-  }, []);
 
-  if (!__DEV__) {
-    // Register background handler
-    messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
-      console.log("Message handled in the background!", remoteMessage);
-    });
-    AppRegistry.registerComponent("se.arkadtlth.nexpo", () => App);
-
-    const linking = {
-      prefixes: [prefix],
-    };
-
-    messaging()
-      .subscribeToTopic("weather")
-      .then(() => console.log("Subscribed to topic!"));
-
-    messaging()
-      .unsubscribeFromTopic("weather")
-      .then(() => console.log("Unsubscribed fom the topic!"));
-
-    useEffect(() => {
+    if (!__DEV__) {
       async function requestUserPermission() {
         const authStatus = await messaging().requestPermission();
         const enabled =
@@ -108,28 +88,70 @@ export default function App() {
           const fcmToken = await messaging().getToken();
           if (fcmToken) {
             console.log("Your Firebase Cloud Messaging token is:", fcmToken);
-            const register: RegisterUserDTO = {
-              token: fcmToken,
-              topic: "all",
-            };
 
-            const response = API.firebase.registerFirebase(register);
-            console.log("Firebase: ", response);
+            // Subscribe to the "all" topic
+            await messaging()
+              .subscribeToTopic("All")
+              .then(() => console.log("Subscribed to 'All' topic!"));
+
+            // Register the token for the "all" topic with the backend
+            try {
+              const allRegister: RegisterUserDTO = {
+                Token: fcmToken,
+                Topic: "All", // This should match the topic defined in your backend
+              };
+              const allResponse = await API.firebase.registerFirebase(
+                allRegister
+              );
+              console.log(
+                "Firebase 'All' registration response: ",
+                allResponse
+              );
+            } catch (error) {
+              console.error("Error during Firebase All' registration:", error);
+            }
+
+            // Subscribe to the "volunteer" topic
+            await messaging()
+              .subscribeToTopic("arkad")
+              .then(() => console.log("Subscribed to 'arkad' topic!"));
+
+            // Register the token for the "volunteer" topic with the backend
+            try {
+              const volunteerRegister: RegisterUserDTO = {
+                Token: fcmToken,
+                Topic: "arkad", // This should match the topic defined in your backend
+              };
+              const volunteerResponse = await API.firebase.registerFirebase(
+                volunteerRegister
+              );
+              console.log(
+                "Firebase 'arkad' registration response: ",
+                volunteerResponse
+              );
+            } catch (error) {
+              console.error(
+                "Error during Firebase 'arkad' registration:",
+                error
+              );
+            }
           } else {
             console.log("Failed to get FCM token");
           }
         }
       }
 
-      requestUserPermission();
-
       const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
-        Alert.alert("A new FCM message arrived!");
-        console.log(JSON.stringify(remoteMessage));
+        Alert.alert(
+          "A new FCM message arrived!",
+          JSON.stringify(remoteMessage)
+        );
       });
-      return unsubscribe;
-    }, []);
-  }
+
+      requestUserPermission();
+      unsubscribe();
+    }
+  }, []);
 
   return (
     <AppLoader>

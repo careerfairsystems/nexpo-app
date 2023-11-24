@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { StyleSheet, ImageBackground, Text } from "react-native";
+import { StyleSheet, ImageBackground, ActivityIndicator } from "react-native";
 import {
   EMap,
   KarhusetMap,
@@ -14,6 +14,7 @@ import { MapStackParamList } from "./MapNavigator";
 import { ArkadButton } from "components/Buttons";
 import Colors from "constants/Colors";
 import { ArkadText } from "components/StyledText";
+import { is } from "date-fns/locale";
 
 export type mapNavigation = {
   navigation: StackNavigationProp<MapStackParamList, "MapScreen">;
@@ -21,22 +22,36 @@ export type mapNavigation = {
 };
 
 export default function MapScreen({ navigation }: mapNavigation) {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   function openMap(map: Map) {
     navigation.navigate("ZoomMapScreen", { map });
   }
 
+  function handleImageLoad() {
+    setIsImageLoaded(true);
+  }
+
   return (
     <View style={styles.container}>
-      <ArkadText
-        text={"Click on a building to view its map!"}
-        style={styles.title}
-      />
+      {!isImageLoaded ? null : (
+        <ArkadText
+          text={"Click on a building to view its map!"}
+          style={styles.title}
+        />
+      )}
       <ImageBackground
         resizeMode="contain"
         source={{ uri: FairMap.props.images[0].props.source }}
-        defaultSource={FairMap.props.images[0].props.defaultSource}
         style={styles.image}
+        onLoad={handleImageLoad}
       >
+        {isImageLoaded ? null : (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={Colors.white} />
+            <ArkadText text="Loading map ..." style={styles.loadingText} />
+          </View>
+        )}
         <ArkadButton
           style={styles.karbutton}
           onPress={() => openMap(KarhusetMap)}
@@ -66,6 +81,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: Colors.arkadNavy,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    paddingTop: 15,
+    color: Colors.white,
+    fontSize: 32,
   },
   image: {
     flex: 1,

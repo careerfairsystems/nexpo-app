@@ -32,7 +32,7 @@ import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText, NoButton } from "components/StyledText";
 import QRCode from "react-native-qrcode-svg";
-import { format, set, subDays } from "date-fns";
+import { format, set, subDays, parse } from "date-fns";
 import { Picker } from "@react-native-picker/picker";
 import Toast from "react-native-toast-message";
 import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
@@ -48,6 +48,8 @@ export default function EventDetailsScreen(id: number) {
   const [wantTakeaway, setWantTakeaway] = useState(false);
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [update, setUpdate] = useState(true);
+
+  const [currentDate, setCurrentDate] = useState("");
 
   const [lunchtimes, setLunchtimes] = useState(LUNCHTIMES);
   const [takeawayOpen, takeawaySetOpen] = useState(false);
@@ -100,6 +102,19 @@ export default function EventDetailsScreen(id: number) {
     }
   };
 
+  const getDate = async () => {
+    let month = new Date().getMonth();
+    let day = new Date().getDate();
+    let hours = new Date().getHours();
+    let minutes = new Date().getMinutes();
+    if (minutes < 10) {
+      const new_minutes = "0" + String(minutes);
+      setCurrentDate(day + "/" + month + " " + hours + ":" + new_minutes);
+    } else {
+      setCurrentDate(day + "/" + month + " " + hours + ":" + minutes);
+    }
+  };
+
   const createTicket = async () => {
     setLoading(true);
 
@@ -134,8 +149,6 @@ export default function EventDetailsScreen(id: number) {
       temp_ticket = await API.tickets.createTicket(ticketRequest);
       setTicket(temp_ticket);
     }
-
-    console.log(ticket);
 
     if (update && wantTakeaway) {
       let eventTime = event?.date;
@@ -192,14 +205,70 @@ export default function EventDetailsScreen(id: number) {
   };
 
   useEffect(() => {
-    setLoading(true);
-    getEvent();
-    setLoading(false);
+    const fetchData = async () => {
+      setLoading(true);
+      await getEvent();
+      await getDate();
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
+
+  function getMonthName(monthNumber: number) {
+    const date = new Date();
+    date.setMonth(monthNumber);
+
+    return date.toLocaleString("en-US", {
+      month: "long",
+    });
+  }
+
+  const validTime = () => {
+    if (!event?.date || !event?.start || !event?.end) return false;
+    if (currentDate === "") return false;
+
+    const event_formated = API.events.formatTime(
+      event?.date,
+      event?.start,
+      event?.end
+    );
+    const event_date = event_formated.slice(0, 6);
+    const event_start = event_formated.slice(10, 15);
+    const event_end = event_formated.slice(18, 23);
+
+    const split = currentDate.split("/");
+    const month = split[1].split(" ")[0];
+    const date =
+      String(getMonthName(Number(month))).slice(0, 3) + " " + split[0];
+    const time = split[1].split(" ")[1];
+
+    let upd_event_date;
+    if (event_date[5] === " ") {
+      upd_event_date = event_date.slice(0, event_date.length - 1);
+    } else {
+      upd_event_date = event_date;
+    }
+    let dateParts = upd_event_date.split(" ");
+    dateParts[1] = String(Number(dateParts[1]) - 2);
+    upd_event_date = dateParts.join(" ");
+
+    const parseDate = (dateStr: string) => {
+      return parse(dateStr, "MMM d HH:mm", new Date());
+    };
+
+    const date1 = parseDate(upd_event_date + " " + event_start);
+    const date2 = parseDate(date + " " + time);
+
+    const isSecondDateLater = date2 < date1;
+
+    return isSecondDateLater;
+  };
 
   if (loading || !event) {
     return <ScreenActivityIndicator />;
   }
+
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
@@ -357,6 +426,11 @@ export default function EventDetailsScreen(id: number) {
             text="No tickets Left. Drop-in available"
             style={styles.consumedText}
           />
+        ) : event && !validTime() ? (
+          <NoButton
+            text="Last day to register have passed"
+            style={styles.consumedText}
+          />
         ) : (
           <>
             <ArkadButton onPress={createTicket} style={styles.bookButton}>
@@ -397,6 +471,21 @@ export default function EventDetailsScreen(id: number) {
               },
             ]}
           >
+            {event?.date && event?.start && event?.end && (
+              <ArkadText
+                text={API.events.formatTime(
+                  event?.date,
+                  event?.start,
+                  event?.end
+                )}
+                style={
+                  styles.ticketTitle && {
+                    color: ticket?.isConsumed ? Colors.white : Colors.arkadNavy,
+                    fontSize: 30,
+                  }
+                }
+              />
+            )}
             {ticket && (
               <QRCode
                 size={Dimensions.get("window").width * 0.75}

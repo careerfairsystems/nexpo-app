@@ -87,7 +87,7 @@ export default function AdminTab() {
     });
   };
 
-  const send = () => {
+  const send = async () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Ensure two digits for the month
@@ -115,7 +115,7 @@ export default function AdminTab() {
         user?.firstName +
         " " +
         user?.lastName,
-      topic: "arkad",
+      topic: "Volunteer",
     };
 
     sendNotification(messageToSend);
@@ -126,7 +126,7 @@ export default function AdminTab() {
     setText("");
     setTitle("");
     setCommitteeValue([]);
-    alert("Message sent!");
+    alert("Success!");
   };
 
   const changeUserRole = () => {
@@ -238,7 +238,7 @@ export default function AdminTab() {
         multiline={false}
         textAlign="left"
       />
-      <ArkadButton onPress={changeUserRole} style={styles.buttonContainer1}>
+      <ArkadButton onPress={changeUserRole} style={styles.buttonContainer2}>
         <ArkadText text="Change" style={styles.buttonText} />
       </ArkadButton>
     </ScrollView>
@@ -294,6 +294,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: "4%",
     marginBottom: "2%",
+    width: "45%",
+  },
+  buttonContainer2: {
+    alignSelf: "center",
+    padding: "4%",
+    marginBottom: "10%",
     width: "45%",
   },
   centeredViewCommittee: {

@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
   },
   eventName: {
     flex: 1,
+    flexWrap: "wrap",
     fontSize: 22,
     textAlign: "left",
     color: Colors.arkadNavy,

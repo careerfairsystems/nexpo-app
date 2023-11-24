@@ -5,7 +5,9 @@ import { StyleSheet, TextStyle } from "react-native";
 import Colors from "constants/Colors";
 
 export function DefaultText(props: TextProps) {
-  return <Text {...props} style={[props.style, { fontFamily: "main-font-bold" }]} />;
+  return (
+    <Text {...props} style={[props.style, { fontFamily: "main-font-bold" }]} />
+  );
 }
 
 interface textProps {
@@ -15,6 +17,13 @@ interface textProps {
 
 export function ArkadText(props: textProps) {
   return <Text style={[styles.text, props.style]}>{props.text}</Text>;
+}
+export function SelectableArkadText(props: textProps) {
+  return (
+    <Text style={[styles.text, props.style]} selectable>
+      {props.text}
+    </Text>
+  );
 }
 export function NoButton(props: textProps) {
   return <Text style={[styles.acceptedText, props.style]}>{props.text}</Text>;

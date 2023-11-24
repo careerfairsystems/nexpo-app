@@ -23,6 +23,9 @@ export default {
     scheme: "se.arkadtlth.nexpo",
     target: 'nexpoapp',
     buildNumber: "2.0.0",
+    plugins: [
+      "@react-native-firebase/app"
+    ],
     supportsTablet: true,
     infoPlist: {
       NSCameraUsageDescription: "Camera access is needed for the QR-code scanning functionality",
@@ -43,7 +46,7 @@ export default {
     "env": {
       "ANDROID_HOME": "/Users/victormikkelsen/Library/Android/sdk"
     },
-    versionCode: 116,
+    versionCode: 177,
     scheme: "se.arkadtlth.nexpo",
     adaptiveIcon: {
       foregroundImage: "./assets/images/android_icon.png",
@@ -71,6 +74,7 @@ export default {
     slug: "nexpo-app",
     version: "1.0.0",
     sdkVersion: "48.0.0",
+    googleServicesFile: "./google-services.json",
     platforms: [
       "ios",
       "android",

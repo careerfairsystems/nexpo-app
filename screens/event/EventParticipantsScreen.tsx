@@ -31,11 +31,24 @@ export default function EventParticipantsScreen(
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [tickets, setTickets] = React.useState<TicketDto[] | null>(null);
   const [event, setEvent] = React.useState<Event | null>(null);
+  const [consumed, setConsumed] = React.useState<number>(0);
+  const [total, setTotal] = React.useState<number>(0);
 
   const getTickets = async () => {
     const tkts = await API.tickets.getAllTicketsForEvent(id);
     setTickets(tkts);
+
+    let consumed = 0;
+    const total = tkts.length;
+    tkts.forEach((item, index) => {
+      if (item["ticket"]["isConsumed"]) {
+        consumed++;
+      }
+    });
+    setTotal(total);
+    setConsumed(consumed);
   };
+
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
     setEvent(event);
@@ -63,6 +76,7 @@ export default function EventParticipantsScreen(
         />
       </View>
       <ScanQRButton onPress={() => navigation.navigate("QRScreen", { id })} />
+      <ArkadText text={consumed + "/" + total} style={styles.count} />
       <StudentTicketList tickets={tickets} />
     </View>
   );
@@ -77,11 +91,17 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: Colors.arkadTurkos,
   },
+  count: {
+    justifyContent: "center",
+    fontSize: 24,
+    color: Colors.white,
+  },
   titleContainer: {
     width: "90%",
     height: 80,
     justifyContent: "center",
     backgroundColor: Colors.arkadNavy,
+    marginTop: 10,
   },
   container: {
     alignItems: "center",
