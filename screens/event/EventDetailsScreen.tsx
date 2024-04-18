@@ -87,6 +87,14 @@ export default function EventDetailsScreen(id: number) {
       format(stopSellingDate, "d LLL") + " - " + event.start.substring(0, 5)
     );
   };
+  
+  const eventExpired = () => {
+    if (!event?.start) return false;
+    const eventTime = new Date(event.date);
+    const stopSellingDate = subDays(eventTime, 2);
+    const today = new Date();
+    return today > stopSellingDate;
+  }
 
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
@@ -431,7 +439,7 @@ export default function EventDetailsScreen(id: number) {
             text="Last day to register have passed"
             style={styles.consumedText}
           />
-        ) : (
+        ) : !eventExpired && (
           <>
             <ArkadButton onPress={createTicket} style={styles.bookButton}>
               <ArkadText text="Register to event" style={styles.title} />
