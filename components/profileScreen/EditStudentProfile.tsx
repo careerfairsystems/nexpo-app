@@ -50,7 +50,13 @@ export default function EditStudentProfile({
 
   const _setLinkedIn = (text: string) => {
     setLinkedIn(text);
-    if (text.length > 0 && !text.startsWith("https://www.linkedin.com/in/")) {
+    if(text.includes("..")){
+      setEditStatus({
+        ok: false,
+        message: 'LinkedIn link can not contain ".."'
+      });
+    }
+    else if ((text.length > 0 && !text.startsWith("https://www.linkedin.com/in/"))) {
       setEditStatus({
         ok: false,
         message: "LinkedIn Needs to start with: https://www.linkedin.com/in/",
