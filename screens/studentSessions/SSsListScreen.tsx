@@ -46,7 +46,8 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
   const { height, width } = useWindowDimensions();
 
   const getTimeslotsAndCompany = async () => {
-    const ssTimeslots = await API.studentSessions.getTimeslotsByCompanyId(id);
+    const ssTimeslots = (await API.studentSessions.getTimeslotsByCompanyId(id))
+    .filter(obj => new Date(obj.end) > new Date());
     const company = await API.companies.getCompany(id);
     const user = await getMe();
     const acc =
