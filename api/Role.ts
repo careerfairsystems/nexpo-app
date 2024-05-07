@@ -22,7 +22,7 @@ export const updateRole = async (userName: string, role: Role | null): Promise<U
 
   // Find user id for /role/<id> endpoint from email
   const usersResponse = await getAuth('/users');
-  const usersJson = await usersResponse.json();
+  const usersJson = await usersResponse?.json();
   const users = usersJson as User[];
   const userId = users.find(usr => usr.email === userName)?.id;
 
@@ -36,7 +36,7 @@ export const updateRole = async (userName: string, role: Role | null): Promise<U
     return null;
 
   const response = await putAuth(`/role/${userId}`, dto);
-  const json = await response.json();
+  const json = await response?.json();
   const user = json as User;
 
   alert("Role update successful!")

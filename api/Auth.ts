@@ -6,8 +6,9 @@ import { Role } from "./Role";
 export const login = async (email: string, password: string): Promise<Response> => {
   const result = await post("/session/signin", { email, password });
 
+  if (!result) return {status: 400} as Response;
   if (!result.ok) return result;
-
+  
   const jwt = (await result.json()).token;
   await AuthState.setJwt(jwt);
 
@@ -52,10 +53,10 @@ export const logout = async (): Promise<void> => {
 
 export const forgotPassword = async (email: string): Promise<boolean> => {
   const response = await post("/session/forgot_password", { email });
-  return response.ok;
+  return response !== undefined;
 };
 
 export const resetPassword = async (token: string, password: string): Promise<boolean> => {
   const response = await post("/session/reset_password", { token, password });
-  return response.ok;
+  return response !== undefined;
 };

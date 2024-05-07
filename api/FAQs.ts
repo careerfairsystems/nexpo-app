@@ -8,7 +8,7 @@ export interface FAQs {
 
 export const faq = async (): Promise<FAQs[]> => {
 	const response = await getAuth("/faq");
-	const json = await response.json();
+	const json = await response?.json();
 	const faq = json as FAQs[];
 	return faq;
 };

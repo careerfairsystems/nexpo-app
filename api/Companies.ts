@@ -91,7 +91,7 @@ export interface UpdateCompanyDto extends UpdateCompanySelfDto {
  */
 export const getAll = async (): Promise<PublicCompanyDto[]> => {
   const response = await getAuth("/companies");
-  const json = await response.json();
+  const json = await response?.json();
   const companies = json as PublicCompanyDto[];
   return companies;
 };
@@ -101,7 +101,7 @@ export const getAll = async (): Promise<PublicCompanyDto[]> => {
  */
 export const getCompany = async (companyId: number): Promise<PublicCompanyDto> => {
   const response = await getAuth(`/companies/${companyId}`);
-  const json = await response.json();
+  const json = await response?.json();
   const company = json as PublicCompanyDto;
   return company;
 };
@@ -111,7 +111,7 @@ export const getCompany = async (companyId: number): Promise<PublicCompanyDto> =
  */
 export const updateCompany = async (companyId: number, dto: UpdateCompanyDto): Promise<Company> => {
   const response = await putAuth(`/companies/${companyId}`, dto);
-  const json = await response.json();
+  const json = await response?.json();
   const company = json as Company;
   return company;
 };
@@ -121,7 +121,7 @@ export const updateCompany = async (companyId: number, dto: UpdateCompanyDto): P
  */
 export const getMe = async (): Promise<Company> => {
   const response = await getAuth("/companies/me");
-  const json = await response.json();
+  const json = await response?.json();
   const company = json as Company;
   return company;
 };
@@ -131,7 +131,7 @@ export const getMe = async (): Promise<Company> => {
  */
 export const updateMe = async (dto: UpdateCompanySelfDto): Promise<Company> => {
   const response = await putAuth("/companies/me", dto);
-  const json = await response.json();
+  const json = await response?.json();
   const company = json as Company;
   return company;
 };

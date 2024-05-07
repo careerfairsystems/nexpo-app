@@ -11,7 +11,7 @@ export interface Contact {
 
 export const contacts = async (): Promise<Contact[]> => {
 	const response = await getAuth("/contacts");
-	const json = await response.json();
+	const json = await response?.json();
 	const contacts = json as Contact[];
 	return contacts;
 };

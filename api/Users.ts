@@ -32,7 +32,7 @@ export interface UpdateUserDto {
  */
 export const getAllUsers = async (): Promise<User[]> => {
   const response = await getAuth("/users");
-  const json = await response.json();
+  const json = await response?.json();
   const users = json as User[];
   return users;
 };
@@ -42,7 +42,7 @@ export const getAllUsers = async (): Promise<User[]> => {
  */
 export const getUser = async (userId: number): Promise<User> => {
   const response = await getAuth(`/users/${userId}`);
-  const json = await response.json();
+  const json = await response?.json();
   const user = json as User;
   return user;
 };
@@ -52,7 +52,7 @@ export const getUser = async (userId: number): Promise<User> => {
  */
 export const updateUser = async (userId: number, dto: UpdateUserDto): Promise<User> => {
   const response = await putAuth(`/users/${userId}`, dto);
-  const json = await response.json();
+  const json = await response?.json();
   const user = json as User;
   return user;
 };
@@ -62,7 +62,7 @@ export const updateUser = async (userId: number, dto: UpdateUserDto): Promise<Us
  */
 export const removeUser = async (userId: number): Promise<boolean> => {
   const response = await deleteAuth(`/users/${userId}`);
-  return response.ok;
+  return response !== undefined;
 };
 
 /**
@@ -70,7 +70,7 @@ export const removeUser = async (userId: number): Promise<boolean> => {
  */
 export const getMe = async (): Promise<User> => {
   const response = await getAuth("/users/me");
-  const json = await response.json();
+  const json = await response?.json();
   const user = json as User;
   return user;
 };
@@ -80,7 +80,7 @@ export const getMe = async (): Promise<User> => {
  */
 export const updateMe = async (dto: UpdateUserDto): Promise<User> => {
   const response = await putAuth("/users/me", dto);
-  const json = await response.json();
+  const json = await response?.json();
   const user = json as User;
   return user;
 };
@@ -90,7 +90,7 @@ export const updateMe = async (dto: UpdateUserDto): Promise<User> => {
  */
 export const removeMe = async (): Promise<boolean> => {
   const response = await deleteAuth("/users/me");
-  return response.ok;
+  return response !== undefined;
 };
 
 /**
