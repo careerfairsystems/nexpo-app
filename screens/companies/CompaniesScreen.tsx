@@ -20,7 +20,7 @@ import CompaniesModal from "components/companies/CompaniesModal";
 import { ArkadButton } from "components/Buttons";
 import { toggleAnimation } from "../../animations/toggleAnimation";
 import { ArkadText } from "components/StyledText";
-import { INDUSTRIES, POSITIONS, PROGRAMS } from "components/companies/DroppdownItems";
+import { filterData } from "components/companies/filterCompanies";
 
 type companiesNavigation = {
   navigation: StackNavigationProp<CompanyStackParamList, "CompaniesScreen">;
@@ -74,43 +74,6 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
       if (b.name === "Accenture") return 1;
       return 0;
     });
-  };
-
-  /* TODO: Missing location search (and refactoring!) */
-  const filterData = (query: string, data: PublicCompanyDto[] | null) => {
-    if (!data) return null;
-    else if (!query) {
-      return data;
-    } else {
-      const querys = (query.split(/\s+/))
-        .filter(Boolean)
-        .map(s => s.toLowerCase());
-      const matchSomeQuery = (str: string) => (
-        querys.some(query => str.toLocaleLowerCase().includes(query))
-      )
-      const filterCategories = (categorie: Array<{ label: string, value: number }>) => (
-        categorie
-          .filter(({ label }) => (matchSomeQuery(label)))
-          .map(({ value }) => (value))
-      )
-      const companyHasCategory = (company: Array<number> | null, search: Array<number>) => (
-        company ? company.some(n => search.includes(n)) : false
-      )
-
-      const industriesSearch = filterCategories(INDUSTRIES)
-      const positionsSearch = filterCategories(POSITIONS)
-      const programsSearch = filterCategories(PROGRAMS)
-
-      return data.filter((company) => {
-        const companyMatch = matchSomeQuery(company.name)
-
-        const industriesMatch = companyHasCategory(company.industries, industriesSearch)
-        const positionsMatch = companyHasCategory(company.positions, positionsSearch)
-        const programsMatch = companyHasCategory(company.desiredProgramme, programsSearch)
-
-        return companyMatch || industriesMatch || positionsMatch || programsMatch
-      });
-    }
   };
 
   const sortedCompanies = sortCompanies(
