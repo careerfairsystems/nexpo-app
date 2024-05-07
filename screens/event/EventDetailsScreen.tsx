@@ -87,7 +87,7 @@ export default function EventDetailsScreen(id: number) {
       format(stopSellingDate, "d LLL") + " - " + event.start.substring(0, 5)
     );
   };
-  
+
   const eventExpired = () => {
     if (!event?.start) return false;
     const eventTime = new Date(event.date);
@@ -155,6 +155,10 @@ export default function EventDetailsScreen(id: number) {
         photoOk: true,
       };
       temp_ticket = await API.tickets.createTicket(ticketRequest);
+      if (typeof temp_ticket !== "object") {
+        setLoading(false);
+        return
+      }
       setTicket(temp_ticket);
     }
 
@@ -163,11 +167,11 @@ export default function EventDetailsScreen(id: number) {
       const dateTime = eventTime.split(" ");
       alert(
         "Registered to " +
-          event?.name +
-          " " +
-          dateTime[0] +
-          "\nTakeaway at " +
-          selectedTime
+        event?.name +
+        " " +
+        dateTime[0] +
+        "\nTakeaway at " +
+        selectedTime
       );
     } else {
       alert("Registered to " + event?.name + " " + event?.date);
@@ -339,16 +343,16 @@ export default function EventDetailsScreen(id: number) {
                 "You have booked takeaway at: " +
                 (ticket.takeAwayTime
                   ? (() => {
-                      const timeParts = ticket.takeAwayTime
-                        ?.toString()
-                        .split("T")[1]
-                        .split(":");
-                      const hours = (parseInt(timeParts[0]) + 2)
-                        .toString()
-                        .padStart(2, "0");
-                      const minutes = timeParts[1];
-                      return hours + ":" + minutes;
-                    })()
+                    const timeParts = ticket.takeAwayTime
+                      ?.toString()
+                      .split("T")[1]
+                      .split(":");
+                    const hours = (parseInt(timeParts[0]) + 2)
+                      .toString()
+                      .padStart(2, "0");
+                    const minutes = timeParts[1];
+                    return hours + ":" + minutes;
+                  })()
                   : "")
               }
               style={styles.title}
@@ -434,12 +438,12 @@ export default function EventDetailsScreen(id: number) {
             text="No tickets Left. Drop-in available"
             style={styles.consumedText}
           />
-        ) : event && !validTime() ? (
+        ) : false ? (
           <NoButton
             text="Last day to register have passed"
             style={styles.consumedText}
           />
-        ) : !eventExpired && (
+        ) : (
           <>
             <ArkadButton onPress={createTicket} style={styles.bookButton}>
               <ArkadText text="Register to event" style={styles.title} />

@@ -64,6 +64,9 @@ export const createTicket = async (TicketRequest: CreateTicketDto): Promise<Tick
   if (response.status === 403) {
     alert("Registration is closed for this event");
   }
+  if (response.status === 429) {
+    alert("Already registered to too many events");
+  }
   const json = await response.json();
   const ticket = json as Ticket;
   return ticket;
@@ -130,7 +133,7 @@ export const getTypeOfTicket = async (ticketId: number): Promise<TicketType> => 
   const type = json as TicketType;
 
   return type;
-} 
+}
 
 /**
  * Get the first available ticket with type ticketType
@@ -138,7 +141,7 @@ export const getTypeOfTicket = async (ticketId: number): Promise<TicketType> => 
  * @returns Ticket object of first found ticket
  * if exists, else null
  */
-export const getFirstTicketWithType = async(ticketType: TicketType): Promise<Ticket | null> => {
+export const getFirstTicketWithType = async (ticketType: TicketType): Promise<Ticket | null> => {
   const tickets = await getAllTickets();
   const types = await Promise.all(tickets.map((t) => getTypeOfTicket(t.id)));
   const indexOfMatching = types.indexOf(ticketType);
