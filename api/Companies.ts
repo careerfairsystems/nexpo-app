@@ -135,12 +135,3 @@ export const updateMe = async (dto: UpdateCompanySelfDto): Promise<Company> => {
   const company = json as Company;
   return company;
 };
-
-export const filterData = (query: string, data: PublicCompanyDto[] | null) => {
-  if (!data) return null;
-  else if (!query) {
-    return data;
-  } else {
-    return data.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
-  }
-};

@@ -20,6 +20,7 @@ import CompaniesModal from "components/companies/CompaniesModal";
 import { ArkadButton } from "components/Buttons";
 import { toggleAnimation } from "../../animations/toggleAnimation";
 import { ArkadText } from "components/StyledText";
+import { filterData } from "components/companies/filterCompanies";
 
 type companiesNavigation = {
   navigation: StackNavigationProp<CompanyStackParamList, "CompaniesScreen">;
@@ -76,7 +77,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
   };
 
   const sortedCompanies = sortCompanies(
-    API.companies.filterData(text, filteredCompanies)
+    filterData(text, filteredCompanies)
   );
 
   return (
@@ -107,7 +108,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
       <FlatList
         style={styles.list}
         nestedScrollEnabled={true}
-        onScrollBeginDrag={modalVisible ? () => toggleFilter() : () => {}}
+        onScrollBeginDrag={modalVisible ? () => toggleFilter() : () => { }}
         data={sortedCompanies}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: company }) => {
