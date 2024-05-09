@@ -2,9 +2,10 @@ import React from "react";
 import { Dimensions, Image, Pressable, StyleSheet, View } from "react-native";
 import Colors from "constants/Colors";
 
-import { PublicCompanyDto } from "api/Companies";
+import { Locations, PublicCompanyDto } from "api/Companies";
 import { ArkadText } from "../StyledText";
 import { TagsList } from "./TagsList";
+import { companyLocations } from "components/companies/CompanyLocationsMap";
 
 type CompanyListItemProps = {
   company: PublicCompanyDto;
@@ -17,15 +18,22 @@ export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => (
   >
     <Pressable onPress={onPress}>
       <View style={styles.row}>
-        <ArkadText text={company.name} style={styles.companyName} />
-        <Image
+      <Image
           source={
             company.logoUrl
               ? { uri: company.logoUrl }
-              : require("../../assets/images/adaptive-icon.png")
+              : require("../../assets/images/icon.png") //ADAPTIVE?
           }
           style={styles.logo}
+
         />
+        <View style={styles.column} >
+          <ArkadText text={company.name} style={styles.companyName} />
+          <ArkadText style={styles.companyLocation} text={(
+                Locations[companyLocations[company.id]] ?? "No data"
+              ).replace("_", "-")}
+          />
+        </View>
       </View>
     </Pressable>
     <TagsList company={company} />
@@ -35,25 +43,31 @@ export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     alignSelf: "center",
     marginTop: 10,
     marginHorizontal: 10,
     backgroundColor: Colors.white,
+    padding: 8,
     paddingTop: 12,
     borderRadius: 16,
-    borderWidth: 4,
-    borderColor: Colors.arkadOrange,
   },
   row: {
     flex: 1,
     justifyContent: "center", //Centered horizontally
     alignItems: "center", //Centered vertically
+    flexDirection: "row",
+  },
+  column: {
+    flex: 1,
+    justifyContent: "center", //Centered vertically
+    alignItems: "center", //Centered horizontally
     flexDirection: "column",
   },
   logo: {
-    width: "85%",
+    width: 64, //chansning
     height: Dimensions.get("window").height * 0.16,
     resizeMode: "contain",
   },
@@ -64,6 +78,13 @@ const styles = StyleSheet.create({
     padding: 0,
     marginHorizontal: 4,
     color: Colors.arkadNavy,
+  },
+  companyLocation: {
+    flex: 1,
+    fontSize: 8,
+    textAlign: "left",
+    padding: 0,
+    color: Colors.lightGray
   },
   accenture: {
     flex: 1,
