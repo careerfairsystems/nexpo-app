@@ -5,11 +5,19 @@ import { Industry, Position, PublicCompanyDto } from "api/Companies";
 import Colors from "constants/Colors";
 import { ArkadText } from "../StyledText";
 
+export enum ShowOptions {
+  All,
+  Industries,
+  Positions
+}
+
 type TagsListProps = {
-  company: PublicCompanyDto;
+  company: PublicCompanyDto,
+  showOptions?: ShowOptions
+  onlyFirst?: boolean
 };
 
-export const TagsList = ({ company }: TagsListProps) => {
+export const TagsList = ({ company, showOptions, onlyFirst }: TagsListProps) => {
   const allIndustries = company.industries ?? [];
   const industryTags = allIndustries.map((industry: Industry) => {
     return {
@@ -25,7 +33,28 @@ export const TagsList = ({ company }: TagsListProps) => {
     };
   });
 
-  const allTags = industryTags.concat(positionTags);
+
+  let allTags;
+  switch (showOptions) {
+    case ShowOptions.Industries: {
+      allTags = industryTags;
+      break;
+    }
+    case ShowOptions.Positions: {
+      allTags = positionTags;
+      break;
+    }
+    default: {
+      allTags = industryTags.concat(positionTags);
+      break;
+    }
+
+
+  }
+
+  if (onlyFirst) {
+    allTags = allTags.slice(0, 1);
+  }
 
   return (
     <View style={styles.container}>
@@ -48,15 +77,23 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 5,
+    // padding: 5,
   },
+  // item: {
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   // flex: 1,
+  //   borderRadius: 20,
+  //   margin: 3,
+  //   paddingHorizontal: 12,
+  //   // paddingVertical: 7,
+  // },
   item: {
-    alignItems: "center",
-    justifyContent: "flex-start",
+    height: "auto",
     borderRadius: 20,
-    margin: 3,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    
   },
   text: {
     color: Colors.white,

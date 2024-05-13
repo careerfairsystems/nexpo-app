@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+import { SearchBar } from "@rneui/base";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { View, Text } from "components/Themed";
 import { API } from "api/API";
@@ -21,6 +22,7 @@ import { ArkadButton } from "components/Buttons";
 import { toggleAnimation } from "../../animations/toggleAnimation";
 import { ArkadText } from "components/StyledText";
 import { filterData } from "components/companies/filterCompanies";
+
 
 type companiesNavigation = {
   navigation: StackNavigationProp<CompanyStackParamList, "CompaniesScreen">;
@@ -83,6 +85,9 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
+        {/* <SearchBar
+          placeholder="Sök efter företag..."
+        /> */}
         <TextInput
           style={styles.input}
           onChangeText={onChangeText}
@@ -90,14 +95,14 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
           placeholder={"Search for a company..."}
           placeholderTextColor={Colors.lightGray}
         />
-        <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()}>
+        {/* <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()}>
           {modalVisible ? (
             <Entypo name="chevron-thin-up" size={24} color="white" />
           ) : (
             <AntDesign name="filter" size={24} color="white" />
           )}
           {isFiltered && <View style={styles.filterBadge} />}
-        </ArkadButton>
+        </ArkadButton> */}
       </View>
       <CompaniesModal
         companies={companies ? companies : []}
