@@ -89,6 +89,7 @@ export default function App() {
 
     // Get the token
     const { data: expoPushToken } = await Notifications.getExpoPushTokenAsync();
+
     if (expoPushToken) {
       console.log("Your Expo push token is:", expoPushToken);
 
@@ -96,34 +97,17 @@ export default function App() {
       try {
         const allRegister: RegisterUserDTO = {
           Token: expoPushToken,
-          Topic: "All", // This should match the topic defined in your backend
+          userId: (await API.users.getMe()).id.toString()
         };
         const allResponse = await API.expo.registerExpo(allRegister);
         console.log(
-          "Expo 'All' registration response: ",
+          "Expo registration response: ",
           allResponse
         );
       } catch (error) {
         console.error("Error during Expo 'All' registration:", error);
       }
 
-      // Register the token for the "volunteer" topic with the backend
-      try {
-        const volunteerRegister: RegisterUserDTO = {
-          Token: expoPushToken,
-          Topic: "arkad", // This should match the topic defined in your backend
-        };
-        const volunteerResponse = await API.expo.registerExpo(volunteerRegister);
-        console.log(
-          "Expo 'arkad' registration response: ",
-          volunteerResponse
-        );
-      } catch (error) {
-        console.error(
-          "Error during Expo 'arkad' registration:",
-          error
-        );
-      }
     } else {
       console.log("Failed to get Expo push token");
     }
