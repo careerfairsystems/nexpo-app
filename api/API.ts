@@ -14,6 +14,7 @@ import * as SSO from "./SSO";
 import * as FAQs from "./FAQs";
 import * as Firebase from "./Firebase";
 import * as Volunteers from "./Volunteers";
+import * as Expo from './Expo';
 
 export class API {
   static auth = Auth;
@@ -32,4 +33,5 @@ export class API {
   static faqs = FAQs;
   static firebase = Firebase;
   static volunteers = Volunteers;
+  static expo = Expo; 
 }

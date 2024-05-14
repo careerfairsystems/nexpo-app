@@ -12,10 +12,12 @@ import messaging from "@react-native-firebase/messaging";
 import { useEffect } from "react";
 import { Alert, AppRegistry } from "react-native";
 import { API } from "api/API";
-import { RegisterUserDTO } from "api/Firebase";
 
 import * as Linking from "expo-linking";
+import * as Notifications from 'expo-notifications';
+
 import Colors from "constants/Colors";
+import { RegisterUserDTO } from "api/Expo";
 
 const prefix = Linking.createURL("/");
 
@@ -84,72 +86,34 @@ export default function App() {
         if (enabled) {
           console.log("Authorization status:", authStatus);
 
-          // Get the token
-          const fcmToken = await messaging().getToken();
-          if (fcmToken) {
-            console.log("Your Firebase Cloud Messaging token is:", fcmToken);
 
-            // Subscribe to the "all" topic
-            await messaging()
-              .subscribeToTopic("All")
-              .then(() => console.log("Subscribed to 'All' topic!"));
+    // Get the token
+    const { data: expoPushToken } = await Notifications.getExpoPushTokenAsync();
 
-            // Register the token for the "all" topic with the backend
-            try {
-              const allRegister: RegisterUserDTO = {
-                Token: fcmToken,
-                Topic: "All", // This should match the topic defined in your backend
-              };
-              const allResponse = await API.firebase.registerFirebase(
-                allRegister
-              );
-              console.log(
-                "Firebase 'All' registration response: ",
-                allResponse
-              );
-            } catch (error) {
-              console.error("Error during Firebase All' registration:", error);
-            }
+    if (expoPushToken) {
+      console.log("Your Expo push token is:", expoPushToken);
 
-            // Subscribe to the "volunteer" topic
-            await messaging()
-              .subscribeToTopic("arkad")
-              .then(() => console.log("Subscribed to 'arkad' topic!"));
-
-            // Register the token for the "volunteer" topic with the backend
-            try {
-              const volunteerRegister: RegisterUserDTO = {
-                Token: fcmToken,
-                Topic: "arkad", // This should match the topic defined in your backend
-              };
-              const volunteerResponse = await API.firebase.registerFirebase(
-                volunteerRegister
-              );
-              console.log(
-                "Firebase 'arkad' registration response: ",
-                volunteerResponse
-              );
-            } catch (error) {
-              console.error(
-                "Error during Firebase 'arkad' registration:",
-                error
-              );
-            }
-          } else {
-            console.log("Failed to get FCM token");
-          }
-        }
+      // Register the token with the backend
+      try {
+        const allRegister: RegisterUserDTO = {
+          Token: expoPushToken,
+          userId: (await API.users.getMe()).id.toString()
+        };
+        const allResponse = await API.expo.registerExpo(allRegister);
+        console.log(
+          "Expo registration response: ",
+          allResponse
+        );
+      } catch (error) {
+        console.error("Error during Expo 'All' registration:", error);
       }
 
-      const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
-        Alert.alert(
-          "A new FCM message arrived!",
-          JSON.stringify(remoteMessage)
-        );
-      });
-
+    } else {
+      console.log("Failed to get Expo push token");
+    }
+        }
+      }
       requestUserPermission();
-      unsubscribe();
     }
   }, []);
 
