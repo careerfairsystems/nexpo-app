@@ -8,7 +8,6 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import { SearchBar } from "@rneui/base";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { View, Text } from "components/Themed";
 import { API } from "api/API";
@@ -22,6 +21,8 @@ import { ArkadButton } from "components/Buttons";
 import { toggleAnimation } from "../../animations/toggleAnimation";
 import { ArkadText } from "components/StyledText";
 import { filterData } from "components/companies/filterCompanies";
+// import { SearchBar } from "components/SearchBar";
+import CompaniesList from "components/companies/CompaniesList";
 
 
 type companiesNavigation = {
@@ -88,21 +89,22 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         {/* <SearchBar
           placeholder="Sök efter företag..."
         /> */}
-        <TextInput
+        {/* <SearchBar
           style={styles.input}
           onChangeText={onChangeText}
           value={text}
           placeholder={"Search for a company..."}
           placeholderTextColor={Colors.lightGray}
-        />
-        {/* <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()}>
+        /> */}
+      
+        <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()}>
           {modalVisible ? (
             <Entypo name="chevron-thin-up" size={24} color="white" />
           ) : (
             <AntDesign name="filter" size={24} color="white" />
           )}
           {isFiltered && <View style={styles.filterBadge} />}
-        </ArkadButton> */}
+        </ArkadButton>
       </View>
       <CompaniesModal
         companies={companies ? companies : []}
@@ -110,44 +112,9 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         setIsFiltered={setIsFiltered}
         isVisable={modalVisible}
       />
-      <FlatList
-        style={styles.list}
-        nestedScrollEnabled={true}
-        onScrollBeginDrag={modalVisible ? () => toggleFilter() : () => { }}
-        data={sortedCompanies}
-        keyExtractor={({ id }) => id.toString()}
-        renderItem={({ item: company }) => {
-          if (company.name === "Accenture") {
-            return (
-              <View>
-                <ArkadText
-                  text={"Corporate Partner"}
-                  style={styles.accenture}
-                />
-                <CompanyListItem
-                  company={company}
-                  onPress={() => openCompanyDetails(company.id)}
-                />
-                <ArkadButton
-                  onPress={() =>
-                    Linking.openURL("https://www.accenture.com/se-en")
-                  }
-                  style={styles.accentureButton}
-                >
-                  <Text style={styles.accentureText}>Link to Accenture</Text>
-                </ArkadButton>
-              </View>
-            );
-          } else {
-            return (
-              <CompanyListItem
-                company={company}
-                onPress={() => openCompanyDetails(company.id)}
-              />
-            );
-          }
-        }}
-      />
+
+      <CompaniesList modalVisible={modalVisible} toggleFilter={toggleFilter} sortedCompanies={sortedCompanies} navigation={navigation}/>
+
     </View>
   );
 }
@@ -158,9 +125,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.arkadNavy,
-  },
-  list: {
-    width: "100%",
   },
   input: {
     borderColor: Colors.white,
@@ -197,27 +161,5 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     zIndex: 1,
     backgroundColor: Colors.arkadNavy,
-  },
-  accenture: {
-    marginTop: 20,
-    paddingBottom: 8,
-    fontSize: 32,
-    fontFamily: "main-font-bold",
-    color: Colors.white,
-  },
-  accentureButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    margin: 8,
-    marginBottom: 30,
-    width: "50%",
-  },
-  accentureText: {
-    fontFamily: "main-font-bold",
-    fontSize: 20,
-    color: Colors.white,
   },
 });
