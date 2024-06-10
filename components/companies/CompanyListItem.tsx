@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   companyLocationContainer: {
+    alignItems: "baseline",
     flexDirection: "row",
     gap: 4,
   },
