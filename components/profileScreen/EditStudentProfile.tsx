@@ -172,23 +172,22 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   programmepicker: {
-    width: "80%",
-    maxWidth: 433,
-    padding: 10,
+    width: 433,
     borderColor: Colors.white,
-    margin: 12,
     backgroundColor: Colors.arkadNavy,
     color: Colors.white,
-    fontFamily: "main-font-bold",
+    fontFamily: "main-font",
     borderRadius: 7,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    fontSize: 18,
+    fontSize: 18, 
+    
   },
   textInput: {
     width: "80%",
     maxWidth: 400,
     borderColor: Colors.white,
     color: Colors.white,
+    fontFamily: "main-font",
   },
 });
