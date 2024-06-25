@@ -4,7 +4,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { ArkadText } from "components/StyledText";
 import { Locations, PublicCompanyDto } from "api/Companies";
 import { API } from "api/API";
-import { Linking } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
@@ -12,6 +11,8 @@ import Colors from "constants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
 import { companyLocations } from "components/companies/CompanyLocationsMap";
 import { EMap, TentMap, SCMap, KarhusetMap } from "components/maps/MapProps";
+import { ArkadButton } from "components/Buttons";
+import { IconLinkButton } from "components/companies/IconLinkButton";
 
 type CompanyDetailsScreenParams = {
   route: {
@@ -66,7 +67,16 @@ export default function CompanyDetailsScreen({
 
           <Text style={styles.title}>{company?.name}</Text>
 
-          <View style={styles.contactInfoContainer}>
+          <View style={styles.companyLocationContainer}>
+                <Image source={require("../../assets/images/location_pin_white.png")} style={styles.locationPin} /> 
+
+                <ArkadText style={styles.companyLocationText} text={(
+                      Locations[companyLocations[company.id]] ?? "No data"
+                    ).replace("_", "-")}
+            />
+          </View>
+
+          {/* <View style={styles.contactInfoContainer}>
             <Ionicons name="link" size={16} color={Colors.white} />
             <Text
               style={styles.linkText}
@@ -80,9 +90,14 @@ export default function CompanyDetailsScreen({
                 ? company.website.replace(/^https?:\/\//, "")
                 : "No website available"}
             </Text>
+          </View> */}
+
+          <View style={styles.actionsContainer}>
+            <IconLinkButton icon={require("../../assets/images/linked-in-icon.png")} url={null} text="LinkedIn" style={{backgroundColor: Colors.white}} />
+            <IconLinkButton icon={require("../../assets/images/globe-icon.png")} url={company.website} text="Website" style={{backgroundColor: Colors.arkadTurkos}} />
           </View>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.contactInfoContainer}
             onPress={() => {
               const position = Locations[companyLocations[company.id]]
@@ -109,9 +124,9 @@ export default function CompanyDetailsScreen({
               ).replace("_", "-")}
               style={styles.contactInfoText}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <Text style={styles.descHeader}>About us</Text>
+          <Text style={styles.descHeader}>ABOUT US</Text>
           <Text style={styles.desc}>
             {company.description ? company.description : "\u2013"}
           </Text>
@@ -139,12 +154,10 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     paddingTop: 10,
-    height: 120,
-    width: "90%",
+    height: 128,
+    width: 128,
     backgroundColor: Colors.white,
-    borderColor: Colors.arkadOrange,
-    borderWidth: 4,
-    borderRadius: 10,
+    borderRadius: 15,
     paddingBottom: 10,
     paddingLeft: 10,
     paddingRight: 10,
@@ -157,7 +170,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 24,
     paddingBottom: 8,
-    fontSize: 32,
+    fontSize: 34,
     fontFamily: "main-font-bold",
     color: Colors.white,
   },
@@ -196,4 +209,26 @@ const styles = StyleSheet.create({
     fontFamily: "secondary-font",
     color: Colors.white,
   },
+  companyLocationContainer: {
+    alignItems: "baseline",
+    flexDirection: "row",
+    gap: 4,
+  },
+  locationPin: {
+    width: 16,
+    height: 16,
+  },
+  companyLocationText: {
+    flex: 1,
+    fontSize: 17,
+    margin: 0,
+    fontWeight: "400",
+    textAlign: "left",
+    lineHeight: 22,
+    color: Colors.lightGray
+  },
+  actionsContainer: {
+    flexDirection: "row",
+    gap: 8,
+  }
 });
