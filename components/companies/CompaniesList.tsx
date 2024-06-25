@@ -1,6 +1,9 @@
 import {
   FlatList,
   Linking,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  SectionList,
   StyleSheet,
 } from "react-native";
 import { View, Text } from "components/Themed";
@@ -17,8 +20,7 @@ interface ICompanyGroup {
 }
 
 type CompaniesListProps = {
-    modalVisible: any,
-    toggleFilter: any,
+    onBeginScrollDrag: (event: NativeSyntheticEvent<NativeScrollEvent>) => void,
     navigation: any,
     sortedCompanies: any
 } //FIXA
@@ -39,75 +41,37 @@ const groupCompanies = (array: PublicCompanyDto[]) => {
     
   });
 
-  return Object.entries(resultObj);
+  return Object.entries(resultObj).map(([key, companies]) => ({
+    title: key,
+    data: companies,
+  }))
 }
 
 
 
-export default function CompaniesList({modalVisible, toggleFilter, navigation, sortedCompanies}: CompaniesListProps) {
+export default function CompaniesList({onBeginScrollDrag, navigation, sortedCompanies}: CompaniesListProps) {
   const openCompanyDetails = (id: number) => {
       navigation.navigate("CompanyDetailsScreen", { id });
   };
 
-
   const groupedCompanies = groupCompanies(sortedCompanies)
-  
 
-return (
-  <FlatList
-    style={styles.outerList}
-    data={groupedCompanies}
-    keyExtractor={(companyGroup) => companyGroup[0]}
-    onScrollBeginDrag={modalVisible ? () => toggleFilter() : () => { }}
-    
-    renderItem={({ item: group}) => {
-      console.log(group[0])
-
-      return (
-        <>
-        <CompanyListDivider text={group[0]}/>
-        <FlatList
-          style={styles.innerList}
-          data={group[1]}
-          keyExtractor={({ id }) => id.toString()}
-          renderItem={({ item: company }) => {
-          if (company.name === "Accenture") {
-              return (
-              <View>
-                  <ArkadText
-                  text={"Corporate Partner"}
-                  style={styles.accenture}
-                  />
-                  <CompanyListItem
-                  company={company}
-                  onPress={() => openCompanyDetails(company.id)}
-                  />
-                  <ArkadButton
-                  onPress={() =>
-                      Linking.openURL("https://www.accenture.com/se-en")
-                  }
-                  style={styles.accentureButton}
-                  >
-                  <Text style={styles.accentureText}>Link to Accenture</Text>
-                  </ArkadButton>
-              </View>
-              );
-          } else {
-              return (
-              <CompanyListItem
-                  company={company}
-                  onPress={() => openCompanyDetails(company.id)}
-              />
-              );
-          }
-          }}
-      />
-      </>)
-    }}
-  />
-
-    
-  );
+  return (
+    <SectionList
+      sections={groupedCompanies}
+      renderItem={({item}) => (
+        <CompanyListItem company={item} onPress={() => openCompanyDetails(item.id)} />
+      )}
+      renderSectionHeader={({section: {title}}) => (
+        <CompanyListDivider text={title} />
+      )}
+      // onScrollBeginDrag={(event) => console.log("hej")}
+      // onScrollBeginDrag={modalVisible ? () => toggleFilter() : () => { }}
+      onScrollBeginDrag={onBeginScrollDrag}
+      style={styles.outerList}
+    />
+      
+    );
 }
 
 const styles = StyleSheet.create({

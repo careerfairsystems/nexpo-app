@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import {
   Animated,
-  FlatList,
   LayoutAnimation,
   Linking,
   StyleSheet,
@@ -83,6 +82,13 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
     filterData(text, filteredCompanies)
   );
 
+
+
+  /* TODO:
+      - Ändra list items så de är pure components
+      - OnBeginScrollDrag??
+
+  */
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -113,7 +119,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         isVisable={modalVisible}
       />
 
-      <CompaniesList modalVisible={modalVisible} toggleFilter={toggleFilter} sortedCompanies={sortedCompanies} navigation={navigation}/>
+      <CompaniesList onBeginScrollDrag={(event) => {modalVisible ? () => toggleFilter() : () => { }}} sortedCompanies={sortedCompanies} navigation={navigation}/>
 
     </View>
   );
