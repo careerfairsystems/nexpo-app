@@ -3,6 +3,7 @@ import * as React from "react";
 import { Text, TextProps } from "./Themed";
 import { StyleSheet, TextStyle } from "react-native";
 import Colors from "constants/Colors";
+import Fonts from "constants/Fonts";
 
 export function DefaultText(props: TextProps) {
   return (
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     justifyContent: "center",
     textAlign: "center",
-    fontFamily: "main-font-bold",
+    fontFamily: Fonts.MyriadProBold,
     color: Colors.white,
   },
 });
