@@ -64,11 +64,13 @@ export const TagsList = ({ company, showOptions, onlyFirst }: TagsListProps) => 
         nestedScrollEnabled={true}
         data={allTags}
         keyExtractor={(item) => item.text}
+        contentContainerStyle={styles.listContainer}
         renderItem={({ item: item }) => (
           <View style={{ ...styles.item, backgroundColor: item.color }}>
             <ArkadText style={styles.text} text={item.text} />
           </View>
         )}
+        
       />
     </View>
   );
@@ -88,6 +90,12 @@ const styles = StyleSheet.create({
   //   paddingHorizontal: 12,
   //   // paddingVertical: 7,
   // },
+  listContainer: {
+    gap: 5,
+    width: "100%",
+    flexWrap: "wrap",
+    justifyContent: "flex-start"
+  },
   item: {
     height: "auto",
     borderRadius: 20,

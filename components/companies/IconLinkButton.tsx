@@ -2,6 +2,7 @@ import React from "react";
 import { Image, Linking, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import Colors from "constants/Colors";
 import { ArkadText } from "../StyledText";
+import { ArkadButton } from "components/Buttons";
 
 type IconLinkButtonProps = {
   url: string | null,
@@ -14,18 +15,27 @@ export const IconLinkButton = ({ url, icon, style, text }: IconLinkButtonProps) 
     const disabled = !url
 
     return (
-        <Pressable 
-            onPress={() => {
-                if (url) {
-                    Linking.openURL(url)
-                }
-            }} 
+        <ArkadButton onPress={() => {
+                    if (url) {
+                        Linking.openURL(url)
+                    }
+            }}
             style={[styles.buttonArea, style, disabled ? styles.buttonAreaDisabled : undefined]}
-            disabled={disabled}
         >
             <Image source={icon} style={styles.icon}/>
             <ArkadText text={text} style={styles.text} />
-        </Pressable>
+        </ArkadButton>
+        // <Pressable 
+        //     onPress={() => {
+        //         if (url) {
+        //             Linking.openURL(url)
+        //         }
+        //     }} 
+        //     style={[styles.buttonArea, style, disabled ? styles.buttonAreaDisabled : undefined]}
+        //     disabled={disabled}
+        // >
+        
+        // </Pressable>
     )
 }
 

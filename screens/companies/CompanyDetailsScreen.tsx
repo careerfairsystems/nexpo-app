@@ -1,18 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
 import { ArkadText } from "components/StyledText";
 import { Locations, PublicCompanyDto } from "api/Companies";
 import { API } from "api/API";
-import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Image, StyleSheet, View } from "react-native";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import Colors from "constants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
 import { companyLocations } from "components/companies/CompanyLocationsMap";
 import { EMap, TentMap, SCMap, KarhusetMap } from "components/maps/MapProps";
-import { ArkadButton } from "components/Buttons";
 import { IconLinkButton } from "components/companies/IconLinkButton";
+import { ShowOptions, TagsList } from "components/companies/TagsList";
 
 type CompanyDetailsScreenParams = {
   route: {
@@ -29,6 +28,8 @@ export default function CompanyDetailsScreen({
 
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const greenZone = true;
 
   const getCompany = async () => {
     setLoading(true);
@@ -49,9 +50,14 @@ export default function CompanyDetailsScreen({
     return <ScreenActivityIndicator />;
   }
 
+  console.log(company.description)
+
   return (
     <View style={styles.outerContainer}>
       <ScrollView>
+        <View style={styles.colorBackgroundContainer} >
+          {/* <View style={greenZone ? styles.colorBackgroundGreenZone : styles.colorBackgroundRegular} /> */}
+        </View>
         <View style={styles.container}>
           <View style={styles.logoContainer}>
             <Image
@@ -65,40 +71,13 @@ export default function CompanyDetailsScreen({
             />
           </View>
 
-          <Text style={styles.title}>{company?.name}</Text>
-
-          <View style={styles.companyLocationContainer}>
-                <Image source={require("../../assets/images/location_pin_white.png")} style={styles.locationPin} /> 
-
-                <ArkadText style={styles.companyLocationText} text={(
-                      Locations[companyLocations[company.id]] ?? "No data"
-                    ).replace("_", "-")}
-            />
+          <View style={styles.titleContainer} >
+            <ArkadText style={styles.title} text={company?.name} />
+            {greenZone && <Image source={require("../../assets/images/leaf-icon.png")} style={styles.greenZoneIcon}/>}
           </View>
 
-          {/* <View style={styles.contactInfoContainer}>
-            <Ionicons name="link" size={16} color={Colors.white} />
-            <Text
-              style={styles.linkText}
-              onPress={() => {
-                if (company.website) {
-                  Linking.openURL(company.website);
-                }
-              }}
-            >
-              {company.website
-                ? company.website.replace(/^https?:\/\//, "")
-                : "No website available"}
-            </Text>
-          </View> */}
-
-          <View style={styles.actionsContainer}>
-            <IconLinkButton icon={require("../../assets/images/linked-in-icon.png")} url={null} text="LinkedIn" style={{backgroundColor: Colors.white}} />
-            <IconLinkButton icon={require("../../assets/images/globe-icon.png")} url={company.website} text="Website" style={{backgroundColor: Colors.arkadTurkos}} />
-          </View>
-
-          {/* <TouchableOpacity
-            style={styles.contactInfoContainer}
+          <TouchableOpacity 
+            style={styles.companyLocationContainer}
             onPress={() => {
               const position = Locations[companyLocations[company.id]]
                 ? Locations[companyLocations[company.id]].replace("_", "-")
@@ -117,23 +96,33 @@ export default function CompanyDetailsScreen({
               }
             }}
           >
-            <Ionicons name="map" size={18} color="white" />
-            <ArkadText
-              text={(
+            <Image source={require("../../assets/images/location_pin_white.png")} style={styles.locationPin} />
+            <ArkadText style={styles.companyLocationText} text={(
                 Locations[companyLocations[company.id]] ?? "No data"
               ).replace("_", "-")}
-              style={styles.contactInfoText}
             />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
 
-          <Text style={styles.descHeader}>ABOUT US</Text>
-          <Text style={styles.desc}>
-            {company.description ? company.description : "\u2013"}
-          </Text>
-          <Text style={styles.descHeader}>Did you know?</Text>
-          <Text style={styles.desc}>
-            {company.didYouKnow ? company.didYouKnow : "\u2013"}
-          </Text>
+          <View style={styles.actionsContainer}>
+            <IconLinkButton icon={require("../../assets/images/linked-in-icon.png")} url={null} text="LinkedIn" style={{backgroundColor: Colors.white}} />
+            <IconLinkButton icon={require("../../assets/images/globe-icon.png")} url={company.website} text="Website" style={greenZone ? {backgroundColor: Colors.arkadGreen} : {backgroundColor: Colors.arkadTurkos}} />
+          </View>
+
+
+          <View style={styles.infoContainer}>
+            <ArkadText style={styles.descHeader} text={"ABOUT US"} />
+            <ArkadText style={styles.desc} text={company.description ? company.description : "\u2013"} />
+
+            <ArkadText style={styles.descHeader} text="WHAT WE OFFER" />
+            <TagsList company={company} showOptions={ShowOptions.Positions} />
+
+            <ArkadText style={styles.descHeader} text="TAGS" />
+            <TagsList company={company} showOptions={ShowOptions.Industries} />
+
+            <ArkadText style={styles.descHeader} text="DID YOU KNOW?" />
+            <ArkadText style={styles.desc} text={company.didYouKnow ? company.didYouKnow : "\u2013"} />
+          </View>
+
         </View>
       </ScrollView>
     </View>
@@ -145,12 +134,39 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.arkadNavy,
   },
+  colorBackgroundContainer: {
+    width: "100%",
+    height: 166,
+    
+    zIndex: 0,
+    elevation: 0,
+    position: "absolute"
+  },
+  colorBackgroundRegular: {
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: Colors.arkadTurkos,
+  },
+  colorBackgroundGreenZone: {
+    width: 357,
+    height: 357,
+    borderRadius: 178.5,
+    transform: [
+      {scaleX: 2}
+    ],
+    backgroundColor: Colors.arkadGreen,
+  },
   container: {
     display: "flex",
     flex: 1,
     padding: "8%",
     alignItems: "center",
-    backgroundColor: Colors.arkadNavy,
+    marginTop: -45,
+    zIndex: 100,
+    elevation: 100,
   },
   logoContainer: {
     paddingTop: 10,
@@ -161,74 +177,76 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 10,
     paddingRight: 10,
+    zIndex: 1000,
   },
   logo: {
     width: "100%",
     height: "100%",
     resizeMode: "contain",
   },
+  titleContainer: {
+    flexDirection: "row",
+    gap: 7,
+    alignItems: "baseline",
+  },
   title: {
-    marginTop: 24,
+    marginTop: 11,
     paddingBottom: 8,
     fontSize: 34,
     fontFamily: "main-font-bold",
     color: Colors.white,
+    letterSpacing: 0.4,
   },
-  contactInfoContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 4,
-  },
-  contactInfoText: {
-    fontSize: 18,
-    paddingLeft: 8,
-    fontFamily: "main-font-bold",
-    color: Colors.white,
-    textDecorationLine: "underline",
-  },
-  linkText: {
-    fontSize: 18,
-    paddingLeft: 8,
-    fontFamily: "main-font-bold",
-    color: Colors.arkadTurkos,
-    textDecorationLine: "underline",
-  },
-  descHeader: {
-    alignSelf: "center",
-    textDecorationLine: "underline",
-    paddingTop: 16,
-    fontSize: 18,
-    fontFamily: "main-font-bold",
-    color: Colors.arkadTurkos,
-  },
-  desc: {
-    paddingTop: 6,
-    fontSize: 16,
-    fontFamily: "secondary-font",
-    color: Colors.white,
+  greenZoneIcon: {
+    width: 16,
+    height: 16,
   },
   companyLocationContainer: {
-    alignItems: "baseline",
+    alignItems: "center",
     flexDirection: "row",
     gap: 4,
   },
   locationPin: {
-    width: 16,
-    height: 16,
+    width: 24,
+    height: 24,
   },
   companyLocationText: {
     flex: 1,
     fontSize: 17,
     margin: 0,
-    fontWeight: "400",
+    fontWeight: "600",
     textAlign: "left",
     lineHeight: 22,
-    color: Colors.lightGray
+    color: Colors.lightGray,
+    letterSpacing: -0.43
   },
   actionsContainer: {
     flexDirection: "row",
     gap: 8,
-  }
+    marginTop: 13,
+  },
+  infoContainer: {
+    flexDirection: "column",
+    alignItems: "flex-start"
+  },
+  descHeader: {
+    marginTop: 16,
+    marginBottom: 6,
+    alignSelf: "flex-start",
+    fontSize: 20,
+    color: Colors.white,
+    fontStyle: "normal",
+    lineHeight: 25,
+    fontWeight: "700",
+    letterSpacing: -0.45,
+  },
+  desc: {
+    fontSize: 17,
+    color: Colors.white,
+    alignSelf: "flex-start",
+    textAlign: "left",
+    fontWeight: "400",
+    lineHeight: 25,
+    letterSpacing: -0.43,
+  },
 });

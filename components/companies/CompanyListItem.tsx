@@ -4,7 +4,6 @@ import Colors from "constants/Colors";
 
 import { Locations, PublicCompanyDto } from "api/Companies";
 import { ArkadText } from "../StyledText";
-import { ShowOptions, TagsList } from "./TagsList";
 import { companyLocations } from "components/companies/CompanyLocationsMap";
 import { color } from "react-native-reanimated";
 
