@@ -1,11 +1,10 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --dev-client",
     "tunnel": "expo start --tunnel",
     "production": "expo start --tunnel --no-dev --minify",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "typecheck": "tsc --noEmit",
@@ -28,9 +27,10 @@
     "@react-navigation/native": "^5.0.5",
     "@react-navigation/stack": "^5.14.5",
     "date-fns": "^2.24.0",
-    "expo": "^48.0.0",
+    "expo": "~48.0.21",
     "expo-asset": "~8.9.1",
     "expo-barcode-scanner": "~12.3.2",
+    "expo-build-properties": "~0.6.0",
     "expo-constants": "~14.2.1",
     "expo-document-picker": "~11.2.2",
     "expo-file-system": "14",
@@ -47,7 +47,7 @@
     "postinstall-postinstall": "^2.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.8",
+    "react-native": "0.71.14",
     "react-native-blob-util": "^0.13.16",
     "react-native-dropdown-picker": "^5.4.2",
     "react-native-expandable-listview": "^1.3.2",
@@ -67,7 +67,8 @@
     "react-native-web": "~0.18.11",
     "sharp-cli": "^2.1.0",
     "type-check": "^0.4.0",
-    "webpack-dev-server": "~4.13.1"
+    "webpack-dev-server": "~4.13.1",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -78,5 +79,7 @@
     "jest-expo": "^48.0.0",
     "typescript": "^4.9.4"
   },
-  "private": true
+  "private": true,
+  "name": "nexpo-app",
+  "version": "1.0.0"
 }
