@@ -25,12 +25,14 @@ export default {
       buildNumber: "2.0.0",
       plugins: [
         "@react-native-firebase/app",
-        "expo-build-properties",
-        {
-          ios: {
-            useFrameworks: "static",
+        [
+          "expo-build-properties",
+          {
+            ios: {
+              useFrameworks: "static",
+            },
           },
-        },
+        ],
       ],
       supportsTablet: true,
       infoPlist: {
