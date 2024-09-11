@@ -59,7 +59,13 @@ export default {
         backgroundColor: "#F66628",
       },
       permissions: ["CAMERA"],
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_API_KEY,
+        },
+      },
     },
+
     plugins: ["@react-native-firebase/app"],
     web: {
       favicon: "./assets/images/favicon.png",
@@ -68,6 +74,8 @@ export default {
       isDev: process.env.NODE_ENV === "false",
       isProd: process.env.NODE_ENV !== "true",
       backendUrl: "https://nexpo.arkadtlth.se/api",
+      apiKey: process.env.API_KEY,
+
       //backendUrl: "http://localhost:5000/api",
       eas: {
         target: "nexpoapp",
@@ -77,8 +85,9 @@ export default {
     name: "ARKAD",
     slug: "nexpo-app",
     version: "1.0.0",
-    sdkVersion: "48.0.0",
+    sdkVersion: "51.0.0",
     googleServicesFile: "./google-services.json",
     platforms: ["ios", "android", "web"],
+
   },
 };

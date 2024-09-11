@@ -10,7 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 .vscode
-
+.env
 #FCM
 google-services.json
 GoogleService-Info.plist
