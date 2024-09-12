@@ -25,6 +25,7 @@ const prefix = Linking.createURL("/");
 //https://medium.com/@arashfallahi1989/how-to-integrate-firebase-push-notification-in-react-native-expo-bd5cc694f181
 
 export default function App() {
+  
   const checkVersion = async () => {
     try {
       const currentVersion = VersionCheck.getCurrentVersion();
@@ -72,7 +73,17 @@ export default function App() {
       console.log(error);
     }
   };
+    async function fetchAndLogUser() {
+      try {
+          const user = await API.users.getMe();
+          console.log(user);
+      } catch (error) {
+          console.error('Error fetching user:', error);
+      }
+  }
 
+// Anropa funktionen
+fetchAndLogUser();
   useEffect(() => {
     checkVersion();
 
@@ -89,15 +100,13 @@ export default function App() {
 
     // Get the token
     const { data: expoPushToken } = await Notifications.getExpoPushTokenAsync();
-
     if (expoPushToken) {
       console.log("Your Expo push token is:", expoPushToken);
 
       // Register the token with the backend
       try {
         const allRegister: RegisterUserDTO = {
-          Token: expoPushToken,
-          userId: (await API.users.getMe()).id.toString()
+          Token: expoPushToken
         };
         const allResponse = await API.expo.registerExpo(allRegister);
         console.log(
@@ -116,7 +125,6 @@ export default function App() {
       requestUserPermission();
     }
   }, []);
-
   return (
     <AppLoader>
       <Fragment>
