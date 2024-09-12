@@ -12,11 +12,12 @@ import { FontAwesome } from "@expo/vector-icons";
 type EventListProps = {
   events: Event[] | null;
   onPress: (id: number) => void;
+  showTickets: boolean;
 };
 
 const { width, height } = Dimensions.get("window");
 
-export function EventList({ events, onPress }: EventListProps) {
+export function EventList({ events, onPress, showTickets }: EventListProps) {
   if (events?.length == 0) {
     return <Text style={styles.text}>No upcoming events</Text>;
   }
