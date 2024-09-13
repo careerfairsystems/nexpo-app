@@ -3,15 +3,16 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { ArkadText } from "components/StyledText";
 import { Locations, PublicCompanyDto } from "api/Companies";
 import { API } from "api/API";
-import { useEffect, useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Animated, Dimensions, Image, StyleSheet, View } from "react-native";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import Colors from "constants/Colors";
-import { ScrollView } from "react-native-gesture-handler";
 import { companyLocations } from "components/companies/CompanyLocationsMap";
 import { EMap, TentMap, SCMap, KarhusetMap } from "components/maps/MapProps";
 import { IconLinkButton } from "components/companies/IconLinkButton";
 import { ShowOptions, TagsList } from "components/companies/TagsList";
+import { useHeaderHeight } from "@react-navigation/stack";
+import CompanyDetailsHeader from "components/companies/CompanyDetailsHeader";
 
 type CompanyDetailsScreenParams = {
   route: {
@@ -21,6 +22,8 @@ type CompanyDetailsScreenParams = {
   };
 };
 
+
+
 export default function CompanyDetailsScreen({
   route,
 }: CompanyDetailsScreenParams) {
@@ -29,7 +32,21 @@ export default function CompanyDetailsScreen({
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const greenZone = true;
+
+  const [screenHeight, setScreenHeight] = useState(Dimensions.get('window').height);
+  const [contentHeight, setContentHeight] = useState(0);
+
+  const yOffset = useRef(new Animated.Value(0)).current;
+  const headerOpacity = (contentHeight > screenHeight + 145)
+  ? yOffset.interpolate({
+      inputRange: [130, 145],
+      outputRange: [0, 1],
+      extrapolate: "clamp",
+    })
+  : 0;
+  
+
+  const greenZone = false;
 
   const getCompany = async () => {
     setLoading(true);
@@ -44,31 +61,79 @@ export default function CompanyDetailsScreen({
     getCompany();
   }, []);
 
+
   const navigation = useNavigation();
+
+
+  const height = useHeaderHeight();
+
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: Colors.arkadNavy,
+      },
+      headerBackground: () => (
+        <Animated.View
+          style={{
+            backgroundColor: Colors.arkadNavy,
+            ...StyleSheet.absoluteFillObject,
+            opacity: headerOpacity,
+          }}
+        />
+      ),
+      headerTitle: () => (
+        <Animated.View
+          style={{opacity: headerOpacity}}
+        >
+          <CompanyDetailsHeader logoUrl={company?.logoUrl} name={company?.name}/>
+        </Animated.View>
+      ),
+      headerTitleStyle: {
+        opacity: headerOpacity,
+      },
+      headerTransparent: true,
+    });
+  }, [headerOpacity, navigation, company]);
 
   if (loading || company == null) {
     return <ScreenActivityIndicator />;
   }
 
-  console.log(company.description)
-
   return (
     <View style={styles.outerContainer}>
-      <ScrollView>
+      <Animated.ScrollView onContentSizeChange={(width, height) => {setContentHeight(height); setScreenHeight(Dimensions.get('window').height)}}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: yOffset,
+                },
+              },
+            },
+          ],
+          { useNativeDriver: true }
+        )}
+        scrollEventThrottle={16}
+      >
         <View style={styles.colorBackgroundContainer} >
-          {/* <View style={greenZone ? styles.colorBackgroundGreenZone : styles.colorBackgroundRegular} /> */}
+          <View style={greenZone ? styles.colorBackgroundGreenZone : styles.colorBackgroundRegular} />
         </View>
         <View style={styles.container}>
-          <View style={styles.logoContainer}>
-            <Image
-              source={
-                company.logoUrl
-                  ? { uri: company.logoUrl }
-                  : require("../../assets/images/icon.png")
-              }
-              defaultSource={require("../../assets/images/icon.png")}
-              style={styles.logo}
-            />
+          <View style={styles.logoOuterContainer} >
+            <View style={styles.hardShadow} />
+            <View style={styles.logoContainer}>
+              <Image
+                source={
+                  company.logoUrl
+                    ? { uri: company.logoUrl }
+                    : require("../../assets/images/icon.png")
+                }
+                defaultSource={require("../../assets/images/icon.png")}
+                style={styles.logo}
+              />
+            </View>
           </View>
 
           <View style={styles.titleContainer} >
@@ -124,7 +189,7 @@ export default function CompanyDetailsScreen({
           </View>
 
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }
@@ -135,9 +200,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadNavy,
   },
   colorBackgroundContainer: {
+    flexDirection: "column",
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "flex-end",
     width: "100%",
-    height: 166,
-    
+    height: 104,
     zIndex: 0,
     elevation: 0,
     position: "absolute"
@@ -145,15 +213,13 @@ const styles = StyleSheet.create({
   colorBackgroundRegular: {
     width: "100%",
     height: "100%",
-    overflow: "hidden",
-    flexDirection: "column",
-    alignItems: "center",
     backgroundColor: Colors.arkadTurkos,
   },
   colorBackgroundGreenZone: {
-    width: 357,
-    height: 357,
-    borderRadius: 178.5,
+    width: "90%",
+    height: Dimensions.get("screen").width * 0.9,
+    minHeight: 104 * 2,
+    borderRadius: Dimensions.get("screen").width,
     transform: [
       {scaleX: 2}
     ],
@@ -161,28 +227,43 @@ const styles = StyleSheet.create({
   },
   container: {
     display: "flex",
+    justifyContent: "flex-start",
     flex: 1,
-    padding: "8%",
     alignItems: "center",
-    marginTop: -45,
+    paddingHorizontal: "8%",
+    paddingBottom: 16,
+    marginTop: 15,
     zIndex: 100,
     elevation: 100,
   },
-  logoContainer: {
-    paddingTop: 10,
+  logoOuterContainer: {
     height: 128,
     width: 128,
+  },
+  logoContainer: {
+    height: "100%",
+    width: "100%",
     backgroundColor: Colors.white,
     borderRadius: 15,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 1000,
   },
   logo: {
     width: "100%",
     height: "100%",
+    borderRadius: 15,
+    margin: 10,
     resizeMode: "contain",
+  },
+  hardShadow: {
+    height: 128,
+    width: 136,
+    borderRadius: 15,
+    position: "absolute",
+    backgroundColor: "#000000",
+    
   },
   titleContainer: {
     flexDirection: "row",
@@ -223,11 +304,15 @@ const styles = StyleSheet.create({
   actionsContainer: {
     flexDirection: "row",
     gap: 8,
+    width: "100%",
     marginTop: 13,
+    justifyContent: "center",
+    flexWrap: "wrap",
   },
   infoContainer: {
     flexDirection: "column",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    width: "100%",
   },
   descHeader: {
     marginTop: 16,

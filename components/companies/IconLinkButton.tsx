@@ -13,42 +13,37 @@ type IconLinkButtonProps = {
 
 export const IconLinkButton = ({ url, icon, style, text }: IconLinkButtonProps) => {
     const disabled = !url
+    const calculatedStyle = [styles.buttonArea, style, disabled ? styles.buttonAreaDisabled : undefined]
 
+    
     return (
         <ArkadButton onPress={() => {
                     if (url) {
                         Linking.openURL(url)
                     }
             }}
-            style={[styles.buttonArea, style, disabled ? styles.buttonAreaDisabled : undefined]}
+            style={calculatedStyle}
         >
             <Image source={icon} style={styles.icon}/>
             <ArkadText text={text} style={styles.text} />
         </ArkadButton>
-        // <Pressable 
-        //     onPress={() => {
-        //         if (url) {
-        //             Linking.openURL(url)
-        //         }
-        //     }} 
-        //     style={[styles.buttonArea, style, disabled ? styles.buttonAreaDisabled : undefined]}
-        //     disabled={disabled}
-        // >
-        
-        // </Pressable>
     )
 }
 
 const styles = StyleSheet.create({
     buttonArea: {
         borderRadius: 100,
+        flex: 1,
+        minWidth: 175,
+        maxWidth: 275,
         backgroundColor: "#fff",
         flexDirection: "row",
-        width: 175,
         padding: 16,
         justifyContent: "center",
         alignItems: "center",
-        gap: 8
+        gap: 8,
+        overflow: "hidden",
+        margin: 0,
     },
     buttonAreaDisabled: {
         opacity: 0.5
@@ -65,19 +60,6 @@ const styles = StyleSheet.create({
         lineHeight: 25,
         letterSpacing: -0.45,
         color: Colors.arkadNavy
-        // color: var(--ARKAD-Navy, #041224);
-        // text-align: center;
-        // leading-trim: both;
-
-        // text-edge: cap;
-        // font-feature-settings: 'clig' off, 'liga' off;
-        // /* Title3/Regular */
-        // font-family: "Myriad Pro";
-        // font-size: 20px;
-        // font-style: normal;
-        // font-weight: 400;
-        // line-height: 25px; /* 125% */
-        // letter-spacing: -0.45px;
     }
 
 });

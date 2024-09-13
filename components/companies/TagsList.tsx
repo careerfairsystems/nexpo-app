@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Industry, Position, PublicCompanyDto } from "api/Companies";
 
 import Colors from "constants/Colors";
@@ -13,11 +13,10 @@ export enum ShowOptions {
 
 type TagsListProps = {
   company: PublicCompanyDto,
-  showOptions?: ShowOptions
-  onlyFirst?: boolean
+  showOptions?: ShowOptions,
 };
 
-export const TagsList = ({ company, showOptions, onlyFirst }: TagsListProps) => {
+export const TagsList = ({ company, showOptions }: TagsListProps) => {
   const allIndustries = company.industries ?? [];
   const industryTags = allIndustries.map((industry: Industry) => {
     return {
@@ -52,26 +51,15 @@ export const TagsList = ({ company, showOptions, onlyFirst }: TagsListProps) => 
 
   }
 
-  if (onlyFirst) {
-    allTags = allTags.slice(0, 1);
-  }
-
   return (
     <View style={styles.container}>
-      <FlatList
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        nestedScrollEnabled={true}
-        data={allTags}
-        keyExtractor={(item) => item.text}
-        contentContainerStyle={styles.listContainer}
-        renderItem={({ item: item }) => (
-          <View style={{ ...styles.item, backgroundColor: item.color }}>
+      <View style={styles.listContainer}>
+        {allTags.map((item, index) => {return (
+          <View key={index} style={{ ...styles.item, backgroundColor: item.color }}>
             <ArkadText style={styles.text} text={item.text} />
           </View>
-        )}
-        
-      />
+        )})}
+      </View>
     </View>
   );
 };
@@ -79,20 +67,11 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    // padding: 5,
   },
-  // item: {
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   // flex: 1,
-  //   borderRadius: 20,
-  //   margin: 3,
-  //   paddingHorizontal: 12,
-  //   // paddingVertical: 7,
-  // },
   listContainer: {
     gap: 5,
     width: "100%",
+    flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "flex-start"
   },

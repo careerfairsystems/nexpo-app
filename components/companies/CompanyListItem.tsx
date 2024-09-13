@@ -12,9 +12,10 @@ type CompanyListItemProps = {
   onPress: () => void;
 };
 
+
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => (
   <View
-    style={company.name === "Accenture" ? styles.accenture : styles.container}
+    style={styles.container}
   >
     <Pressable onPress={onPress} style={{width: "100%"}}>
       <View style={styles.container}>
@@ -29,7 +30,7 @@ export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => (
 
             />
             <View style={styles.companyInfo} >
-              <ArkadText text={company.name} style={styles.companyName} />
+              <ArkadText text={company.name} style={styles.companyName} ellipsizeMode="tail" numberOfLines={1} />
 
               <View style={styles.companyLocationContainer}>
                 <Image source={require("../../assets/images/location_pin_white.png")} style={styles.locationPin} /> 
@@ -52,15 +53,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+    overflow: "hidden",
     alignSelf: "center",
     alignItems: "center",
     marginTop: 8,
     marginHorizontal: 10,
-    // paddingHorizontal: 8
-    // backgroundColor: Colors.white,
-    // padding: 8,
-    // paddingTop: 12,
-    // borderRadius: 16,
   },
   column: {
     flex: 1,
@@ -73,6 +70,7 @@ const styles = StyleSheet.create({
     alignItems: "center", //Centered vertically
     flexDirection: "row",
     gap: 8,
+    flex: 1,
   },
   logo: {
     width: 64,
@@ -83,8 +81,9 @@ const styles = StyleSheet.create({
   },
   companyInfo: {
     marginLeft: 8,
+    flex: 1,
     flexDirection: "column",
-    alignItems: "flex-start", //FIXA GAPS
+    alignItems: "flex-start",
   },
   companyName: {
     flex: 1,
@@ -112,17 +111,5 @@ const styles = StyleSheet.create({
     textAlign: "left",
     lineHeight: 22,
     color: Colors.lightGray
-  },
-  accenture: {
-    flex: 1,
-    justifyContent: "flex-start",
-    width: "90%",
-    alignSelf: "center",
-    marginTop: 0,
-    marginHorizontal: 10,
-    backgroundColor: Colors.white,
-    borderRadius: 16,
-    borderWidth: 10,
-    borderColor: Colors.accenture,
   },
 });

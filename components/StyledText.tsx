@@ -11,13 +11,13 @@ export function DefaultText(props: TextProps) {
   );
 }
 
-interface textProps {
+interface textProps extends TextProps {
   text: string;
   style?: TextStyle;
 }
 
 export function ArkadText(props: textProps) {
-  return <Text style={[styles.text, props.style]}>{props.text}</Text>;
+  return <Text {...props} style={[styles.text, props.style]} >{props.text}</Text>;
 }
 export function SelectableArkadText(props: textProps) {
   return (
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     justifyContent: "center",
     textAlign: "center",
-    fontFamily: Fonts.MyriadProBold,
+    fontFamily: Fonts.MyriadProRegular,
     color: Colors.white,
   },
 });

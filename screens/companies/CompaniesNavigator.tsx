@@ -7,10 +7,14 @@ import { HeaderStyles } from "components/HeaderStyles";
 import CompaniesScreen from "./CompaniesScreen";
 import CompanyDetailsScreen from "./CompanyDetailsScreen";
 import { Image } from "react-native";
+import { SearchBar, SearchBarProps } from "components/SearchBar";
+import { TextInput } from "components/TextInput";
 import Colors from "constants/Colors";
 
 export type CompanyStackParamList = {
-  CompaniesScreen: undefined;
+  CompaniesScreen: {
+    searchBarProps: SearchBarProps;
+  };
   CompanyDetailsScreen: {
     id: number;
   };
@@ -29,40 +33,26 @@ export function CompaniesNavigator() {
         name="CompaniesScreen"
         component={CompaniesScreen}
         options={{
-          title: "Companies",
-          headerTitle: "Companies",
-          headerRight: () => (
-            <Image
-              source={require("../../assets/images/arkad_logo_inverted.png")}
-              style={{
-                marginRight: 10,
-                width: 60,
-                height: undefined,
-                flex: 1,
-              }}
-            />
-          ),
           ...HeaderStyles,
+          headerTitleStyle: {
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: Colors.arkadNavy,
+          },
         }}
       />
       <CompanyStack.Screen
         name="CompanyDetailsScreen"
         component={CompanyDetailsScreen}
         options={{
-          title: "Company Details",
-          headerTitle: "Companies",
-          headerRight: () => (
-            <Image
-              source={require("../../assets/images/arkad_logo_inverted.png")}
-              style={{
-                marginRight: 10,
-                width: 60,
-                height: undefined,
-                flex: 1,
-              }}
-            />
-          ),
+          title: "",
+          headerTransparent: true,
           ...HeaderStyles,
+          headerStyle: {
+            borderBottomWidth: 0,
+            borderBottomColor: Colors.arkadGreen,
+          }
         }}
       />
     </CompanyStack.Navigator>
