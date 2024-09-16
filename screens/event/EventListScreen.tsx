@@ -36,7 +36,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   const [upcomingEvents, setUpcomingEvents] = React.useState<Event[] | null>(
     null
   );
-  const [showAllEvents, setShowAllEvents] = React.useState<boolean>(false);
+  const [showAllEvents, setShowAllEvents] = React.useState<boolean>(true);
   const [showAllTickets, setShowAllTickets] = React.useState<boolean>(false);
   const [QRMode, setQRMode] = React.useState<boolean>(true);
   const [eventTickets, setEventTickets] = React.useState<Event[] | null>(null);
@@ -190,7 +190,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
         <EventList
           events={showAllEvents ? events : eventTickets}
           onPress={openEventDetails}
-          showTickets={!showAllTickets}
+          showTickets={showAllTickets}
         />
       </View>
     </View>

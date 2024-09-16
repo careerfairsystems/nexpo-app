@@ -8,6 +8,8 @@ import { API } from "api/API";
 import { ArkadText } from "components/StyledText";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Entypo from "@expo/vector-icons/Entypo";
 
 type EventListProps = {
   events: Event[] | null;
@@ -50,48 +52,91 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
         const ticket_eventid = getTicketsForEvent(event);
 
         return (
-          <View style={styles.eventBox}>
-            <EventListItem
-              event={event}
-              itemStyle={{}}
-              onPress={() => onPress(event.id)}
-              ticket_eventid={ticket_eventid}
-              odd={oddEvent(index)}
-            />
-            <View>
-              <ArkadText style={styles.eventText} text={event.name} />
-            </View>
-            <View style={styles.infoRow}>
-              <MaterialIcons
-                name="date-range"
-                size={24}
-                color={
-                  oddEvent(index) ? Colors.arkadOrange : Colors.arkadTurkos
-                }
+          <View
+            style={[
+              styles.eventBox,
+              showTickets && styles.eventBoxWithTickets, // Apply different styles when showTickets is true
+            ]}
+          >
+            <View style={styles.eventItemContainer}>
+              <EventListItem
+                event={event}
+                itemStyle={{}}
+                onPress={() => onPress(event.id)}
+                ticket_eventid={ticket_eventid}
+                odd={oddEvent(index)}
               />
-              <ArkadText
-                style={{
-                  ...styles.infoText,
-                  color: oddEvent(index)
-                    ? Colors.arkadOrange
-                    : Colors.arkadTurkos,
-                  paddingRight: 10,
-                }}
-                text={API.events.formatTime(event.date, event.start, event.end)}
-              />
+              <View>
+                <ArkadText style={styles.eventText} text={event.name} />
+              </View>
+              <View style={styles.infoRow}>
+                <MaterialIcons
+                  name="date-range"
+                  size={24}
+                  color={
+                    oddEvent(index) ? Colors.arkadOrange : Colors.arkadTurkos
+                  }
+                />
+                <ArkadText
+                  style={{
+                    ...styles.infoText,
+                    color: oddEvent(index)
+                      ? Colors.arkadOrange
+                      : Colors.arkadTurkos,
+                    paddingRight: 10,
+                  }}
+                  text={API.events.formatTime(
+                    event.date,
+                    event.start,
+                    event.end
+                  )}
+                />
 
-              <FontAwesome name="cutlery" size={24} color={Colors.white} />
-              <ArkadText
-                style={styles.infoText}
-                text={event.ticketCount + "/" + event.capacity}
-              />
-              {event.capacity === event.ticketCount && (
+                <FontAwesome name="cutlery" size={24} color={Colors.white} />
                 <ArkadText
                   style={styles.infoText}
-                  text={"Food tickets sold out. Seats available"}
+                  text={event.ticketCount + "/" + event.capacity}
                 />
-              )}
+                {event.capacity === event.ticketCount && (
+                  <ArkadText
+                    style={styles.infoText}
+                    text={"Food tickets sold out. Seats available"}
+                  />
+                )}
+              </View>
             </View>
+
+            {/* Extra 40% section for orange and light blue boxes */}
+            {showTickets && (
+              <View style={styles.ticketInfoContainer}>
+                <View style={styles.QRBox}>
+                  <AntDesign
+                    name="qrcode"
+                    size={height * 0.08}
+                    color={Colors.black}
+                  />
+                  {/* <ArkadText
+                    style={{
+                      ...styles.infoText,
+                      color: Colors.black,
+                      paddingRight: 10,
+                    }}
+                    text={"Show QR"}
+                  /> */}
+                </View>
+                <View style={styles.unregisterBox}>
+                  <Entypo name="cross" size={height * 0.08} color="black" />{" "}
+                  {/* <ArkadText
+                    style={{
+                      ...styles.infoText,
+                      color: Colors.black,
+                      paddingRight: 10,
+                    }}
+                    text={"Unregister"}
+                  /> */}
+                </View>
+              </View>
+            )}
           </View>
         );
       }}
@@ -105,6 +150,42 @@ const styles = StyleSheet.create({
     height: height * 0.3,
     backgroundColor: Colors.arkadNavy,
     padding: 10, // Adjust padding to align the content
+    flexDirection: "column", // Default to column layout when showTickets is false
+  },
+  eventBoxWithTickets: {
+    flexDirection: "row", // Use row layout when showTickets is true
+  },
+  eventItemContainer: {
+    flex: 1.0,
+  },
+  ticketInfoContainer: {
+    flex: 0.4, // Take up 40% of the width
+    justifyContent: "space-between", // Evenly space the boxes
+    paddingLeft: 5, // Add some padding between the event info and the boxes
+  },
+  QRBox: {
+    flex: 1,
+    backgroundColor: Colors.arkadTurkos,
+    borderColor: Colors.arkadTurkos,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    marginHorizontal: 10,
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 4,
+  },
+  unregisterBox: {
+    flex: 1,
+    backgroundColor: Colors.arkadOrange,
+    borderColor: Colors.arkadOrange,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    marginHorizontal: 10,
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 4,
   },
   text: {
     paddingTop: 40,
@@ -126,7 +207,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   infoText: {
-    fontSize: 20,
+    fontSize: 16,
     textAlign: "left",
     fontFamily: "main-font-bold",
     paddingLeft: 10, // Adjust padding to align text properly
