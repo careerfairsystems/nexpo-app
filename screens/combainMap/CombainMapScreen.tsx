@@ -98,12 +98,10 @@ export default function CombainMapScreen() {
   }, [sdkInitialized]);
 
   useEffect(() => {
-    console.log(syncValue)
     if (sdkInitialized && syncValue === 1) {
       fetchAllBuildings();
       if (location?.indoor?.buildingName) {
         getQueryTargets("").then()
-        console.log(location.indoor.featureModelId!!)
         getGraph(location.indoor.featureModelId!!)
       }
       const bleUpdates = DeviceEventEmitter.addListener('bleUpdate', (params) => {
@@ -199,6 +197,8 @@ export default function CombainMapScreen() {
             style={styles.map}
             customMapStyle={mapStyle}
             minZoomLevel={10}
+            mapType="standard"
+            showsBuildings={false}
             initialRegion={{
               latitude: lat,
               longitude: lng,
@@ -208,8 +208,8 @@ export default function CombainMapScreen() {
           >
             <BlueDotMarker coordinate={{ latitude: lat, longitude: lng }} />
             <AreaPolygons allPlaces={allPlaces} />
-            {currentRoute && <RoutingPath startPosition={currentRoute} />}
-            {featureModelGraph && <FeatureModelMap featureModelGraph={featureModelGraph}></FeatureModelMap>}
+            {location?.indoor?.combainFloorMap && <FloorMapOverlay floorMap={location.indoor.combainFloorMap} />}
+            {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
           </MapView>
         )
       ) : (

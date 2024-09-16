@@ -16,20 +16,48 @@ const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap }) => {
     headers: { 'x-auth-apikey': apiKey },
   };
 
+  console.log(imageSource)
+
+  const topLeft = {
+    latitude: floorMap.latTopLeft,
+    longitude: floorMap.lonTopLeft,
+  };
+
+  const SW = {
+    latitude: floorMap.latSW,
+    longitude: floorMap.lonSW,
+  };
+
+  const NE = {
+    latitude: floorMap.latNE,
+    longitude: floorMap.lonNE
+  };
+
+  const bottomleft = {
+    latitude: floorMap.latNE - (topLeft.latitude - SW.latitude),
+    longitude: floorMap.lonNE - (topLeft.longitude - SW.longitude),
+  };
+
 
 
   return (
     <View>
+      <Marker coordinate={bottomleft} title={"bottomLeft"}/>
+      <Marker coordinate={NE} title={"NE"}/>
+      <Marker coordinate={topLeft} title={"topleft"}/>
+      <Marker coordinate={SW} title={"SW"}/>
+
+
       <Overlay
         bounds={[
-          [floorMap.latSW, floorMap.lonSW],
-          [floorMap.latNE, floorMap.lonNE],
+          [NE.latitude, NE.longitude],
+          [SW.latitude, SW.longitude],
         ]}
+        bearing={0}
         style={styles.overlay}
         image={imageSource}
       >
       </Overlay>
-
     </View>
 
   );

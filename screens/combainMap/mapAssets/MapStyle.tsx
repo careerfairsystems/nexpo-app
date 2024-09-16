@@ -3,7 +3,7 @@ export const mapStyle = [
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#1d2c4d"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -11,7 +11,7 @@ export const mapStyle = [
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#8ec3b9"
+        "color": "#19A1DB" // arkadTurkos
       }
     ]
   },
@@ -19,7 +19,7 @@ export const mapStyle = [
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "color": "#1a3646"
+        "color": "#333333" // gray
       }
     ]
   },
@@ -28,7 +28,7 @@ export const mapStyle = [
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#4b6878"
+        "color": "#ffffff" // arkadTurkos
       }
     ]
   },
@@ -46,7 +46,7 @@ export const mapStyle = [
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#64779e"
+        "color": "#041224" // arkadNavy (replaced green)
       }
     ]
   },
@@ -55,7 +55,7 @@ export const mapStyle = [
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#4b6878"
+        "color": "#19A1DB" // arkadTurkos
       }
     ]
   },
@@ -64,7 +64,7 @@ export const mapStyle = [
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#334e87"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -73,7 +73,7 @@ export const mapStyle = [
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#023e58"
+        "color": "#041224" // arkadNavy (replaced green)
       }
     ]
   },
@@ -82,7 +82,7 @@ export const mapStyle = [
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#283d6a"
+        "color": "#041224" // arkadNavy (replaced green)
       }
     ]
   },
@@ -91,7 +91,7 @@ export const mapStyle = [
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#6f9ba5"
+        "color": "#19A1DB" // arkadTurkos
       }
     ]
   },
@@ -100,7 +100,7 @@ export const mapStyle = [
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "color": "#1d2c4d"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -117,7 +117,7 @@ export const mapStyle = [
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#023e58"
+        "color": "#041224" // arkadNavy (replaced green)
       }
     ]
   },
@@ -135,7 +135,7 @@ export const mapStyle = [
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#3C7680"
+        "color": "#041224" // arkadNavy (replaced green)
       }
     ]
   },
@@ -144,7 +144,7 @@ export const mapStyle = [
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#304a7d"
+        "color": "#333333" // gray
       }
     ]
   },
@@ -153,7 +153,7 @@ export const mapStyle = [
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#98a5be"
+        "color": "#19A1DB" // arkadTurkos
       }
     ]
   },
@@ -162,7 +162,7 @@ export const mapStyle = [
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "color": "#1d2c4d"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -171,7 +171,7 @@ export const mapStyle = [
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#2c6675"
+        "color": "#19A1DB" // arkadTurkos
       }
     ]
   },
@@ -180,7 +180,7 @@ export const mapStyle = [
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#255763"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -189,7 +189,7 @@ export const mapStyle = [
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#b0d5ce"
+        "color": "#ffffff" // white
       }
     ]
   },
@@ -198,7 +198,7 @@ export const mapStyle = [
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "color": "#023e58"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -216,7 +216,7 @@ export const mapStyle = [
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#98a5be"
+        "color": "#19A1DB" // arkadTurkos
       }
     ]
   },
@@ -225,7 +225,7 @@ export const mapStyle = [
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "color": "#1d2c4d"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -234,7 +234,7 @@ export const mapStyle = [
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#283d6a"
+        "color": "#041224" // arkadNavy (replaced green)
       }
     ]
   },
@@ -243,7 +243,7 @@ export const mapStyle = [
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#3a4762"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -252,7 +252,7 @@ export const mapStyle = [
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#0e1626"
+        "color": "#041224" // arkadNavy
       }
     ]
   },
@@ -261,7 +261,7 @@ export const mapStyle = [
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#4e6d70"
+        "color": "#19A1DB" // arkadTurkos
       }
     ]
   }
