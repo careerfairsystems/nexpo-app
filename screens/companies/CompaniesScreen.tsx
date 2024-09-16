@@ -81,7 +81,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         isVisable={modalVisible}
       />
 
-      <CompaniesList onScroll={(event) => {if (modalVisible) {toggleFilter()}}} sortedCompanies={sortedCompanies} openCompanyDetails={openCompanyDetails}/>
+      <CompaniesList onScrollBeginDrag={(event) => {if (modalVisible) {toggleFilter()}}} sortedCompanies={sortedCompanies} openCompanyDetails={openCompanyDetails}/>
 
     </View>
   );

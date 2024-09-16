@@ -15,7 +15,7 @@ interface ICompanyGroup {
 
 type CompaniesListProps = {
     openCompanyDetails: (id: number) => void,
-    onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void,
+    onScrollBeginDrag: (event: NativeSyntheticEvent<NativeScrollEvent>) => void,
     sortedCompanies: PublicCompanyDto[] | null,
 }
 
@@ -47,7 +47,7 @@ const groupCompanies = (array: PublicCompanyDto[] | null) => {
 
 
 
-export default function CompaniesList({openCompanyDetails, onScroll, sortedCompanies}: CompaniesListProps) {
+export default function CompaniesList({openCompanyDetails, onScrollBeginDrag, sortedCompanies}: CompaniesListProps) {
   const groupedCompanies = groupCompanies(sortedCompanies)
 
   if (!groupedCompanies) {
@@ -65,7 +65,7 @@ export default function CompaniesList({openCompanyDetails, onScroll, sortedCompa
       renderSectionHeader={({section: {title}}) => (
         <CompanyListDivider text={title} />
       )}
-      onScroll={onScroll}
+      onScrollBeginDrag={onScrollBeginDrag}
       style={styles.list}
     />
       
