@@ -13,7 +13,7 @@ type IconLinkButtonProps = {
 
 export const IconLinkButton = ({ url, icon, style, text }: IconLinkButtonProps) => {
     const disabled = !url
-    const calculatedStyle = [styles.buttonArea, style, disabled ? styles.buttonAreaDisabled : undefined]
+    const calculatedStyle = {...styles.buttonArea, ...style, ...(disabled && styles.buttonAreaDisabled)} // Type Check error if using array styling
 
     
     return (
