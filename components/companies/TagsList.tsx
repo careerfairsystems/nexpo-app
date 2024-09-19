@@ -1,15 +1,22 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Industry, Position, PublicCompanyDto } from "api/Companies";
 
 import Colors from "constants/Colors";
 import { ArkadText } from "../StyledText";
 
+export enum ShowOptions {
+  All,
+  Industries,
+  Positions
+}
+
 type TagsListProps = {
-  company: PublicCompanyDto;
+  company: PublicCompanyDto,
+  showOptions?: ShowOptions,
 };
 
-export const TagsList = ({ company }: TagsListProps) => {
+export const TagsList = ({ company, showOptions }: TagsListProps) => {
   const allIndustries = company.industries ?? [];
   const industryTags = allIndustries.map((industry: Industry) => {
     return {
@@ -25,22 +32,34 @@ export const TagsList = ({ company }: TagsListProps) => {
     };
   });
 
-  const allTags = industryTags.concat(positionTags);
+
+  let allTags;
+  switch (showOptions) {
+    case ShowOptions.Industries: {
+      allTags = industryTags;
+      break;
+    }
+    case ShowOptions.Positions: {
+      allTags = positionTags;
+      break;
+    }
+    default: {
+      allTags = industryTags.concat(positionTags);
+      break;
+    }
+
+
+  }
 
   return (
     <View style={styles.container}>
-      <FlatList
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        nestedScrollEnabled={true}
-        data={allTags}
-        keyExtractor={(item) => item.text}
-        renderItem={({ item: item }) => (
-          <View style={{ ...styles.item, backgroundColor: item.color }}>
+      <View style={styles.listContainer}>
+        {allTags.map((item, index) => {return (
+          <View key={index} style={{ ...styles.item, backgroundColor: item.color }}>
             <ArkadText style={styles.text} text={item.text} />
           </View>
-        )}
-      />
+        )})}
+      </View>
     </View>
   );
 };
@@ -48,15 +67,20 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 5,
+  },
+  listContainer: {
+    gap: 5,
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start"
   },
   item: {
-    alignItems: "center",
-    justifyContent: "flex-start",
+    height: "auto",
     borderRadius: 20,
-    margin: 3,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    
   },
   text: {
     color: Colors.white,

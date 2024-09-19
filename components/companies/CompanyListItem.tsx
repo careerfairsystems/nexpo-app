@@ -1,80 +1,115 @@
 import React from "react";
-import { Dimensions, Image, Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import Colors from "constants/Colors";
 
-import { PublicCompanyDto } from "api/Companies";
+import { Locations, PublicCompanyDto } from "api/Companies";
 import { ArkadText } from "../StyledText";
-import { TagsList } from "./TagsList";
+import { companyLocations } from "components/companies/CompanyLocationsMap";
+import { color } from "react-native-reanimated";
 
 type CompanyListItemProps = {
   company: PublicCompanyDto;
   onPress: () => void;
 };
 
+
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => (
   <View
-    style={company.name === "Accenture" ? styles.accenture : styles.container}
+    style={styles.container}
   >
-    <Pressable onPress={onPress}>
-      <View style={styles.row}>
-        <ArkadText text={company.name} style={styles.companyName} />
-        <Image
-          source={
-            company.logoUrl
-              ? { uri: company.logoUrl }
-              : require("../../assets/images/adaptive-icon.png")
-          }
-          style={styles.logo}
-        />
+    <Pressable onPress={onPress} style={{width: "100%"}}>
+      <View style={styles.container}>
+        <View style={styles.companyContainer} >
+          <Image
+              source={
+                company.logoUrl
+                  ? { uri: company.logoUrl }
+                  : require("../../assets/images/icon.png") //ADAPTIVE?
+              }
+              style={styles.logo}
+
+            />
+            <View style={styles.companyInfo} >
+              <ArkadText text={company.name} style={styles.companyName} ellipsizeMode="tail" numberOfLines={1} />
+
+              <View style={styles.companyLocationContainer}>
+                <Image source={require("../../assets/images/location_pin_white.png")} style={styles.locationPin} /> 
+
+                <ArkadText style={styles.companyLocationText} text={(
+                      Locations[companyLocations[company.id]] ?? "No data"
+                    ).replace("_", "-")}
+                />
+              </View>
+            </View>
+        </View>
       </View>
     </Pressable>
-    <TagsList company={company} />
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    overflow: "hidden",
     alignSelf: "center",
-    marginTop: 10,
+    alignItems: "center",
+    marginTop: 8,
     marginHorizontal: 10,
-    backgroundColor: Colors.white,
-    paddingTop: 12,
-    borderRadius: 16,
-    borderWidth: 4,
-    borderColor: Colors.arkadOrange,
   },
-  row: {
+  column: {
     flex: 1,
-    justifyContent: "center", //Centered horizontally
-    alignItems: "center", //Centered vertically
+    justifyContent: "center", //Centered vertically
+    alignItems: "center", //Centered horizontally
     flexDirection: "column",
   },
+  companyContainer: {
+    justifyContent: "center", //Centered horizontally
+    alignItems: "center", //Centered vertically
+    flexDirection: "row",
+    gap: 8,
+    flex: 1,
+  },
   logo: {
-    width: "85%",
-    height: Dimensions.get("window").height * 0.16,
+    width: 64,
+    height: 64,
     resizeMode: "contain",
+    backgroundColor: Colors.white,
+    borderRadius: 15,
+  },
+  companyInfo: {
+    marginLeft: 8,
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "flex-start",
   },
   companyName: {
     flex: 1,
-    fontSize: 24,
+    fontSize: 28,
+    fontWeight: "700",
     textAlign: "left",
     padding: 0,
-    marginHorizontal: 4,
-    color: Colors.arkadNavy,
+    margin: 0,
+    color: Colors.white,
   },
-  accenture: {
+  companyLocationContainer: {
+    alignItems: "baseline",
+    flexDirection: "row",
+    gap: 4,
+  },
+  locationPin: {
+    width: 16,
+    height: 16,
+  },
+  companyLocationText: {
     flex: 1,
-    justifyContent: "flex-start",
-    width: "90%",
-    alignSelf: "center",
-    marginTop: 0,
-    marginHorizontal: 10,
-    backgroundColor: Colors.white,
-    borderRadius: 16,
-    borderWidth: 10,
-    borderColor: Colors.accenture,
+    fontSize: 17,
+    margin: 0,
+    fontWeight: "400",
+    textAlign: "left",
+    lineHeight: 22,
+    color: Colors.lightGray
   },
 });

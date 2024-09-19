@@ -3,6 +3,7 @@ import * as React from "react";
 import { Text, TextProps } from "./Themed";
 import { StyleSheet, TextStyle } from "react-native";
 import Colors from "constants/Colors";
+import Fonts from "constants/Fonts";
 
 export function DefaultText(props: TextProps) {
   return (
@@ -10,13 +11,13 @@ export function DefaultText(props: TextProps) {
   );
 }
 
-interface textProps {
+interface textProps extends TextProps {
   text: string;
   style?: TextStyle;
 }
 
 export function ArkadText(props: textProps) {
-  return <Text style={[styles.text, props.style]}>{props.text}</Text>;
+  return <Text {...props} style={[styles.text, props.style]} >{props.text}</Text>;
 }
 export function SelectableArkadText(props: textProps) {
   return (
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     justifyContent: "center",
     textAlign: "center",
-    fontFamily: "main-font-bold",
+    fontFamily: Fonts.MyriadProRegular,
     color: Colors.white,
   },
 });
