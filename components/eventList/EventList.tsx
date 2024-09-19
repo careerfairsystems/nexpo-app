@@ -1,7 +1,14 @@
-import React from "react";
-import { Text, Dimensions, FlatList, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import {
+  Text,
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  View,
+  Pressable,
+} from "react-native";
 
-import { Event } from "api/Events";
+import { Event, getEvent } from "api/Events";
 import Colors from "constants/Colors";
 import { EventListItem } from "./EventListItem";
 import { API } from "api/API";
@@ -10,6 +17,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
+import RBSheet from "react-native-raw-bottom-sheet";
+import { ArkadButton } from "components/Buttons";
+import { is } from "date-fns/locale";
+import { getTicketForEvent, removeTicket, Ticket } from "api/Tickets";
+import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
+import QRCode from "react-native-qrcode-svg";
 
 type EventListProps = {
   events: Event[] | null;
@@ -20,6 +34,11 @@ type EventListProps = {
 const { width, height } = Dimensions.get("window");
 
 export function EventList({ events, onPress, showTickets }: EventListProps) {
+  const [isYesButtonDisabled, setYesButtonDisabled] = React.useState(true);
+  const refRBSheet = React.useRef<any>([]);
+  const [reload, setReload] = React.useState(false); // State variable to trigger re-render
+  const [chosenTicket, selectedTicket] = React.useState<Ticket | null>();
+
   if (events?.length == 0) {
     return <Text style={styles.text}>No upcoming events</Text>;
   }
@@ -42,10 +61,57 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
     return 0;
   });
 
+  const handleCrossPress = () => {
+    setYesButtonDisabled(true);
+    refRBSheet.current[0]?.open();
+    setTimeout(() => {
+      setYesButtonDisabled(false);
+    }, 2000);
+  };
+
+  async function deregister(event: Event): Promise<void> {
+    if (event?.id == undefined) {
+      return;
+    }
+
+    const ticket: Ticket | null = await getTicketForEvent(event);
+    if (ticket == null) {
+      Toast.show({
+        type: "error",
+        text1: "You are not booked to the event: " + event?.name,
+        visibilityTime: 5000,
+      });
+      return;
+    }
+
+    const success = await removeTicket(ticket.id);
+    console.log("Success: ", success);
+    if (success) {
+      refRBSheet.current?.close();
+      Toast.show({
+        type: "success",
+        text1: "Successfully unregistered from event: " + event?.name,
+        visibilityTime: 5000,
+      });
+      setReload(!reload); // Update the state variable to trigger re-render
+    }
+  }
+
+  const handleQRPress = async (event: Event) => {
+    refRBSheet.current[1]?.open();
+    const ticket = getTicketForEvent(event);
+    selectedTicket(await ticket);
+  };
+
+  useEffect(() => {
+    null;
+  }, [reload]);
+
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
       data={sortedEvents}
+      extraData={reload} // Re-render the list when the state variable changes
       keyExtractor={({ id }) => id.toString()}
       renderItem={({ item: event, index }) => {
         // Get the ticket information for the current event
@@ -110,30 +176,140 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
             {showTickets && (
               <View style={styles.ticketInfoContainer}>
                 <View style={styles.QRBox}>
-                  <AntDesign
-                    name="qrcode"
-                    size={height * 0.08}
-                    color={Colors.black}
-                  />
-                  {/* <ArkadText
-                    style={{
-                      ...styles.infoText,
-                      color: Colors.black,
-                      paddingRight: 10,
-                    }}
-                    text={"Show QR"}
-                  /> */}
+                  <Pressable onPress={() => handleQRPress(event)}>
+                    <AntDesign
+                      name="qrcode"
+                      size={height * 0.08}
+                      color={Colors.black}
+                    />
+                  </Pressable>
                 </View>
                 <View style={styles.unregisterBox}>
-                  <Entypo name="cross" size={height * 0.08} color="black" />{" "}
-                  {/* <ArkadText
-                    style={{
-                      ...styles.infoText,
-                      color: Colors.black,
-                      paddingRight: 10,
+                  <Pressable onPress={handleCrossPress}>
+                    <Entypo name="cross" size={height * 0.08} color="black" />{" "}
+                  </Pressable>
+
+                  <RBSheet
+                    ref={(ref) => (refRBSheet.current[1] = ref)}
+                    useNativeDriver={true}
+                    height={height * 0.6}
+                    customStyles={{
+                      draggableIcon: {
+                        backgroundColor: "transparent",
+                      },
+                      container: {
+                        backgroundColor: Colors.arkadNavy,
+                      },
                     }}
-                    text={"Unregister"}
-                  /> */}
+                    customModalProps={{
+                      animationType: "fade",
+                      statusBarTranslucent: false,
+                    }}
+                    customAvoidingViewProps={{
+                      enabled: false,
+                    }}
+                  >
+                    <View style={styles.centeredView}>
+                      <View style={styles.qrModalContainer}>
+                        <QRCode
+                          size={Dimensions.get("window").width * 0.65}
+                          value={chosenTicket?.code}
+                        />
+                      </View>
+
+                      <ArkadText
+                        style={{ fontSize: 25, paddingTop: "2%" }}
+                        text={`${event.name}`}
+                      />
+                      <ArkadText
+                        style={{ fontSize: 15, fontStyle: "italic" }}
+                        text={`Ticket ID: ${chosenTicket?.code}`}
+                      />
+                      <ArkadButton
+                        onPress={() => {
+                          refRBSheet.current[1]?.close();
+                          selectedTicket(null);
+                        }}
+                        style={{
+                          width: "75%",
+                          backgroundColor: Colors.arkadTurkos,
+                          paddingBottom: "2%",
+                        }}
+                      >
+                        <ArkadText text="Close" />
+                      </ArkadButton>
+                    </View>
+                  </RBSheet>
+
+                  <RBSheet
+                    ref={(ref) => (refRBSheet.current[0] = ref)}
+                    useNativeDriver={true}
+                    height={height * 0.3}
+                    customStyles={{
+                      draggableIcon: {
+                        backgroundColor: "transparent",
+                      },
+                      container: {
+                        backgroundColor: Colors.arkadNavy,
+                      },
+                    }}
+                    customModalProps={{
+                      animationType: "fade",
+                      statusBarTranslucent: false,
+                    }}
+                    customAvoidingViewProps={{
+                      enabled: false,
+                    }}
+                  >
+                    <View>
+                      <ArkadText
+                        style={{
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontFamily: "main-font-bold",
+                          marginTop: "10%",
+                        }}
+                        text={`Do you want to unregister from ${event.name}?`}
+                      />
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          width: "90%",
+                          alignSelf: "center",
+                        }}
+                      >
+                        {isYesButtonDisabled && (
+                          <ArkadButton
+                            onPress={() => null}
+                            style={{
+                              backgroundColor: Colors.gray,
+                              width: "45%",
+                            }}
+                          >
+                            <ArkadText text="Yes" />
+                          </ArkadButton>
+                        )}
+                        {!isYesButtonDisabled && (
+                          <ArkadButton
+                            onPress={() => deregister(event)}
+                            style={{
+                              backgroundColor: Colors.arkadTurkos,
+                              width: "45%",
+                            }}
+                          >
+                            <ArkadText text="Yes" />
+                          </ArkadButton>
+                        )}
+                        <ArkadButton
+                          onPress={() => refRBSheet.current[0]?.close()}
+                          style={{ width: "45%" }}
+                        >
+                          <ArkadText text="Close" />
+                        </ArkadButton>
+                      </View>
+                    </View>
+                  </RBSheet>
                 </View>
               </View>
             )}
@@ -211,5 +387,19 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: "main-font-bold",
     paddingLeft: 10, // Adjust padding to align text properly
+  },
+  qrModalContainer: {
+    borderRadius: 5,
+    borderWidth: 4,
+    padding: 16,
+    backgroundColor: Colors.white,
+    borderColor: Colors.arkadTurkos,
+  },
+  qrContainer: {},
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
   },
 });

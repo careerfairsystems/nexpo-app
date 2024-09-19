@@ -94,7 +94,7 @@ export default function EventDetailsScreen(id: number) {
     const stopSellingDate = subDays(eventTime, 2);
     const today = new Date();
     return today > stopSellingDate;
-  }
+  };
 
   const getEvent = async () => {
     const event = await API.events.getEvent(id);
@@ -157,7 +157,7 @@ export default function EventDetailsScreen(id: number) {
       temp_ticket = await API.tickets.createTicket(ticketRequest);
       if (typeof temp_ticket !== "object") {
         setLoading(false);
-        return
+        return;
       }
       setTicket(temp_ticket);
     }
@@ -167,11 +167,11 @@ export default function EventDetailsScreen(id: number) {
       const dateTime = eventTime.split(" ");
       alert(
         "Registered to " +
-        event?.name +
-        " " +
-        dateTime[0] +
-        "\nTakeaway at " +
-        selectedTime
+          event?.name +
+          " " +
+          dateTime[0] +
+          "\nTakeaway at " +
+          selectedTime
       );
     } else {
       alert("Registered to " + event?.name + " " + event?.date);
@@ -343,16 +343,16 @@ export default function EventDetailsScreen(id: number) {
                 "You have booked takeaway at: " +
                 (ticket.takeAwayTime
                   ? (() => {
-                    const timeParts = ticket.takeAwayTime
-                      ?.toString()
-                      .split("T")[1]
-                      .split(":");
-                    const hours = (parseInt(timeParts[0]) + 2)
-                      .toString()
-                      .padStart(2, "0");
-                    const minutes = timeParts[1];
-                    return hours + ":" + minutes;
-                  })()
+                      const timeParts = ticket.takeAwayTime
+                        ?.toString()
+                        .split("T")[1]
+                        .split(":");
+                      const hours = (parseInt(timeParts[0]) + 2)
+                        .toString()
+                        .padStart(2, "0");
+                      const minutes = timeParts[1];
+                      return hours + ":" + minutes;
+                    })()
                   : "")
               }
               style={styles.title}
