@@ -28,12 +28,12 @@ jobs:
         run: yarn --version
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Check dependencies
         run: yarn check
 
       # We don't have any meaningful at the moment so only typecheck for now
       - name: Run type-check
-      #  run: npm test
+        #  run: npm test
         run: yarn typecheck

@@ -6,7 +6,7 @@ echo "Check if yarn is installed..."
 yarn --version
 
 echo "Reinstall dependencies..."
-rm -rf node_modules && yarn install --frozen-lockfile
+rm -rf node_modules && yarn install
 
 echo "Check dependencies..."
 yarn check
