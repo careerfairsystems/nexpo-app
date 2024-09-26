@@ -19,6 +19,7 @@ type ListedEventItemProps = {
   itemStyle: ViewStyle;
   onPress: () => void;
   ticket_eventid: Promise<number | null>;
+  odd: boolean;
 };
 
 export const EventListItem = ({
@@ -26,6 +27,7 @@ export const EventListItem = ({
   itemStyle,
   onPress,
   ticket_eventid,
+  odd,
 }: ListedEventItemProps) => {
   const [backgroundColor, setBackgroundColor] = useState<{
     backgroundColor: string;
@@ -50,44 +52,37 @@ export const EventListItem = ({
   }, [ticket_eventid, event.id, event.capacity, event.ticketCount]);
 
   return (
-    <Pressable onPress={onPress} style={[styles.container, itemStyle]}>
-      <View style={styles.headerContainer}>
-        <ArkadText style={styles.eventName} text={event.name} />
-        <ArkadText
-          style={styles.eventTime}
-          text={API.events.formatTime(event.date, event.start, event.end)}
-        />
-        {/*       {event.type === 0 && (
-          <View style={styles.row}>
-            <Image
-              source={require("../../assets/images/event.png")}
-              style={styles.logo}
-            />
-          </View>
-        )} */}
-      </View>
-
-      <View style={styles.footerContainer}>
-        {/* Color of box changes depending on status */}
-        <View style={[styles.eventBookedContainer, backgroundColor]}>
-          <ArkadText
-            style={styles.eventBookedText}
-            text={event.ticketCount + "/" + event.capacity}
-          />
-        </View>
-      </View>
+    <Pressable
+      onPress={onPress}
+      style={[odd ? styles.containerOdd : styles.container, itemStyle]}
+    >
+      <Image
+        source={require("../../assets/images/adaptive-icon.png")}
+        style={styles.logo}
+      />
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    borderColor: Colors.arkadTurkos,
+    flex: 1,
+    justifyContent: "flex-start",
+    marginTop: 10,
+    marginHorizontal: 10,
+    backgroundColor: Colors.arkadTurkos,
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 4,
+  },
+  containerOdd: {
     borderColor: Colors.arkadOrange,
     flex: 1,
     justifyContent: "flex-start",
     marginTop: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.arkadOrange,
     padding: 16,
     borderRadius: 16,
     borderWidth: 4,

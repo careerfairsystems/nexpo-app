@@ -128,15 +128,7 @@ export default function CombainMapScreen() {
         setRoute(params);
 
       });
-      return () => {
-        bleUpdates.remove();
-        positionUpdates.remove();
-        usingGpsUpdate.remove();
-        newGpsLocationUpdate.remove();
-        wifiUpdates.remove();
-        modelUpdates.remove();
-        listenToRoute.remove();
-      };
+
     }
   }, [sdkInitialized, syncValue, location]);
 
