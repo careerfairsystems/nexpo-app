@@ -40,6 +40,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   const [showAllTickets, setShowAllTickets] = React.useState<boolean>(false);
   const [QRMode, setQRMode] = React.useState<boolean>(true);
   const [eventTickets, setEventTickets] = React.useState<Event[] | null>(null);
+  const [auth, setAuth] = React.useState<boolean>(false);
 
   async function getRegisteredEvents() {
     const bookedEvents = await API.events.getBookedNotScannedEvents();
@@ -48,6 +49,11 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
       bookedEvents.filter((event) => event.type == TicketType.CompanyEvent)
     );
   }
+
+  const getAuthenticated = async () => {
+    const isSignedIn = await API.auth.isAuthenticated();
+    if (isSignedIn) setAuth(true);
+  };
 
   const getEvents = async () => {
     setLoading(true);
@@ -112,6 +118,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     useCallback(() => {
       getEvents();
       getRegisteredEvents();
+      getAuthenticated();
     }, [])
   );
 
@@ -177,10 +184,12 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-        <TwoButtonSlider
-          onEventsPress={switchEvents}
-          onTicketsPress={switchTickets}
-        />
+        {auth && (
+          <TwoButtonSlider
+            onEventsPress={switchEvents}
+            onTicketsPress={switchTickets}
+          />
+        )}
         {/* <UpcomingButton showAllEvents={showAllEvents} onPress={switchEvents} /> */}
         {/* Admin button for QR Mode */}
         {role === Role.Administrator && (
