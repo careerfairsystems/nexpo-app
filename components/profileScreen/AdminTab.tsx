@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText } from "components/StyledText";
-import { Message, sendNotification } from "api/Messages";
+import { Message, sendNotification } from "api/Notifications";
 import { COMMITTEES, ROLES } from "./DroppdownItems";
 import { Committee } from "api/Committee";
 import { Role, updateRole } from "api/Role";
