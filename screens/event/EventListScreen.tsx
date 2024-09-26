@@ -1,10 +1,5 @@
 import * as React from "react";
-import { TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+import { StyleSheet } from "react-native";
 
 import { Text, View } from "components/Themed";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -20,9 +15,6 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import Toast from "react-native-toast-message";
 import Colors from "constants/Colors";
-import { TicketType } from "api/Tickets";
-
-const { width } = Dimensions.get("window");
 
 type EventsNavigation = {
   navigation: StackNavigationProp<EventStackParamlist, "EventListScreen">;
@@ -36,18 +28,8 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   const [upcomingEvents, setUpcomingEvents] = React.useState<Event[] | null>(
     null
   );
-  const [showAllEvents, setShowAllEvents] = React.useState<boolean>(true);
-  const [showAllTickets, setShowAllTickets] = React.useState<boolean>(false);
+  const [showAllEvents, setShowAllEvents] = React.useState<boolean>(false);
   const [QRMode, setQRMode] = React.useState<boolean>(true);
-  const [eventTickets, setEventTickets] = React.useState<Event[] | null>(null);
-
-  async function getRegisteredEvents() {
-    const bookedEvents = await API.events.getBookedNotScannedEvents();
-
-    setEventTickets(
-      bookedEvents.filter((event) => event.type == TicketType.CompanyEvent)
-    );
-  }
 
   const getEvents = async () => {
     setLoading(true);
@@ -76,13 +58,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   };
 
   function switchEvents() {
-    setShowAllEvents(true);
-    setShowAllTickets(false);
-  }
-
-  function switchTickets() {
-    setShowAllEvents(false);
-    setShowAllTickets(true);
+    setShowAllEvents(!showAllEvents);
   }
 
   function switchQRMode() {
@@ -111,7 +87,6 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
   useFocusEffect(
     useCallback(() => {
       getEvents();
-      getRegisteredEvents();
     }, [])
   );
 
@@ -119,78 +94,17 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     return <ScreenActivityIndicator />;
   }
 
-  const TwoButtonSlider = ({
-    onEventsPress,
-    onTicketsPress,
-  }: {
-    onEventsPress: () => void;
-    onTicketsPress: () => void;
-  }) => {
-    const [active, setActive] = React.useState("Events");
-    const translateX = useSharedValue(0);
-
-    const switchToEvents = () => {
-      setActive("Events");
-      translateX.value = withTiming(0, { duration: 250 }, () => {});
-      onEventsPress();
-    };
-
-    const switchToTickets = () => {
-      setActive("Your Tickets");
-      translateX.value = withTiming(width * 0.38, { duration: 250 }, () => {});
-      onTicketsPress();
-    };
-
-    const animatedStyle = useAnimatedStyle(() => {
-      return {
-        transform: [{ translateX: translateX.value }],
-      };
-    });
-
-    return (
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={switchToEvents}>
-          <Text
-            style={
-              active === "Events" ? styles.activeText : styles.inactiveText
-            }
-          >
-            Events
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={switchToTickets}>
-          <Text
-            style={
-              active === "Your Tickets"
-                ? styles.activeText
-                : styles.inactiveText
-            }
-          >
-            Your Tickets
-          </Text>
-        </TouchableOpacity>
-        <Animated.View style={[styles.slider, animatedStyle]} />
-      </View>
-    );
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-        <TwoButtonSlider
-          onEventsPress={switchEvents}
-          onTicketsPress={switchTickets}
-        />
-        {/* <UpcomingButton showAllEvents={showAllEvents} onPress={switchEvents} /> */}
+        <UpcomingButton showAllEvents={showAllEvents} onPress={switchEvents} />
         {/* Admin button for QR Mode */}
         {role === Role.Administrator && (
           <AdministratorButton QRMode={QRMode} switchQRMode={switchQRMode} />
         )}
-
         <EventList
-          events={showAllEvents ? events : eventTickets}
+          events={showAllEvents ? events : upcomingEvents}
           onPress={openEventDetails}
-          showTickets={showAllTickets}
         />
       </View>
     </View>
@@ -202,35 +116,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: Colors.arkadNavy,
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    width: "80%",
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: Colors.arkadTurkos,
-    overflow: "hidden",
-    position: "relative",
-    marginVertical: 20,
-  },
-  button: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1,
-  },
-  activeText: {
-    color: Colors.black,
-  },
-  inactiveText: {
-    color: Colors.white,
-  },
-  slider: {
-    position: "absolute",
-    width: "50%",
-    height: "100%",
-    backgroundColor: Colors.arkadTurkos,
-    borderRadius: 25,
   },
 });

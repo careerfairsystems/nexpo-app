@@ -41,7 +41,6 @@ export const BookedEventList = ({
                 itemStyle={{ width: windowWidth * 0.6 }}
                 onPress={() => onPress(event.id)}
                 ticket_eventid={ticket_eventid}
-                odd={false}
               />
             </View>
           );
