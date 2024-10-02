@@ -8,6 +8,8 @@ import {
   TouchableWithoutFeedback,
   Switch,
   Text,
+  StyleProp,
+  ViewStyle,
 } from "react-native";
 import {
   Ionicons,
@@ -32,8 +34,7 @@ import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import { ArkadButton } from "components/Buttons";
 import { ArkadText, NoButton } from "components/StyledText";
 import QRCode from "react-native-qrcode-svg";
-import { format, set, subDays, parse } from "date-fns";
-import { Picker } from "@react-native-picker/picker";
+import { format, subDays, parse } from "date-fns";
 import Toast from "react-native-toast-message";
 import { CategoriesDropdown } from "components/companies/CategoriesDroppdown";
 import { LUNCHTIMES } from "components/companies/DroppdownItems";
@@ -285,48 +286,58 @@ export default function EventDetailsScreen(id: number) {
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <QrModal />
-        <View style={styles.titleContainer}>
-          <ArkadText text={event.name} style={styles.title} />
+        <View style={styles.banner}>
+          <ArkadText text="EVENT BANNER" />
         </View>
         <View style={styles.headerContainer}>
-          <View style={[styles.subHeaderContainer, { flex: 0.7 }]}>
-            <View style={styles.leftItem}>
-              <Ionicons name="calendar" size={16} color="white" />
-              <ArkadText
-                text={API.events.formatTime(event.date, event.start, event.end)}
-                style={styles.headerText}
-              />
-            </View>
-            <View style={styles.leftItem}>
-              <Ionicons name="map" size={16} color="white" />
-              <ArkadText text={event.location} style={styles.headerText} />
-            </View>
-            <View style={styles.leftItem}>
-              <MaterialCommunityIcons
-                name="microphone"
-                size={16}
-                color="white"
-              />
-              <ArkadText text={event.host} style={styles.headerText} />
-            </View>
+          <ArkadText text={event.name} style={styles.title} />
+          <View style={styles.headerItem}>
+            <Ionicons name="calendar" size={16} style={styles.turkosText} />
+            <ArkadText
+              text={API.events.formatTime(event.date, event.start, event.end)}
+              style={{ ...styles.headerText, ...styles.turkosText }}
+            />
           </View>
-          <View style={[styles.subHeaderContainer, { flex: 0.3 }]}>
-            <View style={styles.rightItem}>
-              <Ionicons name="people" size={16} color="white" />
-              <ArkadText
-                text={event.ticketCount + "/" + event.capacity}
-                style={styles.headerText}
-              />
-            </View>
-            <View style={styles.rightItem}>
-              <MaterialIcons name="language" size={16} color="white" />
-              <ArkadText text={event.language} style={styles.headerText} />
-            </View>
+          <View style={styles.headerItem}>
+            <Ionicons name="map" size={16} style={styles.turkosText} />
+            <ArkadText
+              text={event.location}
+              style={{ ...styles.headerText, ...styles.turkosText }}
+            />
+          </View>
+          <View style={styles.headerItem}>
+            <Ionicons name="people" size={16} color="white" style={event.ticketCount >= event.capacity && styles.orangeText} />
+            <ArkadText
+              text={event.ticketCount + "/" + event.capacity}
+              style={{
+                ...styles.headerText,
+                ...(event.ticketCount >= event.capacity && styles.orangeText)
+              }}
+            />
+          </View>
+          <View style={styles.headerItem}>
+            <MaterialIcons name="language" size={16} color="white" />
+            <ArkadText
+              text={event.language}
+              style={styles.headerText}
+            />
+          </View>
+          <View style={styles.headerItem}>
+            <MaterialCommunityIcons
+              name="microphone"
+              size={16}
+              color="white"
+            />
+            <ArkadText text={event.host} style={styles.headerText} />
           </View>
         </View>
-        <View style={styles.descriptionContainer}>
-          <ArkadText text={event.description} style={styles.description} />
+
+        <View style={styles.descriptionTitle}>
+          <ArkadText text="Description" />
+          <View style={styles.line} />
         </View>
+        <Text style={styles.description}>{event.description}</Text>
+
         {ticket && registered && ticket?.event?.type === 1 && (
           <View style={styles.takeawayContainer}>
             <ArkadText text="Takeaway " style={styles.title} />
@@ -543,64 +554,63 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     alignItems: "center",
-    backgroundColor: Colors.arkadNavy,
-    borderColor: Colors.white,
-    borderWidth: 4,
-    borderRadius: 14,
   },
-  titleContainer: {
+  banner: {
     width: "90%",
     marginTop: 20,
-    height: 100,
+    height: 200,
     backgroundColor: Colors.arkadTurkos,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
     justifyContent: "center",
-    borderColor: Colors.arkadTurkos,
-    borderWidth: 4,
+    alignItems: "center",
     borderRadius: 14,
   },
-  title: {
-    justifyContent: "center",
-    fontSize: 24,
-    color: Colors.white,
-  },
   headerContainer: {
-    width: "90%",
-    marginTop: 24,
-    flexDirection: "row",
-    alignContent: "center",
-    backgroundColor: Colors.arkadNavy,
-  },
-  subHeaderContainer: {
-    flex: 1,
-    flexDirection: "column",
-    alignContent: "space-around",
-  },
-  leftItem: {
     marginTop: 16,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    width: "90%",
+    gap: 16,
+  },
+  title: {
+    fontSize: 32,
+    color: Colors.white,
+    textAlign: "left",
+    width: "100%",
+  },
+  headerItem: {
     flexDirection: "row",
     alignSelf: "flex-start",
     alignItems: "center",
-  },
-  rightItem: {
-    marginTop: 16,
-    flexDirection: "row-reverse",
-    alignSelf: "flex-end",
-    alignItems: "center",
+    marginTop: 4,
   },
   headerText: {
-    color: Colors.white,
     fontSize: 16,
     paddingHorizontal: 8,
     textAlign: "left",
   },
-  descriptionContainer: {
-    marginTop: 40,
+  turkosText: {
+    color: Colors.arkadTurkos,
+  },
+  orangeText: {
+    color: Colors.arkadOrange,
+  },
+  descriptionTitle: {
+    marginTop: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
     width: "90%",
+    overflow: "hidden",
+  },
+  line: {
+    width: "100%",
+    height: 2,
+    backgroundColor: Colors.white,
   },
   description: {
-    fontSize: 18,
+    marginTop: 4,
+    width: "90%",
     textAlign: "left",
     color: Colors.white,
   },
