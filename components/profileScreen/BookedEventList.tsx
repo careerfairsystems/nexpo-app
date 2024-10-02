@@ -4,6 +4,9 @@ import { Dimensions, FlatList, StyleSheet, View } from "react-native";
 import { Event } from "api/Events";
 import { EventListItem } from "../eventList/EventListItem";
 import { API } from "api/API";
+import { ArkadText } from "components/StyledText";
+import Colors from "constants/Colors";
+import { FontAwesome } from "@expo/vector-icons";
 
 type BookedEventListProps = {
   bookedEvents: Event[] | null;
@@ -11,6 +14,9 @@ type BookedEventListProps = {
 };
 
 const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const itemHeight = windowHeight * 0.25;
+
 
 export const BookedEventList = ({
   bookedEvents,
@@ -35,7 +41,7 @@ export const BookedEventList = ({
           const ticket_eventid = getTicketsForEvent(event);
 
           return (
-            <View style={styles.item}>
+            <View style={[styles.item, { height: itemHeight }]}>
               <EventListItem
                 event={event}
                 itemStyle={{ width: windowWidth * 0.6 }}
@@ -43,6 +49,24 @@ export const BookedEventList = ({
                 ticket_eventid={ticket_eventid}
                 odd={false}
               />
+              <View>
+                <ArkadText style={styles.eventText} text={event.name} />
+              </View>
+              <View style={styles.infoRow}>
+                <ArkadText
+                  style={{
+                    ...styles.infoText,
+                    color: Colors.arkadOrange,
+                    paddingRight: 10,
+                  }}
+                  text={API.events.formatTime(
+                    event.date,
+                    event.start,
+                    event.end
+                  )}
+                />
+              </View>
+
             </View>
           );
         }}
@@ -57,8 +81,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   item: {
-    height: 150,
+    height: 300,
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  infoText: {
+    fontSize: 16,
+    textAlign: "left",
+    fontFamily: "main-font-bold",
+    paddingLeft: 10, // Adjust padding to align text properly
+  },
+  infoRow: {
+    paddingLeft: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  eventText: {
+    paddingLeft: 10,
+    fontSize: 20,
+    textAlign: "left",
+    fontFamily: "main-font-bold",
+    color: Colors.white,
+    paddingTop: 10, // Space between event box and event name
+  },
+
+
 });
