@@ -110,18 +110,11 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
           onPress={(value) => setCheckboxState(!value)}
           style={invalidSignUp ? styles.checkboxError : styles.checkbox}
         />
-        <Pressable
-          style={styles.policyContainer}
-          onPress={() =>
-            Linking.openURL("https://www.arkadtlth.se/privacypolicy")
-          }
-        >
-          <ArkadText style={styles.loginText} text={"See privacy policy"} />
-        </Pressable>
+
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <ArkadButton onPress={signUp} style={{}}>
+          <ArkadButton onPress={signUp} style={{ marginTop: 20 }}>
             <ArkadText text="Sign Up" style={{}} />
           </ArkadButton>
         )}
@@ -134,6 +127,15 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
             text={"Already have an account? Login here!"}
           />
         </Pressable>
+
+        <Pressable
+          style={styles.policyContainer}
+          onPress={() =>
+            Linking.openURL("https://www.arkadtlth.se/privacypolicy")
+          }
+        >
+          <ArkadText style={styles.loginText} text={"See privacy policy"} />
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -144,11 +146,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.white,
     marginLeft: 12,
+    marginTop: 4,
   },
   checkboxError: {
     fontSize: 18,
     color: Colors.lightRed,
     marginLeft: 12,
+    marginTop: 4,
   },
   container: {
     flex: 1,
@@ -169,11 +173,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   loginContainer: {
-    marginTop: 20,
+    marginTop: 0,
     padding: 16,
   },
   policyContainer: {
-    padding: 16,
     margin: 5,
   },
   loginText: {
