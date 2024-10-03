@@ -22,7 +22,7 @@ export function Checkbox({ onPress, text, style }: checkboxProps) {
     <Pressable onPress={onCheckmarkPress} style={styles.checkboxContainer}>
       <View style={[styles.checkboxBase, checked && styles.checkboxChecked]}>
         {checked && (
-          <Ionicons name="checkmark" size={20} style={styles.checkmark} />
+          <Ionicons name="checkmark" size={30} style={styles.checkmark} />
         )}
       </View>
       <ArkadText style={style ? style : styles.text} text={text} />
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 2,
     borderColor: Colors.white,
-    backgroundColor: "transparent",
+    backgroundColor: Colors.white,
     marginLeft: 12,
   },
   text: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
 
   checkboxChecked: {
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.white,
   },
 
   checkboxContainer: {
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
 
   checkmark: {
-    color: Colors.white,
+    color: Colors.arkadOrange,
     alignSelf: "center",
   },
 });

@@ -89,21 +89,41 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
         source={require("../../assets/images/arkad_logo_inverted.png")}
       />
       <View style={styles.inputContainer}>
+        <ArkadText text="Email" style={styles.title} />
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
           onChangeText={setEmail}
-          style={{ borderColor: Colors.white, color: Colors.white }}
+          style={{
+            borderColor: Colors.white,
+            color: Colors.black,
+            backgroundColor: Colors.white,
+            paddingTop: 15,
+          }}
         />
+
+        <ArkadText text="First Name" style={styles.title} />
         <TextInput
           placeholder="First Name"
           onChangeText={setFirstName}
-          style={{ borderColor: Colors.white, color: Colors.white }}
+          style={{
+            borderColor: Colors.white,
+            color: Colors.black,
+            backgroundColor: Colors.white,
+            paddingTop: 15,
+          }}
         />
+
+        <ArkadText text="Last Name" style={styles.title} />
         <TextInput
           placeholder="Last Name"
           onChangeText={setLastName}
-          style={{ borderColor: Colors.white, color: Colors.white }}
+          style={{
+            borderColor: Colors.white,
+            color: Colors.black,
+            backgroundColor: Colors.white,
+            paddingTop: 15,
+          }}
         />
         <Checkbox
           text="I accept ARKADs privacy policy"
@@ -134,7 +154,10 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
             Linking.openURL("https://www.arkadtlth.se/privacypolicy")
           }
         >
-          <ArkadText style={styles.loginText} text={"See privacy policy"} />
+          <ArkadText
+            style={styles.loginText}
+            text={"See privacy policy here!"}
+          />
         </Pressable>
       </View>
     </ScrollView>
@@ -169,8 +192,12 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
+    color: Colors.white,
+    textAlign: "left",
+    paddingLeft: 12,
+    marginBottom: -10,
   },
   loginContainer: {
     marginTop: 0,
@@ -181,7 +208,6 @@ const styles = StyleSheet.create({
   },
   loginText: {
     textAlign: "center",
-    textDecorationLine: "underline",
     color: Colors.arkadTurkos,
   },
 });
