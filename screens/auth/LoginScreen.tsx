@@ -115,7 +115,10 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           style={styles.signUpContainer}
           onPress={() => navigation.navigate("ForgotPasswordScreen")}
         >
-          <ArkadText style={styles.signUpText} text={"Forgot your password?"} />
+          <ArkadText
+            style={styles.signUpText}
+            text={"Forgot your password? Click here!"}
+          />
         </Pressable>
       </View>
     </ScrollView>
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     textAlign: "center",
-    textDecorationLine: "underline",
+    // textDecorationLine: "underline",
     color: Colors.arkadTurkos,
   },
   loginButton: {
