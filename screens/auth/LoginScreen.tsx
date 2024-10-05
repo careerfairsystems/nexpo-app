@@ -79,19 +79,32 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
         {/* <SSO /> */}
         {loginEmail && (
           <View>
+            <ArkadText text="Email" style={styles.inputTitle} />
             <TextInput
               placeholder="Email"
               keyboardType="email-address"
               onChangeText={setEmail}
               onSubmitEditing={login}
-              style={{ borderColor: Colors.white, color: Colors.white }}
+              style={{
+                borderColor: Colors.white,
+                color: Colors.black,
+                backgroundColor: Colors.white,
+                paddingTop: 15,
+              }}
             />
+
+            <ArkadText text="Password" style={styles.inputTitle} />
             <TextInput
               placeholder="Password"
               secureTextEntry
               onChangeText={setPassword}
               onSubmitEditing={login}
-              style={{ borderColor: Colors.white, color: Colors.white }}
+              style={{
+                borderColor: Colors.white,
+                color: Colors.black,
+                backgroundColor: Colors.white,
+                paddingTop: 15,
+              }}
             />
           </View>
         )}
@@ -115,7 +128,10 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           style={styles.signUpContainer}
           onPress={() => navigation.navigate("ForgotPasswordScreen")}
         >
-          <ArkadText style={styles.signUpText} text={"Forgot your password?"} />
+          <ArkadText
+            style={styles.signUpText}
+            text={"Forgot your password? Click here!"}
+          />
         </Pressable>
       </View>
     </ScrollView>
@@ -146,11 +162,20 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     textAlign: "center",
-    textDecorationLine: "underline",
+    // textDecorationLine: "underline",
     color: Colors.arkadTurkos,
   },
   loginButton: {
     width: "65%",
     alignSelf: "center",
+  },
+
+  inputTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: Colors.white,
+    textAlign: "left",
+    paddingLeft: 12,
+    marginBottom: -10,
   },
 });
