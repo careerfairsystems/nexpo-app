@@ -186,131 +186,131 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
                 </View>
                 <View style={styles.unregisterBox}>
                   <Pressable onPress={handleCrossPress}>
-                    <Entypo name="cross" size={height * 0.08} color="black" />{" "}
+                    <Entypo name="cross" size={height * 0.08} color="black" />
                   </Pressable>
+                </View>
 
-                  <RBSheet
-                    ref={(ref) => (refRBSheet.current[1] = ref)}
-                    useNativeDriver={true}
-                    height={height * 0.6}
-                    customStyles={{
-                      draggableIcon: {
-                        backgroundColor: "transparent",
-                      },
-                      container: {
-                        backgroundColor: Colors.arkadNavy,
-                      },
-                    }}
-                    customModalProps={{
-                      animationType: "fade",
-                      statusBarTranslucent: false,
-                    }}
-                    customAvoidingViewProps={{
-                      enabled: false,
-                    }}
-                  >
-                    <View style={styles.centeredView}>
-                      <View style={styles.qrModalContainer}>
-                        <QRCode
-                          size={Dimensions.get("window").width * 0.65}
-                          value={chosenTicket?.code}
-                        />
-                      </View>
+                <RBSheet
+                  ref={(ref) => (refRBSheet.current[1] = ref)}
+                  useNativeDriver={true}
+                  height={height * 0.6}
+                  customStyles={{
+                    draggableIcon: {
+                      backgroundColor: "transparent",
+                    },
+                    container: {
+                      backgroundColor: Colors.arkadNavy,
+                    },
+                  }}
+                  customModalProps={{
+                    animationType: "fade",
+                    statusBarTranslucent: false,
+                  }}
+                  customAvoidingViewProps={{
+                    enabled: false,
+                  }}
+                >
+                  <View style={styles.centeredView}>
+                    <View style={styles.qrModalContainer}>
+                      <QRCode
+                        size={Dimensions.get("window").width * 0.65}
+                        value={chosenTicket?.code}
+                      />
+                    </View>
 
-                      <ArkadText
-                        style={{ fontSize: 25, paddingTop: "2%" }}
-                        text={`${event.name}`}
-                      />
-                      <ArkadText
-                        style={{ fontSize: 15, fontStyle: "italic" }}
-                        text={`Ticket ID: ${chosenTicket?.code}`}
-                      />
+                    <ArkadText
+                      style={{ fontSize: 25, paddingTop: "2%" }}
+                      text={`${event.name}`}
+                    />
+                    <ArkadText
+                      style={{ fontSize: 15, fontStyle: "italic" }}
+                      text={`Ticket ID: ${chosenTicket?.code}`}
+                    />
+                    <ArkadButton
+                      onPress={() => {
+                        refRBSheet.current[1]?.close();
+                        selectedTicket(null);
+                      }}
+                      style={{
+                        width: "75%",
+                        backgroundColor: Colors.arkadTurkos,
+                        paddingBottom: "2%",
+                      }}
+                    >
+                      <ArkadText text="Close" />
+                    </ArkadButton>
+                  </View>
+                </RBSheet>
+
+                <RBSheet
+                  ref={(ref) => (refRBSheet.current[0] = ref)}
+                  useNativeDriver={true}
+                  height={height * 0.3}
+                  customStyles={{
+                    draggableIcon: {
+                      backgroundColor: "transparent",
+                    },
+                    container: {
+                      backgroundColor: Colors.arkadNavy,
+                    },
+                  }}
+                  customModalProps={{
+                    animationType: "fade",
+                    statusBarTranslucent: false,
+                  }}
+                  customAvoidingViewProps={{
+                    enabled: false,
+                  }}
+                >
+                  <View>
+                    <ArkadText
+                      style={{
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontFamily: "main-font-bold",
+                        marginTop: "10%",
+                      }}
+                      text={`Do you want to unregister from ${event.name}?`}
+                    />
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        width: "90%",
+                        alignSelf: "center",
+                      }}
+                    >
+                      {isYesButtonDisabled && (
+                        <ArkadButton
+                          onPress={() => null}
+                          style={{
+                            backgroundColor: Colors.gray,
+                            width: "45%",
+                          }}
+                        >
+                          <ArkadText text="Yes" />
+                        </ArkadButton>
+                      )}
+                      {!isYesButtonDisabled && (
+                        <ArkadButton
+                          onPress={() => deregister(event)}
+                          style={{
+                            backgroundColor: Colors.arkadTurkos,
+                            width: "45%",
+                          }}
+                        >
+                          <ArkadText text="Yes" />
+                        </ArkadButton>
+                      )}
                       <ArkadButton
-                        onPress={() => {
-                          refRBSheet.current[1]?.close();
-                          selectedTicket(null);
-                        }}
-                        style={{
-                          width: "75%",
-                          backgroundColor: Colors.arkadTurkos,
-                          paddingBottom: "2%",
-                        }}
+                        onPress={() => refRBSheet.current[0]?.close()}
+                        style={{ width: "45%" }}
                       >
                         <ArkadText text="Close" />
                       </ArkadButton>
                     </View>
-                  </RBSheet>
-
-                  <RBSheet
-                    ref={(ref) => (refRBSheet.current[0] = ref)}
-                    useNativeDriver={true}
-                    height={height * 0.3}
-                    customStyles={{
-                      draggableIcon: {
-                        backgroundColor: "transparent",
-                      },
-                      container: {
-                        backgroundColor: Colors.arkadNavy,
-                      },
-                    }}
-                    customModalProps={{
-                      animationType: "fade",
-                      statusBarTranslucent: false,
-                    }}
-                    customAvoidingViewProps={{
-                      enabled: false,
-                    }}
-                  >
-                    <View>
-                      <ArkadText
-                        style={{
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontFamily: "main-font-bold",
-                          marginTop: "10%",
-                        }}
-                        text={`Do you want to unregister from ${event.name}?`}
-                      />
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          width: "90%",
-                          alignSelf: "center",
-                        }}
-                      >
-                        {isYesButtonDisabled && (
-                          <ArkadButton
-                            onPress={() => null}
-                            style={{
-                              backgroundColor: Colors.gray,
-                              width: "45%",
-                            }}
-                          >
-                            <ArkadText text="Yes" />
-                          </ArkadButton>
-                        )}
-                        {!isYesButtonDisabled && (
-                          <ArkadButton
-                            onPress={() => deregister(event)}
-                            style={{
-                              backgroundColor: Colors.arkadTurkos,
-                              width: "45%",
-                            }}
-                          >
-                            <ArkadText text="Yes" />
-                          </ArkadButton>
-                        )}
-                        <ArkadButton
-                          onPress={() => refRBSheet.current[0]?.close()}
-                          style={{ width: "45%" }}
-                        >
-                          <ArkadText text="Close" />
-                        </ArkadButton>
-                      </View>
-                    </View>
-                  </RBSheet>
-                </View>
+                  </View>
+                </RBSheet>
               </View>
             )}
           </View>
