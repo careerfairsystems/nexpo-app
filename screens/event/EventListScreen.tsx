@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { TouchableOpacity, StyleSheet, Dimensions, ViewStyle } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -135,7 +135,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     const animatedStyle = useAnimatedStyle(() => {
       return {
         transform: [{ translateX: translateX.value }],
-      };
+      } as Animated.AnimateStyle<ViewStyle>;  
     });
 
     return (
