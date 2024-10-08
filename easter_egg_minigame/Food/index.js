@@ -3,7 +3,7 @@ import { View, Image } from "react-native";
 export default function Food({ position, size }) {
   return (
     <Image
-      source={require("../../assets/images/BottomNavigatorIconPackage/Business 2W.png")}
+      source={require("../../assets/images/BottomNavigatorIconPackage/Business2W.png")}
       style={{
         width: size,
         height: size,

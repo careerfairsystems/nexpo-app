@@ -67,8 +67,9 @@ export default {
     extra: {
       isDev: process.env.NODE_ENV === "false",
       isProd: process.env.NODE_ENV !== "true",
-      backendUrl: "https://nexpo.arkadtlth.se/api",
+      //backendUrl: "https://nexpo.arkadtlth.se/api",
       //backendUrl: "http://localhost:5000/api",
+      backendUrl: "http://192.168.1.236:5000/api",
       eas: {
         target: "nexpoapp",
         projectId: "736e5c8b-3245-43fc-9803-293e803f584e",

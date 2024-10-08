@@ -192,7 +192,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
 
                 <RBSheet
                   ref={(ref) => (refRBSheet.current[1] = ref)}
-                  useNativeDriver={true}
+                  useNativeDriver={false}
                   height={height * 0.6}
                   customStyles={{
                     draggableIcon: {
@@ -244,7 +244,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
 
                 <RBSheet
                   ref={(ref) => (refRBSheet.current[0] = ref)}
-                  useNativeDriver={true}
+                  useNativeDriver={false}
                   height={height * 0.3}
                   customStyles={{
                     draggableIcon: {

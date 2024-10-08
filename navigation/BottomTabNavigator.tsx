@@ -100,8 +100,8 @@ export default function BottomTabNavigator() {
                 <Image
                   source={
                     focused
-                      ? require("../assets/images/BottomNavigatorIconPackage/Business 2W.png")
-                      : require("../assets/images/BottomNavigatorIconPackage/Business 2B.png")
+                      ? require("../assets/images/BottomNavigatorIconPackage/Business2W.png")
+                      : require("../assets/images/BottomNavigatorIconPackage/Business2B.png")
                   }
                   style={{ width: 30, height: 30, marginBottom: -3 }}
                 />
@@ -119,8 +119,8 @@ export default function BottomTabNavigator() {
                 <Image
                   source={
                     focused
-                      ? require("../assets/images/BottomNavigatorIconPackage/Maps 2W.png")
-                      : require("../assets/images/BottomNavigatorIconPackage/Maps 2B.png")
+                      ? require("../assets/images/BottomNavigatorIconPackage/Maps2W.png")
+                      : require("../assets/images/BottomNavigatorIconPackage/Maps2B.png")
                   }
                   style={{ width: 30, height: 30, marginBottom: -3 }}
                 />
@@ -139,8 +139,8 @@ export default function BottomTabNavigator() {
                   <Image
                     source={
                       focused
-                        ? require("../assets/images/BottomNavigatorIconPackage/Events 2W.png")
-                        : require("../assets/images/BottomNavigatorIconPackage/Events 2B.png")
+                        ? require("../assets/images/BottomNavigatorIconPackage/Events2W.png")
+                        : require("../assets/images/BottomNavigatorIconPackage/Events2B.png")
                     }
                     style={{ width: 30, height: 30, marginBottom: -3 }}
                   />
@@ -161,8 +161,8 @@ export default function BottomTabNavigator() {
                   <Image
                     source={
                       focused
-                        ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png")
-                        : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")
+                        ? require("../assets/images/BottomNavigatorIconPackage/StudentSessions2W.png")
+                        : require("../assets/images/BottomNavigatorIconPackage/StudentSessions2B.png")
                     }
                     style={{ width: 30, height: 30, marginBottom: -3 }}
                   />
@@ -183,8 +183,8 @@ export default function BottomTabNavigator() {
                     <Image
                       source={
                         focused
-                          ? require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2W.png")
-                          : require("../assets/images/BottomNavigatorIconPackage/Student Sessions 2B.png")
+                          ? require("../assets/images/BottomNavigatorIconPackage/StudentSessions2W.png")
+                          : require("../assets/images/BottomNavigatorIconPackage/StudentSessions2B.png")
                       }
                       style={{ width: 30, height: 30, marginBottom: -3 }}
                     />
@@ -206,8 +206,8 @@ export default function BottomTabNavigator() {
                   <Image
                     source={
                       focused
-                        ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png")
-                        : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")
+                        ? require("../assets/images/BottomNavigatorIconPackage/Profile2W.png")
+                        : require("../assets/images/BottomNavigatorIconPackage/Profile2B.png")
                     }
                     style={{ width: 30, height: 30, marginBottom: -3 }}
                   />
@@ -225,8 +225,8 @@ export default function BottomTabNavigator() {
                   <Image
                     source={
                       focused
-                        ? require("../assets/images/BottomNavigatorIconPackage/Profile 2W.png")
-                        : require("../assets/images/BottomNavigatorIconPackage/Profile 2B.png")
+                        ? require("../assets/images/BottomNavigatorIconPackage/Profile2W.png")
+                        : require("../assets/images/BottomNavigatorIconPackage/Profile2B.png")
                     }
                     style={{ width: 30, height: 30, marginBottom: -3 }}
                   />
