@@ -8,6 +8,7 @@ import SSsCompaniesScreen from "./SSsCompaniesScreen";
 import SSsListScreen from "./SSsListScreen";
 import SSsSwitchScreen from "./SSsSwitchScreen";
 import { Image } from "react-native";
+import Colors from "constants/Colors";
 
 export type SSsStackParamlist = {
   SSsCompaniesScreen: undefined;
@@ -34,18 +35,7 @@ export function SSsStudentNavigator() {
         component={SSsCompaniesScreen}
         options={{
           title: "Student Sessions",
-          headerTitle: "Student Sessions",
-          headerRight: () => (
-            <Image
-              source={require("../../assets/images/arkad_logo_inverted.png")}
-              style={{
-                marginRight: 10,
-                width: 60,
-                height: undefined,
-                flex: 1,
-              }}
-            />
-          ),
+          headerTitle: "",
           ...HeaderStyles,
         }}
       />
@@ -54,19 +44,12 @@ export function SSsStudentNavigator() {
         component={SSsListScreen}
         options={{
           title: "Student Sessions List",
-          headerTitle: "Student Sessions",
-          headerRight: () => (
-            <Image
-              source={require("../../assets/images/arkad_logo_inverted.png")}
-              style={{
-                marginRight: 10,
-                width: 60,
-                height: undefined,
-                flex: 1,
-              }}
-            />
-          ),
+          headerTitle: "",
           ...HeaderStyles,
+          headerStyle: {
+            backgroundColor: Colors.arkadTurkos,
+            borderBottomWidth: 0,
+          },
         }}
       />
       <SSsStack.Screen
@@ -74,18 +57,7 @@ export function SSsStudentNavigator() {
         component={SSsSwitchScreen}
         options={{
           title: "Studentsession",
-          headerTitle: "Student Sessions",
-          headerRight: () => (
-            <Image
-              source={require("../../assets/images/arkad_logo_inverted.png")}
-              style={{
-                marginRight: 10,
-                width: 60,
-                height: undefined,
-                flex: 1,
-              }}
-            />
-          ),
+          headerTitle: "",
           ...HeaderStyles,
         }}
       />
