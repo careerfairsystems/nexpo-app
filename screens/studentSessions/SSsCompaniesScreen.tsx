@@ -35,7 +35,6 @@ export default function SSsCompaniesScreen({ navigation }: SSsNavigation) {
       const user = await API.users.getMe();
       setUser(user);
     } catch (error) {
-      // Handle the case where the user is not logged in
       setUser(null);
     }
   };
@@ -62,12 +61,12 @@ export default function SSsCompaniesScreen({ navigation }: SSsNavigation) {
           ListHeaderComponent={
             <View style={styles.titleContainer}>
               <ArkadText
-                text={"Welcome to \n Student Sessions!"}
+                text={"Welcome to \nStudent Sessions!"}
                 style={styles.title}
               />
               <ArkadText
                 text={
-                  "Make sure to book a session with your favorite companies below. A student session is a 30 minute one on one meeting with a company representative. A great way to stand out in a sea of work hungry students!"
+                  "Book a 30-minute one-on-one meeting with a company representative. This is a great way to stand out and connect with your favorite companies!"
                 }
                 style={styles.text}
               />
@@ -89,7 +88,7 @@ export default function SSsCompaniesScreen({ navigation }: SSsNavigation) {
     return (
       <View style={styles.titleContainerNoUser}>
         <ArkadText
-          text={"Please log in to view which companies offer Student Sessions"}
+          text={"Please log in to view available Student Sessions"}
           style={styles.title_nologin}
         />
       </View>
@@ -99,39 +98,47 @@ export default function SSsCompaniesScreen({ navigation }: SSsNavigation) {
 
 const styles = StyleSheet.create({
   title: {
-    paddingBottom: 5,
-    fontSize: 50,
-    color: Colors.white,
+    paddingBottom: 10,
+    fontSize: 32,
+    fontWeight: "bold",
+    color: Colors.arkadTurkos,
+    textAlign: "center",
   },
   title_nologin: {
     paddingBottom: 5,
-    fontSize: 30,
-    color: Colors.white,
+    fontSize: 28,
+    color: Colors.arkadTurkos,
+    textAlign: "center",
   },
   text: {
     fontSize: 16,
     color: Colors.white,
+    textAlign: "center",
+    marginTop: 10,
+    lineHeight: 24,
   },
   titleContainer: {
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
     width: "90%",
     alignSelf: "center",
+    backgroundColor: Colors.arkadNavy,
+    borderRadius: 10,
+    padding: 20,
   },
   titleContainerNoUser: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    width: "90%",
-    alignSelf: "center",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
   container: {
+    padding: 10,
     flex: 1,
     backgroundColor: Colors.arkadNavy,
   },
   list: {
     width: "100%",
+    paddingTop: 20,
   },
 });
