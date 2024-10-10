@@ -120,17 +120,22 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     const [active, setActive] = React.useState("Events");
     const translateX = useSharedValue(0);
 
+    const buttonContainerWidth = width * 0.8;
+    const halfButtonWidth = buttonContainerWidth / 2;
+
     const switchTab = (tab: React.SetStateAction<string>) => {
-      console.count("switchTab");
-      if (tab === "Events") {
-        setShowAllEvents(true);
-        translateX.value = withTiming(0, { duration: 250 });
-      } else {
-        setShowAllEvents(false);
-        translateX.value = withTiming(width * 0.38, { duration: 250 });
+      if (active !== tab) {
+        setActive(tab);
+        if (tab === "Events") {
+          setShowAllEvents(true);
+          translateX.value = withTiming(0, { duration: 250 });
+        } else {
+          setShowAllEvents(false);
+          translateX.value = withTiming(halfButtonWidth, { duration: 250 });
+        }
       }
-      setActive(tab);
     };
+
 
     const animatedStyle = useAnimatedStyle(() => {
       return {
@@ -179,11 +184,13 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
           <AdministratorButton QRMode={QRMode} switchQRMode={switchQRMode} />
         )}
 
-        <EventList
-          events={showAllEvents ? events : eventTickets}
-          onPress={openEventDetails}
-          showTickets={!showAllEvents}
-        />
+        {showAllEvents ? (
+          <EventList events={events} onPress={openEventDetails} showTickets={false} />
+        ) : eventTickets && eventTickets.length > 0 ? (
+          <EventList events={eventTickets} onPress={openEventDetails} showTickets={true} />
+        ) : (
+          <ArkadText style={styles.noTicketsText} text="You have no tickets yet." />
+        )}
       </View>
     </View>
   );
@@ -225,4 +232,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadTurkos,
     borderRadius: 25,
   },
+  noTicketsText: {
+    color: Colors.white,
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 20,
+  },
+
+
+
+
 });

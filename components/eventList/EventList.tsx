@@ -61,15 +61,11 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
     return 0;
   });
 
-  const handleCrossPress = () => {
-    setYesButtonDisabled(true);
-    refRBSheet.current[0]?.open();
-    setTimeout(() => {
-      setYesButtonDisabled(false);
-    }, 2000);
+  const handleCrossPress = (index:number) => {
+    refRBSheet.current[index]?.open();
   };
 
-  async function deregister(event: Event): Promise<void> {
+  async function deregister(event: Event, index:number): Promise<void> {
     if (event?.id == undefined) {
       return;
     }
@@ -87,7 +83,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
     const success = await removeTicket(ticket.id);
     console.log("Success: ", success);
     if (success) {
-      refRBSheet.current?.close();
+      refRBSheet.current[index]?.close();
       Toast.show({
         type: "success",
         text1: "Successfully unregistered from event: " + event?.name,
@@ -97,8 +93,8 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
     }
   }
 
-  const handleQRPress = async (event: Event) => {
-    refRBSheet.current[1]?.open();
+  const handleQRPress = async (event: Event, index:number) => {
+    refRBSheet.current[index]?.open();
     const ticket = getTicketForEvent(event);
     selectedTicket(await ticket);
   };
@@ -116,6 +112,8 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
       renderItem={({ item: event, index }) => {
         // Get the ticket information for the current event
         const ticket_eventid = getTicketsForEvent(event);
+        const qrIndex = 2*index;
+        const crossIndex = 2*index+1;
 
         return (
           <View
@@ -176,7 +174,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
             {showTickets && (
               <View style={styles.ticketInfoContainer}>
                 <View style={styles.QRBox}>
-                  <Pressable onPress={() => handleQRPress(event)}>
+                  <Pressable onPress={() => handleQRPress(event, qrIndex)}>
                     <AntDesign
                       name="qrcode"
                       size={height * 0.08}
@@ -185,13 +183,13 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
                   </Pressable>
                 </View>
                 <View style={styles.unregisterBox}>
-                  <Pressable onPress={handleCrossPress}>
+                  <Pressable onPress={() => handleCrossPress(crossIndex)}>
                     <Entypo name="cross" size={height * 0.08} color="black" />
                   </Pressable>
                 </View>
 
                 <RBSheet
-                  ref={(ref) => (refRBSheet.current[1] = ref)}
+                  ref={(ref) => (refRBSheet.current[qrIndex] = ref)}
                   useNativeDriver={true}
                   height={height * 0.6}
                   customStyles={{
@@ -228,7 +226,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
                     />
                     <ArkadButton
                       onPress={() => {
-                        refRBSheet.current[1]?.close();
+                        refRBSheet.current[qrIndex]?.close();
                         selectedTicket(null);
                       }}
                       style={{
@@ -243,7 +241,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
                 </RBSheet>
 
                 <RBSheet
-                  ref={(ref) => (refRBSheet.current[0] = ref)}
+                  ref={(ref) => (refRBSheet.current[crossIndex] = ref)}
                   useNativeDriver={true}
                   height={height * 0.3}
                   customStyles={{
@@ -280,30 +278,18 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
                         alignSelf: "center",
                       }}
                     >
-                      {isYesButtonDisabled && (
+
+
                         <ArkadButton
-                          onPress={() => null}
-                          style={{
-                            backgroundColor: Colors.gray,
-                            width: "45%",
-                          }}
-                        >
-                          <ArkadText text="Yes" />
-                        </ArkadButton>
-                      )}
-                      {!isYesButtonDisabled && (
-                        <ArkadButton
-                          onPress={() => deregister(event)}
+                          onPress={() => deregister(event, crossIndex)}
                           style={{
                             backgroundColor: Colors.arkadTurkos,
                             width: "45%",
                           }}
                         >
-                          <ArkadText text="Yes" />
-                        </ArkadButton>
-                      )}
+                        <ArkadText text="Yes" /></ArkadButton>
                       <ArkadButton
-                        onPress={() => refRBSheet.current[0]?.close()}
+                        onPress={() => refRBSheet.current[crossIndex]?.close()}
                         style={{ width: "45%" }}
                       >
                         <ArkadText text="Close" />
