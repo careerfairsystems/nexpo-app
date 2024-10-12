@@ -81,15 +81,21 @@ export default function BottomTabNavigator() {
     return (
       <BottomTab.Navigator
         initialRouteName="Events"
-        tabBarOptions={{
-          activeTintColor: Colors.white,
-          inactiveTintColor: Colors.arkadTurkos,
-          activeBackgroundColor: Colors.arkadNavy,
-          inactiveBackgroundColor: Colors.arkadNavy,
-          style: {
-            borderTopColor: "#003366",
-          },
-        }}
+        screenOptions={
+        {
+          "tabBarActiveTintColor": "#ffffff",
+          "tabBarInactiveTintColor": "#19A1DB",
+          "tabBarActiveBackgroundColor": "#041224",
+          "tabBarInactiveBackgroundColor": "#041224",
+          "tabBarStyle": [
+            {
+              "display": "flex"
+            },
+            null
+          ],headerShown: false
+        }
+
+      }
       >
         <BottomTab.Screen
           name="Companies"

@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: Colors.white,
     borderWidth: 2,
+    width: "100%",
   },
   searchIcon: {
     width: 24,

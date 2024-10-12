@@ -24,6 +24,10 @@ export default {
       target: "nexpoapp",
       buildNumber: "2.0.0",
       plugins: [
+        "expo-asset",
+        "expo-build-properties",
+        "expo-font",
+        "expo-secure-store",
         "@react-native-firebase/app",
         [
           "expo-build-properties",
@@ -77,7 +81,6 @@ export default {
     name: "ARKAD",
     slug: "nexpo-app",
     version: "1.0.0",
-    sdkVersion: "48.0.0",
     googleServicesFile: "./google-services.json",
     platforms: ["ios", "android", "web"],
   },

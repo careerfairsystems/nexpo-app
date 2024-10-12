@@ -71,9 +71,7 @@ export default function AppLoader({ children }: Props) {
 
   // Temporrarly disable splash screen when in DEVELOPMENT mode
   // If not disabled the mobile test application of Expo Go wont work
-  if (__DEV__) {
-    return <View style={styles.container}>{children}</View>;
-  }
+
 
   return (
     <View style={styles.container}>

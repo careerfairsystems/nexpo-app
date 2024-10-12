@@ -65,7 +65,6 @@ export default function CompanyDetailsScreen({
   const navigation = useNavigation();
 
 
-  const height = useHeaderHeight();
 
 
   useEffect(() => {
