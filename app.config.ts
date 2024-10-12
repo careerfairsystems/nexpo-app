@@ -28,7 +28,6 @@ export default {
         "expo-build-properties",
         "expo-font",
         "expo-secure-store",
-        "@react-native-firebase/app",
         [
           "expo-build-properties",
           {
@@ -64,7 +63,6 @@ export default {
       },
       permissions: ["CAMERA"],
     },
-    plugins: ["@react-native-firebase/app"],
     web: {
       favicon: "./assets/images/favicon.png",
     },
