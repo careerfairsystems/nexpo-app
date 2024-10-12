@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Message } from "api/Messages";
+import { Message } from "api/Notifications";
 import { ArkadText } from "components/StyledText";
 import Colors from "constants/Colors";
 

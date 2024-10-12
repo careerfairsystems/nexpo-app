@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { ArkadText } from "components/StyledText";
-import { Message } from "api/Messages";
+import { Message } from "api/Notifications";
 import MessageListItem from "./MessageListItem";
 import { API } from "api/API";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
 import Colors from "constants/Colors";
+import Notification from "expo-notifications"
 
 export default function MessagesTab() {
   const [messages, setMessages] = useState<Message[]>([]); // Initialize as an empty array
@@ -13,7 +14,7 @@ export default function MessagesTab() {
 
   const getMessages = async () => {
     setLoading(true);
-    const notifications = await API.messages.getNotifications();
+    const notifications = await ();
     setMessages(notifications);
     setLoading(false);
   };
