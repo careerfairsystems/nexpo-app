@@ -52,33 +52,43 @@ export default function UserProfile({ user }: UserProfileProps) {
   } else {
     return (
       <>
-        <View style={styles.container}>
-          <ProfilePicture url={user.profilePictureUrl} />
-          <Text
-            style={styles.nameLabel}
-          >{`${user.firstName} ${user.lastName}`}</Text>
-          {Role[user.role] === "Volunteer" ? (
-            <Text style={styles.accountTypeText}>ARKAD Volunteer</Text>
-          ) : (
-            <Text style={styles.accountTypeText}>{Role[user.role]}</Text>
-          )}
+        <View style={styles.outerContainer}>
+          <View style={styles.container}>
+            <View style={styles.logoOuterContainer}>
+              <View style={styles.hardShadow} />
+              <View style={styles.logoContainer}>
+                <ProfilePicture url={user.profilePictureUrl} />
+              </View>
+            </View>
+          </View>
 
-          <View style={styles.contactInfoContainer}>
-            <Ionicons name="mail" size={16} color={Colors.white} />
-            <Text style={styles.contactInfoText}>{user.email}</Text>
+          <View style={styles.textContainer}>
+
+          <Text style={styles.nameLabel}>{`${user.firstName} ${user.lastName}`}</Text>
+            {Role[user.role] === "Volunteer" ? (
+              <Text style={styles.accountTypeText}>ARKAD Volunteer</Text>
+            ) : (
+              <Text style={styles.accountTypeText}>{Role[user.role]}</Text>
+            )}
+
+            <View style={styles.contactInfoContainer}>
+              <Ionicons name="mail" size={16} color={Colors.white} />
+              <Text style={styles.contactInfoText}>{user.email}</Text>
+            </View>
+            <View style={styles.contactInfoContainer}>
+              <Ionicons name="call" size={16} color={Colors.white} />
+              <Text style={styles.contactInfoText}>
+                {user.phoneNr ? user.phoneNr : "\u2013"}
+              </Text>
+            </View>
+            <View style={styles.contactInfoContainer}>
+              <Ionicons name="restaurant" size={16} color={Colors.white} />
+              <Text style={styles.contactInfoText}>
+                {user.foodPreferences ? user.foodPreferences : "\u2013"}
+              </Text>
           </View>
-          <View style={styles.contactInfoContainer}>
-            <Ionicons name="call" size={16} color={Colors.white} />
-            <Text style={styles.contactInfoText}>
-              {user.phoneNr ? user.phoneNr : "\u2013"}
-            </Text>
           </View>
-          <View style={styles.contactInfoContainer}>
-            <Ionicons name="restaurant" size={16} color={Colors.white} onPress={easter_egg}/>
-            <Text style={styles.contactInfoText}>
-              {user.foodPreferences ? user.foodPreferences : "\u2013"}
-            </Text>
-          </View>
+
         </View>
       </>
     );
@@ -86,13 +96,44 @@ export default function UserProfile({ user }: UserProfileProps) {
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+  },
+  textContainer: {
+    alignItems: "center",
+  },
+
   container: {
     display: "flex",
+    flex: 1,
     alignItems: "center",
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.arkadTurkos,
+  },
+  hardShadow: {
+    height: 128,
+    width: 136,
+    borderRadius: 15,
+    position: "absolute",
+    backgroundColor: "#000000",
+  },
+  logoOuterContainer: {
+    marginTop: 12,
+    marginBottom: -28,
+    height: 128,
+    width: 128,
+  },
+  logoContainer: {
+    height: "100%",
+    width: "100%",
+    backgroundColor: Colors.white,
+    borderRadius: 15,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   nameLabel: {
-    paddingTop: 8,
+    marginTop: 38,
+    paddingBottom: 8,
     fontSize: 32,
     fontFamily: "main-font-bold",
     color: Colors.white,
@@ -127,6 +168,6 @@ const styles = StyleSheet.create({
     padding: "4%",
     marginBottom: "2%",
     width: "45%",
-    marginTop: 30
+    marginTop: 30,
   },
 });

@@ -168,17 +168,17 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: Colors.white,
     margin: 12,
-    backgroundColor: Colors.arkadNavy,
+    backgroundColor: Colors.white,
     color: Colors.white,
   },
   programmepicker: {
     width: "80%",
-    maxWidth: 433,
+    maxWidth: 400,
     padding: 10,
     borderColor: Colors.white,
     margin: 12,
-    backgroundColor: Colors.arkadNavy,
-    color: Colors.white,
+    backgroundColor: Colors.white,
+    color: Colors.black,
     fontFamily: "main-font-bold",
     borderRadius: 7,
     paddingVertical: 12,
@@ -190,5 +190,6 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     borderColor: Colors.white,
     color: Colors.white,
+    backgroundColor: Colors.white
   },
 });

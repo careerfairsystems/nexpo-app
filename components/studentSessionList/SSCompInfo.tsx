@@ -40,9 +40,6 @@ export default function SSCompInfo({ company }: CompanyDetailsScreenProps) {
 }
 
 const styles = StyleSheet.create({
-  center: {
-    alignItems: "center",
-  },
   outerContainer: {
     flex: 1,
   },

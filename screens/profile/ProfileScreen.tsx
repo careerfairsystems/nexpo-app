@@ -268,7 +268,6 @@ export default function ProfileScreen({ navigation }: ProfileScreenParams) {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    paddingVertical: 24,
     backgroundColor: Colors.arkadNavy,
   },
   header: {

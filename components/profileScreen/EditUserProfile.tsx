@@ -69,12 +69,9 @@ export default function EditUserProfile({
 
   const setProfilePicture = async () => {
     if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert(
-          "We need camera roll permissions to upload a new profile picture"
-        );
+        alert("We need camera roll permissions to upload a new profile picture");
         return;
       }
     }
@@ -85,51 +82,29 @@ export default function EditUserProfile({
       aspect: [1, 1],
     });
 
+    // Check if the user canceled the image picker
     if (result.canceled) {
       return;
     }
 
     let uri;
     console.log(result);
-    if (
-      result &&
-      result["assets"] &&
-      result["assets"][0] &&
-      result["assets"][0]["uri"]
-    ) {
-      uri = result["assets"][0]["uri"];
+
+    if (result.assets && result.assets.length > 0 && result.assets[0].uri) {
+      uri = result.assets[0].uri;
     } else {
       alert("Error: No image found");
       return;
     }
 
-    if (!uri.includes("data:image")) {
+    // Optionally check for a data URL (not common for ImagePicker)
+    if (!uri.startsWith("http")) {
       Toast.show({
         type: "error",
         text1: "Error",
-        text2: "You must select an image",
+        text2: "You must select a valid image",
       });
       return;
-    }
-
-    if (Platform.OS !== "web") {
-      const fileInfo = await FileSystem.getInfoAsync(uri);
-      if (uri.includes("data:image")) {
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: "You must select an image",
-        });
-        return;
-      }
-      /*       if (fileInfo && fileInfo.size ? fileInfo.size > 5000000 : false) {
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: "Maximum file size of 5 Mb exceeded",
-        });
-        return;
-      } */
     }
 
     try {
@@ -141,11 +116,11 @@ export default function EditUserProfile({
       setHasProfilePicture(true);
       Toast.show({
         type: "success",
-        text2:
-          "Profile picture uploaded. Save profile to see the new profile picture",
+        text2: "Profile picture uploaded. Save profile to see the new profile picture",
         visibilityTime: 4000,
       });
     } catch (error) {
+      console.error(error); // Log the error for debugging
       Toast.show({
         type: "error",
         text1: "Error",
@@ -153,6 +128,7 @@ export default function EditUserProfile({
       });
     }
   };
+
 
   const removeProfilePicture = async () => {
     if (hasProfilePicture == false) {
@@ -170,15 +146,16 @@ export default function EditUserProfile({
       });
     }
   };
-
   const setCV = async () => {
     let resultFile = await DocumentPicker.getDocumentAsync({});
-    if (resultFile.type == "success") {
+    let resultAsset = resultFile.assets[0]
+    if (resultFile && resultAsset) {
+      console.log("hej")
       if (
-        resultFile.mimeType == "application/pdf" &&
-        (resultFile.size ? resultFile.size < 10000000 : false)
+        resultAsset.mimeType === "application/pdf" &&
+        (resultAsset.size ? resultAsset.size < 10000000 : false)
       ) {
-        const r = resultFile.uri;
+        const r = resultAsset.uri;
         try {
           const res = await API.s3bucket.postToS3(
             r,
@@ -206,6 +183,7 @@ export default function EditUserProfile({
       }
     }
   };
+
 
   const deleteCV = async () => {
     try {
@@ -288,51 +266,65 @@ export default function EditUserProfile({
           </ArkadButton>
         )}
 
-        <Text style={styles.inputLabel}>First name</Text>
-        <TextInput
-          style={styles.textInput}
-          value={firstName ? firstName : ""}
-          placeholder="e.g John"
-          onChangeText={setFirstName}
-        />
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>First name</Text>
+          <TextInput
+            style={styles.textInput}
+            value={firstName || ""}
+            placeholder="e.g John"
+            onChangeText={setFirstName}
+          />
+        </View>
 
-        <Text style={styles.inputLabel}>Last name</Text>
-        <TextInput
-          style={styles.textInput}
-          value={lastName ? lastName : ""}
-          placeholder="e.g Doe"
-          onChangeText={setLastName}
-        />
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>Last name</Text>
+          <TextInput
+            style={styles.textInput}
+            value={lastName || ""}
+            placeholder="e.g Doe"
+            onChangeText={setLastName}
+          />
+        </View>
 
-        <Text style={styles.inputLabel}>Phone number</Text>
-        <TextInput
-          style={styles.textInput}
-          value={phoneNr ? phoneNr : ""}
-          placeholder="e.g 076-1234567"
-          onChangeText={setPhoneNr}
-        />
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>Phone number</Text>
+          <TextInput
+            style={styles.textInput}
+            value={phoneNr || ""}
+            placeholder="e.g 076-1234567"
+            onChangeText={setPhoneNr}
+          />
+        </View>
 
-        <Text style={styles.inputLabel}>Food preferences</Text>
-        <TextInput
-          style={styles.textInput}
-          value={foodPreferences ? foodPreferences : ""}
-          placeholder="e.g Vegetarian"
-          onChangeText={setFoodPreferences}
-        />
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>Food preferences</Text>
+          <TextInput
+            style={styles.textInput}
+            value={foodPreferences || ""}
+            placeholder="e.g Vegetarian"
+            onChangeText={setFoodPreferences}
+          />
+        </View>
 
-        <Text style={styles.inputLabel}>Password</Text>
-        <TextInput
-          style={styles.textInput}
-          secureTextEntry
-          placeholder="New password"
-          onChangeText={setPassword}
-        />
-        <TextInput
-          style={styles.textInput}
-          secureTextEntry
-          placeholder="Repeat password"
-          onChangeText={setRepeatPassword}
-        />
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>Password</Text>
+          <TextInput
+            style={styles.textInput}
+            secureTextEntry
+            placeholder="New password"
+            onChangeText={setPassword}
+          />
+        </View>
+
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputLabel}>Repeat password</Text>
+          <TextInput
+            style={styles.textInput}
+            secureTextEntry
+            placeholder="Repeat password"
+            onChangeText={setRepeatPassword}
+          />
+        </View>
       </View>
     </KeyboardAwareScrollView>
   );
@@ -342,6 +334,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     alignItems: "center",
+
   },
   hasCv: {
     backgroundColor: Colors.darkRed,
@@ -351,6 +344,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     fontSize: 32,
     color: Colors.arkadNavy,
+
   },
   header: {
     fontFamily: "main-font-bold",
@@ -360,16 +354,21 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   textInput: {
-    width: "80%",
-    maxWidth: 400,
-    borderColor: Colors.white,
-    color: Colors.white,
-    placeholderTextColor: "#404040",
+    borderColor: Colors.black,
+    color: Colors.black,
+    backgroundColor: Colors.white,
   },
   inputLabel: {
     color: Colors.white,
+    textAlign: "left",
     paddingTop: 5,
     fontFamily: "main-font",
     fontSize: 20,
+    paddingLeft: 12,
+
+  },
+  inputGroup: {
+    width: "87%",
+    maxWidth: 400,
   },
 });
