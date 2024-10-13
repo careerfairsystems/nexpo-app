@@ -7,7 +7,7 @@ import { TextInput } from "./TextInput";
 import { View } from "./Themed";
 import { ArkadButton } from "./Buttons";
 import { Entypo } from "@expo/vector-icons";
-
+import { useEffect, useState } from "react";
 
 export interface SearchBarProps extends TextInputProps {
   text: string,
@@ -19,39 +19,48 @@ export interface SearchBarProps extends TextInputProps {
 
 export function SearchBar({text, onChangeText, toggleFilter, modalVisible, isFiltered}: SearchBarProps) {
   const [focused, setFocused] = React.useState(false);
+  const [inputText, setInputText] = useState(text);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onChangeText(inputText);
+    }, 200); // some delay
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [inputText, onChangeText]);
 
   return (
     <View style={[styles.searchContainer, {borderColor: focused ? Colors.arkadTurkos : "none"}]}>
-        <Image source={require("../assets/images/search_icon_black.png")} style={styles.searchIcon} />
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder={"Search for a company..."}
-            placeholderTextColor={Colors.lightGray}
-            numberOfLines={1}
-            onBlur={() => setFocused(false)}
-            onFocus={() => setFocused(true)}
-          />
-
-        </View>
-      {!!text && (
-          <ArkadButton style={styles.clearButton} onPress={() => {onChangeText("")}} >
-            <Entypo name="cross" size={24} color="black" />
-          </ArkadButton>
-        )}
-        
-        <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()}>
-          {modalVisible ? (
-            <Entypo name="chevron-up" size={16} color="black" />
-          ) : (
-            <Image source={require("../assets/images/funnel_icon_black.png")} style={styles.filterIcon} />
-          )}
-          {isFiltered && <View style={styles.filterBadge} />}
+      <Image source={require("../assets/images/search_icon_black.png")} style={styles.searchIcon} />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={setInputText}
+          value={inputText}
+          placeholder={"Search for a company..."}
+          placeholderTextColor={Colors.lightGray}
+          numberOfLines={1}
+          onBlur={() => setFocused(false)}
+          onFocus={() => setFocused(true)}
+        />
+      </View>
+      {!!inputText && (
+        <ArkadButton style={styles.clearButton} onPress={() => {setInputText("")}} >
+          <Entypo name="cross" size={24} color="black" />
         </ArkadButton>
+      )}
+
+      <ArkadButton style={styles.filterbutton} onPress={() => toggleFilter()}>
+        {modalVisible ? (
+          <Entypo name="chevron-up" size={16} color="black" />
+        ) : (
+          <Image source={require("../assets/images/funnel_icon_black.png")} style={styles.filterIcon} />
+        )}
+        {isFiltered && <View style={styles.filterBadge} />}
+      </ArkadButton>
     </View>
-        
   );
 }
 
@@ -84,7 +93,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 0,
     borderRadius: 0,
-    outlineStyle: 'none',
   },
   clearButton: {
     height: "100%",

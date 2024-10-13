@@ -28,6 +28,7 @@ export default {
         "expo-build-properties",
         "expo-font",
         "expo-secure-store",
+        "expo-notifications",
         [
           "expo-build-properties",
           {

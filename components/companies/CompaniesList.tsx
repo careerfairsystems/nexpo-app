@@ -28,7 +28,12 @@ const groupCompanies = (array: PublicCompanyDto[] | null) => {
   let resultObj: ICompanyGroup = {};
 
   array.forEach(company => {
-    let firstLetter = company.name[0].toUpperCase();
+    if (!company.name || company.name.length === 0) {
+      // Skip the company if the name is empty or undefined
+      return;
+    }
+
+    let firstLetter = company.name[0]!.toUpperCase();
     firstLetter = firstLetter.replace(/\d/, "0-9")
 
     if (resultObj[firstLetter] === undefined) {

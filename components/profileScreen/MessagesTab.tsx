@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { ArkadText } from "components/StyledText";
-import { Message } from "api/Notifications";
+import { getAllNotifications, Message } from "api/Notifications";
 import MessageListItem from "./MessageListItem";
 import { API } from "api/API";
 import ScreenActivityIndicator from "components/ScreenActivityIndicator";
@@ -14,7 +14,7 @@ export default function MessagesTab() {
 
   const getMessages = async () => {
     setLoading(true);
-    const notifications = await ();
+    const notifications = await (getAllNotifications());
     setMessages(notifications);
     setLoading(false);
   };

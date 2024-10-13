@@ -5,7 +5,6 @@ import Colors from "constants/Colors";
 import { Locations, PublicCompanyDto } from "api/Companies";
 import { ArkadText } from "../StyledText";
 import { companyLocations } from "components/companies/CompanyLocationsMap";
-import { color } from "react-native-reanimated";
 
 type CompanyListItemProps = {
   company: PublicCompanyDto;
@@ -13,14 +12,16 @@ type CompanyListItemProps = {
 };
 
 
-export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => (
-  <View
-    style={styles.container}
-  >
-    <Pressable onPress={onPress} style={{width: "100%"}}>
-      <View style={styles.container}>
-        <View style={styles.companyContainer} >
-          <Image
+export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => {
+  // Log the logo URL to the console
+  console.log("Company Logo URL:", company.logoUrl);
+
+  return (
+    <View style={styles.container}>
+      <Pressable onPress={onPress} style={{ width: "100%" }}>
+        <View style={styles.container}>
+          <View style={styles.companyContainer}>
+            <Image
               source={
                 company.logoUrl
                   ? { uri: company.logoUrl }
@@ -41,11 +42,13 @@ export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => (
                 />
               </View>
             </View>
+          </View>
         </View>
-      </View>
-    </Pressable>
-  </View>
-);
+      </Pressable>
+    </View>
+  );
+};
+
 
 const styles = StyleSheet.create({
   container: {
