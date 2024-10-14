@@ -38,6 +38,8 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
   const refRBSheet = React.useRef<any>([]);
   const [reload, setReload] = React.useState(false); // State variable to trigger re-render
   const [chosenTicket, selectedTicket] = React.useState<Ticket | null>();
+  const [eventList, setEventList] = React.useState<Event[]>(events || []);
+
 
   if (events?.length == 0) {
     return <Text style={styles.text}>No upcoming events</Text>;
@@ -65,7 +67,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
     refRBSheet.current[index]?.open();
   };
 
-  async function deregister(event: Event, index:number): Promise<void> {
+  async function deregister(event: Event, index: number): Promise<void> {
     if (event?.id == undefined) {
       return;
     }
@@ -89,9 +91,11 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
         text1: "Successfully unregistered from event: " + event?.name,
         visibilityTime: 5000,
       });
-      setReload(!reload); // Update the state variable to trigger re-render
+
+      setEventList(prevEvents => prevEvents.filter(e => e.id !== event.id));
     }
   }
+
 
   const handleQRPress = async (event: Event, index:number) => {
     refRBSheet.current[index]?.open();
@@ -103,10 +107,19 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
     null;
   }, [reload]);
 
+
+
+  useEffect(() => {
+    if (events) {
+      setEventList(sortedEvents!);
+    }
+  }, [events]);
+
+
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
-      data={sortedEvents}
+      data={eventList}
       extraData={reload} // Re-render the list when the state variable changes
       keyExtractor={({ id }) => id.toString()}
       renderItem={({ item: event, index }) => {
@@ -164,7 +177,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
                 {event.capacity === event.ticketCount && (
                   <ArkadText
                     style={styles.infoText}
-                    text={"Food tickets sold out. Seats available"}
+                    text={"Max capacity"}
                   />
                 )}
               </View>
@@ -190,7 +203,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
 
                 <RBSheet
                   ref={(ref) => (refRBSheet.current[qrIndex] = ref)}
-                  useNativeDriver={true}
+                  useNativeDriver={false}
                   height={height * 0.6}
                   customStyles={{
                     draggableIcon: {
@@ -242,7 +255,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
 
                 <RBSheet
                   ref={(ref) => (refRBSheet.current[crossIndex] = ref)}
-                  useNativeDriver={true}
+                  useNativeDriver={false}
                   height={height * 0.3}
                   customStyles={{
                     draggableIcon: {
@@ -308,7 +321,7 @@ export function EventList({ events, onPress, showTickets }: EventListProps) {
 
 const styles = StyleSheet.create({
   eventBox: {
-    width: width * 0.95,
+    width: width ,
     height: height * 0.3,
     backgroundColor: Colors.arkadNavy,
     padding: 10, // Adjust padding to align the content
@@ -321,10 +334,11 @@ const styles = StyleSheet.create({
     flex: 1.0,
   },
   ticketInfoContainer: {
-    flex: 0.4, // Take up 40% of the width
+    flex: 0.5, // Take up 40% of the width
     justifyContent: "space-between", // Evenly space the boxes
-    paddingLeft: 5, // Add some padding between the event info and the boxes
+    paddingLeft: 4, // Add some padding between the event info and the boxes
   },
+
   QRBox: {
     flex: 1,
     backgroundColor: Colors.arkadTurkos,
@@ -332,10 +346,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-    marginHorizontal: 10,
-    padding: 16,
-    borderRadius: 16,
-    borderWidth: 4,
+    marginHorizontal: 18,
+    padding: 4,
+    borderRadius: 12,
+    borderWidth: 3,
   },
   unregisterBox: {
     flex: 1,
@@ -344,10 +358,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-    marginHorizontal: 10,
-    padding: 16,
-    borderRadius: 16,
-    borderWidth: 4,
+    marginHorizontal: 18,
+    padding: 4,
+    borderRadius: 12,
+    borderWidth: 3,
   },
   text: {
     paddingTop: 40,
@@ -367,6 +381,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     flexDirection: "row",
     alignItems: "center",
+
   },
   infoText: {
     fontSize: 16,

@@ -81,9 +81,11 @@ export default function EventDetailsScreen(id: number) {
   };
 
   const eventStopSellingDate = () => {
-    if (!event?.start) return "N/A";
+    if (!event?.date || !event?.start || isNaN(Date.parse(event.date))) return "N/A";
+
     const eventTime = new Date(event.date);
     const stopSellingDate = subDays(eventTime, 2);
+
     return (
       format(stopSellingDate, "d LLL") + " - " + event.start.substring(0, 5)
     );
@@ -449,20 +451,11 @@ export default function EventDetailsScreen(id: number) {
             text="No tickets Left. Drop-in available"
             style={styles.consumedText}
           />
-        ) : false ? (
-          <NoButton
-            text="Last day to register have passed"
-            style={styles.consumedText}
-          />
         ) : (
           <>
             <ArkadButton onPress={createTicket} style={styles.bookButton}>
               <ArkadText text="Register to event" style={styles.title} />
             </ArkadButton>
-            <ArkadText
-              text={`Last date to register to this event is: ${eventStopSellingDate()}`}
-              style={{ color: Colors.white, paddingBottom: 20 }}
-            />
           </>
         )}
       </View>
@@ -517,7 +510,6 @@ export default function EventDetailsScreen(id: number) {
             )}
           </View>
           <ArkadButton onPress={() => setModalVisible(!modalVisible)}>
-            <ArkadText text={"Close"} />
           </ArkadButton>
         </View>
       </Modal>
@@ -618,7 +610,7 @@ const styles = StyleSheet.create({
     width: "90%",
     marginTop: 40,
     marginBottom: 20,
-    backgroundColor: Colors.lightGreen,
+    backgroundColor: Colors.arkadOrange,
   },
   bookedButton: {
     backgroundColor: Colors.darkRed,

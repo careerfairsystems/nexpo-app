@@ -32,7 +32,7 @@ export function formatTime(date: string, start: string, end: string): string {
     }
     return dateString;
   } catch (RangeError) {
-    return "";
+    return "N/A";
   }
 }
 
