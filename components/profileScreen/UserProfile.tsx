@@ -114,10 +114,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
   },
   logoOuterContainer: {
-    marginTop: 12,
     marginBottom: -28,
     height: 128,
-    width: 128,
+    marginVertical:15,
   },
   logoContainer: {
     height: "100%",
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   nameLabel: {
-    marginTop: 50,
+    marginTop: 60,
     paddingBottom: 8,
     fontSize: 32,
     fontFamily: "main-font-bold",
