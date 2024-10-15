@@ -55,10 +55,7 @@ export default function UserProfile({ user }: UserProfileProps) {
         <View style={styles.outerContainer}>
           <View style={styles.container}>
             <View style={styles.logoOuterContainer}>
-              <View style={styles.hardShadow} />
-              <View style={styles.logoContainer}>
                 <ProfilePicture url={user.profilePictureUrl} />
-              </View>
             </View>
           </View>
 
@@ -127,12 +124,12 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: Colors.white,
     borderRadius: 15,
-    padding: 10,
+    padding: 15,
     justifyContent: "center",
     alignItems: "center",
   },
   nameLabel: {
-    marginTop: 38,
+    marginTop: 50,
     paddingBottom: 8,
     fontSize: 32,
     fontFamily: "main-font-bold",

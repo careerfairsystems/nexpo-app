@@ -73,6 +73,7 @@ export default function SSsCompaniesScreen({ navigation }: SSsNavigation) {
             </View>
           }
           style={styles.list}
+          contentContainerStyle={styles.contentContainer}
           data={companies}
           keyExtractor={({ id }) => id.toString()}
           renderItem={({ item: company }) => (
@@ -120,6 +121,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     paddingTop: 20,
     paddingBottom: 20,
+    marginBottom: 10,
     width: "90%",
     alignSelf: "center",
     backgroundColor: Colors.arkadNavy,
@@ -139,6 +141,10 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
-    paddingTop: 20,
+  },
+  contentContainer: {
+    paddingBottom: 30,
+    paddingHorizontal: 10,
   },
 });
+

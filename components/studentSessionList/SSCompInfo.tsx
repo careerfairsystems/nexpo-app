@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   descHeader: {
+    paddingHorizontal: 15,
     marginTop: 16,
     marginBottom: 6,
     alignSelf: "center",
@@ -112,8 +113,11 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     fontWeight: "700",
     letterSpacing: -0.45,
+    textAlign: "left", // Align text to the left
+    width: "100%", // Ensure it uses full width
   },
   desc: {
+    padding: 15,
     fontSize: 17,
     color: Colors.white,
     alignSelf: "center",

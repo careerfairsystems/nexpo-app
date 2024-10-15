@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, Dimensions, FlatList, StyleSheet, View } from "react-native";
 import { Student } from "api/Students";
-
 import { SSTimeslot } from "api/StudentSessions";
 import Colors from "constants/Colors";
 import { SSListItem } from "./SSsListItem";
@@ -12,14 +11,14 @@ type TimeslotListProps = {
   student: Student | null;
 };
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 export function TimeslotList({ timeslots, onPress, student }: TimeslotListProps) {
   if (timeslots?.length == 0 || timeslots == null) {
     return <Text style={styles.text}>No upcoming timeslots =(</Text>;
   }
 
-  timeslots?.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+  timeslots.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
   return (
     <FlatList
@@ -31,7 +30,7 @@ export function TimeslotList({ timeslots, onPress, student }: TimeslotListProps)
           <SSListItem
             key={timeslot.id}
             timeslot={timeslot}
-            booked={timeslot.studentId === null ? false : true}
+            booked={timeslot.studentId !== null}
             bookedByMe={timeslot.studentId === student?.id}
             onPress={() => onPress(timeslot.id)}
           />
@@ -40,18 +39,24 @@ export function TimeslotList({ timeslots, onPress, student }: TimeslotListProps)
     />
   );
 }
+
 const styles = StyleSheet.create({
   ssBox: {
     width: width * 0.95,
-    marginVertical: 4,
-    borderColor: Colors.white,
-    borderRadius: 16,
-    borderWidth: 4,
+    marginVertical: 8,
+    borderRadius: 20,
+    backgroundColor: Colors.arkadNavy,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
   },
   text: {
     paddingTop: 40,
     fontFamily: "main-font-bold",
     fontSize: 24,
     color: Colors.white,
+    textAlign: "center",
   },
 });
