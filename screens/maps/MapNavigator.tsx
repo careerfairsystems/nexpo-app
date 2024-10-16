@@ -8,9 +8,10 @@ import ZoomMapScreen from "./ZoomMapScreen";
 import { Map } from "components/maps/MapProps";
 import { HeaderStyles } from "components/HeaderStyles";
 import { Image } from "react-native";
+import PositioningMapScreen from "./PositioningMapScreen";
 
 export type MapStackParamList = {
-  MapScreen: undefined;
+  PositioningMapScreen: undefined;
   ZoomMapScreen: {
     map: Map;
   };
@@ -26,8 +27,8 @@ export function MapNavigator() {
       }}
     >
       <MapStack.Screen
-        name="MapScreen"
-        component={MapScreen}
+        name="PositioningMapScreen"
+        component={PositioningMapScreen}
         options={{
           title: "Maps",
           headerTitle: "Maps",

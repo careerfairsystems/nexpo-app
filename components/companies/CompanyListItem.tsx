@@ -13,9 +13,6 @@ type CompanyListItemProps = {
 
 
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => {
-  // Log the logo URL to the console
-  console.log("Company Logo URL:", company.logoUrl);
-
   return (
     <View style={styles.container}>
       <Pressable onPress={onPress} style={{ width: "100%" }}>

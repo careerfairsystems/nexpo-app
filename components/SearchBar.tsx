@@ -15,9 +15,10 @@ export interface SearchBarProps extends TextInputProps {
   toggleFilter: () => void,
   modalVisible: boolean,
   isFiltered: boolean,
+  placeHolder: string,
 }
 
-export function SearchBar({text, onChangeText, toggleFilter, modalVisible, isFiltered}: SearchBarProps) {
+export function SearchBar({text, onChangeText, toggleFilter, modalVisible, isFiltered, placeHolder}: SearchBarProps) {
   const [focused, setFocused] = React.useState(false);
   const [inputText, setInputText] = useState(text);
 
@@ -39,7 +40,7 @@ export function SearchBar({text, onChangeText, toggleFilter, modalVisible, isFil
           style={styles.input}
           onChangeText={setInputText}
           value={inputText}
-          placeholder={"Search for a company..."}
+          placeholder={placeHolder}
           placeholderTextColor={Colors.lightGray}
           numberOfLines={1}
           onBlur={() => setFocused(false)}
