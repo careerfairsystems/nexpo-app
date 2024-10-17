@@ -79,6 +79,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         setFilteredCompanies={setFilteredCompanies}
         setIsFiltered={setIsFiltered}
         isVisable={modalVisible}
+        filteredCompanies={filteredCompanies ?? []}
       />
 
       <CompaniesList onScrollBeginDrag={(event) => {if (modalVisible) {toggleFilter()}}} sortedCompanies={sortedCompanies} openCompanyDetails={openCompanyDetails}/>

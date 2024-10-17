@@ -5,12 +5,14 @@ import Colors from "constants/Colors";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
 import { Programme } from "api/Students";
-import { CategoriesDropdown } from "./CategoriesDroppdown";
+import { CompanyCategoriesDropdown } from "./CompanyCategoriesDropdown";
 import { INDUSTRIES, LOCATIONS, POSITIONS, PROGRAMS } from "./DroppdownItems";
 import { companyLocations } from "./CompanyLocationsMap";
+import CompanyListDivider from "./CompanyListDivider";
 
 type CompaniesModalProps = {
   companies: PublicCompanyDto[];
+  filteredCompanies: PublicCompanyDto[],
   setFilteredCompanies: (value: PublicCompanyDto[]) => void;
   setIsFiltered: (value: boolean) => void;
   isVisable: boolean;
@@ -18,6 +20,7 @@ type CompaniesModalProps = {
 
 export default function CompaniesModal({
   companies,
+  filteredCompanies,
   setFilteredCompanies,
   setIsFiltered,
   isVisable,
@@ -93,13 +96,16 @@ export default function CompaniesModal({
     }
     setFilteredCompanies(filteredCompanies);
   }
+
+
   if (!isVisable) {
     return null;
   }
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <CategoriesDropdown
+        <CompanyListDivider text="Desired program" style={{margin: 0}}/>
+        <CompanyCategoriesDropdown
           title="Desired program"
           items={programmes}
           setOpen={programmeSetOpen}
@@ -108,12 +114,15 @@ export default function CompaniesModal({
           value={programmeValue}
           setItems={setProgrammes}
           filterCompanies={filterCompanies}
+          filteredCompanies={filteredCompanies}
+          itemFiltering={(company, value) => company.desiredProgramme?.includes(value) ?? false}
           onChangeValue={setSetFilteredCompanies}
           categories={false}
         />
       </View>
       <View style={styles.modalView}>
-        <CategoriesDropdown
+        <CompanyListDivider text="Position" style={{margin: 0}}/>
+        <CompanyCategoriesDropdown
           title="Select position"
           items={positions}
           setOpen={positionSetOpen}
@@ -122,12 +131,15 @@ export default function CompaniesModal({
           value={positionValue}
           setItems={setPositions}
           filterCompanies={filterCompanies}
+          itemFiltering={(company, value) => (company.positions?.includes(value) ?? false)}
+          filteredCompanies={filteredCompanies}
           onChangeValue={setSetFilteredCompanies}
           categories={false}
         />
       </View>
       <View style={styles.modalView}>
-        <CategoriesDropdown
+        <CompanyListDivider text="Industry" style={{margin: 0}}/>
+        <CompanyCategoriesDropdown
           title="Select industry"
           items={industry}
           setOpen={industrySetOpen}
@@ -136,12 +148,15 @@ export default function CompaniesModal({
           value={industryValue}
           setItems={setIndustry}
           filterCompanies={filterCompanies}
+          itemFiltering={(company, value) => (company.industries?.includes(value) ?? false)}
+          filteredCompanies={filteredCompanies}
           onChangeValue={setSetFilteredCompanies}
           categories={false}
         />
       </View>
       <View style={styles.modalView}>
-        <CategoriesDropdown
+        <CompanyListDivider text="Location" style={{margin: 0}}/>
+        <CompanyCategoriesDropdown
           title="Select location"
           items={location}
           setOpen={setLocationOpen}
@@ -150,9 +165,12 @@ export default function CompaniesModal({
           value={locationValue}
           setItems={setLocation}
           filterCompanies={filterCompanies}
+          itemFiltering={(company, value) => (locationValue.includes(companyLocations[company.id]) ?? false)} //Fixa!
+          filteredCompanies={filteredCompanies}
           onChangeValue={setSetFilteredCompanies}
           categories={false}
         />
+        <CompanyListDivider text="" style={{margin: 0}}/>
       </View>
       <View style={styles.footer}>
         <ArkadButton style={styles.button} onPress={resetFilters}>
@@ -167,16 +185,15 @@ const styles = StyleSheet.create({
   centeredView: {
     justifyContent: "flex-start",
     borderWidth: 0,
-    borderColor: Colors.lightGray,
+    borderColor: Colors.arkadTurkos,
     borderRadius: 15,
-    padding: 0,
+    padding: 16,
     margin: 0,
-    width: "90%",
+    width: "100%",
   },
   modalView: {
-    marginBottom: 12,
+    justifyContent: "flex-start",
     borderRadius: 20,
-    padding: 0,
     alignItems: "center",
   },
   footer: {

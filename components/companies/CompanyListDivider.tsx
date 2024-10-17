@@ -1,17 +1,18 @@
 import { ArkadText } from "components/StyledText"
 import { View } from "components/Themed"
 import Colors from "constants/Colors";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 
 
 type CompanyListDivider = {
-    text: string
+    text: string,
+    style?: ViewStyle,
 }
 
-export default function CompanyListDivider({text}: CompanyListDivider) {
+export default function CompanyListDivider({text, style}: CompanyListDivider) {
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <ArkadText text={text} style={styles.text}/>
             <View style={styles.line}/>
         </View>
