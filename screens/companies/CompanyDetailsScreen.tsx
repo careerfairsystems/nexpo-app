@@ -184,6 +184,9 @@ export default function CompanyDetailsScreen({
             <ArkadText style={styles.descHeader} text="TAGS" />
             <TagsList company={company} showOptions={ShowOptions.Industries} />
 
+            <ArkadText style={styles.descHeader} text="DESIRED PROGRAMMES" />
+            <TagsList company={company} showOptions={ShowOptions.DesiredProgrammes} />
+
             <ArkadText style={styles.descHeader} text="DID YOU KNOW?" />
             <ArkadText style={styles.desc} text={company.didYouKnow ? company.didYouKnow : "\u2013"} />
           </View>
