@@ -35,6 +35,8 @@ export const BookedEventList = ({
         horizontal={false}
         showsHorizontalScrollIndicator={false}
         data={bookedEvents}
+        removeClippedSubviews={true}
+        scrollEnabled={false}
         keyExtractor={({ id }) => id.toString()}
         renderItem={({ item: event }) => {
           // Get the ticket information for the current event
