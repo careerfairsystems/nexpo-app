@@ -32,13 +32,20 @@ import AreaPolygons from "./components/AreaPlaces";
 import RoutingPath from "./components/RoutingPath";
 import { BlueDotMarker } from "./components/BlueDotMarker";
 import FloorMapOverlay from "./components/FloorMapOverlay";
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation } from "@react-navigation/native";
 import Colors from "constants/Colors";
 import { RoutingProvider } from "react-native-ai-navigation-sdk/src/routing-provider";
 import { ArkadText } from "components/StyledText";
 import RoutableTargetsModal from "./components/RoutableTargetsModal";
+import { MapStackParamList } from "./MapNavigator";
 
-export default function PositioningMapScreen() {
+
+type PositioningMapScreenProps = {
+  route: RouteProp<MapStackParamList, 'PositioningMapScreen'>;
+};
+
+
+export default function PositioningMapScreen({ route }: PositioningMapScreenProps) {
   const [location, setLocation] = useState<ReactCombainLocation>();
   const [syncValue, setSync] = useState<number>(0);
   const [sdkInitialized, setSdkInitialized] = useState(false);
@@ -52,27 +59,10 @@ export default function PositioningMapScreen() {
 
 
   const navigation = useNavigation();
-  const apiKey: string = Constants.manifest?.extra?.apiKey;
+
 
   const { width, height } = Dimensions.get('window');
 
-  const handleRoute = async (target: ReactRoutableTarget | null) => {
-    setModalVisible(false);
-    console.log("Adding listener to currentRoute");
-    try {
-      if (target) {
-        const provider = await sdk?.getRoutingProvider().routeToNode(target);
-        if (provider) {
-          provider.addOnRouteChangedListener((e) => {
-            console.log('SUCCESS:', target);
-            setRoute(e)
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Error routing to target:', error);
-    }
-  };
 
   useEffect(() => {
     initializeSDK();
@@ -105,11 +95,6 @@ export default function PositioningMapScreen() {
   }, [location, navigation]);
 
 
-
-  const sync: SyncingInterval = {
-    interval: 1,
-  };
-
   const getQueryTargets = async (name: string) => {
     try {
       const targets = await sdk?.getRoutingProvider()?.queryTarget(name);
@@ -120,14 +105,22 @@ export default function PositioningMapScreen() {
     }
   };
 
-  const routingConfig: ReactRoutingConfig = {
-    routableNodesOptions: ReactRoutableNodesOptions.All,
-  };
-
-  const indoorNavigationSDKConfig: ReactIndoorNavigationSDKConfig = {
-    apiKey: Constants.manifest?.extra?.apiKey,
-    routingConfig: routingConfig,
-    syncingInterval: sync,
+  const handleRoute = async (target: ReactRoutableTarget | null) => {
+    setModalVisible(false);
+    console.log("Adding listener to currentRoute");
+    try {
+      if (target) {
+        const provider = await sdk?.getRoutingProvider().routeToNode(target);
+        if (provider) {
+          provider.addOnRouteChangedListener((e) => {
+            console.log('SUCCESS:', target);
+            setRoute(e)
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error routing to target:', error);
+    }
   };
 
   const fetchAllBuildings = async () => {
@@ -139,13 +132,11 @@ export default function PositioningMapScreen() {
     }
   };
 
-
   const initializeSDK = useCallback(async () => {
     setLoadingPosition(true); // Start loading
     try {
       if (!sdkInitialized) {
-        const sdk = await ReactAIIndoorNavigationSDK.create(indoorNavigationSDKConfig);
-
+        const { sdk } = route.params;
         sdk.currentLocation.addListener((e) => {
           setLoadingPosition(false);
           setLocation(e);
@@ -187,7 +178,7 @@ export default function PositioningMapScreen() {
               latitude: lat,
               longitude: lng,
               latitudeDelta: 0.0922,
-              longitudeDelta: 0.0922,
+              longitudeDelta: LONGITUDE_DELTA,
             }}
           >
             <BlueDotMarker coordinate={{ latitude: lat, longitude: lng }} />

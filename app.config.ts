@@ -1,3 +1,5 @@
+import * as process from "node:process";
+
 export default {
   name: "Arkad",
   slug: "nexpo-app",
@@ -61,6 +63,11 @@ export default {
       adaptiveIcon: {
         foregroundImage: "./assets/images/android_icon.png",
         backgroundColor: "#F66628",
+      },
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_MAPS_API_KEY,
+        },
       },
       permissions: ["CAMERA"],
     },

@@ -9,9 +9,14 @@ import { Map } from "components/maps/MapProps";
 import { HeaderStyles } from "components/HeaderStyles";
 import { Image } from "react-native";
 import PositioningMapScreen from "./PositioningMapScreen";
+import OnboardingScreen from "./OnBoardingScreen";
+import OnBoardingScreen from "./OnBoardingScreen";
+import { ReactAIIndoorNavigationSDK } from "react-native-ai-navigation-sdk";
 
 export type MapStackParamList = {
-  PositioningMapScreen: undefined;
+  PositioningMapScreen: { sdk: ReactAIIndoorNavigationSDK }; // Accept SDK instance as a parameter
+  OnBoardingScreen: undefined;
+  MapScreen: undefined;
   ZoomMapScreen: {
     map: Map;
   };
@@ -26,6 +31,26 @@ export function MapNavigator() {
         gestureEnabled: true,
       }}
     >
+      <MapStack.Screen
+        name="OnBoardingScreen"
+        component={OnBoardingScreen}
+        options={{
+          title: "Onboarding",
+          headerTitle: "Maps",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo_inverted.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
+          ...HeaderStyles,
+        }}
+      />
       <MapStack.Screen
         name="PositioningMapScreen"
         component={PositioningMapScreen}
@@ -46,6 +71,30 @@ export function MapNavigator() {
           ...HeaderStyles,
         }}
       />
+
+      <MapStack.Screen
+        name="MapScreen"
+        component={MapScreen}
+        options={{
+          title: "Maps",
+          headerTitle: "Maps",
+          headerRight: () => (
+            <Image
+              source={require("../../assets/images/arkad_logo_inverted.png")}
+              style={{
+                marginRight: 10,
+                width: 60,
+                height: undefined,
+                flex: 1,
+              }}
+            />
+          ),
+          ...HeaderStyles,
+        }}
+      />
+
+
+
       <MapStack.Screen
         name="ZoomMapScreen"
         component={ZoomMapScreen}
