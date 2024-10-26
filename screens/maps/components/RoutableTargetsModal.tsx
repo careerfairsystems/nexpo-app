@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
+  ActivityIndicator, SectionList
 } from "react-native";
 import { ReactAIIndoorNavigationSDK, ReactRoutableTarget } from "react-native-ai-navigation-sdk";
 import Colors from "constants/Colors";
@@ -16,6 +16,7 @@ import { PublicCompanyDto } from "api/Companies";
 import { CompanyListItem } from "components/companies/CompanyListItem";
 import { SearchBar } from "components/SearchBar";
 import { filterData } from "components/companies/filterCompanies";
+import { RoutingItem } from "./Routing/RoutingItem";
 
 type RoutableTargetsModalProps = {
   sdk: ReactAIIndoorNavigationSDK | null;
@@ -23,6 +24,12 @@ type RoutableTargetsModalProps = {
   onClose: () => void;
   onTargetSelect: (target: ReactRoutableTarget | null) => void;
 };
+
+type GroupedTargets = {
+  title: string;
+  data: { target: ReactRoutableTarget | null; company: PublicCompanyDto | null }[];
+};
+
 
 const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
                                                                      sdk,
@@ -49,7 +56,10 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
       const companies = await API.companies.getAll().then(companies => companies.filter(company => company.name && company.name.trim() !== ""));
       setCompanies(companies);
       const targets = await sdk?.getRoutingProvider()?.queryTarget(" ");
-      setAllTargets(targets || []);
+      const filteredTargets = (targets || []).filter(
+        (target) => target?.name && !target.name.includes("Footway") && !target.name.includes("Node")
+      );
+      setAllTargets(filteredTargets);
     } catch (error) {
       console.error("Error fetching routable targets:", error);
     } finally {
@@ -57,8 +67,54 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
     }
   };
 
-  // Filter companies based on the search query
+  const groupTargets = (
+    items: { target: ReactRoutableTarget | null; company: PublicCompanyDto | null }[]
+  ): GroupedTargets[] => {
+    const result: { [key: string]: GroupedTargets['data'] } = {};
+    const loungeCategory: GroupedTargets['data'] = [];
+
+    items.forEach((item) => {
+      const { target } = item;
+      if (target?.name.toLowerCase() === "lounge") {
+        loungeCategory.push(item);
+      } else {
+        let firstLetter = target?.name[0]!.toUpperCase();
+        firstLetter = firstLetter?.replace(/\d/, "0-9");
+
+        if (!result[firstLetter!]) {
+          result[firstLetter!] = [];
+        }
+        result[firstLetter!].push(item);
+      }
+    });
+
+    const groupedData = Object.entries(result)
+      .map(([key, data]) => ({
+        title: key,
+        data,
+      }))
+      .sort((a, b) => a.title.localeCompare(b.title));
+    if (loungeCategory.length > 0) {
+      groupedData.push({
+        title: "Lounge",
+        data: loungeCategory,
+      });
+    }
+    return groupedData;
+  };
+
   const filteredCompanies = filterData(searchQuery,allCompanies);
+  const filteredTargets = allTargets.filter(x=> x?.name.trim().toLowerCase().includes(searchQuery.trim().toLowerCase()));
+
+  const matchedTargets = filteredTargets.map((target) => {
+    const matchedCompany = filteredCompanies?.find(
+      (company) => company.name.toLowerCase() === target?.name.toLowerCase()
+    );
+    return { target, company: matchedCompany ?? null };
+  });
+
+  const validMatchedTargets = matchedTargets.filter(item => item.target !== null);
+
 
 
   const toggleFilter = () => {
@@ -83,18 +139,23 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
           {loading ? (
             <ActivityIndicator size="large" color={Colors.arkadTurkos} />
           ) : (
-            <FlatList
-              data={filteredCompanies}
-              keyExtractor={(item) => item.id.toString()}
+            <SectionList
+              sections={groupTargets(validMatchedTargets)}
               renderItem={({ item }) => (
-                <CompanyListItem
-                  company={item}
+                <RoutingItem
+                  target={item.target!}
+                  company={item.company}
                   onPress={() => {
-                    onTargetSelect(null);
+                    onTargetSelect(item.target);
                     onClose();
                   }}
                 />
               )}
+              renderSectionHeader={({ section: { title } }) => (
+                <Text style={styles.sectionHeader}>{title}</Text>
+              )}
+              keyExtractor={(item, index) => item.target!.name + index}
+              style={styles.list}
             />
           )}
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
@@ -142,6 +203,18 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 10,
   },
+  sectionHeader: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: Colors.white,
+    padding: 8,
+  },
+  list: {
+    width: "100%",
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+  },
+
 
 });
 

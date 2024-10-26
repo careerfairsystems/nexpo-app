@@ -56,6 +56,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [allTargets, setAllTargets] = useState<Array<ReactRoutableTarget | null>>([]);
   const [currentRoute, setRoute] = useState<ReactRoutingPosition | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [lat, setLat] = useState(55.7108565);
+  const [lng, setLng] = useState(13.2104698);
 
 
   const navigation = useNavigation();
@@ -67,8 +69,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   useEffect(() => {
     initializeSDK();
   }, []);
-  const lat = location ? location.latitude : (gpsPosition ? gpsPosition.lat : 0);
-  const lng = location ? location.longitude : (gpsPosition ? gpsPosition.lng : 0);
+
 
   useEffect(() => {
     if(lat != 0 && lng!=0){
@@ -82,7 +83,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         headerRight: () => (
           <View style={styles.headerInfoContainer}>
             <ArkadText text={location.indoor!.buildingName} style={styles.headerInfoText}>
-
             </ArkadText>
             <Text style={styles.headerInfoText}>
               Floor: {location.indoor?.floorIndex}
@@ -123,14 +123,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     }
   };
 
-  const fetchAllBuildings = async () => {
-    try {
-      const places = await sdk?.getAllPlaces();
-      setAllPlaces(places!);
-    } catch (error) {
-      console.error('Error fetching buildings:', error);
-    }
-  };
+
 
   const initializeSDK = useCallback(async () => {
     setLoadingPosition(true); // Start loading
@@ -139,16 +132,27 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         const { sdk } = route.params;
         sdk.currentLocation.addListener((e) => {
           setLoadingPosition(false);
+          console.log(e)
+          if(e){
+            setLat(e.latitude)
+            setLng(e.longitude)
+          }
           setLocation(e);
         });
         sdk.gpsLocation.addListener((e) => {
           setGpsPosition(e);
+          if(e){
+            setLat(e.lat);
+            setLng(e.lng);
+          }
         });
         await sdk.start();
+
+        const places = await sdk.getAllPlaces();
+        setAllPlaces(places!);
         setSdk(sdk);
         console.log('SDK STARTED');
         setSdkInitialized(true);
-        fetchAllBuildings
       }
     } catch (error) {
       console.error('SDK initialization error:', error);
@@ -178,11 +182,13 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
               latitude: lat,
               longitude: lng,
               latitudeDelta: 0.0922,
-              longitudeDelta: LONGITUDE_DELTA,
+              longitudeDelta: 0.0922,
             }}
           >
             <BlueDotMarker coordinate={{ latitude: lat, longitude: lng }} />
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
+            <AreaPolygons allPlaces={allPlaces} />
+            {location?.indoor?.combainFloorMap && <FloorMapOverlay floorMap={location.indoor.combainFloorMap} />}
             {/* {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
  */}
           </MapView>
@@ -196,7 +202,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
       <TouchableOpacity
         style={styles.searchBar}
         onPress={() => {
-          getQueryTargets(" ").then(() => setModalVisible(!isModalVisible));
+          setModalVisible(!isModalVisible)
         }}
       >
         <Text style={styles.searchBarText}>🔍 Search for targets...</Text>

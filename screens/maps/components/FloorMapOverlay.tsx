@@ -42,18 +42,13 @@ const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap }) => {
 
   return (
     <View>
-      <Marker coordinate={bottomleft} title={"bottomLeft"}/>
-      <Marker coordinate={NE} title={"NE"}/>
-      <Marker coordinate={topLeft} title={"topleft"}/>
-      <Marker coordinate={SW} title={"SW"}/>
-
 
       <Overlay
         bounds={[
           [NE.latitude, NE.longitude],
           [SW.latitude, SW.longitude],
         ]}
-        bearing={0}
+        bearing={180}
         style={styles.overlay}
         image={imageSource}
       >
