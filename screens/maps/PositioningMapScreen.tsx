@@ -187,8 +187,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           >
             <BlueDotMarker coordinate={{ latitude: lat, longitude: lng }} />
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
-            <AreaPolygons allPlaces={allPlaces} />
-            {location?.indoor?.combainFloorMap && <FloorMapOverlay floorMap={location.indoor.combainFloorMap} />}
+            <AreaPolygons allPlaces={allPlaces} floorNbr={location?.indoor?.floorIndex} />
             {/* {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
  */}
           </MapView>

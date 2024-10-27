@@ -1,22 +1,20 @@
 import React from 'react';
-import { StyleSheet, View, Image, ImageURISource } from "react-native";
+import { StyleSheet, View } from "react-native";
 import MapView, { Marker, Overlay } from "react-native-maps";
-import { ReactCombainFloorMap, ReactCombainLocation } from "react-native-ai-navigation-sdk";
+import { ReactCombainFloorMap } from "react-native-ai-navigation-sdk";
 import Constants from "expo-constants";
 
 type FloorMapOverlayProps = {
   floorMap: ReactCombainFloorMap;
+  bearing : number | 0
 };
 
-
-const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap }) => {
-  const apiKey:string = Constants.manifest?.extra?.apiKey;
-  const imageSource: ImageURISource = {
+const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap, bearing}) => {
+  const apiKey: string = Constants.manifest?.extra?.apiKey;
+  const imageSource = {
     uri: floorMap.imageURL,
     headers: { 'x-auth-apikey': apiKey },
   };
-
-  console.log(imageSource)
 
   const topLeft = {
     latitude: floorMap.latTopLeft,
@@ -30,44 +28,42 @@ const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap }) => {
 
   const NE = {
     latitude: floorMap.latNE,
-    longitude: floorMap.lonNE
+    longitude: floorMap.lonNE,
   };
 
-  const bottomleft = {
+  const bf = {
     latitude: floorMap.latNE - (topLeft.latitude - SW.latitude),
     longitude: floorMap.lonNE - (topLeft.longitude - SW.longitude),
   };
 
 
 
-  return (
-    <View>
+  const isNEBottomLeft = NE.latitude < SW.latitude && NE.longitude < SW.longitude;
 
+  const bottomLeft = isNEBottomLeft ? NE : SW;
+  const topRight = isNEBottomLeft ? SW : NE;
+
+  return (
+    <View style={styles.container}>
       <Overlay
         bounds={[
-          [NE.latitude, NE.longitude],
-          [SW.latitude, SW.longitude],
+          [bottomLeft.latitude, bottomLeft.longitude],
+          [topRight.latitude, topRight.longitude],
         ]}
-        bearing={180}
+        bearing={bearing}
         style={styles.overlay}
         image={imageSource}
-      >
-      </Overlay>
-    </View>
+      />
 
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  overlay: {
+  container: {
     flex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
   },
-  overlayImage: {
+  overlay: {
     flex: 1,
     position: 'absolute',
     top: 0,
