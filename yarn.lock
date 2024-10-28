@@ -9108,6 +9108,14 @@ react-native-ai-navigation-sdk@^0.4.0:
     react-native-ai-navigation-sdk "^0.4.0"
     react-native-permissions "^4.1.5"
 
+react-native-ai-navigation-sdk@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-ai-navigation-sdk/-/react-native-ai-navigation-sdk-0.4.1.tgz#78ca0a40d9863ba098358123b080fa709277e782"
+  integrity sha512-Urx5DO/BThqNkljrvCr1WWJ7OIWVVb+GaDCzamb8kQbKryEnul53xPbodzjBH8ljXdP+telAwVG0FZVnB10agw==
+  dependencies:
+    react-native-ai-navigation-sdk "^0.4.0"
+    react-native-permissions "^4.1.5"
+
 react-native-blob-util@^0.13.16:
   version "0.13.18"
   resolved "https://registry.npmjs.org/react-native-blob-util/-/react-native-blob-util-0.13.18.tgz"

@@ -77,24 +77,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     }
   }, [location, gpsPosition]);
 
-  useEffect(() => {
-    if (location && location.indoor ) {
-      navigation.setOptions({
-        headerRight: () => (
-          <View style={styles.headerInfoContainer}>
-            <ArkadText text={location.indoor!.buildingName} style={styles.headerInfoText}>
-            </ArkadText>
-            <Text style={styles.headerInfoText}>
-              Floor: {location.indoor?.floorIndex}
-            </Text>
-          </View>
-        ),
-      });
-      setLoadingPosition(false);
-    }
-  }, [location, navigation]);
-
-
   const getQueryTargets = async (name: string) => {
     try {
       const targets = await sdk?.getRoutingProvider()?.queryTarget(name);
@@ -121,6 +103,11 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     } catch (error) {
       console.error('Error routing to target:', error);
     }
+  };
+  const stopRouting = () => {
+    sdk?.getRoutingProvider().removeAllListeners()
+    setRoute(null);
+    console.log("Routing stopped");
   };
 
 
@@ -188,8 +175,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
             <BlueDotMarker coordinate={{ latitude: lat, longitude: lng }} />
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
             <AreaPolygons allPlaces={allPlaces} floorNbr={location?.indoor?.floorIndex} />
-            {/* {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
- */}
+            {/* {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}*/}
           </MapView>
         )
       ) : (
@@ -206,6 +192,24 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
       >
         <Text style={styles.searchBarText}>🔍 Search for targets...</Text>
       </TouchableOpacity>
+
+      {location?.indoor && (
+        <View style={styles.locationOverlay}>
+          <Text style={styles.overlayText}>
+            {location.indoor?.buildingName} - Floor {location.indoor?.floorIndex}
+          </Text>
+        </View>
+      )}
+      {currentRoute && (
+        <View style={styles.routingOverlay}>
+          <Text style={styles.overlayText}>Routing in progress...to</Text>
+          <TouchableOpacity style={styles.stopButton} onPress={stopRouting}>
+            <Text style={styles.stopButtonText}>Stop</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+
     <RoutableTargetsModal sdk={sdk} isVisible={isModalVisible} onClose={() => setModalVisible(false)} onTargetSelect={handleRoute}/>
     </View>
   );
@@ -223,27 +227,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
   },
-  menuButton: {
-    position: 'absolute',
-    top: 20,
-    right: 10,
-    width: "100%",
-    backgroundColor: '#FFF',
-    borderRadius: 5,
-    padding: 10,
-    margin: 5,
-    zIndex: 2,
-  },
-  menuButtonText: {
-    fontSize: 30,
-  },
-  headerInfoContainer: {
-    alignItems: "flex-end",
-  },
-  headerInfoText: {
-    fontSize: 15,
-    color: "#FFF",
-  },
+
   searchBar: {
     position: 'absolute',
     top: 20,
@@ -265,5 +249,40 @@ const styles = StyleSheet.create({
   searchBarText: {
     color: '#888',
     fontSize: 16,
+  },
+  locationOverlay: {
+    position: "absolute",
+    top: 70,
+    left: 10,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderRadius: 8,
+    padding: 8,
+    zIndex: 3,
+  },
+  routingOverlay: {
+    position: "absolute",
+    bottom: 20,
+    left: '10%',
+    right: '10%',
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    borderRadius: 10,
+    padding: 16,
+    zIndex: 3,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  overlayText: {
+    color: "white",
+    fontSize: 16,
+  },
+  stopButton: {
+    marginLeft: 10,
+    backgroundColor: "red",
+    borderRadius: 5,
+    padding: 5,
+  },
+  stopButtonText: {
+    color: "white",
   },
 });
