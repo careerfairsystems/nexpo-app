@@ -3,7 +3,7 @@ import Colors from "constants/Colors";
 import * as Font from "expo-font";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import * as React from "react";
-import { Animated, View, StyleSheet, Text, Image } from "react-native";
+import { Animated, View, StyleSheet, Text, Image, AppState } from "react-native";
 
 ExpoSplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -19,7 +19,6 @@ export default function AppLoader({ children }: Props) {
   const font = "main-font-bold";
 
   React.useEffect(() => {
-    // Once everything is loaded, run animation
     if (isAppReady && Font.isLoaded(font)) {
       Animated.timing(animation, {
         toValue: 1,
@@ -30,25 +29,46 @@ export default function AppLoader({ children }: Props) {
   }, [isAppReady]);
 
   React.useEffect(() => {
-    // Load data
     async function loadResourcesAndDataAsync() {
       try {
-        // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
           "secondary-font": require("../assets/fonts/BAHNSCHRIFT.ttf"),
           "main-font-bold": require("../assets/fonts/MyriadProBoldCondensed.ttf"),
           "main-font": require("../assets/fonts/MyriadProCondensed.ttf"),
         });
+        setAppReady(true);
       } catch (e) {
-        // We might want to provide this error information to an error reporting service
         console.warn(e);
-        // FIX ger error i expo
       }
     }
 
     loadResourcesAndDataAsync();
   }, []);
+
+  React.useEffect(() => {
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      if (nextAppState === "active" && isAppReady) {
+        ExpoSplashScreen.hideAsync();
+      }
+    });
+    return () => {
+      subscription.remove();
+    };
+  }, [isAppReady]);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isSplashAnimationComplete) {
+        ExpoSplashScreen.hideAsync().catch(() => {});
+        setAnimationComplete(true);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [isSplashAnimationComplete]);
+
+
 
   const onImageLoaded = async () => {
     try {
@@ -69,8 +89,9 @@ export default function AppLoader({ children }: Props) {
     fontFamily: font,
   };
 
-  // Temporrarly disable splash screen when in DEVELOPMENT mode
-  // If not disabled the mobile test application of Expo Go wont work
+  if (__DEV__) {
+    return <View style={styles.container}>{children}</View>;
+  }
 
 
   return (

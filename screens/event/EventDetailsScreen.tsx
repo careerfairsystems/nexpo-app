@@ -342,11 +342,13 @@ export default function EventDetailsScreen(id: number) {
 
         {ticket && registered && ticket?.event?.type === 1 && (
           <View style={styles.takeawayContainer}>
-            <ArkadText text="Takeaway " style={styles.title} />
-            <Switch
-              value={wantTakeaway}
-              onValueChange={(value) => setWantTakeaway(value)}
-            />
+            <View style={styles.switchContainer}>
+              <ArkadText text="Takeaway " style={styles.title} />
+              <Switch
+                value={wantTakeaway}
+                onValueChange={(value) => setWantTakeaway(value)}
+              />
+            </View>
           </View>
         )}
         {ticket?.takeAway && (
@@ -656,17 +658,22 @@ const styles = StyleSheet.create({
   },
 
   takeawayContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     marginBottom: 15,
     marginTop: 15,
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 50,
     backgroundColor: Colors.arkadOrange,
     borderRadius: 10,
-    maxWidth: "90%",
+    width: "90%",
+    alignSelf: "center",
   },
+  switchContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
+
 
   timePickerLabel: {
     flex: 1,

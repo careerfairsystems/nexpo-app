@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     width: "80%",
     maxWidth: 400,
     borderColor: Colors.white,
-    color: Colors.white,
+    color: Colors.black,
     backgroundColor: Colors.white
   },
 });
