@@ -3,7 +3,6 @@ import React from "react";
 import Colors from "constants/Colors";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import DropDownPicker, { ThemeNameType } from "react-native-dropdown-picker";
-import ModalListItem from "./ModalListItem";
 import { PublicCompanyDto } from "api/Companies";
 import { CompanyBadge } from "./CompanyBadge";
 
@@ -27,13 +26,6 @@ export function CompanyCategoriesDropdown(props: categoriesDropdownProps) {
   const removeItem = (item: any) => {
     props.setValue((prevItems: []) => prevItems.filter((i) => i !== item));
   };
-
-  console.log("items:")
-  console.log(props.items);
-  console.log("value:");
-  console.log(props.value);
-
-
 
 
   return (
@@ -60,8 +52,8 @@ export function CompanyCategoriesDropdown(props: categoriesDropdownProps) {
       selectedItemLabelStyle={{
         color: Colors.arkadTurkos,
       }}
-      
-      renderListItem={(itemProps) => <ModalListItem itemFiltering={props.itemFiltering} filteredCompanies={props.filteredCompanies} {...itemProps} />}
+      listItemContainerStyle={styles.listItemContainer}
+      listItemLabelStyle={styles.listItemLabel}
       closeIconContainerStyle={styles.closeButton}
       showArrowIcon={true}
       ArrowDownIconComponent={({style}) => <Entypo name="chevron-thin-right" size={18} color="white" />}
@@ -74,6 +66,7 @@ export function CompanyCategoriesDropdown(props: categoriesDropdownProps) {
       CloseIconComponent={() => (
         <Ionicons name="checkmark" style={styles.checkmark} />
       )}
+      TickIconComponent={() => (<Ionicons name="checkmark" style={styles.tickIcon} />)}
       
     />
   );
@@ -96,6 +89,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  listItemContainer: {
+    borderColor: Colors.white,
+    borderLeftColor: Colors.arkadNavy,
+    borderRightColor: Colors.arkadNavy,
+    textShadowColor: Colors.white,
+    borderWidth: 0.5,
+    height: 60,
+    color: Colors.white,
+  },
+  listItemLabel: {
+    color: Colors.white,
+    fontSize: 18,
+  },
   dropdown: {
     color: Colors.white,
     backgroundColor: "none",
@@ -107,5 +113,9 @@ const styles = StyleSheet.create({
   checkmark: {
     color: Colors.white,
     fontSize: 32,
+  },
+  tickIcon: {
+    color: Colors.arkadTurkos,
+    fontSize: 30,
   },
 });
