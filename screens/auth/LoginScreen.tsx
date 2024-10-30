@@ -66,7 +66,7 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
 
   return (
     <ScrollView
-      scrollEnabled={false}
+      scrollEnabled={true}
       keyboardShouldPersistTaps="handled"
       style={{ flex: 1 }}
       contentContainerStyle={styles.container}

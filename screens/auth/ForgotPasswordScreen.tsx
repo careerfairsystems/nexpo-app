@@ -42,7 +42,7 @@ export default function ForgotPasswordScreen({
 
   return (
     <ScrollView
-      scrollEnabled={false}
+      scrollEnabled={true}
       keyboardShouldPersistTaps="handled"
       style={{ flex: 1 }}
       contentContainerStyle={styles.container}
