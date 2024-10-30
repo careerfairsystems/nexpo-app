@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { TouchableOpacity, StyleSheet, Dimensions, ViewStyle } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -21,6 +21,7 @@ import { useCallback } from "react";
 import Toast from "react-native-toast-message";
 import Colors from "constants/Colors";
 import { TicketType } from "api/Tickets";
+import { ArkadText } from "components/StyledText";
 
 const { width } = Dimensions.get("window");
 
@@ -37,9 +38,9 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     null
   );
   const [showAllEvents, setShowAllEvents] = React.useState<boolean>(true);
-  const [showAllTickets, setShowAllTickets] = React.useState<boolean>(false);
   const [QRMode, setQRMode] = React.useState<boolean>(true);
   const [eventTickets, setEventTickets] = React.useState<Event[] | null>(null);
+  const [auth, setAuth] = React.useState<boolean>(false);
 
   async function getRegisteredEvents() {
     const bookedEvents = await API.events.getBookedNotScannedEvents();
@@ -48,6 +49,11 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
       bookedEvents.filter((event) => event.type == TicketType.CompanyEvent)
     );
   }
+
+  const getAuthenticated = async () => {
+    const isSignedIn = await API.auth.isAuthenticated();
+    if (isSignedIn) setAuth(true);
+  };
 
   const getEvents = async () => {
     setLoading(true);
@@ -74,16 +80,6 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     setUpcomingEvents(API.events.getUpcomingEvents(events));
     setLoading(false);
   };
-
-  function switchEvents() {
-    setShowAllEvents(true);
-    setShowAllTickets(false);
-  }
-
-  function switchTickets() {
-    setShowAllEvents(false);
-    setShowAllTickets(true);
-  }
 
   function switchQRMode() {
     setQRMode(!QRMode);
@@ -112,6 +108,7 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     useCallback(() => {
       getEvents();
       getRegisteredEvents();
+      getAuthenticated();
     }, [])
   );
 
@@ -119,55 +116,58 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
     return <ScreenActivityIndicator />;
   }
 
-  const TwoButtonSlider = ({
-    onEventsPress,
-    onTicketsPress,
-  }: {
-    onEventsPress: () => void;
-    onTicketsPress: () => void;
-  }) => {
+  const TwoButtonSlider = () => {
     const [active, setActive] = React.useState("Events");
     const translateX = useSharedValue(0);
 
-    const switchToEvents = () => {
-      setActive("Events");
-      translateX.value = withTiming(0, { duration: 250 }, () => {});
-      onEventsPress();
+    const buttonContainerWidth = width * 0.8;
+    const halfButtonWidth = buttonContainerWidth / 2;
+
+    const switchTab = (tab: React.SetStateAction<string>) => {
+      if (active !== tab) {
+        setActive(tab);
+        if (tab === "Events") {
+          setShowAllEvents(true);
+          translateX.value = withTiming(0, { duration: 250 });
+        } else {
+          setShowAllEvents(false);
+          translateX.value = withTiming(halfButtonWidth, { duration: 250 });
+        }
+      }
     };
 
-    const switchToTickets = () => {
-      setActive("Your Tickets");
-      translateX.value = withTiming(width * 0.38, { duration: 250 }, () => {});
-      onTicketsPress();
-    };
 
     const animatedStyle = useAnimatedStyle(() => {
       return {
         transform: [{ translateX: translateX.value }],
-      };
+      } as Animated.AnimateStyle<ViewStyle>;  
     });
 
     return (
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={switchToEvents}>
-          <Text
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => switchTab("Events")}
+        >
+          <ArkadText
             style={
               active === "Events" ? styles.activeText : styles.inactiveText
             }
-          >
-            Events
-          </Text>
+            text="Events"
+          />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={switchToTickets}>
-          <Text
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => switchTab("Your Tickets")}
+        >
+          <ArkadText
             style={
               active === "Your Tickets"
                 ? styles.activeText
                 : styles.inactiveText
             }
-          >
-            Your Tickets
-          </Text>
+            text="Your Tickets"
+          />
         </TouchableOpacity>
         <Animated.View style={[styles.slider, animatedStyle]} />
       </View>
@@ -176,22 +176,21 @@ export default function EventListScreen({ navigation }: EventsNavigation) {
 
   return (
     <View style={styles.container}>
+      {auth && <TwoButtonSlider />}
       <View style={styles.container}>
-        <TwoButtonSlider
-          onEventsPress={switchEvents}
-          onTicketsPress={switchTickets}
-        />
         {/* <UpcomingButton showAllEvents={showAllEvents} onPress={switchEvents} /> */}
         {/* Admin button for QR Mode */}
         {role === Role.Administrator && (
           <AdministratorButton QRMode={QRMode} switchQRMode={switchQRMode} />
         )}
 
-        <EventList
-          events={showAllEvents ? events : eventTickets}
-          onPress={openEventDetails}
-          showTickets={showAllTickets}
-        />
+        {showAllEvents ? (
+          <EventList events={events} onPress={openEventDetails} showTickets={false} />
+        ) : eventTickets && eventTickets.length > 0 ? (
+          <EventList events={eventTickets} onPress={openEventDetails} showTickets={true} />
+        ) : (
+          <ArkadText style={styles.noTicketsText} text="You have no tickets yet." />
+        )}
       </View>
     </View>
   );
@@ -233,4 +232,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.arkadTurkos,
     borderRadius: 25,
   },
+  noTicketsText: {
+    color: Colors.white,
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 20,
+  },
+
+
+
+
 });

@@ -102,7 +102,7 @@ export default function SSsListScreen({ navigation, route }: SSsNavigation) {
   }
 
   return (
-    <View style={styles.container}>
+    <View>
       <FlatList
         data={null}
         renderItem={null}
@@ -196,7 +196,6 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
-    backgroundColor: Colors.arkadNavy,
   },
   loadingContainer: {
     marginTop: "10%",

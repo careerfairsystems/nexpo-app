@@ -573,9 +573,9 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   title: {
-    fontSize: 32,
+    fontSize: 20,
     color: Colors.white,
-    textAlign: "left",
+    textAlign: "center",
     width: "100%",
   },
   headerItem: {

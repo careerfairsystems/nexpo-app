@@ -18,7 +18,7 @@ import { ArkadButton } from "components/Buttons";
 import EditStudentProfile from "components/profileScreen/EditStudentProfile";
 import EditCompanyProfile from "components/profileScreen/EditCompanyProfile";
 import EditVolunteerProfile from "components/profileScreen/EditVolunteerProfile";
-
+//TODO make nice
 export type EditStatus = {
   ok: boolean;
   message: string | null;

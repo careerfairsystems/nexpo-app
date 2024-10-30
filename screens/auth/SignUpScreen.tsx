@@ -89,39 +89,52 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
         source={require("../../assets/images/arkad_logo_inverted.png")}
       />
       <View style={styles.inputContainer}>
+        <ArkadText text="Email" style={styles.title} />
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
           onChangeText={setEmail}
-          style={{ borderColor: Colors.white, color: Colors.white }}
+          style={{
+            borderColor: Colors.white,
+            color: Colors.black,
+            backgroundColor: Colors.white,
+            paddingTop: 15,
+          }}
         />
+
+        <ArkadText text="First Name" style={styles.title} />
         <TextInput
           placeholder="First Name"
           onChangeText={setFirstName}
-          style={{ borderColor: Colors.white, color: Colors.white }}
+          style={{
+            borderColor: Colors.white,
+            color: Colors.black,
+            backgroundColor: Colors.white,
+            paddingTop: 15,
+          }}
         />
+
+        <ArkadText text="Last Name" style={styles.title} />
         <TextInput
           placeholder="Last Name"
           onChangeText={setLastName}
-          style={{ borderColor: Colors.white, color: Colors.white }}
+          style={{
+            borderColor: Colors.white,
+            color: Colors.black,
+            backgroundColor: Colors.white,
+            paddingTop: 15,
+          }}
         />
         <Checkbox
           text="I accept ARKADs privacy policy"
           onPress={(value) => setCheckboxState(!value)}
           style={invalidSignUp ? styles.checkboxError : styles.checkbox}
         />
-        <Pressable
-          style={styles.policyContainer}
-          onPress={() =>
-            Linking.openURL("https://www.arkadtlth.se/privacypolicy")
-          }
-        >
-          <ArkadText style={styles.loginText} text={"See privacy policy"} />
-        </Pressable>
+
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <ArkadButton onPress={signUp} style={{}}>
+          <ArkadButton onPress={signUp} style={{ marginTop: 20 }}>
             <ArkadText text="Sign Up" style={{}} />
           </ArkadButton>
         )}
@@ -134,6 +147,18 @@ export default function SignUpScreen({ navigation }: SignUpScreenParams) {
             text={"Already have an account? Login here!"}
           />
         </Pressable>
+
+        <Pressable
+          style={styles.policyContainer}
+          onPress={() =>
+            Linking.openURL("https://www.arkadtlth.se/privacypolicy")
+          }
+        >
+          <ArkadText
+            style={styles.loginText}
+            text={"See privacy policy here!"}
+          />
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -144,11 +169,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.white,
     marginLeft: 12,
+    marginTop: 4,
   },
   checkboxError: {
     fontSize: 18,
     color: Colors.lightRed,
     marginLeft: 12,
+    marginTop: 4,
   },
   container: {
     flex: 1,
@@ -165,20 +192,22 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
+    color: Colors.white,
+    textAlign: "left",
+    paddingLeft: 12,
+    marginBottom: -10,
   },
   loginContainer: {
-    marginTop: 20,
+    marginTop: 0,
     padding: 16,
   },
   policyContainer: {
-    padding: 16,
     margin: 5,
   },
   loginText: {
     textAlign: "center",
-    textDecorationLine: "underline",
     color: Colors.arkadTurkos,
   },
 });

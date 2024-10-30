@@ -5,6 +5,7 @@ import Colors from "constants/Colors";
 import { Programme, Student } from "api/Students";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
+import { IconLinkButton } from "components/companies/IconLinkButton";
 
 type StudentProfileProps = {
   student: Student;
@@ -48,9 +49,8 @@ const OpenURLButton = (url: string) => {
   }, [url]);
 
   return (
-    <ArkadButton onPress={handlePress}>
-      <ArkadText text={"Open linkedIn profile"} />
-    </ArkadButton>
+    <IconLinkButton icon={require("../../assets/images/linked-in-icon.png")} url={url} text="LinkedIn" style={{backgroundColor: Colors.white}} />
+
   );
 };
 

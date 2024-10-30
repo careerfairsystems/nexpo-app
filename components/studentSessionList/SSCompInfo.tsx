@@ -4,6 +4,7 @@ import { Text, View } from "../Themed";
 
 import { PublicCompanyDto } from "api/Companies";
 import Colors from "constants/Colors";
+import { ArkadText } from "components/StyledText";
 
 type CompanyDetailsScreenProps = {
   company: PublicCompanyDto;
@@ -13,50 +14,58 @@ export default function SSCompInfo({ company }: CompanyDetailsScreenProps) {
   return (
     <View style={styles.outerContainer}>
       <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={
-              company.logoUrl
-                ? { uri: company.logoUrl }
-                : require("../../assets/images/icon.png")
-            }
-            defaultSource={require("../../assets/images/icon.png")}
-            style={styles.logo}
-          />
+        <View style={styles.logoOuterContainer}>
+          <View style={styles.hardShadow} />
+          <View style={styles.logoContainer}>
+            <Image
+              source={
+                company.logoUrl
+                  ? { uri: company.logoUrl }
+                  : require("../../assets/images/icon.png")
+              }
+              defaultSource={require("../../assets/images/icon.png")}
+              style={styles.logo}
+            />
+          </View>
         </View>
-
-        <Text style={styles.title}>{company?.name}</Text>
-
-        <Text style={styles.descHeader}>About us</Text>
-        <Text style={styles.desc}>
-          {company.description ? company.description : "\u2013"}
-        </Text>
       </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.title}>{company?.name}</Text>
+        <ArkadText style={styles.descHeader} text={"ABOUT US"} />
+        <ArkadText style={styles.desc} text={company.description ? company.description : "\u2013"} />
+      </View>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  center: {
+    alignItems: "center",
+  },
   outerContainer: {
     flex: 1,
   },
   container: {
     display: "flex",
     flex: 1,
-    padding: "8%",
     alignItems: "center",
+    backgroundColor: Colors.arkadTurkos,
+  },
+  logoOuterContainer: {
+    marginTop: 8,
+    marginBottom: -28,
+    height: 128,
+    width: 128,
   },
   logoContainer: {
-    paddingTop: 10,
-    height: 120,
-    width: "90%",
+    height: "100%",
+    width: "100%",
     backgroundColor: Colors.white,
-    borderColor: Colors.arkadOrange,
-    borderWidth: 4,
-    borderRadius: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    paddingRight: 10
+    borderRadius: 15,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   logo: {
     width: "100%",
@@ -83,18 +92,37 @@ const styles = StyleSheet.create({
     fontFamily: "main-font-bold",
     color: Colors.white,
   },
+  hardShadow: {
+    height: 128,
+    width: 136,
+    borderRadius: 15,
+    position: "absolute",
+    backgroundColor: "#000000",
+  },
+  infoContainer: {
+    marginTop: 30,
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+  },
   descHeader: {
+    marginTop: 16,
+    marginBottom: 6,
     alignSelf: "center",
-    textDecorationLine: "underline",
-    paddingTop: 16,
-    fontSize: 22,
-    fontFamily: "main-font-bold",
+    fontSize: 20,
     color: Colors.white,
+    fontStyle: "normal",
+    lineHeight: 25,
+    fontWeight: "700",
+    letterSpacing: -0.45,
   },
   desc: {
-    paddingTop: 6,
-    fontSize: 18,
-    fontFamily: "main-font-bold",
+    fontSize: 17,
     color: Colors.white,
+    alignSelf: "center",
+    textAlign: "left",
+    fontWeight: "400",
+    lineHeight: 25,
+    letterSpacing: -0.43,
   },
 });

@@ -52,17 +52,26 @@ export default function ForgotPasswordScreen({
         source={require("../../assets/images/arkad_logo_inverted.png")}
       />
       <View style={styles.inputContainer}>
+        <ArkadText text="Email" style={styles.inputTitle} />
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
           onChangeText={setEmail}
           onSubmitEditing={forgotPassword}
-          style={{ borderColor: Colors.white, color: Colors.white }}
+          style={{
+            borderColor: Colors.white,
+            color: Colors.black,
+            backgroundColor: Colors.white,
+            paddingTop: 15,
+          }}
         />
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <ArkadButton onPress={forgotPassword} style={{}}>
+          <ArkadButton
+            onPress={forgotPassword}
+            style={{ backgroundColor: Colors.arkadTurkos }}
+          >
             <ArkadText text="Submit" style={{}} />
           </ArkadButton>
         )}
@@ -95,5 +104,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
+  },
+
+  inputTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: Colors.white,
+    textAlign: "left",
+    paddingLeft: 12,
+    marginBottom: -10,
   },
 });
