@@ -15,7 +15,7 @@ export enum Programme {
   Construction_and_Railway_Construction,
   Civil_Engineering,
   Construction_and_Architecture,
-  Industrial_Economics_and_Management,
+  Industrial_Engineering_and_Management,
   Engineering_Mathematics,
   Biomedical_Engineering,
   Surveying,
