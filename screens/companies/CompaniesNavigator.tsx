@@ -24,6 +24,7 @@ export function CompaniesNavigator() {
   return (
     <CompanyStack.Navigator
       screenOptions={{
+        headerBackTitleVisible: false,
         ...TransitionPresets.SlideFromRightIOS,
         animationEnabled: true,
         gestureEnabled: true,
@@ -33,6 +34,7 @@ export function CompaniesNavigator() {
         name="CompaniesScreen"
         component={CompaniesScreen}
         options={{
+          headerBackTitleVisible: false,
           ...HeaderStyles,
           headerTitleStyle: {
             width: "100%",
@@ -47,6 +49,7 @@ export function CompaniesNavigator() {
         component={CompanyDetailsScreen}
         options={{
           title: "",
+          headerBackTitleVisible: false,
           headerTransparent: true,
           ...HeaderStyles,
           headerStyle: {
