@@ -9108,10 +9108,10 @@ react-native-ai-navigation-sdk@^0.4.0:
     react-native-ai-navigation-sdk "^0.4.0"
     react-native-permissions "^4.1.5"
 
-react-native-ai-navigation-sdk@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-ai-navigation-sdk/-/react-native-ai-navigation-sdk-0.4.1.tgz#78ca0a40d9863ba098358123b080fa709277e782"
-  integrity sha512-Urx5DO/BThqNkljrvCr1WWJ7OIWVVb+GaDCzamb8kQbKryEnul53xPbodzjBH8ljXdP+telAwVG0FZVnB10agw==
+react-native-ai-navigation-sdk@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-ai-navigation-sdk/-/react-native-ai-navigation-sdk-0.4.2.tgz#74bd9ff9834e79ae26e9b9776de484d52cc65d11"
+  integrity sha512-DMhrTVh4CTcPTkFQBdN+zxsvR+YIzsrdlJleOG5ZqjpeEtaxbH4nQXXR6jeeyxg8YwYg+DMyGzIGa30ih4AcQg==
   dependencies:
     react-native-ai-navigation-sdk "^0.4.0"
     react-native-permissions "^4.1.5"

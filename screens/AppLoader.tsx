@@ -89,10 +89,6 @@ export default function AppLoader({ children }: Props) {
     fontFamily: font,
   };
 
-  if (__DEV__) {
-    return <View style={styles.container}>{children}</View>;
-  }
-
 
   return (
     <View style={styles.container}>

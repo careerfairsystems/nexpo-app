@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { View, Animated, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-// Define the type for the coordinate prop
 type Coordinate = {
   latitude: number;
   longitude: number;
@@ -21,24 +20,24 @@ export const BlueDotMarker: React.FC<BlueDotMarkerProps> = ({ coordinate }) => {
       Animated.sequence([
         Animated.parallel([
           Animated.timing(scaleAnim, {
-            toValue: 2.5, // Scale up more significantly
+            toValue: 2.5,
             duration: 1000,
             useNativeDriver: true,
           }),
           Animated.timing(opacityAnim, {
-            toValue: 0, // Fade out
+            toValue: 0,
             duration: 1000,
             useNativeDriver: true,
           }),
         ]),
         Animated.parallel([
           Animated.timing(scaleAnim, {
-            toValue: 1, // Scale back to normal
+            toValue: 1,
             duration: 0,
             useNativeDriver: true,
           }),
           Animated.timing(opacityAnim, {
-            toValue: 1, // Reset opacity
+            toValue: 1,
             duration: 0,
             useNativeDriver: true,
           }),
@@ -72,12 +71,13 @@ const styles = StyleSheet.create({
   markerWrap: {
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'visible',
   },
   pulse: {
     position: 'absolute',
-    width: 100, // Adjust the width for a larger pulse effect
-    height: 100, // Adjust the height for a larger pulse effect
-    borderRadius: 50, // Make the borderRadius half of width/height for a perfect circle
+    width: 100,
+    height: 100,
+    borderRadius: 50,
     backgroundColor: 'rgba(0, 122, 255, 0.3)',
   },
   marker: {
@@ -89,3 +89,4 @@ const styles = StyleSheet.create({
     borderColor: 'white',
   },
 });
+

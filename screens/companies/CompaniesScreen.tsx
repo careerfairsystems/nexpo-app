@@ -56,6 +56,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
     modalVisible: modalVisible,
     isFiltered: isFiltered,
     toggleFilter: toggleFilter,
+    placeHolder: "Search comapny.."
   }
 
   useEffect(() => {

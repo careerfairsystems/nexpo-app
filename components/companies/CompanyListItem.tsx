@@ -13,6 +13,7 @@ type CompanyListItemProps = {
 
 
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => {
+
   return (
     <View style={styles.container}>
       <Pressable onPress={onPress} style={{ width: "100%" }}>

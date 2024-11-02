@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from "react-native";
+import { ImageRequireSource, StyleSheet, View } from "react-native";
 import MapView, { Marker, Overlay } from "react-native-maps";
 import { ReactCombainFloorMap } from "react-native-ai-navigation-sdk";
 import Constants from "expo-constants";
@@ -7,9 +7,10 @@ import Constants from "expo-constants";
 type FloorMapOverlayProps = {
   floorMap: ReactCombainFloorMap;
   bearing : number | 0
+  imageReqSource: ImageRequireSource | null;
 };
 
-const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap, bearing}) => {
+const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap, bearing, imageReqSource}) => {
   const apiKey: string = Constants.manifest?.extra?.apiKey;
   const imageSource = {
     uri: floorMap.imageURL,
@@ -52,7 +53,7 @@ const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap, bearing}) =
         ]}
         bearing={bearing}
         style={styles.overlay}
-        image={imageSource}
+        image={imageReqSource? imageReqSource : imageSource}
       />
 
     </View>

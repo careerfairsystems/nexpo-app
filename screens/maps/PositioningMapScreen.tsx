@@ -11,7 +11,7 @@ import {
   ReactRoutableTarget,
   ReactRoutingPosition,
   ReactAIIndoorNavigationSDK,
-  SyncingInterval
+  SyncingInterval, FeatureModelGraph, FeatureModelNode
 } from "react-native-ai-navigation-sdk";
 import {
   Button,
@@ -38,6 +38,7 @@ import { RoutingProvider } from "react-native-ai-navigation-sdk/src/routing-prov
 import { ArkadText } from "components/StyledText";
 import RoutableTargetsModal from "./components/RoutableTargetsModal";
 import { MapStackParamList } from "./MapNavigator";
+import { RoutingMarkerList } from "./components/Markers/RoutingMarkerList";
 
 
 type PositioningMapScreenProps = {
@@ -56,8 +57,12 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [allTargets, setAllTargets] = useState<Array<ReactRoutableTarget | null>>([]);
   const [currentRoute, setRoute] = useState<ReactRoutingPosition | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [lat, setLat] = useState(55.7108565);
-  const [lng, setLng] = useState(13.2104698);
+  const [lat, setLat] = useState<number>();
+  const [lng, setLng] = useState<number>();
+  const [featureModelGraph, setFeatureModelGraph] =  useState<FeatureModelGraph>();
+  const [routableNodes, setRoutableNodes] = useState<Map<ReactRoutableTarget, FeatureModelNode>>(new Map());
+  const [selectedFloor, setSelectedFloor] = useState<number>(0); // State for selected floor
+
 
 
   const navigation = useNavigation();
@@ -75,17 +80,11 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     if(lat != 0 && lng!=0){
       setLoadingPosition(false);
     }
+    console.log(featureModelGraph)
   }, [location, gpsPosition]);
 
-  const getQueryTargets = async (name: string) => {
-    try {
-      const targets = await sdk?.getRoutingProvider()?.queryTarget(name);
-      console.log(targets);
-      setAllTargets(targets!);
-    } catch (error) {
-      console.error('Error fetching targets:', error);
-    }
-  };
+
+
 
   const handleRoute = async (target: ReactRoutableTarget | null) => {
     setModalVisible(false);
@@ -109,6 +108,32 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     setRoute(null);
     console.log("Routing stopped");
   };
+
+  const putRoutableMarkers = async () => {
+    if (sdk) {
+      try {
+        const featureModelNodes = await sdk.getFeatureModelGraph(137313907);
+        setFeatureModelGraph(featureModelNodes);
+        console.log(JSON.stringify("featrue" + featureModelNodes))
+        const queryTargets = await sdk.getRoutingProvider().queryTarget(" ");
+        const targetRouteNodes = new Map<ReactRoutableTarget, FeatureModelNode>();
+        queryTargets.forEach((target) => {
+          const matchingNode = featureModelNodes!.nodes.find(
+            (node) => node.nodeId === target.nodeId
+          );
+          if (matchingNode) {
+            targetRouteNodes.set(target, matchingNode);
+          }
+        });
+
+        setRoutableNodes(targetRouteNodes);
+        console.log("Routable nodes set:", targetRouteNodes);
+      } catch (error) {
+        console.error("Error in putRoutableMarkers:", error);
+      }
+    }
+  };
+
 
 
 
@@ -137,6 +162,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
         const places = await sdk.getAllPlaces();
         setAllPlaces(places!);
+        await putRoutableMarkers()
         setSdk(sdk);
         console.log('SDK STARTED');
         setSdkInitialized(true);
@@ -155,9 +181,12 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
   return (
     <View style={styles.container}>
-      {sdk ? (
-        loadingPosition ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+      { sdk ? (
+        (lat === undefined || lng === undefined)  ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={Colors.white} />
+            <ArkadText text="Loading map ..." style={styles.loadingText} />
+          </View>
         ) : (
           <MapView
             style={styles.map}
@@ -166,15 +195,17 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
             zoomEnabled={true}
             showsBuildings={false}
             initialRegion={{
-              latitude: lat,
-              longitude: lng,
+              latitude: lat!,
+              longitude: lng!,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0922,
             }}
           >
-            <BlueDotMarker coordinate={{ latitude: lat, longitude: lng }} />
+            <BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
-            <AreaPolygons allPlaces={allPlaces} floorNbr={location?.indoor?.floorIndex} />
+            <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} />
+            <RoutingMarkerList routeNodesMap={routableNodes} onTargetSelect={() => console.log("hej")} company={null}/>
+
             {/* {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}*/}
           </MapView>
         )
@@ -192,6 +223,12 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
       >
         <Text style={styles.searchBarText}>🔍 Search for targets...</Text>
       </TouchableOpacity>
+
+      <View style={styles.floorSelectionContainer}>
+        <Button title="Floor 0" onPress={() => setSelectedFloor(0)} />
+        <Button title="Floor 1" onPress={() => setSelectedFloor(1)} />
+      </View>
+
 
       {location?.indoor && (
         <View style={styles.locationOverlay}>
@@ -284,5 +321,22 @@ const styles = StyleSheet.create({
   },
   stopButtonText: {
     color: "white",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    paddingTop: 15,
+    color: Colors.white,
+    fontSize: 32,
+  },
+  floorSelectionContainer: {
+    position: 'absolute',
+    bottom: 90,
+    right: 10,
+    flexDirection: 'column',
+    zIndex: 3,
   },
 });
