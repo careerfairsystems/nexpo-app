@@ -15,7 +15,7 @@ export const RoutingMarker: React.FC<RoutingMarkerProps> = ({ node, onTargetSele
   const coord = { latitude: node.pointLLA.lat, longitude: node.pointLLA.lng };
 
   return (
-    <Marker coordinate={coord} title={node.name} tracksViewChanges={false}>
+    <Marker coordinate={coord} title={node.name} tracksViewChanges={false} onPress={onTargetSelect}>
       <ImageBackground
         source={
           company?.logoUrl

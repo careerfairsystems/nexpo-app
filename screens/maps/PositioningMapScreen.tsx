@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ReactBlueToothPipeResult,
   ReactPlace,
@@ -22,6 +22,7 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  Image,
   Modal,
   Dimensions
 } from "react-native";
@@ -29,8 +30,8 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { mapStyle } from "./assets/MapStyle";
 import Constants from "expo-constants";
 import AreaPolygons from "./components/AreaPlaces";
-import RoutingPath from "./components/RoutingPath";
-import { BlueDotMarker } from "./components/BlueDotMarker";
+import RoutingPath from "./components/Routing/RoutingPath";
+import { BlueDotMarker } from "./components/Markers/BlueDotMarker";
 import FloorMapOverlay from "./components/FloorMapOverlay";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import Colors from "constants/Colors";
@@ -40,6 +41,9 @@ import RoutableTargetsModal from "./components/RoutableTargetsModal";
 import { MapStackParamList } from "./MapNavigator";
 import { PublicCompanyDto } from "api/Companies";
 import { API } from "api/API";
+import RBSheet from "react-native-raw-bottom-sheet";
+import { ShowOptions, TagsList } from "components/companies/TagsList";
+import { ArkadButton } from "components/Buttons";
 
 
 type PositioningMapScreenProps = {
@@ -55,7 +59,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [gpsPosition, setGpsPosition] = useState<ReactGPSLocation>();
   const [loadingPosition, setLoadingPosition] = useState(true);
   const [allPlaces, setAllPlaces] = useState<Array<ReactPlace | null>>([]);
-  const [allTargets, setAllTargets] = useState<Array<ReactRoutableTarget | null>>([]);
+  const [allTargets, setAllTargets] = useState<Array<ReactRoutableTarget >>([]);
   const [currentRoute, setRoute] = useState<ReactRoutingPosition | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [lat, setLat] = useState<number>();
@@ -63,9 +67,20 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [selectedFloor, setSelectedFloor] = useState<number>(0); // State for selected floor
   const [featureModelNodes, setFeatureModelNodes] = useState<ReactFeatureModelNode[]>([])
   const [allCompanies, setAllCompanies] = useState<PublicCompanyDto[]>([])
+  const [selectedMarker, setSelectedMarker] = useState<ReactFeatureModelNode | null>(null);
+  const [selectedTarget, setSelectedTarget] = useState<ReactRoutableTarget | null>(null);
+  const [selectedCompany, setSelectedCompany] = useState<PublicCompanyDto | null>(null);
+  const refRBSheet = useRef<any>(null);
 
 
   const navigation = useNavigation();
+
+  const handleMarkerSelect = (marker: ReactFeatureModelNode, target: ReactRoutableTarget | null, company: PublicCompanyDto | null) => {
+    setSelectedMarker(marker);
+    setSelectedTarget(target);
+    setSelectedCompany(company);
+    refRBSheet.current?.open();
+  };
 
 
   const { width, height } = Dimensions.get('window');
@@ -147,6 +162,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           }
         });
         await API.companies.getAll().then(companies => {setAllCompanies(companies)})
+        await sdk.getRoutingProvider().queryTarget(" ").then(x=> setAllTargets(x))
 
 
       }
@@ -187,8 +203,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           >
             <BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
-            <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} markers={featureModelNodes} companies={allCompanies} />
-
+            <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} markers={featureModelNodes} companies={allCompanies} routingTargets={allTargets} onMarkerSelect={handleMarkerSelect} />
             {/* {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}*/}
           </MapView>
         )
@@ -229,6 +244,31 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         </View>
       )}
 
+      <RBSheet
+        ref={refRBSheet}
+        height={300}
+        openDuration={250}
+        customStyles={{
+          container: styles.sheetContainer,
+        }}
+      >
+        <View key={selectedMarker?.id} style={styles.contentContainer}>
+          {selectedCompany?.logoUrl ? (
+            <Image source={{ uri: selectedCompany.logoUrl }} style={styles.logo} />
+          ) : (
+            <Image source={require("assets/images/icon.png")} style={styles.logo} />
+          )}
+
+          <Text style={styles.sheetTitle}>
+            {selectedMarker?.name || selectedCompany?.name || "Unknown Marker"}
+          </Text>
+
+          {selectedCompany ? (<TagsList company={selectedCompany} showOptions={ShowOptions.Industries} />
+          ): null}
+
+          <ArkadButton onPress={() => refRBSheet.current?.close()} style={styles.stopButton}><ArkadText text={"Close"}/></ArkadButton>
+        </View>
+      </RBSheet>
 
     <RoutableTargetsModal sdk={sdk} isVisible={isModalVisible} onClose={() => setModalVisible(false)} onTargetSelect={handleRoute}/>
     </View>
@@ -321,5 +361,36 @@ const styles = StyleSheet.create({
     right: 10,
     flexDirection: 'column',
     zIndex: 3,
+  },
+  sheetTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  sheetContainer: {
+    padding: 20,
+    backgroundColor: Colors.arkadTurkos,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    resizeMode: "contain",
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    marginBottom: 12,
+  },
+  detailsText: {
+    fontSize: 16,
+    color: Colors.white,
+    textAlign: "center",
+    marginBottom: 16,
   },
 });

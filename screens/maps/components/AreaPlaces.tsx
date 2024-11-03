@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useRef, useState,  } from "react";
 import { Polygon, Callout, LatLng, Marker } from "react-native-maps";
-import { Text, View } from "react-native";
-import { ReactFeatureModelNode, ReactPlace } from "react-native-ai-navigation-sdk";
+import { Text, View, StyleSheet, Button } from "react-native";
+import { ReactFeatureModelNode, ReactPlace, ReactRoutableTarget } from "react-native-ai-navigation-sdk";
 import Colors from "constants/Colors";
 import FloorMapOverlay from "./FloorMapOverlay";
 import { RoutingMarker } from "./Markers/RoutingMarker";
 import { PublicCompanyDto } from "api/Companies";
+import RBSheet from "react-native-raw-bottom-sheet";
 
 type AreaPolygonsProps = {
   allPlaces: Array<ReactPlace | null>;
@@ -15,6 +16,10 @@ type AreaPolygonsProps = {
   floorNbr?: number;
   markers?: ReactFeatureModelNode[];
   companies?: PublicCompanyDto[];
+  routingTargets?: ReactRoutableTarget[];
+  onMarkerSelect: (marker: ReactFeatureModelNode, target: ReactRoutableTarget | null, company: PublicCompanyDto | null) => void;
+
+
 };
 
 function center_polygon(coordinates: LatLng[]) {
@@ -32,7 +37,15 @@ function center_polygon(coordinates: LatLng[]) {
   };
 }
 
-const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Colors.arkadOrange, strokeWidth = 2, floorNbr = 0, markers, companies }) => {
+const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Colors.arkadOrange, strokeWidth = 2, floorNbr = 0, markers, companies, routingTargets,onMarkerSelect }) => {
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTarget, setSelectedTarget] = useState<ReactRoutableTarget | null>(null);
+  const [featureModelNode, setFeatureModelNode] = useState<ReactFeatureModelNode | null>(null);
+  const refRBSheet = React.useRef<any>();
+
+
+
 
   const getImageAndBearing = (placeName: string | undefined) => {
     if (placeName) {
@@ -61,7 +74,19 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Co
     return acc;
   }, {} as Record<string, PublicCompanyDto>) || {};
 
+  const targetMap = routingTargets?.reduce((acc, target) => {
+    if (target.nodeId) acc[target.nodeId] = target;
+    return acc;
+  }, {} as Record<string, ReactRoutableTarget>) || {};
+
+
   const filteredMarkers = markers?.filter(marker => marker.floorIndex === floorNbr) || [];
+
+  const handleMarkerPress = (marker: ReactFeatureModelNode) => {
+    const target = targetMap[marker.id];
+    const company = companyMap[marker.name]
+    onMarkerSelect(marker, target || null, company || null);
+  };
 
   return (
     <>
@@ -75,6 +100,8 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Co
           latitude: point!.lat,
           longitude: point!.lng
         }));
+
+
 
         const { image, bearing } = getImageAndBearing(place.name);
 
@@ -98,7 +125,7 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Co
                 <RoutingMarker
                   key={marker.id}
                   node={marker}
-                  onTargetSelect={() => console.log("Marker selected:", marker.name)}
+                  onTargetSelect={() => handleMarkerPress(marker)}
                   company={matchingCompany}
                 />
               );
@@ -109,5 +136,12 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Co
     </>
   );
 };
+const styles = StyleSheet.create({
+  sheetTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+});
 
 export default AreaPolygons;
