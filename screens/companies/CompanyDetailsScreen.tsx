@@ -13,6 +13,7 @@ import { IconLinkButton } from "components/companies/IconLinkButton";
 import { ShowOptions, TagsList } from "components/companies/TagsList";
 import { useHeaderHeight } from "@react-navigation/stack";
 import CompanyDetailsHeader from "components/companies/CompanyDetailsHeader";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type CompanyDetailsScreenParams = {
   route: {
@@ -28,6 +29,7 @@ export default function CompanyDetailsScreen({
   route,
 }: CompanyDetailsScreenParams) {
   const { id } = route.params;
+  const insets = useSafeAreaInsets();
 
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -46,13 +48,14 @@ export default function CompanyDetailsScreen({
   : 0;
   
 
-  const greenZone = false;
+  const greenZone = true;
 
   const getCompany = async () => {
     setLoading(true);
 
     const company = await API.companies.getCompany(id);
     setCompany(company);
+    console.log(company);
 
     setLoading(false);
   };
@@ -65,7 +68,7 @@ export default function CompanyDetailsScreen({
   const navigation = useNavigation();
 
 
-  const height = useHeaderHeight();
+  // const height = useHeaderHeight();
 
 
   useEffect(() => {
@@ -101,8 +104,7 @@ export default function CompanyDetailsScreen({
   }
 
   return (
-    <View style={styles.outerContainer}>
-      <Animated.ScrollView onContentSizeChange={(width, height) => {setContentHeight(height); setScreenHeight(Dimensions.get('window').height)}}
+      <Animated.ScrollView style={{paddingTop: insets.top}} onContentSizeChange={(width, height) => {setContentHeight(height); setScreenHeight(Dimensions.get('window').height)}}
         onScroll={Animated.event(
           [
             {
@@ -193,7 +195,6 @@ export default function CompanyDetailsScreen({
 
         </View>
       </Animated.ScrollView>
-    </View>
   );
 }
 
@@ -204,7 +205,6 @@ const styles = StyleSheet.create({
   },
   colorBackgroundContainer: {
     flexDirection: "column",
-    overflow: "hidden",
     alignItems: "center",
     justifyContent: "flex-end",
     width: "100%",
