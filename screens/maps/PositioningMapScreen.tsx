@@ -11,7 +11,7 @@ import {
   ReactRoutableTarget,
   ReactRoutingPosition,
   ReactAIIndoorNavigationSDK,
-  SyncingInterval, FeatureModelGraph, FeatureModelNode
+  SyncingInterval, FeatureModelGraph, ReactFeatureModelNode
 } from "react-native-ai-navigation-sdk";
 import {
   Button,
@@ -38,7 +38,8 @@ import { RoutingProvider } from "react-native-ai-navigation-sdk/src/routing-prov
 import { ArkadText } from "components/StyledText";
 import RoutableTargetsModal from "./components/RoutableTargetsModal";
 import { MapStackParamList } from "./MapNavigator";
-import { RoutingMarkerList } from "./components/Markers/RoutingMarkerList";
+import { PublicCompanyDto } from "api/Companies";
+import { API } from "api/API";
 
 
 type PositioningMapScreenProps = {
@@ -59,10 +60,9 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [isModalVisible, setModalVisible] = useState(false);
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
-  const [featureModelGraph, setFeatureModelGraph] =  useState<FeatureModelGraph>();
-  const [routableNodes, setRoutableNodes] = useState<Map<ReactRoutableTarget, FeatureModelNode>>(new Map());
   const [selectedFloor, setSelectedFloor] = useState<number>(0); // State for selected floor
-
+  const [featureModelNodes, setFeatureModelNodes] = useState<ReactFeatureModelNode[]>([])
+  const [allCompanies, setAllCompanies] = useState<PublicCompanyDto[]>([])
 
 
   const navigation = useNavigation();
@@ -80,7 +80,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     if(lat != 0 && lng!=0){
       setLoadingPosition(false);
     }
-    console.log(featureModelGraph)
   }, [location, gpsPosition]);
 
 
@@ -109,30 +108,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     console.log("Routing stopped");
   };
 
-  const putRoutableMarkers = async () => {
-    if (sdk) {
-      try {
-        const featureModelNodes = await sdk.getFeatureModelGraph(137313907);
-        setFeatureModelGraph(featureModelNodes);
-        console.log(JSON.stringify("featrue" + featureModelNodes))
-        const queryTargets = await sdk.getRoutingProvider().queryTarget(" ");
-        const targetRouteNodes = new Map<ReactRoutableTarget, FeatureModelNode>();
-        queryTargets.forEach((target) => {
-          const matchingNode = featureModelNodes!.nodes.find(
-            (node) => node.nodeId === target.nodeId
-          );
-          if (matchingNode) {
-            targetRouteNodes.set(target, matchingNode);
-          }
-        });
 
-        setRoutableNodes(targetRouteNodes);
-        console.log("Routable nodes set:", targetRouteNodes);
-      } catch (error) {
-        console.error("Error in putRoutableMarkers:", error);
-      }
-    }
-  };
 
 
 
@@ -162,10 +138,17 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
         const places = await sdk.getAllPlaces();
         setAllPlaces(places!);
-        await putRoutableMarkers()
         setSdk(sdk);
         console.log('SDK STARTED');
         setSdkInitialized(true);
+        await sdk?.getFeatureModelGraph(137521724).then(x => {
+          if(x!=null){
+            setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
+          }
+        });
+        await API.companies.getAll().then(companies => {setAllCompanies(companies)})
+
+
       }
     } catch (error) {
       console.error('SDK initialization error:', error);
@@ -189,6 +172,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           </View>
         ) : (
           <MapView
+            minZoomLevel={5}
             style={styles.map}
             customMapStyle={mapStyle}
             scrollEnabled={true}
@@ -203,8 +187,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           >
             <BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
-            <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} />
-            <RoutingMarkerList routeNodesMap={routableNodes} onTargetSelect={() => console.log("hej")} company={null}/>
+            <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} markers={featureModelNodes} companies={allCompanies} />
 
             {/* {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}*/}
           </MapView>

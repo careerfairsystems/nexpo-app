@@ -1,9 +1,11 @@
 import React from 'react';
 import { Polygon, Callout, LatLng, Marker } from "react-native-maps";
 import { Text, View } from "react-native";
-import { ReactPlace } from 'react-native-ai-navigation-sdk';
+import { ReactFeatureModelNode, ReactPlace } from "react-native-ai-navigation-sdk";
 import Colors from "constants/Colors";
 import FloorMapOverlay from "./FloorMapOverlay";
+import { RoutingMarker } from "./Markers/RoutingMarker";
+import { PublicCompanyDto } from "api/Companies";
 
 type AreaPolygonsProps = {
   allPlaces: Array<ReactPlace | null>;
@@ -11,6 +13,8 @@ type AreaPolygonsProps = {
   strokeColor?: string;
   strokeWidth?: number;
   floorNbr?: number;
+  markers?: ReactFeatureModelNode[];
+  companies?: PublicCompanyDto[];
 };
 
 function center_polygon(coordinates: LatLng[]) {
@@ -28,26 +32,21 @@ function center_polygon(coordinates: LatLng[]) {
   };
 }
 
-const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Colors.arkadOrange, strokeWidth = 2, floorNbr = 0 }) => {
+const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Colors.arkadOrange, strokeWidth = 2, floorNbr = 0, markers, companies }) => {
 
-  // Im forced to do this beacuse of traxmate
   const getImageAndBearing = (placeName: string | undefined) => {
     if (placeName) {
       switch (placeName) {
         case 'E-huset':
           return { image: require("assets/images/Buildings/E0.png"), bearing: -75 };
         case 'Kårhuset':
-          if(floorNbr===1){
-            return { image: require("assets/images/Buildings/K2.png"), bearing: -40 };
-          }else {
-            return { image: require("assets/images/Buildings/K1.png"), bearing: -40 };
-          }
+          return floorNbr === 1
+            ? { image: require("assets/images/Buildings/K2.png"), bearing: -40 }
+            : { image: require("assets/images/Buildings/K1.png"), bearing: -40 };
         case 'Studiecentrum, LTH':
-          if(floorNbr===1){
-            return { image: require("assets/images/Buildings/SC2.png"), bearing: -60 };
-          }else {
-            return { image: require("assets/images/Buildings/SC1.png"), bearing: -60 };
-          }
+          return floorNbr === 1
+            ? { image: require("assets/images/Buildings/SC2.png"), bearing: -60 }
+            : { image: require("assets/images/Buildings/SC1.png"), bearing: -60 };
         case "X-Lab":
           return { image: require("assets/images/Buildings/X1.png"), bearing: -165 };
         default:
@@ -56,6 +55,13 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Co
     }
     return { image: null, bearing: 0 };
   };
+
+  const companyMap = companies?.reduce((acc, company) => {
+    if (company.name) acc[company.name] = company;
+    return acc;
+  }, {} as Record<string, PublicCompanyDto>) || {};
+
+  const filteredMarkers = markers?.filter(marker => marker.floorIndex === floorNbr) || [];
 
   return (
     <>
@@ -70,16 +76,13 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Co
           longitude: point!.lng
         }));
 
-        const centerCoords = center_polygon(coordinates);
         const { image, bearing } = getImageAndBearing(place.name);
 
-        // Get the floor and floorMap directly from allPlaces here
         const floor = place.floors && floorNbr !== null ? place.floors[floorNbr] : null;
         const floorMap = floor ? floor.floorMap : null;
 
         return (
           <View key={index}>
-
             {floorMap && image && (
               <FloorMapOverlay
                 floorMap={floorMap}
@@ -88,7 +91,18 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Co
               />
             )}
 
+            {filteredMarkers.map(marker => {
+              const matchingCompany = companyMap[marker.name] || null;
 
+              return (
+                <RoutingMarker
+                  key={marker.id}
+                  node={marker}
+                  onTargetSelect={() => console.log("Marker selected:", marker.name)}
+                  company={matchingCompany}
+                />
+              );
+            })}
           </View>
         );
       })}
