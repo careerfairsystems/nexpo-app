@@ -24,7 +24,7 @@ export default function CompanyListDivider({text, style}: CompanyListDivider) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.arkadNavy,
-        marginTop: 8,
+        paddingTop: 8,
         flexDirection: "row",
         flex: 1,
         alignSelf: "stretch",

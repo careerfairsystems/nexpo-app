@@ -104,7 +104,7 @@ export default function CompaniesModal({
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <CompanyListDivider text="Desired program" style={{margin: 0}}/>
+        <CompanyListDivider text="Desired program" style={{padding: 0}}/>
         <CompanyCategoriesDropdown
           title="Desired program"
           items={programmes}
@@ -121,7 +121,7 @@ export default function CompaniesModal({
         />
       </View>
       <View style={styles.modalView}>
-        <CompanyListDivider text="Position" style={{margin: 0}}/>
+        <CompanyListDivider text="Position" style={{padding: 0}}/>
         <CompanyCategoriesDropdown
           title="Select position"
           items={positions}
@@ -138,7 +138,7 @@ export default function CompaniesModal({
         />
       </View>
       <View style={styles.modalView}>
-        <CompanyListDivider text="Industry" style={{margin: 0}}/>
+        <CompanyListDivider text="Industry" style={{padding: 0}}/>
         <CompanyCategoriesDropdown
           title="Select industry"
           items={industry}
@@ -155,7 +155,7 @@ export default function CompaniesModal({
         />
       </View>
       <View style={styles.modalView}>
-        <CompanyListDivider text="Location" style={{margin: 0}}/>
+        <CompanyListDivider text="Location" style={{padding: 0}}/>
         <CompanyCategoriesDropdown
           title="Select location"
           items={location}
@@ -170,7 +170,7 @@ export default function CompaniesModal({
           onChangeValue={setSetFilteredCompanies}
           categories={false}
         />
-        <CompanyListDivider text="" style={{margin: 0}}/>
+        <CompanyListDivider text="" style={{padding: 0}}/>
       </View>
       <View style={styles.footer}>
         <ArkadButton style={styles.button} onPress={resetFilters}>
