@@ -12,7 +12,7 @@ export default function QuestionTab() {
   const sendEmail = async () => {
     try {
       const user = await getMe();
-      const recipient = ["company.arkad@tlth.se"]; // List of recipient email addresses
+      const recipient = ["business.arkad@tlth.se"]; // List of recipient email addresses
       const subject = title;
 
       const sender = "From: " + user.email;
