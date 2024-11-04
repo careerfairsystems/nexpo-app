@@ -101,6 +101,7 @@ export default function BottomTabNavigator() {
           name="Companies"
           component={CompaniesNavigator}
           options={{
+            title: "",
             tabBarIcon: ({ focused }) => {
               return (
                 <Image
@@ -120,6 +121,7 @@ export default function BottomTabNavigator() {
           name="Maps"
           component={MapNavigator}
           options={{
+            title: "",
             tabBarIcon: ({ focused }) => {
               return (
                 <Image
@@ -140,6 +142,7 @@ export default function BottomTabNavigator() {
             name="Events"
             component={EventsNavigator}
             options={{
+              title: "",
               tabBarIcon: ({ focused }) => {
                 return (
                   <Image
@@ -161,7 +164,7 @@ export default function BottomTabNavigator() {
             name="SSsStudent"
             component={SSsStudentNavigator}
             options={{
-              title: "Student Sessions",
+              title: "",
               tabBarIcon: ({ focused }) => {
                 return (
                   <Image
@@ -183,7 +186,7 @@ export default function BottomTabNavigator() {
               name="SSsCRep"
               component={SSsCRepNavigator}
               options={{
-                title: "Student Sessions",
+                title: "",
                 tabBarIcon: ({ focused }) => {
                   return (
                     <Image
@@ -207,6 +210,7 @@ export default function BottomTabNavigator() {
             name="You"
             component={ProfileNavigator}
             options={({}) => ({
+              title: "",
               tabBarIcon: ({ focused }) => {
                 return (
                   <Image
@@ -226,6 +230,7 @@ export default function BottomTabNavigator() {
             name="Login"
             component={AuthNavigator}
             options={({}) => ({
+              title: "",
               tabBarIcon: ({ focused }) => {
                 return (
                   <Image

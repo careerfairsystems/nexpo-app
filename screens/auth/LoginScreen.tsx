@@ -112,7 +112,10 @@ export default function LoginScreen({ navigation }: LoginScreenParams) {
           <ActivityIndicator />
         ) : (
           <ArkadButton onPress={login} style={styles.loginButton}>
-            <ArkadText text="Sign in with Account" style={{}} />
+            <ArkadText
+              text="Sign in with Account"
+              style={{ fontWeight: "bold" }}
+            />
           </ArkadButton>
         )}
         <Pressable
