@@ -61,7 +61,7 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
       );
       setAllTargets(filteredTargets);
     } catch (error) {
-      console.error("Error fetching routable targets:", error);
+      console.error("Error fetching routable trargets:", error);
     } finally {
       setLoading(false);
     }

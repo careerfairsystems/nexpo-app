@@ -11,7 +11,6 @@ import { companyLocations } from "components/companies/CompanyLocationsMap";
 import { EMap, TentMap, SCMap, KarhusetMap } from "components/maps/MapProps";
 import { IconLinkButton } from "components/companies/IconLinkButton";
 import { ShowOptions, TagsList } from "components/companies/TagsList";
-import { useHeaderHeight } from "@react-navigation/stack";
 import CompanyDetailsHeader from "components/companies/CompanyDetailsHeader";
 
 type CompanyDetailsScreenParams = {

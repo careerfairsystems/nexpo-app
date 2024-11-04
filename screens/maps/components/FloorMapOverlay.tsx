@@ -62,7 +62,7 @@ const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap, bearing, im
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
   },
   overlay: {
     flex: 1,

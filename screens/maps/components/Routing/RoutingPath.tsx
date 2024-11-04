@@ -14,7 +14,7 @@ type Coordinate = {
   longitude: number;
 };
 
-const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocation: ReactCombainLocation }> = ({ startPosition, currentlocation }) => {
+const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocation: ReactCombainLocation, selectedFloor: number}> = ({ startPosition, currentlocation, selectedFloor }) => {
   const [pathCoordinates, setPathCoordinates] = useState<Coordinate[]>([]);
   const [markers, setMarkers] = useState<{ coordinate: Coordinate; title: string; description: string,type: ReactNodeType}[]>([]);
 
@@ -36,6 +36,12 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
       let isIndoors = currentLocation.indoor != null;
 
       while (current) {
+
+        if (current.floorIndex !== selectedFloor) {
+          current = current.nextRoutingPosition;
+          continue;
+        }
+
         const coordinate = {
           latitude: current.point.lat,
           longitude: current.point.lng,
@@ -58,14 +64,6 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
             description: 'Proceed to the stairs',
             type: ReactNodeType.Stairs,
 
-          });
-          break;
-        } else if (!current.nextRoutingPosition) {
-          newMarkers.push({
-            coordinate,
-            title: 'Goal',
-            description: 'You have reached your destination',
-            type: ReactNodeType.Node,
           });
         }
 

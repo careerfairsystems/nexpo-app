@@ -24,7 +24,7 @@ import {
   TouchableOpacity,
   Image,
   Modal,
-  Dimensions
+  Dimensions, ScrollView
 } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { mapStyle } from "./assets/MapStyle";
@@ -44,6 +44,7 @@ import { API } from "api/API";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { ShowOptions, TagsList } from "components/companies/TagsList";
 import { ArkadButton } from "components/Buttons";
+import { floor } from "colord/helpers";
 
 
 type PositioningMapScreenProps = {
@@ -90,7 +91,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     initializeSDK();
   }, []);
 
-
   useEffect(() => {
     if(lat != 0 && lng!=0){
       setLoadingPosition(false);
@@ -98,10 +98,14 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   }, [location, gpsPosition]);
 
 
+  useEffect(() => {
+    fetchQueryTargets()
+  }, [sdk, sdkInitialized, location]);
 
 
   const handleRoute = async (target: ReactRoutableTarget | null) => {
     setModalVisible(false);
+    refRBSheet.current.close();
     console.log("Adding listener to currentRoute");
     try {
       if (target) {
@@ -123,8 +127,17 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     console.log("Routing stopped");
   };
 
+  const handleFloorSelect = (floor: number) => {
+    setSelectedFloor(floor);
+  };
 
-
+  const fetchQueryTargets = async () => {
+    const targets = await sdk?.getRoutingProvider()?.queryTarget(" ");
+    const filteredTargets = (targets || []).filter(
+      (target) => target?.name && !target.name.includes("Footway") && !target.name.includes("Node")
+    );
+    setAllTargets(filteredTargets);
+  }
 
 
 
@@ -135,7 +148,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         const { sdk } = route.params;
         sdk.currentLocation.addListener((e) => {
           setLoadingPosition(false);
-          console.log(e)
+          console.log(e?.indoor?.featureModelId)
           if(e){
             setLat(e.latitude)
             setLng(e.longitude)
@@ -156,15 +169,13 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         setSdk(sdk);
         console.log('SDK STARTED');
         setSdkInitialized(true);
+
         await sdk?.getFeatureModelGraph(137521724).then(x => {
           if(x!=null){
             setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
           }
         });
         await API.companies.getAll().then(companies => {setAllCompanies(companies)})
-        await sdk.getRoutingProvider().queryTarget(" ").then(x=> setAllTargets(x))
-
-
       }
     } catch (error) {
       console.error('SDK initialization error:', error);
@@ -177,6 +188,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const ASPECT_RATIO = width / height;
   const LATITUDE_DELTA = 0.0922;
   const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+
 
   return (
     <View style={styles.container}>
@@ -201,10 +214,9 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
               longitudeDelta: 0.0922,
             }}
           >
-            <BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />
-            {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}
+            {location?.indoor?.floorIndex === selectedFloor ? ( <BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
+            {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} selectedFloor={selectedFloor} />}
             <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} markers={featureModelNodes} companies={allCompanies} routingTargets={allTargets} onMarkerSelect={handleMarkerSelect} />
-            {/* {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} />}*/}
           </MapView>
         )
       ) : (
@@ -223,8 +235,25 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
       </TouchableOpacity>
 
       <View style={styles.floorSelectionContainer}>
-        <Button title="Floor 0" onPress={() => setSelectedFloor(0)} />
-        <Button title="Floor 1" onPress={() => setSelectedFloor(1)} />
+        {[0, 1].map((floor) => (
+          <TouchableOpacity
+            key={floor}
+            onPress={() => handleFloorSelect(floor)}
+            style={[
+              styles.floorButton,
+              selectedFloor === floor && styles.selectedFloorButton,
+            ]}
+          >
+            <Text
+              style={[
+                styles.floorButtonText,
+                selectedFloor === floor && styles.selectedFloorText,
+              ]}
+            >
+              Floor {floor}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
 
 
@@ -246,28 +275,44 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
       <RBSheet
         ref={refRBSheet}
-        height={300}
+        height={400}  // Increase height if needed
         openDuration={250}
         customStyles={{
           container: styles.sheetContainer,
         }}
       >
-        <View key={selectedMarker?.id} style={styles.contentContainer}>
+        <View style={styles.topBackground}>
+          {/* Logo Section */}
           {selectedCompany?.logoUrl ? (
             <Image source={{ uri: selectedCompany.logoUrl }} style={styles.logo} />
           ) : (
             <Image source={require("assets/images/icon.png")} style={styles.logo} />
           )}
+        </View>
 
+        <ScrollView style={styles.contentContainer}>
           <Text style={styles.sheetTitle}>
             {selectedMarker?.name || selectedCompany?.name || "Unknown Marker"}
           </Text>
 
-          {selectedCompany ? (<TagsList company={selectedCompany} showOptions={ShowOptions.Industries} />
-          ): null}
+          {selectedCompany && (
+            <TagsList company={selectedCompany} showOptions={ShowOptions.Industries} />
+          )}
 
-          <ArkadButton onPress={() => refRBSheet.current?.close()} style={styles.stopButton}><ArkadText text={"Close"}/></ArkadButton>
-        </View>
+          {selectedTarget && (
+            <ArkadButton onPress={ () => handleRoute(selectedTarget)}  style={styles.routeButton}>
+              <ArkadText text={`Take me to ${selectedTarget?.name}`} />
+            </ArkadButton>
+
+          )}
+          <ArkadButton
+            onPress={() => refRBSheet.current?.close()}
+            style={styles.stopButton}
+          >
+            <ArkadText text="Close" />
+          </ArkadButton>
+
+        </ScrollView>
       </RBSheet>
 
     <RoutableTargetsModal sdk={sdk} isVisible={isModalVisible} onClose={() => setModalVisible(false)} onTargetSelect={handleRoute}/>
@@ -342,6 +387,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
   },
+  routeButton: {
+    marginLeft: 10,
+    backgroundColor: Colors.arkadTurkos,
+    borderRadius: 5,
+    padding: 5,
+  },
   stopButtonText: {
     color: "white",
   },
@@ -356,41 +407,59 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   floorSelectionContainer: {
+    marginRight: 10,
     position: 'absolute',
-    bottom: 90,
+    top: 80,
     right: 10,
     flexDirection: 'column',
     zIndex: 3,
   },
-  sheetTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
   sheetContainer: {
-    padding: 20,
-    backgroundColor: Colors.arkadTurkos,
+    padding: 0,
+    backgroundColor: Colors.arkadNavy,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
-  contentContainer: {
-    flex: 1,
+  topBackground: {
+    backgroundColor: Colors.arkadTurkos,
+    paddingVertical: 10,
     alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 20,
   },
   logo: {
     width: 80,
     height: 80,
+    borderRadius: 15,
     resizeMode: "contain",
-    borderRadius: 10,
-    backgroundColor: Colors.white,
-    marginBottom: 12,
+    backgroundColor: Colors.white
   },
-  detailsText: {
-    fontSize: 16,
+  contentContainer: {
+    paddingHorizontal: 20,
+    backgroundColor: Colors.arkadNavy,
+  },
+  sheetTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
     color: Colors.white,
     textAlign: "center",
-    marginBottom: 16,
+    marginVertical: 10,
   },
+  floorButton: {
+    backgroundColor: "#333",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 5,
+    marginBottom: 8,
+  },
+  selectedFloorButton: {
+    backgroundColor: "#1e90ff",
+  },
+  floorButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  selectedFloorText: {
+    fontWeight: "bold",
+  },
+
 });
