@@ -2,11 +2,12 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 
 import Colors from "constants/Colors";
-import { Image, TextInputProps } from "react-native";
-import { TextInput } from "./TextInput";
+import { Image, TextInputProps, TextInput as TextInputNative} from "react-native";
+import { TextInputWithRef } from "./TextInput";
 import { View } from "./Themed";
 import { ArkadButton } from "./Buttons";
 import { Entypo } from "@expo/vector-icons";
+import { forwardRef } from "react";
 
 
 export interface SearchBarProps extends TextInputProps {
@@ -17,14 +18,14 @@ export interface SearchBarProps extends TextInputProps {
   isFiltered: boolean,
 }
 
-export function SearchBar({text, onChangeText, toggleFilter, modalVisible, isFiltered}: SearchBarProps) {
+export const SearchBar = forwardRef<TextInputNative, SearchBarProps>(({text, onChangeText, toggleFilter, modalVisible, isFiltered}, searchBarRef) => {
   const [focused, setFocused] = React.useState(false);
 
   return (
     <View style={[styles.searchContainer, {borderColor: focused ? Colors.arkadTurkos : "none"}]}>
         <Image source={require("../assets/images/search_icon_black.png")} style={styles.searchIcon} />
         <View style={styles.inputContainer}>
-          <TextInput
+          <TextInputWithRef
             style={styles.input}
             onChangeText={onChangeText}
             value={text}
@@ -33,6 +34,7 @@ export function SearchBar({text, onChangeText, toggleFilter, modalVisible, isFil
             numberOfLines={1}
             onBlur={() => setFocused(false)}
             onFocus={() => setFocused(true)}
+            ref={searchBarRef}
           />
 
         </View>
@@ -53,7 +55,7 @@ export function SearchBar({text, onChangeText, toggleFilter, modalVisible, isFil
     </View>
         
   );
-}
+});
 
 const styles = StyleSheet.create({
   searchContainer: {

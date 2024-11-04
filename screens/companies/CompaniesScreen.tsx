@@ -3,6 +3,7 @@ import {
   Animated,
   LayoutAnimation,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { View } from "components/Themed";
@@ -31,6 +32,8 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
   const [text, onChangeText] = React.useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
+
+  const searchBarRef = useRef<TextInput | null>(null);
 
   const animnationController = useRef(new Animated.Value(0)).current;
   const toggleFilter = () => {
@@ -63,7 +66,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
   }, []);
 
   useEffect(() => {
-    navigation.setOptions({headerTitle: () => (<SearchBar {...searchBarProps} />)})
+    navigation.setOptions({headerTitle: () => (<SearchBar {...searchBarProps} ref={searchBarRef}/>)})
   }, [searchBarProps]);
 
   if (isLoading) {
@@ -82,7 +85,7 @@ export default function CompaniesScreen({ navigation }: companiesNavigation) {
         filteredCompanies={filteredCompanies ?? []}
       />
 
-      <CompaniesList onScrollBeginDrag={(event) => {if (modalVisible) {toggleFilter()}}} sortedCompanies={sortedCompanies} openCompanyDetails={openCompanyDetails}/>
+      <CompaniesList onScrollBeginDrag={(event) => {if (modalVisible) {toggleFilter()}; if (searchBarRef.current) {searchBarRef.current.blur()}}} sortedCompanies={sortedCompanies} openCompanyDetails={openCompanyDetails}/>
 
     </View>
   );
