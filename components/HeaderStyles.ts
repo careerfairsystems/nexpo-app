@@ -10,4 +10,5 @@ export const HeaderStyles = {
     color: Colors.white,
     backgroundColor: Colors.arkadNavy,
   },
+  headerTintColor: Colors.white,
 };
