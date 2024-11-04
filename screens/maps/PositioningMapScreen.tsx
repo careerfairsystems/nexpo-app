@@ -44,7 +44,8 @@ import { API } from "api/API";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { ShowOptions, TagsList } from "components/companies/TagsList";
 import { ArkadButton } from "components/Buttons";
-import { floor } from "colord/helpers";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
 
 
 type PositioningMapScreenProps = {
@@ -72,6 +73,9 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [selectedTarget, setSelectedTarget] = useState<ReactRoutableTarget | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<PublicCompanyDto | null>(null);
   const refRBSheet = useRef<any>(null);
+  const mapRef = useRef<MapView>(null);
+  const [isFloorLoading, setIsFloorLoading] = useState(false);
+
 
 
   const navigation = useNavigation();
@@ -85,6 +89,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
 
   const { width, height } = Dimensions.get('window');
+
+
 
 
   useEffect(() => {
@@ -102,10 +108,33 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     fetchQueryTargets()
   }, [sdk, sdkInitialized, location]);
 
+  const INITIAL_CAMERA = {
+    center: { latitude: lat || 0, longitude: lng || 0 },
+    pitch: 0,
+    heading: 0,
+    altitude: 200,
+    zoom: 30,
+  };
+
 
   const handleRoute = async (target: ReactRoutableTarget | null) => {
     setModalVisible(false);
     refRBSheet.current.close();
+
+    setSelectedFloor(location?.indoor?.floorIndex || 0);
+
+
+    if (lat !== undefined && lng !== undefined) {
+      mapRef.current?.animateCamera({
+        center: { latitude: lat, longitude: lng },
+        zoom: 30,
+        altitude: 200,
+        heading: 0,
+        pitch: 0,
+      });
+    }
+
+
     console.log("Adding listener to currentRoute");
     try {
       if (target) {
@@ -125,10 +154,17 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     sdk?.getRoutingProvider().removeAllListeners()
     setRoute(null);
   };
+  const handleFloorSelect = async (floor: number) => {
+    setIsFloorLoading(true); // Start loading screen
+    setSelectedFloor(floor); // Change floor
 
-  const handleFloorSelect = (floor: number) => {
-    setSelectedFloor(floor);
+    // Simulate loading delay or wait for floor-specific data if needed
+    setTimeout(() => {
+      setIsFloorLoading(false); // Stop loading once floor is ready
+    }, 1000); // Adjust duration if necessary
   };
+
+
 
   const fetchQueryTargets = async () => {
     const targets = await sdk?.getRoutingProvider()?.queryTarget(" ");
@@ -151,6 +187,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
             setLat(e.latitude)
             setLng(e.longitude)
           }
+          setSelectedFloor(e?.indoor?.floorIndex || 0);
           setLocation(e);
         });
         sdk.gpsLocation.addListener((e) => {
@@ -161,12 +198,12 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           }
         });
         await sdk.start();
-
         const places = await sdk.getAllPlaces();
         setAllPlaces(places!);
         setSdk(sdk);
         console.log('SDK STARTED');
         setSdkInitialized(true);
+
 
         await sdk?.getFeatureModelGraph(137521724).then(x => {
           if(x!=null){
@@ -192,27 +229,26 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   return (
     <View style={styles.container}>
       { sdk ? (
-        (lat === undefined || lng === undefined)  ? (
+        (lat === undefined || lng === undefined )  ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={Colors.white} />
             <ArkadText text="Loading map ..." style={styles.loadingText} />
           </View>
         ) : (
           <MapView
-            minZoomLevel={5}
+            ref={mapRef}
             style={styles.map}
+            initialCamera={INITIAL_CAMERA}
             customMapStyle={mapStyle}
             scrollEnabled={true}
             zoomEnabled={true}
             showsBuildings={false}
-            initialRegion={{
-              latitude: lat!,
-              longitude: lng!,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0922,
-            }}
+            loadingEnabled={true}
+            loadingIndicatorColor={Colors.white}
+            loadingBackgroundColor = {Colors.arkadNavy}
           >
-            {location?.indoor?.floorIndex === selectedFloor ? ( <BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
+
+            {location?.indoor?.floorIndex===selectedFloor || location?.indoor===undefined ? (<BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} selectedFloor={selectedFloor} />}
             <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} markers={featureModelNodes} companies={allCompanies} routingTargets={allTargets} onMarkerSelect={handleMarkerSelect} />
           </MapView>
@@ -230,6 +266,25 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         }}
       >
         <Text style={styles.searchBarText}>🔍 Search for targets...</Text>
+      </TouchableOpacity>
+
+
+      <TouchableOpacity
+        style={styles.myPositionButton}
+        onPress={() => {
+          if (lat !== undefined && lng !== undefined) {
+            mapRef.current?.animateCamera({
+              center: { latitude: lat, longitude: lng },
+              zoom: 30,
+              altitude: 200,
+              heading: 0,
+              pitch: 0,
+            });
+            setSelectedFloor(location?.indoor?.floorIndex || 0); // Update to user's floor
+          }
+        }}
+      >
+        <MaterialIcons name="my-location" size={30} color="#fff" />
       </TouchableOpacity>
 
       <View style={styles.floorSelectionContainer}>
@@ -270,6 +325,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           </TouchableOpacity>
         </View>
       )}
+
 
       <RBSheet
         ref={refRBSheet}
@@ -357,12 +413,17 @@ const styles = StyleSheet.create({
   },
   locationOverlay: {
     position: "absolute",
-    top: 70,
+    top: 90,
     left: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
     borderRadius: 8,
-    padding: 8,
+    padding: 10,
     zIndex: 3,
+  },
+  overlayText: {
+    color: "white",
+    fontSize: 12,
+    textAlign: "center",
   },
   routingOverlay: {
     position: "absolute",
@@ -376,10 +437,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-  },
-  overlayText: {
-    color: "white",
-    fontSize: 16,
   },
   stopButton: {
     marginLeft: 10,
@@ -405,12 +462,19 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   floorSelectionContainer: {
-    marginRight: 10,
     position: 'absolute',
     top: 80,
     right: 10,
-    flexDirection: 'column',
     zIndex: 3,
+    backgroundColor: '#333',
+    flexDirection: 'row',
+    borderRadius: 30, // Creates an oval shape
+    padding: 5, // Space between container and buttons for a rounded effect
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3,
   },
   sheetContainer: {
     padding: 0,
@@ -443,19 +507,20 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   floorButton: {
-    backgroundColor: "#333",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 5,
-    marginBottom: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 25,
+    marginHorizontal: 2,
+    backgroundColor: 'transparent',
   },
   selectedFloorButton: {
-    backgroundColor: "#1e90ff",
+    backgroundColor: '#1e90ff',
   },
   floorButtonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   selectedFloorText: {
     fontWeight: "bold",
@@ -466,6 +531,20 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 20,
   },
-
-
+  myPositionButton: {
+    position: 'absolute',
+    bottom: 30,
+    left: '50%',
+    marginLeft: -25,
+    backgroundColor: Colors.arkadOrange, // Button color
+    borderRadius: 30,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5, // Shadow effect
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+  }
 });

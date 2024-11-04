@@ -1,154 +1,131 @@
-  import React, { useRef, useState,  } from "react";
-  import { Polygon, Callout, LatLng, Marker } from "react-native-maps";
-  import { Text, View, StyleSheet, Button } from "react-native";
-  import { ReactFeatureModelNode, ReactPlace, ReactRoutableTarget } from "react-native-ai-navigation-sdk";
-  import Colors from "constants/Colors";
-  import FloorMapOverlay from "./FloorMapOverlay";
-  import { RoutingMarker } from "./Markers/RoutingMarker";
-  import { PublicCompanyDto } from "api/Companies";
-  import RBSheet from "react-native-raw-bottom-sheet";
-
-  type AreaPolygonsProps = {
-    allPlaces: Array<ReactPlace | null>;
-    fillColor?: string;
-    strokeColor?: string;
-    strokeWidth?: number;
-    floorNbr?: number;
-    markers?: ReactFeatureModelNode[];
-    companies?: PublicCompanyDto[];
-    routingTargets?: ReactRoutableTarget[];
-    onMarkerSelect: (marker: ReactFeatureModelNode, target: ReactRoutableTarget | null, company: PublicCompanyDto | null) => void;
+import React, { memo, useMemo } from "react";
+import { Polygon, Marker } from "react-native-maps";
+import { View, StyleSheet } from "react-native";
+import { ReactFeatureModelNode, ReactPlace, ReactRoutableTarget } from "react-native-ai-navigation-sdk";
+import Colors from "constants/Colors";
+import FloorMapOverlay from "./FloorMapOverlay";
+import { RoutingMarker } from "./Markers/RoutingMarker";
+import { PublicCompanyDto } from "api/Companies";
 
 
+type AreaPolygonsProps = {
+  allPlaces: Array<ReactPlace | null>;
+  fillColor?: string;
+  strokeColor?: string;
+  strokeWidth?: number;
+  floorNbr?: number;
+  markers?: ReactFeatureModelNode[];
+  companies?: PublicCompanyDto[];
+  routingTargets?: ReactRoutableTarget[];
+  onMarkerSelect: (marker: ReactFeatureModelNode, target: ReactRoutableTarget | null, company: PublicCompanyDto | null) => void;
+};
+
+const AreaPolygons: React.FC<AreaPolygonsProps> = ({
+                                                     allPlaces,
+                                                     strokeColor = Colors.arkadOrange,
+                                                     strokeWidth = 2,
+                                                     floorNbr = 0,
+                                                     markers,
+                                                     companies,
+                                                     routingTargets,
+                                                     onMarkerSelect
+                                                   }) => {
+  const getImageAndBearing = (placeName: string | undefined) => {
+    switch (placeName) {
+      case 'E-huset':
+        return { image: require("assets/images/Buildings/E0.png"), bearing: -75 };
+      case 'Kårhuset':
+        return floorNbr === 1
+          ? { image: require("assets/images/Buildings/K2.png"), bearing: -40 }
+          : { image: require("assets/images/Buildings/K1.png"), bearing: -40 };
+      case 'Studiecentrum, LTH':
+        return floorNbr === 1
+          ? { image: require("assets/images/Buildings/SC2.png"), bearing: -60 }
+          : { image: require("assets/images/Buildings/SC1.png"), bearing: -60 };
+      case "X-Lab":
+        return { image: require("assets/images/Buildings/X1.png"), bearing: -165 };
+      default:
+        return { image: null, bearing: 0 };
+    }
   };
 
-  function center_polygon(coordinates: LatLng[]) {
-    let x = coordinates.map(c => c.latitude);
-    let y = coordinates.map(c => c.longitude);
+  const companyMap = companies?.reduce((acc, company) => {
+    if (company.name) acc[company.name] = company;
+    return acc;
+  }, {} as Record<string, PublicCompanyDto>) || {};
 
-    let minX = Math.min(...x);
-    let maxX = Math.max(...x);
-    let minY = Math.min(...y);
-    let maxY = Math.max(...y);
+  const targetMap = routingTargets?.reduce((acc, target) => {
+    if (target.name) acc[target.name] = target;
+    return acc;
+  }, {} as Record<string, ReactRoutableTarget>) || {};
 
-    return {
-      latitude: (minX + maxX) / 2,
-      longitude: (minY + maxY) / 2
-    };
-  }
+  const filteredMarkers = useMemo(() => markers?.filter(marker => marker.floorIndex === floorNbr), [markers, floorNbr]);
 
-  const AreaPolygons: React.FC<AreaPolygonsProps> = ({ allPlaces, strokeColor = Colors.arkadOrange, strokeWidth = 2, floorNbr = 0, markers, companies, routingTargets,onMarkerSelect }) => {
+  const handleMarkerPress = (marker: ReactFeatureModelNode) => {
+    const target = targetMap[marker.name];
+    const company = companyMap[marker.name];
+    onMarkerSelect(marker, target || null, company || null);
+  };
 
-
-
-
-    const getImageAndBearing = (placeName: string | undefined) => {
-      if (placeName) {
-        switch (placeName) {
-          case 'E-huset':
-            return { image: require("assets/images/Buildings/E0.png"), bearing: -75 };
-          case 'Kårhuset':
-            return floorNbr === 1
-              ? { image: require("assets/images/Buildings/K2.png"), bearing: -40 }
-              : { image: require("assets/images/Buildings/K1.png"), bearing: -40 };
-          case 'Studiecentrum, LTH':
-            return floorNbr === 1
-              ? { image: require("assets/images/Buildings/SC2.png"), bearing: -60 }
-              : { image: require("assets/images/Buildings/SC1.png"), bearing: -60 };
-          case "X-Lab":
-            return { image: require("assets/images/Buildings/X1.png"), bearing: -165 };
-          default:
-            return { image: null, bearing: 0 };
+  return (
+    <>
+      {allPlaces.map((place, index) => {
+        if (!place || !place.placePolygon?.vertices || place.placePolygon.vertices.length === 0) {
+          return null;
         }
-      }
-      return { image: null, bearing: 0 };
-    };
 
-    const companyMap = companies?.reduce((acc, company) => {
-      if (company.name) acc[company.name] = company;
-      return acc;
-    }, {} as Record<string, PublicCompanyDto>) || {};
+        const coordinates = place.placePolygon.vertices.map(point => ({
+          latitude: point!.lat,
+          longitude: point!.lng
+        }));
 
-    const targetMap = routingTargets?.reduce((acc, target) => {
-      if (target.name) acc[target.name] = target;
-      return acc;
-    }, {} as Record<string, ReactRoutableTarget>) || {};
+        const { image, bearing } = getImageAndBearing(place.name);
 
+        const floor = place.floors?.find(f => f!.floorIndex === floorNbr);
+        const floorMap = floor ? floor.floorMap : null;
 
-    const filteredMarkers = markers?.filter(marker => marker.floorIndex === floorNbr) || [];
+        return (
+          <View key={index}>
+            <Polygon
+              coordinates={coordinates}
+              strokeColor={strokeColor}
+              strokeWidth={strokeWidth}
+              fillColor={place.name !== "LTH Campus" ? "#9a9a9a" : "transparent"}
+              zIndex={0}
+            />
 
-    const handleMarkerPress = (marker: ReactFeatureModelNode) => {
-      console.log(marker.name)
-      const target = targetMap[marker.name];
-      const company = companyMap[marker.name]
-      onMarkerSelect(marker, target || null, company || null);
-    };
-
-    return (
-      <>
-        {allPlaces.map((place, index) => {
-          if (!place || !place.placePolygon?.vertices || place.placePolygon.vertices.length === 0) {
-            return null;
-          }
-
-          const areaPlace = place.placePolygon.vertices;
-          const coordinates = areaPlace.map(point => ({
-            latitude: point!.lat,
-            longitude: point!.lng
-          }));
-
-
-
-          const { image, bearing } = getImageAndBearing(place.name);
-
-          const floor = place.floors && floorNbr !== null ? place.floors[floorNbr] : null;
-          const floorMap = floor ? floor.floorMap : null;
-
-          return (
-            <View key={index}>
-              <Polygon
-                coordinates={coordinates}
-                strokeColor={strokeColor}
-                strokeWidth={strokeWidth}
-                fillColor={place.name !== "LTH Campus" ? "#9a9a9a" : "transparent"}
-                zIndex={0}
-
+            {floorMap && image && (
+              <FloorMapOverlay
+                floorMap={floorMap}
+                bearing={bearing}
+                imageReqSource={image}
               />
+            )}
 
-              {floorMap && image && (
-                <View style={[StyleSheet.absoluteFillObject, { zIndex: 1 }]}>
-                  <FloorMapOverlay
-                    floorMap={floorMap}
-                    bearing={bearing}
-                    imageReqSource={image}
-                  />
-                </View>
-              )}
+            {filteredMarkers!.map(marker => {
+              const matchingCompany = companyMap[marker.name] || null;
+              return (
+                <RoutingMarker
+                  key={marker.id}
+                  node={marker}
+                  onTargetSelect={() => handleMarkerPress(marker)}
+                  company={matchingCompany}
+                />
+              );
+            })}
+          </View>
+        );
+      })}
+    </>
+  );
+};
 
-              {filteredMarkers.map(marker => {
-                const matchingCompany = companyMap[marker.name] || null;
+const styles = StyleSheet.create({
+  sheetTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+});
 
-                return (
-                  <RoutingMarker
-                    key={marker.id}
-                    node={marker}
-                    onTargetSelect={() => handleMarkerPress(marker)}
-                    company={matchingCompany}
-                  />
-                );
-              })}
-            </View>
-          );
-        })}
-      </>
-    );
-  };
-  const styles = StyleSheet.create({
-    sheetTitle: {
-      fontSize: 18,
-      fontWeight: "bold",
-      marginBottom: 10,
-    },
-  });
-
-  export default AreaPolygons;
+export default memo(AreaPolygons);

@@ -27,10 +27,13 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
       const coordinates: Coordinate[] = [];
       const newMarkers: { coordinate: Coordinate; title: string; description: string,type: ReactNodeType  }[] = [];
 
-      coordinates.push({
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-      });
+      if(currentLocation.indoor?.floorIndex=== selectedFloor){
+        coordinates.push({
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+        });
+      }
+
 
       let current = position;
       let isIndoors = currentLocation.indoor != null;
@@ -96,9 +99,9 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
 
   return (
     <View style={styles.container}>
-      {pathCoordinates.length > 1 && (
+      {pathCoordinates.length > 1  && (
         <>
-          {firstSegment.length === 2 && (
+          {firstSegment.length === 2 && currentlocation.indoor?.floorIndex === selectedFloor && (
             <Polyline
               coordinates={firstSegment}
               strokeColor="#007AFF"
