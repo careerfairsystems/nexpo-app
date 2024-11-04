@@ -11,7 +11,6 @@ import { companyLocations } from "components/companies/CompanyLocationsMap";
 import { EMap, TentMap, SCMap, KarhusetMap } from "components/maps/MapProps";
 import { IconLinkButton } from "components/companies/IconLinkButton";
 import { ShowOptions, TagsList } from "components/companies/TagsList";
-import { useHeaderHeight } from "@react-navigation/stack";
 import CompanyDetailsHeader from "components/companies/CompanyDetailsHeader";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -48,7 +47,7 @@ export default function CompanyDetailsScreen({
   : 0;
   
 
-  const greenZone = true;
+  const greenZone = false;
 
   const getCompany = async () => {
     setLoading(true);
@@ -66,9 +65,6 @@ export default function CompanyDetailsScreen({
 
 
   const navigation = useNavigation();
-
-
-  // const height = useHeaderHeight();
 
 
   useEffect(() => {
@@ -104,7 +100,7 @@ export default function CompanyDetailsScreen({
   }
 
   return (
-      <Animated.ScrollView style={{paddingTop: insets.top}} onContentSizeChange={(width, height) => {setContentHeight(height); setScreenHeight(Dimensions.get('window').height)}}
+      <Animated.ScrollView style={[styles.outerContainer, {paddingTop: insets.top}]} onContentSizeChange={(width, height) => {setContentHeight(height); setScreenHeight(Dimensions.get('window').height)}}
         onScroll={Animated.event(
           [
             {
