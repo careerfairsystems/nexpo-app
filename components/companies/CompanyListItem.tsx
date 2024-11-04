@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   companyName: {
     flex: 1,
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "700",
     textAlign: "left",
     padding: 0,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   companyLocationText: {
     flex: 1,
-    fontSize: 17,
+    fontSize: 14,
     margin: 0,
     fontWeight: "400",
     textAlign: "left",
