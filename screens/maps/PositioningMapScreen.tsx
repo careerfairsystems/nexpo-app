@@ -124,7 +124,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const stopRouting = () => {
     sdk?.getRoutingProvider().removeAllListeners()
     setRoute(null);
-    console.log("Routing stopped");
   };
 
   const handleFloorSelect = (floor: number) => {
@@ -148,7 +147,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         const { sdk } = route.params;
         sdk.currentLocation.addListener((e) => {
           setLoadingPosition(false);
-          console.log(e?.indoor?.featureModelId)
           if(e){
             setLat(e.latitude)
             setLng(e.longitude)
@@ -275,7 +273,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
       <RBSheet
         ref={refRBSheet}
-        height={400}  // Increase height if needed
+        height={450}  // Increase height if needed
         openDuration={250}
         customStyles={{
           container: styles.sheetContainer,
@@ -296,7 +294,9 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           </Text>
 
           {selectedCompany && (
-            <TagsList company={selectedCompany} showOptions={ShowOptions.Industries} />
+            <View style={styles.infoContainer}>
+              <TagsList company={selectedCompany} showOptions={ShowOptions.Industries} />
+            </View>
           )}
 
           {selectedTarget && (
@@ -383,14 +383,12 @@ const styles = StyleSheet.create({
   },
   stopButton: {
     marginLeft: 10,
-    backgroundColor: "red",
-    borderRadius: 5,
+    backgroundColor: Colors.arkadOrange,
     padding: 5,
   },
   routeButton: {
     marginLeft: 10,
     backgroundColor: Colors.arkadTurkos,
-    borderRadius: 5,
     padding: 5,
   },
   stopButtonText: {
@@ -434,6 +432,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: 20,
+    padding: 10,
     backgroundColor: Colors.arkadNavy,
   },
   sheetTitle: {
@@ -461,5 +460,12 @@ const styles = StyleSheet.create({
   selectedFloorText: {
     fontWeight: "bold",
   },
+  infoContainer: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    width: "100%",
+    marginBottom: 20,
+  },
+
 
 });

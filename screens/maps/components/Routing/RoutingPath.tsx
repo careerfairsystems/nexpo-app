@@ -106,6 +106,7 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
               lineCap="round"
               lineJoin="round"
               lineDashPattern={[20, 20]}
+              zIndex={3}
             />
           )}
 
@@ -116,6 +117,7 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
               strokeWidth={4}
               lineCap="round"
               lineJoin="round"
+              zIndex={3}
             />
           )}
         </>
