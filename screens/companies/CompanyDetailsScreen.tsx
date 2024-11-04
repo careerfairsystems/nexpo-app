@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   },
   colorBackgroundRegular: {
     width: "100%",
-    height: "100%",
+    height: "300%", //Oversized to compensate if safeAreaInset top padding, could probably be better implemented but time crunch hehe
     backgroundColor: Colors.arkadTurkos,
   },
   colorBackgroundGreenZone: {
