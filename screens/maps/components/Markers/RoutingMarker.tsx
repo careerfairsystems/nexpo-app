@@ -1,9 +1,11 @@
 import { FeatureModelNode, ReactFeatureModelNode, ReactRoutableTarget } from "react-native-ai-navigation-sdk";
 import { PublicCompanyDto } from "api/Companies";
-import { Callout, Marker } from "react-native-maps";
-import { Animated, Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Marker } from "react-native-maps";
+import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
 import Colors from "constants/Colors";
+import FastImage from 'react-native-fast-image';
+
 
 type RoutingMarkerProps = {
   node: ReactFeatureModelNode;
@@ -13,43 +15,48 @@ type RoutingMarkerProps = {
 
 export const RoutingMarker: React.FC<RoutingMarkerProps> = ({ node, onTargetSelect, company }) => {
   const coord = { latitude: node.pointLLA.lat, longitude: node.pointLLA.lng };
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Marker
       coordinate={coord}
       title={node.name}
-      tracksViewChanges={false}
+      tracksViewChanges={!imageLoaded}
       onPress={onTargetSelect}
       zIndex={2}
       id={node.id.toString()}
     >
-      <View style={styles.logo}>
-        <Image
+        <FastImage
           source={
             company?.logoUrl
               ? { uri: company.logoUrl }
               : require("assets/images/icon.png")
           }
           style={styles.image}
+          resizeMode={'contain'}
+          onLoadEnd={() => setImageLoaded(true)}
+          onError={() => setImageLoaded(true)}
         />
-      </View>
     </Marker>
   );
 }
 
 const styles = StyleSheet.create({
-  logo: {
+  logoContainer: {
     width: 32,
     height: 32,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.white,
-    borderRadius: 24,
-    overflow: 'hidden', // Ensure the image does not overflow the rounded borders
+    borderRadius: 20,
+    overflow: 'hidden',
   },
   image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
+    width: 32,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    borderRadius: 23,
   },
 });

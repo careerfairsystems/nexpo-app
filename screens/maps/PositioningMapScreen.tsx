@@ -187,7 +187,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
             setLat(e.latitude)
             setLng(e.longitude)
           }
-          setSelectedFloor(e?.indoor?.floorIndex || 0);
           setLocation(e);
         });
         sdk.gpsLocation.addListener((e) => {
