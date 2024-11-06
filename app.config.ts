@@ -20,7 +20,6 @@ export default {
   expo: {
     ios: {
       bundleIdentifier: "se.arkadtlth.nexpo",
-
       googleServicesFile: "./GoogleService-Info.plist",
       scheme: "se.arkadtlth.nexpo",
       target: "nexpoapp",
@@ -40,6 +39,12 @@ export default {
           },
         ],
       ],
+
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_MAPS_API_KEY,
+        },
+      },
       supportsTablet: true,
       infoPlist: {
         NSCameraUsageDescription:
@@ -47,6 +52,8 @@ export default {
         NSPhotoLibraryUsageDescription:
           "Photo library access is needed to choose a profile picture to upload",
         UIBackgroundModes: ["fetch", "remote-notification"],
+        NSLocationWhenInUseUsageDescription: "We need this permission to determine your location",
+        NSMotionUsageDescription: "We need this permission to track your motion for navigation",
       },
     },
     android: {

@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { Polygon, Marker } from "react-native-maps";
 import { View, StyleSheet } from "react-native";
 import { ReactFeatureModelNode, ReactPlace, ReactRoutableTarget } from "react-native-ai-navigation-sdk";
@@ -14,10 +14,6 @@ type AreaPolygonsProps = {
   strokeColor?: string;
   strokeWidth?: number;
   floorNbr?: number;
-  markers?: ReactFeatureModelNode[];
-  companies?: PublicCompanyDto[];
-  routingTargets?: ReactRoutableTarget[];
-  onMarkerSelect: (marker: ReactFeatureModelNode, target: ReactRoutableTarget | null, company: PublicCompanyDto | null) => void;
 };
 
 const AreaPolygons: React.FC<AreaPolygonsProps> = ({
@@ -25,11 +21,10 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({
                                                      strokeColor = Colors.arkadOrange,
                                                      strokeWidth = 2,
                                                      floorNbr = 0,
-                                                     markers,
-                                                     companies,
-                                                     routingTargets,
-                                                     onMarkerSelect
+
                                                    }) => {
+  const [filteredMarkers, setFilteredMarkers] = useState<ReactFeatureModelNode[]>([]);
+  const [floorIndex, setFloorIndex] = useState(floorNbr)
   const getImageAndBearing = (placeName: string | undefined) => {
     switch (placeName) {
       case 'E-huset':
@@ -49,26 +44,11 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({
     }
   };
 
-  const companyMap = companies?.reduce((acc, company) => {
-    if (company.name) acc[company.name] = company;
-    return acc;
-  }, {} as Record<string, PublicCompanyDto>) || {};
 
-  const targetMap = routingTargets?.reduce((acc, target) => {
-    if (target.name) acc[target.name] = target;
-    return acc;
-  }, {} as Record<string, ReactRoutableTarget>) || {};
-
-  const filteredMarkers = useMemo(() => markers?.filter(marker => marker.floorIndex === floorNbr), [markers, floorNbr]);
-
-  const handleMarkerPress = (marker: ReactFeatureModelNode) => {
-    const target = targetMap[marker.name];
-    const company = companyMap[marker.name];
-    onMarkerSelect(marker, target || null, company || null);
-  };
 
   return (
     <>
+
       {allPlaces.map((place, index) => {
         if (!place || !place.placePolygon?.vertices || place.placePolygon.vertices.length === 0) {
           return null;
@@ -101,18 +81,6 @@ const AreaPolygons: React.FC<AreaPolygonsProps> = ({
                 imageReqSource={image}
               />
             )}
-
-            {filteredMarkers!.map(marker => {
-              const matchingCompany = companyMap[marker.name] || null;
-              return (
-                <RoutingMarker
-                  key={marker.id}
-                  node={marker}
-                  onTargetSelect={() => handleMarkerPress(marker)}
-                  company={matchingCompany}
-                />
-              );
-            })}
           </View>
         );
       })}
@@ -128,4 +96,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(AreaPolygons);
+export default AreaPolygons;

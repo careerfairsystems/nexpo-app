@@ -45,6 +45,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { ShowOptions, TagsList } from "components/companies/TagsList";
 import { ArkadButton } from "components/Buttons";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { RoutingMarker } from "./components/Markers/RoutingMarker";
 
 
 
@@ -67,6 +68,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
   const [selectedFloor, setSelectedFloor] = useState<number>(0); // State for selected floor
+
   const [featureModelNodes, setFeatureModelNodes] = useState<ReactFeatureModelNode[]>([])
   const [allCompanies, setAllCompanies] = useState<PublicCompanyDto[]>([])
   const [selectedMarker, setSelectedMarker] = useState<ReactFeatureModelNode | null>(null);
@@ -158,14 +160,31 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     setIsFloorLoading(true); // Start loading screen
     setSelectedFloor(floor); // Change floor
 
-    // Simulate loading delay or wait for floor-specific data if needed
     setTimeout(() => {
-      setIsFloorLoading(false); // Stop loading once floor is ready
-    }, 1000); // Adjust duration if necessary
+      setIsFloorLoading(false);
+    }, 1000);
   };
 
 
+  const floorZeroNodes = featureModelNodes.filter(node => node.floorIndex === 0);
+  const floorOneNodes = featureModelNodes.filter(node => node.floorIndex === 1);
 
+  const renderMarkersForSelectedFloor = () => {
+    const nodesToRender = selectedFloor === 0 ? floorZeroNodes : floorOneNodes;
+    return nodesToRender.map(marker => {
+      const matchingCompany = companyMap[marker.name] || null;
+      const matchingTarget = targetMap[marker.name] || null;
+
+      return (
+        <RoutingMarker
+          key={`${marker.id}`}
+          node={marker}
+          onTargetSelect={() => handleMarkerSelect(marker, matchingTarget, matchingCompany)}
+          company={matchingCompany}
+        />
+      );
+    });
+  };
   const fetchQueryTargets = async () => {
     const targets = await sdk?.getRoutingProvider()?.queryTarget(" ");
     const filteredTargets = (targets || []).filter(
@@ -183,20 +202,25 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         const { sdk } = route.params;
         sdk.currentLocation.addListener((e) => {
           setLoadingPosition(false);
-          if(e){
+          if(e?.latitude!==undefined && e?.longitude!==undefined){
             setLat(e.latitude)
             setLng(e.longitude)
           }
           setLocation(e);
         });
         sdk.gpsLocation.addListener((e) => {
-          setGpsPosition(e);
-          if(e){
+          if(e?.lat!==undefined && e.lng!==undefined){
             setLat(e.lat);
             setLng(e.lng);
           }
         });
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
+        const fromTimestamp = startOfToday.getTime();
+
         await sdk.start();
+        await sdk.syncData(fromTimestamp).then( () => console.log("SUCCESS"));
+
         const places = await sdk.getAllPlaces();
         setAllPlaces(places!);
         setSdk(sdk);
@@ -222,13 +246,23 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const ASPECT_RATIO = width / height;
   const LATITUDE_DELTA = 0.0922;
   const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+  const companyMap = allCompanies?.reduce((acc, company) => {
+    if (company.name) acc[company.name] = company;
+    return acc;
+  }, {} as Record<string, PublicCompanyDto>) || {};
+
+  const targetMap = allTargets?.reduce((acc, target) => {
+    if (target.name) acc[target.name] = target;
+    return acc;
+  }, {} as Record<string, ReactRoutableTarget>) || {};
+
 
 
 
   return (
     <View style={styles.container}>
       { sdk ? (
-        (lat === undefined || lng === undefined )  ? (
+        (lat === undefined || lng === undefined || featureModelNodes.length===0 )  ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={Colors.white} />
             <ArkadText text="Loading map ..." style={styles.loadingText} />
@@ -247,9 +281,12 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
             loadingBackgroundColor = {Colors.arkadNavy}
           >
 
+
+
             {location?.indoor?.floorIndex===selectedFloor || location?.indoor===undefined ? (<BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} selectedFloor={selectedFloor} />}
-            <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} markers={featureModelNodes} companies={allCompanies} routingTargets={allTargets} onMarkerSelect={handleMarkerSelect} />
+            <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} />
+            {renderMarkersForSelectedFloor()}
           </MapView>
         )
       ) : (
