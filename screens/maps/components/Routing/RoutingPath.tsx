@@ -66,8 +66,8 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
             title: 'Stairs',
             description: 'Proceed to the stairs',
             type: ReactNodeType.Stairs,
-
           });
+          break;
         }
 
         current = current.nextRoutingPosition;
