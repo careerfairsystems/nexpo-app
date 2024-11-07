@@ -45,18 +45,17 @@ const FloorMapOverlay: React.FC<FloorMapOverlayProps> = ({ floorMap, bearing, im
   const topRight = isNEBottomLeft ? SW : NE;
 
   return (
-    <View style={styles.container}>
       <Overlay
         bounds={[
           [bottomLeft.latitude, bottomLeft.longitude],
           [topRight.latitude, topRight.longitude],
         ]}
+        key={floorMap.imageURL}
+        id={floorMap.imageURL}
         bearing={bearing}
         style={styles.overlay}
         image={imageReqSource? imageReqSource : imageSource}
       />
-
-    </View>
   );
 };
 

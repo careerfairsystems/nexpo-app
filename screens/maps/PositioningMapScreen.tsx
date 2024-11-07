@@ -11,7 +11,7 @@ import {
   ReactRoutableTarget,
   ReactRoutingPosition,
   ReactAIIndoorNavigationSDK,
-  SyncingInterval, FeatureModelGraph, ReactFeatureModelNode
+  SyncingInterval, FeatureModelGraph, ReactFeatureModelNode, ReactCombainFloorMap
 } from "react-native-ai-navigation-sdk";
 import {
   Button,
@@ -46,6 +46,8 @@ import { ShowOptions, TagsList } from "components/companies/TagsList";
 import { ArkadButton } from "components/Buttons";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { RoutingMarker } from "./components/Markers/RoutingMarker";
+import PlacePolygon from "./components/PlacePolygon";
+import { getImageAndBearing } from "./components/utils/getBearingAndImage";
 
 
 
@@ -165,6 +167,39 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     }, 1000);
   };
 
+  const renderSelectedFloor = () => {
+    if(selectedFloor===0){
+      return allPlaces.map(place => {
+        if(place?.floors[0]?.floorMap?.imageURL) {
+          const floorMap = place.floors[0].floorMap
+          const {image,bearing} = getImageAndBearing(place.name, selectedFloor)
+          const key = place!.originalFeatureModelId!+selectedFloor
+          return(
+            <View key={key }>
+              {selectedFloor===0 ? ( <FloorMapOverlay key={key} floorMap={floorMap} bearing={bearing} imageReqSource={image}  />
+              ): null}
+            </View>
+          )
+        }
+      })
+    }else if(selectedFloor===1){
+      return allPlaces.map(place => {
+        if(place?.floors[1]?.floorMap?.imageURL) {
+          const floorMap = place.floors[1].floorMap
+          const {image,bearing} = getImageAndBearing(place.name, selectedFloor)
+          const key = place!.originalFeatureModelId!+selectedFloor
+          return(
+            <View key={key }>
+            {selectedFloor===1 ? ( <FloorMapOverlay key={key} floorMap={floorMap} bearing={bearing} imageReqSource={image}  />
+              ): null}
+            </View>
+          )
+        }
+      })
+    }else {
+      return null;
+    }
+  }
 
   const floorZeroNodes = featureModelNodes.filter(node => node.floorIndex === 0);
   const floorOneNodes = featureModelNodes.filter(node => node.floorIndex === 1);
@@ -174,7 +209,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     return nodesToRender.map(marker => {
       const matchingCompany = companyMap[marker.name] || null;
       const matchingTarget = targetMap[marker.name] || null;
-
       return (
         <RoutingMarker
           key={`${marker.id}`}
@@ -192,7 +226,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     );
     setAllTargets(filteredTargets);
   }
-
 
 
   const initializeSDK = useCallback(async () => {
@@ -242,10 +275,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     }
   }, [sdkInitialized]);
 
-
-  const ASPECT_RATIO = width / height;
-  const LATITUDE_DELTA = 0.0922;
-  const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
   const companyMap = allCompanies?.reduce((acc, company) => {
     if (company.name) acc[company.name] = company;
     return acc;
@@ -279,14 +308,20 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
             loadingEnabled={true}
             loadingIndicatorColor={Colors.white}
             loadingBackgroundColor = {Colors.arkadNavy}
+            userInterfaceStyle ="dark"
           >
 
 
 
             {location?.indoor?.floorIndex===selectedFloor || location?.indoor===undefined ? (<BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} selectedFloor={selectedFloor} />}
-            <AreaPolygons allPlaces={allPlaces} floorNbr={selectedFloor} />
+            <PlacePolygon allPlaces={allPlaces}/>
+
             {renderMarkersForSelectedFloor()}
+            {renderSelectedFloor()}
+
+
+
           </MapView>
         )
       ) : (
@@ -415,8 +450,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
   },
   map: {
     ...StyleSheet.absoluteFillObject,

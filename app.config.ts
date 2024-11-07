@@ -18,6 +18,28 @@ export default {
   },
   assetBundlePatterns: ["**/*"],
   expo: {
+    plugins: [
+      [
+        "expo-build-properties",
+        {
+          ios: {
+            useFrameworks: "static",
+          },
+        },
+      ],
+      [
+        "expo-location",
+        {
+          locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Allow $(PRODUCT_NAME) to access your device motion."
+        }
+      ]
+    ],
     ios: {
       bundleIdentifier: "se.arkadtlth.nexpo",
       googleServicesFile: "./GoogleService-Info.plist",
@@ -30,6 +52,7 @@ export default {
         "expo-font",
         "expo-secure-store",
         "expo-notifications",
+        "expo-locations",
         [
           "expo-build-properties",
           {
