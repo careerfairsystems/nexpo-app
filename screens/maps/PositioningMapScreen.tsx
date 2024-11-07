@@ -70,6 +70,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
   const [selectedFloor, setSelectedFloor] = useState<number>(0); // State for selected floor
+  const [currentFloor, setCurrentFloor] = useState<number>(0); // State for selected floor
+
 
   const [featureModelNodes, setFeatureModelNodes] = useState<ReactFeatureModelNode[]>([])
   const [allCompanies, setAllCompanies] = useState<PublicCompanyDto[]>([])
@@ -79,6 +81,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const refRBSheet = useRef<any>(null);
   const mapRef = useRef<MapView>(null);
   const [isFloorLoading, setIsFloorLoading] = useState(false);
+  const [isRouting, setIsRouting] = useState(false);
+
 
 
 
@@ -95,6 +99,14 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const { width, height } = Dimensions.get('window');
 
 
+  useEffect(() => {
+    if(!isRouting && location?.indoor?.floorIndex){
+      setSelectedFloor(location.indoor.floorIndex)
+    }
+    if(route==null){
+      setIsRouting(false)
+    }
+  }, [isRouting, currentFloor, route]);
 
 
   useEffect(() => {
@@ -124,7 +136,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const handleRoute = async (target: ReactRoutableTarget | null) => {
     setModalVisible(false);
     refRBSheet.current.close();
-
+    setIsRouting(true);
     setSelectedFloor(location?.indoor?.floorIndex || 0);
 
 
@@ -157,14 +169,11 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const stopRouting = () => {
     sdk?.getRoutingProvider().removeAllListeners()
     setRoute(null);
+    setIsRouting(false);
   };
   const handleFloorSelect = async (floor: number) => {
-    setIsFloorLoading(true); // Start loading screen
-    setSelectedFloor(floor); // Change floor
-
-    setTimeout(() => {
-      setIsFloorLoading(false);
-    }, 1000);
+    setIsFloorLoading(true);
+    setSelectedFloor(floor);
   };
 
   const renderSelectedFloor = () => {
@@ -238,6 +247,9 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           if(e?.latitude!==undefined && e?.longitude!==undefined){
             setLat(e.latitude)
             setLng(e.longitude)
+            if(e.indoor?.floorIndex){
+              setCurrentFloor(e.indoor?.floorIndex)
+            }
           }
           setLocation(e);
         });
@@ -252,7 +264,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         const fromTimestamp = startOfToday.getTime();
 
         await sdk.start();
-        await sdk.syncData(fromTimestamp).then( () => console.log("SUCCESS"));
 
         const places = await sdk.getAllPlaces();
         setAllPlaces(places!);
@@ -313,6 +324,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
 
 
+            loadingBackgroundColor = {Colors.arkadNavy}>
             {location?.indoor?.floorIndex===selectedFloor || location?.indoor===undefined ? (<BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} selectedFloor={selectedFloor} />}
             <PlacePolygon allPlaces={allPlaces}/>
@@ -358,28 +370,28 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         <MaterialIcons name="my-location" size={30} color="#fff" />
       </TouchableOpacity>
 
-      <View style={styles.floorSelectionContainer}>
-        {[0, 1].map((floor) => (
-          <TouchableOpacity
-            key={floor}
-            onPress={() => handleFloorSelect(floor)}
-            style={[
-              styles.floorButton,
-              selectedFloor === floor && styles.selectedFloorButton,
-            ]}
-          >
-            <Text
+      {/* Only show this if we are not in routing-mode since routing mode will automatically switch floor*/}
+      {!isRouting ? (
+        <View style={styles.floorSelectionContainer}>
+          {[0, 1].map((floor) => (
+            <TouchableOpacity
+              key={floor}
+              onPress={() => handleFloorSelect(floor)}
               style={[
-                styles.floorButtonText,
-                selectedFloor === floor && styles.selectedFloorText,
+                styles.floorButton,
+                selectedFloor === floor && styles.selectedFloorButton,
               ]}
             >
-              Floor {floor}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
+              <Text
+                style={[
+                  styles.floorButtonText,
+                  selectedFloor === floor && styles.selectedFloorText]}>
+                Floor {floor}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      ): null}
 
       {location?.indoor && (
         <View style={styles.locationOverlay}>
@@ -400,7 +412,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
       <RBSheet
         ref={refRBSheet}
-        height={450}  // Increase height if needed
+        height={450}
         openDuration={250}
         customStyles={{
           container: styles.sheetContainer,
