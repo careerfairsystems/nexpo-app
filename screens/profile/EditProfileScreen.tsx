@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 import Colors from "constants/Colors";
@@ -18,6 +18,7 @@ import { ArkadButton } from "components/Buttons";
 import EditStudentProfile from "components/profileScreen/EditStudentProfile";
 import EditCompanyProfile from "components/profileScreen/EditCompanyProfile";
 import EditVolunteerProfile from "components/profileScreen/EditVolunteerProfile";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 //TODO make nice
 export type EditStatus = {
   ok: boolean;
@@ -139,8 +140,9 @@ export default function EditProfileScreen({
   }
 
   return (
-    <>
-      <ScrollView style={styles.container}>
+    <KeyboardAwareScrollView>
+      <View style={styles.container}>
+        
         <EditUserProfile
           user={user}
           setUpdateUserDto={setUpdateUserDto}
@@ -174,8 +176,8 @@ export default function EditProfileScreen({
         >
           <ArkadText text="Save" />
         </ArkadButton>
-      </ScrollView>
-    </>
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -183,6 +185,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     paddingVertical: 24,
+    alignItems: "center",
     backgroundColor: Colors.arkadNavy,
   },
 });

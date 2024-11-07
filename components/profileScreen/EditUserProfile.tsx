@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { UpdateUserDto, User } from "api/Users";
 import ProfilePicture from "../ProfilePicture";
-import { View, Text } from "../Themed";
-import { Linking, Platform, StyleSheet } from "react-native";
+import { Text } from "../Themed";
+import { Linking, Platform, StyleSheet, } from "react-native";
 import Colors from "../../constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "screens/profile/EditProfileScreen";
@@ -10,10 +10,10 @@ import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
 import { API } from "../../api";
 import * as ImagePicker from "expo-image-picker";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import Toast from "react-native-toast-message";
+import { profileInputStyles } from "./ProfileInputStyling";
 
 type EditUserProfileProps = {
   user: User;
@@ -236,8 +236,7 @@ export default function EditUserProfile({
   };
 
   return (
-    <KeyboardAwareScrollView>
-      <View style={styles.container}>
+    <>
         <ProfilePicture url={user.profilePictureUrl} />
 
         <ArkadButton onPress={setProfilePicture} style={{ width: "50%" }}>
@@ -288,53 +287,52 @@ export default function EditUserProfile({
           </ArkadButton>
         )}
 
-        <Text style={styles.inputLabel}>First name</Text>
+        <Text style={profileInputStyles.inputLabel}>First name</Text>
         <TextInput
-          style={styles.textInput}
+          style={profileInputStyles.textInput}
           value={firstName ? firstName : ""}
           placeholder="e.g John"
           onChangeText={setFirstName}
         />
 
-        <Text style={styles.inputLabel}>Last name</Text>
+        <Text style={profileInputStyles.inputLabel}>Last name</Text>
         <TextInput
-          style={styles.textInput}
+          style={profileInputStyles.textInput}
           value={lastName ? lastName : ""}
           placeholder="e.g Doe"
           onChangeText={setLastName}
         />
 
-        <Text style={styles.inputLabel}>Phone number</Text>
+        <Text style={profileInputStyles.inputLabel}>Phone number</Text>
         <TextInput
-          style={styles.textInput}
+          style={profileInputStyles.textInput}
           value={phoneNr ? phoneNr : ""}
           placeholder="e.g 076-1234567"
           onChangeText={setPhoneNr}
         />
 
-        <Text style={styles.inputLabel}>Food preferences</Text>
+        <Text style={profileInputStyles.inputLabel}>Food preferences</Text>
         <TextInput
-          style={styles.textInput}
+          style={profileInputStyles.textInput}
           value={foodPreferences ? foodPreferences : ""}
           placeholder="e.g Vegetarian"
           onChangeText={setFoodPreferences}
         />
 
-        <Text style={styles.inputLabel}>Password</Text>
+        <Text style={profileInputStyles.inputLabel}>Password</Text>
         <TextInput
-          style={styles.textInput}
+          style={profileInputStyles.textInput}
           secureTextEntry
           placeholder="New password"
           onChangeText={setPassword}
         />
         <TextInput
-          style={styles.textInput}
+          style={profileInputStyles.textInput}
           secureTextEntry
           placeholder="Repeat password"
           onChangeText={setRepeatPassword}
         />
-      </View>
-    </KeyboardAwareScrollView>
+      </>
   );
 }
 
@@ -358,18 +356,5 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginTop: 12,
     marginBottom: 4,
-  },
-  textInput: {
-    width: "80%",
-    maxWidth: 400,
-    borderColor: Colors.white,
-    color: Colors.white,
-    placeholderTextColor: "#404040",
-  },
-  inputLabel: {
-    color: Colors.white,
-    paddingTop: 5,
-    fontFamily: "main-font",
-    fontSize: 20,
   },
 });

@@ -1,14 +1,13 @@
 import React from "react";
 import { Company, UpdateCompanySelfDto } from "api/Companies";
-import { View, Text } from "../Themed";
-import { Pressable, StyleSheet } from "react-native";
+import { Text } from "../Themed";
+import { StyleSheet } from "react-native";
 import Colors from "constants/Colors";
 import { TextInput } from "../TextInput";
 import { EditStatus } from "../../screens/profile/EditProfileScreen";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Ionicons } from "@expo/vector-icons";
 import { ArkadText } from "components/StyledText";
 import { ArkadCheckbox } from "components/ArkadCheckbox";
+import { profileInputStyles } from "./ProfileInputStyling";
 
 type EditCompanyProfileProps = {
   company: Company;
@@ -64,58 +63,46 @@ export default function EditCompanyProfile({
   }, [description, website, daysAtArkad]);
 
   return (
-    <KeyboardAwareScrollView>
-      <View style={styles.container}>
-        <ArkadText text={company.name} style={styles.nameLabel} />
+    <>
+      <ArkadText text={company.name} style={styles.nameLabel} />
 
-        <Text
-          style={{
-            color: Colors.white,
-            fontFamily: "main-font",
-            fontSize: 20,
-            paddingTop: 5,
-          }}
-        >
-          About us
-        </Text>
-        <TextInput
-          style={[styles.textInput, styles.descriptionInput]}
-          multiline
-          value={description ? description : ""}
-          placeholder="Write something eye catching about your company"
-          onChangeText={setDescription}
-        />
+      <Text
+        style={profileInputStyles.inputLabel}
+      >
+        About us
+      </Text>
+      <TextInput
+        style={[profileInputStyles.textInput, styles.descriptionInput]}
+        multiline
+        value={description ? description : ""}
+        placeholder="Write something eye catching about your company"
+        onChangeText={setDescription}
+      />
 
-        <Text
-          style={{
-            color: Colors.white,
-            fontFamily: "main-font",
-            fontSize: 20,
-            paddingTop: 5,
-          }}
-        >
-          Website
-        </Text>
-        <TextInput
-          style={styles.textInput}
-          value={website ? website : ""}
-          placeholder="https://example.com"
-          onChangeText={setWebsite}
-        />
+      <Text
+        style={profileInputStyles.inputLabel}
+      >
+        Website
+      </Text>
+      <TextInput
+        style={profileInputStyles.textInput}
+        value={website ? website : ""}
+        placeholder="https://example.com"
+        onChangeText={setWebsite}
+      />
 
-        <ArkadText text={"Fair days"} style={styles.header} />
-        <ArkadCheckbox
-          checked={daysAtArkad.includes(days.day1)}
-          onChange={() => handlecheckboxChange(days.day1)}
-          text="Day 1"
-        />
-        <ArkadCheckbox
-          checked={daysAtArkad.includes(days.day2)}
-          onChange={() => handlecheckboxChange(days.day2)}
-          text="Day 2"
-        />
-      </View>
-    </KeyboardAwareScrollView>
+      <ArkadText text={"Fair days"} style={styles.header} />
+      <ArkadCheckbox
+        checked={daysAtArkad.includes(days.day1)}
+        onChange={() => handlecheckboxChange(days.day1)}
+        text="Day 1"
+      />
+      <ArkadCheckbox
+        checked={daysAtArkad.includes(days.day2)}
+        onChange={() => handlecheckboxChange(days.day2)}
+        text="Day 2"
+      />
+      </>
   );
 }
 

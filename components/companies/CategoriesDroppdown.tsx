@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import Colors from "constants/Colors";
-import { StyleSheet } from "react-native";
+import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import DropDownPicker, { ThemeNameType } from "react-native-dropdown-picker";
 
 type categoriesDropdownProps = {
@@ -16,6 +16,7 @@ type categoriesDropdownProps = {
   onChangeValue?: () => void;
   categories: boolean;
   single?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
 };
 
 export function CategoriesDropdown(props: categoriesDropdownProps) {
@@ -52,8 +53,9 @@ export function CategoriesDropdown(props: categoriesDropdownProps) {
         fontSize: 20,
         fontFamily: "main-font-bold",
       }}
+      containerStyle={props.containerStyle}
       closeIconContainerStyle={styles.closeButton}
-      listItemContainerStyle={styles.container}
+      listItemContainerStyle={styles.listItemContainer}
       showArrowIcon={false}
       mode="BADGE"
       listMode="MODAL"
@@ -81,10 +83,15 @@ const styles = StyleSheet.create({
     height: 40,
   },
   closeButton: {
-    backgroundColor: Colors.lightGreen,
+    backgroundColor: Colors.arkadGreen,
     borderRadius: 48,
-    padding: 8,
+    width: 48,
+    height: 48,
+    marginHorizontal: 6,
+    padding: 4,
     margin: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
   dropdown: {
     borderColor: Colors.white,
@@ -92,7 +99,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     color: Colors.white,
   },
-  container: {
+  listItemContainer: {
     borderColor: Colors.white,
     borderLeftColor: Colors.arkadNavy,
     borderRightColor: Colors.arkadNavy,
