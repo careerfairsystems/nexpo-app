@@ -323,8 +323,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           >
 
 
-
-            loadingBackgroundColor = {Colors.arkadNavy}>
             {location?.indoor?.floorIndex===selectedFloor || location?.indoor===undefined ? (<BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} selectedFloor={selectedFloor} />}
             <PlacePolygon allPlaces={allPlaces}/>
