@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 5,
+    paddingTop: 16,
   },
   button: {
     margin: 0,
