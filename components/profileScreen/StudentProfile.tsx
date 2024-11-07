@@ -49,7 +49,7 @@ const OpenURLButton = (url: string) => {
   }, [url]);
 
   return (
-    <IconLinkButton icon={require("../../assets/images/linked-in-icon.png")} url={url} text="LinkedIn" style={{backgroundColor: Colors.white}} />
+    <IconLinkButton icon={require("../../assets/images/linked-in-icon.png")} url={url} text="LinkedIn" style={{backgroundColor: Colors.white, marginVertical: 12}} />
 
   );
 };
