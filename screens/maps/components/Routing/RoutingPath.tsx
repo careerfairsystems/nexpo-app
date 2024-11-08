@@ -42,7 +42,7 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
 
         if (current.floorIndex !== selectedFloor) {
           current = current.nextRoutingPosition;
-          continue
+          break;
         }
 
         const coordinate = {

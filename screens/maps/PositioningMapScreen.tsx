@@ -86,7 +86,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
 
 
-
   const navigation = useNavigation();
 
   const handleMarkerSelect = (marker: ReactFeatureModelNode, target: ReactRoutableTarget | null, company: PublicCompanyDto | null) => {
@@ -105,6 +104,9 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   useEffect(() => {
     if (!initialFloorSet && location?.indoor?.floorIndex) {
       setSelectedFloor(location.indoor.floorIndex);
+      setInitialFloorSet(true);
+    }else if(!initialFloorSet && gpsPosition){
+      setSelectedFloor(0)
       setInitialFloorSet(true);
     }
   }, [location]);
@@ -125,6 +127,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     fetchQueryTargets()
   }, [sdk, sdkInitialized, location]);
 
+
+
   const INITIAL_CAMERA = {
     center: { latitude: lat || 0, longitude: lng || 0 },
     pitch: 0,
@@ -133,14 +137,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     zoom: 30,
   };
 
-  useEffect(() => {
-    if (location?.indoor?.floorIndex) {
-      setSelectedFloor(location.indoor.floorIndex);
-    }else if(gpsPosition){
-      setSelectedFloor(0)
-    }
 
-  }, [location, gpsPosition]);
 
 
   const handleRoute = async (target: ReactRoutableTarget | null) => {
@@ -387,6 +384,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
                 selectedFloor === floor && styles.selectedFloorButton,
               ]}
             >
+
               <Text
                 style={[
                   styles.floorButtonText,
@@ -406,10 +404,10 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
       )}
       {currentRoute && (
         <View style={styles.routingOverlay}>
-          <Text style={styles.overlayText}>Routing in progress...to</Text>
-          <TouchableOpacity style={styles.stopButton} onPress={stopRouting}>
+          <Text style={styles.overlayText}>Routing in progress...to {selectedMarker?.name}</Text>
+          <ArkadButton style={styles.stopButton} onPress={stopRouting}>
             <Text style={styles.stopButtonText}>Stop</Text>
-          </TouchableOpacity>
+          </ArkadButton>
         </View>
       )}
 
@@ -444,7 +442,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
           {selectedTarget && (
             <ArkadButton onPress={ () => handleRoute(selectedTarget)}  style={styles.routeButton}>
-              <ArkadText text={"Route To"} />
+              <ArkadText text={"Take me here!"} />
             </ArkadButton>
 
           )}
@@ -498,26 +496,28 @@ const styles = StyleSheet.create({
   },
   locationOverlay: {
     position: "absolute",
-    top: 90,
+    top: 80,
     left: 10,
     backgroundColor: "rgba(0, 0, 0, 0.7)",
-    borderRadius: 8,
-    padding: 10,
+    borderRadius: 30,
+    padding: 12,
     zIndex: 3,
   },
   overlayText: {
     color: "white",
     fontSize: 12,
     textAlign: "center",
+    fontWeight: 'bold',
+
   },
   routingOverlay: {
     position: "absolute",
-    bottom: 20,
-    left: '10%',
-    right: '10%',
+    bottom: 90,
+    left: '1%',
+    right: '1%',
     backgroundColor: "rgba(0, 0, 0, 0.7)",
     borderRadius: 10,
-    padding: 16,
+    padding: 3,
     zIndex: 3,
     flexDirection: "row",
     alignItems: "center",
@@ -554,8 +554,8 @@ const styles = StyleSheet.create({
     zIndex: 3,
     backgroundColor: '#333',
     flexDirection: 'row',
-    borderRadius: 30, // Creates an oval shape
-    padding: 5, // Space between container and buttons for a rounded effect
+    borderRadius: 30,
+    padding: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
