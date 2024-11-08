@@ -99,7 +99,7 @@ export default {
           apiKey: process.env.GOOGLE_MAPS_API_KEY,
         },
       },
-      permissions: ["CAMERA"],
+      permissions: ["CAMERA", "LOCATION", "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION", "BLUETOOTH", "BLUETOOTH_ADMIN"]
     },
     web: {
       favicon: "./assets/images/favicon.png",
