@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Industry, Position, PublicCompanyDto } from "api/Companies";
+import { Competence, Industry, Position, PublicCompanyDto } from "api/Companies";
 
 import Colors from "constants/Colors";
 import { ArkadText } from "../StyledText";
@@ -10,6 +10,7 @@ export enum ShowOptions {
   All,
   Industries,
   Positions,
+  DesiredCompetences,
   DesiredProgrammes,
 }
 
@@ -23,6 +24,13 @@ export const TagsList = ({ company, showOptions }: TagsListProps) => {
   const industryTags = allIndustries.map((industry: Industry) => {
     return {
       text: Industry[industry],
+      color: Colors.arkadOrange,
+    };
+  });
+  const allCompetences = company.desiredCompetences ?? [];
+  const competenceTags = allCompetences.map((competence: Competence) => {
+    return {
+      text: Competence[competence],
       color: Colors.arkadOrange,
     };
   });
@@ -56,6 +64,12 @@ export const TagsList = ({ company, showOptions }: TagsListProps) => {
       allTags = desiredTags;
       break;
     }
+    case ShowOptions.DesiredCompetences:{
+      allTags=competenceTags
+      break;
+    }
+
+
     default: {
       allTags = industryTags.concat(positionTags);
       break;

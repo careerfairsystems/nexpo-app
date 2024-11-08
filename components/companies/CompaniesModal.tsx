@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Industry, Locations, Position, PublicCompanyDto } from "api/Companies";
+import { Competence, Industry, Locations, Position, PublicCompanyDto } from "api/Companies";
 import Colors from "constants/Colors";
 import { ArkadButton } from "../Buttons";
 import { ArkadText } from "../StyledText";
-import { Programme } from "api/Students";
 import { CompanyCategoriesDropdown } from "./CompanyCategoriesDropdown";
-import { INDUSTRIES, LOCATIONS, POSITIONS, PROGRAMS } from "./DroppdownItems";
+import { INDUSTRIES, LOCATIONS, POSITIONS, COMPETENCES } from "./DroppdownItems";
 import { companyLocations } from "./CompanyLocationsMap";
 import CompanyListDivider from "./CompanyListDivider";
 
 type CompaniesModalProps = {
   companies: PublicCompanyDto[];
-  filteredCompanies: PublicCompanyDto[],
+  filteredCompanies: PublicCompanyDto[];
   setFilteredCompanies: (value: PublicCompanyDto[]) => void;
   setIsFiltered: (value: boolean) => void;
   isVisable: boolean;
 };
 
 export default function CompaniesModal({
-  companies,
-  filteredCompanies,
-  setFilteredCompanies,
-  setIsFiltered,
-  isVisable,
-}: CompaniesModalProps) {
+                                         companies,
+                                         filteredCompanies,
+                                         setFilteredCompanies,
+                                         setIsFiltered,
+                                         isVisable,
+                                       }: CompaniesModalProps) {
   const [positions, setPositions] = useState(POSITIONS);
   const [industry, setIndustry] = useState(INDUSTRIES);
-  const [programmes, setProgrammes] = useState(PROGRAMS);
+  const [competences, setCompetences] = useState(COMPETENCES);
   const [location, setLocation] = useState(LOCATIONS);
 
   const [locationOpen, setLocationOpen] = useState(false);
@@ -39,34 +38,35 @@ export default function CompaniesModal({
   const [industryOpen, industrySetOpen] = useState(false);
   const [industryValue, industrySetValue] = useState<Industry[]>([]);
 
-  const [programmeOpen, programmeSetOpen] = useState(false);
-  const [programmeValue, programmeSetValue] = useState<Programme[]>([]);
+  const [competenceOpen, competenceSetOpen] = useState(false);
+  const [competenceValue, competenceSetValue] = useState<Competence[]>([]);
 
   const setSetFilteredCompanies = () => {
     filterCompanies();
     setIsFiltered(
       locationValue.length > 0 ||
-        industryValue.length > 0 ||
-        positionValue.length > 0 ||
-        programmeValue.length > 0
+      industryValue.length > 0 ||
+      positionValue.length > 0 ||
+      competenceValue.length > 0
     );
   };
 
   function resetFilters() {
     positionSetValue([]);
     industrySetValue([]);
-    programmeSetValue([]);
+    competenceSetValue([]);
     setLocationValue([]);
     setFilteredCompanies(companies);
   }
+
   function filterCompanies() {
     let filteredCompanies = companies;
     if (positionValue.length > 0) {
       filteredCompanies = filteredCompanies.filter((company) =>
         company.positions
           ? company.positions.some((position) =>
-              positionValue.includes(position)
-            )
+            positionValue.includes(position)
+          )
           : false
       );
     }
@@ -74,17 +74,17 @@ export default function CompaniesModal({
       filteredCompanies = filteredCompanies.filter((company) =>
         company.industries
           ? company.industries.some((industry) =>
-              industryValue.includes(industry)
-            )
+            industryValue.includes(industry)
+          )
           : false
       );
     }
-    if (programmeValue.length > 0) {
+    if (competenceValue.length > 0) {
       filteredCompanies = filteredCompanies.filter((company) =>
-        company.desiredProgramme
-          ? company.desiredProgramme.some((programme) =>
-              programmeValue.includes(programme)
-            )
+        company.desiredCompetences
+          ? company.desiredCompetences.some((competence) =>
+            competenceValue.includes(competence)
+          )
           : false
       );
     }
@@ -97,25 +97,25 @@ export default function CompaniesModal({
     setFilteredCompanies(filteredCompanies);
   }
 
-
   if (!isVisable) {
     return null;
   }
+
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <CompanyListDivider text="Desired program"/>
+        <CompanyListDivider text="Desired Competence" />
         <CompanyCategoriesDropdown
-          title="Desired program"
-          items={programmes}
-          setOpen={programmeSetOpen}
-          setValue={programmeSetValue}
-          open={programmeOpen}
-          value={programmeValue}
-          setItems={setProgrammes}
+          title="Desired Competence"
+          items={competences}
+          setOpen={competenceSetOpen}
+          setValue={competenceSetValue}
+          open={competenceOpen}
+          value={competenceValue}
+          setItems={setCompetences}
           filterCompanies={filterCompanies}
           filteredCompanies={filteredCompanies}
-          itemFiltering={(company, value) => company.desiredProgramme?.includes(value) ?? false}
+          itemFiltering={(company, value) => company.desiredCompetences?.includes(value) ?? false}
           onChangeValue={setSetFilteredCompanies}
           categories={false}
         />

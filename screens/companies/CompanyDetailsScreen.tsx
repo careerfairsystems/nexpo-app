@@ -53,6 +53,7 @@ export default function CompanyDetailsScreen({
     setLoading(true);
 
     const company = await API.companies.getCompany(id);
+    console.log(company)
     setCompany(company);
     console.log(company);
 
@@ -99,7 +100,9 @@ export default function CompanyDetailsScreen({
     return <ScreenActivityIndicator />;
   }
 
+
   return (
+
       <Animated.ScrollView
         style={[styles.outerContainer, {paddingTop: insets.top}]}
         onContentSizeChange={(width, height) => {setContentHeight(height); setScreenHeight(Dimensions.get('window').height)}}
@@ -188,6 +191,10 @@ export default function CompanyDetailsScreen({
 
             <ArkadText style={styles.descHeader} text="DESIRED PROGRAMMES" />
             <TagsList company={company} showOptions={ShowOptions.DesiredProgrammes} />
+
+            <ArkadText style={styles.descHeader} text="DESIRED COMPETENCES" />
+            <TagsList company={company} showOptions={ShowOptions.DesiredCompetences} />
+
 
             <ArkadText style={styles.descHeader} text="DID YOU KNOW?" />
             <ArkadText style={styles.desc} text={company.didYouKnow ? company.didYouKnow : "\u2013"} />

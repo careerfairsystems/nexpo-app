@@ -12,8 +12,50 @@ export enum Locations {
   Studiecentrum,
   E_huset,
   Kårhuset,
-  Tent,
+  X_Lab,
   Career_Room,
+}
+
+export enum Competence{
+  Architecture,
+  ArtificialIntelligence,
+  Usability,
+  Applications,
+  Automation,
+  Computation,
+  FireSafety,
+  ComputerSecurity,
+  Design,
+  EHealth,
+  Electronics,
+  EnergySystems,
+  Law,
+  Finance,
+  Geography,
+  Sustainability,
+  IndustrialProcesses,
+  Interactivity,
+  Chemistry,
+  Communications,
+  Construction,
+  FoodTechnology,
+  PharmaceuticalTechnology,
+  MathematicalModelling,
+  MaterialsEngineering,
+  LifeScience,
+  Mechatronics,
+  AccidentPrevention,
+  ProductDevelopment,
+  Programming,
+  Planning,
+  ProjectManagement,
+  RiskManagement,
+  TechnologyAndSociety,
+  CivilEngineering,
+  Simulations,
+  Manufacturing,
+  InterdisciplinaryCompetences,
+  Physics
 }
 
 export enum Position {
@@ -63,6 +105,7 @@ export interface PublicCompanyDto {
   desiredProgramme: Programme[] | null;
   positions: Position[] | null;
   industries: Industry[] | null;
+  desiredCompetences: Competence[] | null;
   studentSessionMotivation: string | null;
 }
 
