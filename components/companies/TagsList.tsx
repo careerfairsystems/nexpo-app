@@ -4,11 +4,13 @@ import { Industry, Position, PublicCompanyDto } from "api/Companies";
 
 import Colors from "constants/Colors";
 import { ArkadText } from "../StyledText";
+import { Programme } from "api/Students";
 
 export enum ShowOptions {
   All,
   Industries,
-  Positions
+  Positions,
+  DesiredProgrammes,
 }
 
 type TagsListProps = {
@@ -31,6 +33,13 @@ export const TagsList = ({ company, showOptions }: TagsListProps) => {
       color: Colors.arkadTurkos,
     };
   });
+  const allDesired = company.desiredProgramme ?? [];
+  const desiredTags = allDesired.map((desired: Programme) => {
+    return {
+      text: Programme[desired].replaceAll("_", " "),
+      color: Colors.arkadTurkos,
+    }
+  });
 
 
   let allTags;
@@ -41,6 +50,10 @@ export const TagsList = ({ company, showOptions }: TagsListProps) => {
     }
     case ShowOptions.Positions: {
       allTags = positionTags;
+      break;
+    }
+    case ShowOptions.DesiredProgrammes: {
+      allTags = desiredTags;
       break;
     }
     default: {
@@ -56,7 +69,7 @@ export const TagsList = ({ company, showOptions }: TagsListProps) => {
       <View style={styles.listContainer}>
         {allTags.map((item, index) => {return (
           <View key={index} style={{ ...styles.item, backgroundColor: item.color }}>
-            <ArkadText style={styles.text} text={item.text} />
+            <ArkadText style={styles.text} text={item.text} numberOfLines={1}/>
           </View>
         )})}
       </View>
@@ -78,12 +91,12 @@ const styles = StyleSheet.create({
   item: {
     height: "auto",
     borderRadius: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+
   },
   text: {
     color: Colors.white,
-    fontSize: 18,
+    fontSize: 16,
   },
 });

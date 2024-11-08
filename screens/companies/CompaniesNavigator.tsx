@@ -55,6 +55,7 @@ export function CompaniesNavigator() {
           headerStyle: {
             borderBottomWidth: 0,
             borderBottomColor: Colors.arkadGreen,
+            backgroundColor: Colors.arkadTurkos,
           }
         }}
       />

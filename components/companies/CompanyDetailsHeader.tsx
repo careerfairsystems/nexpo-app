@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "flex-start",
     gap: 16,
+    flexGrow: 1,
   },
   icon: {
     width: 42,

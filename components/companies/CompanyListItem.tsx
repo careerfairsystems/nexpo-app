@@ -13,9 +13,6 @@ type CompanyListItemProps = {
 
 
 export const CompanyListItem = ({ company, onPress }: CompanyListItemProps) => {
-  // Log the logo URL to the console
-  console.log("Company Logo URL:", company.logoUrl);
-
   return (
     <View style={styles.container}>
       <Pressable onPress={onPress} style={{ width: "100%" }}>
@@ -90,7 +87,7 @@ const styles = StyleSheet.create({
   },
   companyName: {
     flex: 1,
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "700",
     textAlign: "left",
     padding: 0,
@@ -108,7 +105,7 @@ const styles = StyleSheet.create({
   },
   companyLocationText: {
     flex: 1,
-    fontSize: 17,
+    fontSize: 14,
     margin: 0,
     fontWeight: "400",
     textAlign: "left",

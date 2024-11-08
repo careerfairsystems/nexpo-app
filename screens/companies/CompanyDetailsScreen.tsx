@@ -11,8 +11,8 @@ import { companyLocations } from "components/companies/CompanyLocationsMap";
 import { EMap, TentMap, SCMap, KarhusetMap } from "components/maps/MapProps";
 import { IconLinkButton } from "components/companies/IconLinkButton";
 import { ShowOptions, TagsList } from "components/companies/TagsList";
-import { useHeaderHeight } from "@react-navigation/stack";
 import CompanyDetailsHeader from "components/companies/CompanyDetailsHeader";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type CompanyDetailsScreenParams = {
   route: {
@@ -28,6 +28,7 @@ export default function CompanyDetailsScreen({
   route,
 }: CompanyDetailsScreenParams) {
   const { id } = route.params;
+  const insets = useSafeAreaInsets();
 
   const [company, setCompany] = useState<PublicCompanyDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -53,6 +54,7 @@ export default function CompanyDetailsScreen({
 
     const company = await API.companies.getCompany(id);
     setCompany(company);
+    console.log(company);
 
     setLoading(false);
   };
@@ -65,12 +67,10 @@ export default function CompanyDetailsScreen({
   const navigation = useNavigation();
 
 
-
-
   useEffect(() => {
     navigation.setOptions({
       headerStyle: {
-        backgroundColor: Colors.arkadNavy,
+        backgroundColor: Colors.arkadTurkos,
       },
       headerBackground: () => (
         <Animated.View
@@ -100,8 +100,9 @@ export default function CompanyDetailsScreen({
   }
 
   return (
-    <View style={styles.outerContainer}>
-      <Animated.ScrollView onContentSizeChange={(width, height) => {setContentHeight(height); setScreenHeight(Dimensions.get('window').height)}}
+      <Animated.ScrollView
+        style={[styles.outerContainer, {paddingTop: insets.top}]}
+        onContentSizeChange={(width, height) => {setContentHeight(height); setScreenHeight(Dimensions.get('window').height)}}
         onScroll={Animated.event(
           [
             {
@@ -115,6 +116,8 @@ export default function CompanyDetailsScreen({
           { useNativeDriver: true }
         )}
         scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false} //Weird behavior with scrollbar on ios, disabled for now
       >
         <View style={styles.colorBackgroundContainer} >
           <View style={greenZone ? styles.colorBackgroundGreenZone : styles.colorBackgroundRegular} />
@@ -183,24 +186,27 @@ export default function CompanyDetailsScreen({
             <ArkadText style={styles.descHeader} text="TAGS" />
             <TagsList company={company} showOptions={ShowOptions.Industries} />
 
+            <ArkadText style={styles.descHeader} text="DESIRED PROGRAMMES" />
+            <TagsList company={company} showOptions={ShowOptions.DesiredProgrammes} />
+
             <ArkadText style={styles.descHeader} text="DID YOU KNOW?" />
             <ArkadText style={styles.desc} text={company.didYouKnow ? company.didYouKnow : "\u2013"} />
           </View>
 
         </View>
       </Animated.ScrollView>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
+    width: "100%",
+    height: "100%",
     backgroundColor: Colors.arkadNavy,
   },
   colorBackgroundContainer: {
     flexDirection: "column",
-    overflow: "hidden",
     alignItems: "center",
     justifyContent: "flex-end",
     width: "100%",
@@ -211,7 +217,7 @@ const styles = StyleSheet.create({
   },
   colorBackgroundRegular: {
     width: "100%",
-    height: "100%",
+    height: "300%", //Oversized to compensate if safeAreaInset top padding, could probably be better implemented but time crunch hehe
     backgroundColor: Colors.arkadTurkos,
   },
   colorBackgroundGreenZone: {
