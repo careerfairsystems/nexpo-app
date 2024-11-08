@@ -71,7 +71,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
   const [selectedFloor, setSelectedFloor] = useState<number>(0); // State for selected floor
-  const [currentFloor, setCurrentFloor] = useState<number>(0); // State for selected floor
 
 
   const [featureModelNodes, setFeatureModelNodes] = useState<ReactFeatureModelNode[]>([])
@@ -81,7 +80,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [selectedCompany, setSelectedCompany] = useState<PublicCompanyDto | null>(null);
   const refRBSheet = useRef<any>(null);
   const mapRef = useRef<MapView>(null);
-  const [isRouting, setIsRouting] = useState(false);
+  const [initialFloorSet, setInitialFloorSet] = useState(false); // Track if initial floor was set
+
 
 
 
@@ -103,20 +103,11 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
 
   useEffect(() => {
-    if(isRouting && location?.indoor?.floorIndex){
-      console.log("routing")
-      console.log("Selected floor " + selectedFloor)
-      if (location.indoor.floorIndex != selectedFloor) {
-        console.log("routingXD")
-        console.log("Selected floorXD " + selectedFloor)
-        handleFloorSelect(currentFloor);
-      }
+    if (!initialFloorSet && location?.indoor?.floorIndex) {
+      setSelectedFloor(location.indoor.floorIndex);
+      setInitialFloorSet(true);
     }
-    if(route==null){
-      setIsRouting(false)
-    }
-  }, [location, lat, lng]);
-
+  }, [location]);
 
   useEffect(() => {
     initializeSDK();
@@ -127,7 +118,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     if(lat != 0 && lng!=0){
       setLoadingPosition(false);
     }
-  }, [location, gpsPosition]);
+  }, [location, gpsPosition, selectedFloor]);
 
 
   useEffect(() => {
@@ -142,11 +133,19 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     zoom: 30,
   };
 
+  useEffect(() => {
+    if (location?.indoor?.floorIndex) {
+      setSelectedFloor(location.indoor.floorIndex);
+    }else if(gpsPosition){
+      setSelectedFloor(0)
+    }
+
+  }, [location, gpsPosition]);
+
 
   const handleRoute = async (target: ReactRoutableTarget | null) => {
     setModalVisible(false);
     refRBSheet.current.close();
-    setIsRouting(true);
     setSelectedFloor(location?.indoor?.floorIndex || 0);
 
 
@@ -179,7 +178,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const stopRouting = () => {
     sdk?.getRoutingProvider().removeAllListeners()
     setRoute(null);
-    setIsRouting(false);
   };
   const handleFloorSelect = (floor: number) => {
     setSelectedFloor(floor);
@@ -256,9 +254,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           if(e?.latitude!==undefined && e?.longitude!==undefined){
             setLat(e.latitude)
             setLng(e.longitude)
-            if(e.indoor?.floorIndex){
-              setCurrentFloor(e.indoor?.floorIndex)
-            }
           }
           setLocation(e);
         });
@@ -314,7 +309,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   return (
     <View style={styles.container}>
       { sdk ? (
-        (lat === undefined || lng === undefined  )  ? (
+        ((lat === undefined || lng === undefined) && !initialFloorSet  )  ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={Colors.white} />
             <ArkadText text="Loading map ..." style={styles.loadingText} />
@@ -381,7 +376,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
       </TouchableOpacity>
 
       {/* Only show this if we are not in routing-mode since routing mode will automatically switch floor*/}
-      {!isRouting ? (
+
         <View style={styles.floorSelectionContainer}>
           {[0, 1].map((floor) => (
             <TouchableOpacity
@@ -401,7 +396,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
             </TouchableOpacity>
           ))}
         </View>
-      ): null}
 
       {location?.indoor && (
         <View style={styles.locationOverlay}>

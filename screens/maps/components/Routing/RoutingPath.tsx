@@ -42,7 +42,7 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
 
         if (current.floorIndex !== selectedFloor) {
           current = current.nextRoutingPosition;
-          continue;
+          continue
         }
 
         const coordinate = {
@@ -67,7 +67,6 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
             description: 'Proceed to the stairs',
             type: ReactNodeType.Stairs,
           });
-          break;
         }
 
         current = current.nextRoutingPosition;
@@ -84,7 +83,7 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
   const getMarkerIcon = (type: ReactNodeType) => {
     switch (type) {
       case ReactNodeType.Door:
-            return <FontAwesome5 name="door-open" size={30} color="#007AFF" />;
+            return <FontAwesome5 name="door-closed" size={30} color="#007AFF" />;
       case ReactNodeType.Stairs:
         return <MaterialIcons name="stairs" size={30} color="#007AFF" />;
       default:
