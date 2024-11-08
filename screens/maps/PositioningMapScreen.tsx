@@ -272,7 +272,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         setSdkInitialized(true);
 
 
-        await sdk?.getFeatureModelGraph(137521724).then(x => {
+        await sdk?.getFeatureModelGraph(137564108).then(x => {
           if(x!=null){
             setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
           }
@@ -302,7 +302,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   return (
     <View style={styles.container}>
       { sdk ? (
-        (lat === undefined || lng === undefined || featureModelNodes.length===0 )  ? (
+        (lat === undefined || lng === undefined  )  ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={Colors.white} />
             <ArkadText text="Loading map ..." style={styles.loadingText} />
@@ -384,7 +384,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
                 style={[
                   styles.floorButtonText,
                   selectedFloor === floor && styles.selectedFloorText]}>
-                Floor {floor}
+                Floor {floor + 1 }
               </Text>
             </TouchableOpacity>
           ))}
@@ -394,7 +394,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
       {location?.indoor && (
         <View style={styles.locationOverlay}>
           <Text style={styles.overlayText}>
-            {location.indoor?.buildingName} - Floor {location.indoor?.floorIndex}
+            {location.indoor?.buildingName} - Floor: {location.indoor?.floorIndex !== null && location.indoor?.floorIndex !== undefined ? location.indoor.floorIndex + 1 : ''}
           </Text>
         </View>
       )}
@@ -438,7 +438,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
           {selectedTarget && (
             <ArkadButton onPress={ () => handleRoute(selectedTarget)}  style={styles.routeButton}>
-              <ArkadText text={`Take me to ${selectedTarget?.name}`} />
+              <ArkadText text={"Route To"} />
             </ArkadButton>
 
           )}
@@ -526,6 +526,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     backgroundColor: Colors.arkadTurkos,
     padding: 5,
+
   },
   stopButtonText: {
     color: "white",

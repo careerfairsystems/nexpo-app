@@ -218,21 +218,6 @@ export default function EditUserProfile({
       <View style={styles.container}>
         <ProfilePicture url={user.profilePictureUrl} />
 
-        <ArkadButton onPress={setProfilePicture} style={{ width: "50%" }}>
-          {hasProfilePicture ? (
-            <ArkadText text="Change profile picture" />
-          ) : (
-            <ArkadText text="Set profile picture" />
-          )}
-        </ArkadButton>
-        {hasProfilePicture && (
-          <ArkadButton
-            onPress={removeProfilePicture}
-            style={styles.hasCv && { width: "50%" }}
-          >
-            <ArkadText text="Remove profile picture" />
-          </ArkadButton>
-        )}
         <ArkadButton
           onPress={setCV}
           style={{ backgroundColor: Colors.arkadTurkos, width: "50%" }}

@@ -17,8 +17,8 @@ type EditCompanyProfileProps = {
 };
 
 enum days {
-  day1 = "2023-11-14T00:00:00",
-  day2 = "2023-11-15T00:00:00",
+  day1 = "2024-11-12T00:00:00",
+  day2 = "2024-11-13T00:00:00",
 }
 
 export default function EditCompanyProfile({

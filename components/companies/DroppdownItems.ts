@@ -1,4 +1,4 @@
-import { Industry, Locations, Position } from "api/Companies";
+import { Competence, Industry, Locations, Position } from "api/Companies";
 import { Programme } from "api/Students";
 
 export const POSITIONS = [
@@ -85,12 +85,55 @@ export const PROGRAMS = [
   { label: "Risk, Safety and Crisis Management", value: Programme.Risk_Safety_and_Crisis_Management},
 ];
 
+export const COMPETENCES = [
+  { label: "Architecture", value: Competence.Architecture },
+  { label: "Artificial Intelligence", value: Competence.ArtificialIntelligence },
+  { label: "Usability", value: Competence.Usability },
+  { label: "Applications", value: Competence.Applications },
+  { label: "Automation", value: Competence.Automation },
+  { label: "Computation", value: Competence.Computation },
+  { label: "Fire Safety", value: Competence.FireSafety },
+  { label: "Computer Security", value: Competence.ComputerSecurity },
+  { label: "Design", value: Competence.Design },
+  { label: "E-Health", value: Competence.EHealth },
+  { label: "Electronics", value: Competence.Electronics },
+  { label: "Energy Systems", value: Competence.EnergySystems },
+  { label: "Law", value: Competence.Law },
+  { label: "Finance", value: Competence.Finance },
+  { label: "Geography", value: Competence.Geography },
+  { label: "Sustainability", value: Competence.Sustainability },
+  { label: "Industrial Processes", value: Competence.IndustrialProcesses },
+  { label: "Interactivity", value: Competence.Interactivity },
+  { label: "Chemistry", value: Competence.Chemistry },
+  { label: "Communications", value: Competence.Communications },
+  { label: "Construction", value: Competence.Construction },
+  { label: "Food Technology", value: Competence.FoodTechnology },
+  { label: "Pharmaceutical Technology", value: Competence.PharmaceuticalTechnology },
+  { label: "Mathematical Modelling", value: Competence.MathematicalModelling },
+  { label: "Materials Engineering", value: Competence.MaterialsEngineering },
+  { label: "Life Science", value: Competence.LifeScience },
+  { label: "Mechatronics", value: Competence.Mechatronics },
+  { label: "Accident Prevention", value: Competence.AccidentPrevention },
+  { label: "Product Development", value: Competence.ProductDevelopment },
+  { label: "Programming", value: Competence.Programming },
+  { label: "Planning", value: Competence.Planning },
+  { label: "Project Management", value: Competence.ProjectManagement },
+  { label: "Risk Management", value: Competence.RiskManagement },
+  { label: "Technology and Society", value: Competence.TechnologyAndSociety },
+  { label: "Civil Engineering", value: Competence.CivilEngineering },
+  { label: "Simulations", value: Competence.Simulations },
+  { label: "Manufacturing", value: Competence.Manufacturing },
+  { label: "Interdisciplinary Competences", value: Competence.InterdisciplinaryCompetences },
+  { label: "Physics", value: Competence.Physics },
+];
+
+
 
 export const LOCATIONS = [
   { label: "Studiecentrum", value: Locations.Studiecentrum },
   { label: "Kårhuset", value: Locations.Kårhuset },
   { label: "E-Huset", value: Locations.E_huset },
-  { label: "Tent", value: Locations.Tent },
+  { label: "X-Lab", value: Locations.X_Lab },
 ];
 
 export const YEARS = [

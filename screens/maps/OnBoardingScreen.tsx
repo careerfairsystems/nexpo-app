@@ -23,7 +23,7 @@ const routingConfig: ReactRoutingConfig = {
 };
 
 const indoorNavigationSDKConfig: ReactIndoorNavigationSDKConfig = {
-  apiKey: Constants.manifest?.extra?.apiKey,
+  apiKey: "848bb5dadbcba210e0ad",
   routingConfig: routingConfig,
   syncingInterval: sync,
 };

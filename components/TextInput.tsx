@@ -15,6 +15,18 @@ export function TextInput(props: TextInputProps) {
   );
 }
 
+export const TextInputWithRef = React.forwardRef<TextInputField, TextInputProps>((props, ref) => {
+  return (
+    <TextInputField
+      autoCapitalize="none"
+      placeholderTextColor={Colors.lightGray}
+      {...props}
+      ref={ref}
+      style={[styles.input, props.style]}
+    />
+  )
+})
+
 const styles = StyleSheet.create({
   input: {
     fontFamily: "main-font-bold",

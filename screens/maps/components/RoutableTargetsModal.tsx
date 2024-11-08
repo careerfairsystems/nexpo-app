@@ -75,17 +75,12 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
 
     items.forEach((item) => {
       const { target } = item;
-      if (target?.name.toLowerCase() === "lounge") {
-        loungeCategory.push(item);
-      } else {
         let firstLetter = target?.name[0]!.toUpperCase();
         firstLetter = firstLetter?.replace(/\d/, "0-9");
-
         if (!result[firstLetter!]) {
           result[firstLetter!] = [];
         }
         result[firstLetter!].push(item);
-      }
     });
 
     const groupedData = Object.entries(result)
@@ -94,12 +89,7 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
         data,
       }))
       .sort((a, b) => a.title.localeCompare(b.title));
-    if (loungeCategory.length > 0) {
-      groupedData.push({
-        title: "Lounge",
-        data: loungeCategory,
-      });
-    }
+
     return groupedData;
   };
 
@@ -134,7 +124,7 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
               toggleFilter={toggleFilter}
               modalVisible={modalVisible}
               isFiltered={isFiltered}
-             placeHolder={" Search for targets..."}/>
+             />
           </View>
           {loading ? (
             <ActivityIndicator size="large" color={Colors.arkadTurkos} />
@@ -208,6 +198,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: Colors.white,
     padding: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.arkadTurkos,
   },
   list: {
     width: "100%",
