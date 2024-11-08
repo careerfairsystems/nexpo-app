@@ -48,6 +48,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { RoutingMarker } from "./components/Markers/RoutingMarker";
 import PlacePolygon from "./components/PlacePolygon";
 import { getImageAndBearing } from "./components/utils/getBearingAndImage";
+import e from "express";
 
 
 
@@ -80,8 +81,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [selectedCompany, setSelectedCompany] = useState<PublicCompanyDto | null>(null);
   const refRBSheet = useRef<any>(null);
   const mapRef = useRef<MapView>(null);
-  const [isFloorLoading, setIsFloorLoading] = useState(false);
   const [isRouting, setIsRouting] = useState(false);
+
 
 
 
@@ -96,22 +97,31 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   };
 
 
+
+
   const { width, height } = Dimensions.get('window');
 
 
   useEffect(() => {
-    if(!isRouting && location?.indoor?.floorIndex){
-      setSelectedFloor(location.indoor.floorIndex)
+    if(isRouting && location?.indoor?.floorIndex){
+      console.log("routing")
+      console.log("Selected floor " + selectedFloor)
+      if (location.indoor.floorIndex != selectedFloor) {
+        console.log("routingXD")
+        console.log("Selected floorXD " + selectedFloor)
+        handleFloorSelect(currentFloor);
+      }
     }
     if(route==null){
       setIsRouting(false)
     }
-  }, [isRouting, currentFloor, route]);
+  }, [location, lat, lng]);
 
 
   useEffect(() => {
     initializeSDK();
   }, []);
+
 
   useEffect(() => {
     if(lat != 0 && lng!=0){
@@ -171,8 +181,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     setRoute(null);
     setIsRouting(false);
   };
-  const handleFloorSelect = async (floor: number) => {
-    setIsFloorLoading(true);
+  const handleFloorSelect = (floor: number) => {
     setSelectedFloor(floor);
   };
 
@@ -270,6 +279,9 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         setSdk(sdk);
         console.log('SDK STARTED');
         setSdkInitialized(true);
+        if(sdk){
+
+        }
 
 
         await sdk?.getFeatureModelGraph(137564108).then(x => {
@@ -410,7 +422,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
       <RBSheet
         ref={refRBSheet}
-        height={450}
+        height={500}
         openDuration={250}
         customStyles={{
           container: styles.sheetContainer,
@@ -587,10 +599,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   floorButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 25,
-    marginHorizontal: 2,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    marginHorizontal: 1,
     backgroundColor: 'transparent',
   },
   selectedFloorButton: {
@@ -598,7 +610,7 @@ const styles = StyleSheet.create({
   },
   floorButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     fontWeight: 'bold',
   },
