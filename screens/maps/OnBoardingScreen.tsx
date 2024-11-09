@@ -43,6 +43,7 @@ export default function OnboardingScreen() {
     console.log("SDK CREATED")
   }
 
+
   async function checkPermission() {
     if (sdk) {
       const permissionManager = sdk.getPermissionManager();
@@ -76,7 +77,7 @@ export default function OnboardingScreen() {
 
   useEffect(() => {
     checkPermission();
-  }, [sdk]);
+  }, );
 
   if (sdk == null) {
     return (
@@ -94,19 +95,13 @@ export default function OnboardingScreen() {
         !hasPermission ? (
           <View>
             <ArkadButton onPress={requestPermissions}>
-              <ArkadText text="Request Permission for interactive map " />
-            </ArkadButton>
-            <ArkadButton onPress={() => navigation.navigate("MapScreen")}>
-              <ArkadText text="Go to map of the fair" />
+              <ArkadText text="Try Interactive map " />
             </ArkadButton>
           </View>
         ) : (
           <View style={styles.box}>
             <ArkadButton onPress={() => navigation.navigate('PositioningMapScreen', { sdk })}>
               <ArkadText text="Go to Interactive map 🌐" />
-            </ArkadButton>
-            <ArkadButton onPress={() => navigation.navigate("MapScreen")}>
-              <ArkadText text="Go to map of the fair 🗺️" />
             </ArkadButton>
           </View>
         )

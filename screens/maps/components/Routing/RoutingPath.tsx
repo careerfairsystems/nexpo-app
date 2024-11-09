@@ -37,9 +37,11 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
       console.log(JSON.stringify(current?.nextRoutingPosition?.nextRoutingPosition?.nextRoutingPosition))
 
       while (current) {
+
+
         if (current.floorIndex !== selectedFloor) {
           current = current.nextRoutingPosition;
-          break;
+          continue
         }
 
         const coordinate = {
@@ -112,7 +114,7 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
         />
       {markers.map((marker, index) => (
         <Marker
-          key={marker.coordinate.latitude+marker.coordinate.longitude}
+          key={marker.coordinate.latitude}
           coordinate={marker.coordinate}
           title={marker.title}
           description={marker.description}

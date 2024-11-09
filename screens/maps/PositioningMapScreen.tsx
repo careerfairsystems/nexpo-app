@@ -49,6 +49,7 @@ import { RoutingMarker } from "./components/Markers/RoutingMarker";
 import PlacePolygon from "./components/PlacePolygon";
 import { getImageAndBearing } from "./components/utils/getBearingAndImage";
 import e from "express";
+import { container } from "ansi-fragments";
 
 
 
@@ -123,6 +124,15 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
   useEffect(() => {
     fetchQueryTargets()
+  }, [sdk, sdkInitialized, location]);
+
+  useEffect(() => {
+     console.log(location?.indoor?.featureModelId)
+     sdk?.getFeatureModelGraph( location?.indoor?.featureModelId  || 137574667 ).then(x => {
+      if(x!=null){
+        setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
+      }
+    });
   }, [sdk, sdkInitialized, location]);
 
 
@@ -246,14 +256,14 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         const { sdk } = route.params;
         sdk.currentLocation.addListener((e) => {
           setLoadingPosition(false);
-          if(e?.latitude!==undefined && e?.longitude!==undefined){
-            setLat(e.latitude)
-            setLng(e.longitude)
+          if (e?.latitude && !isNaN(e.latitude) && e?.longitude && !isNaN(e.longitude)) {
+            setLat(e.latitude);
+            setLng(e.longitude);
           }
           setLocation(e);
         });
         sdk.gpsLocation.addListener((e) => {
-          if(e?.lat!==undefined && e.lng!==undefined){
+          if (e?.lat && !isNaN(e.lat) && e.lng && !isNaN(e.lng)) {
             setLat(e.lat);
             setLng(e.lng);
           }
@@ -275,9 +285,9 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
 
         const campus = allPlaces.find((place) => place?.name === "LTH Campus");
-        await sdk?.getFeatureModelGraph(campus?.featureModelId || 137564108 ).then(x => {
+
+        await sdk?.getFeatureModelGraph( 137574667 ).then(x => {
           if(x!=null){
-            console.log(x.length)
             setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
           }
         });
@@ -328,7 +338,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           >
 
 
-            {location?.indoor?.floorIndex===selectedFloor || location?.indoor===undefined ? (<BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
+            {location?.indoor?.floorIndex===selectedFloor || location?.indoor===undefined  ? (<BlueDotMarker coordinate={{ latitude: lat!, longitude: lng! }} />) : null}
             {currentRoute && location && <RoutingPath startPosition={currentRoute} currentlocation={location} selectedFloor={selectedFloor} />}
             <PlacePolygon allPlaces={allPlaces}/>
 

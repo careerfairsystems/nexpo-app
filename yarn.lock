@@ -9129,18 +9129,18 @@ react-is@^18.0.0, react-is@^18.2.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-native-ai-navigation-sdk@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-ai-navigation-sdk/-/react-native-ai-navigation-sdk-0.4.0.tgz#dae167d3e35645426856a4bfbf1ff906972600b6"
-  integrity sha512-QjuHw4HGy7VxjLOTBKdcOxvxMQAVTm+RNM3D2jE0ZTMtiEgkDWiv3s6SeIYGg3KIHh/YGxqJcBRGk3kYf4Apeg==
+react-native-ai-navigation-sdk@0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/react-native-ai-navigation-sdk/-/react-native-ai-navigation-sdk-0.4.10.tgz#464c9634e6f07b00aac4ce2c0eb163ea1b455083"
+  integrity sha512-SmM+uydyUujbOCKYb9jB5zBgWCb+KyCiXE0TpCFOGwK7kkP+L8X3dc8JKC5xtOk3g/yqVdI96vnqvhYhzt4ffQ==
   dependencies:
     react-native-ai-navigation-sdk "^0.4.0"
     react-native-permissions "^4.1.5"
 
-react-native-ai-navigation-sdk@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/react-native-ai-navigation-sdk/-/react-native-ai-navigation-sdk-0.4.4.tgz#c04d661669768dd4e8c811096bf559b8355ff614"
-  integrity sha512-jpjJO/ZgWw2GKRxo79Md+j4uZMprf6iCwIyTJlnmv041pSCkuKEEvJJBREWI7VelGGSMP56UOOCS57GehyllDQ==
+react-native-ai-navigation-sdk@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-ai-navigation-sdk/-/react-native-ai-navigation-sdk-0.4.0.tgz#dae167d3e35645426856a4bfbf1ff906972600b6"
+  integrity sha512-QjuHw4HGy7VxjLOTBKdcOxvxMQAVTm+RNM3D2jE0ZTMtiEgkDWiv3s6SeIYGg3KIHh/YGxqJcBRGk3kYf4Apeg==
   dependencies:
     react-native-ai-navigation-sdk "^0.4.0"
     react-native-permissions "^4.1.5"
