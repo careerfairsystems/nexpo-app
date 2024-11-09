@@ -31,7 +31,7 @@
             source={
               company?.logoUrl
                 ? { uri: company.logoUrl }
-                : require("assets/images/icon.png")
+                : require("assets/images/krn.png")
             }
             style={styles.image}
             resizeMode={'contain'}
