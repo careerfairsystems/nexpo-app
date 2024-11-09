@@ -126,15 +126,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     fetchQueryTargets()
   }, [sdk, sdkInitialized, location]);
 
-  useEffect(() => {
-     console.log(location?.indoor?.featureModelId)
-     sdk?.getFeatureModelGraph( location?.indoor?.featureModelId  || 137574667 ).then(x => {
-      if(x!=null){
-        setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
-      }
-    });
-  }, [sdk, sdkInitialized, location]);
-
 
 
   const INITIAL_CAMERA = {
@@ -286,7 +277,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
         const campus = allPlaces.find((place) => place?.name === "LTH Campus");
 
-        await sdk?.getFeatureModelGraph( 137574667 ).then(x => {
+        await sdk?.getFeatureModelGraph( campus?.featureModelId || 137579112 ).then(x => {
           if(x!=null){
             setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
           }

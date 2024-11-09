@@ -38,7 +38,6 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
 
       while (current) {
 
-
         if (current.floorIndex !== selectedFloor) {
           current = current.nextRoutingPosition;
           continue
