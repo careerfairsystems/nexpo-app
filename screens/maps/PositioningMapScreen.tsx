@@ -83,9 +83,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   const [initialFloorSet, setInitialFloorSet] = useState(false); // Track if initial floor was set
 
 
-
-
-
   const navigation = useNavigation();
 
   const handleMarkerSelect = (marker: ReactFeatureModelNode, target: ReactRoutableTarget | null, company: PublicCompanyDto | null) => {
@@ -114,6 +111,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
   useEffect(() => {
     initializeSDK();
   }, []);
+
 
 
   useEffect(() => {
@@ -237,6 +235,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     const filteredTargets = (targets || []).filter(
       (target) => target?.name && !target.name.includes("Footway") && !target.name.includes("Node")
     );
+    console.log(filteredTargets)
     setAllTargets(filteredTargets);
   }
 
@@ -276,11 +275,14 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         }
 
 
-        await sdk?.getFeatureModelGraph(137564108).then(x => {
+        const campus = allPlaces.find((place) => place?.name === "LTH Campus");
+        await sdk?.getFeatureModelGraph(campus?.featureModelId || 137564108 ).then(x => {
           if(x!=null){
+            console.log(x.length)
             setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
           }
         });
+        console.log(campus?.featureModelId)
         await API.companies.getAll().then(companies => {setAllCompanies(companies)})
       }
     } catch (error) {

@@ -95,11 +95,10 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
 
   const firstSegment = pathCoordinates.slice(0, 2);
   const remainingSegments = pathCoordinates.slice(1);
+  console.log(remainingSegments)
 
   return (
-    <View style={styles.container}>
-      {pathCoordinates.length > 1  && (
-        <>
+        <View>
           {firstSegment.length === 2 && currentlocation.indoor?.floorIndex === selectedFloor && (
             <Polyline
               coordinates={firstSegment}
@@ -119,24 +118,22 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
               strokeWidth={4}
               lineCap="round"
               lineJoin="round"
-              zIndex={3}
+              zIndex={10}
             />
           )}
-        </>
-      )}
+          {markers.map((marker, index) => (
+            <Marker
+              key={marker.coordinate.latitude+marker.coordinate.longitude}
+              coordinate={marker.coordinate}
+              title={marker.title}
+              description={marker.description}
+              zIndex={10}
+            >
+              {getMarkerIcon(marker.type)}
+            </Marker>
+          ))}
 
-      {markers.map((marker, index) => (
-        <Marker
-          key={index}
-          coordinate={marker.coordinate}
-          title={marker.title}
-          description={marker.description}
-        >
-          {getMarkerIcon(marker.type)}
-        </Marker>
-      ))}
-    </View>
-  );
+        </View>);
 };
 
 const styles = StyleSheet.create({

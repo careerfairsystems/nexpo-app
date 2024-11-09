@@ -53,6 +53,7 @@ export default {
         "expo-secure-store",
         "expo-notifications",
         "expo-locations",
+        "expo-sensors",
         [
           "expo-build-properties",
           {
