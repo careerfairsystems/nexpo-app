@@ -36,7 +36,7 @@ export default {
       [
         "expo-sensors",
         {
-          "motionPermission": "Allow $(PRODUCT_NAME) to access your device motion."
+          motionPermission: "Allow $(PRODUCT_NAME) to access your device motion."
         }
       ]
     ],

@@ -235,7 +235,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     const filteredTargets = (targets || []).filter(
       (target) => target?.name && !target.name.includes("Footway") && !target.name.includes("Node")
     );
-    console.log(filteredTargets)
     setAllTargets(filteredTargets);
   }
 

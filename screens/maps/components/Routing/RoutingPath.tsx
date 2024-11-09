@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import { ReactCombainLocation, ReactRoutingPosition, ReactNodeType } from 'react-native-ai-navigation-sdk';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,7 +8,6 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Colors from "constants/Colors";
 
-
 type Coordinate = {
   latitude: number;
   longitude: number;
@@ -16,30 +15,28 @@ type Coordinate = {
 
 const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocation: ReactCombainLocation, selectedFloor: number}> = ({ startPosition, currentlocation, selectedFloor }) => {
   const [pathCoordinates, setPathCoordinates] = useState<Coordinate[]>([]);
-  const [markers, setMarkers] = useState<{ coordinate: Coordinate; title: string; description: string,type: ReactNodeType}[]>([]);
+  const [markers, setMarkers] = useState<{ coordinate: Coordinate; title: string; description: string, type: ReactNodeType}[]>([]);
 
-
-
+  console.log(startPosition.nextRoutingPosition)
   useEffect(() => {
     if (!startPosition) return;
 
-    const extractPath = (position: ReactRoutingPosition | null, currentLocation: ReactCombainLocation): { coordinates: Coordinate[], markers: { coordinate: Coordinate; title: string; description: string,type: ReactNodeType }[] } => {
+    const extractPath = (position: ReactRoutingPosition | null, currentLocation: ReactCombainLocation): { coordinates: Coordinate[], markers: { coordinate: Coordinate; title: string; description: string, type: ReactNodeType }[] } => {
       const coordinates: Coordinate[] = [];
-      const newMarkers: { coordinate: Coordinate; title: string; description: string,type: ReactNodeType  }[] = [];
-
-      if(currentLocation.indoor?.floorIndex=== selectedFloor){
+      const newMarkers: { coordinate: Coordinate; title: string; description: string, type: ReactNodeType  }[] = [];
+      if (currentLocation.indoor?.floorIndex === selectedFloor) {
         coordinates.push({
           latitude: currentLocation.latitude,
           longitude: currentLocation.longitude,
         });
       }
 
-
       let current = position;
+
       let isIndoors = currentLocation.indoor != null;
+      console.log(JSON.stringify(current?.nextRoutingPosition?.nextRoutingPosition?.nextRoutingPosition))
 
       while (current) {
-
         if (current.floorIndex !== selectedFloor) {
           current = current.nextRoutingPosition;
           break;
@@ -49,7 +46,6 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
           latitude: current.point.lat,
           longitude: current.point.lng,
         };
-
         coordinates.push(coordinate);
 
         if (current.type === ReactNodeType.Door) {
@@ -58,7 +54,6 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
             title: 'Door',
             description: 'Proceed through the door',
             type: ReactNodeType.Door,
-
           });
         } else if (current.type === ReactNodeType.Stairs) {
           newMarkers.push({
@@ -83,7 +78,7 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
   const getMarkerIcon = (type: ReactNodeType) => {
     switch (type) {
       case ReactNodeType.Door:
-            return <FontAwesome5 name="door-closed" size={30} color="#007AFF" />;
+        return <FontAwesome5 name="door-closed" size={30} color="#007AFF" />;
       case ReactNodeType.Stairs:
         return <MaterialIcons name="stairs" size={30} color="#007AFF" />;
       default:
@@ -91,49 +86,43 @@ const RoutingPath: React.FC<{ startPosition: ReactRoutingPosition, currentlocati
     }
   };
 
-
-
   const firstSegment = pathCoordinates.slice(0, 2);
   const remainingSegments = pathCoordinates.slice(1);
-  console.log(remainingSegments)
 
   return (
-        <View>
-          {firstSegment.length === 2 && currentlocation.indoor?.floorIndex === selectedFloor && (
-            <Polyline
-              coordinates={firstSegment}
-              strokeColor="#007AFF"
-              strokeWidth={4}
-              lineCap="round"
-              lineJoin="round"
-              lineDashPattern={[20, 20]}
-              zIndex={3}
-            />
-          )}
-
-          {remainingSegments.length > 1 && (
-            <Polyline
-              coordinates={remainingSegments}
-              strokeColor="#007AFF"
-              strokeWidth={4}
-              lineCap="round"
-              lineJoin="round"
-              zIndex={10}
-            />
-          )}
-          {markers.map((marker, index) => (
-            <Marker
-              key={marker.coordinate.latitude+marker.coordinate.longitude}
-              coordinate={marker.coordinate}
-              title={marker.title}
-              description={marker.description}
-              zIndex={10}
-            >
-              {getMarkerIcon(marker.type)}
-            </Marker>
-          ))}
-
-        </View>);
+    <>
+      {firstSegment.length === 2 && currentlocation.indoor?.floorIndex === selectedFloor && (
+        <Polyline
+          coordinates={firstSegment}
+          strokeColor="#007AFF"
+          strokeWidth={4}
+          lineCap="round"
+          lineJoin="round"
+          lineDashPattern={[20, 20]}
+          zIndex={3}
+        />
+      )}
+        <Polyline
+          coordinates={remainingSegments}
+          strokeColor="#007AFF"
+          strokeWidth={4}
+          lineCap="round"
+          lineJoin="round"
+          zIndex={3}
+        />
+      {markers.map((marker, index) => (
+        <Marker
+          key={marker.coordinate.latitude+marker.coordinate.longitude}
+          coordinate={marker.coordinate}
+          title={marker.title}
+          description={marker.description}
+          zIndex={10}
+        >
+          {getMarkerIcon(marker.type)}
+        </Marker>
+      ))}
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
