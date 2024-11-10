@@ -6,9 +6,15 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator, SectionList
+  ActivityIndicator,
+  SectionList,
 } from "react-native";
-import { ReactAIIndoorNavigationSDK, ReactRoutableTarget } from "react-native-ai-navigation-sdk";
+import {
+  FeatureModelNode,
+  ReactAIIndoorNavigationSDK,
+  ReactFeatureModelNode,
+  ReactRoutableTarget,
+} from "react-native-ai-navigation-sdk";
 import Colors from "constants/Colors";
 import { API } from "api/API";
 import CompaniesList from "components/companies/CompaniesList";
@@ -22,89 +28,68 @@ type RoutableTargetsModalProps = {
   sdk: ReactAIIndoorNavigationSDK | null;
   isVisible: boolean;
   onClose: () => void;
-  onTargetSelect: (target: ReactRoutableTarget | null) => void;
+  onTargetSelect: (target: ReactFeatureModelNode, company: PublicCompanyDto) => void;
+  allNodes: ReactFeatureModelNode[];
+  allCompanies: PublicCompanyDto[]
+};
+
+
+type MatchedTarget = {
+  target: ReactFeatureModelNode;
+  company: PublicCompanyDto;
 };
 
 type GroupedTargets = {
   title: string;
-  data: { target: ReactRoutableTarget | null; company: PublicCompanyDto | null }[];
+  data: MatchedTarget[];
 };
-
 
 const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
                                                                      sdk,
                                                                      isVisible,
                                                                      onClose,
                                                                      onTargetSelect,
+                                                                     allNodes,
+                                                                     allCompanies,
                                                                    }) => {
-  const [allTargets, setAllTargets] = useState<Array<ReactRoutableTarget | null>>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [allCompanies, setCompanies] = useState<PublicCompanyDto[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (isVisible && sdk) {
-      fetchRoutableTargets();
-    }
-  }, [isVisible, sdk]);
-
-  const fetchRoutableTargets = async () => {
-    setLoading(true);
-    try {
-      const companies = await API.companies.getAll().then(companies => companies.filter(company => company.name && company.name.trim() !== ""));
-      setCompanies(companies);
-      const targets = await sdk?.getRoutingProvider()?.queryTarget(" ");
-      const filteredTargets = (targets || []).filter(
-        (target) => target?.name && !target.name.includes("Footway") && !target.name.includes("Node")
-      );
-      setAllTargets(filteredTargets);
-    } catch (error) {
-      console.error("Error fetching routable trargets:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const groupTargets = (
-    items: { target: ReactRoutableTarget | null; company: PublicCompanyDto | null }[]
-  ): GroupedTargets[] => {
-    const result: { [key: string]: GroupedTargets['data'] } = {};
-    const loungeCategory: GroupedTargets['data'] = [];
+  const groupTargets = (items: MatchedTarget[]): GroupedTargets[] => {
+    const result: { [key: string]: MatchedTarget[] } = {};
 
     items.forEach((item) => {
-      const { target } = item;
-        let firstLetter = target?.name[0]!.toUpperCase();
-        firstLetter = firstLetter?.replace(/\d/, "0-9");
-        if (!result[firstLetter!]) {
-          result[firstLetter!] = [];
-        }
-        result[firstLetter!].push(item);
+      const firstLetter = item.target.name[0]?.toUpperCase().replace(/\d/, "0-9");
+      if (firstLetter) {
+        result[firstLetter] = result[firstLetter] || [];
+        result[firstLetter].push(item);
+      }
     });
 
-    const groupedData = Object.entries(result)
+    return Object.entries(result)
       .map(([key, data]) => ({
         title: key,
         data,
       }))
       .sort((a, b) => a.title.localeCompare(b.title));
-
-    return groupedData;
   };
 
-  const filteredCompanies = filterData(searchQuery,allCompanies);
-  const filteredTargets = allTargets.filter(x=> x?.name.trim().toLowerCase().includes(searchQuery.trim().toLowerCase()));
+  console.log(allCompanies)
+  const filteredCompanies = filterData(searchQuery, allCompanies);
+  const filteredTargets = allNodes.filter((x) =>
+    x?.name?.trim().toLowerCase().includes(searchQuery.trim().toLowerCase())
+  );
 
-  const matchedTargets = filteredTargets.map((target) => {
-    const matchedCompany = filteredCompanies?.find(
-      (company) => company.name.toLowerCase() === target?.name.toLowerCase()
-    );
-    return { target, company: matchedCompany ?? null };
-  });
-
-  const validMatchedTargets = matchedTargets.filter(item => item.target !== null);
-
+  const matchedTargets = filteredTargets
+    .map((target) => {
+      const matchedCompany = filteredCompanies!.find(
+        (company) => company.name.toLowerCase() === target.name.toLowerCase()
+      );
+      return matchedCompany ? { target, company: matchedCompany } : null;
+    })
+    .filter((item): item is MatchedTarget => item !== null);
 
 
   const toggleFilter = () => {
@@ -113,7 +98,7 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
   };
 
   return (
-    <Modal transparent={true} visible={isVisible} animationType="slide" onRequestClose={onClose}>
+    <Modal transparent visible={isVisible} animationType="slide" onRequestClose={onClose}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Routable Targets</Text>
@@ -124,19 +109,19 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
               toggleFilter={toggleFilter}
               modalVisible={modalVisible}
               isFiltered={isFiltered}
-             />
+            />
           </View>
           {loading ? (
             <ActivityIndicator size="large" color={Colors.arkadTurkos} />
           ) : (
             <SectionList
-              sections={groupTargets(validMatchedTargets)}
+              sections={groupTargets(matchedTargets)}
               renderItem={({ item }) => (
                 <RoutingItem
-                  target={item.target!}
+                  target={item.target}
                   company={item.company}
                   onPress={() => {
-                    onTargetSelect(item.target);
+                    onTargetSelect(item.target, item.company);
                     onClose();
                   }}
                 />
@@ -144,7 +129,7 @@ const RoutableTargetsModal: React.FC<RoutableTargetsModalProps> = ({
               renderSectionHeader={({ section: { title } }) => (
                 <Text style={styles.sectionHeader}>{title}</Text>
               )}
-              keyExtractor={(item, index) => item.target!.name + index}
+              keyExtractor={(item, index) => item.target.name + index}
               style={styles.list}
             />
           )}
@@ -175,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
-    color: Colors.white
+    color: Colors.white,
   },
   closeButton: {
     marginTop: 10,
@@ -206,8 +191,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
-
-
 });
 
 export default RoutableTargetsModal;

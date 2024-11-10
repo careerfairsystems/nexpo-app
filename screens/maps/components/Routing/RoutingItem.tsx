@@ -5,11 +5,11 @@ import Colors from "constants/Colors";
 import { Locations, PublicCompanyDto } from "api/Companies";
 import { companyLocations } from "components/companies/CompanyLocationsMap";
 import { ArkadText } from "components/StyledText";
-import { ReactRoutableTarget } from "react-native-ai-navigation-sdk";
+import { FeatureModelNode, ReactFeatureModelNode, ReactRoutableTarget } from "react-native-ai-navigation-sdk";
 
 type RoutingListItemProps = {
-  target : ReactRoutableTarget;
-  company: PublicCompanyDto | null;
+  target : ReactFeatureModelNode;
+  company: PublicCompanyDto ;
   onPress: () => void;
 };
 
@@ -36,7 +36,7 @@ export const RoutingItem = ({target, company, onPress }: RoutingListItemProps) =
                 <Image source={require("assets/images/location_pin_white.png")} style={styles.locationPin} />
 
                 <ArkadText style={styles.companyLocationText} text={(
-                  target.buildingName ?? "No data"
+                  Locations[companyLocations[company.id]] + " Floor " + target.floorIndex ?? "No data"
                 ).replace("_", "-")}
                 />
               </View>

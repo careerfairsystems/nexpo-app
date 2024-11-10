@@ -11,7 +11,7 @@ import {
   ReactRoutableTarget,
   ReactRoutingPosition,
   ReactAIIndoorNavigationSDK,
-  SyncingInterval, FeatureModelGraph, ReactFeatureModelNode, ReactCombainFloorMap
+  SyncingInterval, FeatureModelGraph, ReactFeatureModelNode, ReactCombainFloorMap, FeatureModelNode
 } from "react-native-ai-navigation-sdk";
 import {
   Button,
@@ -50,6 +50,8 @@ import PlacePolygon from "./components/PlacePolygon";
 import { getImageAndBearing } from "./components/utils/getBearingAndImage";
 import e from "express";
 import { container } from "ansi-fragments";
+import fetchedNodes from 'api/featureModelNodes.json';
+
 
 
 
@@ -126,13 +128,6 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
     fetchQueryTargets()
   }, [sdk, sdkInitialized, location]);
 
-  useEffect(() => {
-     sdk?.getFeatureModelGraph( location?.indoor?.featureModelId || 137580824 ).then(x => {
-      if(x!=null){
-        setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
-      }
-    });
-  }, [sdk, sdkInitialized, location]);
 
 
 
@@ -149,6 +144,19 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
 
 
 
+  const selectMarker = (target: ReactFeatureModelNode, company: PublicCompanyDto) => {
+    setModalVisible(false);
+    setSelectedFloor(target.floorIndex)
+    mapRef.current?.animateCamera({
+      center: { latitude: target.pointLLA.lat, longitude: target.pointLLA.lng },
+      zoom: 30,
+      altitude: 200,
+      heading: 0,
+      pitch: 0,
+    })
+    handleMarkerSelect(target, null, company)
+
+  }
   const handleRoute = async (target: ReactRoutableTarget | null) => {
     setModalVisible(false);
     refRBSheet.current.close();
@@ -288,12 +296,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         const campus = allPlaces.find((place) => place?.name === "LTH Campus");
         console.log(campus?.featureModelId)
 
-        await sdk?.getFeatureModelGraph( campus?.featureModelId || 137580824 ).then(x => {
-          if(x!=null){
-            setFeatureModelNodes(x.filter(x => x.name !== "Footway" && x.name !== "Node"));
-          }
-        });
-        console.log(campus?.featureModelId)
+        setFeatureModelNodes(JSON.parse(JSON.stringify(fetchedNodes)) as ReactFeatureModelNode [])
         await API.companies.getAll().then(companies => {setAllCompanies(companies)})
       }
     } catch (error) {
@@ -453,12 +456,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
             </View>
           )}
 
-          {selectedTarget && (
-            <ArkadButton onPress={ () => handleRoute(selectedTarget)}  style={styles.routeButton}>
-              <ArkadText text={"Take me here!"} />
-            </ArkadButton>
 
-          )}
+
           <ArkadButton
             onPress={() => refRBSheet.current?.close()}
             style={styles.stopButton}
@@ -469,7 +468,7 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
         </ScrollView>
       </RBSheet>
 
-    <RoutableTargetsModal sdk={sdk} isVisible={isModalVisible} onClose={() => setModalVisible(false)} onTargetSelect={handleRoute}/>
+    <RoutableTargetsModal sdk={sdk} isVisible={isModalVisible} onClose={() => setModalVisible(false)} onTargetSelect={selectMarker} allNodes={featureModelNodes} allCompanies={allCompanies}/>
     </View>
   );
 }
