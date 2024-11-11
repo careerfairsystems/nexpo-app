@@ -182,8 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "700",
     color: Colors.white,
-    padding: 8,
-    borderBottomWidth: 1,
+    padding: 10,
     borderBottomColor: Colors.arkadTurkos,
   },
   list: {

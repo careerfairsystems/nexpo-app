@@ -453,6 +453,8 @@ export default function PositioningMapScreen({ route }: PositioningMapScreenProp
           {selectedCompany && (
             <View style={styles.infoContainer}>
               <TagsList company={selectedCompany} showOptions={ShowOptions.Industries} />
+              <ArkadText style={styles.descHeader} text={"ABOUT US"} />
+              <ArkadText style={styles.desc} text={selectedCompany.description ? selectedCompany.description : "\u2013"} />
             </View>
           )}
 
@@ -644,5 +646,26 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 5,
-  }
+  },
+  desc: {
+    fontSize: 17,
+    color: Colors.white,
+    alignSelf: "flex-start",
+    textAlign: "left",
+    fontWeight: "400",
+    lineHeight: 25,
+    letterSpacing: -0.43,
+  },
+  descHeader: {
+    marginTop: 16,
+    marginBottom: 6,
+    alignSelf: "flex-start",
+    fontSize: 20,
+    color: Colors.white,
+    fontStyle: "normal",
+    lineHeight: 25,
+    fontWeight: "700",
+    letterSpacing: -0.45,
+  },
+
 });

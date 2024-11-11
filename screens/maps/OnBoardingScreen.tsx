@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Button, StyleSheet, Text, View } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, StyleSheet, Text, View, Linking } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {
   ReactAIIndoorNavigationSDK,
-  ReactIndoorNavigationSDKConfig,
-  ReactRoutableNodesOptions,
+  ReactIndoorNavigationSDKConfig, ReactRoutableNodesOptions,
   ReactRoutingConfig,
-  SyncingInterval,
-} from 'react-native-ai-navigation-sdk';
-import { PermissionStates } from 'react-native-ai-navigation-sdk/src/permission-manager';
+  SyncingInterval
+} from "react-native-ai-navigation-sdk";
+import { PermissionStates } from "react-native-ai-navigation-sdk/src/permission-manager";
 import { ArkadButton } from "components/Buttons";
 import Colors from "constants/Colors";
 import { ArkadText } from "components/StyledText";
-import Constants from "expo-constants"; // Import useNavigation
+import * as Location from "expo-location";
+import { DeviceMotion } from "expo-sensors";
 
 const sync: SyncingInterval = {
   interval: 1,
@@ -28,56 +28,65 @@ const indoorNavigationSDKConfig: ReactIndoorNavigationSDKConfig = {
   syncingInterval: sync,
 };
 
-export type MapStackParamList = {
-  PositioningMapScreen: undefined;
-};
-
-
 export default function OnboardingScreen() {
-  const navigation = useNavigation(); // Get navigation instance
+  const navigation = useNavigation();
   const [sdk, setSdk] = useState<ReactAIIndoorNavigationSDK | null>(null);
   const [hasPermission, setHasPermission] = useState(false);
+  const [locationPermission, setLocationPermission] = useState(false);
+  const [motionPermission, setMotionPermission] = useState(false);
 
   async function init() {
     await ReactAIIndoorNavigationSDK.create(indoorNavigationSDKConfig).then(x => setSdk(x));
-    console.log("SDK CREATED")
+    console.log("SDK CREATED");
   }
-
 
   async function checkPermission() {
-    if (sdk) {
-      const permissionManager = sdk.getPermissionManager();
-      const state = await permissionManager.getPermissionState();
-      if (state instanceof PermissionStates.Granted) {
-        setHasPermission(true);
-        navigation.navigate('PositioningMapScreen', { sdk });
-      } else {
-        setHasPermission(false);
+      if(sdk){
+        const permissionManager = sdk.getPermissionManager();
+        const state = await permissionManager.getPermissionState();
+        if (state instanceof PermissionStates.Granted || locationPermission && motionPermission) {
+          setHasPermission(true);
+        } else {
+          setHasPermission(false);
+        }
       }
-    }
+
   }
 
-  async function requestPermissions() {
-    if (sdk) {
-      const permissionManager = sdk.getPermissionManager();
-      const granted = await permissionManager.requestMissingPermission();
-      if (granted) {
+
+
+
+  const openAppSettings = () => {
+    Linking.openSettings();
+  };
+
+  const requestPermissions = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+
+    if (status === 'granted') {
+      if (sdk) {
         setHasPermission(true);
         navigation.navigate('PositioningMapScreen', { sdk });
-      } else {
-        Alert.alert("Permission Denied", "You need to grant permission to proceed.");
       }
+    } else {
+      Alert.alert(
+        " Permission Denied",
+        "You need to grant location permission to proceed.",
+        [
+          { text: "Open Settings", onPress: openAppSettings }
+        ]
+      );
     }
-  }
+  };
 
   useEffect(() => {
-    init();
     checkPermission();
+    init();
   }, []);
 
   useEffect(() => {
     checkPermission();
-  }, );
+  }, [sdk]);
 
   if (sdk == null) {
     return (
@@ -95,8 +104,9 @@ export default function OnboardingScreen() {
         !hasPermission ? (
           <View>
             <ArkadButton onPress={requestPermissions}>
-              <ArkadText text="Try Interactive map " />
+              <ArkadText text="Try interactive map" />
             </ArkadButton>
+
           </View>
         ) : (
           <View style={styles.box}>
@@ -106,8 +116,6 @@ export default function OnboardingScreen() {
           </View>
         )
       }
-
-
     </View>
   );
 }
@@ -127,20 +135,19 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 
-  box:{
+  box: {
     margin: 10,
   },
+
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
+
   loadingText: {
     paddingTop: 15,
     color: Colors.white,
     fontSize: 32,
   },
-
-
-
 });

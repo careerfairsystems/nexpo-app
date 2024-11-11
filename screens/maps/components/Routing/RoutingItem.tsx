@@ -36,7 +36,7 @@ export const RoutingItem = ({target, company, onPress }: RoutingListItemProps) =
                 <Image source={require("assets/images/location_pin_white.png")} style={styles.locationPin} />
 
                 <ArkadText style={styles.companyLocationText} text={(
-                  Locations[companyLocations[company.id]] + " Floor " + target.floorIndex ?? "No data"
+                  Locations[companyLocations[company.id]] + " Floor " + ((target.floorIndex ?? 0) + 1)
                 ).replace("_", "-")}
                 />
               </View>
